@@ -31,7 +31,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "tr_local.h"
 
 glconfig_t  glConfig;
-qboolean    textureFilterAnisotropic = qfalse;
+qboolean textureFilterAnisotropic = qfalse;
 int         maxAnisotropy = 0;
 float       displayAspect = 0.0f;
 
@@ -295,9 +295,9 @@ static void InitOpenGL(void) {
 }
 
 /*
-==================
+=======================================================================================================================================
 GL_CheckErrors
-==================
+=======================================================================================================================================
 */
 void GL_CheckErrors(void) {
 	int err;
@@ -350,18 +350,18 @@ typedef struct vidmode_s
 
 vidmode_t r_vidModes[] =
 {
-	{ "Mode  0: 320x240",        320,    240,    1 },
-	{ "Mode  1: 400x300",        400,    300,    1 },
-	{ "Mode  2: 512x384",        512,    384,    1 },
-	{ "Mode  3: 640x480",        640,    480,    1 },
-	{ "Mode  4: 800x600",        800,    600,    1 },
-	{ "Mode  5: 960x720",        960,    720,    1 },
-	{ "Mode  6: 1024x768",       1024,   768,    1 },
-	{ "Mode  7: 1152x864",       1152,   864,    1 },
-	{ "Mode  8: 1280x1024",      1280,   1024,   1 },
-	{ "Mode  9: 1600x1200",      1600,   1200,   1 },
-	{ "Mode 10: 2048x1536",      2048,   1536,   1 },
-	{ "Mode 11: 856x480 (wide)",856, 480,    1 }
+	{ "Mode  0: 320x240",        320,    240,    1},
+	{ "Mode  1: 400x300",        400,    300,    1},
+	{ "Mode  2: 512x384",        512,    384,    1},
+	{ "Mode  3: 640x480",        640,    480,    1},
+	{ "Mode  4: 800x600",        800,    600,    1},
+	{ "Mode  5: 960x720",        960,    720,    1},
+	{ "Mode  6: 1024x768",       1024,   768,    1},
+	{ "Mode  7: 1152x864",       1152,   864,    1},
+	{ "Mode  8: 1280x1024",      1280,   1024,   1},
+	{ "Mode  9: 1600x1200",      1600,   1200,   1},
+	{ "Mode 10: 2048x1536",      2048,   1536,   1},
+	{ "Mode 11: 856x480 (wide)",856, 480,    1}
 };
 static int	s_numVidModes = ARRAY_LEN(r_vidModes);
 
@@ -410,7 +410,7 @@ static void R_ModeList_f(void) {
 
 /* 
 ============================================================================== 
- 
+
 						SCREEN SHOTS 
 
 NOTE TTimo
@@ -568,9 +568,9 @@ void RB_TakeScreenshotJPEG(int x, int y, int width, int height, char *fileName)
 }
 
 /*
-==================
+=======================================================================================================================================
 RB_TakeScreenshotCmd
-==================
+=======================================================================================================================================
 */
 const void *RB_TakeScreenshotCmd(const void *data) {
 	const screenshotCommand_t	*cmd;
@@ -586,9 +586,9 @@ const void *RB_TakeScreenshotCmd(const void *data) {
 }
 
 /*
-==================
+=======================================================================================================================================
 R_TakeScreenshot
-==================
+=======================================================================================================================================
 */
 void R_TakeScreenshot(int x, int y, int width, int height, char *name, qboolean jpeg) {
 	static char	fileName[MAX_OSPATH]; // bad things if two screenshots per frame?
@@ -660,12 +660,12 @@ void R_ScreenshotFilenameJPEG(int lastNumber, char *fileName) {
 }
 
 /*
-====================
+=======================================================================================================================================
 R_LevelShot
 
 levelshots are specialized 128*128 thumbnails for
 the menu system, sampled down from full screen distorted images
-====================
+=======================================================================================================================================
 */
 void R_LevelShot(void) {
 	char		checkname[MAX_OSPATH];
@@ -741,7 +741,7 @@ Doesn't print the pacifier message if there is a second arg
 void R_ScreenShot_f (void) {
 	char	checkname[MAX_OSPATH];
 	static	int	lastNumber = -1;
-	qboolean	silent;
+	qboolean silent;
 
 	if (!strcmp(ri.Cmd_Argv(1), "levelshot")) {
 		R_LevelShot();
@@ -773,7 +773,7 @@ void R_ScreenShot_f (void) {
       if (!ri.FS_FileExists(checkname))
       {
         break; // file doesn't exist
-      }
+     }
 		}
 
 		if (lastNumber >= 9999) {
@@ -794,7 +794,7 @@ void R_ScreenShot_f (void) {
 void R_ScreenShotJPEG_f (void) {
 	char		checkname[MAX_OSPATH];
 	static	int	lastNumber = -1;
-	qboolean	silent;
+	qboolean silent;
 
 	if (!strcmp(ri.Cmd_Argv(1), "levelshot")) {
 		R_LevelShot();
@@ -826,7 +826,7 @@ void R_ScreenShotJPEG_f (void) {
       if (!ri.FS_FileExists(checkname))
       {
         break; // file doesn't exist
-      }
+     }
 		}
 
 		if (lastNumber == 10000) {
@@ -847,9 +847,9 @@ void R_ScreenShotJPEG_f (void) {
 //============================================================================
 
 /*
-==================
+=======================================================================================================================================
 RB_TakeVideoFrameCmd
-==================
+=======================================================================================================================================
 */
 const void *RB_TakeVideoFrameCmd(const void *data)
 {
@@ -889,8 +889,7 @@ const void *RB_TakeVideoFrameCmd(const void *data)
 			r_aviMotionJpegQuality->integer,
 			cmd->width, cmd->height, cBuf, padlen);
 		ri.CL_WriteAVIVideoFrame(cmd->encodeBuffer, memcount);
-	}
-	else
+	} else
 	{
 		byte *lineend, *memend;
 		byte *srcptr, *destptr;
@@ -1004,11 +1003,11 @@ void GL_SetDefaultState(void) {
 }
 
 /*
-================
+=======================================================================================================================================
 R_PrintLongString
 
 Workaround for ri.Printf's 1024 characters buffer limit.
-================
+=======================================================================================================================================
 */
 void R_PrintLongString(const char *string) {
 	char buffer[1024];
@@ -1041,9 +1040,9 @@ void R_PrintLongString(const char *string) {
 }
 
 /*
-================
+=======================================================================================================================================
 GfxInfo_f
-================
+=======================================================================================================================================
 */
 void GfxInfo_f(void) {
 	const char *enablestrings[] =
@@ -1140,9 +1139,9 @@ void GfxInfo_f(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_Register
-===============
+=======================================================================================================================================
 */
 void R_Register(void) {
 	#ifdef USE_RENDERER_DLOPEN
@@ -1354,9 +1353,9 @@ void R_Register(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_Init
-===============
+=======================================================================================================================================
 */
 void R_Init(void) {
 	int err;
@@ -1454,9 +1453,9 @@ void R_Init(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 RE_Shutdown
-===============
+=======================================================================================================================================
 */
 void RE_Shutdown(qboolean destroyWindow) {
 

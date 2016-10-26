@@ -684,7 +684,7 @@ static void SV_WriteVoipToClient(client_t *cl, msg_t *msg) {
         			MSG_WriteShort(msg, packet->len);
         			MSG_WriteBits(msg, packet->flags, VOIP_FLAGCNT);
 	        		MSG_WriteData(msg, packet->data, packet->len);
-                      }
+                     }
 
 			Z_Free(packet);
 		}

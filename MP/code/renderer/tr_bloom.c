@@ -34,7 +34,7 @@ static cvar_t *r_bloom_diamond_size;
 
 /* 
 ============================================================================== 
- 
+
 						LIGHT BLOOMS
  
 ============================================================================== 
@@ -42,32 +42,32 @@ static cvar_t *r_bloom_diamond_size;
 
 static float Diamond8x[8][8] =
 { 
-	{ 0.0f, 0.0f, 0.0f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f, },
-	{ 0.0f, 0.0f, 0.2f, 0.3f, 0.3f, 0.2f, 0.0f, 0.0f, },
-	{ 0.0f, 0.2f, 0.4f, 0.6f, 0.6f, 0.4f, 0.2f, 0.0f, },
-	{ 0.1f, 0.3f, 0.6f, 0.9f, 0.9f, 0.6f, 0.3f, 0.1f, },
-	{ 0.1f, 0.3f, 0.6f, 0.9f, 0.9f, 0.6f, 0.3f, 0.1f, },
-	{ 0.0f, 0.2f, 0.4f, 0.6f, 0.6f, 0.4f, 0.2f, 0.0f, },
-	{ 0.0f, 0.0f, 0.2f, 0.3f, 0.3f, 0.2f, 0.0f, 0.0f, },
-	{ 0.0f, 0.0f, 0.0f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f  }
+	{ 0.0f, 0.0f, 0.0f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f,},
+	{ 0.0f, 0.0f, 0.2f, 0.3f, 0.3f, 0.2f, 0.0f, 0.0f,},
+	{ 0.0f, 0.2f, 0.4f, 0.6f, 0.6f, 0.4f, 0.2f, 0.0f,},
+	{ 0.1f, 0.3f, 0.6f, 0.9f, 0.9f, 0.6f, 0.3f, 0.1f,},
+	{ 0.1f, 0.3f, 0.6f, 0.9f, 0.9f, 0.6f, 0.3f, 0.1f,},
+	{ 0.0f, 0.2f, 0.4f, 0.6f, 0.6f, 0.4f, 0.2f, 0.0f,},
+	{ 0.0f, 0.0f, 0.2f, 0.3f, 0.3f, 0.2f, 0.0f, 0.0f,},
+	{ 0.0f, 0.0f, 0.0f, 0.1f, 0.1f, 0.0f, 0.0f, 0.0f }
 };
 
 static float Diamond6x[6][6] =
 { 
-	{ 0.0f, 0.0f, 0.1f, 0.1f, 0.0f, 0.0f, },
-	{ 0.0f, 0.3f, 0.5f, 0.5f, 0.3f, 0.0f, }, 
-	{ 0.1f, 0.5f, 0.9f, 0.9f, 0.5f, 0.1f, },
-	{ 0.1f, 0.5f, 0.9f, 0.9f, 0.5f, 0.1f, },
-	{ 0.0f, 0.3f, 0.5f, 0.5f, 0.3f, 0.0f, },
-	{ 0.0f, 0.0f, 0.1f, 0.1f, 0.0f, 0.0f  }
+	{ 0.0f, 0.0f, 0.1f, 0.1f, 0.0f, 0.0f,},
+	{ 0.0f, 0.3f, 0.5f, 0.5f, 0.3f, 0.0f,}, 
+	{ 0.1f, 0.5f, 0.9f, 0.9f, 0.5f, 0.1f,},
+	{ 0.1f, 0.5f, 0.9f, 0.9f, 0.5f, 0.1f,},
+	{ 0.0f, 0.3f, 0.5f, 0.5f, 0.3f, 0.0f,},
+	{ 0.0f, 0.0f, 0.1f, 0.1f, 0.0f, 0.0f }
 };
 
 static float Diamond4x[4][4] =
 {  
-	{ 0.3f, 0.4f, 0.4f, 0.3f, },
-	{ 0.4f, 0.9f, 0.9f, 0.4f, },
-	{ 0.4f, 0.9f, 0.9f, 0.4f, },
-	{ 0.3f, 0.4f, 0.4f, 0.3f  }
+	{ 0.3f, 0.4f, 0.4f, 0.3f,},
+	{ 0.4f, 0.9f, 0.9f, 0.4f,},
+	{ 0.4f, 0.9f, 0.9f, 0.4f,},
+	{ 0.3f, 0.4f, 0.4f, 0.3f }
 };
 
 static struct {
@@ -104,12 +104,12 @@ static void ID_INLINE R_Bloom_Quad(int width, int height, float texX, float texY
 	 texX, texHeight,
 	 texX, texY,
 	 texWidth, texY,
-	 texWidth, texHeight };
+	 texWidth, texHeight};
 	GLfloat vtx[] = {
 	 x, y,
 	 x, height,
 	 width, height,
-	 width, y };
+	 width, y};
 	GLboolean text = qglIsEnabled(GL_TEXTURE_COORD_ARRAY);
 	GLboolean glcol = qglIsEnabled(GL_COLOR_ARRAY);
 	if (glcol)

@@ -297,7 +297,7 @@ static void CG_TouchItem(centity_t *cent) {
 // ---- (SA) wolf -- not allowing this for single player games
 // if (cgs.gametype == GT_SINGLE_PLAYER) {
 // 	return;
-// }
+//}
 
 // ---- (SA) autoactivate
 	if (!cg_autoactivate.integer) {

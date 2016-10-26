@@ -481,7 +481,6 @@ void AICast_UpdateVisibility(gentity_t *srcent, gentity_t *destent, qboolean sha
 					continue;
 				}
 			}
-
 			// if they have marked this character as hostile, then we should also
 			if ((cs->aiState == AISTATE_COMBAT) && AICast_HostileEnemy(ocs, i) && !AICast_HostileEnemy(cs, i)) {
 				if (!(cs->vislist[i].flags & AIVIS_SIGHT_SCRIPT_CALLED)) {

@@ -76,7 +76,7 @@ static Type specifier(int *sclass) {
 		case LONG:     if (size == LONG) {
 		                       size = 0;
 		                       tt = LONG + LONG;
-		             }
+		            }
 		               p = &size; t = gettok();      break;
 		case SHORT:    p = &size; t = gettok();      break;
 		case VOID: case CHAR: case INT: case FLOAT:
@@ -1060,7 +1060,7 @@ static Symbol dcllocal(int sclass, char *id, Type ty, Coordinate *pos) {
 		       		q->src = src;
 		       		(*IR->defsymbol)(q);
 		       	}
-		     }
+		    }
 		       if (!eqtype(p->type, q->type, 1))
 		       	warning("declaration of `%s' does not match previous declaration at %w\n", q->name, &q->src);
 
@@ -1073,7 +1073,7 @@ static Symbol dcllocal(int sclass, char *id, Type ty, Coordinate *pos) {
 		       		(*IR->space)(p->type->size);
 		       	} else
 		       		error("undefined size for `%t %s'\n", p->type, p->name);
-		     }
+		    }
 		       p->defined = 1; break;
 	case REGISTER: registers = append(p, registers);
 		       regcount++;

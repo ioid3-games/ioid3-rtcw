@@ -449,7 +449,7 @@ void AAS_ParseBSPEntities(void) {
 		}
 
 		if (strcmp(token.string, "}")) {
-			ScriptError(script, "missing }");
+			ScriptError(script, "missing}");
 			AAS_FreeBSPEntities();
 			FreeScript(script);
 			return;

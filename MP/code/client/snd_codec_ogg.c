@@ -66,7 +66,7 @@ size_t S_OGG_Callback_read(void *ptr, size_t size, size_t nmemb, void *datasourc
 		errno = 0;
 		return 0;
 	}
- 
+
 	if (!datasource) {
 		errno = EBADF;
 		return 0;
@@ -128,7 +128,7 @@ int S_OGG_Callback_seek(void *datasource, ogg_int64_t offset, int whence) {
 			stream->pos += (int)offset;
 			break;
 		}
- 
+
 		case SEEK_END :
 		{
 			// set the file position in the actual file with the Q3 function

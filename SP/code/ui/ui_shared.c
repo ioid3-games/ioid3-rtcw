@@ -2648,14 +2648,12 @@ qboolean Item_TextField_HandleKey(itemDef_t *item, int key) {
 				DC->setCVar(item->cvar, buff);
 				return qtrue;
 			}
-
 			// 'valid filename' text entry. so users can't try to save games like '!**$er' and stuff(from the menu)
 			if (item->type == ITEM_TYPE_VALIDFILEFIELD) {
 				if (!Q_isforfilename(key)) {
 					return qtrue;
 				}
 			}
-
 			// ignore any non printable chars
 			if (key < 32 || !item->cvar) {
 				return qtrue;

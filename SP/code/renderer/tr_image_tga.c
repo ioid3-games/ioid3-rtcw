@@ -188,8 +188,7 @@ void R_LoadTGA (const char *name, byte **pic, int *width, int *height)
 				}
 			}
 		}
-	}
-	else if (targa_header.image_type==10) {   // Runlength encoded RGB images
+	} else if (targa_header.image_type==10) {   // Runlength encoded RGB images
 		unsigned char red,green,blue,alphabyte,packetHeader,packetSize,j;
 
 		for(row=rows-1; row>=0; row--) {
@@ -295,14 +294,14 @@ void R_LoadTGA (const char *name, byte **pic, int *width, int *height)
       memcpy (flip, src, columns*4);
       memcpy (src, dst, columns*4);
       memcpy (dst, flip, columns*4);
-    }
+   }
     free (flip);
-  }
+ }
 #endif
   // instead we just print a warning
   if (targa_header.attributes & 0x20) {
     ri.Printf(PRINT_DEVELOPER, "WARNING: '%s' TGA file header declares top-down image, ignoring\n", name);
-  }
+ }
 
   if (width)
 	  *width = columns;

@@ -58,8 +58,7 @@ void GL_BindToTMU(image_t *image, int tmu)
 
 		image->frameUsed = tr.frameCount;
 		texture = image->texnum;
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_WARNING, "GL_BindToTMU: NULL image\n");
 	}
@@ -78,8 +77,7 @@ void GL_Cull(int cullType) {
 	if (cullType == CT_TWO_SIDED)
 	{
 		qglDisable(GL_CULL_FACE);
-	}
-	else
+	} else
 	{
 		qboolean cullFront = (cullType == CT_FRONT_SIDED);
 
@@ -310,11 +308,11 @@ void GL_SetModelviewMatrix(mat4_t matrix)
 }
 
 /*
-================
+=======================================================================================================================================
 RB_Hyperspace
 
 A player has predicted a teleport, but hasn't arrived yet
-================
+=======================================================================================================================================
 */
 static void RB_Hyperspace(void) {
 	float c;
@@ -462,7 +460,7 @@ void RB_BeginDrawingView(void) {
 		}
 		// -NERVE - SMF
 		// (SA) well, this is silly then
-		else if (r_fastsky->integer) {   //  || backEnd.refdef.rdflags & RDF_NOWORLDMODEL
+		else if (r_fastsky->integer) {   // || backEnd.refdef.rdflags & RDF_NOWORLDMODEL
 
 			clearBits |= GL_COLOR_BUFFER_BIT;
 
@@ -528,11 +526,11 @@ void RB_BeginDrawingView(void) {
 }
 
 /*
-============
+=======================================================================================================================================
 RB_ZombieFX
 
   This is post-tesselation filtering, made especially for the Zombie.
-============
+=======================================================================================================================================
 */
 
 extern void GlobalVectorToLocal(const vec3_t in, vec3_t out);
@@ -665,7 +663,6 @@ void RB_ZombieFXProcessNewHits(trZombieFleshHitverts_t *fleshHitVerts, int oldNu
 					bestHit = j;
 				}
 			}
-
 			// if it gets to here, then it failed
 			continue;
 
@@ -832,9 +829,9 @@ void RB_ZombieFX(int part, drawSurf_t *drawSurf, int oldNumVerts, int oldNumInde
 
 
 /*
-==================
+=======================================================================================================================================
 RB_RenderDrawSurfList
-==================
+=======================================================================================================================================
 */
 void RB_RenderDrawSurfList(drawSurf_t *drawSurfs, int numDrawSurfs) {
 	shader_t        *shader, *oldShader;
@@ -849,7 +846,7 @@ void RB_RenderDrawSurfList(drawSurf_t *drawSurfs, int numDrawSurfs) {
 	int oldSort;
 	float originalTime;
 	FBO_t*			fbo = NULL;
-	qboolean		inQuery = qfalse;
+	qboolean inQuery = qfalse;
 
 	float			depth[2];
 	int oldNumVerts, oldNumIndex;
@@ -1072,10 +1069,10 @@ void RB_RenderDrawSurfList(drawSurf_t *drawSurfs, int numDrawSurfs) {
 
 	if (glRefConfig.framebufferObject)
 		FBO_Bind(fbo);
- 
+
 	// go back to the world modelview matrix
 	GL_SetModelviewMatrix(backEnd.viewParms.world.modelMatrix);
- 
+
 	qglDepthRange (0, 1);
 }
 
@@ -1089,10 +1086,10 @@ RENDER BACK END FUNCTIONS
 */
 
 /*
-================
+=======================================================================================================================================
 RB_SetGL2D
 
-================
+=======================================================================================================================================
 */
 void    RB_SetGL2D(void) {
 	mat4_t matrix;
@@ -1108,8 +1105,7 @@ void    RB_SetGL2D(void) {
 	{
 		width = glState.currentFBO->width;
 		height = glState.currentFBO->height;
-	}
-	else
+	} else
 	{
 		width = glConfig.vidWidth;
 		height = glConfig.vidHeight;
@@ -1348,9 +1344,9 @@ const void *RB_StretchPic(const void *data) {
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_StretchPicGradient
-==============
+=======================================================================================================================================
 */
 const void *RB_StretchPicGradient(const void *data) {
 	const stretchPicCommand_t   *cmd;
@@ -1399,9 +1395,9 @@ const void *RB_StretchPicGradient(const void *data) {
 
 	{
 		uint16_t color[4];
- 
+
 		VectorScale4(backEnd.color2D, 257, color);
- 
+
 		VectorCopy4(color, tess.color[ numVerts ]);
 		VectorCopy4(color, tess.color[ numVerts + 1]);
 		
@@ -1776,14 +1772,14 @@ const void  *RB_DrawBuffer(const void *data) {
 }
 
 /*
-===============
+=======================================================================================================================================
 RB_ShowImages
 
 Draw all the images to the screen, on top of whatever
 was there.  This is used to test for texture thrashing.
 
 Also called by RE_EndRegistration
-===============
+=======================================================================================================================================
 */
 void RB_ShowImages(void) {
 	int i;
@@ -2286,9 +2282,9 @@ const void *RB_ExportCubemaps(const void *data)
 }
 
 /*
-====================
+=======================================================================================================================================
 RB_ExecuteRenderCommands
-====================
+=======================================================================================================================================
 */
 void RB_ExecuteRenderCommands(const void *data) {
 	int t1, t2;

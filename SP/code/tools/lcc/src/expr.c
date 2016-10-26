@@ -200,10 +200,10 @@ static Tree unary(void) {
 				      		p = postfix(expr(')'));
 				      		ty = p->type;
 				      	}
-				    } else {
+				   } else {
 				      	p = unary();
 				      	ty = p->type;
-				    }
+				   }
 				      assert(ty);
 				      if (op == TYPECODE)
 				      	p = cnsttree(inttype, (long)ty->op);
@@ -213,7 +213,7 @@ static Tree unary(void) {
 				      	else if (p && rightkid(p)->op == FIELD)
 				      		error("`sizeof' applied to a bit field\n");
 				      	p = cnsttree(unsignedlong, (unsigned long)ty->size);
-				    }} break;
+				   }} break;
 	case '(':
 		t = gettok();
 
@@ -290,7 +290,7 @@ static Tree postfix(Tree p) {
 			    		p = retype(p, p->type->type);
 			    	else
 			    		p = rvalue(p);
-			  } break;
+			 } break;
 		case '(':   {
 			    	Type ty;
 			    	Coordinate pt;
@@ -305,7 +305,7 @@ static Tree postfix(Tree p) {
 			    	pt = src;
 			    	t = gettok();
 			    	p = call(p, ty, pt);
-			  } break;
+			 } break;
 		case '.':   t = gettok();
 			    if (t == ID) {
 			    	if (isstruct(p->type)) {
@@ -317,7 +317,7 @@ static Tree postfix(Tree p) {
 			    	} else
 			    		error("left operand of . has incompatible type `%t'\n", p->type);
 			    	t = gettok();
-			  } else
+			 } else
 			    	error("field name expected\n"); break;
 		case DEREF: t = gettok();
 			    p = pointer(p);
@@ -330,7 +330,7 @@ static Tree postfix(Tree p) {
 			    		error("left operand of ->has incompatible type `%t'\n", p->type);
 
 			    	t = gettok();
-			  } else
+			 } else
 			    	error("field name expected\n"); break;
 		default:
 			return p;
@@ -404,7 +404,7 @@ static Tree primary(void) {
 		   	if (tsym->sclass == TYPEDEF)
 		   		error("illegal use of type name `%s'\n", tsym->name);
 		   	p = idtree(tsym);
-		 } break;
+		} break;
 	case FIRSTARG:
 		if (level > PARAM && cfunc && cfunc->u.f.callee[0])
 			p = idtree(cfunc->u.f.callee[0]);

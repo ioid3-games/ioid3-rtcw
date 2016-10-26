@@ -182,7 +182,7 @@ void _printf(const char *format, ...) {
     hwndOut = FindWindow(NULL, "Q3Map Process Server");
     if (hwndOut) {
       wm_BroadcastCommand = RegisterWindowMessage("Q3MPS_BroadcastCommand");
-  }
+ }
 }
   if (hwndOut) {
     a = GlobalAddAtom(text);
@@ -236,7 +236,7 @@ void SetQdirFromPath(const char *path) {
       {
         sep++;
         count++;
-    }
+   }
 
 			strncpy(qdir, path, c + len + count - path);
 			qprintf("qdir: %s\n", qdir);
@@ -388,7 +388,7 @@ void Q_getwd(char *out) {
 	   if (out[i] == '\\')
 		   out[i] = '/';
 	   i++;
- }
+}
 }
 
 

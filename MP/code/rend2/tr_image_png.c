@@ -517,7 +517,6 @@ static uint32_t DecompressIDATs(struct BufferedFile *BF, uint8_t **Buffer)
 
 	uint32_t Length;
 	uint32_t Type;
-
 	int BytesToRewind;
 
 	int32_t   puffResult;
@@ -798,12 +797,10 @@ static uint8_t PredictPaeth(uint8_t a, uint8_t b, uint8_t c)
 	if((pa <= pb) && (pa <= pc))
 	{
 		Pr = a;
-	}
-	else if(pb <= pc)
+	} else if(pb <= pc)
 	{
 		Pr = b;
-	}
-	else
+	} else
 	{
 		Pr = c;
 	}
@@ -994,9 +991,9 @@ static qboolean UnfilterImage(uint8_t  *DecompressedData,
  */
 
 static qboolean ConvertPixel(struct PNG_Chunk_IHDR *IHDR,
-		byte                  *OutPtr,
+		byte                 *OutPtr,
 		uint8_t               *DecompPtr,
-		qboolean               HasTransparentColour,
+		qboolean HasTransparentColour,
 		uint8_t               *TransparentColour,
 		uint8_t               *OutPal)
 {
@@ -1253,10 +1250,10 @@ static qboolean ConvertPixel(struct PNG_Chunk_IHDR *IHDR,
  */
 
 static qboolean DecodeImageNonInterlaced(struct PNG_Chunk_IHDR *IHDR,
-		byte                  *OutBuffer, 
+		byte                 *OutBuffer, 
 		uint8_t               *DecompressedData,
 		uint32_t               DecompressedDataLength,
-		qboolean               HasTransparentColour,
+		qboolean HasTransparentColour,
 		uint8_t               *TransparentColour,
 		uint8_t               *OutPal)
 {
@@ -1530,10 +1527,10 @@ static qboolean DecodeImageNonInterlaced(struct PNG_Chunk_IHDR *IHDR,
  */
 
 static qboolean DecodeImageInterlaced(struct PNG_Chunk_IHDR *IHDR,
-		byte                  *OutBuffer, 
+		byte                 *OutBuffer, 
 		uint8_t               *DecompressedData,
 		uint32_t               DecompressedDataLength,
-		qboolean               HasTransparentColour,
+		qboolean HasTransparentColour,
 		uint8_t               *TransparentColour,
 		uint8_t               *OutPal)
 {
@@ -2086,7 +2083,7 @@ void R_LoadPNG(const char *name, byte **pic, int *width, int *height)
 	 *  Check if InterlaceMethod is valid.
 	 */
 
-	if(!((IHDR->InterlaceMethod == PNG_InterlaceMethod_NonInterlaced)  || (IHDR->InterlaceMethod == PNG_InterlaceMethod_Interlaced)))
+	if(!((IHDR->InterlaceMethod == PNG_InterlaceMethod_NonInterlaced) || (IHDR->InterlaceMethod == PNG_InterlaceMethod_Interlaced)))
 	{
 		CloseBufferedFile(ThePNG);
 

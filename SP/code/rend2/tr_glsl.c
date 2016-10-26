@@ -63,97 +63,96 @@ uniformInfo_t;
 // These must be in the same order as in uniform_t in tr_local.h.
 static uniformInfo_t uniformsInfo[] =
 {
-	{ "u_DiffuseMap",  GLSL_INT },
-	{ "u_LightMap",    GLSL_INT },
-	{ "u_NormalMap",   GLSL_INT },
-	{ "u_DeluxeMap",   GLSL_INT },
-	{ "u_SpecularMap", GLSL_INT },
+	{ "u_DiffuseMap",  GLSL_INT},
+	{ "u_LightMap",    GLSL_INT},
+	{ "u_NormalMap",   GLSL_INT},
+	{ "u_DeluxeMap",   GLSL_INT},
+	{ "u_SpecularMap", GLSL_INT},
 
-	{ "u_TextureMap", GLSL_INT },
-	{ "u_LevelsMap",  GLSL_INT },
-	{ "u_CubeMap",    GLSL_INT },
+	{ "u_TextureMap", GLSL_INT},
+	{ "u_LevelsMap",  GLSL_INT},
+	{ "u_CubeMap",    GLSL_INT},
 
-	{ "u_ScreenImageMap", GLSL_INT },
-	{ "u_ScreenDepthMap", GLSL_INT },
+	{ "u_ScreenImageMap", GLSL_INT},
+	{ "u_ScreenDepthMap", GLSL_INT},
 
-	{ "u_ShadowMap",  GLSL_INT },
-	{ "u_ShadowMap2", GLSL_INT },
-	{ "u_ShadowMap3", GLSL_INT },
-	{ "u_ShadowMap4", GLSL_INT },
+	{ "u_ShadowMap",  GLSL_INT},
+	{ "u_ShadowMap2", GLSL_INT},
+	{ "u_ShadowMap3", GLSL_INT},
+	{ "u_ShadowMap4", GLSL_INT},
 
-	{ "u_ShadowMvp",  GLSL_MAT16 },
-	{ "u_ShadowMvp2", GLSL_MAT16 },
-	{ "u_ShadowMvp3", GLSL_MAT16 },
-	{ "u_ShadowMvp4", GLSL_MAT16 },
+	{ "u_ShadowMvp",  GLSL_MAT16},
+	{ "u_ShadowMvp2", GLSL_MAT16},
+	{ "u_ShadowMvp3", GLSL_MAT16},
+	{ "u_ShadowMvp4", GLSL_MAT16},
 
-	{ "u_EnableTextures", GLSL_VEC4 },
+	{ "u_EnableTextures", GLSL_VEC4},
 
-	{ "u_DiffuseTexMatrix",  GLSL_VEC4 },
-	{ "u_DiffuseTexOffTurb", GLSL_VEC4 },
+	{ "u_DiffuseTexMatrix",  GLSL_VEC4},
+	{ "u_DiffuseTexOffTurb", GLSL_VEC4},
 
-	{ "u_TCGen0",        GLSL_INT },
-	{ "u_TCGen0Vector0", GLSL_VEC3 },
-	{ "u_TCGen0Vector1", GLSL_VEC3 },
+	{ "u_TCGen0",        GLSL_INT},
+	{ "u_TCGen0Vector0", GLSL_VEC3},
+	{ "u_TCGen0Vector1", GLSL_VEC3},
 
-	{ "u_DeformGen",    GLSL_INT },
-	{ "u_DeformParams", GLSL_FLOAT5 },
+	{ "u_DeformGen",    GLSL_INT},
+	{ "u_DeformParams", GLSL_FLOAT5},
 
-	{ "u_ColorGen",  GLSL_INT },
-	{ "u_AlphaGen",  GLSL_INT },
-	{ "u_Color",     GLSL_VEC4 },
-	{ "u_BaseColor", GLSL_VEC4 },
-	{ "u_VertColor", GLSL_VEC4 },
+	{ "u_ColorGen",  GLSL_INT},
+	{ "u_AlphaGen",  GLSL_INT},
+	{ "u_Color",     GLSL_VEC4},
+	{ "u_BaseColor", GLSL_VEC4},
+	{ "u_VertColor", GLSL_VEC4},
 
-	{ "u_DlightInfo",    GLSL_VEC4 },
-	{ "u_LightForward",  GLSL_VEC3 },
-	{ "u_LightUp",       GLSL_VEC3 },
-	{ "u_LightRight",    GLSL_VEC3 },
-	{ "u_LightOrigin",   GLSL_VEC4 },
-	{ "u_ModelLightDir", GLSL_VEC3 },
-	{ "u_LightRadius",   GLSL_FLOAT },
-	{ "u_AmbientLight",  GLSL_VEC3 },
-	{ "u_DirectedLight", GLSL_VEC3 },
+	{ "u_DlightInfo",    GLSL_VEC4},
+	{ "u_LightForward",  GLSL_VEC3},
+	{ "u_LightUp",       GLSL_VEC3},
+	{ "u_LightRight",    GLSL_VEC3},
+	{ "u_LightOrigin",   GLSL_VEC4},
+	{ "u_ModelLightDir", GLSL_VEC3},
+	{ "u_LightRadius",   GLSL_FLOAT},
+	{ "u_AmbientLight",  GLSL_VEC3},
+	{ "u_DirectedLight", GLSL_VEC3},
 
-	{ "u_PortalRange", GLSL_FLOAT },
+	{ "u_PortalRange", GLSL_FLOAT},
 
-	{ "u_FogDistance",  GLSL_VEC4 },
-	{ "u_FogDepth",     GLSL_VEC4 },
-	{ "u_FogEyeT",      GLSL_FLOAT },
-	{ "u_FogColorMask", GLSL_VEC4 },
+	{ "u_FogDistance",  GLSL_VEC4},
+	{ "u_FogDepth",     GLSL_VEC4},
+	{ "u_FogEyeT",      GLSL_FLOAT},
+	{ "u_FogColorMask", GLSL_VEC4},
 
-	{ "u_ModelMatrix",               GLSL_MAT16 },
-	{ "u_ModelViewProjectionMatrix", GLSL_MAT16 },
+	{ "u_ModelMatrix",               GLSL_MAT16},
+	{ "u_ModelViewProjectionMatrix", GLSL_MAT16},
 
-	{ "u_Time",          GLSL_FLOAT },
-	{ "u_VertexLerp" ,   GLSL_FLOAT },
-	{ "u_NormalScale",   GLSL_VEC4 },
-	{ "u_SpecularScale", GLSL_VEC4 },
+	{ "u_Time",          GLSL_FLOAT},
+	{ "u_VertexLerp" ,   GLSL_FLOAT},
+	{ "u_NormalScale",   GLSL_VEC4},
+	{ "u_SpecularScale", GLSL_VEC4},
 
-	{ "u_ViewInfo",        GLSL_VEC4 },
-	{ "u_ViewOrigin",      GLSL_VEC3 },
-	{ "u_LocalViewOrigin", GLSL_VEC3 },
-	{ "u_ViewForward",     GLSL_VEC3 },
-	{ "u_ViewLeft",        GLSL_VEC3 },
-	{ "u_ViewUp",          GLSL_VEC3 },
+	{ "u_ViewInfo",        GLSL_VEC4},
+	{ "u_ViewOrigin",      GLSL_VEC3},
+	{ "u_LocalViewOrigin", GLSL_VEC3},
+	{ "u_ViewForward",     GLSL_VEC3},
+	{ "u_ViewLeft",        GLSL_VEC3},
+	{ "u_ViewUp",          GLSL_VEC3},
 
-	{ "u_InvTexRes",           GLSL_VEC2 },
-	{ "u_AutoExposureMinMax",  GLSL_VEC2 },
-	{ "u_ToneMinAvgMaxLinear", GLSL_VEC3 },
+	{ "u_InvTexRes",           GLSL_VEC2},
+	{ "u_AutoExposureMinMax",  GLSL_VEC2},
+	{ "u_ToneMinAvgMaxLinear", GLSL_VEC3},
 
-	{ "u_PrimaryLightOrigin",  GLSL_VEC4  },
-	{ "u_PrimaryLightColor",   GLSL_VEC3  },
-	{ "u_PrimaryLightAmbient", GLSL_VEC3  },
-	{ "u_PrimaryLightRadius",  GLSL_FLOAT },
+	{ "u_PrimaryLightOrigin",  GLSL_VEC4 },
+	{ "u_PrimaryLightColor",   GLSL_VEC3 },
+	{ "u_PrimaryLightAmbient", GLSL_VEC3 },
+	{ "u_PrimaryLightRadius",  GLSL_FLOAT},
 
-	{ "u_CubeMapInfo", GLSL_VEC4 },
+	{ "u_CubeMapInfo", GLSL_VEC4},
 
-	{ "u_FireRiseDir", GLSL_VEC3 },
-	{ "u_ZFadeLowest", GLSL_FLOAT },
-	{ "u_ZFadeHighest", GLSL_FLOAT },
+	{ "u_FireRiseDir", GLSL_VEC3},
+	{ "u_ZFadeLowest", GLSL_FLOAT},
+	{ "u_ZFadeHighest", GLSL_FLOAT},
 };
 
-typedef enum
-{
+typedef enum {
 	GLSL_PRINTLOG_PROGRAM_INFO,
 	GLSL_PRINTLOG_SHADER_INFO,
 	GLSL_PRINTLOG_SHADER_SOURCE
@@ -217,8 +216,7 @@ static void GLSL_PrintLog(GLuint programOrShader, glslPrintLog_t type, qboolean 
 		msgPart[maxLength + 1] = '\0';
 
 		ri.Printf(printLevel, "%s\n", msgPart);
-	}
-	else
+	} else
 	{
 		for(i = 0; i < maxLength; i += 1023)
 		{
@@ -257,8 +255,7 @@ static void GLSL_GetShaderHeader(GLenum shaderType, const GLchar *extra, char *d
 			Q_strcat(dest, size, "out vec4 out_Color;\n");
 			Q_strcat(dest, size, "#define gl_FragColor out_Color\n");
 		}
-	}
-	else
+	} else
 	{
 		Q_strcat(dest, size, "#version 120\n");
 	}
@@ -419,8 +416,7 @@ static int GLSL_LoadGPUShaderText(const char *name, const char *fallback,
 	if(shaderType == GL_VERTEX_SHADER)
 	{
 		Com_sprintf(filename, sizeof(filename), "glsl/%s_vp.glsl", name);
-	}
-	else
+	} else
 	{
 		Com_sprintf(filename, sizeof(filename), "glsl/%s_fp.glsl", name);
 	}
@@ -445,8 +441,7 @@ static int GLSL_LoadGPUShaderText(const char *name, const char *fallback,
 			ri.Printf(PRINT_DEVELOPER, "couldn't load '%s'\n", filename);
 			return 0;
 		}
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_DEVELOPER, "...loading '%s'\n", filename);
 		shaderText = buffer;
@@ -455,8 +450,7 @@ static int GLSL_LoadGPUShaderText(const char *name, const char *fallback,
 	if (size > destSize)
 	{
 		result = 0;
-	}
-	else
+	} else
 	{
 		Q_strncpyz(dest, shaderText, size + 1);
 		result = 1;
@@ -607,8 +601,7 @@ static int GLSL_InitGPUShader(shaderProgram_t * program, const char *name,
 		GLSL_GetShaderHeader(GL_VERTEX_SHADER, extra, vpCode, size);
 		postHeader = &vpCode[strlen(vpCode)];
 		size -= strlen(vpCode);
-	}
-	else
+	} else
 	{
 		postHeader = &vpCode[0];
 	}

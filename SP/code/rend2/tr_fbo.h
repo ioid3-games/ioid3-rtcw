@@ -30,7 +30,6 @@ struct shaderProgram_s;
 typedef struct FBO_s
 {
 	char            name[MAX_QPATH];
-
 	int             index;
 
 	uint32_t        frameBuffer;
@@ -47,7 +46,6 @@ typedef struct FBO_s
 
 	uint32_t        packedDepthStencilBuffer;
 	int             packedDepthStencilFormat;
-
 	int             width;
 	int             height;
 } FBO_t;

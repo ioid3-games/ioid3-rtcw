@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define IQM_MAGIC "INTERQUAKEMODEL"
 #define IQM_VERSION 2
 
-#define	IQM_MAX_JOINTS		128
+#define IQM_MAX_JOINTS		128
 
 typedef struct iqmheader
 {
@@ -52,8 +52,7 @@ typedef struct iqmmesh
     unsigned int first_triangle, num_triangles;
 } iqmMesh_t;
 
-enum
-{
+enum {
     IQM_POSITION     = 0,
     IQM_TEXCOORD     = 1,
     IQM_NORMAL       = 2,
@@ -64,8 +63,7 @@ enum
     IQM_CUSTOM       = 0x10
 };
 
-enum
-{
+enum {
     IQM_BYTE   = 0,
     IQM_UBYTE  = 1,
     IQM_SHORT  = 2,
@@ -125,8 +123,7 @@ typedef struct iqmanim
     unsigned int flags;
 } iqmAnim_t;
 
-enum
-{
+enum {
     IQM_LOOP = 1<<0
 };
 

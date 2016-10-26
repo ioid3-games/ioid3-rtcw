@@ -645,7 +645,7 @@ static qboolean S_AL_SrcInit(void) {
 		limit = MAX_SRC;
 	} else if (limit < 16)
 		limit = 16;
- 
+
 	S_AL_ClearError(qfalse);
 	// Allocate as many sources as possible
 	for (i = 0; i < limit; i++) {
@@ -1490,7 +1490,7 @@ static void S_AL_SrcUpdate(void) {
 		        	S_AL_SrcKill(i);
 		        	continue;
         		}
-              }
+             }
 		// Query relativity of source, don't move if it's true
 		qalGetSourcei(curSource->alSource, AL_SOURCE_RELATIVE, &state);
 		// See if it needs to be moved
@@ -1561,7 +1561,7 @@ static void S_AL_AllocateStreamChannel(int stream, int entityNum) {
         	alsrc = S_AL_SrcGet(cursrc);
         	srcList[cursrc].isTracking = qtrue;
         	srcList[cursrc].isStream = qtrue;
-      }
+     }
         else
         {
                // Unspatialized stream source
@@ -1588,7 +1588,7 @@ static void S_AL_AllocateStreamChannel(int stream, int entityNum) {
         	qalSource3f(alsrc, AL_DIRECTION, 0.0, 0.0, 0.0);
         	qalSourcef(alsrc, AL_ROLLOFF_FACTOR, 0.0);
         	qalSourcei(alsrc, AL_SOURCE_RELATIVE, AL_TRUE);
-      }
+     }
 
         streamSourceHandles[stream] = cursrc;
        	streamSources[stream] = alsrc;
@@ -1680,7 +1680,7 @@ static void S_AL_RawSamples(int stream, int samples, int rate, int width, int ch
 	if (entityNum < 0) {
         	// Volume
         	S_AL_Gain(streamSources[stream], volume * s_volume->value * s_alGain->value);
-      }
+     }
 	// Start stream
 	if (!streamPlaying[stream]) {
 		qalSourcePlay(streamSources[stream]);

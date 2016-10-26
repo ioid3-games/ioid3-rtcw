@@ -41,10 +41,10 @@ If you have questions concerning this license or the applicable additional terms
 
 
 /*
-==================
+=======================================================================================================================================
 R_DrawElements
 
-==================
+=======================================================================================================================================
 */
 
 void R_DrawElementsVao(int numIndexes, glIndex_t firstIndex, glIndex_t minIndex, glIndex_t maxIndex)
@@ -63,8 +63,7 @@ static void R_DrawMultiElementsVao(int multiDrawPrimitives, glIndex_t *multiDraw
 	if (glRefConfig.multiDrawArrays && multiDrawPrimitives > 1)
 	{
 		qglMultiDrawElements(GL_TRIANGLES, multiDrawNumIndexes, GL_INDEX_TYPE, (const GLvoid **)multiDrawFirstIndex, multiDrawPrimitives);
-	}
-	else
+	} else
 	{
 		int i;
 
@@ -141,11 +140,11 @@ static void R_BindAnimatedImageToTMU(textureBundle_t *bundle, int tmu) {
 
 
 /*
-================
+=======================================================================================================================================
 DrawTris
 
 Draws triangle outlines for debugging
-================
+=======================================================================================================================================
 */
 static void DrawTris (shaderCommands_t *input) {
 	GL_BindToTMU(tr.whiteImage, TB_COLORMAP);
@@ -178,24 +177,24 @@ static void DrawTris (shaderCommands_t *input) {
 
 
 /*
-================
+=======================================================================================================================================
 DrawNormals
 
 Draws vertex normals for debugging
-================
+=======================================================================================================================================
 */
 static void DrawNormals (shaderCommands_t *input) {
 	//FIXME: implement this
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_BeginSurface
 
 We must set some things up before beginning any tesselation,
 because a surface may be forced to perform a RB_End due
 to overflow.
-==============
+=======================================================================================================================================
 */
 void RB_BeginSurface(shader_t *shader, int fogNum, int cubemapIndex) {
 
@@ -483,7 +482,6 @@ static void ComputeShaderColors(shaderStage_t *pStage, vec4_t baseColor, vec4_t 
 		|| ((blend & GLS_DSTBLEND_BITS) == GLS_DSTBLEND_ONE_MINUS_SRC_COLOR);
 
 	qboolean is2DDraw = backEnd.currentEntity == &backEnd.entity2D;
-
 	float overbright = (isBlend || is2DDraw) ? 1.0f : (float)(1 << tr.overbrightBits);
 
 	fog_t *fog;
@@ -745,7 +743,6 @@ static void ForwardDlight(void) {
 	//vec3_t	origin;
 	//float	scale;
 	float	radius;
-
 	int deformGen;
 	vec5_t deformParams;
 	
@@ -865,7 +862,6 @@ static void ForwardDlight(void) {
 				highest = backEnd.currentEntity->e.shaderTime;
 				//zombieEffect = qtrue;
 			}
-
 			// TODO: Handle normalzfade zombie effect
 
 			GLSL_SetUniformFloat(sp, UNIFORM_ZFADELOWEST, lowest);
@@ -962,7 +958,6 @@ static void ProjectPshadowVBOGLSL(void) {
 	int		l;
 	vec3_t	origin;
 	float	radius;
-
 	int deformGen;
 	vec5_t deformParams;
 
@@ -1046,7 +1041,6 @@ static void RB_FogPass(int wolfFog) {
 	float	eyeT = 0;
 	shaderProgram_t *sp;
 	glfog_t *glFog = NULL;
-
 	int deformGen;
 	vec5_t deformParams;
 
@@ -1143,8 +1137,7 @@ static void RB_FogPass(int wolfFog) {
 		color[1] = glFog->color[1];
 		color[2] = glFog->color[2];
 		color[3] = glFog->color[3];
-	}
-	else
+	} else
 	{
 		color[0] = ((unsigned char *)(&fog->colorInt))[0] / 255.0f;
 		color[1] = ((unsigned char *)(&fog->colorInt))[1] / 255.0f;
@@ -1169,8 +1162,7 @@ static void RB_FogPass(int wolfFog) {
 	{
 		shaderCommands_t *input = &tess;
 		R_DrawMultiElementsVao(input->multiDrawPrimitives, input->multiDrawMinIndex, input->multiDrawMaxIndex, input->multiDrawNumIndexes, input->multiDrawFirstIndex);
-	}
-	else
+	} else
 	{
 		R_DrawElementsVao(tess.numIndexes, tess.firstIndex, tess.minIndex, tess.maxIndex);
 	}
@@ -1201,7 +1193,6 @@ static void RB_IterateStagesGeneric(shaderCommands_t *input)
 	glfog_t *glFog;
 	vec4_t fogDistanceVector, fogDepthVector = {0, 0, 0, 0};
 	float eyeT = 0;
-
 	int deformGen;
 	vec5_t deformParams;
 
@@ -1453,7 +1444,6 @@ static void RB_IterateStagesGeneric(shaderCommands_t *input)
 				highest = backEnd.currentEntity->e.shaderTime;
 				//zombieEffect = qtrue;
 			}
-
 			// TODO: Handle normalzfade zombie effect
 
 			GLSL_SetUniformFloat(sp, UNIFORM_ZFADELOWEST, lowest);
@@ -1787,8 +1777,7 @@ void RB_StageIteratorGeneric(void)
 	if (tess.useInternalVao)
 	{
 		RB_UpdateTessVao(vertexAttribs);
-	}
-	else
+	} else
 	{
 		backEnd.pc.c_staticVaoDraws++;
 	}
@@ -1809,8 +1798,7 @@ void RB_StageIteratorGeneric(void)
 	if (input->shader->cullType == CT_TWO_SIDED)
 	{
 		GL_Cull(CT_TWO_SIDED);
-	}
-	else
+	} else
 	{
 		qboolean cullFront = (input->shader->cullType == CT_FRONT_SIDED);
 

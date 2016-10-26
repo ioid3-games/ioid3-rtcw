@@ -518,12 +518,12 @@ static void SV_BuildClientSnapshot(client_t *client) {
 // if (client->deltaMessage <= 0 || client->state != CS_ACTIVE) {
 // 	// client is asking for a retransmit
 // 	oldframe = NULL;
-// } else if (client->netchan.outgoingSequence - client->deltaMessage
+//} else if (client->netchan.outgoingSequence - client->deltaMessage
 // 	 >= (PACKET_BACKUP - 3)) {
 // 	// client hasn't gotten a good message through in a long time
 // 	Com_DPrintf("%s: Delta request from out of date packet.\n", client->name);
 // 	oldframe = NULL;
-// } else {
+//} else {
 // 	// we have a valid snapshot to delta from
 // 	oldframe = &client->frames[client->deltaMessage & PACKET_MASK];
 // 	// the snapshot's entities may still have rolled off the buffer, though
@@ -531,7 +531,7 @@ static void SV_BuildClientSnapshot(client_t *client) {
 // 		Com_DPrintf("%s: Delta request from out of date entities.\n", client->name);
 // 		oldframe = NULL;
 // 	}
-// }
+//}
 	// clear everything in this snapshot
 	entityNumbers.numSnapshotEntities = 0;
 	memset(frame->areabits, 0, sizeof(frame->areabits));
@@ -626,7 +626,7 @@ static void SV_WriteVoipToClient(client_t *cl, msg_t *msg) {
         			MSG_WriteShort(msg, packet->len);
         			MSG_WriteBits(msg, packet->flags, VOIP_FLAGCNT);
 	        		MSG_WriteData(msg, packet->data, packet->len);
-                      }
+                     }
 
 			Z_Free(packet);
 		}

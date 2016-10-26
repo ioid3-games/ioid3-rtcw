@@ -31,14 +31,14 @@ If you have questions concerning this license or the applicable additional terms
 
 
 /*
-================
+=======================================================================================================================================
 R_CullSurface
 
 Tries to cull surfaces before they are lighted or
 added to the sorting list.
-================
+=======================================================================================================================================
 */
-static qboolean	R_CullSurface(msurface_t *surf) {
+static qboolean R_CullSurface(msurface_t *surf) {
 	if (r_nocull->integer || surf->cullinfo.type == CULLINFO_NONE) {
 		return qfalse;
 	}
@@ -152,13 +152,13 @@ static qboolean	R_CullSurface(msurface_t *surf) {
 }
 
 /*
-====================
+=======================================================================================================================================
 R_DlightSurface
 
 The given surface is going to be drawn, and it touches a leaf
 that is touched by one or more dlights, so try to throw out
 more dlights if possible.
-====================
+=======================================================================================================================================
 */
 static int R_DlightSurface(msurface_t *surf, int dlightBits) {
 	float       d;
@@ -238,11 +238,11 @@ static int R_DlightSurface(msurface_t *surf, int dlightBits) {
 }
 
 /*
-====================
+=======================================================================================================================================
 R_PshadowSurface
 
 Just like R_DlightSurface, cull any we can
-====================
+=======================================================================================================================================
 */
 static int R_PshadowSurface(msurface_t *surf, int pshadowBits) {
 	float       d;
@@ -496,9 +496,9 @@ void R_AddBrushModelSurfaces (trRefEntity_t *ent) {
 
 
 /*
-================
+=======================================================================================================================================
 R_RecursiveWorldNode
-================
+=======================================================================================================================================
 */
 static void R_RecursiveWorldNode(mnode_t *node, uint32_t planeBits, uint32_t dlightBits, uint32_t pshadowBits) {
 
@@ -709,9 +709,9 @@ static void R_RecursiveWorldNode(mnode_t *node, uint32_t planeBits, uint32_t dli
 
 
 /*
-===============
+=======================================================================================================================================
 R_PointInLeaf
-===============
+=======================================================================================================================================
 */
 static mnode_t *R_PointInLeaf(vec3_t p) {
 	mnode_t     *node;
@@ -740,9 +740,9 @@ static mnode_t *R_PointInLeaf(vec3_t p) {
 }
 
 /*
-==============
+=======================================================================================================================================
 R_ClusterPVS
-==============
+=======================================================================================================================================
 */
 static const byte *R_ClusterPVS(int cluster) {
 	if (!tr.world->vis || cluster < 0 || cluster >= tr.world->numClusters) {
@@ -755,15 +755,15 @@ static const byte *R_ClusterPVS(int cluster) {
 
 
 /*
-===============
+=======================================================================================================================================
 R_MarkLeaves
 
 Mark the leaves and nodes that are in the PVS for the current
 cluster
-===============
+=======================================================================================================================================
 */
 static void R_MarkLeaves(void) {
-	const byte  *vis;
+	const byte *vis;
 	mnode_t *leaf, *parent;
 	int i;
 	int cluster;
@@ -881,13 +881,11 @@ void R_AddWorldSurfaces(void) {
 	{
 		dlightBits = 0;
 		pshadowBits = 0;
-	}
-	else if (!(tr.viewParms.flags & VPF_SHADOWMAP))
+	} else if (!(tr.viewParms.flags & VPF_SHADOWMAP))
 	{
 		dlightBits = (1ULL << tr.refdef.num_dlights) - 1;
 		pshadowBits = (1ULL << tr.refdef.num_pshadows) - 1;
-	}
-	else
+	} else
 	{
 		dlightBits = (1ULL << tr.refdef.num_dlights) - 1;
 		pshadowBits = 0;

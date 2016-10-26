@@ -634,7 +634,6 @@ int BotGetLongTermGoal(bot_state_t *bs, int tfl, int retreat, bot_goal_t *goal) 
 
 				bs->ltgtype = 0;
 			}
-
 			// FIXME: move around a bit
 			// 
 			trap_BotResetAvoidReach(bs->ms);

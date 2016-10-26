@@ -1218,7 +1218,7 @@ int AAS_Reachability_Step_Barrier_WaterJump_WalkOffLedge(int area1num, int area2
 	// Steps
 	// 
 	//        -------- - 
-	//      |        step height ->TRAVEL_WALK
+	// |        step height ->TRAVEL_WALK
 	// --------|
 	// 
 	//        -------- - 
@@ -1227,7 +1227,7 @@ int AAS_Reachability_Step_Barrier_WaterJump_WalkOffLedge(int area1num, int area2
 	// 
 	// ~~~~~~~~~~~~~~~~~~
 	//        -------- - 
-	//      |        step height and low water up to the step ->TRAVEL_WALK
+	// |        step height and low water up to the step ->TRAVEL_WALK
 	// --------|
 	// 
 	// check for a step reachability
@@ -1271,18 +1271,18 @@ int AAS_Reachability_Step_Barrier_WaterJump_WalkOffLedge(int area1num, int area2
 	// Water Jumps
 	// 
 	//        -------- - 
-	//        |
+	// |
 	// ~~~~~~~~|
-	//        |
-	//      |        higher than step height and water up to waterjump height ->TRAVEL_WATERJUMP
+	// |
+	// |        higher than step height and water up to waterjump height ->TRAVEL_WATERJUMP
 	// --------|
 	// 
 	// ~~~~~~~~~~~~~~~~~~
 	//        -------- - 
-	//        |
-	//        |
-	//        |
-	//      |        higher than step height and low water up to the step ->TRAVEL_WATERJUMP
+	// |
+	// |
+	// |
+	// |        higher than step height and low water up to the step ->TRAVEL_WATERJUMP
 	// --------|
 	// 
 	// check for a waterjump reachability
@@ -1323,16 +1323,16 @@ int AAS_Reachability_Step_Barrier_WaterJump_WalkOffLedge(int area1num, int area2
 	// Barrier Jumps
 	// 
 	//        -------- - 
-	//        |
-	//        |
-	//        |
-	//      |       higher than step height lower than barrier height ->TRAVEL_BARRIERJUMP
+	// |
+	// |
+	// |
+	// |       higher than step height lower than barrier height ->TRAVEL_BARRIERJUMP
 	// --------|
 	// 
 	//        -------- - 
-	//        |
-	//        |
-	//        |
+	// |
+	// |
+	// |
 	// ~~~~~~~~|         higher than step height lower than barrier height
 	// --------|         and a thin layer of water in the area to jump from ->TRAVEL_BARRIERJUMP
 	// 
@@ -1370,21 +1370,21 @@ int AAS_Reachability_Step_Barrier_WaterJump_WalkOffLedge(int area1num, int area2
 	// Walk and Walk Off Ledge
 	// 
 	// --------|
-	//      |        can walk or step back ->TRAVEL_WALK
+	// |        can walk or step back ->TRAVEL_WALK
 	//        -------- - 
 	// 
 	// --------|
-	//        |
-	//        |
-	//        |
-	//      |        cannot walk / step back ->TRAVEL_WALKOFFLEDGE
+	// |
+	// |
+	// |
+	// |        cannot walk / step back ->TRAVEL_WALKOFFLEDGE
 	//        -------- - 
 	// 
 	// --------|
-	//        |
-	//        |~~~~~~~~
-	//        |
-	//      |        cannot step back but can waterjump back ->TRAVEL_WALKOFFLEDGE
+	// |
+	// |~~~~~~~~
+	// |
+	// |        cannot step back but can waterjump back ->TRAVEL_WALKOFFLEDGE
 	//        -------- -  FIXME: create TRAVEL_WALK reach??
 	// 
 	// check for a walk or walk off ledge reachability
@@ -3250,7 +3250,6 @@ void AAS_Reachability_FuncBobbing(void) {
 				firststartreach = AAS_FindFaceReachabilities(end_edgeverts, 4, &end_plane, qtrue);
 				firstendreach = AAS_FindFaceReachabilities(start_edgeverts, 4, &start_plane, qfalse);
 			}
-
 			// create reachabilities from start to end
 			for (startreach = firststartreach; startreach; startreach = nextstartreach) {
 				nextstartreach = startreach->next;

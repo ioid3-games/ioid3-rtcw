@@ -658,7 +658,7 @@ bool idCameraDef::waitEvent(int index) {
 	// for (int i = 0; i < events.Num(); i++) {
 	// if (events[i]->getSegment() == index && events[i]->getType() == idCameraEvent::EVENT_WAIT) {
 	// 	return true;
-	// }
+	//}
 	//}
 
 	return false;

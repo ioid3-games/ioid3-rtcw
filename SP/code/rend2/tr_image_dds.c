@@ -285,8 +285,7 @@ void R_LoadDDS (const char *filename, byte **pic, int *width, int *height, GLenu
 		ddsHeaderDxt10 = (ddsHeaderDxt10_t *)(buffer.b + 4 + sizeof(ddsHeader_t));
 		data = buffer.b + 4 + sizeof(*ddsHeader) + sizeof(*ddsHeaderDxt10);
 		len -= 4 + sizeof(*ddsHeader) + sizeof(*ddsHeaderDxt10);
-	}
-	else
+	} else
 	{
 		data = buffer.b + 4 + sizeof(*ddsHeader);
 		len -= 4 + sizeof(*ddsHeader);
@@ -395,8 +394,7 @@ void R_LoadDDS (const char *filename, byte **pic, int *width, int *height, GLenu
 				return;
 				break;
 		}
-	}
-	else
+	} else
 	{
 		if (ddsHeader->pixelFormatFlags & DDSPF_FOURCC)
 		{

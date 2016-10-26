@@ -399,14 +399,14 @@ insert_bdm(unsigned long insn, long value, int dialect, const char **errmsg ATTR
   if ((dialect & PPC_OPCODE_POWER4) == 0) {
       if ((value & 0x8000) != 0)
 	insn |= 1 << 21;
-  }
+ }
   else
     {
       if ((insn & (0x14 << 21)) == (0x04 << 21))
 	insn |= 0x02 << 21;
       else if ((insn & (0x14 << 21)) == (0x10 << 21))
 	insn |= 0x08 << 21;
-  }
+ }
   return insn|(value & 0xfffc);
 }
 
@@ -444,7 +444,7 @@ valid_bo(long value, int dialect, int extract) {
 	 || (dialect & PPC_OPCODE_ANY) == 0
 	 || !extract)
 	return valid;
-  }
+ }
 
   /* Certain encodings have bits that are required to be zero.
      These are(z must be zero, a & t may be anything):
@@ -782,7 +782,7 @@ insert_rbs(unsigned long insn, long value ATTRIBUTE_UNUSED, int dialect ATTRIBUT
 /* An XFX form instruction with the FXM field filled in. */
 #define XFXM(op, xop, fxm, p4) \
  (X((op), (xop))|((((unsigned long)(fxm)) & 0xff) << 12) \
-  |((unsigned long)(p4) << 20))
+ |((unsigned long)(p4) << 20))
 
 #define SPR_MASK(0x3ff << 11)
 /* An XFX form instruction with the SPR field filled in. */

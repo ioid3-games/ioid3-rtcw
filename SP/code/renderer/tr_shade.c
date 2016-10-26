@@ -41,11 +41,11 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 /*
-================
+=======================================================================================================================================
 R_ArrayElementDiscrete
 
 This is just for OpenGL conformance testing, it should never be the fastest
-================
+=======================================================================================================================================
 */
 #ifndef USE_OPENGLES
 static void APIENTRY R_ArrayElementDiscrete(GLint index) {
@@ -81,7 +81,7 @@ static int c_vertexes;          // for seeing how long our average strips are
 static int c_begins;
 static void R_DrawStripElements(int numIndexes, const glIndex_t *indexes, void (APIENTRY *element)(GLint)) {
 	int i;
-	int last[3] = { -1, -1, -1 };
+	int last[3] = { -1, -1, -1};
 	qboolean even;
 
 	c_begins++;
@@ -171,13 +171,13 @@ static void R_DrawStripElements(int numIndexes, const glIndex_t *indexes, void (
 
 
 /*
-==================
+=======================================================================================================================================
 R_DrawElements
 
 Optionally performs our own glDrawElements that looks for strip conditions
 instead of using the single glDrawElements call that may be inefficient
 without compiled vertex arrays.
-==================
+=======================================================================================================================================
 */
 static void R_DrawElements(int numIndexes, const glIndex_t *indexes) {
 #ifdef USE_OPENGLES
@@ -276,11 +276,11 @@ static void R_BindAnimatedImage(textureBundle_t *bundle) {
 }
 
 /*
-================
+=======================================================================================================================================
 DrawTris
 
 Draws triangle outlines for debugging
-================
+=======================================================================================================================================
 */
 static void DrawTris(shaderCommands_t *input) {
 	GL_Bind(tr.whiteImage);
@@ -320,11 +320,11 @@ static void DrawTris(shaderCommands_t *input) {
 
 
 /*
-================
+=======================================================================================================================================
 DrawNormals
 
 Draws vertex normals for debugging
-================
+=======================================================================================================================================
 */
 static void DrawNormals(shaderCommands_t *input) {
 	int i;
@@ -368,13 +368,13 @@ static void DrawNormals(shaderCommands_t *input) {
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_BeginSurface
 
 We must set some things up before beginning any tesselation,
 because a surface may be forced to perform a RB_End due
 to overflow.
-==============
+=======================================================================================================================================
 */
 void RB_BeginSurface(shader_t *shader, int fogNum) {
 
@@ -922,9 +922,9 @@ static void RB_FogPass(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 ComputeColors
-===============
+=======================================================================================================================================
 */
 static void ComputeColors(shaderStage_t *pStage) {
 	int i;
@@ -1186,8 +1186,7 @@ static void ComputeColors(shaderStage_t *pStage) {
 			scale = LUMA(tess.svars.colors[i][0], tess.svars.colors[i][1], tess.svars.colors[i][2]);
 			tess.svars.colors[i][0] = tess.svars.colors[i][1] = tess.svars.colors[i][2] = scale;
 		}
-	}
-	else if(r_greyscale->value)
+	} else if(r_greyscale->value)
 	{
 		float scale;
 		
@@ -1202,9 +1201,9 @@ static void ComputeColors(shaderStage_t *pStage) {
 }
 
 /*
-===============
+=======================================================================================================================================
 ComputeTexCoords
-===============
+=======================================================================================================================================
 */
 static void ComputeTexCoords(shaderStage_t *pStage) {
 	int i;
@@ -1314,10 +1313,10 @@ static void ComputeTexCoords(shaderStage_t *pStage) {
 extern void R_Fog(glfog_t *curfog);
 
 /*
-==============
+=======================================================================================================================================
 SetIteratorFog
 	set the fog parameters for this pass
-==============
+=======================================================================================================================================
 */
 void SetIteratorFog(void) {
 	// changed for problem when you start the game with r_fastsky set to '1'
@@ -1387,7 +1386,6 @@ static void RB_IterateStagesGeneric(shaderCommands_t *input) {
 			if (!setArraysOnce) {
 				qglTexCoordPointer(2, GL_FLOAT, 0, input->svars.texcoords[0]);
 			}
-
 			//
 			// set state
 			//

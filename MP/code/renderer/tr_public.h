@@ -106,7 +106,6 @@ typedef struct {
 
 	int (*MarkFragments)(int numPoints, const vec3_t *points, const vec3_t projection,
 							int maxPoints, vec3_t pointBuffer, int maxFragments, markFragment_t *fragmentBuffer);
-
 	int (*LerpTag)(orientation_t *tag,  const refEntity_t *refent, const char *tagName, int startIndex);
 	void (*ModelBounds)(qhandle_t model, vec3_t mins, vec3_t maxs);
 
@@ -160,7 +159,6 @@ typedef struct {
 
 	void (*Cmd_AddCommand)(const char *name, void(*cmd) (void));
 	void (*Cmd_RemoveCommand)(const char *name);
-
 	int (*Cmd_Argc)(void);
 	char    *(*Cmd_Argv)(int i);
 

@@ -167,7 +167,6 @@ void CG_SoundPickOldestRandomSound(soundScript_t *sound, vec3_t org, int entnum)
 			} else {
 				VectorCopy(cg_entities[entnum].lerpOrigin, eOrg);
 			}
-
 			// start the shaker
 			CG_StartShakeCamera(sound->shakeScale, sound->shakeDuration, eOrg, sound->shakeRadius);
 		}

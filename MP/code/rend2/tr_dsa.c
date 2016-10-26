@@ -46,8 +46,7 @@ void GL_BindNullTextures()
 			qglBindMultiTextureEXT(GL_TEXTURE0_ARB + i, GL_TEXTURE_2D, 0);
 			glDsaState.textures[i] = 0;
 		}
-	}
-	else
+	} else
 	{
 		for (i = 0; i < NUM_TEXTURE_BUNDLES; i++)
 		{

@@ -42,9 +42,9 @@ static texModInfo_t texMods[MAX_SHADER_STAGES][TR_MAX_TEXMODS];
 static shader_t*       hashTable[FILE_HASH_SIZE];
 
 /*
-================
+=======================================================================================================================================
 return a hash value for the filename
-================
+=======================================================================================================================================
 */
 #ifdef __GNUCC__
   #warning TODO: check if long is ok here 
@@ -120,9 +120,9 @@ void R_RemapShader(const char *shaderName, const char *newShaderName, const char
 }
 
 /*
-===============
+=======================================================================================================================================
 ParseVector
-===============
+=======================================================================================================================================
 */
 static qboolean ParseVector(char **text, int count, float *v) {
 	char    *token;
@@ -155,9 +155,9 @@ static qboolean ParseVector(char **text, int count, float *v) {
 
 
 /*
-===============
+=======================================================================================================================================
 NameToAFunc
-===============
+=======================================================================================================================================
 */
 static unsigned NameToAFunc(const char *funcname) {
 	if (!Q_stricmp(funcname, "GT0")) {
@@ -174,9 +174,9 @@ static unsigned NameToAFunc(const char *funcname) {
 
 
 /*
-===============
+=======================================================================================================================================
 NameToSrcBlendMode
-===============
+=======================================================================================================================================
 */
 static int NameToSrcBlendMode(const char *name) {
 	if (!Q_stricmp(name, "GL_ONE")) {
@@ -204,9 +204,9 @@ static int NameToSrcBlendMode(const char *name) {
 }
 
 /*
-===============
+=======================================================================================================================================
 NameToDstBlendMode
-===============
+=======================================================================================================================================
 */
 static int NameToDstBlendMode(const char *name) {
 	if (!Q_stricmp(name, "GL_ONE")) {
@@ -232,9 +232,9 @@ static int NameToDstBlendMode(const char *name) {
 }
 
 /*
-===============
+=======================================================================================================================================
 NameToGenFunc
-===============
+=======================================================================================================================================
 */
 static genFunc_t NameToGenFunc(const char *funcname) {
 	if (!Q_stricmp(funcname, "sin")) {
@@ -790,7 +790,6 @@ static qboolean ParseStage(shaderStage_t *stage, char **text) {
 				}
 				blendDstBits = NameToDstBlendMode(token);
 			}
-
 			// clear depth mask for blended surfaces
 			if (!depthMaskExplicit) {
 				depthMaskBits = 0;
@@ -1025,7 +1024,7 @@ static qboolean ParseStage(shaderStage_t *stage, char **text) {
 }
 
 /*
-===============
+=======================================================================================================================================
 ParseDeform
 
 deformVertexes wave <spread> <waveform> <base> <amplitude> <phase> <frequency>
@@ -1036,7 +1035,7 @@ deformVertexes projectionShadow
 deformVertexes autoSprite
 deformVertexes autoSprite2
 deformVertexes text[0-7]
-===============
+=======================================================================================================================================
 */
 static void ParseDeform(char **text) {
 	char    *token;
@@ -1169,11 +1168,11 @@ static void ParseDeform(char **text) {
 
 
 /*
-===============
+=======================================================================================================================================
 ParseSkyParms
 
 skyParms <outerbox> <cloudheight> <innerbox>
-===============
+=======================================================================================================================================
 */
 static void ParseSkyParms(char **text) {
 	char        *token;
@@ -1288,66 +1287,66 @@ infoParm_t infoParms[] = {
 	{"clipmissile",  1,  0, CONTENTS_MISSILECLIP},       // impact only specific weapons (rl, gl)
 //----(SA)	end
 
-	{"water",        1,  0,  CONTENTS_WATER },
-	{"slag",     1,  0,  CONTENTS_SLIME },       // uses the CONTENTS_SLIME flag, but the shader reference is changed to 'slag'
+	{"water",        1,  0,  CONTENTS_WATER},
+	{"slag",     1,  0,  CONTENTS_SLIME},       // uses the CONTENTS_SLIME flag, but the shader reference is changed to 'slag'
 	// to idendify that this doesn't work the same as 'slime' did.
 	// (slime hurts instantly, slag doesn't)
-//	{"slime",		1,	0,	CONTENTS_SLIME },		// mildly damaging
-	{"lava",     1,  0,  CONTENTS_LAVA },        // very damaging
-	{"playerclip",   1,  0,  CONTENTS_PLAYERCLIP },
-	{"monsterclip",  1,  0,  CONTENTS_MONSTERCLIP },
-	{"nodrop",       1,  0,  CONTENTS_NODROP },      // don't drop items or leave bodies (death fog, lava, etc)
+//	{"slime",		1,	0,	CONTENTS_SLIME},		// mildly damaging
+	{"lava",     1,  0,  CONTENTS_LAVA},        // very damaging
+	{"playerclip",   1,  0,  CONTENTS_PLAYERCLIP},
+	{"monsterclip",  1,  0,  CONTENTS_MONSTERCLIP},
+	{"nodrop",       1,  0,  CONTENTS_NODROP},      // don't drop items or leave bodies (death fog, lava, etc)
 	{"nonsolid", 1,  SURF_NONSOLID,  0},                     // clears the solid flag
 
 	// utility relevant attributes
-	{"origin",       1,  0,  CONTENTS_ORIGIN },      // center of rotating brushes
-	{"trans",        0,  0,  CONTENTS_TRANSLUCENT }, // don't eat contained surfaces
-	{"detail",       0,  0,  CONTENTS_DETAIL },      // don't include in structural bsp
-	{"structural",   0,  0,  CONTENTS_STRUCTURAL },  // force into structural bsp even if trnas
-	{"areaportal",   1,  0,  CONTENTS_AREAPORTAL },  // divides areas
-	{"clusterportal", 1,0,  CONTENTS_CLUSTERPORTAL },    // for bots
-	{"donotenter",  1,  0,  CONTENTS_DONOTENTER },       // for bots
+	{"origin",       1,  0,  CONTENTS_ORIGIN},      // center of rotating brushes
+	{"trans",        0,  0,  CONTENTS_TRANSLUCENT}, // don't eat contained surfaces
+	{"detail",       0,  0,  CONTENTS_DETAIL},      // don't include in structural bsp
+	{"structural",   0,  0,  CONTENTS_STRUCTURAL},  // force into structural bsp even if trnas
+	{"areaportal",   1,  0,  CONTENTS_AREAPORTAL},  // divides areas
+	{"clusterportal", 1,0,  CONTENTS_CLUSTERPORTAL},    // for bots
+	{"donotenter",  1,  0,  CONTENTS_DONOTENTER},       // for bots
 
 	// Rafael - nopass
-	{"donotenterlarge", 1, 0,    CONTENTS_DONOTENTER_LARGE }, // for larger bots
+	{"donotenterlarge", 1, 0,    CONTENTS_DONOTENTER_LARGE}, // for larger bots
 
 	{"fog",          1,  0,  CONTENTS_FOG},          // carves surfaces entering
-	{"sky",          0,  SURF_SKY,       0 },        // emit light from an environment map
-	{"lightfilter",  0,  SURF_LIGHTFILTER, 0 },      // filter light going through it
-	{"alphashadow",  0,  SURF_ALPHASHADOW, 0 },      // test light on a per-pixel basis
-	{"hint",     0,  SURF_HINT,      0 },        // use as a primary splitter
+	{"sky",          0,  SURF_SKY,       0},        // emit light from an environment map
+	{"lightfilter",  0,  SURF_LIGHTFILTER, 0},      // filter light going through it
+	{"alphashadow",  0,  SURF_ALPHASHADOW, 0},      // test light on a per-pixel basis
+	{"hint",     0,  SURF_HINT,      0},        // use as a primary splitter
 
 	// server attributes
-	{"slick",            0,  SURF_SLICK,     0 },
-	{"noimpact",     0,  SURF_NOIMPACT,  0 },        // don't make impact explosions or marks
-	{"nomarks",          0,  SURF_NOMARKS,   0 },        // don't make impact marks, but still explode
-	{"ladder",           0,  SURF_LADDER,    0 },
-	{"nodamage",     0,  SURF_NODAMAGE,  0 },
+	{"slick",            0,  SURF_SLICK,     0},
+	{"noimpact",     0,  SURF_NOIMPACT,  0},        // don't make impact explosions or marks
+	{"nomarks",          0,  SURF_NOMARKS,   0},        // don't make impact marks, but still explode
+	{"ladder",           0,  SURF_LADDER,    0},
+	{"nodamage",     0,  SURF_NODAMAGE,  0},
 
 	{"monsterslick", 0,  SURF_MONSTERSLICK,  0},     // surf only slick for monsters
 
-//	{"flesh",		0,	SURF_FLESH,		0 },
-	{"glass",        0,  SURF_GLASS,     0 },    //----(SA)	added
-	{"ceramic",      0,  SURF_CERAMIC,   0 },    //----(SA)	added
+//	{"flesh",		0,	SURF_FLESH,		0},
+	{"glass",        0,  SURF_GLASS,     0},    //----(SA)	added
+	{"ceramic",      0,  SURF_CERAMIC,   0},    //----(SA)	added
 
 	// steps
-	{"metal",        0,  SURF_METAL,     0 },
-	{"metalsteps",   0,  SURF_METAL,     0 },    // retain bw compatibility with Q3A metal shaders... (SA)
-	{"nosteps",      0,  SURF_NOSTEPS,   0 },
-	{"woodsteps",    0,  SURF_WOOD,      0 },
-	{"grasssteps",   0,  SURF_GRASS,     0 },
-	{"gravelsteps",  0,  SURF_GRAVEL,    0 },
-	{"carpetsteps",  0,  SURF_CARPET,    0 },
-	{"snowsteps",    0,  SURF_SNOW,      0 },
-	{"roofsteps",    0,  SURF_ROOF,      0 },    // tile roof
+	{"metal",        0,  SURF_METAL,     0},
+	{"metalsteps",   0,  SURF_METAL,     0},    // retain bw compatibility with Q3A metal shaders... (SA)
+	{"nosteps",      0,  SURF_NOSTEPS,   0},
+	{"woodsteps",    0,  SURF_WOOD,      0},
+	{"grasssteps",   0,  SURF_GRASS,     0},
+	{"gravelsteps",  0,  SURF_GRAVEL,    0},
+	{"carpetsteps",  0,  SURF_CARPET,    0},
+	{"snowsteps",    0,  SURF_SNOW,      0},
+	{"roofsteps",    0,  SURF_ROOF,      0},    // tile roof
 
-	{"rubble", 0, SURF_RUBBLE, 0 },
+	{"rubble", 0, SURF_RUBBLE, 0},
 
 	// drawsurf attributes
-	{"nodraw",       0,  SURF_NODRAW,    0 },    // don't generate a drawsurface (or a lightmap)
-	{"pointlight",   0,  SURF_POINTLIGHT, 0 },   // sample lighting at vertexes
-	{"nolightmap",   0,  SURF_NOLIGHTMAP,0 },        // don't generate a lightmap
-	{"nodlight", 0,  SURF_NODLIGHT, 0 },     // don't ever add dynamic lights
+	{"nodraw",       0,  SURF_NODRAW,    0},    // don't generate a drawsurface (or a lightmap)
+	{"pointlight",   0,  SURF_POINTLIGHT, 0},   // sample lighting at vertexes
+	{"nolightmap",   0,  SURF_NOLIGHTMAP,0},        // don't generate a lightmap
+	{"nodlight", 0,  SURF_NODLIGHT, 0},     // don't ever add dynamic lights
 
 	{"monsterslicknorth",    0, SURF_MONSLICK_N,0},
 	{"monsterslickeast", 0, SURF_MONSLICK_E,0},
@@ -1358,11 +1357,11 @@ infoParm_t infoParms[] = {
 
 
 /*
-===============
+=======================================================================================================================================
 ParseSurfaceParm
 
 surfaceparm <name>
-===============
+=======================================================================================================================================
 */
 static void ParseSurfaceParm(char **text) {
 	char    *token;
@@ -1808,44 +1807,43 @@ static void ComputeStageIteratorFunc(void) {
 typedef struct {
 	int blendA;
 	int blendB;
-
 	int multitextureEnv;
 	int multitextureBlend;
 } collapse_t;
 
 static collapse_t collapse[] = {
 	{ 0, GLS_DSTBLEND_SRC_COLOR | GLS_SRCBLEND_ZERO,
-	  GL_MODULATE, 0 },
+	  GL_MODULATE, 0},
 
 	{ 0, GLS_DSTBLEND_ZERO | GLS_SRCBLEND_DST_COLOR,
-	  GL_MODULATE, 0 },
+	  GL_MODULATE, 0},
 
 	{ GLS_DSTBLEND_ZERO | GLS_SRCBLEND_DST_COLOR, GLS_DSTBLEND_ZERO | GLS_SRCBLEND_DST_COLOR,
-	  GL_MODULATE, GLS_DSTBLEND_ZERO | GLS_SRCBLEND_DST_COLOR },
+	  GL_MODULATE, GLS_DSTBLEND_ZERO | GLS_SRCBLEND_DST_COLOR},
 
 	{ GLS_DSTBLEND_SRC_COLOR | GLS_SRCBLEND_ZERO, GLS_DSTBLEND_ZERO | GLS_SRCBLEND_DST_COLOR,
-	  GL_MODULATE, GLS_DSTBLEND_ZERO | GLS_SRCBLEND_DST_COLOR },
+	  GL_MODULATE, GLS_DSTBLEND_ZERO | GLS_SRCBLEND_DST_COLOR},
 
 	{ GLS_DSTBLEND_ZERO | GLS_SRCBLEND_DST_COLOR, GLS_DSTBLEND_SRC_COLOR | GLS_SRCBLEND_ZERO,
-	  GL_MODULATE, GLS_DSTBLEND_ZERO | GLS_SRCBLEND_DST_COLOR },
+	  GL_MODULATE, GLS_DSTBLEND_ZERO | GLS_SRCBLEND_DST_COLOR},
 
 	{ GLS_DSTBLEND_SRC_COLOR | GLS_SRCBLEND_ZERO, GLS_DSTBLEND_SRC_COLOR | GLS_SRCBLEND_ZERO,
-	  GL_MODULATE, GLS_DSTBLEND_ZERO | GLS_SRCBLEND_DST_COLOR },
+	  GL_MODULATE, GLS_DSTBLEND_ZERO | GLS_SRCBLEND_DST_COLOR},
 
 	{ 0, GLS_DSTBLEND_ONE | GLS_SRCBLEND_ONE,
-	  GL_ADD, 0 },
+	  GL_ADD, 0},
 
 	{ GLS_DSTBLEND_ONE | GLS_SRCBLEND_ONE, GLS_DSTBLEND_ONE | GLS_SRCBLEND_ONE,
-	  GL_ADD, GLS_DSTBLEND_ONE | GLS_SRCBLEND_ONE },
+	  GL_ADD, GLS_DSTBLEND_ONE | GLS_SRCBLEND_ONE},
 #if 0
 	{ 0, GLS_DSTBLEND_ONE_MINUS_SRC_ALPHA | GLS_SRCBLEND_SRC_ALPHA,
-	  GL_DECAL, 0 },
+	  GL_DECAL, 0},
 #endif
-	{ -1 }
+	{ -1}
 };
 
 /*
-================
+=======================================================================================================================================
 CollapseMultitexture
 
 Attempt to combine two stages into a single multitexture stage
@@ -1963,7 +1961,7 @@ Arnout: this is a nasty issue. Shaders can be registered after drawsurfaces are 
 but before the frame is rendered. This will, for the duration of one frame, cause drawsurfaces
 to be rendered with bad shaders. To fix this, need to go through all render commands and fix
 sortedIndex.
-==============
+=======================================================================================================================================
 */
 static void FixRenderCommandList(int newShader) {
 	renderCommandList_t *cmdList = &backEndData->commands;
@@ -2032,7 +2030,7 @@ static void FixRenderCommandList(int newShader) {
 }
 
 /*
-==============
+=======================================================================================================================================
 SortNewShader
 
 Positions the most recently created shader in the tr.sortedShaders[]
@@ -2040,7 +2038,7 @@ array so that the shader->sort key is sorted relative to the other
 shaders.
 
 Sets shader->sortedIndex
-==============
+=======================================================================================================================================
 */
 static void SortNewShader(void) {
 	int i;
@@ -2067,9 +2065,9 @@ static void SortNewShader(void) {
 
 
 /*
-====================
+=======================================================================================================================================
 GeneratePermanentShader
-====================
+=======================================================================================================================================
 */
 static shader_t *GeneratePermanentShader(void) {
 	shader_t    *newShader;
@@ -2218,9 +2216,9 @@ static void VertexLightingCollapse(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 InitShader
-===============
+=======================================================================================================================================
 */
 static void InitShader(const char *name, int lightmapIndex) {
 	int i;
@@ -2363,7 +2361,6 @@ static shader_t *FinishShader(void) {
 			} else {
 				// we can't adjust this one correctly, so it won't be exactly correct in fog
 			}
-
 			// don't screw with sort order if this is a portal or environment
 			if (!shader.sort) {
 				// see through item, like a grill or grate
@@ -2434,7 +2431,7 @@ static shader_t *FinishShader(void) {
 //========================================================================================
 
 /*
-====================
+=======================================================================================================================================
 FindShaderInShaderText
 
 Scans the combined text description of all the shader files for
@@ -2443,7 +2440,7 @@ the given shader name.
 return NULL if not found
 
 If found, it will return a valid shader
-=====================
+=======================================================================================================================================
 */
 static char *FindShaderInShaderText(const char *shadername) {
 	char *p = s_shaderText;
@@ -2477,12 +2474,12 @@ static char *FindShaderInShaderText(const char *shadername) {
 }
 
 /*
-==================
+=======================================================================================================================================
 R_FindShaderByName
 
 Will always return a valid shader, but it might be the
 default shader if the real one can't be found.
-==================
+=======================================================================================================================================
 */
 shader_t *R_FindShaderByName(const char *name) {
 	char strippedName[MAX_QPATH];
@@ -2516,7 +2513,7 @@ shader_t *R_FindShaderByName(const char *name) {
 
 
 /*
-===============
+=======================================================================================================================================
 R_FindShader
 
 Will always return a valid shader, but it might be the
@@ -2541,7 +2538,7 @@ Other lightmapIndex values will have a lightmap stage created
 and src*dest blending applied with the texture, as apropriate for
 most world construction surfaces.
 
-===============
+=======================================================================================================================================
 */
 shader_t *R_FindShader(const char *name, int lightmapIndex, qboolean mipRawImage) {
 	char strippedName[MAX_QPATH];
@@ -2786,7 +2783,7 @@ qhandle_t RE_RegisterShaderFromImage(const char *name, int lightmapIndex, image_
 
 
 /*
-====================
+=======================================================================================================================================
 RE_RegisterShaderLightMap
 
 This is the exported shader entry point for the rest of the system
@@ -2794,7 +2791,7 @@ It will always return an index that will be valid.
 
 This should really only be used for explicit shaders, because there is no
 way to ask for different implicit lighting modes (vertex, lightmap, etc)
-====================
+=======================================================================================================================================
 */
 qhandle_t RE_RegisterShaderLightMap(const char *name, int lightmapIndex) {
 	shader_t    *sh;
@@ -2820,7 +2817,7 @@ qhandle_t RE_RegisterShaderLightMap(const char *name, int lightmapIndex) {
 
 
 /*
-====================
+=======================================================================================================================================
 RE_RegisterShader
 
 This is the exported shader entry point for the rest of the system
@@ -2828,7 +2825,7 @@ It will always return an index that will be valid.
 
 This should really only be used for explicit shaders, because there is no
 way to ask for different implicit lighting modes (vertex, lightmap, etc)
-====================
+=======================================================================================================================================
 */
 qhandle_t RE_RegisterShader(const char *name) {
 	shader_t    *sh;
@@ -2854,11 +2851,11 @@ qhandle_t RE_RegisterShader(const char *name) {
 
 
 /*
-====================
+=======================================================================================================================================
 RE_RegisterShaderNoMip
 
 For menu graphics that should never be picmiped
-====================
+=======================================================================================================================================
 */
 qhandle_t RE_RegisterShaderNoMip(const char *name) {
 	shader_t    *sh;
@@ -2884,12 +2881,12 @@ qhandle_t RE_RegisterShaderNoMip(const char *name) {
 
 
 /*
-====================
+=======================================================================================================================================
 R_GetShaderByHandle
 
 When a handle is passed in by another module, this range checks
 it and returns a valid (possibly default) shader_t to be used internally.
-====================
+=======================================================================================================================================
 */
 shader_t *R_GetShaderByHandle(qhandle_t hShader) {
 	if (hShader < 0) {
@@ -2904,12 +2901,12 @@ shader_t *R_GetShaderByHandle(qhandle_t hShader) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_ShaderList_f
 
 Dump information on all valid shaders to the console
 A second parameter will cause it to print in sorted order
-===============
+=======================================================================================================================================
 */
 void    R_ShaderList_f(void) {
 	int i;
@@ -2973,12 +2970,12 @@ void    R_ShaderList_f(void) {
 
 
 /*
-====================
+=======================================================================================================================================
 ScanAndLoadShaderFiles
 
 Finds and loads all .shader files, combining them into
 a single large text block that can be scanned for shader names
-=====================
+=======================================================================================================================================
 */
 #define MAX_SHADER_FILES    4096
 static void ScanAndLoadShaderFiles(void) {
@@ -3095,9 +3092,9 @@ static void ScanAndLoadShaderFiles(void) {
 
 
 /*
-====================
+=======================================================================================================================================
 CreateInternalShaders
-====================
+=======================================================================================================================================
 */
 static void CreateInternalShaders(void) {
 	tr.numShaders = 0;
@@ -3139,9 +3136,9 @@ static void CreateExternalShaders(void) {
 
 
 /*
-==================
+=======================================================================================================================================
 R_InitShaders
-==================
+=======================================================================================================================================
 */
 void R_InitShaders(void) {
 

@@ -73,9 +73,7 @@ typedef struct flare_s {
 	int frameSceneNum;
 	void        *surface;
 	int fogNum;
-
 	int fadeTime;
-
 	int flags;
 	// for coronas, the client determines current visibility, but it's still inserted so it will fade out properly
 
@@ -88,7 +86,6 @@ typedef struct flare_s {
 	vec3_t origin;
 	vec3_t color;
 	float scale;
-
 	int id;
 } flare_t;
 
@@ -100,9 +97,9 @@ flare_t     *r_activeFlares, *r_inactiveFlares;
 int flareCoeff;
 
 /*
-==================
+=======================================================================================================================================
 R_SetFlareCoeff
-==================
+=======================================================================================================================================
 */
 static void R_SetFlareCoeff(void) {
 
@@ -113,9 +110,9 @@ static void R_SetFlareCoeff(void) {
 }
 
 /*
-==================
+=======================================================================================================================================
 R_ClearFlares
-==================
+=======================================================================================================================================
 */
 void R_ClearFlares(void) {
 	int i;
@@ -134,11 +131,11 @@ void R_ClearFlares(void) {
 
 
 /*
-==================
+=======================================================================================================================================
 RB_AddFlare
 
 This is called at surface tesselation time
-==================
+=======================================================================================================================================
 */
 void RB_AddFlare(void *surface, int fogNum, vec3_t point, vec3_t color, float scale, vec3_t normal, int id, int flags) {  //----(SA)	added scale. added id.  added visible
 	int i;
@@ -239,9 +236,9 @@ void RB_AddFlare(void *surface, int fogNum, vec3_t point, vec3_t color, float sc
 }
 
 /*
-==================
+=======================================================================================================================================
 RB_AddDlightFlares
-==================
+=======================================================================================================================================
 */
 void RB_AddDlightFlares(void) {
 	dlight_t        *l;
@@ -288,9 +285,9 @@ void RB_AddDlightFlares(void) {
 
 
 /*
-==============
+=======================================================================================================================================
 RB_AddCoronaFlares
-==============
+=======================================================================================================================================
 */
 void RB_AddCoronaFlares(void) {
 	corona_t        *cor;
@@ -337,13 +334,13 @@ FLARE BACK END
 */
 
 /*
-==================
+=======================================================================================================================================
 RB_TestFlare
-==================
+=======================================================================================================================================
 */
 void RB_TestFlare(flare_t *f) {
 	float			depth;
-	qboolean		visible;
+	qboolean visible;
 	float			fade;
 	float			screenZ;
 	FBO_t           *oldFbo;
@@ -404,9 +401,9 @@ void RB_TestFlare(flare_t *f) {
 
 
 /*
-==================
+=======================================================================================================================================
 RB_RenderFlare
-==================
+=======================================================================================================================================
 */
 void RB_RenderFlare(flare_t *f) {
 	float size;
@@ -533,7 +530,7 @@ void RB_RenderFlare(flare_t *f) {
 }
 
 /*
-==================
+=======================================================================================================================================
 RB_RenderFlares
 
 Because flares are simulating an occular effect, they should be drawn after
@@ -546,7 +543,7 @@ flares after each view.
 The resulting artifact is that flares in mirrors or portals don't dim properly
 when occluded by something in the main view, and portal flares that should
 extend past the portal edge will be overwritten.
-==================
+=======================================================================================================================================
 */
 void RB_RenderFlares(void) {
 	flare_t     *f;

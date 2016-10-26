@@ -41,7 +41,7 @@ void RE_LoadWorldMap(const char *name);
 */
 
 static world_t s_worldData;
-static byte        *fileBase;
+static byte       *fileBase;
 
 int c_subdivisions;
 int c_gridVerts;
@@ -98,10 +98,10 @@ static void HSVtoRGB(float h, float s, float v, float rgb[3]) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_ColorShiftLightingBytes
 
-===============
+=======================================================================================================================================
 */
 static void R_ColorShiftLightingBytes(byte in[4], byte out[4]) {
 	int shift, r, g, b;
@@ -132,14 +132,14 @@ static void R_ColorShiftLightingBytes(byte in[4], byte out[4]) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_LoadLightmaps
 
-===============
+=======================================================================================================================================
 */
 #define LIGHTMAP_SIZE   128
 static void R_LoadLightmaps(lump_t *l) {
-	byte        *buf, *buf_p;
+	byte       *buf, *buf_p;
 	int len;
 	byte image[LIGHTMAP_SIZE * LIGHTMAP_SIZE * 4];
 	int i, j;
@@ -240,7 +240,7 @@ R_LoadVisibility
 */
 static void R_LoadVisibility(lump_t *l) {
 	int len;
-	byte    *buf;
+	byte   *buf;
 
 	len = (s_worldData.numClusters + 63) & ~63;
 	s_worldData.novis = ri.Hunk_Alloc(len, h_low);
@@ -260,7 +260,7 @@ static void R_LoadVisibility(lump_t *l) {
 	if (tr.externalVisData) {
 		s_worldData.vis = tr.externalVisData;
 	} else {
-		byte    *dest;
+		byte   *dest;
 
 		dest = ri.Hunk_Alloc(len - 8, h_low);
 		memcpy(dest, buf + 8, len - 8);
@@ -272,14 +272,13 @@ static void R_LoadVisibility(lump_t *l) {
 
 
 /*
-===============
+=======================================================================================================================================
 ShaderForShaderNum
-===============
+=======================================================================================================================================
 */
 static shader_t *ShaderForShaderNum(int shaderNum, int lightmapNum) {
 	shader_t    *shader;
 	dshader_t   *dsh;
-
 	int _shaderNum = LittleLong(shaderNum);
 	if (_shaderNum < 0 || _shaderNum >= s_worldData.numShaders) {
 		ri.Error(ERR_DROP, "ShaderForShaderNum: bad num %i", _shaderNum);
@@ -314,9 +313,9 @@ static int surfHunkSize;
 #define LL(x) LittleLong(x)
 
 /*
-==============
+=======================================================================================================================================
 R_InitSurfMemory
-==============
+=======================================================================================================================================
 */
 void R_InitSurfMemory(void) {
 	// allocate a new chunk
@@ -325,9 +324,9 @@ void R_InitSurfMemory(void) {
 }
 
 /*
-==============
+=======================================================================================================================================
 R_GetSurfMemory
-==============
+=======================================================================================================================================
 */
 void *R_GetSurfMemory(int size) {
 	byte *retval;
@@ -348,9 +347,9 @@ void *R_GetSurfMemory(int size) {
 }
 
 /*
-===============
+=======================================================================================================================================
 ParseFace
-===============
+=======================================================================================================================================
 */
 static void ParseFace(dsurface_t *ds, drawVert_t *verts, msurface_t *surf, int *indexes ) {
 	int i, j;
@@ -422,9 +421,9 @@ static void ParseFace(dsurface_t *ds, drawVert_t *verts, msurface_t *surf, int *
 
 
 /*
-===============
+=======================================================================================================================================
 ParseMesh
-===============
+=======================================================================================================================================
 */
 static void ParseMesh(dsurface_t *ds, drawVert_t *verts, msurface_t *surf) {
 	srfGridMesh_t   *grid;
@@ -489,9 +488,9 @@ static void ParseMesh(dsurface_t *ds, drawVert_t *verts, msurface_t *surf) {
 }
 
 /*
-===============
+=======================================================================================================================================
 ParseTriSurf
-===============
+=======================================================================================================================================
 */
 static void ParseTriSurf(dsurface_t *ds, drawVert_t *verts, msurface_t *surf, int *indexes) {
 	srfTriangles_t  *tri;
@@ -551,9 +550,9 @@ static void ParseTriSurf(dsurface_t *ds, drawVert_t *verts, msurface_t *surf, in
 }
 
 /*
-===============
+=======================================================================================================================================
 ParseFlare
-===============
+=======================================================================================================================================
 */
 static void ParseFlare(dsurface_t *ds, drawVert_t *verts, msurface_t *surf, int *indexes) {
 	srfFlare_t      *flare;
@@ -834,9 +833,9 @@ void R_FixSharedVertexLodError(void) {
 
 
 /*
-===============
+=======================================================================================================================================
 R_StitchPatches
-===============
+=======================================================================================================================================
 */
 int R_StitchPatches(int grid1num, int grid2num) {
 	int k, l, m, n, offset1, offset2, row, column;
@@ -1346,7 +1345,7 @@ int R_StitchPatches(int grid1num, int grid2num) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_TryStitchPatch
 
 This function will try to stitch patches in the same LoD group together for the highest LoD.
@@ -1356,7 +1355,7 @@ Only single missing vertice cracks will be fixed.
 Vertices will be joined at the patch side a crack is first found, at the other side
 of the patch (on the same row or column) the vertices will not be joined and cracks
 might still appear at that side.
-===============
+=======================================================================================================================================
 */
 int R_TryStitchingPatch(int grid1num) {
 	int j, numstitches;
@@ -1395,9 +1394,9 @@ int R_TryStitchingPatch(int grid1num) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_StitchAllPatches
-===============
+=======================================================================================================================================
 */
 void R_StitchAllPatches(void) {
 	int i, stitched, numstitches;
@@ -1430,9 +1429,9 @@ void R_StitchAllPatches(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_MovePatchSurfacesToHunk
-===============
+=======================================================================================================================================
 */
 void R_MovePatchSurfacesToHunk(void) {
 	int i, size;
@@ -1463,9 +1462,9 @@ void R_MovePatchSurfacesToHunk(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_LoadSurfaces
-===============
+=======================================================================================================================================
 */
 static void R_LoadSurfaces(lump_t *surfs, lump_t *verts, lump_t *indexLump) {
 	dsurface_t  *in;
@@ -1894,9 +1893,9 @@ static void R_LoadFogs(lump_t *l, lump_t *brushesLump, lump_t *sidesLump) {
 
 
 /*
-==============
+=======================================================================================================================================
 R_FindLightGridBounds
-==============
+=======================================================================================================================================
 */
 void R_FindLightGridBounds(vec3_t mins, vec3_t maxs) {
 	world_t *w;
@@ -1997,10 +1996,10 @@ void R_FindLightGridBounds(vec3_t mins, vec3_t maxs) {
 }
 
 /*
-================
+=======================================================================================================================================
 R_LoadLightGrid
 
-================
+=======================================================================================================================================
 */
 void R_LoadLightGrid(lump_t *l) {
 	int i;
@@ -2047,9 +2046,9 @@ void R_LoadLightGrid(lump_t *l) {
 }
 
 /*
-================
+=======================================================================================================================================
 R_LoadEntities
-================
+=======================================================================================================================================
 */
 void R_LoadEntities(lump_t *l) {
 	char *p, *token, *s;
@@ -2160,7 +2159,7 @@ void RE_LoadWorldMap(const char *name) {
 		byte *b;
 		void *v;
 	} buffer;
-	byte        *startMarker;
+	byte       *startMarker;
 
 	skyboxportal = 0;
 

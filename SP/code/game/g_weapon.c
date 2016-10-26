@@ -1121,8 +1121,7 @@ gentity_t *weapon_grenadelauncher_fire(gentity_t *ent, int grenType) {
 // JPW NERVE
 	} else if (grenType == WP_GRENADE_SMOKE) { // smoke grenades *really * get chucked
 		upangle *= 800;
-	}
-	else {    // WP_DYNAMITE
+	} else {    // WP_DYNAMITE
 		upangle *= 400;    // 									0.0 / 100.0
 
 	}
@@ -1628,7 +1627,7 @@ void FireWeapon(gentity_t *ent) {
 // ---- (SA)	removing old weapon references
 // if (ent->s.weapon != WP_GRAPPLING_HOOK && ent->s.weapon != WP_GAUNTLET) {
 // 	ent->client->ps.persistant[PERS_ACCURACY_SHOTS]++;
-// }
+//}
 	// need to call this for AI prediction also
 	CalcMuzzlePoints(ent, ent->s.weapon);
 

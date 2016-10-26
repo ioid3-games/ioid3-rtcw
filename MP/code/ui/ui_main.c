@@ -3704,7 +3704,7 @@ static void UI_LoadDemos(void) {
                         	Com_sprintf(demoExt, sizeof(demoExt), ".%s%d", DEMOEXT, protocolLegacy);
                         	uiInfo.demoCount += trap_FS_GetFileList("demos", demoExt, demolist, ARRAY_LEN(demolist));
                         	demoname = demolist;
-                      }
+                     }
                         else
                                 break;
 		}

@@ -72,9 +72,9 @@ textureMode_t modes[] = {
 };
 
 /*
-================
+=======================================================================================================================================
 return a hash value for the filename
-================
+=======================================================================================================================================
 */
 static long generateHashValue(const char *fname) {
 	int i;
@@ -99,9 +99,9 @@ static long generateHashValue(const char *fname) {
 }
 
 /*
-===============
+=======================================================================================================================================
 GL_TextureMode
-===============
+=======================================================================================================================================
 */
 void GL_TextureMode(const char *string) {
 	int i;
@@ -140,9 +140,9 @@ void GL_TextureMode(const char *string) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_SumOfUsedImages
-===============
+=======================================================================================================================================
 */
 int R_SumOfUsedImages(void) {
 	int total;
@@ -159,9 +159,9 @@ int R_SumOfUsedImages(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_ImageList_f
-===============
+=======================================================================================================================================
 */
 void R_ImageList_f(void) {
 	int i;
@@ -336,7 +336,7 @@ void R_ImageList_f(void) {
 //=======================================================================
 
 /*
-================
+=======================================================================================================================================
 ResampleTexture
 
 Used to resample images in a more general than quartering fashion.
@@ -346,7 +346,7 @@ is greater than half the original size.
 
 If a larger shrinking is needed, use the mipmap function
 before or after.
-================
+=======================================================================================================================================
 */
 static void ResampleTexture(byte *in, int inwidth, int inheight, byte *out,
 							 int outwidth, int outheight) {
@@ -395,8 +395,8 @@ static void RGBAtoYCoCgA(const byte *in, byte *out, int width, int height)
 
 	for (y = 0; y < height; y++)
 	{
-		const byte *inbyte  = in  + y * width * 4;
-		byte       *outbyte = out + y * width * 4;
+		const byte *inbyte = in  + y * width * 4;
+		byte      *outbyte = out + y * width * 4;
 
 		for (x = 0; x < width; x++)
 		{
@@ -422,8 +422,8 @@ static void YCoCgAtoRGBA(const byte *in, byte *out, int width, int height)
 
 	for (y = 0; y < height; y++)
 	{
-		const byte *inbyte  = in  + y * width * 4;
-		byte       *outbyte = out + y * width * 4;
+		const byte *inbyte = in  + y * width * 4;
+		byte      *outbyte = out + y * width * 4;
 
 		for (x = 0; x < width; x++)
 		{
@@ -453,8 +453,8 @@ static void RGBAtoNormal(const byte *in, byte *out, int width, int height, qbool
 	max = 1;
 	for (y = 0; y < height; y++)
 	{
-		const byte *inbyte  = in  + y * width * 4;
-		byte       *outbyte = out + y * width * 4 + 3;
+		const byte *inbyte = in  + y * width * 4;
+		byte      *outbyte = out + y * width * 4 + 3;
 
 		for (x = 0; x < width; x++)
 		{
@@ -463,7 +463,7 @@ static void RGBAtoNormal(const byte *in, byte *out, int width, int height, qbool
 			*outbyte = result;
 			max = MAX(max, *outbyte);
 			outbyte += 4;
-			inbyte  += 4;
+			inbyte += 4;
 		}
 	}
 
@@ -569,7 +569,7 @@ static void DoFCBI(byte *in, byte *out, int width, int height, int component)
 	// copy in to out
 	for (y = 2; y < height - 2; y += 2)
 	{
-		inbyte  = in  + (y * width + 2) * 4 + component;
+		inbyte = in  + (y * width + 2) * 4 + component;
 		outbyte = out + (y * width + 2) * 4 + component;
 
 		for (x = 2; x < width - 2; x += 2)
@@ -879,7 +879,7 @@ static void DoFCBIQuick(byte *in, byte *out, int width, int height, int componen
 	// copy in to out
 	for (y = 2; y < height - 2; y += 2)
 	{
-		inbyte  = in  + (y * width + 2) * 4 + component;
+		inbyte = in  + (y * width + 2) * 4 + component;
 		outbyte = out + (y * width + 2) * 4 + component;
 
 		for (x = 2; x < width - 2; x += 2)
@@ -932,7 +932,7 @@ static void DoFCBIQuick(byte *in, byte *out, int width, int height, int componen
 	// hack: copy out to in again
 	for (y = 3; y < height - 3; y += 2)
 	{
-		inbyte  = out + (y * width + 3) * 4 + component;
+		inbyte = out + (y * width + 3) * 4 + component;
 		outbyte = in  + (y * width + 3) * 4 + component;
 
 		for (x = 3; x < width - 3; x += 2)
@@ -995,7 +995,7 @@ static void DoLinear(byte *in, byte *out, int width, int height)
 	{
 		x = 2;
 
-		inbyte  = in  + (y * width + x) * 4;
+		inbyte = in  + (y * width + x) * 4;
 		outbyte = out + (y * width + x) * 4;
 
 		for (; x < width - 2; x += 2)
@@ -1008,7 +1008,7 @@ static void DoLinear(byte *in, byte *out, int width, int height)
 
 	for (y = 1; y < height - 1; y += 2)
 	{
-		byte sd[4] = { 0 }, se[4] = { 0 }, sh[4] = { 0 }, si[4] = { 0 };
+		byte sd[4] = { 0}, se[4] = { 0}, sh[4] = { 0}, si[4] = { 0};
 		byte *line2, *line3;
 
 		x = 1;
@@ -1043,7 +1043,7 @@ static void DoLinear(byte *in, byte *out, int width, int height)
 	{
 		x = 1;
 
-		inbyte  = out + (y * width + x) * 4;
+		inbyte = out + (y * width + x) * 4;
 		outbyte = in  + (y * width + x) * 4;
 
 		for (; x < width - 1; x += 2)
@@ -1095,7 +1095,7 @@ static void ExpandHalfTextureToGrid(byte *data, int width, int height)
 	for (y = height / 2; y > 0; y--)
 	{
 		byte *outbyte = data + ((y * 2 - 1) * (width)     - 2) * 4;
-		byte *inbyte  = data + (y           * (width / 2) - 1) * 4;
+		byte *inbyte = data + (y           * (width / 2) - 1) * 4;
 
 		for (x = width / 2; x > 0; x--)
 		{
@@ -1113,8 +1113,8 @@ static void FillInNormalizedZ(const byte *in, byte *out, int width, int height)
 
 	for (y = 0; y < height; y++)
 	{
-		const byte *inbyte  = in  + y * width * 4;
-		byte       *outbyte = out + y * width * 4;
+		const byte *inbyte = in  + y * width * 4;
+		byte      *outbyte = out + y * width * 4;
 
 		for (x = 0; x < width; x++)
 		{
@@ -1191,7 +1191,7 @@ static void FCBIByBlock(byte *data, int width, int height, qboolean clampToEdge,
 				}
 
 				outbyte = workdata + y2   * fullworkwidth * 4;
-				inbyte  = data     + srcy * width         * 4;		
+				inbyte = data     + srcy * width         * 4;		
 
 				for (x2 = 0; x2 < fullworkwidth; x2 += 2)
 				{
@@ -1210,7 +1210,6 @@ static void FCBIByBlock(byte *data, int width, int height, qboolean clampToEdge,
 					outbyte += 8;
 				}
 			}
-
 			// submit work block
 			DoLinear(workdata, outdata, fullworkwidth, fullworkheight);
 
@@ -1246,7 +1245,6 @@ static void FCBIByBlock(byte *data, int width, int height, qboolean clampToEdge,
 						break;
 				}
 			}
-
 			// copy back work block
 			for (y2 = 0; y2 < workheight; y2++)
 			{
@@ -1265,19 +1263,19 @@ static void FCBIByBlock(byte *data, int width, int height, qboolean clampToEdge,
 #undef COPYSAMPLE
 
 /*
-================
+=======================================================================================================================================
 R_LightScaleTexture
 
 Scale up the pixel values in a texture to increase the
 lighting range
-================
+=======================================================================================================================================
 */
 void R_LightScaleTexture (byte *in, int inwidth, int inheight, qboolean only_gamma)
 {
 	if (only_gamma) {
 		if (!glConfig.deviceSupportsGamma) {
 			int i, c;
-			byte    *p;
+			byte   *p;
 
 			p = in;
 
@@ -1292,7 +1290,7 @@ void R_LightScaleTexture (byte *in, int inwidth, int inheight, qboolean only_gam
 	} else
 	{
 		int i, c;
-		byte    *p;
+		byte   *p;
 
 		p = in;
 
@@ -1319,12 +1317,12 @@ void R_LightScaleTexture (byte *in, int inwidth, int inheight, qboolean only_gam
 
 
 /*
-================
+=======================================================================================================================================
 R_MipMapsRGB
 
 Operates in place, quartering the size of the texture
 Colors are gamma correct
-================
+=======================================================================================================================================
 */
 static void R_MipMapsRGB(byte *in, int inWidth, int inHeight)
 {
@@ -1427,9 +1425,9 @@ static void R_MipMapNormalHeight (const byte *in, byte *out, int width, int heig
 }
 
 /*
-================
+=======================================================================================================================================
 R_RMSE
-================
+=======================================================================================================================================
 */
 #if 0 // FIXME
 static float R_RMSE(byte *in, int width, int height) {
@@ -1475,11 +1473,11 @@ static float R_RMSE(byte *in, int width, int height) {
 
 
 /*
-==================
+=======================================================================================================================================
 R_BlendOverTexture
 
 Apply a color blend over a set of pixels
-==================
+=======================================================================================================================================
 */
 static void R_BlendOverTexture(byte *data, int pixelCount, byte blend[4]) {
 	int i;
@@ -1533,10 +1531,10 @@ static void RawImage_SwizzleRA(byte *data, int width, int height)
 
 
 /*
-===============
+=======================================================================================================================================
 RawImage_ScaleToPower2
 
-===============
+=======================================================================================================================================
 */
 static qboolean RawImage_ScaleToPower2(byte **data, int *inout_width, int *inout_height, imgType_t type, imgFlags_t flags, byte **resampledBuffer)
 {
@@ -1572,8 +1570,7 @@ static qboolean RawImage_ScaleToPower2(byte **data, int *inout_width, int *inout
 	{
 		scaled_width = width;
 		scaled_height = height;
-	}
-	else
+	} else
 	{
 		scaled_width = NextPowerOfTwo(width);
 		scaled_height = NextPowerOfTwo(height);
@@ -1635,8 +1632,7 @@ static qboolean RawImage_ScaleToPower2(byte **data, int *inout_width, int *inout
 		//ri.Printf(PRINT_ALL, "upsampled %dx%d to %dx%d in %dms\n", width, height, scaled_width, scaled_height, endTime - startTime);
 
 		*data = *resampledBuffer;
-	}
-	else if (scaled_width != width || scaled_height != height)
+	} else if (scaled_width != width || scaled_height != height)
 	{
 		if (data && resampledBuffer)
 		{
@@ -1780,15 +1776,13 @@ static GLenum RawImage_GetFormat(const byte *data, int numPixels, GLenum picForm
 				internalFormat = GL_RGB;
 			}
 		}
-	}
-	else if(lightMap)
+	} else if(lightMap)
 	{
 		if(r_greyscale->integer)
 			internalFormat = GL_LUMINANCE;
 		else
 			internalFormat = GL_RGBA;
-	}
-	else
+	} else
 	{
 		if (RawImage_HasAlpha(data, numPixels))
 		{
@@ -1906,7 +1900,7 @@ static void CompressMonoBlock(byte outdata[8], const byte indata[16])
 	outbyte = shift = 0;
 	for (i = 0; i < 16; i++)
 	{
-		const byte fixIndex[8] = { 1, 7, 6, 5, 4, 3, 2, 0 };
+		const byte fixIndex[8] = { 1, 7, 6, 5, 4, 3, 2, 0};
 		byte index = fixIndex[(indata[i] * 7 + bias) / diff];
 
 		outbyte |= index << shift;
@@ -2091,10 +2085,10 @@ static void RawImage_UploadTexture(GLuint texture, byte *data, int x, int y, int
 
 
 /*
-===============
+=======================================================================================================================================
 Upload32
 
-===============
+=======================================================================================================================================
 */
 static void Upload32(byte *data, int x, int y, int width, int height, GLenum picFormat, int numMips, image_t *image, qboolean scaled)
 {
@@ -2136,7 +2130,6 @@ static void Upload32(byte *data, int x, int y, int width, int height, GLenum pic
 					scan[i*4 + 2] = LERP(scan[i*4 + 2], luma, r_greyscale->value);
 				}
 			}
-
 			// This corresponds to what the OpenGL1 renderer does.
 			if (!(flags & IMGFLAG_NOLIGHTSCALE) && (scaled || mipmap))
 				R_LightScaleTexture(data, width, height, !mipmap);
@@ -2159,8 +2152,7 @@ static void Upload32(byte *data, int x, int y, int width, int height, GLenum pic
 				h2 = MAX(1, h2 >> 1);
 			}
 		}
-	}
-	else
+	} else
 	{
 		RawImage_UploadTexture(image->texnum, data, x, y, width, height, GL_TEXTURE_2D, picFormat, numMips, internalFormat, type, flags, qfalse);
 	}
@@ -2170,23 +2162,23 @@ static void Upload32(byte *data, int x, int y, int width, int height, GLenum pic
 
 
 /*
-================
+=======================================================================================================================================
 R_CreateImage2
 
 This is the only way any image_t are created
-================
+=======================================================================================================================================
 */
 image_t *R_CreateImage2(const char *name, byte *pic, int width, int height, GLenum picFormat, int numMips, imgType_t type, imgFlags_t flags, int internalFormat) {
-	byte       *resampledBuffer = NULL;
+	byte      *resampledBuffer = NULL;
 	image_t    *image;
-	qboolean    isLightmap = qfalse, scaled = qfalse;
+	qboolean isLightmap = qfalse, scaled = qfalse;
 	long        hash;
 	int         glWrapClampMode, mipWidth, mipHeight, miplevel;
-	qboolean    rgba8 = picFormat == GL_RGBA8 || picFormat == GL_SRGB8_ALPHA8_EXT;
-	qboolean    mipmap = !!(flags & IMGFLAG_MIPMAP);
-	qboolean    cubemap = !!(flags & IMGFLAG_CUBEMAP);
-	qboolean    picmip = !!(flags & IMGFLAG_PICMIP);
-	qboolean    lastMip;
+	qboolean rgba8 = picFormat == GL_RGBA8 || picFormat == GL_SRGB8_ALPHA8_EXT;
+	qboolean mipmap = !!(flags & IMGFLAG_MIPMAP);
+	qboolean cubemap = !!(flags & IMGFLAG_CUBEMAP);
+	qboolean picmip = !!(flags & IMGFLAG_PICMIP);
+	qboolean lastMip;
 	GLenum textureTarget = cubemap ? GL_TEXTURE_CUBE_MAP : GL_TEXTURE_2D;
 	GLenum dataFormat;
 
@@ -2319,11 +2311,11 @@ image_t *R_CreateImage2(const char *name, byte *pic, int width, int height, GLen
 
 
 /*
-================
+=======================================================================================================================================
 R_CreateImage
 
 Wrapper for R_CreateImage2(), for the old parameters.
-================
+=======================================================================================================================================
 */
 image_t *R_CreateImage(const char *name, byte *pic, int width, int height, imgType_t type, imgFlags_t flags, int internalFormat)
 {
@@ -2351,12 +2343,12 @@ typedef struct
 // when there are multiple images of different formats available
 static imageExtToLoaderMap_t imageLoaders[ ] =
 {
-	{ "tga",  R_LoadTGA },
-	{ "jpg",  R_LoadJPG },
-	{ "jpeg", R_LoadJPG },
-	{ "png",  R_LoadPNG },
-	{ "pcx",  R_LoadPCX },
-	{ "bmp",  R_LoadBMP }
+	{ "tga",  R_LoadTGA},
+	{ "jpg",  R_LoadJPG},
+	{ "jpeg", R_LoadJPG},
+	{ "png",  R_LoadPNG},
+	{ "pcx",  R_LoadPCX},
+	{ "bmp",  R_LoadBMP}
 };
 
 static int numImageLoaders = ARRAY_LEN(imageLoaders);
@@ -2462,18 +2454,18 @@ void R_LoadImage(const char *name, byte **pic, int *width, int *height, GLenum *
 
 
 /*
-===============
+=======================================================================================================================================
 R_FindImageFile
 
 Finds or loads the given image.
 Returns NULL if it fails, not a default image.
-==============
+=======================================================================================================================================
 */
 image_t	*R_FindImageFile(const char *name, imgType_t type, imgFlags_t flags)
 {
 	image_t *image;
 	int width, height;
-	byte    *pic;
+	byte   *pic;
 	GLenum  picFormat;
 	int picNumMips;
 	long hash;
@@ -2542,13 +2534,13 @@ image_t	*R_FindImageFile(const char *name, imgType_t type, imgFlags_t flags)
 			RGBAtoYCoCgA(pic, pic, width, height);
 			for (y = 0; y < height; y++)
 			{
-				byte *picbyte  = pic       + y * width * 4;
+				byte *picbyte = pic       + y * width * 4;
 				byte *normbyte = normalPic + y * width * 4;
 				for (x = 0; x < width; x++)
 				{
 					int div = MAX(normbyte[2] - 127, 16);
 					picbyte[0] = CLAMP(picbyte[0] * 128 / div, 0, 255);
-					picbyte  += 4;
+					picbyte += 4;
 					normbyte += 4;
 				}
 			}
@@ -2563,7 +2555,7 @@ image_t	*R_FindImageFile(const char *name, imgType_t type, imgFlags_t flags)
 
 				for (y = 1; y < height - 1; y++)
 				{
-					byte *picbyte  = pic     + y * width * 4;
+					byte *picbyte = pic     + y * width * 4;
 					byte *blurbyte = blurPic + y * width;
 
 					picbyte += 4;
@@ -2574,7 +2566,7 @@ image_t	*R_FindImageFile(const char *name, imgType_t type, imgFlags_t flags)
 						int result;
 
 						result = *(picbyte - (width + 1) * 4) + *(picbyte - width * 4) + *(picbyte - (width - 1) * 4) +
-						         *(picbyte -          1  * 4) + *(picbyte           ) + *(picbyte +          1  * 4) +
+						         *(picbyte -          1  * 4) + *(picbyte          ) + *(picbyte +          1  * 4) +
 						         *(picbyte + (width - 1) * 4) + *(picbyte + width * 4) + *(picbyte + (width + 1) * 4);
 
 						result /= 9;
@@ -2589,7 +2581,7 @@ image_t	*R_FindImageFile(const char *name, imgType_t type, imgFlags_t flags)
 
 				for (y = 1; y < height - 1; y++)
 				{
-					byte *picbyte  = pic     + y * width * 4;
+					byte *picbyte = pic     + y * width * 4;
 					byte *blurbyte = blurPic + y * width;
 
 					picbyte += 4;
@@ -2635,9 +2627,9 @@ image_t	*R_FindImageFile(const char *name, imgType_t type, imgFlags_t flags)
 
 
 /*
-================
+=======================================================================================================================================
 R_CreateDlightImage
-================
+=======================================================================================================================================
 */
 #define DLIGHT_SIZE 16
 static void R_CreateDlightImage(void) {
@@ -2688,13 +2680,13 @@ void R_InitFogTable(void) {
 }
 
 /*
-================
+=======================================================================================================================================
 R_FogFactor
 
 Returns a 0.0 to 1.0 fog density value
 This is called for each texel of the fog texture on startup
 and for each vertex of transparent shaders in fog dynamically
-================
+=======================================================================================================================================
 */
 float   R_FogFactor(float s, float t) {
 	float d;
@@ -2723,15 +2715,15 @@ float   R_FogFactor(float s, float t) {
 }
 
 /*
-================
+=======================================================================================================================================
 R_CreateFogImage
-================
+=======================================================================================================================================
 */
 #define FOG_S   256
 #define FOG_T   32
 static void R_CreateFogImage(void) {
 	int x,y;
-	byte    *data;
+	byte   *data;
 	float d;
 
 	data = ri.Hunk_AllocateTempMemory(FOG_S * FOG_T * 4);
@@ -2752,9 +2744,9 @@ static void R_CreateFogImage(void) {
 }
 
 /*
-==================
+=======================================================================================================================================
 R_CreateDefaultImage
-==================
+=======================================================================================================================================
 */
 #define DEFAULT_SIZE    16
 static void R_CreateDefaultImage(void) {
@@ -2788,9 +2780,9 @@ static void R_CreateDefaultImage(void) {
 }
 
 /*
-==================
+=======================================================================================================================================
 R_CreateBuiltinImages
-==================
+=======================================================================================================================================
 */
 void R_CreateBuiltinImages(void) {
 	int x,y;
@@ -2916,9 +2908,9 @@ void R_CreateBuiltinImages(void) {
 
 
 /*
-===============
+=======================================================================================================================================
 R_SetColorMappings
-===============
+=======================================================================================================================================
 */
 void R_SetColorMappings(void) {
 	int i, j;
@@ -2986,9 +2978,9 @@ void R_SetColorMappings(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_InitImages
-===============
+=======================================================================================================================================
 */
 void    R_InitImages(void) {
 	memset(hashTable, 0, sizeof(hashTable));
@@ -3001,9 +2993,9 @@ void    R_InitImages(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_DeleteTextures
-===============
+=======================================================================================================================================
 */
 void R_DeleteTextures(void) {
 	int i;
@@ -3027,12 +3019,12 @@ SKINS
 */
 
 /*
-==================
+=======================================================================================================================================
 CommaParse
 
 This is unfortunate, but the skin files aren't
 compatable with our normal parsing rules.
-==================
+=======================================================================================================================================
 */
 static char *CommaParse(char **data_p) {
 	int c = 0, len;
@@ -3128,9 +3120,9 @@ static char *CommaParse(char **data_p) {
 
 //----(SA) added so client can see what model or scale for the model was specified in a skin
 /*
-==============
+=======================================================================================================================================
 RE_GetSkinModel
-==============
+=======================================================================================================================================
 */
 qboolean RE_GetSkinModel(qhandle_t skinid, const char *type, char *name) {
 	int i;
@@ -3158,14 +3150,14 @@ qboolean RE_GetSkinModel(qhandle_t skinid, const char *type, char *name) {
 }
 
 /*
-==============
+=======================================================================================================================================
 RE_GetShaderFromModel
 	return a shader index for a given model's surface
 	'withlightmap' set to '0' will create a new shader that is a copy of the one found
 	on the model, without the lighmap stage, if the shader has a lightmap stage
 
 	NOTE: only works for bmodels right now.  Could modify for other models (md3's etc.)
-==============
+=======================================================================================================================================
 */
 qhandle_t RE_GetShaderFromModel(qhandle_t modelid, int surfnum, int withlightmap) {
 //	model_t     *model;
@@ -3217,10 +3209,10 @@ qhandle_t RE_GetShaderFromModel(qhandle_t modelid, int surfnum, int withlightmap
 //----(SA) end
 
 /*
-===============
+=======================================================================================================================================
 RE_RegisterSkin
 
-===============
+=======================================================================================================================================
 */
 qhandle_t RE_RegisterSkin(const char *name) {
 	qhandle_t hSkin;
@@ -3379,9 +3371,9 @@ qhandle_t RE_RegisterSkin(const char *name) {
 
 
 /*
-===============
+=======================================================================================================================================
 R_InitSkins
-===============
+=======================================================================================================================================
 */
 void    R_InitSkins(void) {
 	skin_t      *skin;
@@ -3397,9 +3389,9 @@ void    R_InitSkins(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_GetSkinByHandle
-===============
+=======================================================================================================================================
 */
 skin_t  *R_GetSkinByHandle(qhandle_t hSkin) {
 	if (hSkin < 1 || hSkin >= tr.numSkins) {
@@ -3409,9 +3401,9 @@ skin_t  *R_GetSkinByHandle(qhandle_t hSkin) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_SkinList_f
-===============
+=======================================================================================================================================
 */
 void    R_SkinList_f(void) {
 	int i, j;
@@ -3440,8 +3432,8 @@ SaveTGA
 =============
 */
 void SaveTGA(char *name, byte **pic, int width, int height) {
-	byte    *inpixel, *outpixel;
-	byte    *outbuf, *b;
+	byte   *inpixel, *outpixel;
+	byte   *outbuf, *b;
 
 	outbuf = ri.Hunk_AllocateTempMemory(width * height * 4 + 18);
 	b = outbuf;
@@ -3493,8 +3485,8 @@ SaveTGAAlpha
 =============
 */
 void SaveTGAAlpha(char *name, byte **pic, int width, int height) {
-	byte    *inpixel, *outpixel;
-	byte    *outbuf, *b;
+	byte   *inpixel, *outpixel;
+	byte   *outbuf, *b;
 
 	outbuf = ri.Hunk_AllocateTempMemory(width * height * 4 + 18);
 	b = outbuf;
@@ -3539,9 +3531,9 @@ void SaveTGAAlpha(char *name, byte **pic, int width, int height) {
 }
 
 /*
-==============
+=======================================================================================================================================
 R_CropImage
-==============
+=======================================================================================================================================
 */
 #define CROPIMAGES_ENABLED
 //#define FUNNEL_HACK
@@ -3553,7 +3545,7 @@ qboolean R_CropImage(char *name, byte **pic, int border, int *width, int *height
 #ifdef CROPIMAGES_ENABLED
 	int row, col;
 	int rows, cols;
-	byte    *inpixel, *temppic, *outpixel;
+	byte   *inpixel, *temppic, *outpixel;
 	int mins[2], maxs[2];
 	int diff[2];
 	//int	newWidth;
@@ -3860,9 +3852,9 @@ qboolean R_CropImage(char *name, byte **pic, int border, int *width, int *height
 
 
 /*
-===============
+=======================================================================================================================================
 R_CropAndNumberImagesInDirectory
-===============
+=======================================================================================================================================
 */
 void    R_CropAndNumberImagesInDirectory(char *dir, char *ext, int maxWidth, int maxHeight, int withAlpha) {
 #ifdef CROPIMAGES_ENABLED
@@ -3871,7 +3863,7 @@ void    R_CropAndNumberImagesInDirectory(char *dir, char *ext, int maxWidth, int
 #ifndef RESIZE
 	int i;
 #endif
-	byte    *pic, *temppic;
+	byte   *pic, *temppic;
 	int width, height, newWidth, newHeight;
 	GLenum  picFormat;
 	int picNumMips;
@@ -3974,9 +3966,9 @@ void    R_CropAndNumberImagesInDirectory(char *dir, char *ext, int maxWidth, int
 }
 
 /*
-==============
+=======================================================================================================================================
 R_CropImages_f
-==============
+=======================================================================================================================================
 */
 void R_CropImages_f(void) {
 #ifdef CROPIMAGES_ENABLED

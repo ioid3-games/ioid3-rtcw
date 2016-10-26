@@ -39,7 +39,7 @@ If you have questions concerning this license or the applicable additional terms
 #endif
 
 int demo_protocols[] =
-{ 59, 58, 57, 0 };
+{ 59, 58, 57, 0};
 
 #define MAX_NUM_ARGVS   50
 
@@ -128,10 +128,10 @@ int time_backend;           // renderer backend time
 int com_frameTime;
 int com_frameNumber;
 
-qboolean	com_errorEntered = qfalse;
-qboolean	com_fullyInitialized = qfalse;
-qboolean	com_gameRestarting = qfalse;
-qboolean	com_gameClientRestarting = qfalse;
+qboolean com_errorEntered = qfalse;
+qboolean com_fullyInitialized = qfalse;
+qboolean com_gameRestarting = qfalse;
+qboolean com_gameClientRestarting = qfalse;
 
 char com_errorMessage[MAXPRINTMSG];
 
@@ -245,11 +245,11 @@ void QDECL Com_Printf(const char *fmt, ...) {
 
 
 /*
-================
+=======================================================================================================================================
 Com_DPrintf
 
 A Com_Printf that only shows up if the "developer" cvar is set
-================
+=======================================================================================================================================
 */
 void QDECL Com_DPrintf(const char *fmt, ...) {
 	va_list argptr;
@@ -426,11 +426,11 @@ int com_numConsoleLines;
 char    *com_consoleLines[MAX_CONSOLE_LINES];
 
 /*
-==================
+=======================================================================================================================================
 Com_ParseCommandLine
 
 Break it up into multiple console lines
-==================
+=======================================================================================================================================
 */
 void Com_ParseCommandLine(char *commandLine) {
 	com_consoleLines[0] = commandLine;
@@ -476,7 +476,7 @@ qboolean Com_SafeMode(void) {
 
 
 /*
-===============
+=======================================================================================================================================
 Com_StartupVariable
 
 Searches for command line parameters that are set commands.
@@ -484,7 +484,7 @@ If match is not NULL, only that cvar will be looked for.
 That is necessary because cddir and basedir need to be set
 before the filesystem is started, but all other sets should
 be after execing the config and default.
-===============
+=======================================================================================================================================
 */
 void Com_StartupVariable(const char *match) {
 	int i;
@@ -589,9 +589,9 @@ void Info_Print(const char *s) {
 }
 
 /*
-============
+=======================================================================================================================================
 Com_StringContains
-============
+=======================================================================================================================================
 */
 char *Com_StringContains(char *str1, char *str2, int casesensitive) {
 	int len, i, j;
@@ -617,9 +617,9 @@ char *Com_StringContains(char *str1, char *str2, int casesensitive) {
 }
 
 /*
-============
+=======================================================================================================================================
 Com_Filter
-============
+=======================================================================================================================================
 */
 int Com_Filter(char *filter, char *name, int casesensitive) {
 	char buf[MAX_TOKEN_CHARS];
@@ -710,9 +710,9 @@ int Com_Filter(char *filter, char *name, int casesensitive) {
 }
 
 /*
-============
+=======================================================================================================================================
 Com_FilterPath
-============
+=======================================================================================================================================
 */
 int Com_FilterPath(char *filter, char *name, int casesensitive) {
 	int i;
@@ -740,9 +740,9 @@ int Com_FilterPath(char *filter, char *name, int casesensitive) {
 
 
 /*
-================
+=======================================================================================================================================
 Com_RealTime
-================
+=======================================================================================================================================
 */
 int Com_RealTime(qtime_t *qtime) {
 	time_t t;
@@ -913,9 +913,9 @@ void Z_Free(void *ptr) {
 
 
 /*
-================
+=======================================================================================================================================
 Z_FreeTags
-================
+=======================================================================================================================================
 */
 void Z_FreeTags(int tag) {
 	int count;
@@ -941,9 +941,9 @@ void Z_FreeTags(int tag) {
 }
 
 /*
-================
+=======================================================================================================================================
 Z_TagMalloc
-================
+=======================================================================================================================================
 */
 
 memblock_t *debugblock; // RF, jusy so we can track a block to find out when it's getting trashed
@@ -1170,18 +1170,18 @@ typedef struct memstatic_s {
 } memstatic_t;
 
 memstatic_t emptystring =
-{ {(sizeof(memblock_t) + 2 + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'\0', '\0'} };
+{ {(sizeof(memblock_t) + 2 + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'\0', '\0'}};
 memstatic_t numberstring[] = {
-	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'0', '\0'} },
-	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'1', '\0'} },
-	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'2', '\0'} },
-	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'3', '\0'} },
-	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'4', '\0'} },
-	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'5', '\0'} },
-	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'6', '\0'} },
-	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'7', '\0'} },
-	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'8', '\0'} },
-	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'9', '\0'} }
+	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'0', '\0'}},
+	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'1', '\0'}},
+	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'2', '\0'}},
+	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'3', '\0'}},
+	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'4', '\0'}},
+	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'5', '\0'}},
+	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'6', '\0'}},
+	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'7', '\0'}},
+	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'8', '\0'}},
+	{ {(sizeof(memstatic_t) + 3) & ~3, TAG_STATIC, NULL, NULL, ZONEID}, {'9', '\0'}}
 };
 
 /*
@@ -1271,7 +1271,7 @@ static hunkblock_t *hunkblocks;
 static hunkUsed_t hunk_low, hunk_high;
 static hunkUsed_t  *hunk_permanent, *hunk_temp;
 
-static byte    *s_hunkData = NULL;
+static byte   *s_hunkData = NULL;
 static int s_hunkTotal;
 
 static int s_zoneTotal;
@@ -1371,11 +1371,11 @@ void Com_Meminfo_f(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 Com_TouchMemory
 
 Touch all known used data to make sure it is paged in
-===============
+=======================================================================================================================================
 */
 void Com_TouchMemory(void) {
 	int start, end;
@@ -1622,9 +1622,9 @@ void Com_InitHunkMemory(void) {
 }
 
 /*
-====================
+=======================================================================================================================================
 Hunk_MemoryRemaining
-====================
+=======================================================================================================================================
 */
 int Hunk_MemoryRemaining(void) {
 	int low, high;
@@ -1856,9 +1856,9 @@ void *Hunk_AllocateTempMemory(int size) {
 
 
 /*
-==================
+=======================================================================================================================================
 Hunk_FreeTempMemory
-==================
+=======================================================================================================================================
 */
 void Hunk_FreeTempMemory(void *buf) {
 	hunkHeader_t    *hdr;
@@ -1974,13 +1974,13 @@ static int         eventHead = 0;
 static int         eventTail = 0;
 
 /*
-================
+=======================================================================================================================================
 Com_QueueEvent
 
 A time of 0 will get the current time
 Ptr should either be null, or point to a block of data that can
 be freed by the game later.
-================
+=======================================================================================================================================
 */
 void Com_QueueEvent(int time, sysEventType_t type, int value, int value2, int ptrLength, void *ptr)
 {
@@ -2015,10 +2015,10 @@ void Com_QueueEvent(int time, sysEventType_t type, int value, int value2, int pt
 }
 
 /*
-================
+=======================================================================================================================================
 Com_GetSystemEvent
 
-================
+=======================================================================================================================================
 */
 sysEvent_t Com_GetSystemEvent(void)
 {
@@ -2257,11 +2257,11 @@ int Com_EventLoop(void) {
 }
 
 /*
-================
+=======================================================================================================================================
 Com_Milliseconds
 
 Can be used for profiling, but will be journaled accurately
-================
+=======================================================================================================================================
 */
 int Com_Milliseconds(void) {
 	sysEvent_t ev;
@@ -2337,11 +2337,11 @@ static void Com_Crash_f(void) {
 }
 
 /*
-==================
+=======================================================================================================================================
 Com_Setenv_f
 
 For controlling environment variables
-==================
+=======================================================================================================================================
 */
 void Com_Setenv_f(void)
 {
@@ -2353,8 +2353,7 @@ void Com_Setenv_f(void)
 		char *arg2 = Cmd_ArgsFrom(2);
 		
 		Sys_SetEnv(arg1, arg2);
-	}
-	else if(argc == 2)
+	} else if(argc == 2)
 	{
 		char *env = getenv(arg1);
 		
@@ -2362,15 +2361,15 @@ void Com_Setenv_f(void)
 			Com_Printf("%s=%s\n", arg1, env);
 		else
 			Com_Printf("%s undefined\n", arg1);
-        }
+       }
 }
 
 /*
-==================
+=======================================================================================================================================
 Com_ExecuteCfg
 
 For controlling environment variables
-==================
+=======================================================================================================================================
 */
 
 void Com_ExecuteCfg(void)
@@ -2397,11 +2396,11 @@ void Com_ExecuteCfg(void)
 }
 
 /*
-==================
+=======================================================================================================================================
 Com_GameRestart
 
 Change to a new mod properly with cleaning up cvars before switching.
-==================
+=======================================================================================================================================
 */
 
 void Com_GameRestart(int checksumFeed, qboolean disconnect)
@@ -2450,11 +2449,11 @@ void Com_GameRestart(int checksumFeed, qboolean disconnect)
 }
 
 /*
-==================
+=======================================================================================================================================
 Com_GameRestart_f
 
 Expose possibility to change current running mod to the user
-==================
+=======================================================================================================================================
 */
 
 void Com_GameRestart_f(void)
@@ -2466,8 +2465,7 @@ void Com_GameRestart_f(void)
 		// up pak file negotiation and lots of other stuff
 		
 		Cvar_Set("fs_game", "");
-	}
-	else
+	} else
 		Cvar_Set("fs_game", Cmd_Argv(1));
 
 	Com_GameRestart(0, qtrue);
@@ -2671,8 +2669,7 @@ static void Com_DetectSSE(void)
 
 		Com_Printf("Have SSE support\n");
 #if !idx64
-	}
-	else
+	} else
 	{
 		Q_ftol = qftolx87;
 		Q_VMftol = qvmftolx87;
@@ -2937,11 +2934,11 @@ void Com_Init(char *commandLine) {
 }
 
 /*
-===============
+=======================================================================================================================================
 Com_ReadFromPipe
 
 Read whatever is in com_pipefile, if anything, and execute it
-===============
+=======================================================================================================================================
 */
 void Com_ReadFromPipe(void)
 {
@@ -3005,11 +3002,11 @@ void Com_WriteConfigToFile(const char *filename) {
 
 
 /*
-===============
+=======================================================================================================================================
 Com_WriteConfiguration
 
 Writes key bindings and archived cvars to config file if modified
-===============
+=======================================================================================================================================
 */
 void Com_WriteConfiguration(void) {
 #if !defined(DEDICATED) && !defined(STANDALONE)
@@ -3044,11 +3041,11 @@ void Com_WriteConfiguration(void) {
 
 
 /*
-===============
+=======================================================================================================================================
 Com_WriteConfig_f
 
 Write the config file to a specific name
-===============
+=======================================================================================================================================
 */
 void Com_WriteConfig_f(void) {
 	char filename[MAX_QPATH];
@@ -3065,9 +3062,9 @@ void Com_WriteConfig_f(void) {
 }
 
 /*
-================
+=======================================================================================================================================
 Com_ModifyMsec
-================
+=======================================================================================================================================
 */
 int Com_ModifyMsec(int msec) {
 	int clampTime;
@@ -3145,7 +3142,6 @@ void Com_Frame(void) {
 	int msec, minMsec;
 	int		timeVal, timeValSV;
 	static int	lastTime = 0, bias = 0;
-
 	int timeBeforeFirstEvents;
 	int timeBeforeServer;
 	int timeBeforeEvents;
@@ -3203,8 +3199,7 @@ void Com_Frame(void) {
 			// that framerate is stable at the requested value.
 			minMsec -= bias;
 		}
-	}
-	else
+	} else
 		minMsec = 1;
 
 	do
@@ -3376,9 +3371,9 @@ command line completion
 */
 
 /*
-==================
+=======================================================================================================================================
 Field_Clear
-==================
+=======================================================================================================================================
 */
 void Field_Clear(field_t *edit) {
 	memset(edit->buffer, 0, MAX_EDIT_LINE);
@@ -3393,10 +3388,10 @@ static int matchCount;
 static field_t *completionField;
 
 /*
-===============
+=======================================================================================================================================
 FindMatches
 
-===============
+=======================================================================================================================================
 */
 static void FindMatches(const char *s) {
 	int i;
@@ -3424,10 +3419,10 @@ static void FindMatches(const char *s) {
 }
 
 /*
-===============
+=======================================================================================================================================
 PrintMatches
 
-===============
+=======================================================================================================================================
 */
 static void PrintMatches(const char *s) {
 	if (!Q_stricmpn(s, shortestMatch, strlen(shortestMatch))) {
@@ -3436,10 +3431,10 @@ static void PrintMatches(const char *s) {
 }
 
 /*
-===============
+=======================================================================================================================================
 PrintCvarMatches
 
-===============
+=======================================================================================================================================
 */
 static void PrintCvarMatches(const char *s) {
 	char value[ TRUNCATE_LENGTH ];
@@ -3451,9 +3446,9 @@ static void PrintCvarMatches(const char *s) {
 }
 
 /*
-===============
+=======================================================================================================================================
 Field_FindFirstSeparator
-===============
+=======================================================================================================================================
 */
 static char *Field_FindFirstSeparator(char *s)
 {
@@ -3469,9 +3464,9 @@ static char *Field_FindFirstSeparator(char *s)
 }
 
 /*
-===============
+=======================================================================================================================================
 Field_Complete
-===============
+=======================================================================================================================================
 */
 static qboolean Field_Complete(void)
 {
@@ -3501,9 +3496,9 @@ static qboolean Field_Complete(void)
 
 #ifndef DEDICATED
 /*
-===============
+=======================================================================================================================================
 Field_CompleteKeyname
-===============
+=======================================================================================================================================
 */
 void Field_CompleteKeyname(void)
 {
@@ -3518,9 +3513,9 @@ void Field_CompleteKeyname(void)
 #endif
 
 /*
-===============
+=======================================================================================================================================
 Field_CompleteFilename
-===============
+=======================================================================================================================================
 */
 void Field_CompleteFilename(const char *dir,
 		const char *ext, qboolean stripExt, qboolean allowNonPureFilesOnDisk)
@@ -3535,9 +3530,9 @@ void Field_CompleteFilename(const char *dir,
 }
 
 /*
-===============
+=======================================================================================================================================
 Field_CompleteCommand
-===============
+=======================================================================================================================================
 */
 void Field_CompleteCommand(char *cmd,
 		qboolean doCommands, qboolean doCvars)
@@ -3555,8 +3550,7 @@ void Field_CompleteCommand(char *cmd,
 	{
 		completionString = "";
 		completionArgument++;
-	}
-	else
+	} else
 		completionString = Cmd_Argv(completionArgument - 1);
 
 #ifndef DEDICATED
@@ -3596,8 +3590,7 @@ void Field_CompleteCommand(char *cmd,
 			Field_CompleteCommand(p + 1, qtrue, qtrue); // Compound command
 		else
 			Cmd_CompleteArgument(baseCmd, cmd, completionArgument); 
-	}
-	else
+	} else
 	{
 		if(completionString[0] == '\\' || completionString[0] == '/')
 			completionString++;
@@ -3627,11 +3620,11 @@ void Field_CompleteCommand(char *cmd,
 }
 
 /*
-===============
+=======================================================================================================================================
 Field_AutoComplete
 
 Perform Tab expansion
-===============
+=======================================================================================================================================
 */
 void Field_AutoComplete(field_t *field)
 {
@@ -3641,11 +3634,11 @@ void Field_AutoComplete(field_t *field)
 }
 
 /*
-==================
+=======================================================================================================================================
 Com_RandomBytes
 
 fills string array with len random bytes, peferably from the OS randomizer
-==================
+=======================================================================================================================================
 */
 void Com_RandomBytes(byte *string, int len)
 {
@@ -3661,12 +3654,12 @@ void Com_RandomBytes(byte *string, int len)
 
 
 /*
-==================
+=======================================================================================================================================
 Com_IsVoipTarget
 
 Returns non-zero if given clientNum is enabled in voipTargets, zero otherwise.
 If clientNum is negative return if any bit is set.
-==================
+=======================================================================================================================================
 */
 qboolean Com_IsVoipTarget(uint8_t *voipTargets, int voipTargetsSize, int clientNum)
 {

@@ -600,7 +600,7 @@ void script_linkentity(gentity_t *ent) {
 
 // if ((ent->s.eType == ET_MOVER) && !(ent->spawnflags & 2)) {
 // 	ent->s.solid = 0;
-// }
+//}
 }
 
 void script_mover_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod) {

@@ -1372,7 +1372,7 @@ void SP5_Fire(gentity_t *ent, float aimSpreadScale) {
 	if (tr.surfaceFlags & SURF_NOIMPACT) {
 		return;
 	}
-// }
+//}
 
 	traceEnt = &g_entities[tr.entityNum];
 	// snap the endpos to integers, but nudged towards the line
@@ -1611,7 +1611,7 @@ void Bullet_Fire_Extended(gentity_t *source, gentity_t *attacker, vec3_t start, 
 // 	if (attacker->s.weapon == WP_MAUSER && attacker->r.svFlags & SVF_CASTAI)
 // 		SniperSoundEFX(tr.endpos);
 // 	return;
-// }
+//}
 	RubbleFlagCheck(attacker, tr);
 
 	traceEnt = &g_entities[tr.entityNum];
@@ -1624,7 +1624,7 @@ void Bullet_Fire_Extended(gentity_t *source, gentity_t *attacker, vec3_t start, 
 // if (attacker->s.weapon == WP_MAUSER && attacker->r.svFlags & SVF_CASTAI)
 // {
 // 	SniperSoundEFX(tr.endpos);
-// }
+//}
 	// send bullet impact
 	if (traceEnt->takedamage && traceEnt->client && !(traceEnt->flags & FL_DEFENSE_GUARD)) {
 		tent = G_TempEntity(tr.endpos, EV_BULLET_HIT_FLESH);

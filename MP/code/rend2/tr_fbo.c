@@ -83,9 +83,9 @@ qboolean R_CheckFBO(const FBO_t * fbo)
 }
 
 /*
-============
+=======================================================================================================================================
 FBO_Create
-============
+=======================================================================================================================================
 */
 FBO_t          *FBO_Create(const char *name, int width, int height)
 {
@@ -224,9 +224,9 @@ void FBO_AttachImage(FBO_t *fbo, image_t *image, GLenum attachment, GLuint cubem
 
 
 /*
-============
+=======================================================================================================================================
 FBO_Bind
-============
+=======================================================================================================================================
 */
 void FBO_Bind(FBO_t * fbo)
 {
@@ -244,9 +244,9 @@ void FBO_Bind(FBO_t * fbo)
 }
 
 /*
-============
+=======================================================================================================================================
 FBO_Init
-============
+=======================================================================================================================================
 */
 void FBO_Init(void)
 {
@@ -293,8 +293,7 @@ void FBO_Init(void)
 		FBO_AttachImage(tr.msaaResolveFbo, tr.renderImage, GL_COLOR_ATTACHMENT0_EXT, 0);
 		FBO_AttachImage(tr.msaaResolveFbo, tr.renderDepthImage, GL_DEPTH_ATTACHMENT_EXT, 0);
 		R_CheckFBO(tr.msaaResolveFbo);
-	}
-	else if (r_hdr->integer)
+	} else if (r_hdr->integer)
 	{
 		tr.renderFbo = FBO_Create("_render", tr.renderDepthImage->width, tr.renderDepthImage->height);
 		FBO_AttachImage(tr.renderFbo, tr.renderImage, GL_COLOR_ATTACHMENT0_EXT, 0);
@@ -421,9 +420,9 @@ void FBO_Init(void)
 }
 
 /*
-============
+=======================================================================================================================================
 FBO_Shutdown
-============
+=======================================================================================================================================
 */
 void FBO_Shutdown(void)
 {
@@ -459,9 +458,9 @@ void FBO_Shutdown(void)
 }
 
 /*
-============
+=======================================================================================================================================
 R_FBOList_f
-============
+=======================================================================================================================================
 */
 void R_FBOList_f(void)
 {
@@ -513,8 +512,7 @@ void FBO_BlitFromTexture(struct image_s *src, vec4_t inSrcTexCorners, vec2_t inS
 		VectorSet2(texCoords[1], inSrcTexCorners[2], inSrcTexCorners[1]);
 		VectorSet2(texCoords[2], inSrcTexCorners[2], inSrcTexCorners[3]);
 		VectorSet2(texCoords[3], inSrcTexCorners[0], inSrcTexCorners[3]);
-	}
-	else
+	} else
 	{
 		VectorSet2(texCoords[0], 0.0f, 1.0f);
 		VectorSet2(texCoords[1], 1.0f, 1.0f);
@@ -529,8 +527,7 @@ void FBO_BlitFromTexture(struct image_s *src, vec4_t inSrcTexCorners, vec2_t inS
 		dstBox[1] = height - inDstBox[1] - inDstBox[3];
 		dstBox[2] = inDstBox[0] + inDstBox[2];
 		dstBox[3] = height - inDstBox[1];
-	}
-	else
+	} else
 	{
 		VectorSet4(dstBox, 0, height, width, 0);
 	}
@@ -538,8 +535,7 @@ void FBO_BlitFromTexture(struct image_s *src, vec4_t inSrcTexCorners, vec2_t inS
 	if (inSrcTexScale)
 	{
 		VectorCopy2(inSrcTexScale, invTexRes);
-	}
-	else
+	} else
 	{
 		VectorSet2(invTexRes, 1.0f, 1.0f);
 	}
@@ -547,8 +543,7 @@ void FBO_BlitFromTexture(struct image_s *src, vec4_t inSrcTexCorners, vec2_t inS
 	if (inColor)
 	{
 		VectorCopy4(inColor, color);
-	}
-	else
+	} else
 	{
 		VectorCopy4(colorWhite, color);
 	}
@@ -608,8 +603,7 @@ void FBO_Blit(FBO_t *src, ivec4_t inSrcBox, vec2_t srcTexScale, FBO_t *dst, ivec
 		srcTexCorners[1] = (inSrcBox[1] + inSrcBox[3]) / (float)src->height;
 		srcTexCorners[2] = (inSrcBox[0] + inSrcBox[2]) / (float)src->width;
 		srcTexCorners[3] =  inSrcBox[1]                / (float)src->height;
-	}
-	else
+	} else
 	{
 		VectorSet4(srcTexCorners, 0.0f, 0.0f, 1.0f, 1.0f);
 	}
@@ -637,8 +631,7 @@ void FBO_FastBlit(FBO_t *src, ivec4_t srcBox, FBO_t *dst, ivec4_t dstBox, int bu
 		int height = src ? src->height : glConfig.vidHeight;
 
 		VectorSet4(srcBoxFinal, 0, 0, width, height);
-	}
-	else
+	} else
 	{
 		VectorSet4(srcBoxFinal, srcBox[0], srcBox[1], srcBox[0] + srcBox[2], srcBox[1] + srcBox[3]);
 	}
@@ -649,8 +642,7 @@ void FBO_FastBlit(FBO_t *src, ivec4_t srcBox, FBO_t *dst, ivec4_t dstBox, int bu
 		int height = dst ? dst->height : glConfig.vidHeight;
 
 		VectorSet4(dstBoxFinal, 0, 0, width, height);
-	}
-	else
+	} else
 	{
 		VectorSet4(dstBoxFinal, dstBox[0], dstBox[1], dstBox[0] + dstBox[2], dstBox[1] + dstBox[3]);
 	}

@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "tr_local.h"
 
-#define	LL(x) x=LittleLong(x)
+#define LL(x) x=LittleLong(x)
 
 // 3x4 identity matrix
 static float identityMatrix[12] = {
@@ -108,7 +108,7 @@ static void Matrix34Invert(float *inMat, float *outMat)
 {
 	vec3_t trans;
 	float invSqrLen, *v;
- 
+
 	outMat[ 0] = inMat[ 0]; outMat[ 1] = inMat[ 4]; outMat[ 2] = inMat[ 8];
 	outMat[ 4] = inMat[ 1]; outMat[ 5] = inMat[ 5]; outMat[ 6] = inMat[ 9];
 	outMat[ 8] = inMat[ 2]; outMat[ 9] = inMat[ 6]; outMat[10] = inMat[10];
@@ -501,8 +501,7 @@ qboolean R_LoadIQM(model_t *mod, void *buffer, int filesize, const char *mod_nam
 	{
 		iqmData->bounds       = iqmData->poseMats + 12 * header->num_poses * header->num_frames;
 		iqmData->positions    = iqmData->bounds + 6 * header->num_frames;
-	}
-	else
+	} else
 		iqmData->positions    = iqmData->poseMats + 12 * header->num_poses * header->num_frames;
 	iqmData->texcoords    = iqmData->positions + 3 * header->num_vertexes;
 	iqmData->normals      = iqmData->texcoords + 2 * header->num_vertexes;
@@ -534,10 +533,10 @@ qboolean R_LoadIQM(model_t *mod, void *buffer, int filesize, const char *mod_nam
 	joint = (iqmJoint_t *)((byte *)header + header->ofs_joints);
 	for(i = 0; i < header->num_joints; i++, joint++) {
 		float baseFrame[12], invBaseFrame[12];
- 
+
 		JointToMatrix(joint->rotate, joint->scale, joint->translate, baseFrame);
 		Matrix34Invert(baseFrame, invBaseFrame);
- 
+
 		if (joint->parent >= 0)
 		{
 			Matrix34Multiply(iqmData->jointMats + 12 * joint->parent, baseFrame, mat);
@@ -789,7 +788,7 @@ int R_ComputeIQMFogNum(iqmData_t *data, trRefEntity_t *ent) {
 	int			i, j;
 	fog_t			*fog;
 	const vec_t		*bounds;
-	const vec_t		defaultBounds[6] = { -8, -8, -8, 8, 8, 8 };
+	const vec_t		defaultBounds[6] = { -8, -8, -8, 8, 8, 8};
 	vec3_t			diag, center;
 	vec3_t			localOrigin;
 	vec_t			radius;
@@ -838,7 +837,7 @@ void R_AddIQMSurfaces(trRefEntity_t *ent) {
 	iqmData_t		*data;
 	srfIQModel_t		*surface;
 	int			i, j;
-	qboolean		personalModel;
+	qboolean personalModel;
 	int			cull;
 	int			fogNum;
 	int         cubemapIndex;
@@ -863,9 +862,9 @@ void R_AddIQMSurfaces(trRefEntity_t *ent) {
 	// range checked again.
 	//
 	if ((ent->e.frame >= data->num_frames) 
-	     || (ent->e.frame < 0)
-	     || (ent->e.oldframe >= data->num_frames)
-	     || (ent->e.oldframe < 0)) {
+	 || (ent->e.frame < 0)
+	 || (ent->e.oldframe >= data->num_frames)
+	 || (ent->e.oldframe < 0)) {
 		ri.Printf(PRINT_DEVELOPER, "R_AddIQMSurfaces: no such frame %d to %d for '%s'\n",
 			   ent->e.oldframe, ent->e.frame,
 			   tr.currentModel->name);

@@ -40,7 +40,7 @@ typedef struct MD5Context {
 			((unsigned) buf[1] << 8|buf[0]);
 		*(uint32_t *)buf = t;
 		buf += 4;
-	  } while (--longs);
+	 } while (--longs);
 	}
 #endif // Q3_BIG_ENDIAN
 
@@ -189,7 +189,7 @@ static void MD5Update(struct MD5Context *ctx, unsigned char const *buf, unsigned
 	MD5Transform(ctx->buf, (uint32_t *)ctx->in);
 	buf += t;
 	len -= t;
-  }
+ }
     /* Process data in 64 - byte chunks */
 
     while (len >= 64) {
@@ -198,7 +198,7 @@ static void MD5Update(struct MD5Context *ctx, unsigned char const *buf, unsigned
 	MD5Transform(ctx->buf, (uint32_t *)ctx->in);
 	buf += 64;
 	len -= 64;
-  }
+ }
 
     /* Handle any remaining bytes of data. */
 
@@ -233,10 +233,10 @@ static void MD5Final(struct MD5Context *ctx, unsigned char *digest) {
 
 	/* Now fill the next block with 56 bytes */
 	memset(ctx->in, 0, 56);
-  } else {
+ } else {
 	/* Pad block to 56 bytes */
 	memset(p, 0, count - 8);
-  }
+ }
     byteReverse(ctx->in, 14);
 
     /* Append length in bits and transform */

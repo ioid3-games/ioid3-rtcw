@@ -190,7 +190,6 @@ void CG_AddParticleToScene(cparticle_t *p, vec3_t org, float alpha) {
 
 				}
 			}
-
 			// Rafael snow pvs check
 			if (!p->link) {
 				return;

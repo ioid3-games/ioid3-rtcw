@@ -46,9 +46,9 @@ srfBspSurface_t *R_SubdividePatchToGrid(int width, int height,
 
 
 /*
-============
+=======================================================================================================================================
 LerpDrawVert
-============
+=======================================================================================================================================
 */
 static void LerpDrawVert(srfVert_t *a, srfVert_t *b, srfVert_t *out) {
 	out->xyz[0] = 0.5f * (a->xyz[0] + b->xyz[0]);
@@ -68,9 +68,9 @@ static void LerpDrawVert(srfVert_t *a, srfVert_t *b, srfVert_t *out) {
 }
 
 /*
-============
+=======================================================================================================================================
 Transpose
-============
+=======================================================================================================================================
 */
 static void Transpose(int width, int height, srfVert_t ctrl[MAX_GRID_SIZE][MAX_GRID_SIZE]) {
 	int i, j;
@@ -297,9 +297,9 @@ static int MakeMeshIndexes(int width, int height, glIndex_t indexes[(MAX_GRID_SI
 }
 
 /*
-============
+=======================================================================================================================================
 InvertCtrl
-============
+=======================================================================================================================================
 */
 static void InvertCtrl(int width, int height, srfVert_t ctrl[MAX_GRID_SIZE][MAX_GRID_SIZE]) {
 	int i, j;
@@ -337,9 +337,9 @@ static void InvertErrorTable(float errorTable[2][MAX_GRID_SIZE], int width, int 
 }
 
 /*
-==================
+=======================================================================================================================================
 PutPointsOnCurve
-==================
+=======================================================================================================================================
 */
 static void PutPointsOnCurve(srfVert_t	ctrl[MAX_GRID_SIZE][MAX_GRID_SIZE],
 							  int width, int height) {
@@ -525,7 +525,6 @@ void R_SubdividePatchToGrid(srfBspSurface_t *grid, int width, int height,
 					break;
 				continue;
 			}
-
 			// see if we want to insert subdivided columns
 			if (width + 2 > MAX_GRID_SIZE) {
 				errorTable[dir][j + 1] = 1.0f / maxLen;
@@ -558,7 +557,6 @@ void R_SubdividePatchToGrid(srfBspSurface_t *grid, int width, int height,
 				ctrl[i][j + 2] = mid;
 				ctrl[i][j + 3] = next;
 			}
-
 			// skip the new one, we'll get it on the next pass
 			j += 2;
 		}
@@ -625,9 +623,9 @@ void R_SubdividePatchToGrid(srfBspSurface_t *grid, int width, int height,
 }
 
 /*
-===============
+=======================================================================================================================================
 R_GridInsertColumn
-===============
+=======================================================================================================================================
 */
 void R_GridInsertColumn(srfBspSurface_t *grid, int column, int row, vec3_t point, float loderror) {
 	int i, j;
@@ -687,9 +685,9 @@ void R_GridInsertColumn(srfBspSurface_t *grid, int column, int row, vec3_t point
 }
 
 /*
-===============
+=======================================================================================================================================
 R_GridInsertRow
-===============
+=======================================================================================================================================
 */
 void R_GridInsertRow(srfBspSurface_t *grid, int row, int column, vec3_t point, float loderror) {
 	int i, j;

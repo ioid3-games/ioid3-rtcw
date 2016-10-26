@@ -34,7 +34,7 @@ If you have questions concerning this license or the applicable additional terms
 #endif
 
 
-#define	WAVEVALUE(table, base, amplitude, phase, freq)  ((base) + table[ ri.ftol((((phase) + tess.shaderTime * (freq)) * FUNCTABLE_SIZE)) & FUNCTABLE_MASK ] * (amplitude))
+#define WAVEVALUE(table, base, amplitude, phase, freq) ((base) + table[ ri.ftol((((phase) + tess.shaderTime * (freq)) * FUNCTABLE_SIZE)) & FUNCTABLE_MASK ] * (amplitude))
 
 static float *TableForFunc(genFunc_t func) {
 	switch (func)
@@ -382,9 +382,9 @@ void DeformText(const char *text) {
 }
 
 /*
-==================
+=======================================================================================================================================
 GlobalVectorToLocal
-==================
+=======================================================================================================================================
 */
 void GlobalVectorToLocal(const vec3_t in, vec3_t out) {
 	out[0] = DotProduct(in, backEnd.or.axis[0]);
@@ -393,12 +393,12 @@ void GlobalVectorToLocal(const vec3_t in, vec3_t out) {
 }
 
 /*
-=====================
+=======================================================================================================================================
 AutospriteDeform
 
 Assuming all the triangles for this shader are independant
 quads, rebuild them as forward facing sprites
-=====================
+=======================================================================================================================================
 */
 static void AutospriteDeform(void) {
 	int i;
@@ -465,19 +465,19 @@ static void AutospriteDeform(void) {
 
 
 /*
-=====================
+=======================================================================================================================================
 Autosprite2Deform
 
 Autosprite2 will pivot a rectangular quad along the center of its long axis
-=====================
+=======================================================================================================================================
 */
 int edgeVerts[6][2] = {
-	{ 0, 1 },
-	{ 0, 2 },
-	{ 0, 3 },
-	{ 1, 2 },
-	{ 1, 3 },
-	{ 2, 3 }
+	{ 0, 1},
+	{ 0, 2},
+	{ 0, 3},
+	{ 1, 2},
+	{ 1, 3},
+	{ 2, 3}
 };
 
 static void Autosprite2Deform(void) {
@@ -584,10 +584,10 @@ static void Autosprite2Deform(void) {
 
 
 /*
-=====================
+=======================================================================================================================================
 RB_DeformTessGeometry
 
-=====================
+=======================================================================================================================================
 */
 void RB_DeformTessGeometry(void) {
 	int i;
@@ -1110,7 +1110,7 @@ void RB_CalcRotateTexCoords(float degsPerSecond, float *st) {
 **
 ** Calculates specular coefficient and places it in the alpha channel
 */
-vec3_t lightOrigin = { -960, 1980, 96 };        // FIXME: track dynamically
+vec3_t lightOrigin = { -960, 1980, 96};        // FIXME: track dynamically
 
 void RB_CalcSpecularAlpha(unsigned char *alphas) {
 	int i;

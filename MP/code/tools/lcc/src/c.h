@@ -33,28 +33,28 @@
 #define extend(x, ty)((x)& (1 << (8 *(ty)->size - 1)) ? (x)|((~0UL) << (8 *(ty)->size - 1)) : (x)&ones(8 *(ty)->size))
 #define ones(n)((n) > =8 * sizeof(unsigned long) ? ~0UL : ~((~0UL) << (n)))
 
-#define isqual(t)  ((t)->op >= CONST)
-#define unqual(t)  (isqual(t) ? (t)->type : (t))
+#define isqual(t) ((t)->op >= CONST)
+#define unqual(t) (isqual(t) ? (t)->type : (t))
 
 #define isvolatile(t)((t)->op == VOLATILE \
-          || (t)->op == CONST + VOLATILE)
+ || (t)->op == CONST + VOLATILE)
 #define isconst(t) ((t)->op == CONST \
-          || (t)->op == CONST + VOLATILE)
+ || (t)->op == CONST + VOLATILE)
 #define isarray(t) (unqual(t)->op == ARRAY)
 #define isstruct(t) (unqual(t)->op == STRUCT \
-          || unqual(t)->op == UNION)
+ || unqual(t)->op == UNION)
 #define isunion(t) (unqual(t)->op == UNION)
-#define isfunc(t)  (unqual(t)->op == FUNCTION)
+#define isfunc(t) (unqual(t)->op == FUNCTION)
 #define isptr(t) (unqual(t)->op == POINTER)
-#define ischar(t)  ((t)->size == 1 && isint (t))
+#define ischar(t) ((t)->size == 1 && isint (t))
 #define isint (t) (unqual(t)->op == INT \
-          || unqual(t)->op == UNSIGNED)
+ || unqual(t)->op == UNSIGNED)
 #define isfloat (t) (unqual(t)->op == FLOAT)
 #define isarith(t) (unqual(t)->op <= UNSIGNED)
 #define isunsigned(t)(unqual(t)->op == UNSIGNED)
 #define isscalar(t) (unqual(t)->op <= POINTER \
-          || unqual(t)->op == ENUM)
-#define isenum(t)  (unqual(t)->op == ENUM)
+ || unqual(t)->op == ENUM)
+#define isenum(t) (unqual(t)->op == ENUM)
 #define fieldsize(p) (p)->bitsize
 #define fieldright(p)((p)->lsb - 1)
 #define fieldleft(p) (8 *(p)->type->size - \
@@ -135,7 +135,7 @@ void (*defsymbol)(Symbol);
 void (*emit) (Node);
 void (*export)(Symbol);
 void (*function)(Symbol, Symbol[], Symbol[], int);
-Node(*gen)  (Node);
+Node(*gen) (Node);
 void (*global)(Symbol);
 void (*import)(Symbol);
 void (*local)(Symbol);

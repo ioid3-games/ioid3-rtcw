@@ -320,9 +320,9 @@ static int R_ComputeFogNum(mdsHeader_t *header, trRefEntity_t *ent) {
 }
 
 /*
-==============
+=======================================================================================================================================
 R_AddAnimSurfaces
-==============
+=======================================================================================================================================
 */
 void R_AddAnimSurfaces(trRefEntity_t *ent) {
 	mdsHeader_t     *header;
@@ -453,7 +453,7 @@ static ID_INLINE void LocalVectorMA(vec3_t org, float dist, vec3_t vec, vec3_t o
 	out[2] = org[2] + dist * vec[2];
 }
 
-#define ANGLES_SHORT_TO_FLOAT(pf, sh)     { *(pf++) = SHORT2ANGLE(*(sh++)); *(pf++) = SHORT2ANGLE(*(sh++)); *(pf++) = SHORT2ANGLE(*(sh++)); }
+#define ANGLES_SHORT_TO_FLOAT(pf, sh)     { *(pf++) = SHORT2ANGLE(*(sh++)); *(pf++) = SHORT2ANGLE(*(sh++)); *(pf++) = SHORT2ANGLE(*(sh++));}
 
 static ID_INLINE void SLerp_Normal(vec3_t from, vec3_t to, float tt, vec3_t out) {
 	float ft = 1.0 - tt;
@@ -545,9 +545,9 @@ static ID_INLINE void Matrix3Transpose(const vec3_t matrix[3], vec3_t transpose[
 
 
 /*
-==============
+=======================================================================================================================================
 R_CalcBone
-==============
+=======================================================================================================================================
 */
 void R_CalcBone(mdsHeader_t *header, const refEntity_t *refent, int boneNum) {
 	int j;
@@ -697,9 +697,9 @@ void R_CalcBone(mdsHeader_t *header, const refEntity_t *refent, int boneNum) {
 }
 
 /*
-==============
+=======================================================================================================================================
 R_CalcBoneLerp
-==============
+=======================================================================================================================================
 */
 void R_CalcBoneLerp(mdsHeader_t *header, const refEntity_t *refent, int boneNum) {
 	int j;
@@ -864,11 +864,11 @@ void R_CalcBoneLerp(mdsHeader_t *header, const refEntity_t *refent, int boneNum)
 
 
 /*
-==============
+=======================================================================================================================================
 R_CalcBones
 
 	The list of bones[] should only be built and modified from within here
-==============
+=======================================================================================================================================
 */
 void R_CalcBones(mdsHeader_t *header, const refEntity_t *refent, int *boneList, int numBones) {
 
@@ -951,7 +951,6 @@ void R_CalcBones(mdsHeader_t *header, const refEntity_t *refent, int *boneList, 
 				bones[*boneRefs] = rawBones[*boneRefs];
 				continue;
 			}
-
 			// find our parent, and make sure it has been calculated
 			if ((boneInfo[*boneRefs].parent >= 0) && (!validBones[boneInfo[*boneRefs].parent] && !newBones[boneInfo[*boneRefs].parent])) {
 				R_CalcBone(header, refent, boneInfo[*boneRefs].parent);
@@ -973,7 +972,6 @@ void R_CalcBones(mdsHeader_t *header, const refEntity_t *refent, int *boneList, 
 				bones[*boneRefs] = rawBones[*boneRefs];
 				continue;
 			}
-
 			// find our parent, and make sure it has been calculated
 			if ((boneInfo[*boneRefs].parent >= 0) && (!validBones[boneInfo[*boneRefs].parent] && !newBones[boneInfo[*boneRefs].parent])) {
 				R_CalcBoneLerp(header, refent, boneInfo[*boneRefs].parent);
@@ -1045,9 +1043,9 @@ void R_CalcBones(mdsHeader_t *header, const refEntity_t *refent, int *boneList, 
 #endif
 
 /*
-==============
+=======================================================================================================================================
 RB_SurfaceAnim
-==============
+=======================================================================================================================================
 */
 void RB_SurfaceAnim(mdsSurface_t *surface) {
 #ifndef USE_OPENGLES
@@ -1292,9 +1290,9 @@ void RB_SurfaceAnim(mdsSurface_t *surface) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_RecursiveBoneListAdd
-===============
+=======================================================================================================================================
 */
 void R_RecursiveBoneListAdd(int bi, int *boneList, int *numBones, mdsBoneInfo_t *boneInfoList) {
 
@@ -1309,9 +1307,9 @@ void R_RecursiveBoneListAdd(int bi, int *boneList, int *numBones, mdsBoneInfo_t 
 }
 
 /*
-===============
+=======================================================================================================================================
 R_GetBoneTag
-===============
+=======================================================================================================================================
 */
 int R_GetBoneTag(orientation_t *outTag, mdsHeader_t *mds, int startTagIndex, const refEntity_t *refent, const char *tagName) {
 
@@ -1499,9 +1497,9 @@ int R_MDRComputeFogNum(mdrHeader_t *header, trRefEntity_t *ent) {
 
 
 /*
-==============
+=======================================================================================================================================
 R_MDRAddAnimSurfaces
-==============
+=======================================================================================================================================
 */
 
 int R_ComputeLOD(trRefEntity_t *ent);  // Moved here to not conflict with tr_cmesh
@@ -1518,7 +1516,7 @@ void R_MDRAddAnimSurfaces(trRefEntity_t *ent) {
 	int				lodnum = 0;
 	int				fogNum = 0;
 	int				cull;
-	qboolean	personalModel;
+	qboolean personalModel;
 
 	header = (mdrHeader_t *) tr.currentModel->modelData;
 	
@@ -1634,9 +1632,9 @@ void R_MDRAddAnimSurfaces(trRefEntity_t *ent) {
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_MDRSurfaceAnim
-==============
+=======================================================================================================================================
 */
 void RB_MDRSurfaceAnim(mdrSurface_t *surface)
 {

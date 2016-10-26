@@ -38,13 +38,13 @@ If you have questions concerning this license or the applicable additional terms
 
 
 /*
-===============
+=======================================================================================================================================
 R_TransformDlights
 
 Transforms the origins of an array of dlights.
 Used by both the front end (for DlightBmodel) and
 the back end (before doing the lighting calculation)
-===============
+=======================================================================================================================================
 */
 void R_TransformDlights(int count, dlight_t *dl, orientationr_t *or) {
 	int i;
@@ -142,7 +142,7 @@ static void R_SetupEntityLightingGrid(trRefEntity_t *ent) {
 	vec3_t lightOrigin;
 	int pos[3];
 	int i, j;
-	byte    *gridData;
+	byte   *gridData;
 	float frac[3];
 	int gridStep[3];
 	vec3_t direction;
@@ -187,7 +187,7 @@ static void R_SetupEntityLightingGrid(trRefEntity_t *ent) {
 	totalFactor = 0;
 	for (i = 0 ; i < 8 ; i++) {
 		float factor;
-		byte    *data;
+		byte   *data;
 		int lat, lng;
 		vec3_t normal;
 		#if idppc
@@ -274,9 +274,9 @@ static void R_SetupEntityLightingGrid(trRefEntity_t *ent) {
 
 
 /*
-===============
+=======================================================================================================================================
 LogLight
-===============
+=======================================================================================================================================
 */
 static void LogLight(trRefEntity_t *ent) {
 	int max1, max2;
@@ -318,7 +318,7 @@ void R_SetupEntityLighting(const trRefdef_t *refdef, trRefEntity_t *ent) {
 	float d;
 	vec3_t lightDir;
 	vec3_t lightOrigin;
-//	qboolean		highlighted = qfalse; // TTimo: unused
+//	qboolean highlighted = qfalse; // TTimo: unused
 
 	// lighting calculations
 	if (ent->lightingCalculated) {

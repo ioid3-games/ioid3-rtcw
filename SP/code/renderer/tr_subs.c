@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 void QDECL Com_Printf(const char *msg, ...)
 {
-	va_list         argptr;
+	va_list argptr;
 	char            text[1024];
 
 	va_start(argptr, msg);
@@ -37,7 +37,7 @@ void QDECL Com_Printf(const char *msg, ...)
 
 void QDECL Com_Error(int level, const char *error, ...)
 {
-	va_list         argptr;
+	va_list argptr;
 	char            text[1024];
 
 	va_start(argptr, error);

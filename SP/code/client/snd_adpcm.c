@@ -149,7 +149,7 @@ void S_AdpcmEncode(short indata[], char outdata[], int len, struct adpcm_state *
 		}
 
 		bufferstep = !bufferstep;
-  }
+ }
 
     /* Output last step, if needed */
     if (!bufferstep)
@@ -233,7 +233,7 @@ void S_AdpcmEncode(short indata[], char outdata[], int len, struct adpcm_state *
 		/* Step 7 - Output value */
 		outdata[outp] = valpred;
 		outp++;
-  }
+ }
 
     state->sample = valpred;
     state->index = index;

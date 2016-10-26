@@ -523,7 +523,7 @@ void CL_SystemInfoChanged(void) {
 				
  			gameSet = qtrue;
  		}
- 
+
 		if ((cvar_flags = Cvar_Flags(key)) == CVAR_NONEXISTENT)
 			Cvar_Get(key, value, CVAR_SERVER_CREATED|CVAR_ROM);
 		else {

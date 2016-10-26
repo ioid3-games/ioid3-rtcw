@@ -51,9 +51,9 @@ use the shader system.
 
 
 /*
-==============
+=======================================================================================================================================
 RB_CheckOverflow
-==============
+=======================================================================================================================================
 */
 void RB_CheckOverflow(int verts, int indexes) {
 	if (tess.numVertexes + verts < SHADER_MAX_VERTEXES
@@ -74,9 +74,9 @@ void RB_CheckOverflow(int verts, int indexes) {
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_AddQuadStampExt
-==============
+=======================================================================================================================================
 */
 void RB_AddQuadStampExt(vec3_t origin, vec3_t left, vec3_t up, byte *color, float s1, float t1, float s2, float t2) {
 	vec3_t normal;
@@ -146,18 +146,18 @@ void RB_AddQuadStampExt(vec3_t origin, vec3_t left, vec3_t up, byte *color, floa
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_AddQuadStamp
-==============
+=======================================================================================================================================
 */
 void RB_AddQuadStamp(vec3_t origin, vec3_t left, vec3_t up, byte *color) {
 	RB_AddQuadStampExt(origin, left, up, color, 0, 0, 1, 1);
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_SurfaceSplash
-==============
+=======================================================================================================================================
 */
 static void RB_SurfaceSplash(void) {
 	vec3_t left, up;
@@ -176,9 +176,9 @@ static void RB_SurfaceSplash(void) {
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_SurfaceSprite
-==============
+=======================================================================================================================================
 */
 static void RB_SurfaceSprite(void) {
 	vec3_t left, up;
@@ -254,7 +254,7 @@ static void RB_SurfaceTriangles(srfTriangles_t *srf) {
 	int i;
 	drawVert_t  *dv;
 	float       *xyz, *normal, *texCoords;
-	byte        *color;
+	byte       *color;
 	int dlightBits;
 	qboolean needsNormal;
 
@@ -307,9 +307,9 @@ static void RB_SurfaceTriangles(srfTriangles_t *srf) {
 
 
 /*
-==============
+=======================================================================================================================================
 RB_SurfaceBeam
-==============
+=======================================================================================================================================
 */
 static void RB_SurfaceBeam(void) {
 #define NUM_BEAM_SEGS 6
@@ -983,7 +983,6 @@ static void LerpCMeshVertexes(mdcSurface_t *surf, float backlerp) {
 	int vertNum;
 	unsigned lat, lng;
 	int numVerts;
-
 	int oldBase, newBase;
 	short   *oldComp = NULL, *newComp = NULL; // TTimo: init
 	mdcXyzCompressed_t *oldXyzComp = NULL, *newXyzComp = NULL; // TTimo: init
@@ -1167,9 +1166,9 @@ void RB_SurfaceCMesh(mdcSurface_t *surface) {
 // done.
 
 /*
-==============
+=======================================================================================================================================
 RB_SurfaceFace
-==============
+=======================================================================================================================================
 */
 void RB_SurfaceFace(srfSurfaceFace_t *surf) {
 	int i;
@@ -1436,7 +1435,7 @@ static void RB_SurfaceAxis(void) {
 	  0,1,0, 1,
 	  0,0,1, 1,
 	  0,0,1, 1
-	 };
+	};
 	 GLfloat vtx[] = {
 	  0,0,0,
 	  16,0,0,
@@ -1444,7 +1443,7 @@ static void RB_SurfaceAxis(void) {
 	  0,16,0,
 	  0,0,0,
 	  0,0,16
-	 };
+	};
 	GLboolean text = qglIsEnabled(GL_TEXTURE_COORD_ARRAY);
 	GLboolean glcol = qglIsEnabled(GL_COLOR_ARRAY);
 	if (text)
@@ -1477,11 +1476,11 @@ static void RB_SurfaceAxis(void) {
 //===========================================================================
 
 /*
-====================
+=======================================================================================================================================
 RB_SurfaceEntity
 
 Entities that have a single procedurally generated surface
-====================
+=======================================================================================================================================
 */
 static void RB_SurfaceEntity(surfaceType_t *surfType) {
 	switch (backEnd.currentEntity->e.reType) {

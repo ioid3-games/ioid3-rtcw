@@ -1508,7 +1508,7 @@ qboolean G_ScriptAction_BackupScript(gentity_t *ent, char *params) {
 	// if we're not at the top of an event, then something is _probably_ wrong with the script
 // if (ent->scriptStatus.scriptStackHead > 0) {
 // 	G_Printf("ENTITY SCRIPT: WARNING: backupscript not at start of event, possibly harmful.\n");
-// }
+//}
 
 	if (!(ent->scriptStatus.scriptFlags & SCFL_WAITING_RESTORE)) {
 		// if we are moving, stop here

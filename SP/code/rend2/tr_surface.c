@@ -51,9 +51,9 @@ use the shader system.
 
 
 /*
-==============
+=======================================================================================================================================
 RB_CheckOverflow
-==============
+=======================================================================================================================================
 */
 void RB_CheckOverflow(int verts, int indexes) {
 	if (tess.numVertexes + verts < SHADER_MAX_VERTEXES
@@ -88,9 +88,9 @@ void RB_CheckVao(vao_t *vao)
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_AddQuadStampExt
-==============
+=======================================================================================================================================
 */
 void RB_AddQuadStampExt(vec3_t origin, vec3_t left, vec3_t up, float color[4], float s1, float t1, float s2, float t2) {
 	vec3_t normal;
@@ -168,20 +168,20 @@ void RB_AddQuadStampExt(vec3_t origin, vec3_t left, vec3_t up, float color[4], f
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_AddQuadStamp
-==============
+=======================================================================================================================================
 */
 void RB_AddQuadStamp(vec3_t origin, vec3_t left, vec3_t up, float color[4]) {
 	RB_AddQuadStampExt(origin, left, up, color, 0, 0, 1, 1);
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_InstantQuad
 
 based on Tess_InstantQuad from xreal
-==============
+=======================================================================================================================================
 */
 void RB_InstantQuad2(vec4_t quadVerts[4], vec2_t texCoords[4])
 {
@@ -245,9 +245,9 @@ void RB_InstantQuad(vec4_t quadVerts[4])
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_SurfaceSplash
-==============
+=======================================================================================================================================
 */
 static void RB_SurfaceSplash(void) {
 	vec3_t left, up;
@@ -270,9 +270,9 @@ static void RB_SurfaceSplash(void) {
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_SurfaceSprite
-==============
+=======================================================================================================================================
 */
 static void RB_SurfaceSprite(void) {
 	vec3_t left, up;
@@ -500,16 +500,14 @@ static qboolean RB_SurfaceVao(vao_t *vao, int numVerts, int numIndexes, int firs
 		tess.multiDrawMinIndex[mergeBack] = MIN(tess.multiDrawMinIndex[mergeBack], minIndex);
 		tess.multiDrawMaxIndex[mergeBack] = MAX(tess.multiDrawMaxIndex[mergeBack], maxIndex);
 		backEnd.pc.c_multidrawsMerged++;
-	}
-	else if (mergeBack == -1 && mergeForward != -1)
+	} else if (mergeBack == -1 && mergeForward != -1)
 	{
 		tess.multiDrawNumIndexes[mergeForward] += numIndexes;
 		tess.multiDrawFirstIndex[mergeForward]  = firstIndexOffset;
 		tess.multiDrawMinIndex[mergeForward] = MIN(tess.multiDrawMinIndex[mergeForward], minIndex);
 		tess.multiDrawMaxIndex[mergeForward] = MAX(tess.multiDrawMaxIndex[mergeForward], maxIndex);
 		backEnd.pc.c_multidrawsMerged++;
-	}
-	else if (mergeBack != -1 && mergeForward != -1)
+	} else if (mergeBack != -1 && mergeForward != -1)
 	{
 		tess.multiDrawNumIndexes[mergeBack] += numIndexes + tess.multiDrawNumIndexes[mergeForward];
 		tess.multiDrawMinIndex[mergeBack] = MIN(tess.multiDrawMinIndex[mergeBack], MIN(tess.multiDrawMinIndex[mergeForward], minIndex));
@@ -524,8 +522,7 @@ static qboolean RB_SurfaceVao(vao_t *vao, int numVerts, int numIndexes, int firs
 			tess.multiDrawMaxIndex[mergeForward] = tess.multiDrawMaxIndex[tess.multiDrawPrimitives];
 		}
 		backEnd.pc.c_multidrawsMerged += 2;
-	}
-	else //if (mergeBack == -1 && mergeForward == -1)
+	} else //if (mergeBack == -1 && mergeForward == -1)
 	{
 		tess.multiDrawNumIndexes[tess.multiDrawPrimitives] = numIndexes;
 		tess.multiDrawFirstIndex[tess.multiDrawPrimitives] = firstIndexOffset;
@@ -559,9 +556,9 @@ static void RB_SurfaceTriangles(srfBspSurface_t *srf) {
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_SurfaceBeam
-==============
+=======================================================================================================================================
 */
 static void RB_SurfaceBeam(void) {
 #define NUM_BEAM_SEGS 6
@@ -898,8 +895,7 @@ static void LerpMeshVertexes(mdvSurface_t *surf, float backlerp)
 			outNormal += 4;
 			outTangent += 4;
 		}
-	}
-	else
+	} else
 	{
 		//
 		// interpolate and copy the vertex and normal
@@ -986,9 +982,9 @@ static void RB_SurfaceMesh(mdvSurface_t *surface) {
 
 
 /*
-==============
+=======================================================================================================================================
 RB_SurfaceFace
-==============
+=======================================================================================================================================
 */
 static void RB_SurfaceFace(srfBspSurface_t *srf) {
 	if(RB_SurfaceVao (srf->vao, srf->numVerts, srf->numIndexes,
@@ -1268,11 +1264,11 @@ static void RB_SurfaceAxis(void) {
 //===========================================================================
 
 /*
-====================
+=======================================================================================================================================
 RB_SurfaceEntity
 
 Entities that have a single procedurally generated surface
-====================
+=======================================================================================================================================
 */
 static void RB_SurfaceEntity(surfaceType_t *surfType) {
 	switch (backEnd.currentEntity->e.reType) {

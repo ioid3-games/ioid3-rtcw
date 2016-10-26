@@ -1940,7 +1940,6 @@ void CG_RunLerpFrameRate(clientInfo_t *ci, lerpFrame_t *lf, int newAnimation, ce
 					moveSpeed = 0;
 				}
 			}
-
 			// convert it to a factor of this animation's movespeed
 			lf->animSpeedScale = moveSpeed / (float)anim->moveSpeed;
 			lf->oldFrameSnapshotTime = cg.latestSnapshotTime;

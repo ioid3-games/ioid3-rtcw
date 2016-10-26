@@ -55,7 +55,7 @@ static qboolean GLimp_HaveExtension(const char *ext)
 void GLimp_InitExtraExtensions()
 {
 	char *extension;
-	const char* result[3] = { "...ignoring %s\n", "...using %s\n", "...%s not found\n" };
+	const char *result[3] = { "...ignoring %s\n", "...using %s\n", "...%s not found\n"};
 
 	// Check OpenGL version
 	sscanf(glConfig.version_string, "%d.%d", &glRefConfig.openglMajorVersion, &glRefConfig.openglMinorVersion);
@@ -112,8 +112,7 @@ void GLimp_InitExtraExtensions()
 		glRefConfig.memInfo = MI_NVX;
 
 		ri.Printf(PRINT_ALL, result[1], extension);
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
@@ -132,8 +131,7 @@ void GLimp_InitExtraExtensions()
 		{
 			ri.Printf(PRINT_ALL, result[0], extension);
 		}
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
@@ -146,8 +144,7 @@ void GLimp_InitExtraExtensions()
 		glRefConfig.textureFloat = !!r_ext_texture_float->integer;
 
 		ri.Printf(PRINT_ALL, result[glRefConfig.textureFloat], extension);
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
@@ -165,8 +162,7 @@ void GLimp_InitExtraExtensions()
 		QGL_EXT_framebuffer_object_PROCS;
 
 		ri.Printf(PRINT_ALL, result[glRefConfig.framebufferObject], extension);
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
@@ -181,8 +177,7 @@ void GLimp_InitExtraExtensions()
 		QGL_EXT_framebuffer_blit_PROCS;
 
 		ri.Printf(PRINT_ALL, result[glRefConfig.framebufferBlit], extension);
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
@@ -197,8 +192,7 @@ void GLimp_InitExtraExtensions()
 		QGL_EXT_framebuffer_multisample_PROCS;
 
 		ri.Printf(PRINT_ALL, result[glRefConfig.framebufferMultisample], extension);
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
@@ -215,8 +209,7 @@ void GLimp_InitExtraExtensions()
 			glRefConfig.textureCompression |= TCR_RGTC;
 
 		ri.Printf(PRINT_ALL, result[useRgtc], extension);
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
@@ -233,8 +226,7 @@ void GLimp_InitExtraExtensions()
 			glRefConfig.textureCompression |= TCR_BPTC;
 
 		ri.Printf(PRINT_ALL, result[useBptc], extension);
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
@@ -247,8 +239,7 @@ void GLimp_InitExtraExtensions()
 		glRefConfig.depthClamp = qtrue;
 
 		ri.Printf(PRINT_ALL, result[glRefConfig.depthClamp], extension);
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
@@ -261,8 +252,7 @@ void GLimp_InitExtraExtensions()
 		glRefConfig.seamlessCubeMap = !!r_arb_seamless_cube_map->integer;
 
 		ri.Printf(PRINT_ALL, result[glRefConfig.seamlessCubeMap], extension);
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
@@ -277,8 +267,7 @@ void GLimp_InitExtraExtensions()
 		QGL_ARB_vertex_array_object_PROCS;
 
 		ri.Printf(PRINT_ALL, result[glRefConfig.vertexArrayObject], extension);
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
@@ -297,8 +286,7 @@ void GLimp_InitExtraExtensions()
 		}
 
 		ri.Printf(PRINT_ALL, result[glRefConfig.directStateAccess], extension);
-	}
-	else
+	} else
 	{
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}

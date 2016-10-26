@@ -70,9 +70,9 @@ textureMode_t modes[] = {
 };
 
 /*
-================
+=======================================================================================================================================
 return a hash value for the filename
-================
+=======================================================================================================================================
 */
 static long generateHashValue(const char *fname) {
 	int i;
@@ -97,9 +97,9 @@ static long generateHashValue(const char *fname) {
 }
 
 /*
-===============
+=======================================================================================================================================
 GL_TextureMode
-===============
+=======================================================================================================================================
 */
 void GL_TextureMode(const char *string) {
 	int i;
@@ -139,9 +139,9 @@ void GL_TextureMode(const char *string) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_SumOfUsedImages
-===============
+=======================================================================================================================================
 */
 int R_SumOfUsedImages(void) {
 	int total;
@@ -158,9 +158,9 @@ int R_SumOfUsedImages(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_ImageList_f
-===============
+=======================================================================================================================================
 */
 void R_ImageList_f(void) {
 	int i;
@@ -316,7 +316,7 @@ void R_ImageList_f(void) {
 //=======================================================================
 
 /*
-================
+=======================================================================================================================================
 ResampleTexture
 
 Used to resample images in a more general than quartering fashion.
@@ -326,7 +326,7 @@ is greater than half the original size.
 
 If a larger shrinking is needed, use the mipmap function
 before or after.
-================
+=======================================================================================================================================
 */
 static void ResampleTexture(unsigned *in, int inwidth, int inheight, unsigned *out,
 							 int outwidth, int outheight) {
@@ -334,7 +334,7 @@ static void ResampleTexture(unsigned *in, int inwidth, int inheight, unsigned *o
 	unsigned    *inrow, *inrow2;
 	unsigned frac, fracstep;
 	unsigned p1[2048], p2[2048];
-	byte        *pix1, *pix2, *pix3, *pix4;
+	byte       *pix1, *pix2, *pix3, *pix4;
 
 	if (outwidth > 2048) {
 		ri.Error(ERR_DROP, "ResampleTexture: max width");
@@ -370,18 +370,18 @@ static void ResampleTexture(unsigned *in, int inwidth, int inheight, unsigned *o
 }
 
 /*
-================
+=======================================================================================================================================
 R_LightScaleTexture
 
 Scale up the pixel values in a texture to increase the
 lighting range
-================
+=======================================================================================================================================
 */
 void R_LightScaleTexture(unsigned *in, int inwidth, int inheight, qboolean only_gamma) {
 	if (only_gamma) {
 		if (!glConfig.deviceSupportsGamma) {
 			int i, c;
-			byte    *p;
+			byte   *p;
 
 			p = (byte *)in;
 
@@ -396,7 +396,7 @@ void R_LightScaleTexture(unsigned *in, int inwidth, int inheight, qboolean only_
 	} else
 	{
 		int i, c;
-		byte    *p;
+		byte   *p;
 
 		p = (byte *)in;
 
@@ -423,16 +423,16 @@ void R_LightScaleTexture(unsigned *in, int inwidth, int inheight, qboolean only_
 
 
 /*
-================
+=======================================================================================================================================
 R_MipMap2
 
 Operates in place, quartering the size of the texture
 Proper linear filter
-================
+=======================================================================================================================================
 */
 static void R_MipMap2(unsigned *in, int inWidth, int inHeight) {
 	int i, j, k;
-	byte        *outpix;
+	byte       *outpix;
 	int inWidthMask, inHeightMask;
 	int total;
 	int outWidth, outHeight;
@@ -479,15 +479,15 @@ static void R_MipMap2(unsigned *in, int inWidth, int inHeight) {
 }
 
 /*
-================
+=======================================================================================================================================
 R_MipMap
 
 Operates in place, quartering the size of the texture
-================
+=======================================================================================================================================
 */
 static void R_MipMap(byte *in, int width, int height) {
 	int i, j;
-	byte    *out;
+	byte   *out;
 	int row;
 
 	if (!r_simpleMipMaps->integer) {
@@ -526,11 +526,11 @@ static void R_MipMap(byte *in, int width, int height) {
 }
 
 /*
-================
+=======================================================================================================================================
 R_MipMap
 
 Operates in place, quartering the size of the texture
-================
+=======================================================================================================================================
 */
 static float R_RMSE(byte *in, int width, int height) {
 	int i, j;
@@ -574,11 +574,11 @@ static float R_RMSE(byte *in, int width, int height) {
 
 
 /*
-==================
+=======================================================================================================================================
 R_BlendOverTexture
 
 Apply a color blend over a set of pixels
-==================
+=======================================================================================================================================
 */
 #ifndef USE_OPENGLES
 static void R_BlendOverTexture(byte *data, int pixelCount, byte blend[4]) {
@@ -724,10 +724,10 @@ byte * gles_convertLuminanceAlpha(byte * data, int width, int height)
 
 
 /*
-===============
+=======================================================================================================================================
 Upload32
 
-===============
+=======================================================================================================================================
 */
 static void Upload32(  unsigned *data,
 						int width, int height,
@@ -742,7 +742,7 @@ static void Upload32(  unsigned *data,
 	unsigned    *scaledBuffer = NULL;
 	unsigned    *resampledBuffer = NULL;
 	int i, c;
-	byte        *scan;
+	byte       *scan;
 	GLenum internalFormat = GL_RGB;
 	float rMax = 0, gMax = 0, bMax = 0;
 	static int rmse_saved = 0;
@@ -827,8 +827,7 @@ static void Upload32(  unsigned *data,
 			scan[i*4 + 1] = luma;
 			scan[i*4 + 2] = luma;
 		}
-	}
-	else if(r_greyscale->value)
+	} else if(r_greyscale->value)
 	{
 		for (i = 0; i < c; i++)
 		{
@@ -845,8 +844,7 @@ static void Upload32(  unsigned *data,
 			internalFormat = GL_LUMINANCE;
 		else
 			internalFormat = GL_RGB;
-	}
-	else
+	} else
 	{
 		for (i = 0; i < c; i++)
 		{
@@ -1029,8 +1027,7 @@ static void Upload32(  unsigned *data,
 			goto done;
 		}
 		memcpy(scaledBuffer, data, width * height * 4);
-	}
-	else
+	} else
 	{
 		// use the normal mip-mapping function to go down from here
 		while (width > scaled_width || height > scaled_height) {
@@ -1088,8 +1085,7 @@ done:
 					(GLint)Com_Clamp(1, maxAnisotropy, r_ext_max_anisotropy->integer));
 		qglTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_filter_min);
 		qglTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_filter_max);
-	}
-	else
+	} else
 	{
 		if (textureFilterAnisotropic)
 			qglTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, 1);
@@ -1106,11 +1102,11 @@ done:
 }
 
 /*
-================
+=======================================================================================================================================
 R_CreateImage
 
 This is the only way any image_t are created
-================
+=======================================================================================================================================
 */
 image_t *R_CreateImage(const char *name, byte *pic, int width, int height,
 		imgType_t type, imgFlags_t flags, int internalFormat) {
@@ -1216,12 +1212,12 @@ typedef struct
 // when there are multiple images of different formats available
 static imageExtToLoaderMap_t imageLoaders[ ] =
 {
-	{ "tga",  R_LoadTGA },
-	{ "jpg",  R_LoadJPG },
-	{ "jpeg", R_LoadJPG },
-	{ "png",  R_LoadPNG },
-	{ "pcx",  R_LoadPCX },
-	{ "bmp",  R_LoadBMP }
+	{ "tga",  R_LoadTGA},
+	{ "jpg",  R_LoadJPG},
+	{ "jpeg", R_LoadJPG},
+	{ "png",  R_LoadPNG},
+	{ "pcx",  R_LoadPCX},
+	{ "bmp",  R_LoadBMP}
 };
 
 static int numImageLoaders = ARRAY_LEN(imageLoaders);
@@ -1310,18 +1306,18 @@ void R_LoadImage(const char *name, byte **pic, int *width, int *height)
 }
 
 /*
-===============
+=======================================================================================================================================
 R_FindImageFile
 
 Finds or loads the given image.
 Returns NULL if it fails, not a default image.
-==============
+=======================================================================================================================================
 */
 image_t  *R_FindImageFile(const char *name, imgType_t type, imgFlags_t flags)
 {
 	image_t *image;
 	int width, height;
-	byte    *pic;
+	byte   *pic;
 	long hash;
 
 	if (!name) {
@@ -1360,9 +1356,9 @@ image_t  *R_FindImageFile(const char *name, imgType_t type, imgFlags_t flags)
 
 
 /*
-================
+=======================================================================================================================================
 R_CreateDlightImage
-================
+=======================================================================================================================================
 */
 #define DLIGHT_SIZE 16
 static void R_CreateDlightImage(void) {
@@ -1413,13 +1409,13 @@ void R_InitFogTable(void) {
 }
 
 /*
-================
+=======================================================================================================================================
 R_FogFactor
 
 Returns a 0.0 to 1.0 fog density value
 This is called for each texel of the fog texture on startup
 and for each vertex of transparent shaders in fog dynamically
-================
+=======================================================================================================================================
 */
 float   R_FogFactor(float s, float t) {
 	float d;
@@ -1448,15 +1444,15 @@ float   R_FogFactor(float s, float t) {
 }
 
 /*
-================
+=======================================================================================================================================
 R_CreateFogImage
-================
+=======================================================================================================================================
 */
 #define FOG_S   256
 #define FOG_T   32
 static void R_CreateFogImage(void) {
 	int x,y;
-	byte    *data;
+	byte   *data;
 	float d;
 
 	data = ri.Hunk_AllocateTempMemory(FOG_S * FOG_T * 4);
@@ -1477,9 +1473,9 @@ static void R_CreateFogImage(void) {
 }
 
 /*
-==================
+=======================================================================================================================================
 R_CreateDefaultImage
-==================
+=======================================================================================================================================
 */
 #define DEFAULT_SIZE    16
 static void R_CreateDefaultImage(void) {
@@ -1513,9 +1509,9 @@ static void R_CreateDefaultImage(void) {
 }
 
 /*
-==================
+=======================================================================================================================================
 R_CreateBuiltinImages
-==================
+=======================================================================================================================================
 */
 void R_CreateBuiltinImages(void) {
 	int x,y;
@@ -1551,9 +1547,9 @@ void R_CreateBuiltinImages(void) {
 
 
 /*
-===============
+=======================================================================================================================================
 R_SetColorMappings
-===============
+=======================================================================================================================================
 */
 void R_SetColorMappings(void) {
 	int i, j;
@@ -1634,9 +1630,9 @@ void R_SetColorMappings(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_InitImages
-===============
+=======================================================================================================================================
 */
 void    R_InitImages(void) {
 	memset(hashTable, 0, sizeof(hashTable));
@@ -1649,9 +1645,9 @@ void    R_InitImages(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_DeleteTextures
-===============
+=======================================================================================================================================
 */
 void R_DeleteTextures(void) {
 	int i;
@@ -1683,12 +1679,12 @@ SKINS
 */
 
 /*
-==================
+=======================================================================================================================================
 CommaParse
 
 This is unfortunate, but the skin files aren't
 compatable with our normal parsing rules.
-==================
+=======================================================================================================================================
 */
 static char *CommaParse(char **data_p) {
 	int c = 0, len;
@@ -1784,9 +1780,9 @@ static char *CommaParse(char **data_p) {
 
 //----(SA) added so client can see what model or scale for the model was specified in a skin
 /*
-==============
+=======================================================================================================================================
 RE_GetSkinModel
-==============
+=======================================================================================================================================
 */
 qboolean RE_GetSkinModel(qhandle_t skinid, const char *type, char *name) {
 	int i;
@@ -1814,14 +1810,14 @@ qboolean RE_GetSkinModel(qhandle_t skinid, const char *type, char *name) {
 }
 
 /*
-==============
+=======================================================================================================================================
 RE_GetShaderFromModel
 	return a shader index for a given model's surface
 	'withlightmap' set to '0' will create a new shader that is a copy of the one found
 	on the model, without the lighmap stage, if the shader has a lightmap stage
 
 	NOTE: only works for bmodels right now.  Could modify for other models (md3's etc.)
-==============
+=======================================================================================================================================
 */
 qhandle_t RE_GetShaderFromModel(qhandle_t modelid, int surfnum, int withlightmap) {
 	model_t     *model;
@@ -1873,10 +1869,10 @@ qhandle_t RE_GetShaderFromModel(qhandle_t modelid, int surfnum, int withlightmap
 //----(SA) end
 
 /*
-===============
+=======================================================================================================================================
 RE_RegisterSkin
 
-===============
+=======================================================================================================================================
 */
 qhandle_t RE_RegisterSkin(const char *name) {
 	qhandle_t hSkin;
@@ -2035,9 +2031,9 @@ qhandle_t RE_RegisterSkin(const char *name) {
 
 
 /*
-===============
+=======================================================================================================================================
 R_InitSkins
-===============
+=======================================================================================================================================
 */
 void    R_InitSkins(void) {
 	skin_t      *skin;
@@ -2053,9 +2049,9 @@ void    R_InitSkins(void) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_GetSkinByHandle
-===============
+=======================================================================================================================================
 */
 skin_t  *R_GetSkinByHandle(qhandle_t hSkin) {
 	if (hSkin < 1 || hSkin >= tr.numSkins) {
@@ -2065,9 +2061,9 @@ skin_t  *R_GetSkinByHandle(qhandle_t hSkin) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_SkinList_f
-===============
+=======================================================================================================================================
 */
 void    R_SkinList_f(void) {
 	int i, j;
@@ -2096,8 +2092,8 @@ SaveTGA
 =============
 */
 void SaveTGA(char *name, byte **pic, int width, int height) {
-	byte    *inpixel, *outpixel;
-	byte    *outbuf, *b;
+	byte   *inpixel, *outpixel;
+	byte   *outbuf, *b;
 
 	outbuf = ri.Hunk_AllocateTempMemory(width * height * 4 + 18);
 	b = outbuf;
@@ -2149,8 +2145,8 @@ SaveTGAAlpha
 =============
 */
 void SaveTGAAlpha(char *name, byte **pic, int width, int height) {
-	byte    *inpixel, *outpixel;
-	byte    *outbuf, *b;
+	byte   *inpixel, *outpixel;
+	byte   *outbuf, *b;
 
 	outbuf = ri.Hunk_AllocateTempMemory(width * height * 4 + 18);
 	b = outbuf;
@@ -2195,9 +2191,9 @@ void SaveTGAAlpha(char *name, byte **pic, int width, int height) {
 }
 
 /*
-==============
+=======================================================================================================================================
 R_CropImage
-==============
+=======================================================================================================================================
 */
 #define CROPIMAGES_ENABLED
 //#define FUNNEL_HACK
@@ -2209,7 +2205,7 @@ qboolean R_CropImage(char *name, byte **pic, int border, int *width, int *height
 #ifdef CROPIMAGES_ENABLED
 	int row, col;
 	int rows, cols;
-	byte    *inpixel, *temppic, *outpixel;
+	byte   *inpixel, *temppic, *outpixel;
 	int mins[2], maxs[2];
 	int diff[2];
 	//int	newWidth;
@@ -2516,9 +2512,9 @@ qboolean R_CropImage(char *name, byte **pic, int border, int *width, int *height
 
 
 /*
-===============
+=======================================================================================================================================
 R_CropAndNumberImagesInDirectory
-===============
+=======================================================================================================================================
 */
 void    R_CropAndNumberImagesInDirectory(char *dir, char *ext, int maxWidth, int maxHeight, int withAlpha) {
 #ifdef CROPIMAGES_ENABLED
@@ -2527,7 +2523,7 @@ void    R_CropAndNumberImagesInDirectory(char *dir, char *ext, int maxWidth, int
 #ifndef RESIZE
 	int i;
 #endif
-	byte    *pic, *temppic;
+	byte   *pic, *temppic;
 	int width, height, newWidth, newHeight;
 	char    *pch;
 	int b,c,d,lastNumber;
@@ -2628,9 +2624,9 @@ void    R_CropAndNumberImagesInDirectory(char *dir, char *ext, int maxWidth, int
 }
 
 /*
-==============
+=======================================================================================================================================
 R_CropImages_f
-==============
+=======================================================================================================================================
 */
 void R_CropImages_f(void) {
 #ifdef CROPIMAGES_ENABLED

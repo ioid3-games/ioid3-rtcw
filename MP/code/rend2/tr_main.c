@@ -61,22 +61,22 @@ glfogType_t glfogNum = FOG_NONE;
 
 //----(SA)
 /*
-==============
+=======================================================================================================================================
 R_SetFog
 
   if fogvar == FOG_CMD_SWITCHFOG {
 	fogvar is the command
 	var1 is the fog to switch to
 	var2 is the time to transition
-  }
+ }
   else {
 	fogvar is the fog that's being set
 	var1 is the near fog z value
 	var2 is the far fog z value
 	rgb = color
 	density is density, and is used to derive the values of 'mode', 'drawsky', and 'clearscreen'
-  }
-==============
+ }
+=======================================================================================================================================
 */
 void R_SetFog(int fogvar, int var1, int var2, float r, float g, float b, float density) {
 	if (fogvar != FOG_CMD_SWITCHFOG) {   // just set the parameters and return
@@ -137,9 +137,9 @@ void R_SetFog(int fogvar, int var1, int var2, float r, float g, float b, float d
 //----(SA) end
 
 /*
-================
+=======================================================================================================================================
 R_CompareVert
-================
+=======================================================================================================================================
 */
 qboolean R_CompareVert(srfVert_t * v1, srfVert_t * v2, qboolean checkST)
 {
@@ -386,7 +386,7 @@ Returns CULL_IN, CULL_CLIP, or CULL_OUT
 int R_CullBox(vec3_t worldBounds[2]) {
 	int             i;
 	cplane_t       *frust;
-	qboolean        anyClip;
+	qboolean anyClip;
 	int             r, numPlanes;
 
 	numPlanes = (tr.viewParms.flags & VPF_FARPLANEFRUSTUM) ? 5 : 4;
@@ -696,9 +696,9 @@ void R_RotateForViewer(void) {
 
 
 /*
-==============
+=======================================================================================================================================
 R_SetFrameFog
-==============
+=======================================================================================================================================
 */
 void R_SetFrameFog(void) {
 
@@ -743,7 +743,6 @@ void R_SetFrameFog(void) {
 			if (lerpPos > 1) {
 				lerpPos = 1;
 			}
-
 			// lerp near/far
 			glfogsettings[FOG_CURRENT].start        = glfogsettings[FOG_LAST].start + ((glfogsettings[FOG_TARGET].start - glfogsettings[FOG_LAST].start) * lerpPos);
 			glfogsettings[FOG_CURRENT].end          = glfogsettings[FOG_LAST].end + ((glfogsettings[FOG_TARGET].end - glfogsettings[FOG_LAST].end) * lerpPos);
@@ -789,9 +788,9 @@ void R_SetFrameFog(void) {
 
 
 /*
-==============
+=======================================================================================================================================
 SetFarClip
-==============
+=======================================================================================================================================
 */
 static void R_SetFarClip(void) {
 	float farthestCornerDistance = 0;
@@ -890,8 +889,7 @@ void R_SetupFrustum (viewParms_t *dest, float xmin, float xmax, float ymax, floa
 
 		VectorScale(dest->or.axis[0], oppleg, dest->frustum[1].normal);
 		VectorMA(dest->frustum[1].normal, -adjleg, dest->or.axis[1], dest->frustum[1].normal);
-	}
-	else
+	} else
 	{
 		// In stereo rendering, due to the modification of the projection matrix, dest->or.origin is not the
 		// actual origin that we're rendering so offset the tip of the view pyramid.
@@ -939,9 +937,9 @@ void R_SetupFrustum (viewParms_t *dest, float xmin, float xmax, float ymax, floa
 }
 
 /*
-===============
+=======================================================================================================================================
 R_SetupProjection
-===============
+=======================================================================================================================================
 */
 void R_SetupProjection(viewParms_t *dest, float zProj, float zFar, qboolean computeFrustum)
 {
@@ -993,11 +991,11 @@ void R_SetupProjection(viewParms_t *dest, float zProj, float zFar, qboolean comp
 }
 
 /*
-===============
+=======================================================================================================================================
 R_SetupProjectionZ
 
 Sets the z-component transformation part in the projection matrix
-===============
+=======================================================================================================================================
 */
 void R_SetupProjectionZ(viewParms_t *dest)
 {
@@ -1048,9 +1046,9 @@ void R_SetupProjectionZ(viewParms_t *dest)
 }
 
 /*
-===============
+=======================================================================================================================================
 R_SetupProjectionOrtho
-===============
+=======================================================================================================================================
 */
 void R_SetupProjectionOrtho(viewParms_t *dest, vec3_t viewBounds[2])
 {
@@ -1062,8 +1060,8 @@ void R_SetupProjectionOrtho(viewParms_t *dest, vec3_t viewBounds[2])
 	// Quake3:   Projection:
 	//
 	//    Z  X   Y  Z
-	//    | /    | /
-	//    |/     |/
+	// | / | /
+	// |/ |/
 	// Y--+      +--X
 
 	xmin  =  viewBounds[0][1];
@@ -1582,13 +1580,13 @@ DRAWSURF SORTING
 */
 
 /*
-===============
+=======================================================================================================================================
 R_Radix
-===============
+=======================================================================================================================================
 */
 static ID_INLINE void R_Radix(int byte, int size, drawSurf_t *source, drawSurf_t *dest)
 {
-  int           count[ 256 ] = { 0 };
+  int           count[ 256 ] = { 0};
   int           index[ 256 ];
   int           i;
   unsigned char *sortKey = NULL;
@@ -1610,11 +1608,11 @@ static ID_INLINE void R_Radix(int byte, int size, drawSurf_t *source, drawSurf_t
 }
 
 /*
-===============
+=======================================================================================================================================
 R_RadixSort
 
 Radix sort with 4 byte size buckets
-===============
+=======================================================================================================================================
 */
 static void R_RadixSort(drawSurf_t *source, int size)
 {
@@ -1837,9 +1835,9 @@ void R_AddEntitySurfaces (void) {
 }
 
 /*
-====================
+=======================================================================================================================================
 R_GenerateDrawSurfs
-====================
+=======================================================================================================================================
 */
 void R_GenerateDrawSurfs(void) {
 	R_AddWorldSurfaces();
@@ -1865,9 +1863,9 @@ void R_GenerateDrawSurfs(void) {
 }
 
 /*
-================
+=======================================================================================================================================
 R_DebugPolygon
-================
+=======================================================================================================================================
 */
 void R_DebugPolygon(int color, int numPoints, float *points) {
 	// FIXME: implement this
@@ -1899,11 +1897,11 @@ void R_DebugPolygon(int color, int numPoints, float *points) {
 }
 
 /*
-====================
+=======================================================================================================================================
 R_DebugGraphics
 
 Visualization aid for movement clipping debugging
-====================
+=======================================================================================================================================
 */
 void R_DebugGraphics(void) {
 	if (!r_debugSurface->integer) {
@@ -1919,12 +1917,12 @@ void R_DebugGraphics(void) {
 
 
 /*
-================
+=======================================================================================================================================
 R_RenderView
 
 A view may be either the actual camera view,
 or a mirror / remote location
-================
+=======================================================================================================================================
 */
 void R_RenderView(viewParms_t *parms) {
 	int firstDrawSurf;
@@ -2436,8 +2434,7 @@ void R_RenderSunShadowMaps(const refdef_t *fd, int level)
 		VectorCopy4(lightDir, tr.refdef.sunDir);
 		VectorCopy4(lightCol, tr.refdef.sunCol);
 		VectorScale4(lightCol, 0.2f, tr.refdef.sunAmbCol);
-	}
-	else
+	} else
 	{
 		VectorCopy4(tr.refdef.sunDir, lightDir);
 	}
@@ -2481,14 +2478,12 @@ void R_RenderSunShadowMaps(const refdef_t *fd, int level)
 	{
 		// Use world up as light view up
 		VectorSet(lightViewAxis[2], 0, 0, 1);
-	}
-	else if (level == 0)
+	} else if (level == 0)
 	{
 		// Level 0 tries to use a diamond texture orientation relative to camera view
 		// Use halfway between camera view forward and left for light view up
 		VectorAdd(fd->viewaxis[0], fd->viewaxis[1], lightViewAxis[2]);
-	}
-	else
+	} else
 	{
 		// Use camera view up as light view up
 		VectorCopy(fd->viewaxis[2], lightViewAxis[2]);
@@ -2560,7 +2555,7 @@ void R_RenderSunShadowMaps(const refdef_t *fd, int level)
 			VectorMA(point, -ly, fd->viewaxis[2], point);
 			Mat4Transform(lightViewMatrix, point, lightViewPoint);
 			AddPointToBounds(lightViewPoint, lightviewBounds[0], lightviewBounds[1]);
- 
+
 			// add view far plane
 			lx = splitZFar * tan(fd->fov_x * M_PI / 360.0f);
 			ly = splitZFar * tan(fd->fov_y * M_PI / 360.0f);

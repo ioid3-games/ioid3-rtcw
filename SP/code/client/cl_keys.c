@@ -1282,7 +1282,7 @@ void Field_VariableSizeDraw(field_t *edit, int x, int y, int width, int size, qb
 			str[0] = cursorChar;
 			str[1] = 0;
 			SCR_DrawBigString(x + (edit->cursor - prestep - i) * size, y, str, 1.0, qfalse);
- 
+
 		}
 	}
 }

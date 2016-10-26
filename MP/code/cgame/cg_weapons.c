@@ -50,18 +50,18 @@ static int maxWeapBanks = MAX_WEAP_BANKS, maxWeapsInBank = MAX_WEAPS_IN_BANK; //
 
 int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK] = {
 	// bank
-	{0,   0, 0         }, // 0(empty)
+	{0,   0, 0        }, // 0(empty)
 
-	{WP_KNIFE,  WP_KNIFE2,  0         }, // 1
-	{WP_LUGER,  WP_COLT, 0         }, // 2	// WP_AKIMBO
-	{WP_MP40,   WP_THOMPSON, WP_STEN   }, // 3
-	{WP_MAUSER, WP_GARAND,  0         }, // 4
-	{WP_FG42,   WP_BAR,  0         }, // 5
+	{WP_KNIFE,  WP_KNIFE2,  0        }, // 1
+	{WP_LUGER,  WP_COLT, 0        }, // 2	// WP_AKIMBO
+	{WP_MP40,   WP_THOMPSON, WP_STEN  }, // 3
+	{WP_MAUSER, WP_GARAND,  0        }, // 4
+	{WP_FG42,   WP_BAR,  0        }, // 5
 	{WP_GRENADE_LAUNCHER, WP_GRENADE_PINEAPPLE, WP_DYNAMITE}, // 6
-	{WP_PANZERFAUST, WP_ROCKET_LAUNCHER, 0         }, // 7
-	{WP_VENOM,  0, 0         }, // 8
-	{WP_FLAMETHROWER, 0, 0         }, // 9
-	{WP_TESLA,  0, 0         } // 10
+	{WP_PANZERFAUST, WP_ROCKET_LAUNCHER, 0        }, // 7
+	{WP_VENOM,  0, 0        }, // 8
+	{WP_FLAMETHROWER, 0, 0        }, // 9
+	{WP_TESLA,  0, 0        } // 10
 // {WP_SPEARGUN, 0, 0			}
 // {WP_CROSS, 0, 0			}
 };

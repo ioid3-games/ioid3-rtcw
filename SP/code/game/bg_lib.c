@@ -912,7 +912,7 @@ double strtod(const char *nptr, char **endptr) {
 					*endptr = (char *)nptr;
 				return res;
 			}
- 
+
 			res *= powN(10, exp);
 		}
 
@@ -1302,20 +1302,20 @@ static int dopr(char *buffer, size_t maxlen, const char *format, va_list args) {
       default:
 	state = DP_S_MIN;
 	break;
-    }
+   }
       break;
     case DP_S_MIN:
       if ('0' <= ch && ch <= '9')
       {
 	min = 10 * min + char_to_int (ch);
 	ch = *format++;
-    } 
+   } 
       else if (ch == '*') 
       {
 	min = va_arg(args, int);
 	ch = *format++;
 	state = DP_S_DOT;
-    } 
+   } 
       else 
 	state = DP_S_DOT;
       break;
@@ -1324,7 +1324,7 @@ static int dopr(char *buffer, size_t maxlen, const char *format, va_list args) {
       {
 	state = DP_S_MAX;
 	ch = *format++;
-    } 
+   } 
       else 
 	state = DP_S_MOD;
       break;
@@ -1336,13 +1336,13 @@ static int dopr(char *buffer, size_t maxlen, const char *format, va_list args) {
 	  max = 0;
 	max = 10 * max + char_to_int (ch);
 	ch = *format++;
-    } 
+   } 
       else if (ch == '*') 
       {
 	max = va_arg(args, int);
 	ch = *format++;
 	state = DP_S_MOD;
-    } 
+   } 
       else 
 	state = DP_S_MOD;
       break;
@@ -1363,7 +1363,7 @@ static int dopr(char *buffer, size_t maxlen, const char *format, va_list args) {
 	break;
       default:
 	break;
-    }
+   }
       if (cflags != DP_C_LONG)
 	state = DP_S_CONV;
       else
@@ -1482,22 +1482,22 @@ static int dopr(char *buffer, size_t maxlen, const char *format, va_list args) {
 	  short int *num;
 	  num = va_arg(args, short int *);
 	  *num = currlen;
-      } else if (cflags == DP_C_LONG) {
+     } else if (cflags == DP_C_LONG) {
 	  long int *num;
 	  num = va_arg(args, long int *);
 	  *num = currlen;
-      } 
+     } 
 	} else if (cflags == DP_C_LLONG) {
 	  LLONG *num;
 	  num = va_arg(args, LLONG *);
 	  *num = currlen;
-      } 
+     } 
 	else 
 	{
 	  int *num;
 	  num = va_arg(args, int *);
 	  *num = currlen;
-      }
+     }
 
 	break;
       case '%':
@@ -1510,7 +1510,7 @@ static int dopr(char *buffer, size_t maxlen, const char *format, va_list args) {
       default:
 	/* Unknown, skip */
 	break;
-    }
+   }
       ch = *format++;
       state = DP_S_DEFAULT;
       flags = cflags = min = 0;
@@ -1521,7 +1521,7 @@ static int dopr(char *buffer, size_t maxlen, const char *format, va_list args) {
     default:
       /* hmm? */
       break; /* some picky compilers need this */
-  }
+ }
 }
   if (maxlen > 0)
     buffer[currlen] = '\0';
@@ -1583,7 +1583,7 @@ static int fmtint (char *buffer, size_t *currlen, size_t maxlen, LLONG value, in
     if (value < 0) {
       signvalue = '-';
       uvalue = -value;
-  }
+ }
     else
       if (flags & DP_F_PLUS) /* Do a sign(+/ i) */
 	signvalue = '+';
@@ -1638,7 +1638,7 @@ static int fmtint (char *buffer, size_t *currlen, size_t maxlen, LLONG value, in
     while (zpadlen > 0) {
       total += dopr_outch(buffer, currlen, maxlen, '0');
       --zpadlen;
-  }
+ }
 }
 
   /* Digits */
@@ -1766,11 +1766,11 @@ static int fmtfp(char *buffer, size_t *currlen, size_t maxlen, LDOUBLE fvalue, i
       total += dopr_outch(buffer, currlen, maxlen, signvalue);
       --padlen;
       signvalue = 0;
-  }
+ }
     while (padlen > 0) {
       total += dopr_outch(buffer, currlen, maxlen, '0');
       --padlen;
-  }
+ }
 }
   while (padlen > 0) {
     total += dopr_outch(buffer, currlen, maxlen, ' ');

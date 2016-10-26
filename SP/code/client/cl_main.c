@@ -1154,7 +1154,7 @@ void CL_ShutdownAll(qboolean shutdownRef) {
 
 	if (CL_VideoRecording())
 		CL_CloseAVI();
- 
+
 	if (clc.demorecording)
 		CL_StopRecord_f();
 #ifdef USE_CURL
@@ -2173,7 +2173,7 @@ void CL_InitDownloads(void) {
       Com_Printf("\nWARNING: You are missing some files referenced by the server:\n%s"
                   "You might not be able to join the game\n"
                   "Go to the setting menu to turn on autodownload, or get the file elsewhere\n\n", missingfiles);
-  }
+ }
 }
   else if (FS_ComparePaks(clc.downloadList, sizeof(clc.downloadList), qtrue)) {
 
@@ -2366,7 +2366,7 @@ void CL_ServersResponsePacket(const netadr_t *from, msg_t *msg, qboolean extende
 		// IPv6 address, if it's an extended response
 		else if (extended && *buffptr == '/') {
 			buffptr++;
- 
+
 			if (buffend - buffptr < sizeof(addresses[numservers].ip6) + sizeof(addresses[numservers].port) + 1) {
 				break;
 			}

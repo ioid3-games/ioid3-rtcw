@@ -32,12 +32,12 @@ If you have questions concerning this license or the applicable additional terms
 
 #define MAX_CORONAS     32          //----(SA)	not really a reason to limit this other than trying to keep a reasonable count
 #define MAX_DLIGHTS     32          // can't be increased, because bit flags are used on surfaces
-#define	REFENTITYNUM_BITS	10		// can't be increased without changing drawsurf bit packing
-#define	REFENTITYNUM_MASK	((1<<REFENTITYNUM_BITS) - 1)
+#define REFENTITYNUM_BITS	10		// can't be increased without changing drawsurf bit packing
+#define REFENTITYNUM_MASK	((1<<REFENTITYNUM_BITS) - 1)
 // the last N-bit number (2^REFENTITYNUM_BITS - 1) is reserved for the special world refentity,
 //  and this is reflected by the value of MAX_REFENTITIES (which therefore is not a power-of-2)
-#define	MAX_REFENTITIES		((1<<REFENTITYNUM_BITS) - 1)
-#define	REFENTITYNUM_WORLD	((1<<REFENTITYNUM_BITS) - 1)
+#define MAX_REFENTITIES		((1<<REFENTITYNUM_BITS) - 1)
+#define REFENTITYNUM_WORLD	((1<<REFENTITYNUM_BITS) - 1)
 
 // renderfx flags
 #define RF_MINLIGHT         0x0001       // allways have some light (viewmodel, some items)
@@ -161,11 +161,9 @@ typedef struct {
 
 	// Ridah, entity fading (gibs, debris, etc)
 	int fadeStartTime, fadeEndTime;
-
 	float hilightIntensity;         //----(SA)	added
 
 	int reFlags;
-
 	int entityNum;                  // currentState.number, so we can attach rendering effects to specific entities (Zombie)
 
 } refEntity_t;
@@ -322,7 +320,6 @@ typedef struct {
 	// than scrWidth / scrHeight if the pixels are non-square
 	// normal screens should be 4/3, but wide aspect monitors may be 16/9
 	float windowAspect;
-
 	int displayFrequency;
 
 	// synonymous with "does rendering consume the entire screen?", therefore

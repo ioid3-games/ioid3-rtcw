@@ -197,8 +197,7 @@ static int R_ComputeLOD(trRefEntity_t *ent) {
 	if (tr.currentModel->numLods < 2) {
 		// model has only 1 LOD level, skip computations and bias
 		lod = 0;
-	}
-	else
+	} else
 	{
 		// multiple LODs exist, so compute projected bounding sphere
 		// and use that as a criteria for selecting LOD

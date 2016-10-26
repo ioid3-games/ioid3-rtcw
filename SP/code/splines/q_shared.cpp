@@ -1148,7 +1148,7 @@ const char *Q_stristr(const char *s, const char *find) {
   if ((c = *find++) != 0) {
     if (c >= 'a' && c <= 'z') {
       c -= ('a' - 'A');
-  }
+ }
     len = strlen(find);
     do
     {
@@ -1159,9 +1159,9 @@ const char *Q_stristr(const char *s, const char *find) {
         if (sc >= 'a' && sc <= 'z')
         {
           sc -= ('a' - 'A');
-      }
-    } while (sc != c);
-  } while (Q_stricmpn(s, find, len) != 0);
+     }
+   } while (sc != c);
+ } while (Q_stricmpn(s, find, len) != 0);
     s--;
 }
   return s;

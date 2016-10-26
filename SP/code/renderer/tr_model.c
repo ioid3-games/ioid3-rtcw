@@ -44,9 +44,9 @@ extern cvar_t *r_exportCompressedModels;
 extern cvar_t *r_buildScript;
 
 /*
-====================
+=======================================================================================================================================
 R_RegisterMD3
-====================
+=======================================================================================================================================
 */
 qhandle_t R_RegisterMD3(const char *name, model_t *mod)
 {
@@ -56,7 +56,7 @@ qhandle_t R_RegisterMD3(const char *name, model_t *mod)
 	} buf;
 	int			lod;
 	int			ident = 0;
-	qboolean	loaded = qfalse;
+	qboolean loaded = qfalse;
 	int			numLoaded;
 	char filename[MAX_QPATH], namebuf[MAX_QPATH+20];
 	char *fext, defex[] = "md3";
@@ -170,9 +170,9 @@ fail:
 }
 
 /*
-====================
+=======================================================================================================================================
 R_RegisterMDS
-====================
+=======================================================================================================================================
 */
 qhandle_t R_RegisterMDS(const char *name, model_t *mod)
 {
@@ -207,9 +207,9 @@ qhandle_t R_RegisterMDS(const char *name, model_t *mod)
 }
 
 /*
-====================
+=======================================================================================================================================
 R_RegisterMDR
-====================
+=======================================================================================================================================
 */
 qhandle_t R_RegisterMDR(const char *name, model_t *mod)
 {
@@ -245,9 +245,9 @@ qhandle_t R_RegisterMDR(const char *name, model_t *mod)
 }
 
 /*
-====================
+=======================================================================================================================================
 R_RegisterIQM
-====================
+=======================================================================================================================================
 */
 qhandle_t R_RegisterIQM(const char *name, model_t *mod)
 {
@@ -290,11 +290,11 @@ typedef struct
 // when there are multiple models of different formats available
 static modelExtToLoaderMap_t modelLoaders[ ] =
 {
-	{ "iqm", R_RegisterIQM },
-	{ "mdr", R_RegisterMDR },
-	{ "mds", R_RegisterMDS },
-	{ "md3", R_RegisterMD3 },
-	{ "mdc", R_RegisterMD3 }
+	{ "iqm", R_RegisterIQM},
+	{ "mdr", R_RegisterMDR},
+	{ "mds", R_RegisterMDS},
+	{ "md3", R_RegisterMD3},
+	{ "mdc", R_RegisterMD3}
 };
 
 static int numModelLoaders = ARRAY_LEN(modelLoaders);
@@ -336,7 +336,7 @@ model_t *R_AllocModel(void) {
 }
 
 /*
-====================
+=======================================================================================================================================
 RE_RegisterModel
 
 Loads in a model for the given name
@@ -345,12 +345,12 @@ Zero will be returned if the model fails to load.
 An entry will be retained for failed models as an
 optimization to prevent disk rescanning if they are
 asked for again.
-====================
+=======================================================================================================================================
 */
 qhandle_t RE_RegisterModel(const char *name) {
 	model_t		*mod;
 	qhandle_t	hModel;
-	qboolean	orgNameFailed = qfalse;
+	qboolean orgNameFailed = qfalse;
 	int			orgLoader = -1;
 	int			i;
 	char		localName[ MAX_QPATH ];
@@ -400,7 +400,7 @@ qhandle_t RE_RegisterModel(const char *name) {
 	}
 
 	R_IssuePendingRenderCommands();
- 
+
 	mod->type = MOD_BAD;
 	mod->numLods = 0;
 
@@ -489,7 +489,7 @@ R_MDC_GetAnorm
 =============
 */
 unsigned char R_MDC_GetAnorm(const vec3_t dir) {
-	int i, best_start_i[3] = { 0 }, next_start, next_end, best = 0;     // TTimo: init
+	int i, best_start_i[3] = { 0}, next_start, next_end, best = 0;     // TTimo: init
 	float best_diff, group_val, this_val, diff;
 	float   *this_norm;
 
@@ -594,7 +594,7 @@ R_MDC_GetXyzCompressed
 static qboolean R_MDC_GetXyzCompressed(md3Header_t *md3, md3XyzNormal_t *newXyz, vec3_t oldPos, mdcXyzCompressed_t *out, qboolean verify) {
 	vec3_t newPos, vec;
 	int i;
-	vec3_t pos, dir = { 0 }, norm;
+	vec3_t pos, dir = { 0}, norm;
 
 	for (i = 0; i < 3; i++) {
 		newPos[i] = (float)newXyz->xyz[i] * MD3_XYZ_SCALE;
@@ -723,7 +723,6 @@ static qboolean R_MDC_ConvertMD3(model_t *mod, int lod, const char *mod_name) {
 				baseFrames[numBaseFrames++] = f;
 				foundBase = qtrue;
 			}
-
 			// find the next surface
 			surf = (md3Surface_t *)((byte *)surf + surf->ofsEnd);
 		}
@@ -1021,14 +1020,12 @@ static qboolean R_LoadMDC(model_t *mod, int lod, void *buffer, const char *mod_n
 				LL(tri->indexes[1]);
 				LL(tri->indexes[2]);
 			}
-
 			// swap all the ST
 			st = (md3St_t *)((byte *)surf + surf->ofsSt);
 			for (j = 0 ; j < surf->numVerts ; j++, st++) {
 				st->st[0] = LittleFloat(st->st[0]);
 				st->st[1] = LittleFloat(st->st[1]);
 			}
-
 			// swap all the XyzNormals
 			xyz = (md3XyzNormal_t *)((byte *)surf + surf->ofsXyzNormals);
 			for (j = 0 ; j < surf->numVerts * surf->numBaseFrames ; j++, xyz++)
@@ -1039,21 +1036,18 @@ static qboolean R_LoadMDC(model_t *mod, int lod, void *buffer, const char *mod_n
 
 				xyz->normal = LittleShort(xyz->normal);
 			}
-
 			// swap all the XyzCompressed
 			xyzComp = (mdcXyzCompressed_t *)((byte *)surf + surf->ofsXyzCompressed);
 			for (j = 0 ; j < surf->numVerts * surf->numCompFrames ; j++, xyzComp++)
 			{
 				LL(xyzComp->ofsVec);
 			}
-
 			// swap the frameBaseFrames
 			ps = (short *)((byte *)surf + surf->ofsFrameBaseFrames);
 			for (j = 0; j < mod->mdc[lod]->numFrames; j++, ps++)
 			{
 				*ps = LittleShort(*ps);
 			}
-
 			// swap the frameCompFrames
 			ps = (short *)((byte *)surf + surf->ofsFrameCompFrames);
 			for (j = 0; j < mod->mdc[lod]->numFrames; j++, ps++)
@@ -1239,14 +1233,12 @@ static qboolean R_LoadMD3(model_t *mod, int lod, void *buffer, const char *mod_n
 				LL(tri->indexes[1]);
 				LL(tri->indexes[2]);
 			}
-
 			// swap all the ST
 			st = (md3St_t *)((byte *)surf + surf->ofsSt);
 			for (j = 0 ; j < surf->numVerts ; j++, st++) {
 				st->st[0] = LittleFloat(st->st[0]);
 				st->st[1] = LittleFloat(st->st[1]);
 			}
-
 			// swap all the XyzNormals
 			xyz = (md3XyzNormal_t *)((byte *)surf + surf->ofsXyzNormals);
 			for (j = 0 ; j < surf->numVerts * surf->numFrames ; j++, xyz++)
@@ -1400,8 +1392,7 @@ static qboolean R_LoadMDR(model_t *mod, void *buffer, int filesize, const char *
 			cframe = (mdrCompFrame_t *) &cframe->bones[j];
 			frame = (mdrFrame_t *) &frame->bones[j];
 		}
-	}
-	else
+	} else
 	{
 		mdrFrame_t *curframe;
 		
@@ -1464,7 +1455,6 @@ static qboolean R_LoadMDR(model_t *mod, void *buffer, int filesize, const char *
 				ri.Printf(PRINT_WARNING, "R_LoadMDR: %s has broken structure.\n", mod_name);
 				return qfalse;
 			}
-
 			// first do some copying stuff
 			
 			surf->ident = SF_MDR;
@@ -1758,7 +1748,6 @@ static qboolean R_LoadMDS(model_t *mod, void *buffer, const char *mod_name) {
 				LL(tri->indexes[1]);
 				LL(tri->indexes[2]);
 			}
-
 			// swap all the vertexes
 			v = (mdsVertex_t *)((byte *)surf + surf->ofsVerts);
 			for (j = 0 ; j < surf->numVerts ; j++) {
@@ -1781,13 +1770,11 @@ static qboolean R_LoadMDS(model_t *mod, void *buffer, const char *mod_name) {
 
 				v = (mdsVertex_t *)&v->weights[v->numWeights];
 			}
-
 			// swap the collapse map
 			collapseMap = (int *)((byte *)surf + surf->ofsCollapseMap);
 			for (j = 0; j < surf->numVerts; j++, collapseMap++) {
 				*collapseMap = LittleLong(*collapseMap);
 			}
-
 			// swap the bone references
 			boneref = (int *)((byte *)surf + surf->ofsBoneReferences);
 			for (j = 0; j < surf->numBoneReferences; j++, boneref++) {
@@ -1826,9 +1813,9 @@ void RE_BeginRegistration(glconfig_t *glconfigOut) {
 }
 
 /*
-===============
+=======================================================================================================================================
 R_ModelInit
-===============
+=======================================================================================================================================
 */
 void R_ModelInit(void) {
 	model_t     *mod;
@@ -1842,9 +1829,9 @@ void R_ModelInit(void) {
 
 
 /*
-================
+=======================================================================================================================================
 R_Modellist_f
-================
+=======================================================================================================================================
 */
 
 void R_Modellist_f(void) {
@@ -1879,9 +1866,9 @@ void R_Modellist_f(void) {
 
 
 /*
-================
+=======================================================================================================================================
 R_GetTag
-================
+=======================================================================================================================================
 */
 static int R_GetTag(byte *mod, int frame, const char *tagName, int startTagIndex, md3Tag_t **outTag) {
 	md3Tag_t        *tag;
@@ -1920,9 +1907,9 @@ static int R_GetTag(byte *mod, int frame, const char *tagName, int startTagIndex
 }
 
 /*
-================
+=======================================================================================================================================
 R_GetMDCTag
-================
+=======================================================================================================================================
 */
 static int R_GetMDCTag(byte *mod, int frame, const char *tagName, int startTagIndex, mdcTag_t **outTag) {
 	mdcTag_t        *tag;
@@ -1960,9 +1947,9 @@ static int R_GetMDCTag(byte *mod, int frame, const char *tagName, int startTagIn
 }
 
 /*
-================
+=======================================================================================================================================
 R_GetMDSTag
-================
+=======================================================================================================================================
 */
 // TTimo: unused
 /*
@@ -2050,11 +2037,11 @@ static int R_GetAnimTag(mdrHeader_t *mod, int framenum, const char *tagName, int
 
 
 /*
-================
+=======================================================================================================================================
 R_LerpTag
 
   returns the index of the tag it found, for cycling through tags with the same name
-================
+=======================================================================================================================================
 */
 int R_LerpTag(orientation_t *tag, const refEntity_t *refent, const char *tagNameIn, int startIndex) {
 	md3Tag_t    *start, *end;
@@ -2164,9 +2151,9 @@ int R_LerpTag(orientation_t *tag, const refEntity_t *refent, const char *tagName
 }
 
 /*
-===============
+=======================================================================================================================================
 R_TagInfo_f
-===============
+=======================================================================================================================================
 */
 void R_TagInfo_f(void) {
 
@@ -2207,9 +2194,9 @@ void R_TagInfo_f(void) {
 
 
 /*
-====================
+=======================================================================================================================================
 R_ModelBounds
-====================
+=======================================================================================================================================
 */
 void R_ModelBounds(qhandle_t handle, vec3_t mins, vec3_t maxs) {
 	model_t     *model;

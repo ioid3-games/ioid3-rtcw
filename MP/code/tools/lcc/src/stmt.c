@@ -139,7 +139,7 @@ void statement(int loop, Swtch swp, int lev) {
 		       		test(':', stop);
 		       	}
 		       	statement(loop, swp, lev);
-		     } break;
+		    } break;
 	case DEFAULT:  if (swp == NULL)
 		       	error("illegal default label\n");
 		       else if (swp->deflab)
@@ -147,7 +147,7 @@ void statement(int loop, Swtch swp, int lev) {
 		       else {
 		       	swp->deflab = findlabel(swp->lab);
 		       	definelab(swp->deflab->u.l.label);
-		     }
+		    }
 		       t = gettok();
 		       expect(':');
 		       statement(loop, swp, lev); break;
@@ -168,7 +168,7 @@ void statement(int loop, Swtch swp, int lev) {
 		       		retcode(NULL);
 		       	}
 		       	branch(cfunc->u.f.label);
-		     } expect(';');
+		    } expect(';');
 					    break;
 	case '{':      compound(loop, swp, lev + 1); break;
 	case ';':      definept(NULL); t = gettok(); break;
@@ -186,27 +186,27 @@ void statement(int loop, Swtch swp, int lev) {
 		       	use(p, src);
 		       	branch(p->u.l.label);
 		       	t = gettok();
-		     } else
+		    } else
 		       	error("missing label in goto\n"); expect(';');
 					  break;
 	case ID:       if (getchr() == ':') {
 		       	stmtlabel();
 		       	statement(loop, swp, lev);
 		       	break;
-		     }
+		    }
 
 	default:       definept(NULL);
 		       if (kind[t] != ID) {
 		       	error("unrecognized statement\n");
 		       	t = gettok();
-		     } else {
+		    } else {
 		       	Tree e = expr0(0);
 		       	listnodes(e, 0, 0);
 		       	if (nodecount == 0 || nodecount > 200)
 		       		walk(NULL, 0, 0);
 		       	else if (glevel) walk(NULL, 0, 0);
 		       	deallocate(STMT);
-		     } expect(';');
+		    } expect(';');
 						break;
 	}
 

@@ -358,7 +358,7 @@ union yyalloc
         Stack = &yyptr->Stack_alloc;                                    \
         yynewbytes = yystacksize * sizeof(*Stack) + YYSTACK_GAP_MAXIMUM; \
         yyptr += yynewbytes / sizeof(*yyptr);                          \
-    }                                                                 \
+   }                                                                 \
     while (0)
 
 #endif
@@ -377,7 +377,7 @@ union yyalloc
           YYSIZE_T yyi;                         \
           for (yyi = 0; yyi < (Count); yyi++) \
            (Dst)[yyi] = (Src)[yyi];            \
-      }                                       \
+     }                                       \
       while (0)
 #endif
 #endif
@@ -566,12 +566,12 @@ do                                                              \
       YYPOPSTACK(yylen);                                       \
       yystate = *yyssp;                                         \
       goto yybackup;                                            \
-  }                                                           \
+ }                                                           \
   else                                                          \
     {                                                          \
       yyerror(YY_("syntax error: cannot back up")); \
       YYERROR;                                                  \
-  }                                                           \
+ }                                                           \
 while (0)
 
 /* Error token number */
@@ -608,7 +608,7 @@ do {                                                                     \
       yy_symbol_print(stderr,                       \
                   Type, Value); \
       YYFPRINTF(stderr, "\n");                                           \
-  }                                                                     \
+ }                                                                     \
 } while (0)
 
 
@@ -640,14 +640,14 @@ static void yy_symbol_print(FILE *yyoutput, int yytype, YYSTYPE const * const yy
 
 /*------------------------------------------------------------------.
 | yy_stack_print -- Print the state stack from its BOTTOM up to its |
-| TOP(included).                                                  |
+| TOP(included).                     |
 `------------------------------------------------------------------*/
 static void yy_stack_print(yytype_int16 *yybottom, yytype_int16 *yytop) {
   YYFPRINTF(stderr, "Stack now");
   for (; yybottom <= yytop; yybottom++) {
       int yybot = *yybottom;
       YYFPRINTF(stderr, " %d", yybot);
-  }
+ }
   YYFPRINTF(stderr, "\n");
 }
 
@@ -674,7 +674,7 @@ static void yy_reduce_print(yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule) {
                        yystos[yyssp[yyi + 1 - yynrhs]], 
            & (yyvsp[(yyi + 1) - (yynrhs)]));
       YYFPRINTF(stderr, "\n");
-  }
+ }
 }
 
 #define YY_REDUCE_PRINT(Rule)        \
@@ -782,9 +782,9 @@ yytnamerr(char *yyres, const char *yystr) {
             if (yyres)
               yyres[yyn] = '\0';
             return yyn;
-        }
+       }
     do_not_strip_quotes:;
-  }
+ }
 
   if (!yyres)
     return yystrlen(yystr);
@@ -861,7 +861,7 @@ yysyntax_error(YYSIZE_T *yymsg_alloc, char **yymsg,
                     yycount = 1;
                     yysize = yysize0;
                     break;
-                }
+               }
                 yyarg[yycount++] = yytname[yyx];
                 {
                   YYSIZE_T yysize1 = yysize + yytnamerr(YY_NULLPTR, yytname[yyx]);
@@ -869,10 +869,10 @@ yysyntax_error(YYSIZE_T *yymsg_alloc, char **yymsg,
  && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
                     return 2;
                   yysize = yysize1;
-              }
-            }
-      }
-  }
+             }
+           }
+     }
+ }
 
   switch (yycount) {
 #define YYCASE_(N, S)                    \
@@ -886,7 +886,7 @@ yysyntax_error(YYSIZE_T *yymsg_alloc, char **yymsg,
       YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
       YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
 #undef YYCASE_
-  }
+ }
 
   {
     YYSIZE_T yysize1 = yysize + yystrlen(yyformat);
@@ -901,7 +901,7 @@ yysyntax_error(YYSIZE_T *yymsg_alloc, char **yymsg,
  && *yymsg_alloc <= YYSTACK_ALLOC_MAXIMUM))
         *yymsg_alloc = YYSTACK_ALLOC_MAXIMUM;
       return 1;
-  }
+ }
 
   /* Avoid sprintf, as that infringes on the user's name space.
      Don't have undefined behavior even if the translation
@@ -914,12 +914,12 @@ yysyntax_error(YYSIZE_T *yymsg_alloc, char **yymsg,
         {
           yyp += yytnamerr(yyp, yyarg[yyi++]);
           yyformat += 2;
-      }
+     }
       else
         {
           yyp++;
           yyformat++;
-      }
+     }
 }
   return 0;
 }
@@ -1041,7 +1041,7 @@ yyparse(void) {
 
         yyss = yyss1;
         yyvs = yyvs1;
-    }
+   }
 #else /* no yyoverflow */
 #ifndef YYSTACK_RELOCATE
       goto yyexhaustedlab;
@@ -1064,7 +1064,7 @@ yyparse(void) {
 #undef YYSTACK_RELOCATE
         if (yyss1 != yyssa)
           YYSTACK_FREE(yyss1);
-    }
+   }
 #endif
 #endif /* no yyoverflow */
 
@@ -1076,7 +1076,7 @@ yyparse(void) {
 
       if (yyss + yystacksize - 1 <= yyssp)
         YYABORT;
-  }
+ }
 
   YYDPRINTF((stderr, "Entering state %d\n", yystate));
 
@@ -1104,17 +1104,17 @@ yybackup:
   if (yychar == YYEMPTY) {
       YYDPRINTF((stderr, "Reading a token: "));
       yychar = yylex();
-  }
+ }
 
   if (yychar <= YYEOF) {
       yychar = yytoken = YYEOF;
       YYDPRINTF((stderr, "Now at end of input.\n"));
-  }
+ }
   else
     {
       yytoken = YYTRANSLATE(yychar);
       YY_SYMBOL_PRINT("Next token is", yytoken, &yylval, &yylloc);
-  }
+ }
 
   /* If the proper action on seeing token YYTOKEN is to reduce or to
      detect an error, take that action. */
@@ -1127,7 +1127,7 @@ yybackup:
         goto yyerrlab;
       yyn = -yyn;
       goto yyreduce;
-  }
+ }
 
   /* Count tokens shifted since error; after three, turn off error
      status. */
@@ -1254,7 +1254,7 @@ yyreduce:
 
 #line 1313 "y.tab.c" /* yacc.c:1646  */
       default: break;
-  }
+ }
   /* User semantic actions sometimes alter yychar, and that requires
      that yytoken be updated with the new translation. We take the
      approach of translating immediately before every use of yytoken.
@@ -1320,20 +1320,20 @@ yyerrlab:
                 yymsg = yymsgbuf;
                 yymsg_alloc = sizeof yymsgbuf;
                 yysyntax_error_status = 2;
-            }
+           }
             else
               {
                 yysyntax_error_status = YYSYNTAX_ERROR;
                 yymsgp = yymsg;
-            }
-        }
+           }
+       }
         yyerror(yymsgp);
         if (yysyntax_error_status == 2)
           goto yyexhaustedlab;
-    }
+   }
 #undef YYSYNTAX_ERROR
 #endif
-  }
+ }
 
 
 
@@ -1346,14 +1346,14 @@ yyerrlab:
           /* Return failure if at end of input. */
           if (yychar == YYEOF)
             YYABORT;
-      }
+     }
       else
         {
           yydestruct("Error: discarding", 
                       yytoken, &yylval);
           yychar = YYEMPTY;
-      }
-  }
+     }
+ }
 
   /* Else will try to reuse lookahead token after shifting the error
      token. */
@@ -1394,8 +1394,8 @@ yyerrlab1:
               yyn = yytable[yyn];
               if (0 < yyn)
                 break;
-          }
-      }
+         }
+     }
 
       /* Pop the current state because it cannot handle the error token. */
       if (yyssp == yyss)
@@ -1407,7 +1407,7 @@ yyerrlab1:
       YYPOPSTACK(1);
       yystate = *yyssp;
       YY_STACK_PRINT(yyss, yyssp);
-  }
+ }
 
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   *++yyvsp = yylval;
@@ -1450,7 +1450,7 @@ yyreturn:
       yytoken = YYTRANSLATE(yychar);
       yydestruct("Cleanup: discarding lookahead", 
                   yytoken, &yylval);
-  }
+ }
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYABORT or YYACCEPT. */
   YYPOPSTACK(yylen);
@@ -1459,7 +1459,7 @@ yyreturn:
       yydestruct("Cleanup: popping", 
                   yystos[*yyssp], yyvsp);
       YYPOPSTACK(1);
-  }
+ }
 #ifndef yyoverflow
   if (yyss != yyssa)
     YYSTACK_FREE(yyss);

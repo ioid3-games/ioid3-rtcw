@@ -122,7 +122,7 @@ local int32_t bits(struct state *s, int32_t need) {
         if (s->incnt == s->inlen) longjmp(s->env, 1);   /* out of input */
         val |= (int32_t)(s->in[s->incnt++]) << s->bitcnt;  /* load eight bits */
         s->bitcnt += 8;
-  }
+ }
 
     /* drop need bits and update buffer, always zero to seven bits left */
     s->bitbuf = (int32_t)(val >> need);
@@ -171,11 +171,11 @@ local int32_t stored(struct state *s) {
             return 1;                           /* not enough output space */
         while (len--)
             s->out[s->outcnt++] = s->in[s->incnt++];
-  }
+ }
     else {                                     /* just scanning */
         s->outcnt += len;
         s->incnt += len;
-  }
+ }
 
     /* done with a valid stored block */
     return 0;
@@ -240,19 +240,19 @@ local int32_t decode(struct state *s, struct huffman *h) {
                 s->bitbuf = bitbuf;
                 s->bitcnt = (s->bitcnt - len) & 7;
                 return h->symbol[index + (code - first)];
-          }
+         }
             index += count;             /* else update for next length */
             first += count;
             first <<= 1;
             code <<= 1;
             len++;
-      }
+     }
         left = (MAXBITS + 1) - len;
         if (left == 0) break;
         if (s->incnt == s->inlen) longjmp(s->env, 1);   /* out of input */
         bitbuf = s->in[s->incnt++];
         if (left > 8) left = 8;
-  }
+ }
     return -9;                          /* ran out of codes */
 }
 
@@ -308,7 +308,7 @@ local int32_t construct(struct huffman *h, int16_t *length, int32_t n) {
         left <<= 1;                     /* one more bit, double codes left */
         left -= h->count[len];          /* deduct count from possible codes */
         if (left < 0) return left;      /* over - subscribed--return negative */
-  }                                  /* left > 0 means incomplete */
+ }                                  /* left > 0 means incomplete */
 
     /* generate offsets into symbol table for each length for sorting */
     offs[1] = 0;
@@ -412,9 +412,9 @@ local int32_t codes(struct state *s,
             if (s->out != NULL) {
                 if (s->outcnt == s->outlen) return 1;
                 s->out[s->outcnt] = symbol;
-          }
+         }
             s->outcnt++;
-      }
+     }
         else if (symbol > 256) {       /* length */
             /* get and compute length */
             symbol -= 257;
@@ -434,12 +434,12 @@ local int32_t codes(struct state *s,
                 while (len--) {
                     s->out[s->outcnt] = s->out[s->outcnt - dist];
                     s->outcnt++;
-              }
-          }
+             }
+         }
             else
                 s->outcnt += len;
-      }
-  } while (symbol != 256);            /* end of block symbol */
+     }
+ } while (symbol != 256);            /* end of block symbol */
 
     /* done with a valid fixed or dynamic block */
     return 0;
@@ -499,7 +499,7 @@ local int32_t fixed(struct state *s) {
 
         /* do this just once */
         virgin = 0;
-  }
+ }
 
     /* decode data until end - of - block code */
     return codes(s, &lencode, &distcode);
@@ -636,7 +636,7 @@ local int32_t dynamic(struct state *s) {
                 if (index == 0) return -5;      /* no last length!*/
                 len = lengths[index - 1];       /* last length */
                 symbol = 3 + bits(s, 2);
-          }
+         }
             else if (symbol == 17)    /* repeat zero 3..10 times */
                 symbol = 3 + bits(s, 3);
             else                        /*== 18, repeat zero 11..138 times */
@@ -645,8 +645,8 @@ local int32_t dynamic(struct state *s) {
                 return -6;              /* too many lengths!*/
             while (symbol--)          /* repeat last or zero symbol times */
                 lengths[index++] = len;
-      }
-  }
+     }
+ }
 
     /* build huffman table for literal / length codes */
     err = construct(&lencode, lengths, nlen);
@@ -739,13 +739,13 @@ int32_t puff(uint8_t *dest, /* pointer to destination pointer */
                   (type == 2 ? dynamic(&s) :
                     - 1));               /* type == 3, invalid */
             if (err != 0) break;        /* return with error */
-      } while (!last);
-  }
+     } while (!last);
+ }
 
     /* update the lengths and return */
     if (err <= 0) {
         *destlen = s.outcnt;
         *sourcelen = s.incnt;
-  }
+ }
     return err;
 }

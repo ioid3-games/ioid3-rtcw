@@ -2259,7 +2259,7 @@ void PM_CheckForReload(int weapon) {
 		}
 	}
 
-// }
+//}
 
 	if (doReload) {
 		PM_BeginWeaponReload(weapon);

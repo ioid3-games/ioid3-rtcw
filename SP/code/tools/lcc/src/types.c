@@ -350,7 +350,7 @@ int eqtype(Type ty1, Type ty2, int ret) {
 		       		return 1;
 		       	if (ty1->size == 0 || ty2->size == 0)
 		       		return ret;
-		     }
+		    }
 		       return 0;
 	case FUNCTION: if (eqtype(ty1->type, ty2->type, 1)) {
 		       	Type *p1 = ty1->u.f.proto, *p2 = ty2->u.f.proto;
@@ -379,7 +379,7 @@ int eqtype(Type ty1, Type ty2, int ret) {
 
 				return 1;
 		       	}
-		     }
+		    }
 		       return 0;
 	}
 
@@ -439,7 +439,7 @@ Type compose(Type ty1, Type ty2) {
 			 	return array(ty, ty1->size / ty1->type->size, ty1->align);
 			 if (ty2->size && ty2->type->size && ty1->size == 0)
 			 	return array(ty, ty2->size / ty2->type->size, ty2->align);
-			 return array(ty, 0, 0);  }
+			 return array(ty, 0, 0); }
 
 	case FUNCTION: {Type *p1 = ty1->u.f.proto, *p2 = ty2->u.f.proto;
 			 Type ty = compose(ty1->type, ty2->type);

@@ -58,7 +58,7 @@ int S_OggOpus_Callback_read(void *datasource, unsigned char *ptr, int size) {
 		errno = 0;
 		return 0;
 	}
- 
+
 	if (size < 0) {
 		errno = EINVAL;
 		return -1;
@@ -116,7 +116,7 @@ int S_OggOpus_Callback_seek(void *datasource, opus_int64 offset, int whence) {
 			stream->pos += (int)offset;
 			break;
 		}
- 
+
 		case SEEK_END :
 		{
 			// set the file position in the actual file with the Q3 function

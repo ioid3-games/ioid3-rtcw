@@ -726,7 +726,7 @@ static void CG_MapRestart(void) {
 // if (cg.warmup == 0 /* && cgs.gametype == GT_TOURNAMENT */) {
 // 	trap_S_StartLocalSound(cgs.media.countFightSound, CHAN_ANNOUNCER);
 // 	CG_CenterPrint("FIGHT!", 120, GIANTCHAR_WIDTH * 2);
-// }
+//}
 #ifdef MISSIONPACK
 	if (cg_singlePlayerActive.integer) {
 		trap_Cvar_Set("ui_matchStartTime", va("%i", cg.time));

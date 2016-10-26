@@ -46,9 +46,9 @@ srfGridMesh_t *R_SubdividePatchToGrid(int width, int height,
 
 
 /*
-============
+=======================================================================================================================================
 LerpDrawVert
-============
+=======================================================================================================================================
 */
 static void LerpDrawVert(drawVert_t *a, drawVert_t *b, drawVert_t *out) {
 	out->xyz[0] = 0.5f * (a->xyz[0] + b->xyz[0]);
@@ -68,9 +68,9 @@ static void LerpDrawVert(drawVert_t *a, drawVert_t *b, drawVert_t *out) {
 }
 
 /*
-============
+=======================================================================================================================================
 Transpose
-============
+=======================================================================================================================================
 */
 static void Transpose(int width, int height, drawVert_t ctrl[MAX_GRID_SIZE][MAX_GRID_SIZE]) {
 	int i, j;
@@ -220,9 +220,9 @@ static void MakeMeshNormals(int width, int height, drawVert_t ctrl[MAX_GRID_SIZE
 }
 
 /*
-============
+=======================================================================================================================================
 InvertCtrl
-============
+=======================================================================================================================================
 */
 static void InvertCtrl(int width, int height, drawVert_t ctrl[MAX_GRID_SIZE][MAX_GRID_SIZE]) {
 	int i, j;
@@ -260,9 +260,9 @@ static void InvertErrorTable(float errorTable[2][MAX_GRID_SIZE], int width, int 
 }
 
 /*
-==================
+=======================================================================================================================================
 PutPointsOnCurve
-==================
+=======================================================================================================================================
 */
 static void PutPointsOnCurve(drawVert_t ctrl[MAX_GRID_SIZE][MAX_GRID_SIZE],
 							  int width, int height) {
@@ -431,7 +431,6 @@ srfGridMesh_t *R_SubdividePatchToGrid(int width, int height,
 				errorTable[dir][j + 1] = 999;
 				continue;
 			}
-
 			// see if we want to insert subdivided columns
 			if (width + 2 > MAX_GRID_SIZE) {
 				errorTable[dir][j + 1] = 1.0f / maxLen;
@@ -459,7 +458,6 @@ srfGridMesh_t *R_SubdividePatchToGrid(int width, int height,
 				ctrl[i][j + 2] = mid;
 				ctrl[i][j + 3] = next;
 			}
-
 			// back up and recheck this set again, it may need more subdivision
 			j -= 2;
 
@@ -523,9 +521,9 @@ srfGridMesh_t *R_SubdividePatchToGrid(int width, int height,
 }
 
 /*
-===============
+=======================================================================================================================================
 R_GridInsertColumn
-===============
+=======================================================================================================================================
 */
 srfGridMesh_t *R_GridInsertColumn(srfGridMesh_t *grid, int column, int row, vec3_t point, float loderror) {
 	int i, j;
@@ -579,9 +577,9 @@ srfGridMesh_t *R_GridInsertColumn(srfGridMesh_t *grid, int column, int row, vec3
 }
 
 /*
-===============
+=======================================================================================================================================
 R_GridInsertRow
-===============
+=======================================================================================================================================
 */
 srfGridMesh_t *R_GridInsertRow(srfGridMesh_t *grid, int row, int column, vec3_t point, float loderror) {
 	int i, j;

@@ -1149,7 +1149,6 @@ void CG_DynamicLightningBolt(qhandle_t shader, vec3_t start, vec3_t pend, int nu
 			if (c[2] > 1.0) {
 				c[2] = 1.0;
 			}
-
 			// stScale = maxSTscale * (0.4 + lt_random(randseed, 1) * 0.6);
 			curJunc = CG_AddTrailJunc(curJunc, shader, cg.time, STYPE_LIGHTNING, pos, trailLife, 1, 1, thisWidth, thisWidth, TJFL_NOCULL, c, c, stScale, 20.0);
 			// fork from here?

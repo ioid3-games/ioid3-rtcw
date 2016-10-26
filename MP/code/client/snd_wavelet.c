@@ -109,7 +109,10 @@ byte MuLawEncode(short s) {
 	adjusted = (long)s << (16 - sizeof(short) * 8);
 	adjusted += 128L + 4L;
 
-	if (adjusted > 32767) adjusted = 32767;
+	if (adjusted > 32767) {
+		adjusted = 32767;
+	}
+
 	exponent = numBits[(adjusted >> 7)&0xff] - 1;
 	mantissa = (adjusted >> (exponent + 3))&0xf;
 	return ~(sign|(exponent << 4)|mantissa);
@@ -202,7 +205,12 @@ void encodeWavelet(sfx_t *sfx, short *packets) {
 		for (i = 0; i < size; i++) {
 			temp = wksp[i];
 
-			if (temp > 32767) temp = 32767; else if (temp < -32768) temp = -32768;
+			if (temp > 32767) {
+				temp = 32767;
+			} else if (temp < -32768) {
+				temp = -32768;
+			}
+
 			out[i] = MuLawEncode((short)temp);
 		}
 

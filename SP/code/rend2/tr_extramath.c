@@ -140,7 +140,7 @@ void Mat4SimpleInverse(const mat4_t in, mat4_t out)
 {
 	vec3_t v;
 	float invSqrLen;
- 
+
 	VectorCopy(in + 0, v);
 	invSqrLen = 1.0f / DotProduct(v, v); VectorScale(v, invSqrLen, v);
 	out[ 0] = v[0]; out[ 4] = v[1]; out[ 8] = v[2]; out[12] = -DotProduct(v, &in[12]);

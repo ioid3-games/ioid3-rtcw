@@ -53,9 +53,9 @@ static vec3_t entityPositions[MAX_GENTITIES];
 // =======================================================================
 
 // only begin attenuating sound volumes when outside the FULLVOLUME range
-#define		SOUND_FULLVOLUME	80
+#define 	SOUND_FULLVOLUME	80
 
-#define		SOUND_ATTENUATE		0.0008f
+#define 	SOUND_ATTENUATE		0.0008f
 #define     SOUND_RANGE_DEFAULT 1250
 
 channel_t   s_channels[MAX_CHANNELS];
@@ -63,7 +63,7 @@ channel_t   loop_channels[MAX_CHANNELS];
 int			numLoopChannels;
 
 static int	s_soundStarted;
-static		qboolean	s_soundMuted;
+static		qboolean s_soundMuted;
 
 dma_t		dma;
 
@@ -76,11 +76,11 @@ int   		s_paintedtime; 		// sample PAIRS
 
 // MAX_SFX may be larger than MAX_SOUNDS because
 // of custom player sounds
-#define		MAX_SFX			4096
+#define 	MAX_SFX			4096
 sfx_t		s_knownSfx[MAX_SFX];
 int			s_numSfx = 0;
 
-#define		LOOP_HASH		128
+#define 	LOOP_HASH		128
 static	sfx_t		*sfxHash[LOOP_HASH];
 
 cvar_t		*s_testsound;
@@ -238,9 +238,9 @@ void S_ChannelSetup(void) {
 // =======================================================================
 
 /*
-================
+=======================================================================================================================================
 return a hash value for the sfx name
-================
+=======================================================================================================================================
 */
 static long S_HashSFXName(const char *name) {
 	int		i;
@@ -261,11 +261,11 @@ static long S_HashSFXName(const char *name) {
 }
 
 /*
-==================
+=======================================================================================================================================
 S_FindName
 
 Will allocate a new sfx if it isn't found
-==================
+=======================================================================================================================================
 */
 static sfx_t *S_FindName(const char *name) {
 	int		i;
@@ -356,11 +356,11 @@ void S_Base_DisableSounds(void) {
 }
 
 /*
-==================
+=======================================================================================================================================
 S_RegisterSound
 
 Creates a default buzz sound if the file can't be loaded
-==================
+=======================================================================================================================================
 */
 sfxHandle_t S_Base_RegisterSound(const char *name, qboolean compressed) {
 	sfx_t   *sfx;
@@ -409,10 +409,10 @@ sfxHandle_t S_Base_RegisterSound(const char *name, qboolean compressed) {
 }
 
 /*
-=====================
+=======================================================================================================================================
 S_BeginRegistration
 
-=====================
+=======================================================================================================================================
 */
 void S_Base_BeginRegistration(void) {
 	sfx_t   *sfx;
@@ -456,7 +456,6 @@ void S_SpatializeOrigin (vec3_t origin, int master_vol, int *left_vol, int *righ
     vec_t		lscale, rscale, scale;
     vec3_t		source_vec;
     vec3_t		vec;
-
 	float dist_fullvol;
 
 	dist_fullvol = range * 0.064f;        // default range of 1250 gives 80
@@ -482,8 +481,7 @@ void S_SpatializeOrigin (vec3_t origin, int master_vol, int *left_vol, int *righ
 	{ // no attenuation = no spatialization
 		rscale = 1.0;
 		lscale = 1.0;
-	}
-	else
+	} else
 	{
 		rscale = 0.5 * (1.0 + dot);
 		lscale = 0.5 * (1.0 - dot);
@@ -544,13 +542,12 @@ static qboolean S_Base_HearingThroughEntity(int entityNum, vec3_t origin)
 			return qfalse; //we're the player, but third person
 		else
 			return qtrue;  //we're the player
-	}
-	else
+	} else
 		return qfalse; //not the player
 }
 
 /*
-====================
+=======================================================================================================================================
 S_StartSound
 
 Validates the parms and queues the sound up
@@ -563,7 +560,7 @@ Entchannel 0 will never override a playing sound
 	SND_REQUESTCUT		0x002	- allow sound to be cut off by following sounds on this channel only for sounds who request cutoff
 	SND_CUTOFF			0x004	- cut off sounds on this channel that are marked 'SND_REQUESTCUT'
 	SND_CUTOFF_ALL		0x008	- cut off all sounds on this channel
-====================
+=======================================================================================================================================
 */
 static void S_Base_MainStartSound(vec3_t origin, int entityNum, int entchannel, sfxHandle_t sfxHandle, qboolean localSound, int flags);
 
@@ -604,20 +601,20 @@ void S_Base_StartSoundEx(vec3_t origin, int entityNum, int entchannel, sfxHandle
 }
 
 /*
-====================
+=======================================================================================================================================
 S_Base_MainStartSound
 
 Validates the parms and ques the sound up
 if origin is NULL, the sound will be dynamically sourced from the entity
 Entchannel 0 will never override a playing sound
-====================
+=======================================================================================================================================
 */
 static void S_Base_MainStartSound(vec3_t origin, int entityNum, int entchannel, sfxHandle_t sfxHandle, qboolean localSound, int flags) {
 	channel_t	*ch;
 	sfx_t		*sfx;
 	int		i, oldest, chosen, time;
 	int		inplay, allowed;
-	qboolean	fullVolume;
+	qboolean fullVolume;
 
 	if (!s_soundStarted || s_soundMuted) {
 		return;
@@ -710,19 +707,16 @@ static void S_Base_MainStartSound(vec3_t origin, int entityNum, int entchannel, 
 			if (s_channels[i].flags & SND_NOCUT) {
 				continue;
 			}
-
 			// RF, let client voice sounds be overwritten
 			if (entityNum < MAX_CLIENTS && s_channels[i].entchannel != CHAN_AUTO && s_channels[i].entchannel != CHAN_WEAPON) {
 				S_ChannelFree(&s_channels[i]);
 				continue;
 			}
-
 			// cutoff sounds that expect to be overwritten
 			if (s_channels[i].flags & SND_OKTOCUT) {
 				S_ChannelFree(&s_channels[i]);
 				continue;
 			}
-
 			// cutoff 'weak' sounds on channel
 			if (flags & SND_CUTOFF) {
 				if (s_channels[i].flags & SND_REQUESTCUT) {
@@ -820,20 +814,20 @@ static void S_Base_MainStartSound(vec3_t origin, int entityNum, int entchannel, 
 }
 
 /*
-====================
+=======================================================================================================================================
 S_StartSound
 
 if origin is NULL, the sound will be dynamically sourced from the entity
-====================
+=======================================================================================================================================
 */
 void S_Base_StartSound(vec3_t origin, int entityNum, int entchannel, sfxHandle_t sfxHandle) {
 	S_Base_MainStartSound(origin, entityNum, entchannel, sfxHandle, qfalse, 0);
 }
 
 /*
-==================
+=======================================================================================================================================
 S_StartLocalSound
-==================
+=======================================================================================================================================
 */
 void S_Base_StartLocalSound(sfxHandle_t sfxHandle, int channelNum) {
 	if (!s_soundStarted || s_soundMuted) {
@@ -850,12 +844,12 @@ void S_Base_StartLocalSound(sfxHandle_t sfxHandle, int channelNum) {
 
 
 /*
-==================
+=======================================================================================================================================
 S_ClearSoundBuffer
 
 If we are about to perform file access, clear the buffer
 so sound doesn't stutter.
-==================
+=======================================================================================================================================
 */
 void S_Base_ClearSoundBuffer(void) {
 	int		clear;
@@ -884,9 +878,9 @@ void S_Base_ClearSoundBuffer(void) {
 }
 
 /*
-==================
+=======================================================================================================================================
 S_StopAllSounds
-==================
+=======================================================================================================================================
 */
 void S_Base_StopAllSounds(void) {
 	int i;
@@ -923,10 +917,10 @@ void S_Base_StopLoopingSound(int entityNum) {
 }
 
 /*
-==================
+=======================================================================================================================================
 S_ClearLoopingSounds
 
-==================
+=======================================================================================================================================
 */
 void S_Base_ClearLoopingSounds(qboolean killall) {
 	int i;
@@ -939,12 +933,12 @@ void S_Base_ClearLoopingSounds(qboolean killall) {
 }
 
 /*
-==================
+=======================================================================================================================================
 S_AddLoopingSound
 
 Called during entity generation for a frame
 Include velocity in case I get around to doing doppler...
-==================
+=======================================================================================================================================
 */
 
 #define UNDERWATER_BIT  8
@@ -1028,12 +1022,12 @@ void S_Base_AddLoopingSound(int entityNum, const vec3_t origin, const vec3_t vel
 }
 
 /*
-==================
+=======================================================================================================================================
 S_AddLoopingSound
 
 Called during entity generation for a frame
 Include velocity in case I get around to doing doppler...
-==================
+=======================================================================================================================================
 */
 void S_Base_AddRealLoopingSound(int entityNum, const vec3_t origin, const vec3_t velocity, const int range, sfxHandle_t sfxHandle) {
 	sfx_t *sfx;
@@ -1075,13 +1069,13 @@ void S_Base_AddRealLoopingSound(int entityNum, const vec3_t origin, const vec3_t
 
 
 /*
-==================
+=======================================================================================================================================
 S_AddLoopSounds
 
 Spatialize all of the looping sounds.
 All sounds are on the same cycle, so any duplicates can just
 sum up the channel multipliers.
-==================
+=======================================================================================================================================
 */
 void S_AddLoopSounds (void) {
 	int			i, j, time;
@@ -1193,11 +1187,11 @@ void S_ByteSwapRawSamples(int samples, int width, int s_channels, const byte *da
 }
 
 /*
-============
+=======================================================================================================================================
 S_Base_RawSamples
 
 Music streaming
-============
+=======================================================================================================================================
 */
 void S_Base_RawSamples(int stream, int samples, int rate, int width, int s_channels, const byte *data, float volume, int entityNum)
 {
@@ -1266,8 +1260,7 @@ void S_Base_RawSamples(int stream, int samples, int rate, int width, int s_chann
 				rawsamples[dst].right = ((short *)data)[src*2+1] * intVolumeRight;
 			}
 		}
-	}
-	else if (s_channels == 1 && width == 2)
+	} else if (s_channels == 1 && width == 2)
 	{
 		for (i=0 ; ; i++)
 		{
@@ -1279,8 +1272,7 @@ void S_Base_RawSamples(int stream, int samples, int rate, int width, int s_chann
 			rawsamples[dst].left = ((short *)data)[src] * intVolumeLeft;
 			rawsamples[dst].right = ((short *)data)[src] * intVolumeRight;
 		}
-	}
-	else if (s_channels == 2 && width == 1)
+	} else if (s_channels == 2 && width == 1)
 	{
 		intVolumeLeft *= 256;
 		intVolumeRight *= 256;
@@ -1295,8 +1287,7 @@ void S_Base_RawSamples(int stream, int samples, int rate, int width, int s_chann
 			rawsamples[dst].left = ((char *)data)[src*2] * intVolumeLeft;
 			rawsamples[dst].right = ((char *)data)[src*2+1] * intVolumeRight;
 		}
-	}
-	else if (s_channels == 1 && width == 1)
+	} else if (s_channels == 1 && width == 1)
 	{
 		intVolumeLeft *= 256;
 		intVolumeRight *= 256;
@@ -1321,7 +1312,7 @@ void S_Base_RawSamples(int stream, int samples, int rate, int width, int s_chann
 //=============================================================================
 
 /*
-=====================
+=======================================================================================================================================
 S_UpdateEntityPosition
 
 let the sound system know where an entity currently is
@@ -1336,11 +1327,11 @@ void S_Base_UpdateEntityPosition(int entityNum, const vec3_t origin) {
 
 
 /*
-============
+=======================================================================================================================================
 S_Respatialize
 
 Change the volumes of all the playing sounds for changes in their positions
-============
+=======================================================================================================================================
 */
 void S_Base_Respatialize(int entityNum, const vec3_t head, vec3_t axis[3], int inwater) {
 	int			i;
@@ -1393,7 +1384,7 @@ Returns qtrue if any new sounds were started since the last mix
 qboolean S_ScanChannelStarts(void) {
 	channel_t		*ch;
 	int				i;
-	qboolean		newSamples;
+	qboolean newSamples;
 
 	newSamples = qfalse;
 	ch = s_channels;
@@ -1421,11 +1412,11 @@ qboolean S_ScanChannelStarts(void) {
 }
 
 /*
-============
+=======================================================================================================================================
 S_Update
 
 Called once each time through the main loop
-============
+=======================================================================================================================================
 */
 void S_Base_Update(void) {
 	int			i;
@@ -1853,12 +1844,12 @@ void S_Base_Shutdown(void) {
 }
 
 /*
-================
+=======================================================================================================================================
 S_Init
-================
+=======================================================================================================================================
 */
 qboolean S_Base_Init(soundInterface_t *si) {
-	qboolean	r;
+	qboolean r;
 
 	if(!si) {
 		return qfalse;

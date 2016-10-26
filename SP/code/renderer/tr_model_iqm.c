@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "tr_local.h"
 
-#define	LL(x) x=LittleLong(x)
+#define LL(x) x=LittleLong(x)
 
 // 3x4 identity matrix
 static float identityMatrix[12] = {
@@ -501,8 +501,7 @@ qboolean R_LoadIQM(model_t *mod, void *buffer, int filesize, const char *mod_nam
 	{
 		iqmData->bounds       = iqmData->poseMats + 12 * header->num_poses * header->num_frames;
 		iqmData->positions    = iqmData->bounds + 6 * header->num_frames;
-	}
-	else
+	} else
 		iqmData->positions    = iqmData->poseMats + 12 * header->num_poses * header->num_frames;
 	iqmData->texcoords    = iqmData->positions + 3 * header->num_vertexes;
 	iqmData->normals      = iqmData->texcoords + 2 * header->num_vertexes;
@@ -789,7 +788,7 @@ int R_ComputeIQMFogNum(iqmData_t *data, trRefEntity_t *ent) {
 	int			i, j;
 	fog_t			*fog;
 	const vec_t		*bounds;
-	const vec_t		defaultBounds[6] = { -8, -8, -8, 8, 8, 8 };
+	const vec_t		defaultBounds[6] = { -8, -8, -8, 8, 8, 8};
 	vec3_t			diag, center;
 	vec3_t			localOrigin;
 	vec_t			radius;
@@ -838,7 +837,7 @@ void R_AddIQMSurfaces(trRefEntity_t *ent) {
 	iqmData_t		*data;
 	srfIQModel_t		*surface;
 	int			i, j;
-	qboolean		personalModel;
+	qboolean personalModel;
 	int			cull;
 	int			fogNum;
 	shader_t		*shader;
@@ -862,9 +861,9 @@ void R_AddIQMSurfaces(trRefEntity_t *ent) {
 	// range checked again.
 	//
 	if ((ent->e.frame >= data->num_frames) 
-	     || (ent->e.frame < 0)
-	     || (ent->e.oldframe >= data->num_frames)
-	     || (ent->e.oldframe < 0)) {
+	 || (ent->e.frame < 0)
+	 || (ent->e.oldframe >= data->num_frames)
+	 || (ent->e.oldframe < 0)) {
 		ri.Printf(PRINT_DEVELOPER, "R_AddIQMSurfaces: no such frame %d to %d for '%s'\n",
 			   ent->e.oldframe, ent->e.frame,
 			   tr.currentModel->name);

@@ -47,8 +47,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../qcommon/q_shared.h"
 #include "../qcommon/qcommon.h"
 
-static char binaryPath[ MAX_OSPATH ] = { 0 };
-static char installPath[ MAX_OSPATH ] = { 0 };
+static char binaryPath[ MAX_OSPATH ] = { 0};
+static char installPath[ MAX_OSPATH ] = { 0};
 
 /*
 =================
@@ -128,9 +128,9 @@ char *Sys_ConsoleInput(void)
 }
 
 /*
-==================
+=======================================================================================================================================
 Sys_GetClipboardData
-==================
+=======================================================================================================================================
 */
 char *Sys_GetClipboardData(void)
 {
@@ -206,7 +206,7 @@ static qboolean Sys_WritePIDFile(const char *gamedir)
 {
 	char      *pidFile = Sys_PIDFileName(gamedir);
 	FILE      *f;
-	qboolean  stale = qfalse;
+	qboolean stale = qfalse;
 
 	if(pidFile == NULL)
 		return qfalse;
@@ -214,7 +214,7 @@ static qboolean Sys_WritePIDFile(const char *gamedir)
 	// First, check if the pid file is already there
 	if((f = fopen(pidFile, "r")) != NULL)
 	{
-		char  pidBuffer[ 64 ] = { 0 };
+		char  pidBuffer[ 64 ] = { 0};
 		int   pid;
 
 		pid = fread(pidBuffer, sizeof(char), sizeof(pidBuffer) - 1, f);
@@ -238,8 +238,7 @@ static qboolean Sys_WritePIDFile(const char *gamedir)
 	{
 		fprintf(f, "%d", Sys_PID());
 		fclose(f);
-	}
-	else
+	} else
 		Com_Printf(S_COLOR_YELLOW "Couldn't write %s.\n", pidFile);
 
 	return stale;
@@ -460,11 +459,11 @@ static __attribute__ ((format (printf, 1, 2))) void Sys_Warn(char *warning, ...)
 #endif
 
 /*
-============
+=======================================================================================================================================
 Sys_FileTime
 
 returns -1 if not present
-============
+=======================================================================================================================================
 */
 int Sys_FileTime(char *path)
 {
@@ -597,7 +596,7 @@ void Sys_ParseArgs(int argc, char **argv)
 		if(!strcmp(argv[1], "--version") ||
 				!strcmp(argv[1], "-v"))
 		{
-			const char* date = PRODUCT_DATE;
+			const char *date = PRODUCT_DATE;
 #ifdef DEDICATED
 			fprintf(stdout, Q3_VERSION " dedicated server (%s)\n", date);
 #else
@@ -629,8 +628,7 @@ void Sys_SigHandler(int signal)
 	{
 		fprintf(stderr, "DOUBLE SIGNAL FAULT: Received signal %d, exiting...\n",
 			signal);
-	}
-	else
+	} else
 	{
 		signalcaught = qtrue;
 		VM_Forced_Unload_Start();
@@ -655,7 +653,7 @@ main
 int main(int argc, char **argv)
 {
 	int   i;
-	char  commandLine[ MAX_STRING_CHARS ] = { 0 };
+	char  commandLine[ MAX_STRING_CHARS ] = { 0};
 
 #ifndef DEDICATED
 	// SDL version check

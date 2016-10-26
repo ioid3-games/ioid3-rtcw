@@ -120,23 +120,23 @@ Node listnodes(Tree tp, int tlab, int flab) {
 		      if (flab) {
 		      	listnodes(tp->kids[0], 0, flab);
 		      	listnodes(tp->kids[1], 0, flab);
-		    } else {
+		   } else {
 		      	listnodes(tp->kids[0], 0, flab = genlabel(1));
 		      	listnodes(tp->kids[1], tlab, 0);
 		      	labelnode(flab);
-		    }
+		   }
 		      depth--;} break;
 	case OR:    {if (depth++ == 0)
 		      	reset();
 		      if (tlab) {
 		      	listnodes(tp->kids[0], tlab, 0);
 		      	listnodes(tp->kids[1], tlab, 0);
-		    } else {
+		   } else {
 		      	tlab = genlabel(1);
 		      	listnodes(tp->kids[0], tlab, 0);
 		      	listnodes(tp->kids[1], 0, flab);
 		      	labelnode(tlab);
-		    }
+		   }
 		      depth--;
 } break;
 	case NOT:   {return listnodes(tp->kids[0], flab, tlab);}
@@ -153,14 +153,14 @@ Node listnodes(Tree tp, int tlab, int flab) {
 		      if (forest->op == LABEL + V) {
 		      	equatelab(forest->syms[0], findlabel(flab + 1));
 		      	unlist();
-		    }
+		   }
 		      list(jump(flab + 1));
 		      labelnode(flab);
 		      listnodes(q->kids[1], 0, 0);
 		      if (forest->op == LABEL + V) {
 		      	equatelab(forest->syms[0], findlabel(flab + 1));
 		      	unlist();
-		    }
+		   }
 		      labelnode(flab + 1);
 
 		      if (tp->u.sym)
@@ -173,7 +173,7 @@ Node listnodes(Tree tp, int tlab, int flab) {
 		      		list(jump(tlab));
 		      	else if (flab && tp->u.v.i == 0)
 		      		list(jump(flab));
-		    }
+		   }
 		      else if (ty->u.sym->addressed)
 		      	p = listnodes(cvtconst(tp), 0, 0);
 		      else
@@ -195,10 +195,10 @@ Node listnodes(Tree tp, int tlab, int flab) {
 				p = listnodes(tp->kids[0], 0, 0);
 				listnodes(tp->kids[1], 0, 0);
 			}
-		    } else if (tp->kids[1]) {
+		   } else if (tp->kids[1]) {
 		      	listnodes(tp->kids[0], 0, 0);
 		      	p = listnodes(tp->kids[1], tlab, flab);
-		    } else
+		   } else
 		      	p = listnodes(tp->kids[0], tlab, flab);} break;
 	case JUMP:  {assert(tlab == 0 && flab == 0);
 		      assert(tp->u.sym == 0);
@@ -221,11 +221,11 @@ Node listnodes(Tree tp, int tlab, int flab) {
 				listnodes(arg0, 0, 0);
 			}
 		      	p = newnode(CALL + V, l, NULL, NULL);
-		    } else {
+		   } else {
 		      	l = listnodes(tp->kids[0], 0, 0);
 		      	r = listnodes(tp->kids[1], 0, 0);
 		      	p = newnode(tp->op == CALL + B ? tp->op : op, l, r, NULL);
-		    }
+		   }
 		      NEW0(p->syms[0], FUNC);
 		      assert(isptr(tp->kids[0]->type));
 		      assert(isfunc(tp->kids[0]->type->type));
@@ -242,7 +242,7 @@ Node listnodes(Tree tp, int tlab, int flab) {
 		      	Tree arg = firstarg;
 		      	firstarg = NULL;
 		      	listnodes(arg, 0, 0);
-		    }
+		   }
 		      l = listnodes(tp->kids[0], 0, 0);
 		      list(newnode(tp->op == ARG + B ? tp->op : op, l, NULL, NULL));
 		      forest->syms[0] = intconst(tp->type->size);
@@ -269,7 +269,7 @@ Node listnodes(Tree tp, int tlab, int flab) {
 		      	default: assert(0);
 		      	}
 		      	list(newnode(op + opkind(l->op), l, r, findlabel(flab)));
-		    }
+		   }
 		      if (forest && forest->syms[0])
 		      	forest->syms[0]->ref++;} break;
 	case ASGN:  {assert(tlab == 0 && flab == 0);
@@ -300,10 +300,10 @@ Node listnodes(Tree tp, int tlab, int flab) {
 				r = listnodes(tp->kids[1], 0, 0);
 				op = ASGN + ttob(tp->kids[1]->type);
 			}
-		    } else {
+		   } else {
 		      	l = listnodes(tp->kids[0], 0, 0);
 		      	r = listnodes(tp->kids[1], 0, 0);
-		    }
+		   }
 		      list(newnode(tp->op == ASGN + B ? tp->op : op, l, r, NULL));
 		      forest->syms[0] = intconst(tp->kids[1]->type->size);
 		      forest->syms[1] = intconst(tp->kids[1]->type->align);
@@ -327,7 +327,7 @@ Node listnodes(Tree tp, int tlab, int flab) {
 		      if (IR->mulops_calls && isint (tp->type)) {
 		      	list(p);
 		      	cfunc->u.f.ncalls++;
-		    }} break;
+		   }} break;
 	case RET:   {assert(tlab == 0 && flab == 0);
 		      l = listnodes(tp->kids[0], 0, 0);
 		      list(newnode(op, l, NULL, NULL));} break;
@@ -354,7 +354,7 @@ Node listnodes(Tree tp, int tlab, int flab) {
 		      if (tp->type == inttype) {
 		      	long n = fieldleft(tp->u.field);
 		      	q = shtree(RSH, shtree(LSH, q, cnsttree(inttype, n)), cnsttree(inttype, n + fieldright(tp->u.field)));
-		    } else if (fieldsize(tp->u.field) < 8 * tp->u.field->type->size)
+		   } else if (fieldsize(tp->u.field) < 8 * tp->u.field->type->size)
 		      	q = bittree(BAND, shtree(RSH, q, cnsttree(inttype, (long)fieldright(tp->u.field))), cnsttree(unsignedtype, (unsigned long)fieldmask(tp->u.field)));
 		      assert(tlab == 0 && flab == 0);
 		      p = listnodes(q, 0, 0);} break;
@@ -470,7 +470,7 @@ void gencode(Symbol caller[], Symbol callee[]) {
 			       		if ((*p)->ref != 0.0)
 			       			(*IR->local)(*p);
 			       		else if (glevel)(*IR->local)(*p);
-			     }
+			    }
  break;
 		case Blockend:(*IR->blockend)(&cp->u.begin->u.block.x); break;
 		case Defpoint: src = cp->u.point.src; break;
@@ -520,7 +520,7 @@ void emitcode(void) {
 		case Blockbeg: if (glevel && IR->stabblock) {
 			       	(*IR->stabblock)('{', cp->u.block.level - LOCAL, cp->u.block.locals);
 			       	swtoseg(CODE);
-			     }
+			    }
  break;
 		case Blockend: if (glevel && IR->stabblock) {
 			       	Code bp = cp->u.begin;
@@ -528,7 +528,7 @@ void emitcode(void) {
 			       	foreach(bp->u.block.types, bp->u.block.level, typestab, NULL);
 			       	(*IR->stabblock)('}', bp->u.block.level - LOCAL, bp->u.block.locals);
 			       	swtoseg(CODE);
-			     }
+			    }
  break;
 		case Defpoint: src = cp->u.point.src;
 			       if (glevel > 0 && IR->stabline) {
@@ -539,7 +539,7 @@ void emitcode(void) {
 		case Local:    if (glevel && IR->stabsym) {
 			       	(*IR->stabsym)(cp->u.var);
 			       	swtoseg(CODE);
-			     } break;
+			    } break;
 		case Switch:   {	int i;
 			       	defglobal(cp->u.swtch.table, LIT);
 			       	(*IR->defaddress)(equated(cp->u.swtch.labels[0]));
@@ -550,7 +550,7 @@ void emitcode(void) {
 			       		(*IR->defaddress)(equated(cp->u.swtch.labels[i]));
 			       	}
 			       	swtoseg(CODE);
-			     } break;
+			    } break;
 		default: assert(0);
 		}
 

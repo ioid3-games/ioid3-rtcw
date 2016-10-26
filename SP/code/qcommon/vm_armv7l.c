@@ -351,7 +351,7 @@ static unsigned short can_encode(unsigned val) {
 #define BICi(dst, src, i)(AL|(0b001 << 25)|(0b11100 << 20)|(src << 16)|(dst << 12)|rimm(i))
 #define MVNi(dst, i)(AL|(0b001 << 25)|(0b11110 << 20)|           (dst << 12)|rimm(i))
 
-#define MOVW(dst, i)(AL|(0b11 << 24)              |((((i) >> 12)&0xF) << 16)|(dst << 12)|((i)& ((1 << 12) - 1)))
+#define MOVW(dst, i)(AL|(0b11 << 24) |((((i) >> 12)&0xF) << 16)|(dst << 12)|((i)& ((1 << 12) - 1)))
 #define MOVT(dst, i)(AL|(0b11 << 24)|(0b0100 << 20)|((((i) >> 12)&0xF) << 16)|(dst << 12)|((i)& ((1 << 12) - 1)))
 
 #define TSTi(src, i)(AL|(0b001 << 25)|(0b10001 << 20)|(src << 16)|            rimm(i))
@@ -385,10 +385,10 @@ static unsigned short can_encode(unsigned val) {
 #define ORR(dst, src, reg)(AL|(0b000 << 25)|(0b11000 << 20)|(src << 16)|(dst << 12)|reg)
 #define MOV(dst, src)(AL|(0b000 << 25)|(0b11010 << 20)|           (dst << 12)|src)
 
-#define LSL(dst, src, reg)(AL|(0b000 << 25)|(0b1101 << 21)|(0 << 20)|(dst << 12)|(reg << 8)  |(0b0001 << 4)|src)
-#define LSR(dst, src, reg)(AL|(0b000 << 25)|(0b1101 << 21)|(0 << 20)|(dst << 12)|(reg << 8)  |(0b0011 << 4)|src)
-#define ASR(dst, src, reg)(AL|(0b000 << 25)|(0b1101 << 21)|(0 << 20)|(dst << 12)|(reg << 8)  |(0b0101 << 4)|src)
-#define ROR(dst, src, reg)(AL|(0b000 << 25)|(0b1101 << 21)|(0 << 20)|(dst << 12)|(reg << 8)  |(0b0111 << 4)|src)
+#define LSL(dst, src, reg)(AL|(0b000 << 25)|(0b1101 << 21)|(0 << 20)|(dst << 12)|(reg << 8) |(0b0001 << 4)|src)
+#define LSR(dst, src, reg)(AL|(0b000 << 25)|(0b1101 << 21)|(0 << 20)|(dst << 12)|(reg << 8) |(0b0011 << 4)|src)
+#define ASR(dst, src, reg)(AL|(0b000 << 25)|(0b1101 << 21)|(0 << 20)|(dst << 12)|(reg << 8) |(0b0101 << 4)|src)
+#define ROR(dst, src, reg)(AL|(0b000 << 25)|(0b1101 << 21)|(0 << 20)|(dst << 12)|(reg << 8) |(0b0111 << 4)|src)
 
 #define LSLi(dst, src, i) (AL|(0b000 << 25)|(0b1101 << 21)|(0 << 20)|(dst << 12)|((i&0x1F) << 7)|(0b000 << 4)|src)
 #define LSRi(dst, src, i) (AL|(0b000 << 25)|(0b1101 << 21)|(0 << 20)|(dst << 12)|((i&0x1F) << 7)|(0b010 << 4)|src)
@@ -453,7 +453,7 @@ static unsigned short can_encode(unsigned val) {
 #define PUSH2(r1, r2)(AL|(0b100100 << 22)|(0b10 << 20)|(0b1101 << 16)| 1 << r1|1 << r2)
 //#define PUSH1(reg) STRxiw(SP, reg, 4)
 
-#define POP(mask)  (0xe8bd0000|mask)
+#define POP(mask) (0xe8bd0000|mask)
 
 #define STM(base, regs) \
 	(AL|0b100 << 25|0 << 24/*P*/| 0 << 24/*U*/| 0 << 24/*S*/| 0 << 24/*W*/|(base << 16)|(regs&~(1 << 16)))

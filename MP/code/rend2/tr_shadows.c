@@ -128,7 +128,6 @@ void R_RenderShadowEdges(void) {
 					hit[ edgeDefs[ i2 ][ k ].facing ]++;
 				}
 			}
-
 			// if it doesn't share the edge with another front facing
 			// triangle, it is a sil edge
 			if (hit[ 1 ] == 0) {
@@ -156,7 +155,7 @@ triangleFromEdge[ v1 ][ v2 ]
 
   set triangle from edge(v1, v2, tri)
   if (facing[ triangleFromEdge[ v1 ][ v2 ] ] && !facing[ triangleFromEdge[ v2 ][ v1 ]) {
-  }
+ }
 =================
 */
 void RB_ShadowTessEnd(void) {

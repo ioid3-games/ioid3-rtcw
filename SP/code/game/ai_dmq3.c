@@ -1622,10 +1622,10 @@ void BotAimAtEnemy(bot_state_t *bs) {
 // ---- (SA) if we're not using this routine at all and my changes are irrelivant, please let me know.
 // if (wi.number == WP_MACHINEGUN) {
 // 	aim_accuracy = trap_Characteristic_BFloat(bs->character, CHARACTERISTIC_AIM_ACCURACY_MACHINEGUN, 0, 1);
-// }
+//}
 // if (wi.number == WP_SHOTGUN) {
 // 	aim_accuracy = trap_Characteristic_BFloat(bs->character, CHARACTERISTIC_AIM_ACCURACY_SHOTGUN, 0, 1);
-// }
+//}
 
 	if (wi.number == WP_GRENADE_LAUNCHER) {
 		aim_accuracy = trap_Characteristic_BFloat(bs->character, CHARACTERISTIC_AIM_ACCURACY_GRENADELAUNCHER, 0, 1);
@@ -1637,7 +1637,7 @@ void BotAimAtEnemy(bot_state_t *bs) {
 	}
 // if (wi.number == WP_RAILGUN) {
 // 	aim_accuracy = trap_Characteristic_BFloat(bs->character, CHARACTERISTIC_AIM_ACCURACY_RAILGUN, 0, 1);
-// }
+//}
 
 	if (wi.number == WP_SILENCER) {
 		aim_accuracy = trap_Characteristic_BFloat(bs->character, CHARACTERISTIC_AIM_ACCURACY_SP5, 0, 1);
@@ -1646,7 +1646,7 @@ void BotAimAtEnemy(bot_state_t *bs) {
 // if (wi.number == WP_BFG) {
 // 	aim_accuracy = trap_Characteristic_BFloat(bs->character, CHARACTERISTIC_AIM_ACCURACY_BFG10K, 0, 1);
 // 	aim_skill = trap_Characteristic_BFloat(bs->character, CHARACTERISTIC_AIM_SKILL_BFG10K, 0, 1);
-// }
+//}
 
 	if (aim_accuracy <= 0) {
 		aim_accuracy = 0.0001;
@@ -2363,7 +2363,7 @@ void BotAIBlocked(bot_state_t *bs, bot_moveresult_t *moveresult, int activate) {
 		   EA_Attack(bs->client);
 		  // 
 		   return;
-	 } // end if*/
+	} // end if*/
 		if (!strcmp(classname, "func_button")) {
 			// create a bot goal towards the button
 			trap_AAS_ValueForBSPEpairKey(ent, "model", model, sizeof(model));

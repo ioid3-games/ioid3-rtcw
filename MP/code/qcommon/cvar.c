@@ -373,7 +373,7 @@ cvar_t *Cvar_Get(const char *var_name, const char *var_value, int flags) {
 
 			if (flags & CVAR_ROM) {
 				// this variable was set by the user, so force it to value given by the engine.
- 
+
 				if (var->latchedString)
 					Z_Free(var->latchedString);
 				

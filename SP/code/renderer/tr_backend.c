@@ -136,8 +136,7 @@ void GL_Cull(int cullType) {
 	if (cullType == CT_TWO_SIDED)
 	{
 		qglDisable(GL_CULL_FACE);
-	}
-	else
+	} else
 	{
 		qboolean cullFront;
 		qglEnable(GL_CULL_FACE);
@@ -359,11 +358,11 @@ void GL_State(unsigned long stateBits) {
 
 
 /*
-================
+=======================================================================================================================================
 RB_Hyperspace
 
 A player has predicted a teleport, but hasn't arrived yet
-================
+=======================================================================================================================================
 */
 static void RB_Hyperspace(void) {
 	float c;
@@ -495,7 +494,7 @@ void RB_BeginDrawingView(void) {
 		}
 		// -NERVE - SMF
 		// (SA) well, this is silly then
-		else if (r_fastsky->integer) {   //  || backEnd.refdef.rdflags & RDF_NOWORLDMODEL
+		else if (r_fastsky->integer) {   // || backEnd.refdef.rdflags & RDF_NOWORLDMODEL
 
 			clearBits |= GL_COLOR_BUFFER_BIT;
 
@@ -560,11 +559,11 @@ void RB_BeginDrawingView(void) {
 }
 
 /*
-============
+=======================================================================================================================================
 RB_ZombieFX
 
   This is post-tesselation filtering, made especially for the Zombie.
-============
+=======================================================================================================================================
 */
 
 extern void GlobalVectorToLocal(const vec3_t in, vec3_t out);
@@ -692,7 +691,6 @@ void RB_ZombieFXProcessNewHits(trZombieFleshHitverts_t *fleshHitVerts, int oldNu
 					bestHit = j;
 				}
 			}
-
 			// if it gets to here, then it failed
 			continue;
 
@@ -857,9 +855,9 @@ void RB_ZombieFX(int part, drawSurf_t *drawSurf, int oldNumVerts, int oldNumInde
 
 
 /*
-==================
+=======================================================================================================================================
 RB_RenderDrawSurfList
-==================
+=======================================================================================================================================
 */
 void RB_RenderDrawSurfList(drawSurf_t *drawSurfs, int numDrawSurfs) {
 	shader_t        *shader, *oldShader;
@@ -1093,10 +1091,10 @@ RENDER BACK END FUNCTIONS
 */
 
 /*
-================
+=======================================================================================================================================
 RB_SetGL2D
 
-================
+=======================================================================================================================================
 */
 void    RB_SetGL2D(void) {
 	backEnd.projection2D = qtrue;
@@ -1201,12 +1199,12 @@ void RE_StretchRaw(int x, int y, int w, int h, int cols, int rows, const byte *d
 	 0.5f / cols,  0.5f / rows,
 	 (cols - 0.5f) / cols ,  0.5f / rows,
 	 (cols - 0.5f) / cols, (rows - 0.5f) / rows,
-	 0.5f / cols, (rows - 0.5f) / rows };
+	 0.5f / cols, (rows - 0.5f) / rows};
 	GLfloat vtx[] = {
 	 x, y,
 	 x+w, y,
 	 x+w, y+h,
-	 x, y+h };
+	 x, y+h};
 	GLboolean text = qglIsEnabled(GL_TEXTURE_COORD_ARRAY);
 	GLboolean glcol = qglIsEnabled(GL_COLOR_ARRAY);
 	if (glcol)
@@ -1357,9 +1355,9 @@ const void *RB_StretchPic(const void *data) {
 }
 
 /*
-==============
+=======================================================================================================================================
 RB_StretchPicGradient
-==============
+=======================================================================================================================================
 */
 const void *RB_StretchPicGradient(const void *data) {
 	const stretchPicCommand_t   *cmd;
@@ -1492,14 +1490,14 @@ const void  *RB_DrawBuffer(const void *data) {
 }
 
 /*
-===============
+=======================================================================================================================================
 RB_ShowImages
 
 Draw all the images to the screen, on top of whatever
 was there.  This is used to test for texture thrashing.
 
 Also called by RE_EndRegistration
-===============
+=======================================================================================================================================
 */
 void RB_ShowImages(void) {
 	int i;
@@ -1538,12 +1536,12 @@ void RB_ShowImages(void) {
 		 0, 0, 
 		 1, 0,
 		 1, 1, 
-		 0, 1 };
+		 0, 1};
 		GLfloat vtx[] = {
 		 x, y,
 		 x + w, y,
 		 x + w, y + h,
-		 x, y + h };
+		 x, y + h};
 		GLboolean text = qglIsEnabled(GL_TEXTURE_COORD_ARRAY);
 		GLboolean glcol = qglIsEnabled(GL_COLOR_ARRAY);
 		if (glcol)
@@ -1677,9 +1675,9 @@ const void  *RB_SwapBuffers(const void *data) {
 }
 
 /*
-====================
+=======================================================================================================================================
 RB_ExecuteRenderCommands
-====================
+=======================================================================================================================================
 */
 void RB_ExecuteRenderCommands(const void *data) {
 	int t1, t2;

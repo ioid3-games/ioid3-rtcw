@@ -95,7 +95,7 @@ static void G_AdjustSingleClientPosition(gentity_t *ent, int time) {
 	VectorCopy(ent->r.currentOrigin, ent->client->backupMarker.origin);
 	VectorCopy(ent->r.mins, ent->client->backupMarker.mins);
 	VectorCopy(ent->r.maxs, ent->client->backupMarker.maxs);
-// }
+//}
 
 	if (i != ent->client->topMarker) {
 		float frac = ((float)(ent->client->clientMarkers[j].time - time)) / (ent->client->clientMarkers[j].time - ent->client->clientMarkers[i].time);
@@ -123,7 +123,7 @@ static void G_ReAdjustSingleClientPosition(gentity_t *ent) {
 	ent->client->backupMarker.servertime = 0;
 
 	trap_LinkEntity(ent);
-// }
+//}
 }
 
 void G_AdjustClientPositions(gentity_t *ent, int time, qboolean forward) {

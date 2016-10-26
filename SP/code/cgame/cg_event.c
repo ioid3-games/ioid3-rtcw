@@ -1027,7 +1027,6 @@ void CG_Explodef(vec3_t origin, vec3_t dir, int mass, int type, qhandle_t sound,
 				le->bounceFactor = 0.2f;    // rubble in end is like rubber, also ID requestsed this
 				break;
 			}
-
 			// rotation
 			le->angles.trType = TR_LINEAR;
 			le->angles.trTime = cg.time;

@@ -269,7 +269,7 @@ static void CG_CalcVrect(void) {
 // 			letterbox_frac = 0;
 // 		ysize += (lbdiff * letterbox_frac);
 // 	}
-// } else {
+//} else {
 // 	if (letterbox_frac != 1) {
 // 		letterbox_frac += 0.01f;	// (SA) TODO: make non fps dependant
 // 		if (letterbox_frac > 1)

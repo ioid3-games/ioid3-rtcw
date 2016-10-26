@@ -2345,7 +2345,6 @@ int AAS_NearestHideArea(int srcnum, vec3_t origin, int areanum, int enemynum, ve
 			if (besttraveltime && t >= besttraveltime) {
 				continue;
 			}
-
 			// avoid going near the enemy
 			ProjectPointOntoVector(enemyorigin, curupdate->start, reach->end, p);
 
@@ -2387,7 +2386,6 @@ int AAS_NearestHideArea(int srcnum, vec3_t origin, int areanum, int enemynum, ve
 				t += 1000; // avoid this path / area
 				// continue;
 			}
-
 			// if we weren't visible when starting, make sure we don't move into their view
 			if (enemyareanum && !startVisible && AAS_AreaVisible(enemyareanum, nextareanum)) {
 				continue;
@@ -2561,14 +2559,12 @@ int AAS_FindAttackSpotWithinRange(int srcnum, int rangenum, int enemynum, float 
 			if (Distance(rangeorg, (*aasworld).areawaypoints[nextareanum]) > rangedist) {
 				continue;
 			}
-
 			// find the traveltime from srcnum
 			srctraveltime = AAS_AreaTravelTimeToGoalArea(srcarea, srcorg, nextareanum, travelflags);
 			// do this test now, so we can reject the route if it starts out too long
 			if (besttraveltime && srctraveltime >= besttraveltime) {
 				continue;
 			}
-
 			// if this area doesn't have a vis list, ignore it
 			if ((*aasworld).areavisibility[nextareanum]) {
 				// if the nextarea can see the enemy area

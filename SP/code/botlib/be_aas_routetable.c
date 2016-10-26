@@ -755,7 +755,7 @@ void AAS_RT_BuildRouteTable(void) {
 // for (i = 0; i < childcount; i++)
 // {
 // 	aasworld->routetable->area_childlocaldata_list[filtered_areas[i]] = area_childlocaldata[i];
-// }
+//}
 	// copy the list of parents to a global structure for now(should eventually go into the(*aasworld) structure
 // aasworld->routetable->area_parents_global = (aas_area_parent_t **)AAS_RT_GetClearedMemory(num_parents * sizeof(aas_area_parent_t *));
 // memcpy(aasworld->routetable->area_parents_global, area_parents, num_parents * sizeof(aas_area_parent_t *));
@@ -1132,7 +1132,7 @@ qboolean AAS_RT_GetHidePos(vec3_t srcpos, int srcnum, int srcarea, vec3_t destpo
 // all valid areas have a parent
 // if (!srcChild->numParentLinks) {
 // 	return qfalse;
-// }
+//}
 	// get the dest(enemy) area
 	if (!(destChild = AAS_RT_GetChild(destarea))) {
 		return qfalse;

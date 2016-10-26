@@ -101,14 +101,14 @@ static qboolean R_CullGrid(srfGridMesh_t *cv) {
 
 
 /*
-================
+=======================================================================================================================================
 R_CullSurface
 
 Tries to back face cull surfaces before they are lighted or
 added to the sorting list.
 
 This will also allow mirrors on both sides of a model without recursion.
-================
+=======================================================================================================================================
 */
 static qboolean R_CullSurface(surfaceType_t *surface, shader_t *shader) {
 	srfSurfaceFace_t *sface;
@@ -247,13 +247,13 @@ static int R_DlightTrisurf(srfTriangles_t *surf, int dlightBits) {
 }
 
 /*
-====================
+=======================================================================================================================================
 R_DlightSurface
 
 The given surface is going to be drawn, and it touches a leaf
 that is touched by one or more dlights, so try to throw out
 more dlights if possible.
-====================
+=======================================================================================================================================
 */
 static int R_DlightSurface(msurface_t *surf, int dlightBits) {
 	if (*surf->data == SF_FACE) {
@@ -403,9 +403,9 @@ void R_AddBrushModelSurfaces(trRefEntity_t *ent) {
 
 
 /*
-================
+=======================================================================================================================================
 R_RecursiveWorldNode
-================
+=======================================================================================================================================
 */
 static void R_RecursiveWorldNode(mnode_t *node, unsigned int planeBits, unsigned int dlightBits) {
 
@@ -552,9 +552,9 @@ static void R_RecursiveWorldNode(mnode_t *node, unsigned int planeBits, unsigned
 
 
 /*
-===============
+=======================================================================================================================================
 R_PointInLeaf
-===============
+=======================================================================================================================================
 */
 static mnode_t *R_PointInLeaf(vec3_t p) {
 	mnode_t     *node;
@@ -583,9 +583,9 @@ static mnode_t *R_PointInLeaf(vec3_t p) {
 }
 
 /*
-==============
+=======================================================================================================================================
 R_ClusterPVS
-==============
+=======================================================================================================================================
 */
 static const byte *R_ClusterPVS(int cluster) {
 	if (!tr.world->vis || cluster < 0 || cluster >= tr.world->numClusters) {
@@ -598,15 +598,15 @@ static const byte *R_ClusterPVS(int cluster) {
 
 
 /*
-===============
+=======================================================================================================================================
 R_MarkLeaves
 
 Mark the leaves and nodes that are in the PVS for the current
 cluster
-===============
+=======================================================================================================================================
 */
 static void R_MarkLeaves(void) {
-	const byte  *vis;
+	const byte *vis;
 	mnode_t *leaf, *parent;
 	int i;
 	int cluster;

@@ -238,14 +238,14 @@ static void hashtable_add(hashtable_t *H, int hashvalue, void *datum) {
       /* Empty bucket. Create new one. */
       *hb = calloc(1, sizeof(**hb));
       hc = *hb;
-  }
+ }
   else
     {
       /* Get hc to point to last node in chain. */
       for (hc = *hb; hc && hc->next; hc = hc->next);
       hc->next = calloc(1, sizeof(*hc));
       hc = hc->next;
-  }
+ }
   hc->data = datum;
   hc->next = 0;
 }
@@ -271,7 +271,7 @@ static void hashtable_stats(hashtable_t *H) {
       for (hc = H->table[i], len = 0; hc; hc = hc->next, len++);
       if (len > longest) {longest = len;}
       nodes += len;
-  }
+ }
   meanlen = (float)(nodes) / (H->buckets - empties);
 #if 0
 /* Long stats display */
@@ -301,7 +301,7 @@ static int hashtable_symbol_exists(hashtable_t *H, int hash, char *sym) {
   if (hc == 0) {
       /* Empty chain means this symbol has not yet been defined. */
       return 0;
-  }
+ }
   for (; hc; hc = hc->next) {
       s = (symbol_t *)hc->data;
 //      if ((hash == s->hash) && (strcmp(sym, s->name) == 0))
@@ -310,8 +310,8 @@ static int hashtable_symbol_exists(hashtable_t *H, int hash, char *sym) {
         {
           /* Symbol collisions -- symbol already exists. */
           return 1;
-      }
-  }
+     }
+ }
   return 0;  /* Can't find collision. */
 }
 
@@ -345,7 +345,7 @@ static void sort_symbols() {
   symlist = malloc(elems * sizeof(symbol_t *));
   for (i = 0, s = symbols; s; s = s->next, i++) {
       symlist[i] = s;
-  }
+ }
 // crumbf("sort_symbols: Quick - sorting %d symbols\n", elems);
   qsort(symlist, elems, sizeof(symbol_t *), symlist_cmp);
 // crumbf("sort_symbols: Reconstructing symbols list\n");
@@ -353,7 +353,7 @@ static void sort_symbols() {
   for (i = 1; i < elems; i++) {
       s->next = symlist[i];
       s = s->next;
-  }
+ }
   lastSymbol = s;
   s->next = 0;
 // crumbf("sort_symbols: verifying..."); fflush(stdout);
@@ -410,7 +410,7 @@ static unsigned int HashString(const char *key) {
     0x8cbcce22U, 0x559fc06aU, 0xd268f536U, 0xe10af79aU, 
     0xc1af4d69U, 0x1d2917b5U, 0xec4c304dU, 0x9ee5016cU, 
     0x69232f74U, 0xfead7bb3U, 0xe9089ab6U, 0xf012f6aeU, 
-  };
+ };
 
     const char *str = key;
     unsigned int acc = 0;
@@ -422,7 +422,7 @@ static unsigned int HashString(const char *key) {
     acc ^= randbox[((*str++ >> 4) + acc) & 0xf];
     acc = (acc << 2)|(acc >> 30);
     acc &= 0xffffffffU;
-  }
+ }
     return acc;
 }
 

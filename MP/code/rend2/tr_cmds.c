@@ -29,9 +29,9 @@ If you have questions concerning this license or the applicable additional terms
 #include "tr_local.h"
 
 /*
-=====================
+=======================================================================================================================================
 R_PerformanceCounters
-=====================
+=======================================================================================================================================
 */
 void R_PerformanceCounters(void) {
 	if (!r_speeds->integer) {
@@ -66,12 +66,10 @@ void R_PerformanceCounters(void) {
 //	else if (r_speeds->integer == 5)
 //	{
 //		ri.Printf(PRINT_ALL, "zFar: %.0f\n", tr.viewParms.zFar);
-//	}
-	else if (r_speeds->integer == 6) {
+//	} else if (r_speeds->integer == 6) {
 		ri.Printf(PRINT_ALL, "flare adds:%i tests:%i renders:%i\n",
 				   backEnd.pc.c_flareAdds, backEnd.pc.c_flareTests, backEnd.pc.c_flareRenders);
-	}
-	else if (r_speeds->integer == 7)
+	} else if (r_speeds->integer == 7)
 	{
 		ri.Printf(PRINT_ALL, "VAO draws: static %i dynamic %i\nMultidraws: %i merged %i\n",
 			backEnd.pc.c_staticVaoDraws, backEnd.pc.c_dynamicVaoDraws, backEnd.pc.c_multidraws, backEnd.pc.c_multidrawsMerged);
@@ -85,9 +83,9 @@ void R_PerformanceCounters(void) {
 
 
 /*
-====================
+=======================================================================================================================================
 R_IssueRenderCommands
-====================
+=======================================================================================================================================
 */
 void R_IssueRenderCommands(qboolean runPerformanceCounters) {
 	renderCommandList_t *cmdList;
@@ -116,11 +114,11 @@ void R_IssueRenderCommands(qboolean runPerformanceCounters) {
 
 
 /*
-====================
+=======================================================================================================================================
 R_IssuePendingRenderCommands
 
 Issue any pending commands and wait for them to complete.
-====================
+=======================================================================================================================================
 */
 void R_IssuePendingRenderCommands(void) {
 	if (!tr.registered) {
@@ -130,11 +128,11 @@ void R_IssuePendingRenderCommands(void) {
 }
 
 /*
-============
+=======================================================================================================================================
 R_GetCommandBufferReserved
 
 make sure there is enough command space
-============
+=======================================================================================================================================
 */
 void *R_GetCommandBufferReserved(int bytes, int reservedBytes) {
 	renderCommandList_t *cmdList;
@@ -249,7 +247,7 @@ void    RE_SetColor(const float *rgba) {
 	}
 	cmd->commandId = RC_SET_COLOR;
 	if (!rgba) {
-		static float colorWhite[4] = { 1, 1, 1, 1 };
+		static float colorWhite[4] = { 1, 1, 1, 1};
 
 		rgba = colorWhite;
 	}
@@ -312,8 +310,7 @@ void R_SetColorMode(GLboolean *rgba, stereoFrame_t stereoFrame, int colormode)
 			rgba[0] = rgba[2] = GL_FALSE;
 		else if(stereoFrame == STEREO_RIGHT)
 			rgba[1] = GL_FALSE;
-	}
-	else
+	} else
 	{
 		if(stereoFrame == STEREO_LEFT)
 			rgba[1] = rgba[2] = GL_FALSE;
@@ -366,9 +363,9 @@ void RE_RotatedPic(float x, float y, float w, float h,
 
 //----(SA)	added
 /*
-==============
+=======================================================================================================================================
 RE_StretchPicGradient
-==============
+=======================================================================================================================================
 */
 void RE_StretchPicGradient(float x, float y, float w, float h,
 							float s1, float t1, float s2, float t2, qhandle_t hShader, const float *gradientColor, int gradientType) {
@@ -390,7 +387,7 @@ void RE_StretchPicGradient(float x, float y, float w, float h,
 	cmd->t2 = t2;
 
 	if (!gradientColor) {
-		static float colorWhite[4] = { 1, 1, 1, 1 };
+		static float colorWhite[4] = { 1, 1, 1, 1};
 
 		gradientColor = colorWhite;
 	}
@@ -405,12 +402,12 @@ void RE_StretchPicGradient(float x, float y, float w, float h,
 
 
 /*
-====================
+=======================================================================================================================================
 RE_BeginFrame
 
 If running in stereo, RE_BeginFrame will be called twice
 for each RE_EndFrame
-====================
+=======================================================================================================================================
 */
 void RE_BeginFrame(stereoFrame_t stereoFrame) {
 	drawBufferCommand_t *cmd = NULL;
@@ -518,8 +515,7 @@ void RE_BeginFrame(stereoFrame_t stereoFrame) {
 		} else {
 			ri.Error(ERR_FATAL, "RE_BeginFrame: Stereo is enabled, but stereoFrame was %i", stereoFrame);
 		}
-	}
-	else
+	} else
 	{
 		if(r_anaglyphMode->integer)
 		{

@@ -509,7 +509,7 @@ extern void (APIENTRYP qglPNTrianglesfATI)(GLenum pname, GLfloat param);
 	GLE(void, GetShaderSource, GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *source) \
 	GLE(GLint, GetUniformLocation, GLuint program, const GLchar *name) \
 	GLE(void, LinkProgram, GLuint program) \
-	GLE(void, ShaderSource, GLuint shader, GLsizei count, const GLchar* *string, const GLint *length) \
+	GLE(void, ShaderSource, GLuint shader, GLsizei count, const GLchar **string, const GLint *length) \
 	GLE(void, UseProgram, GLuint program) \
 	GLE(void, Uniform1f, GLint location, GLfloat v0) \
 	GLE(void, Uniform2f, GLint location, GLfloat v0, GLfloat v1) \

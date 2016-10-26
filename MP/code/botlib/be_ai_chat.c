@@ -777,7 +777,7 @@ bot_synonymlist_t *BotLoadSynonyms(char *filename) {
 		FreeSource(source);
 
 		if (contextlevel > 0) {
-			SourceError(source, "missing }");
+			SourceError(source, "missing}");
 			return NULL;
 		}
 	}

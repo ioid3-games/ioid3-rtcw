@@ -359,11 +359,11 @@ void GL_State(unsigned long stateBits) {
 
 
 /*
-================
+=======================================================================================================================================
 RB_Hyperspace
 
 A player has predicted a teleport, but hasn't arrived yet
-================
+=======================================================================================================================================
 */
 static void RB_Hyperspace(void) {
 	float c;
@@ -555,9 +555,9 @@ void RB_BeginDrawingView(void) {
 
 
 /*
-==================
+=======================================================================================================================================
 RB_RenderDrawSurfList
-==================
+=======================================================================================================================================
 */
 void RB_RenderDrawSurfList(drawSurf_t *drawSurfs, int numDrawSurfs) {
 	shader_t        *shader, *oldShader;
@@ -751,10 +751,10 @@ RENDER BACK END FUNCTIONS
 */
 
 /*
-================
+=======================================================================================================================================
 RB_SetGL2D
 
-================
+=======================================================================================================================================
 */
 void    RB_SetGL2D(void) {
 	backEnd.projection2D = qtrue;
@@ -857,12 +857,12 @@ void RE_StretchRaw(int x, int y, int w, int h, int cols, int rows, const byte *d
 	 0.5f / cols,  0.5f / rows,
 	 (cols - 0.5f) / cols ,  0.5f / rows,
 	 (cols - 0.5f) / cols, (rows - 0.5f) / rows,
-	 0.5f / cols, (rows - 0.5f) / rows };
+	 0.5f / cols, (rows - 0.5f) / rows};
 	GLfloat vtx[] = {
 	 x, y,
 	 x+w, y,
 	 x+w, y+h,
-	 x, y+h };
+	 x, y+h};
 	GLboolean text = qglIsEnabled(GL_TEXTURE_COORD_ARRAY);
 	GLboolean glcol = qglIsEnabled(GL_COLOR_ARRAY);
 	if (glcol)
@@ -1096,9 +1096,9 @@ const void *RB_RotatedPic(const void *data) {
 // -NERVE - SMF
 
 /*
-==============
+=======================================================================================================================================
 RB_StretchPicGradient
-==============
+=======================================================================================================================================
 */
 const void *RB_StretchPicGradient(const void *data) {
 	const stretchPicCommand_t   *cmd;
@@ -1231,14 +1231,14 @@ const void  *RB_DrawBuffer(const void *data) {
 }
 
 /*
-===============
+=======================================================================================================================================
 RB_ShowImages
 
 Draw all the images to the screen, on top of whatever
 was there.  This is used to test for texture thrashing.
 
 Also called by RE_EndRegistration
-===============
+=======================================================================================================================================
 */
 void RB_ShowImages(void) {
 	int i;
@@ -1277,12 +1277,12 @@ void RB_ShowImages(void) {
 		 0, 0, 
 		 1, 0,
 		 1, 1, 
-		 0, 1 };
+		 0, 1};
 		GLfloat vtx[] = {
 		 x, y,
 		 x + w, y,
 		 x + w, y + h,
-		 x, y + h };
+		 x, y + h};
 		GLboolean text = qglIsEnabled(GL_TEXTURE_COORD_ARRAY);
 		GLboolean glcol = qglIsEnabled(GL_COLOR_ARRAY);
 		if (glcol)
@@ -1415,10 +1415,10 @@ const void  *RB_SwapBuffers(const void *data) {
 }
 
 /*
-====================
+=======================================================================================================================================
 RB_ExecuteRenderCommands
 
-====================
+=======================================================================================================================================
 */
 void RB_ExecuteRenderCommands(const void *data) {
 	int t1, t2;

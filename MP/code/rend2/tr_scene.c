@@ -48,10 +48,10 @@ int r_numpolyverts;
 int skyboxportal;
 
 /*
-====================
+=======================================================================================================================================
 R_InitNextFrame
 
-====================
+=======================================================================================================================================
 */
 void R_InitNextFrame(void) {
 	backEndData->commands.used = 0;
@@ -75,10 +75,10 @@ void R_InitNextFrame(void) {
 
 
 /*
-====================
+=======================================================================================================================================
 RE_ClearScene
 
-====================
+=======================================================================================================================================
 */
 void RE_ClearScene(void) {
 	r_firstSceneDlight = r_numdlights;
@@ -96,11 +96,11 @@ DISCRETE POLYS
 */
 
 /*
-=====================
+=======================================================================================================================================
 R_AddPolygonSurfaces
 
 Adds all the scene's polys into this view's drawsurf list
-=====================
+=======================================================================================================================================
 */
 void R_AddPolygonSurfaces(void) {
 	int i;
@@ -119,10 +119,10 @@ void R_AddPolygonSurfaces(void) {
 }
 
 /*
-=====================
+=======================================================================================================================================
 RE_AddPolyToScene
 
-=====================
+=======================================================================================================================================
 */
 void RE_AddPolyToScene(qhandle_t hShader, int numVerts, const polyVert_t *verts) {
 	srfPoly_t   *poly;
@@ -194,10 +194,10 @@ void RE_AddPolyToScene(qhandle_t hShader, int numVerts, const polyVert_t *verts)
 
 // Ridah
 /*
-=====================
+=======================================================================================================================================
 RE_AddPolysToScene
 
-=====================
+=======================================================================================================================================
 */
 void RE_AddPolysToScene(qhandle_t hShader, int numVerts, const polyVert_t *verts, int numPolys) {
 	srfPoly_t   *poly;
@@ -279,10 +279,10 @@ void RE_AddPolysToScene(qhandle_t hShader, int numVerts, const polyVert_t *verts
 
 
 /*
-=====================
+=======================================================================================================================================
 RE_AddRefEntityToScene
 
-=====================
+=======================================================================================================================================
 */
 void RE_AddRefEntityToScene(const refEntity_t *ent) {
 	vec3_t cross;
@@ -317,10 +317,10 @@ void RE_AddRefEntityToScene(const refEntity_t *ent) {
 
 // Ridah, added support for overdraw field
 /*
-=====================
+=======================================================================================================================================
 RE_AddLightToScene
 
-=====================
+=======================================================================================================================================
 */
 void RE_AddLightToScene(const vec3_t org, float intensity, float r, float g, float b, int overdraw) {
 	dlight_t    *dl;
@@ -372,9 +372,9 @@ void RE_AddLightToScene(const vec3_t org, float intensity, float r, float g, flo
 
 
 /*
-==============
+=======================================================================================================================================
 RE_AddCoronaToScene
-==============
+=======================================================================================================================================
 */
 void RE_AddCoronaToScene(const vec3_t org, float r, float g, float b, float scale, int id, qboolean visible) {
 	corona_t    *cor;
@@ -447,8 +447,7 @@ void RE_BeginScene(const refdef_t *fd)
 	if ((tr.refdef.rdflags & RDF_NOWORLDMODEL) || !(r_depthPrepass->value)){
 		VectorSet(tr.refdef.sunCol, 0, 0, 0);
 		VectorSet(tr.refdef.sunAmbCol, 0, 0, 0);
-	}
-	else
+	} else
 	{
 		float scale = (1 << r_mapOverBrightBits->integer) / 255.0f;
 
@@ -476,8 +475,7 @@ void RE_BeginScene(const refdef_t *fd)
 	{
 		tr.refdef.autoExposureMinMax[0] = r_forceAutoExposureMin->value;
 		tr.refdef.autoExposureMinMax[1] = r_forceAutoExposureMax->value;
-	}
-	else
+	} else
 	{
 		tr.refdef.autoExposureMinMax[0] = tr.autoExposureMinMax[0];
 		tr.refdef.autoExposureMinMax[1] = tr.autoExposureMinMax[1];
@@ -488,8 +486,7 @@ void RE_BeginScene(const refdef_t *fd)
 		tr.refdef.toneMinAvgMaxLinear[0] = pow(2, r_forceToneMapMin->value);
 		tr.refdef.toneMinAvgMaxLinear[1] = pow(2, r_forceToneMapAvg->value);
 		tr.refdef.toneMinAvgMaxLinear[2] = pow(2, r_forceToneMapMax->value);
-	}
-	else
+	} else
 	{
 		tr.refdef.toneMinAvgMaxLinear[0] = pow(2, tr.toneMinAvgMaxLevel[0]);
 		tr.refdef.toneMinAvgMaxLinear[1] = pow(2, tr.toneMinAvgMaxLevel[1]);

@@ -1738,9 +1738,9 @@ void ClientSpawn(gentity_t *ent) {
 
 // if (g_gametype.integer == GT_SINGLE_PLAYER) {
 // 	client->ps.ammo[BG_FindAmmoForWeapon(WP_LUGER)] = 50;
-// } else {
+//} else {
 // 	client->ps.ammo[BG_FindAmmoForWeapon(WP_LUGER)] = 100;
-// }
+//}
 
 // COM_BitSet(client->ps.weapons, WP_GAUNTLET);
 // client->ps.ammo[BG_FindAmmoForWeapon(WP_GAUNTLET)] = -1;

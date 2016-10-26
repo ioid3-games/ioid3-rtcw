@@ -108,7 +108,7 @@ void R_LoadJPG(const char *filename, unsigned char **pic, int *width, int *heigh
 		byte *b;
 		void *v;
 	} fbuffer;
-  byte  *buf;
+  byte *buf;
 
   /* In this example we want to open the input file before doing anything else,
    * so that the setjmp() error recovery below can assume the file is open.
@@ -119,7 +119,7 @@ void R_LoadJPG(const char *filename, unsigned char **pic, int *width, int *heigh
   len = ri.FS_ReadFile ((char *) filename, &fbuffer.v);
   if (!fbuffer.b || len < 0) {
 	return;
-  }
+ }
 
   /* Step 1: allocate and initialize JPEG decompression object */
 
@@ -144,7 +144,7 @@ void R_LoadJPG(const char *filename, unsigned char **pic, int *width, int *heigh
     /* Append the filename to the error for easier debugging */
     ri.Printf(PRINT_ALL, ", loading file %s\n", filename);
     return;
-  }
+ }
 
   /* Now we can initialize the JPEG decompression object. */
   jpeg_create_decompress(&cinfo);
@@ -188,8 +188,8 @@ void R_LoadJPG(const char *filename, unsigned char **pic, int *width, int *heigh
   pixelcount = cinfo.output_width * cinfo.output_height;
 
   if(!cinfo.output_width || !cinfo.output_height
-      || ((pixelcount * 4) / cinfo.output_width) / 4 != cinfo.output_height
-      || pixelcount > 0x1FFFFFFF || cinfo.output_components != 3
+ || ((pixelcount * 4) / cinfo.output_width) / 4 != cinfo.output_height
+ || pixelcount > 0x1FFFFFFF || cinfo.output_components != 3
    )
   {
     // Free the memory to make sure we don't leak memory
@@ -198,7 +198,7 @@ void R_LoadJPG(const char *filename, unsigned char **pic, int *width, int *heigh
   
     ri.Error(ERR_DROP, "LoadJPG: %s has an invalid image format: %dx%d*4=%d, components: %d", filename,
 		    cinfo.output_width, cinfo.output_height, pixelcount * 4, cinfo.output_components);
-  }
+ }
 
   memcount = pixelcount * 4;
   row_stride = cinfo.output_width * cinfo.output_components;
@@ -222,7 +222,7 @@ void R_LoadJPG(const char *filename, unsigned char **pic, int *width, int *heigh
 	buf = ((out+(row_stride*cinfo.output_scanline)));
 	buffer = &buf;
     (void) jpeg_read_scanlines(&cinfo, buffer, 1);
-  }
+ }
   
   buf = out;
 
@@ -236,7 +236,7 @@ void R_LoadJPG(const char *filename, unsigned char **pic, int *width, int *heigh
     buf[--dindex] = buf[--sindex];
     buf[--dindex] = buf[--sindex];
     buf[--dindex] = buf[--sindex];
-  } while(sindex);
+ } while(sindex);
 
   *pic = out;
 
@@ -366,7 +366,7 @@ jpegDest (j_compress_ptr cinfo, byte* outfile, int size)
     cinfo->dest = (struct jpeg_destination_mgr *)
       (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_PERMANENT,
 				  sizeof(my_destination_mgr));
-  }
+ }
 
   dest = (my_dest_ptr) cinfo->dest;
   dest->pub.init_destination = init_destination;
@@ -409,7 +409,7 @@ size_t RE_SaveJPGToBuffer(byte *buffer, size_t bufSize, int quality,
 
     ri.Printf(PRINT_ALL, "\n");
     return 0;
-  }
+ }
 
   /* Now we can initialize the JPEG compression object. */
   jpeg_create_compress(&cinfo);
@@ -430,7 +430,7 @@ size_t RE_SaveJPGToBuffer(byte *buffer, size_t bufSize, int quality,
   if (quality >= 85) {
     cinfo.comp_info[0].h_samp_factor = 1;
     cinfo.comp_info[0].v_samp_factor = 1;
-  }
+ }
 
   /* Step 4: Start compressor */
   jpeg_start_compress(&cinfo, TRUE);
@@ -446,7 +446,7 @@ size_t RE_SaveJPGToBuffer(byte *buffer, size_t bufSize, int quality,
      */
     row_pointer[0] = &image_buffer[((cinfo.image_height-1)*row_stride)-cinfo.next_scanline * row_stride];
     (void) jpeg_write_scanlines(&cinfo, row_pointer, 1);
-  }
+ }
 
   /* Step 6: Finish compression */
   jpeg_finish_compress(&cinfo);

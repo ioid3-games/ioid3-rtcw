@@ -762,7 +762,6 @@ void AICast_StartFrame(int time) {
 			} else {
 				trap_UnlinkEntity(ent);
 			}
-
 			// see if we've checked all cast AI's
 			if (++castcount >= numcast) {
 				break;
@@ -884,11 +883,10 @@ void AICast_StartServerFrame(int time) {
 							cs->castScriptStatus.scriptNoMoveTime = level.time + ent->client->ps.legsTimer;
 						}
 					}
-*/            }
+*/           }
 			} else {
 				trap_UnlinkEntity(ent);
 			}
-
 			// see if we've checked all cast AI's
 			if (++castcount >= numcast) {
 				break;

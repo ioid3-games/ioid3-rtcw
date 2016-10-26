@@ -1054,7 +1054,6 @@ void CG_Explodef(vec3_t origin, vec3_t dir, int mass, int type, qhandle_t sound,
 				le->bounceFactor = 0.4;
 				break;
 			}
-
 			// rotation
 			le->angles.trType = TR_LINEAR;
 			le->angles.trTime = cg.time;

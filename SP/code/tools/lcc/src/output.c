@@ -107,14 +107,14 @@ void vfprint(FILE *f, char *bp, const char *fmt, va_list ap) {
 				    if (s) {
 				    	for (; n-->0; s++)
 				    		if (f)(void)putc(*s, f); else *bp++ = *s;
-				  }
+				 }
 } break;
 			case 'k': {int t = va_arg(ap, int);
 				    static char *tokens[] = {
 #define xx(a, b, c, d, e, f, g) g,
 #define yy(a, b, c, d, e, f, g) g,
 #include "token.h"
-				  };
+				 };
 				    assert(tokens[t&0177]);
 				    bp = outs(tokens[t&0177], f, bp);
 } break;
@@ -126,7 +126,7 @@ void vfprint(FILE *f, char *bp, const char *fmt, va_list ap) {
 				    if (p->file && *p->file) {
 				    	bp = outs(p->file, f, bp);
 				    	bp = outs(":", f, bp);
-				  }
+				 }
 				    bp = outd(p->y, f, bp);
 } break;
 			case 'I': {int n = va_arg(ap, int);

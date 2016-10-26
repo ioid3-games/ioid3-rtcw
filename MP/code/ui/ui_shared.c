@@ -2656,7 +2656,6 @@ qboolean Item_TextField_HandleKey(itemDef_t *item, int key) {
 				DC->setCVar(item->cvar, buff);
 				return qtrue;
 			}
-
 			// 
 			// ignore any non printable chars
 			if (key < 32 || !item->cvar) {
@@ -6302,8 +6301,8 @@ static void Item_ApplyHacks(itemDef_t *item) {
                if (editField->maxChars < 48) {
                        Com_Printf("Extended create favorite address edit field length to hold an IPv6 address\n");
                        editField->maxChars = 48;
-             }
-     }
+            }
+    }
 }
 
 /*

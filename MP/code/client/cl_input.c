@@ -273,17 +273,17 @@ void IN_SprintUp(void) {IN_KeyUp(&kb[KB_BUTTONS5]);}
 
 
 // wbuttons(wolf buttons)
-void IN_Wbutton0Down(void) {IN_KeyDown(&kb[KB_WBUTTONS0]);  } // ---- (SA) secondary fire button
+void IN_Wbutton0Down(void) {IN_KeyDown(&kb[KB_WBUTTONS0]); } // ---- (SA) secondary fire button
 void IN_Wbutton0Up(void) {IN_KeyUp(&kb[KB_WBUTTONS0]);}
-void IN_ZoomDown(void) {IN_KeyDown(&kb[KB_WBUTTONS1]);  } // ---- (SA)	zoom key
+void IN_ZoomDown(void) {IN_KeyDown(&kb[KB_WBUTTONS1]); } // ---- (SA)	zoom key
 void IN_ZoomUp(void) {IN_KeyUp(&kb[KB_WBUTTONS1]);}
-void IN_QuickGrenDown(void) {IN_KeyDown(&kb[KB_WBUTTONS2]);  } // ---- (SA)	"Quickgrenade"
+void IN_QuickGrenDown(void) {IN_KeyDown(&kb[KB_WBUTTONS2]); } // ---- (SA)	"Quickgrenade"
 void IN_QuickGrenUp(void) {IN_KeyUp(&kb[KB_WBUTTONS2]);}
-void IN_ReloadDown(void) {IN_KeyDown(&kb[KB_WBUTTONS3]);  } // ---- (SA)	manual weapon re - load
+void IN_ReloadDown(void) {IN_KeyDown(&kb[KB_WBUTTONS3]); } // ---- (SA)	manual weapon re - load
 void IN_ReloadUp(void) {IN_KeyUp(&kb[KB_WBUTTONS3]);}
-void IN_LeanLeftDown(void) {IN_KeyDown(&kb[KB_WBUTTONS4]);  } // ---- (SA)	lean left
+void IN_LeanLeftDown(void) {IN_KeyDown(&kb[KB_WBUTTONS4]); } // ---- (SA)	lean left
 void IN_LeanLeftUp(void) {IN_KeyUp(&kb[KB_WBUTTONS4]);}
-void IN_LeanRightDown(void) {IN_KeyDown(&kb[KB_WBUTTONS5]);  } // ---- (SA)	lean right
+void IN_LeanRightDown(void) {IN_KeyDown(&kb[KB_WBUTTONS5]); } // ---- (SA)	lean right
 void IN_LeanRightUp(void) {IN_KeyUp(&kb[KB_WBUTTONS5]);}
 
 // JPW NERVE
@@ -291,7 +291,7 @@ void IN_MP_DropWeaponDown(void) {IN_KeyDown(&kb[KB_WBUTTONS6]);}
 void IN_MP_DropWeaponUp(void) {IN_KeyUp(&kb[KB_WBUTTONS6]);}
 
 // unused
-void IN_Wbutton7Down(void) {IN_KeyDown(&kb[KB_WBUTTONS7]);  }
+void IN_Wbutton7Down(void) {IN_KeyDown(&kb[KB_WBUTTONS7]); }
 void IN_Wbutton7Up(void) {IN_KeyUp(&kb[KB_WBUTTONS7]);}
 
 void IN_CenterView(void) {
