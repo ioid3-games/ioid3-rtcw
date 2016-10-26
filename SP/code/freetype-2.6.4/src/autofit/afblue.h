@@ -28,21 +28,21 @@ FT_BEGIN_HEADER
 
   /* an auxiliary macro to decode a UTF-8 character -- since we only use */
   /* hard-coded, self-converted data, no error checking is performed     */
-#define GET_UTF8_CHAR( ch, p )                      \
+#define GET_UTF8_CHAR(ch, p)                      \
           do                                        \
           {                                         \
             ch = (unsigned char)*p++;               \
-            if ( ch >= 0x80 )                       \
+            if (ch >= 0x80)                       \
             {                                       \
               FT_UInt  len_;                        \
                                                     \
                                                     \
-              if ( ch < 0xE0 )                      \
+              if (ch < 0xE0)                      \
               {                                     \
                 len_ = 1;                           \
                 ch  &= 0x1F;                        \
               }                                     \
-              else if ( ch < 0xF0 )                 \
+              else if (ch < 0xF0)                 \
               {                                     \
                 len_ = 2;                           \
                 ch  &= 0x0F;                        \
@@ -53,10 +53,10 @@ FT_BEGIN_HEADER
                 ch  &= 0x07;                        \
               }                                     \
                                                     \
-              for ( ; len_ > 0; len_-- )            \
-                ch = ( ch << 6 ) | ( *p++ & 0x3F ); \
+              for (; len_ > 0; len_--)            \
+                ch = (ch << 6) | (*p++ & 0x3F); \
             }                                       \
-          } while ( 0 )
+          } while (0)
 
 
   /*************************************************************************/
@@ -203,7 +203,7 @@ FT_BEGIN_HEADER
   } AF_Blue_String;
 
 
-  FT_LOCAL_ARRAY( char )
+  FT_LOCAL_ARRAY(char)
   af_blue_strings[];
 
 
@@ -221,14 +221,14 @@ FT_BEGIN_HEADER
   /* Properties are specific to a writing system.  We assume that a given  */
   /* blue string can't be used in more than a single writing system, which */
   /* is a safe bet.                                                        */
-#define AF_BLUE_PROPERTY_LATIN_TOP       ( 1U << 0 )  /* must have value 1 */
-#define AF_BLUE_PROPERTY_LATIN_SUB_TOP   ( 1U << 1 )
-#define AF_BLUE_PROPERTY_LATIN_NEUTRAL   ( 1U << 2 )
-#define AF_BLUE_PROPERTY_LATIN_X_HEIGHT  ( 1U << 3 )
-#define AF_BLUE_PROPERTY_LATIN_LONG      ( 1U << 4 )
+#define AF_BLUE_PROPERTY_LATIN_TOP       (1U << 0)  /* must have value 1 */
+#define AF_BLUE_PROPERTY_LATIN_SUB_TOP   (1U << 1)
+#define AF_BLUE_PROPERTY_LATIN_NEUTRAL   (1U << 2)
+#define AF_BLUE_PROPERTY_LATIN_X_HEIGHT  (1U << 3)
+#define AF_BLUE_PROPERTY_LATIN_LONG      (1U << 4)
 
-#define AF_BLUE_PROPERTY_CJK_TOP    ( 1U << 0 )       /* must have value 1 */
-#define AF_BLUE_PROPERTY_CJK_HORIZ  ( 1U << 1 )       /* must have value 2 */
+#define AF_BLUE_PROPERTY_CJK_TOP    (1U << 0)       /* must have value 1 */
+#define AF_BLUE_PROPERTY_CJK_HORIZ  (1U << 1)       /* must have value 2 */
 #define AF_BLUE_PROPERTY_CJK_RIGHT  AF_BLUE_PROPERTY_CJK_TOP
 
 
@@ -294,7 +294,7 @@ FT_BEGIN_HEADER
   } AF_Blue_StringRec;
 
 
-  FT_LOCAL_ARRAY( AF_Blue_StringRec )
+  FT_LOCAL_ARRAY(AF_Blue_StringRec)
   af_blue_stringsets[];
 
 /* */

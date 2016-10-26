@@ -42,9 +42,9 @@
 #define FT_COMPONENT  trace_ttsbit
 
 
-  FT_LOCAL_DEF( FT_Error )
-  tt_face_load_sbit( TT_Face    face,
-                     FT_Stream  stream )
+  FT_LOCAL_DEF(FT_Error)
+  tt_face_load_sbit(TT_Face    face,
+                     FT_Stream  stream)
   {
     FT_Error  error;
     FT_ULong  table_size;
@@ -55,35 +55,35 @@
     face->sbit_table_type  = TT_SBIT_TABLE_TYPE_NONE;
     face->sbit_num_strikes = 0;
 
-    error = face->goto_table( face, TTAG_CBLC, stream, &table_size );
-    if ( !error )
+    error = face->goto_table(face, TTAG_CBLC, stream, &table_size);
+    if (!error)
       face->sbit_table_type = TT_SBIT_TABLE_TYPE_CBLC;
     else
     {
-      error = face->goto_table( face, TTAG_EBLC, stream, &table_size );
-      if ( error )
-        error = face->goto_table( face, TTAG_bloc, stream, &table_size );
-      if ( !error )
+      error = face->goto_table(face, TTAG_EBLC, stream, &table_size);
+      if (error)
+        error = face->goto_table(face, TTAG_bloc, stream, &table_size);
+      if (!error)
         face->sbit_table_type = TT_SBIT_TABLE_TYPE_EBLC;
     }
 
-    if ( error )
+    if (error)
     {
-      error = face->goto_table( face, TTAG_sbix, stream, &table_size );
-      if ( !error )
+      error = face->goto_table(face, TTAG_sbix, stream, &table_size);
+      if (!error)
         face->sbit_table_type = TT_SBIT_TABLE_TYPE_SBIX;
     }
-    if ( error )
+    if (error)
       goto Exit;
 
-    if ( table_size < 8 )
+    if (table_size < 8)
     {
-      FT_ERROR(( "tt_face_load_sbit_strikes: table too short\n" ));
-      error = FT_THROW( Invalid_File_Format );
+      FT_ERROR(("tt_face_load_sbit_strikes: table too short\n"));
+      error = FT_THROW(Invalid_File_Format);
       goto Exit;
     }
 
-    switch ( (FT_UInt)face->sbit_table_type )
+    switch ((FT_UInt)face->sbit_table_type)
     {
     case TT_SBIT_TABLE_TYPE_EBLC:
     case TT_SBIT_TABLE_TYPE_CBLC:
@@ -94,26 +94,26 @@
         FT_UInt   count;
 
 
-        if ( FT_FRAME_EXTRACT( table_size, face->sbit_table ) )
+        if (FT_FRAME_EXTRACT(table_size, face->sbit_table))
           goto Exit;
 
         face->sbit_table_size = table_size;
 
         p = face->sbit_table;
 
-        version     = FT_NEXT_LONG( p );
-        num_strikes = FT_NEXT_ULONG( p );
+        version     = FT_NEXT_LONG(p);
+        num_strikes = FT_NEXT_ULONG(p);
 
-        if ( ( (FT_ULong)version & 0xFFFF0000UL ) != 0x00020000UL &&
-             ( (FT_ULong)version & 0xFFFF0000UL ) != 0x00030000UL )
+        if (((FT_ULong)version & 0xFFFF0000UL) != 0x00020000UL &&
+             ((FT_ULong)version & 0xFFFF0000UL) != 0x00030000UL)
         {
-          error = FT_THROW( Unknown_File_Format );
+          error = FT_THROW(Unknown_File_Format);
           goto Exit;
         }
 
-        if ( num_strikes >= 0x10000UL )
+        if (num_strikes >= 0x10000UL)
         {
-          error = FT_THROW( Invalid_File_Format );
+          error = FT_THROW(Invalid_File_Format);
           goto Exit;
         }
 
@@ -122,8 +122,8 @@
          *  paranoid there and don't trust the data.
          */
         count = (FT_UInt)num_strikes;
-        if ( 8 + 48UL * count > table_size )
-          count = (FT_UInt)( ( table_size - 8 ) / 48 );
+        if (8 + 48UL * count > table_size)
+          count = (FT_UInt)((table_size - 8) / 48);
 
         face->sbit_num_strikes = count;
       }
@@ -137,7 +137,7 @@
         FT_UInt    count;
 
 
-        if ( FT_FRAME_ENTER( 8 ) )
+        if (FT_FRAME_ENTER(8))
           goto Exit;
 
         version     = FT_GET_USHORT();
@@ -146,43 +146,43 @@
 
         FT_FRAME_EXIT();
 
-        if ( version < 1 )
+        if (version < 1)
         {
-          error = FT_THROW( Unknown_File_Format );
+          error = FT_THROW(Unknown_File_Format);
           goto Exit;
         }
 
         /* Bit 0 must always be `1'.                            */
         /* Bit 1 controls the overlay of bitmaps with outlines. */
         /* All other bits should be zero.                       */
-        if ( !( flags == 1 || flags == 3 ) ||
-             num_strikes >= 0x10000UL      )
+        if (!(flags == 1 || flags == 3) ||
+             num_strikes >= 0x10000UL     )
         {
-          error = FT_THROW( Invalid_File_Format );
+          error = FT_THROW(Invalid_File_Format);
           goto Exit;
         }
 
         /* we currently don't support bit 1; however, it is better to */
         /* draw at least something...                                 */
-        if ( flags == 3 )
-          FT_TRACE1(( "tt_face_load_sbit_strikes:"
+        if (flags == 3)
+          FT_TRACE1(("tt_face_load_sbit_strikes:"
                       " sbix overlay not supported yet\n"
                       "                          "
-                      " expect bad rendering results\n" ));
+                      " expect bad rendering results\n"));
 
         /*
          *  Count the number of strikes available in the table.  We are a bit
          *  paranoid there and don't trust the data.
          */
         count = (FT_UInt)num_strikes;
-        if ( 8 + 4UL * count > table_size )
-          count = (FT_UInt)( ( table_size - 8 ) / 4 );
+        if (8 + 4UL * count > table_size)
+          count = (FT_UInt)((table_size - 8) / 4);
 
-        if ( FT_STREAM_SEEK( FT_STREAM_POS() - 8 ) )
+        if (FT_STREAM_SEEK(FT_STREAM_POS() - 8))
           goto Exit;
 
         face->sbit_table_size = 8 + count * 4;
-        if ( FT_FRAME_EXTRACT( face->sbit_table_size, face->sbit_table ) )
+        if (FT_FRAME_EXTRACT(face->sbit_table_size, face->sbit_table))
           goto Exit;
 
         face->sbit_num_strikes = count;
@@ -190,20 +190,20 @@
       break;
 
     default:
-      error = FT_THROW( Unknown_File_Format );
+      error = FT_THROW(Unknown_File_Format);
       break;
     }
 
-    if ( !error )
-      FT_TRACE3(( "sbit_num_strikes: %u\n", face->sbit_num_strikes ));
+    if (!error)
+      FT_TRACE3(("sbit_num_strikes: %u\n", face->sbit_num_strikes));
 
     return FT_Err_Ok;
 
   Exit:
-    if ( error )
+    if (error)
     {
-      if ( face->sbit_table )
-        FT_FRAME_RELEASE( face->sbit_table );
+      if (face->sbit_table)
+        FT_FRAME_RELEASE(face->sbit_table);
       face->sbit_table_size = 0;
       face->sbit_table_type = TT_SBIT_TABLE_TYPE_NONE;
     }
@@ -212,37 +212,37 @@
   }
 
 
-  FT_LOCAL_DEF( void )
-  tt_face_free_sbit( TT_Face  face )
+  FT_LOCAL_DEF(void)
+  tt_face_free_sbit(TT_Face  face)
   {
     FT_Stream  stream = face->root.stream;
 
 
-    FT_FRAME_RELEASE( face->sbit_table );
+    FT_FRAME_RELEASE(face->sbit_table);
     face->sbit_table_size  = 0;
     face->sbit_table_type  = TT_SBIT_TABLE_TYPE_NONE;
     face->sbit_num_strikes = 0;
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
-  tt_face_set_sbit_strike( TT_Face          face,
+  FT_LOCAL_DEF(FT_Error)
+  tt_face_set_sbit_strike(TT_Face          face,
                            FT_Size_Request  req,
-                           FT_ULong*        astrike_index )
+                           FT_ULong*        astrike_index)
   {
-    return FT_Match_Size( (FT_Face)face, req, 0, astrike_index );
+    return FT_Match_Size((FT_Face)face, req, 0, astrike_index);
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
-  tt_face_load_strike_metrics( TT_Face           face,
+  FT_LOCAL_DEF(FT_Error)
+  tt_face_load_strike_metrics(TT_Face           face,
                                FT_ULong          strike_index,
-                               FT_Size_Metrics*  metrics )
+                               FT_Size_Metrics*  metrics)
   {
-    if ( strike_index >= (FT_ULong)face->sbit_num_strikes )
-      return FT_THROW( Invalid_Argument );
+    if (strike_index >= (FT_ULong)face->sbit_num_strikes)
+      return FT_THROW(Invalid_Argument);
 
-    switch ( (FT_UInt)face->sbit_table_type )
+    switch ((FT_UInt)face->sbit_table_type)
     {
     case TT_SBIT_TABLE_TYPE_EBLC:
     case TT_SBIT_TABLE_TYPE_CBLC:
@@ -270,25 +270,25 @@
         max_before_bl = (FT_Char)strike[24];
         min_after_bl  = (FT_Char)strike[25];
 
-        if ( metrics->descender > 0 )
+        if (metrics->descender > 0)
         {
           /* compare sign of descender with `min_after_bl' */
-          if ( min_after_bl < 0 )
+          if (min_after_bl < 0)
             metrics->descender = -metrics->descender;
         }
 
-        else if ( metrics->descender == 0 )
+        else if (metrics->descender == 0)
         {
-          if ( metrics->ascender == 0 )
+          if (metrics->ascender == 0)
           {
-            FT_TRACE2(( "tt_face_load_strike_metrics:"
+            FT_TRACE2(("tt_face_load_strike_metrics:"
                         " sanitizing invalid ascender and descender\n"
                         "                            "
                         " values for strike (%d, %d)\n",
-                        metrics->x_ppem, metrics->y_ppem ));
+                        metrics->x_ppem, metrics->y_ppem));
 
             /* sanitize buggy ascender and descender values */
-            if ( max_before_bl || min_after_bl )
+            if (max_before_bl || min_after_bl)
             {
               metrics->ascender  = max_before_bl * 64;
               metrics->descender = min_after_bl * 64;
@@ -307,22 +307,22 @@
 #endif
 
         metrics->height = metrics->ascender - metrics->descender;
-        if ( metrics->height == 0 )
+        if (metrics->height == 0)
         {
-          FT_TRACE2(( "tt_face_load_strike_metrics:"
+          FT_TRACE2(("tt_face_load_strike_metrics:"
                       " sanitizing invalid height value\n"
                       "                            "
                       " for strike (%d, %d)\n",
-                      metrics->x_ppem, metrics->y_ppem ));
+                      metrics->x_ppem, metrics->y_ppem));
           metrics->height    = metrics->y_ppem * 64;
           metrics->descender = metrics->ascender - metrics->height;
         }
 
         /* Is this correct? */
-        metrics->max_advance = ( (FT_Char)strike[22] + /* min_origin_SB  */
+        metrics->max_advance = ((FT_Char)strike[22] + /* min_origin_SB  */
                                           strike[18] + /* max_width      */
                                  (FT_Char)strike[23]   /* min_advance_SB */
-                                                     ) * 64;
+                                                    ) * 64;
         return FT_Err_Ok;
       }
 
@@ -340,23 +340,23 @@
 
 
         p      = face->sbit_table + 8 + 4 * strike_index;
-        offset = FT_NEXT_ULONG( p );
+        offset = FT_NEXT_ULONG(p);
 
-        error = face->goto_table( face, TTAG_sbix, stream, &table_size );
-        if ( error )
+        error = face->goto_table(face, TTAG_sbix, stream, &table_size);
+        if (error)
           return error;
 
-        if ( offset + 4  > table_size )
-          return FT_THROW( Invalid_File_Format );
+        if (offset + 4  > table_size)
+          return FT_THROW(Invalid_File_Format);
 
-        if ( FT_STREAM_SEEK( FT_STREAM_POS() + offset ) ||
-             FT_FRAME_ENTER( 4 )                        )
+        if (FT_STREAM_SEEK(FT_STREAM_POS() + offset) ||
+             FT_FRAME_ENTER(4)                       )
           return error;
 
         ppem       = FT_GET_USHORT();
         resolution = FT_GET_USHORT();
 
-        FT_UNUSED( resolution ); /* What to do with this? */
+        FT_UNUSED(resolution); /* What to do with this? */
 
         FT_FRAME_EXIT();
 
@@ -369,20 +369,20 @@
         ppem_ = (FT_Pos)ppem;
 
         metrics->ascender =
-          FT_MulDiv( hori->Ascender, ppem_ * 64, upem );
+          FT_MulDiv(hori->Ascender, ppem_ * 64, upem);
         metrics->descender =
-          FT_MulDiv( hori->Descender, ppem_ * 64, upem );
+          FT_MulDiv(hori->Descender, ppem_ * 64, upem);
         metrics->height =
-          FT_MulDiv( hori->Ascender - hori->Descender + hori->Line_Gap,
-                     ppem_ * 64, upem );
+          FT_MulDiv(hori->Ascender - hori->Descender + hori->Line_Gap,
+                     ppem_ * 64, upem);
         metrics->max_advance =
-          FT_MulDiv( hori->advance_Width_Max, ppem_ * 64, upem );
+          FT_MulDiv(hori->advance_Width_Max, ppem_ * 64, upem);
 
         return error;
       }
 
     default:
-      return FT_THROW( Unknown_File_Format );
+      return FT_THROW(Unknown_File_Format);
     }
   }
 
@@ -409,22 +409,22 @@
 
 
   static FT_Error
-  tt_sbit_decoder_init( TT_SBitDecoder       decoder,
+  tt_sbit_decoder_init(TT_SBitDecoder       decoder,
                         TT_Face              face,
                         FT_ULong             strike_index,
-                        TT_SBit_MetricsRec*  metrics )
+                        TT_SBit_MetricsRec*  metrics)
   {
     FT_Error   error;
     FT_Stream  stream = face->root.stream;
     FT_ULong   ebdt_size;
 
 
-    error = face->goto_table( face, TTAG_CBDT, stream, &ebdt_size );
-    if ( error )
-      error = face->goto_table( face, TTAG_EBDT, stream, &ebdt_size );
-    if ( error )
-      error = face->goto_table( face, TTAG_bdat, stream, &ebdt_size );
-    if ( error )
+    error = face->goto_table(face, TTAG_CBDT, stream, &ebdt_size);
+    if (error)
+      error = face->goto_table(face, TTAG_EBDT, stream, &ebdt_size);
+    if (error)
+      error = face->goto_table(face, TTAG_bdat, stream, &ebdt_size);
+    if (error)
       goto Exit;
 
     decoder->face    = face;
@@ -446,26 +446,26 @@
       FT_Byte*  p;
 
 
-      if ( 8 + 48 * strike_index + 3 * 4 + 34 + 1 > face->sbit_table_size )
+      if (8 + 48 * strike_index + 3 * 4 + 34 + 1 > face->sbit_table_size)
       {
-        error = FT_THROW( Invalid_File_Format );
+        error = FT_THROW(Invalid_File_Format);
         goto Exit;
       }
 
       p = decoder->eblc_base + 8 + 48 * strike_index;
 
-      decoder->strike_index_array = FT_NEXT_ULONG( p );
+      decoder->strike_index_array = FT_NEXT_ULONG(p);
       p                          += 4;
-      decoder->strike_index_count = FT_NEXT_ULONG( p );
+      decoder->strike_index_count = FT_NEXT_ULONG(p);
       p                          += 34;
       decoder->bit_depth          = *p;
 
       /* decoder->strike_index_array +                               */
       /*   8 * decoder->strike_index_count > face->sbit_table_size ? */
-      if ( decoder->strike_index_array > face->sbit_table_size           ||
+      if (decoder->strike_index_array > face->sbit_table_size           ||
            decoder->strike_index_count >
-             ( face->sbit_table_size - decoder->strike_index_array ) / 8 )
-        error = FT_THROW( Invalid_File_Format );
+             (face->sbit_table_size - decoder->strike_index_array) / 8)
+        error = FT_THROW(Invalid_File_Format);
     }
 
   Exit:
@@ -474,14 +474,14 @@
 
 
   static void
-  tt_sbit_decoder_done( TT_SBitDecoder  decoder )
+  tt_sbit_decoder_done(TT_SBitDecoder  decoder)
   {
-    FT_UNUSED( decoder );
+    FT_UNUSED(decoder);
   }
 
 
   static FT_Error
-  tt_sbit_decoder_alloc_bitmap( TT_SBitDecoder  decoder )
+  tt_sbit_decoder_alloc_bitmap(TT_SBitDecoder  decoder)
   {
     FT_Error    error = FT_Err_Ok;
     FT_UInt     width, height;
@@ -489,9 +489,9 @@
     FT_ULong    size;
 
 
-    if ( !decoder->metrics_loaded )
+    if (!decoder->metrics_loaded)
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_THROW(Invalid_Argument);
       goto Exit;
     }
 
@@ -501,51 +501,51 @@
     map->width = width;
     map->rows  = height;
 
-    switch ( decoder->bit_depth )
+    switch (decoder->bit_depth)
     {
     case 1:
       map->pixel_mode = FT_PIXEL_MODE_MONO;
-      map->pitch      = (int)( ( map->width + 7 ) >> 3 );
+      map->pitch      = (int)((map->width + 7) >> 3);
       map->num_grays  = 2;
       break;
 
     case 2:
       map->pixel_mode = FT_PIXEL_MODE_GRAY2;
-      map->pitch      = (int)( ( map->width + 3 ) >> 2 );
+      map->pitch      = (int)((map->width + 3) >> 2);
       map->num_grays  = 4;
       break;
 
     case 4:
       map->pixel_mode = FT_PIXEL_MODE_GRAY4;
-      map->pitch      = (int)( ( map->width + 1 ) >> 1 );
+      map->pitch      = (int)((map->width + 1) >> 1);
       map->num_grays  = 16;
       break;
 
     case 8:
       map->pixel_mode = FT_PIXEL_MODE_GRAY;
-      map->pitch      = (int)( map->width );
+      map->pitch      = (int)(map->width);
       map->num_grays  = 256;
       break;
 
     case 32:
       map->pixel_mode = FT_PIXEL_MODE_BGRA;
-      map->pitch      = (int)( map->width * 4 );
+      map->pitch      = (int)(map->width * 4);
       map->num_grays  = 256;
       break;
 
     default:
-      error = FT_THROW( Invalid_File_Format );
+      error = FT_THROW(Invalid_File_Format);
       goto Exit;
     }
 
     size = map->rows * (FT_ULong)map->pitch;
 
     /* check that there is no empty image */
-    if ( size == 0 )
+    if (size == 0)
       goto Exit;     /* exit successfully! */
 
-    error = ft_glyphslot_alloc_bitmap( decoder->face->root.glyph, size );
-    if ( error )
+    error = ft_glyphslot_alloc_bitmap(decoder->face->root.glyph, size);
+    if (error)
       goto Exit;
 
     decoder->bitmap_allocated = 1;
@@ -556,16 +556,16 @@
 
 
   static FT_Error
-  tt_sbit_decoder_load_metrics( TT_SBitDecoder  decoder,
+  tt_sbit_decoder_load_metrics(TT_SBitDecoder  decoder,
                                 FT_Byte*       *pp,
                                 FT_Byte*        limit,
-                                FT_Bool         big )
+                                FT_Bool         big)
   {
     FT_Byte*         p       = *pp;
     TT_SBit_Metrics  metrics = decoder->metrics;
 
 
-    if ( p + 5 > limit )
+    if (p + 5 > limit)
       goto Fail;
 
     metrics->height       = p[0];
@@ -575,9 +575,9 @@
     metrics->horiAdvance  = p[4];
 
     p += 5;
-    if ( big )
+    if (big)
     {
-      if ( p + 3 > limit )
+      if (p + 3 > limit)
         goto Fail;
 
       metrics->vertBearingX = (FT_Char)p[0];
@@ -599,18 +599,18 @@
     return FT_Err_Ok;
 
   Fail:
-    FT_TRACE1(( "tt_sbit_decoder_load_metrics: broken table\n" ));
-    return FT_THROW( Invalid_Argument );
+    FT_TRACE1(("tt_sbit_decoder_load_metrics: broken table\n"));
+    return FT_THROW(Invalid_Argument);
   }
 
 
   /* forward declaration */
   static FT_Error
-  tt_sbit_decoder_load_image( TT_SBitDecoder  decoder,
+  tt_sbit_decoder_load_image(TT_SBitDecoder  decoder,
                               FT_UInt         glyph_index,
                               FT_Int          x_pos,
                               FT_Int          y_pos,
-                              FT_UInt         recurse_count );
+                              FT_UInt         recurse_count);
 
   typedef FT_Error  (*TT_SBitDecoder_LoadFunc)(
                       TT_SBitDecoder  decoder,
@@ -618,16 +618,16 @@
                       FT_Byte*        plimit,
                       FT_Int          x_pos,
                       FT_Int          y_pos,
-                      FT_UInt         recurse_count );
+                      FT_UInt         recurse_count);
 
 
   static FT_Error
-  tt_sbit_decoder_load_byte_aligned( TT_SBitDecoder  decoder,
+  tt_sbit_decoder_load_byte_aligned(TT_SBitDecoder  decoder,
                                      FT_Byte*        p,
                                      FT_Byte*        limit,
                                      FT_Int          x_pos,
                                      FT_Int          y_pos,
-                                     FT_UInt         recurse_count )
+                                     FT_UInt         recurse_count)
   {
     FT_Error    error = FT_Err_Ok;
     FT_Byte*    line;
@@ -635,7 +635,7 @@
     FT_UInt     bit_height, bit_width;
     FT_Bitmap*  bitmap;
 
-    FT_UNUSED( recurse_count );
+    FT_UNUSED(recurse_count);
 
 
     /* check that we can write the glyph into the bitmap */
@@ -650,80 +650,80 @@
 
     line_bits = width * decoder->bit_depth;
 
-    if ( x_pos < 0 || (FT_UInt)( x_pos + width ) > bit_width   ||
-         y_pos < 0 || (FT_UInt)( y_pos + height ) > bit_height )
+    if (x_pos < 0 || (FT_UInt)(x_pos + width) > bit_width   ||
+         y_pos < 0 || (FT_UInt)(y_pos + height) > bit_height)
     {
-      FT_TRACE1(( "tt_sbit_decoder_load_byte_aligned:"
-                  " invalid bitmap dimensions\n" ));
-      error = FT_THROW( Invalid_File_Format );
+      FT_TRACE1(("tt_sbit_decoder_load_byte_aligned:"
+                  " invalid bitmap dimensions\n"));
+      error = FT_THROW(Invalid_File_Format);
       goto Exit;
     }
 
-    if ( p + ( ( line_bits + 7 ) >> 3 ) * height > limit )
+    if (p + ((line_bits + 7) >> 3) * height > limit)
     {
-      FT_TRACE1(( "tt_sbit_decoder_load_byte_aligned: broken bitmap\n" ));
-      error = FT_THROW( Invalid_File_Format );
+      FT_TRACE1(("tt_sbit_decoder_load_byte_aligned: broken bitmap\n"));
+      error = FT_THROW(Invalid_File_Format);
       goto Exit;
     }
 
     /* now do the blit */
-    line  += y_pos * pitch + ( x_pos >> 3 );
+    line  += y_pos * pitch + (x_pos >> 3);
     x_pos &= 7;
 
-    if ( x_pos == 0 )  /* the easy one */
+    if (x_pos == 0)  /* the easy one */
     {
-      for ( h = height; h > 0; h--, line += pitch )
+      for (h = height; h > 0; h--, line += pitch)
       {
         FT_Byte*  pwrite = line;
         FT_Int    w;
 
 
-        for ( w = line_bits; w >= 8; w -= 8 )
+        for (w = line_bits; w >= 8; w -= 8)
         {
-          pwrite[0] = (FT_Byte)( pwrite[0] | *p++ );
+          pwrite[0] = (FT_Byte)(pwrite[0] | *p++);
           pwrite   += 1;
         }
 
-        if ( w > 0 )
-          pwrite[0] = (FT_Byte)( pwrite[0] | ( *p++ & ( 0xFF00U >> w ) ) );
+        if (w > 0)
+          pwrite[0] = (FT_Byte)(pwrite[0] | (*p++ & (0xFF00U >> w)));
       }
     }
     else  /* x_pos > 0 */
     {
-      for ( h = height; h > 0; h--, line += pitch )
+      for (h = height; h > 0; h--, line += pitch)
       {
         FT_Byte*  pwrite = line;
         FT_Int    w;
         FT_UInt   wval = 0;
 
 
-        for ( w = line_bits; w >= 8; w -= 8 )
+        for (w = line_bits; w >= 8; w -= 8)
         {
-          wval       = (FT_UInt)( wval | *p++ );
-          pwrite[0]  = (FT_Byte)( pwrite[0] | ( wval >> x_pos ) );
+          wval       = (FT_UInt)(wval | *p++);
+          pwrite[0]  = (FT_Byte)(pwrite[0] | (wval >> x_pos));
           pwrite    += 1;
           wval     <<= 8;
         }
 
-        if ( w > 0 )
-          wval = (FT_UInt)( wval | ( *p++ & ( 0xFF00U >> w ) ) );
+        if (w > 0)
+          wval = (FT_UInt)(wval | (*p++ & (0xFF00U >> w)));
 
         /* all bits read and there are `x_pos + w' bits to be written */
 
-        pwrite[0] = (FT_Byte)( pwrite[0] | ( wval >> x_pos ) );
+        pwrite[0] = (FT_Byte)(pwrite[0] | (wval >> x_pos));
 
-        if ( x_pos + w > 8 )
+        if (x_pos + w > 8)
         {
           pwrite++;
           wval     <<= 8;
-          pwrite[0]  = (FT_Byte)( pwrite[0] | ( wval >> x_pos ) );
+          pwrite[0]  = (FT_Byte)(pwrite[0] | (wval >> x_pos));
         }
       }
     }
 
   Exit:
-    if ( !error )
-      FT_TRACE3(( "tt_sbit_decoder_load_byte_aligned: loaded\n" ));
+    if (!error)
+      FT_TRACE3(("tt_sbit_decoder_load_byte_aligned: loaded\n"));
     return error;
   }
 
@@ -764,12 +764,12 @@
    */
 
   static FT_Error
-  tt_sbit_decoder_load_bit_aligned( TT_SBitDecoder  decoder,
+  tt_sbit_decoder_load_bit_aligned(TT_SBitDecoder  decoder,
                                     FT_Byte*        p,
                                     FT_Byte*        limit,
                                     FT_Int          x_pos,
                                     FT_Int          y_pos,
-                                    FT_UInt         recurse_count )
+                                    FT_UInt         recurse_count)
   {
     FT_Error    error = FT_Err_Ok;
     FT_Byte*    line;
@@ -778,7 +778,7 @@
     FT_Bitmap*  bitmap;
     FT_UShort   rval;
 
-    FT_UNUSED( recurse_count );
+    FT_UNUSED(recurse_count);
 
 
     /* check that we can write the glyph into the bitmap */
@@ -793,23 +793,23 @@
 
     line_bits = width * decoder->bit_depth;
 
-    if ( x_pos < 0 || (FT_UInt)( x_pos + width ) > bit_width   ||
-         y_pos < 0 || (FT_UInt)( y_pos + height ) > bit_height )
+    if (x_pos < 0 || (FT_UInt)(x_pos + width) > bit_width   ||
+         y_pos < 0 || (FT_UInt)(y_pos + height) > bit_height)
     {
-      FT_TRACE1(( "tt_sbit_decoder_load_bit_aligned:"
-                  " invalid bitmap dimensions\n" ));
-      error = FT_THROW( Invalid_File_Format );
+      FT_TRACE1(("tt_sbit_decoder_load_bit_aligned:"
+                  " invalid bitmap dimensions\n"));
+      error = FT_THROW(Invalid_File_Format);
       goto Exit;
     }
 
-    if ( p + ( ( line_bits * height + 7 ) >> 3 ) > limit )
+    if (p + ((line_bits * height + 7) >> 3) > limit)
     {
-      FT_TRACE1(( "tt_sbit_decoder_load_bit_aligned: broken bitmap\n" ));
-      error = FT_THROW( Invalid_File_Format );
+      FT_TRACE1(("tt_sbit_decoder_load_bit_aligned: broken bitmap\n"));
+      error = FT_THROW(Invalid_File_Format);
       goto Exit;
     }
 
-    if ( !line_bits || !height )
+    if (!line_bits || !height)
     {
       /* nothing to do */
       goto Exit;
@@ -818,32 +818,32 @@
     /* now do the blit */
 
     /* adjust `line' to point to the first byte of the bitmap */
-    line  += y_pos * pitch + ( x_pos >> 3 );
+    line  += y_pos * pitch + (x_pos >> 3);
     x_pos &= 7;
 
     /* the higher byte of `rval' is used as a buffer */
     rval  = 0;
     nbits = 0;
 
-    for ( h = height; h > 0; h--, line += pitch )
+    for (h = height; h > 0; h--, line += pitch)
     {
       FT_Byte*  pwrite = line;
       FT_Int    w      = line_bits;
 
 
       /* handle initial byte (in target bitmap) specially if necessary */
-      if ( x_pos )
+      if (x_pos)
       {
-        w = ( line_bits < 8 - x_pos ) ? line_bits : 8 - x_pos;
+        w = (line_bits < 8 - x_pos) ? line_bits : 8 - x_pos;
 
-        if ( h == height )
+        if (h == height)
         {
           rval  = *p++;
           nbits = x_pos;
         }
-        else if ( nbits < w )
+        else if (nbits < w)
         {
-          if ( p < limit )
+          if (p < limit)
             rval |= *p++;
           nbits += 8 - w;
         }
@@ -853,56 +853,56 @@
           nbits  -= w;
         }
 
-        *pwrite++ |= ( ( rval >> nbits ) & 0xFF ) &
-                     ( ~( 0xFF << w ) << ( 8 - w - x_pos ) );
+        *pwrite++ |= ((rval >> nbits) & 0xFF) &
+                     (~(0xFF << w) << (8 - w - x_pos));
         rval     <<= 8;
 
         w = line_bits - w;
       }
 
       /* handle medial bytes */
-      for ( ; w >= 8; w -= 8 )
+      for (; w >= 8; w -= 8)
       {
         rval      |= *p++;
-        *pwrite++ |= ( rval >> nbits ) & 0xFF;
+        *pwrite++ |= (rval >> nbits) & 0xFF;
 
         rval <<= 8;
       }
 
       /* handle final byte if necessary */
-      if ( w > 0 )
+      if (w > 0)
       {
-        if ( nbits < w )
+        if (nbits < w)
         {
-          if ( p < limit )
+          if (p < limit)
             rval |= *p++;
-          *pwrite |= ( ( rval >> nbits ) & 0xFF ) & ( 0xFF00U >> w );
+          *pwrite |= ((rval >> nbits) & 0xFF) & (0xFF00U >> w);
           nbits   += 8 - w;
 
           rval <<= 8;
         }
         else
         {
-          *pwrite |= ( ( rval >> nbits ) & 0xFF ) & ( 0xFF00U >> w );
+          *pwrite |= ((rval >> nbits) & 0xFF) & (0xFF00U >> w);
           nbits   -= w;
         }
       }
     }
 
   Exit:
-    if ( !error )
-      FT_TRACE3(( "tt_sbit_decoder_load_bit_aligned: loaded\n" ));
+    if (!error)
+      FT_TRACE3(("tt_sbit_decoder_load_bit_aligned: loaded\n"));
     return error;
   }
 
 
   static FT_Error
-  tt_sbit_decoder_load_compound( TT_SBitDecoder  decoder,
+  tt_sbit_decoder_load_compound(TT_SBitDecoder  decoder,
                                  FT_Byte*        p,
                                  FT_Byte*        limit,
                                  FT_Int          x_pos,
                                  FT_Int          y_pos,
-                                 FT_UInt         recurse_count )
+                                 FT_UInt         recurse_count)
   {
     FT_Error  error = FT_Err_Ok;
     FT_UInt   num_components, nn;
@@ -915,37 +915,37 @@
     FT_Byte  vertAdvance  = (FT_Byte)decoder->metrics->vertAdvance;
 
 
-    if ( p + 2 > limit )
+    if (p + 2 > limit)
       goto Fail;
 
-    num_components = FT_NEXT_USHORT( p );
-    if ( p + 4 * num_components > limit )
+    num_components = FT_NEXT_USHORT(p);
+    if (p + 4 * num_components > limit)
     {
-      FT_TRACE1(( "tt_sbit_decoder_load_compound: broken table\n" ));
+      FT_TRACE1(("tt_sbit_decoder_load_compound: broken table\n"));
       goto Fail;
     }
 
-    FT_TRACE3(( "tt_sbit_decoder_load_compound: loading %d components\n",
-                num_components ));
+    FT_TRACE3(("tt_sbit_decoder_load_compound: loading %d components\n",
+                num_components));
 
-    for ( nn = 0; nn < num_components; nn++ )
+    for (nn = 0; nn < num_components; nn++)
     {
-      FT_UInt  gindex = FT_NEXT_USHORT( p );
-      FT_Byte  dx     = FT_NEXT_BYTE( p );
-      FT_Byte  dy     = FT_NEXT_BYTE( p );
+      FT_UInt  gindex = FT_NEXT_USHORT(p);
+      FT_Byte  dx     = FT_NEXT_BYTE(p);
+      FT_Byte  dy     = FT_NEXT_BYTE(p);
 
 
       /* NB: a recursive call */
-      error = tt_sbit_decoder_load_image( decoder,
+      error = tt_sbit_decoder_load_image(decoder,
                                           gindex,
                                           x_pos + dx,
                                           y_pos + dy,
-                                          recurse_count + 1 );
-      if ( error )
+                                          recurse_count + 1);
+      if (error)
         break;
     }
 
-    FT_TRACE3(( "tt_sbit_decoder_load_compound: done\n" ));
+    FT_TRACE3(("tt_sbit_decoder_load_compound: done\n"));
 
     decoder->metrics->horiBearingX = horiBearingX;
     decoder->metrics->horiBearingY = horiBearingY;
@@ -960,7 +960,7 @@
     return error;
 
   Fail:
-    error = FT_THROW( Invalid_File_Format );
+    error = FT_THROW(Invalid_File_Format);
     goto Exit;
   }
 
@@ -968,35 +968,35 @@
 #ifdef FT_CONFIG_OPTION_USE_PNG
 
   static FT_Error
-  tt_sbit_decoder_load_png( TT_SBitDecoder  decoder,
+  tt_sbit_decoder_load_png(TT_SBitDecoder  decoder,
                             FT_Byte*        p,
                             FT_Byte*        limit,
                             FT_Int          x_pos,
                             FT_Int          y_pos,
-                            FT_UInt         recurse_count )
+                            FT_UInt         recurse_count)
   {
     FT_Error  error = FT_Err_Ok;
     FT_ULong  png_len;
 
-    FT_UNUSED( recurse_count );
+    FT_UNUSED(recurse_count);
 
 
-    if ( limit - p < 4 )
+    if (limit - p < 4)
     {
-      FT_TRACE1(( "tt_sbit_decoder_load_png: broken bitmap\n" ));
-      error = FT_THROW( Invalid_File_Format );
+      FT_TRACE1(("tt_sbit_decoder_load_png: broken bitmap\n"));
+      error = FT_THROW(Invalid_File_Format);
       goto Exit;
     }
 
-    png_len = FT_NEXT_ULONG( p );
-    if ( (FT_ULong)( limit - p ) < png_len )
+    png_len = FT_NEXT_ULONG(p);
+    if ((FT_ULong)(limit - p) < png_len)
     {
-      FT_TRACE1(( "tt_sbit_decoder_load_png: broken bitmap\n" ));
-      error = FT_THROW( Invalid_File_Format );
+      FT_TRACE1(("tt_sbit_decoder_load_png: broken bitmap\n"));
+      error = FT_THROW(Invalid_File_Format);
       goto Exit;
     }
 
-    error = Load_SBit_Png( decoder->face->root.glyph,
+    error = Load_SBit_Png(decoder->face->root.glyph,
                            x_pos,
                            y_pos,
                            decoder->bit_depth,
@@ -1004,11 +1004,11 @@
                            decoder->stream->memory,
                            p,
                            png_len,
-                           FALSE );
+                           FALSE);
 
   Exit:
-    if ( !error )
-      FT_TRACE3(( "tt_sbit_decoder_load_png: loaded\n" ));
+    if (!error)
+      FT_TRACE3(("tt_sbit_decoder_load_png: loaded\n"));
     return error;
   }
 
@@ -1016,13 +1016,13 @@
 
 
   static FT_Error
-  tt_sbit_decoder_load_bitmap( TT_SBitDecoder  decoder,
+  tt_sbit_decoder_load_bitmap(TT_SBitDecoder  decoder,
                                FT_UInt         glyph_format,
                                FT_ULong        glyph_start,
                                FT_ULong        glyph_size,
                                FT_Int          x_pos,
                                FT_Int          y_pos,
-                               FT_UInt         recurse_count )
+                               FT_UInt         recurse_count)
   {
     FT_Error   error;
     FT_Stream  stream = decoder->stream;
@@ -1032,49 +1032,49 @@
 
 
     /* seek into the EBDT table now */
-    if ( !glyph_size                                   ||
-         glyph_start + glyph_size > decoder->ebdt_size )
+    if (!glyph_size                                   ||
+         glyph_start + glyph_size > decoder->ebdt_size)
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_THROW(Invalid_Argument);
       goto Exit;
     }
 
-    if ( FT_STREAM_SEEK( decoder->ebdt_start + glyph_start ) ||
-         FT_FRAME_EXTRACT( glyph_size, data )                )
+    if (FT_STREAM_SEEK(decoder->ebdt_start + glyph_start) ||
+         FT_FRAME_EXTRACT(glyph_size, data)               )
       goto Exit;
 
     p       = data;
     p_limit = p + glyph_size;
 
     /* read the data, depending on the glyph format */
-    switch ( glyph_format )
+    switch (glyph_format)
     {
     case 1:
     case 2:
     case 8:
     case 17:
-      error = tt_sbit_decoder_load_metrics( decoder, &p, p_limit, 0 );
+      error = tt_sbit_decoder_load_metrics(decoder, &p, p_limit, 0);
       break;
 
     case 6:
     case 7:
     case 9:
     case 18:
-      error = tt_sbit_decoder_load_metrics( decoder, &p, p_limit, 1 );
+      error = tt_sbit_decoder_load_metrics(decoder, &p, p_limit, 1);
       break;
 
     default:
       error = FT_Err_Ok;
     }
 
-    if ( error )
+    if (error)
       goto Fail;
 
     {
       TT_SBitDecoder_LoadFunc  loader;
 
 
-      switch ( glyph_format )
+      switch (glyph_format)
       {
       case 1:
       case 6:
@@ -1099,12 +1099,12 @@
           FT_UInt  width  = decoder->metrics->width;
           FT_UInt  height = decoder->metrics->height;
 
-          FT_UInt  bit_size  = ( width * height + 7 ) >> 3;
-          FT_UInt  byte_size = height * ( ( width + 7 ) >> 3 );
+          FT_UInt  bit_size  = (width * height + 7) >> 3;
+          FT_UInt  byte_size = height * ((width + 7) >> 3);
 
 
-          if ( bit_size < byte_size                  &&
-               byte_size == (FT_UInt)( p_limit - p ) )
+          if (bit_size < byte_size                  &&
+               byte_size == (FT_UInt)(p_limit - p))
             loader = tt_sbit_decoder_load_byte_aligned;
           else
             loader = tt_sbit_decoder_load_bit_aligned;
@@ -1116,7 +1116,7 @@
         break;
 
       case 8:
-        if ( p + 1 > p_limit )
+        if (p + 1 > p_limit)
           goto Fail;
 
         p += 1;  /* skip padding */
@@ -1133,27 +1133,27 @@
         loader = tt_sbit_decoder_load_png;
         break;
 #else
-        error = FT_THROW( Unimplemented_Feature );
+        error = FT_THROW(Unimplemented_Feature);
         goto Fail;
 #endif /* FT_CONFIG_OPTION_USE_PNG */
 
       default:
-        error = FT_THROW( Invalid_Table );
+        error = FT_THROW(Invalid_Table);
         goto Fail;
       }
 
-      if ( !decoder->bitmap_allocated )
+      if (!decoder->bitmap_allocated)
       {
-        error = tt_sbit_decoder_alloc_bitmap( decoder );
-        if ( error )
+        error = tt_sbit_decoder_alloc_bitmap(decoder);
+        if (error)
           goto Fail;
       }
 
-      error = loader( decoder, p, p_limit, x_pos, y_pos, recurse_count );
+      error = loader(decoder, p, p_limit, x_pos, y_pos, recurse_count);
     }
 
   Fail:
-    FT_FRAME_RELEASE( data );
+    FT_FRAME_RELEASE(data);
 
   Exit:
     return error;
@@ -1161,11 +1161,11 @@
 
 
   static FT_Error
-  tt_sbit_decoder_load_image( TT_SBitDecoder  decoder,
+  tt_sbit_decoder_load_image(TT_SBitDecoder  decoder,
                               FT_UInt         glyph_index,
                               FT_Int          x_pos,
                               FT_Int          y_pos,
-                              FT_UInt         recurse_count )
+                              FT_UInt         recurse_count)
   {
     FT_Byte*  p          = decoder->eblc_base + decoder->strike_index_array;
     FT_Byte*  p_limit    = decoder->eblc_limit;
@@ -1175,22 +1175,22 @@
 
 
     /* arbitrary recursion limit */
-    if ( recurse_count > 100 )
+    if (recurse_count > 100)
     {
-      FT_TRACE4(( "tt_sbit_decoder_load_image:"
-                  " recursion depth exceeded\n" ));
+      FT_TRACE4(("tt_sbit_decoder_load_image:"
+                  " recursion depth exceeded\n"));
       goto Failure;
     }
 
 
     /* First, we find the correct strike range that applies to this */
     /* glyph index.                                                 */
-    for ( ; num_ranges > 0; num_ranges-- )
+    for (; num_ranges > 0; num_ranges--)
     {
-      start = FT_NEXT_USHORT( p );
-      end   = FT_NEXT_USHORT( p );
+      start = FT_NEXT_USHORT(p);
+      end   = FT_NEXT_USHORT(p);
 
-      if ( glyph_index >= start && glyph_index <= end )
+      if (glyph_index >= start && glyph_index <= end)
         goto FoundRange;
 
       p += 4;  /* ignore index offset */
@@ -1198,33 +1198,33 @@
     goto NoBitmap;
 
   FoundRange:
-    image_offset = FT_NEXT_ULONG( p );
+    image_offset = FT_NEXT_ULONG(p);
 
     /* overflow check */
     p = decoder->eblc_base + decoder->strike_index_array;
-    if ( image_offset > (FT_ULong)( p_limit - p ) )
+    if (image_offset > (FT_ULong)(p_limit - p))
       goto Failure;
 
     p += image_offset;
-    if ( p + 8 > p_limit )
+    if (p + 8 > p_limit)
       goto NoBitmap;
 
     /* now find the glyph's location and extend within the ebdt table */
-    index_format = FT_NEXT_USHORT( p );
-    image_format = FT_NEXT_USHORT( p );
-    image_offset = FT_NEXT_ULONG ( p );
+    index_format = FT_NEXT_USHORT(p);
+    image_format = FT_NEXT_USHORT(p);
+    image_offset = FT_NEXT_ULONG (p);
 
-    switch ( index_format )
+    switch (index_format)
     {
     case 1: /* 4-byte offsets relative to `image_offset' */
-      p += 4 * ( glyph_index - start );
-      if ( p + 8 > p_limit )
+      p += 4 * (glyph_index - start);
+      if (p + 8 > p_limit)
         goto NoBitmap;
 
-      image_start = FT_NEXT_ULONG( p );
-      image_end   = FT_NEXT_ULONG( p );
+      image_start = FT_NEXT_ULONG(p);
+      image_end   = FT_NEXT_ULONG(p);
 
-      if ( image_start == image_end )  /* missing glyph */
+      if (image_start == image_end)  /* missing glyph */
         goto NoBitmap;
       break;
 
@@ -1233,28 +1233,28 @@
         FT_ULong  image_size;
 
 
-        if ( p + 12 > p_limit )
+        if (p + 12 > p_limit)
           goto NoBitmap;
 
-        image_size = FT_NEXT_ULONG( p );
+        image_size = FT_NEXT_ULONG(p);
 
-        if ( tt_sbit_decoder_load_metrics( decoder, &p, p_limit, 1 ) )
+        if (tt_sbit_decoder_load_metrics(decoder, &p, p_limit, 1))
           goto NoBitmap;
 
-        image_start = image_size * ( glyph_index - start );
+        image_start = image_size * (glyph_index - start);
         image_end   = image_start + image_size;
       }
       break;
 
     case 3: /* 2-byte offsets relative to 'image_offset' */
-      p += 2 * ( glyph_index - start );
-      if ( p + 4 > p_limit )
+      p += 2 * (glyph_index - start);
+      if (p + 4 > p_limit)
         goto NoBitmap;
 
-      image_start = FT_NEXT_USHORT( p );
-      image_end   = FT_NEXT_USHORT( p );
+      image_start = FT_NEXT_USHORT(p);
+      image_end   = FT_NEXT_USHORT(p);
 
-      if ( image_start == image_end )  /* missing glyph */
+      if (image_start == image_end)  /* missing glyph */
         goto NoBitmap;
       break;
 
@@ -1263,32 +1263,32 @@
         FT_ULong  mm, num_glyphs;
 
 
-        if ( p + 4 > p_limit )
+        if (p + 4 > p_limit)
           goto NoBitmap;
 
-        num_glyphs = FT_NEXT_ULONG( p );
+        num_glyphs = FT_NEXT_ULONG(p);
 
-        /* overflow check for p + ( num_glyphs + 1 ) * 4 */
-        if ( p + 4 > p_limit                                         ||
-             num_glyphs > (FT_ULong)( ( ( p_limit - p ) >> 2 ) - 1 ) )
+        /* overflow check for p + (num_glyphs + 1) * 4 */
+        if (p + 4 > p_limit                                         ||
+             num_glyphs > (FT_ULong)(((p_limit - p) >> 2) - 1))
           goto NoBitmap;
 
-        for ( mm = 0; mm < num_glyphs; mm++ )
+        for (mm = 0; mm < num_glyphs; mm++)
         {
-          FT_UInt  gindex = FT_NEXT_USHORT( p );
+          FT_UInt  gindex = FT_NEXT_USHORT(p);
 
 
-          if ( gindex == glyph_index )
+          if (gindex == glyph_index)
           {
-            image_start = FT_NEXT_USHORT( p );
+            image_start = FT_NEXT_USHORT(p);
             p          += 2;
-            image_end   = FT_PEEK_USHORT( p );
+            image_end   = FT_PEEK_USHORT(p);
             break;
           }
           p += 2;
         }
 
-        if ( mm >= num_glyphs )
+        if (mm >= num_glyphs)
           goto NoBitmap;
       }
       break;
@@ -1299,30 +1299,30 @@
         FT_ULong  image_size, mm, num_glyphs;
 
 
-        if ( p + 16 > p_limit )
+        if (p + 16 > p_limit)
           goto NoBitmap;
 
-        image_size = FT_NEXT_ULONG( p );
+        image_size = FT_NEXT_ULONG(p);
 
-        if ( tt_sbit_decoder_load_metrics( decoder, &p, p_limit, 1 ) )
+        if (tt_sbit_decoder_load_metrics(decoder, &p, p_limit, 1))
           goto NoBitmap;
 
-        num_glyphs = FT_NEXT_ULONG( p );
+        num_glyphs = FT_NEXT_ULONG(p);
 
         /* overflow check for p + 2 * num_glyphs */
-        if ( num_glyphs > (FT_ULong)( ( p_limit - p ) >> 1 ) )
+        if (num_glyphs > (FT_ULong)((p_limit - p) >> 1))
           goto NoBitmap;
 
-        for ( mm = 0; mm < num_glyphs; mm++ )
+        for (mm = 0; mm < num_glyphs; mm++)
         {
-          FT_UInt  gindex = FT_NEXT_USHORT( p );
+          FT_UInt  gindex = FT_NEXT_USHORT(p);
 
 
-          if ( gindex == glyph_index )
+          if (gindex == glyph_index)
             break;
         }
 
-        if ( mm >= num_glyphs )
+        if (mm >= num_glyphs)
           goto NoBitmap;
 
         image_start = image_size * mm;
@@ -1334,42 +1334,42 @@
       goto NoBitmap;
     }
 
-    if ( image_start > image_end )
+    if (image_start > image_end)
       goto NoBitmap;
 
     image_end  -= image_start;
     image_start = image_offset + image_start;
 
-    FT_TRACE3(( "tt_sbit_decoder_load_image:"
+    FT_TRACE3(("tt_sbit_decoder_load_image:"
                 " found sbit (format %d) for glyph index %d\n",
-                image_format, glyph_index ));
+                image_format, glyph_index));
 
-    return tt_sbit_decoder_load_bitmap( decoder,
+    return tt_sbit_decoder_load_bitmap(decoder,
                                         image_format,
                                         image_start,
                                         image_end,
                                         x_pos,
                                         y_pos,
-                                        recurse_count );
+                                        recurse_count);
 
   Failure:
-    return FT_THROW( Invalid_Table );
+    return FT_THROW(Invalid_Table);
 
   NoBitmap:
-    FT_TRACE4(( "tt_sbit_decoder_load_image:"
-                " no sbit found for glyph index %d\n", glyph_index ));
+    FT_TRACE4(("tt_sbit_decoder_load_image:"
+                " no sbit found for glyph index %d\n", glyph_index));
 
-    return FT_THROW( Invalid_Argument );
+    return FT_THROW(Invalid_Argument);
   }
 
 
   static FT_Error
-  tt_face_load_sbix_image( TT_Face              face,
+  tt_face_load_sbix_image(TT_Face              face,
                            FT_ULong             strike_index,
                            FT_UInt              glyph_index,
                            FT_Stream            stream,
                            FT_Bitmap           *map,
-                           TT_SBit_MetricsRec  *metrics )
+                           TT_SBit_MetricsRec  *metrics)
   {
     FT_UInt   sbix_pos, strike_offset, glyph_start, glyph_end;
     FT_ULong  table_size;
@@ -1380,30 +1380,30 @@
     FT_Error  error;
     FT_Byte*  p;
 
-    FT_UNUSED( map );
+    FT_UNUSED(map);
 
 
     metrics->width  = 0;
     metrics->height = 0;
 
     p = face->sbit_table + 8 + 4 * strike_index;
-    strike_offset = FT_NEXT_ULONG( p );
+    strike_offset = FT_NEXT_ULONG(p);
 
-    error = face->goto_table( face, TTAG_sbix, stream, &table_size );
-    if ( error )
+    error = face->goto_table(face, TTAG_sbix, stream, &table_size);
+    if (error)
       return error;
     sbix_pos = FT_STREAM_POS();
 
   retry:
-    if ( glyph_index > (FT_UInt)face->root.num_glyphs )
-      return FT_THROW( Invalid_Argument );
+    if (glyph_index > (FT_UInt)face->root.num_glyphs)
+      return FT_THROW(Invalid_Argument);
 
-    if ( strike_offset >= table_size                          ||
-         table_size - strike_offset < 4 + glyph_index * 4 + 8 )
-      return FT_THROW( Invalid_File_Format );
+    if (strike_offset >= table_size                          ||
+         table_size - strike_offset < 4 + glyph_index * 4 + 8)
+      return FT_THROW(Invalid_File_Format);
 
-    if ( FT_STREAM_SEEK( sbix_pos + strike_offset + 4 + glyph_index * 4 ) ||
-         FT_FRAME_ENTER( 8 )                                              )
+    if (FT_STREAM_SEEK(sbix_pos + strike_offset + 4 + glyph_index * 4) ||
+         FT_FRAME_ENTER(8)                                             )
       return error;
 
     glyph_start = FT_GET_ULONG();
@@ -1411,15 +1411,15 @@
 
     FT_FRAME_EXIT();
 
-    if ( glyph_start == glyph_end )
-      return FT_THROW( Invalid_Argument );
-    if ( glyph_start > glyph_end                ||
+    if (glyph_start == glyph_end)
+      return FT_THROW(Invalid_Argument);
+    if (glyph_start > glyph_end                ||
          glyph_end - glyph_start < 8            ||
-         table_size - strike_offset < glyph_end )
-      return FT_THROW( Invalid_File_Format );
+         table_size - strike_offset < glyph_end)
+      return FT_THROW(Invalid_File_Format);
 
-    if ( FT_STREAM_SEEK( sbix_pos + strike_offset + glyph_start ) ||
-         FT_FRAME_ENTER( glyph_end - glyph_start )                )
+    if (FT_STREAM_SEEK(sbix_pos + strike_offset + glyph_start) ||
+         FT_FRAME_ENTER(glyph_end - glyph_start)               )
       return error;
 
     originOffsetX = FT_GET_SHORT();
@@ -1427,22 +1427,22 @@
 
     graphicType = FT_GET_TAG4();
 
-    switch ( graphicType )
+    switch (graphicType)
     {
-    case FT_MAKE_TAG( 'd', 'u', 'p', 'e' ):
-      if ( recurse_depth < 4 )
+    case FT_MAKE_TAG('d', 'u', 'p', 'e'):
+      if (recurse_depth < 4)
       {
         glyph_index = FT_GET_USHORT();
         FT_FRAME_EXIT();
         recurse_depth++;
         goto retry;
       }
-      error = FT_THROW( Invalid_File_Format );
+      error = FT_THROW(Invalid_File_Format);
       break;
 
-    case FT_MAKE_TAG( 'p', 'n', 'g', ' ' ):
+    case FT_MAKE_TAG('p', 'n', 'g', ' '):
 #ifdef FT_CONFIG_OPTION_USE_PNG
-      error = Load_SBit_Png( face->root.glyph,
+      error = Load_SBit_Png(face->root.glyph,
                              0,
                              0,
                              32,
@@ -1450,56 +1450,56 @@
                              stream->memory,
                              stream->cursor,
                              glyph_end - glyph_start - 8,
-                             TRUE );
+                             TRUE);
 #else
-      error = FT_THROW( Unimplemented_Feature );
+      error = FT_THROW(Unimplemented_Feature);
 #endif
       break;
 
-    case FT_MAKE_TAG( 'j', 'p', 'g', ' ' ):
-    case FT_MAKE_TAG( 't', 'i', 'f', 'f' ):
-    case FT_MAKE_TAG( 'r', 'g', 'b', 'l' ): /* used on iOS 7.1 */
-      error = FT_THROW( Unknown_File_Format );
+    case FT_MAKE_TAG('j', 'p', 'g', ' '):
+    case FT_MAKE_TAG('t', 'i', 'f', 'f'):
+    case FT_MAKE_TAG('r', 'g', 'b', 'l'): /* used on iOS 7.1 */
+      error = FT_THROW(Unknown_File_Format);
       break;
 
     default:
-      error = FT_THROW( Unimplemented_Feature );
+      error = FT_THROW(Unimplemented_Feature);
       break;
     }
 
     FT_FRAME_EXIT();
 
-    if ( !error )
+    if (!error)
     {
       FT_Short   abearing;
       FT_UShort  aadvance;
 
 
-      tt_face_get_metrics( face, FALSE, glyph_index, &abearing, &aadvance );
+      tt_face_get_metrics(face, FALSE, glyph_index, &abearing, &aadvance);
 
       metrics->horiBearingX = (FT_Short)originOffsetX;
-      metrics->horiBearingY = (FT_Short)( -originOffsetY + metrics->height );
-      metrics->horiAdvance  = (FT_UShort)( aadvance *
+      metrics->horiBearingY = (FT_Short)(-originOffsetY + metrics->height);
+      metrics->horiAdvance  = (FT_UShort)(aadvance *
                                            face->root.size->metrics.x_ppem /
-                                           face->header.Units_Per_EM );
+                                           face->header.Units_Per_EM);
     }
 
     return error;
   }
 
-  FT_LOCAL( FT_Error )
-  tt_face_load_sbit_image( TT_Face              face,
+  FT_LOCAL(FT_Error)
+  tt_face_load_sbit_image(TT_Face              face,
                            FT_ULong             strike_index,
                            FT_UInt              glyph_index,
                            FT_UInt              load_flags,
                            FT_Stream            stream,
                            FT_Bitmap           *map,
-                           TT_SBit_MetricsRec  *metrics )
+                           TT_SBit_MetricsRec  *metrics)
   {
     FT_Error  error = FT_Err_Ok;
 
 
-    switch ( (FT_UInt)face->sbit_table_type )
+    switch ((FT_UInt)face->sbit_table_type)
     {
     case TT_SBIT_TABLE_TYPE_EBLC:
     case TT_SBIT_TABLE_TYPE_CBLC:
@@ -1507,55 +1507,55 @@
         TT_SBitDecoderRec  decoder[1];
 
 
-        error = tt_sbit_decoder_init( decoder, face, strike_index, metrics );
-        if ( !error )
+        error = tt_sbit_decoder_init(decoder, face, strike_index, metrics);
+        if (!error)
         {
-          error = tt_sbit_decoder_load_image( decoder,
+          error = tt_sbit_decoder_load_image(decoder,
                                               glyph_index,
                                               0,
                                               0,
-                                              0 );
-          tt_sbit_decoder_done( decoder );
+                                              0);
+          tt_sbit_decoder_done(decoder);
         }
       }
       break;
 
     case TT_SBIT_TABLE_TYPE_SBIX:
-      error = tt_face_load_sbix_image( face,
+      error = tt_face_load_sbix_image(face,
                                        strike_index,
                                        glyph_index,
                                        stream,
                                        map,
-                                       metrics );
+                                       metrics);
       break;
 
     default:
-      error = FT_THROW( Unknown_File_Format );
+      error = FT_THROW(Unknown_File_Format);
       break;
     }
 
     /* Flatten color bitmaps if color was not requested. */
-    if ( !error                                &&
-         !( load_flags & FT_LOAD_COLOR )       &&
-         map->pixel_mode == FT_PIXEL_MODE_BGRA )
+    if (!error                                &&
+         !(load_flags & FT_LOAD_COLOR)       &&
+         map->pixel_mode == FT_PIXEL_MODE_BGRA)
     {
       FT_Bitmap   new_map;
       FT_Library  library = face->root.glyph->library;
 
 
-      FT_Bitmap_Init( &new_map );
+      FT_Bitmap_Init(&new_map);
 
       /* Convert to 8bit grayscale. */
-      error = FT_Bitmap_Convert( library, map, &new_map, 1 );
-      if ( error )
-        FT_Bitmap_Done( library, &new_map );
+      error = FT_Bitmap_Convert(library, map, &new_map, 1);
+      if (error)
+        FT_Bitmap_Done(library, &new_map);
       else
       {
         map->pixel_mode = new_map.pixel_mode;
         map->pitch      = new_map.pitch;
         map->num_grays  = new_map.num_grays;
 
-        ft_glyphslot_set_bitmap( face->root.glyph, new_map.buffer );
+        ft_glyphslot_set_bitmap(face->root.glyph, new_map.buffer);
         face->root.glyph->internal->flags |= FT_GLYPH_OWN_BITMAP;
       }
     }

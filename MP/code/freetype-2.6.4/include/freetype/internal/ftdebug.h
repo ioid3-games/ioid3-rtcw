@@ -51,7 +51,7 @@ FT_BEGIN_HEADER
 
 #ifdef FT_DEBUG_LEVEL_TRACE
 
-#define FT_TRACE_DEF( x )  trace_ ## x ,
+#define FT_TRACE_DEF(x)  trace_ ## x ,
 
   /* defining the enumeration */
   typedef enum  FT_Trace_
@@ -83,16 +83,16 @@ FT_BEGIN_HEADER
 
 #ifdef FT_DEBUG_LEVEL_TRACE
 
-#define FT_TRACE( level, varformat )                      \
+#define FT_TRACE(level, varformat)                      \
           do                                              \
           {                                               \
-            if ( ft_trace_levels[FT_COMPONENT] >= level ) \
+            if (ft_trace_levels[FT_COMPONENT] >= level) \
               FT_Message varformat;                       \
-          } while ( 0 )
+          } while (0)
 
 #else /* !FT_DEBUG_LEVEL_TRACE */
 
-#define FT_TRACE( level, varformat )  do { } while ( 0 )      /* nothing */
+#define FT_TRACE(level, varformat)  do { } while (0)      /* nothing */
 
 #endif /* !FT_DEBUG_LEVEL_TRACE */
 
@@ -113,8 +113,8 @@ FT_BEGIN_HEADER
   /*    This function may be useful if you want to access elements of      */
   /*    the internal `ft_trace_levels' array by an index.                  */
   /*                                                                       */
-  FT_BASE( FT_Int )
-  FT_Trace_Get_Count( void );
+  FT_BASE(FT_Int)
+  FT_Trace_Get_Count(void);
 
 
   /*************************************************************************/
@@ -140,28 +140,28 @@ FT_BEGIN_HEADER
   /*    This function may be useful if you want to control FreeType 2's    */
   /*    debug level in your application.                                   */
   /*                                                                       */
-  FT_BASE( const char* )
-  FT_Trace_Get_Name( FT_Int  idx );
+  FT_BASE(const char*)
+  FT_Trace_Get_Name(FT_Int  idx);
 
 
   /*************************************************************************/
   /*                                                                       */
   /* You need two opening and closing parentheses!                         */
   /*                                                                       */
-  /* Example: FT_TRACE0(( "Value is %i", foo ))                            */
+  /* Example: FT_TRACE0(("Value is %i", foo))                            */
   /*                                                                       */
   /* Output of the FT_TRACEX macros is sent to stderr.                     */
   /*                                                                       */
   /*************************************************************************/
 
-#define FT_TRACE0( varformat )  FT_TRACE( 0, varformat )
-#define FT_TRACE1( varformat )  FT_TRACE( 1, varformat )
-#define FT_TRACE2( varformat )  FT_TRACE( 2, varformat )
-#define FT_TRACE3( varformat )  FT_TRACE( 3, varformat )
-#define FT_TRACE4( varformat )  FT_TRACE( 4, varformat )
-#define FT_TRACE5( varformat )  FT_TRACE( 5, varformat )
-#define FT_TRACE6( varformat )  FT_TRACE( 6, varformat )
-#define FT_TRACE7( varformat )  FT_TRACE( 7, varformat )
+#define FT_TRACE0(varformat)  FT_TRACE(0, varformat)
+#define FT_TRACE1(varformat)  FT_TRACE(1, varformat)
+#define FT_TRACE2(varformat)  FT_TRACE(2, varformat)
+#define FT_TRACE3(varformat)  FT_TRACE(3, varformat)
+#define FT_TRACE4(varformat)  FT_TRACE(4, varformat)
+#define FT_TRACE5(varformat)  FT_TRACE(5, varformat)
+#define FT_TRACE6(varformat)  FT_TRACE(6, varformat)
+#define FT_TRACE7(varformat)  FT_TRACE(7, varformat)
 
 
   /*************************************************************************/
@@ -174,11 +174,11 @@ FT_BEGIN_HEADER
 
 #ifdef FT_DEBUG_LEVEL_ERROR
 
-#define FT_ERROR( varformat )  FT_Message  varformat
+#define FT_ERROR(varformat)  FT_Message  varformat
 
 #else  /* !FT_DEBUG_LEVEL_ERROR */
 
-#define FT_ERROR( varformat )  do { } while ( 0 )      /* nothing */
+#define FT_ERROR(varformat)  do { } while (0)      /* nothing */
 
 #endif /* !FT_DEBUG_LEVEL_ERROR */
 
@@ -192,25 +192,25 @@ FT_BEGIN_HEADER
 
 #ifdef FT_DEBUG_LEVEL_ERROR
 
-#define FT_ASSERT( condition )                                      \
+#define FT_ASSERT(condition)                                      \
           do                                                        \
           {                                                         \
-            if ( !( condition ) )                                   \
-              FT_Panic( "assertion failed on line %d of file %s\n", \
-                        __LINE__, __FILE__ );                       \
-          } while ( 0 )
+            if (!(condition))                                   \
+              FT_Panic("assertion failed on line %d of file %s\n", \
+                        __LINE__, __FILE__);                       \
+          } while (0)
 
-#define FT_THROW( e )                                   \
-          ( FT_Throw( FT_ERR_CAT( FT_ERR_PREFIX, e ),   \
+#define FT_THROW(e)                                   \
+          (FT_Throw(FT_ERR_CAT(FT_ERR_PREFIX, e),   \
                       __LINE__,                         \
-                      __FILE__ )                      | \
-            FT_ERR_CAT( FT_ERR_PREFIX, e )            )
+                      __FILE__)                      | \
+            FT_ERR_CAT(FT_ERR_PREFIX, e)           )
 
 #else /* !FT_DEBUG_LEVEL_ERROR */
 
-#define FT_ASSERT( condition )  do { } while ( 0 )
+#define FT_ASSERT(condition)  do { } while (0)
 
-#define FT_THROW( e )  FT_ERR_CAT( FT_ERR_PREFIX, e )
+#define FT_THROW(e)  FT_ERR_CAT(FT_ERR_PREFIX, e)
 
 #endif /* !FT_DEBUG_LEVEL_ERROR */
 
@@ -226,26 +226,26 @@ FT_BEGIN_HEADER
 #include "stdio.h"  /* for vfprintf() */
 
   /* print a message */
-  FT_BASE( void )
-  FT_Message( const char*  fmt,
-              ... );
+  FT_BASE(void)
+  FT_Message(const char*  fmt,
+              ...);
 
   /* print a message and exit */
-  FT_BASE( void )
-  FT_Panic( const char*  fmt,
-            ... );
+  FT_BASE(void)
+  FT_Panic(const char*  fmt,
+            ...);
 
   /* report file name and line number of an error */
-  FT_BASE( int )
-  FT_Throw( FT_Error     error,
+  FT_BASE(int)
+  FT_Throw(FT_Error     error,
             int          line,
-            const char*  file );
+            const char*  file);
 
 #endif /* FT_DEBUG_LEVEL_ERROR */
 
 
-  FT_BASE( void )
-  ft_debug_init( void );
+  FT_BASE(void)
+  ft_debug_init(void);
 
 FT_END_HEADER
 

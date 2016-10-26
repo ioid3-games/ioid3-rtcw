@@ -302,8 +302,8 @@ static ogg_uint32_t bitreverse(ogg_uint32_t x){
 }
 
 static int sort32a(const void *a,const void *b){
-  return ( **(ogg_uint32_t **)a>**(ogg_uint32_t **)b)-
-    ( **(ogg_uint32_t **)a<**(ogg_uint32_t **)b);
+  return (**(ogg_uint32_t **)a>**(ogg_uint32_t **)b)-
+    (**(ogg_uint32_t **)a<**(ogg_uint32_t **)b);
 }
 
 /* decode codebook arrangement is more heavily optimized than encode */
@@ -376,7 +376,7 @@ int vorbis_book_init_decode(codebook *c,const static_codebook *s){
 
     if(n==1 && c->dec_maxlength==1){
       /* special case the 'single entry codebook' with a single bit
-       fastpath table (that always returns entry 0 )in order to use
+       fastpath table (that always returns entry 0)in order to use
        unmodified decode paths. */
       c->dec_firsttablen=1;
       c->dec_firsttable=_ogg_calloc(2,sizeof(*c->dec_firsttable));
@@ -408,7 +408,7 @@ int vorbis_book_init_decode(codebook *c,const static_codebook *s){
           ogg_uint32_t word=i<<(32-c->dec_firsttablen);
           if(c->dec_firsttable[bitreverse(word)]==0){
             while((lo+1)<n && c->codelist[lo+1]<=word)lo++;
-            while(    hi<n && word>=(c->codelist[hi]&mask))hi++;
+            while(   hi<n && word>=(c->codelist[hi]&mask))hi++;
 
             /* we only actually have 15 bits per hint to play with here.
                In order to overflow gracefully (nothing breaks, efficiency

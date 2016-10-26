@@ -32,19 +32,19 @@ FT_BEGIN_HEADER
    *  Adobe glyph name to unicode value.
    */
   typedef FT_UInt32
-  (*PS_Unicode_ValueFunc)( const char*  glyph_name );
+  (*PS_Unicode_ValueFunc)(const char*  glyph_name);
 
   /*
    *  Macintosh name id to glyph name.  NULL if invalid index.
    */
   typedef const char*
-  (*PS_Macintosh_NameFunc)( FT_UInt  name_index );
+  (*PS_Macintosh_NameFunc)(FT_UInt  name_index);
 
   /*
    *  Adobe standard string ID to glyph name.  NULL if invalid index.
    */
   typedef const char*
-  (*PS_Adobe_Std_StringsFunc)( FT_UInt  string_index );
+  (*PS_Adobe_Std_StringsFunc)(FT_UInt  string_index);
 
 
   /*
@@ -75,35 +75,35 @@ FT_BEGIN_HEADER
    *  NULL if invalid index.
    */
   typedef const char*
-  (*PS_GetGlyphNameFunc)( FT_Pointer  data,
-                          FT_UInt     string_index );
+  (*PS_GetGlyphNameFunc)(FT_Pointer  data,
+                          FT_UInt     string_index);
 
   /*
    *  A function used to release the glyph name returned by
    *  PS_GetGlyphNameFunc, when needed
    */
   typedef void
-  (*PS_FreeGlyphNameFunc)( FT_Pointer  data,
-                           const char*  name );
+  (*PS_FreeGlyphNameFunc)(FT_Pointer  data,
+                           const char*  name);
 
   typedef FT_Error
-  (*PS_Unicodes_InitFunc)( FT_Memory             memory,
+  (*PS_Unicodes_InitFunc)(FT_Memory             memory,
                            PS_Unicodes           unicodes,
                            FT_UInt               num_glyphs,
                            PS_GetGlyphNameFunc   get_glyph_name,
                            PS_FreeGlyphNameFunc  free_glyph_name,
-                           FT_Pointer            glyph_data );
+                           FT_Pointer            glyph_data);
 
   typedef FT_UInt
-  (*PS_Unicodes_CharIndexFunc)( PS_Unicodes  unicodes,
-                                FT_UInt32    unicode );
+  (*PS_Unicodes_CharIndexFunc)(PS_Unicodes  unicodes,
+                                FT_UInt32    unicode);
 
   typedef FT_UInt32
-  (*PS_Unicodes_CharNextFunc)( PS_Unicodes  unicodes,
-                               FT_UInt32   *unicode );
+  (*PS_Unicodes_CharNextFunc)(PS_Unicodes  unicodes,
+                               FT_UInt32   *unicode);
 
 
-  FT_DEFINE_SERVICE( PsCMaps )
+  FT_DEFINE_SERVICE(PsCMaps)
   {
     PS_Unicode_ValueFunc       unicode_value;
 
@@ -120,7 +120,7 @@ FT_BEGIN_HEADER
 
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DEFINE_SERVICE_PSCMAPSREC( class_,                               \
+#define FT_DEFINE_SERVICE_PSCMAPSREC(class_,                               \
                                       unicode_value_,                       \
                                       unicodes_init_,                       \
                                       unicodes_char_index_,                 \
@@ -128,7 +128,7 @@ FT_BEGIN_HEADER
                                       macintosh_name_,                      \
                                       adobe_std_strings_,                   \
                                       adobe_std_encoding_,                  \
-                                      adobe_expert_encoding_ )              \
+                                      adobe_expert_encoding_)              \
   static const FT_Service_PsCMapsRec  class_ =                              \
   {                                                                         \
     unicode_value_, unicodes_init_,                                         \
@@ -138,7 +138,7 @@ FT_BEGIN_HEADER
 
 #else /* FT_CONFIG_OPTION_PIC */
 
-#define FT_DEFINE_SERVICE_PSCMAPSREC( class_,                               \
+#define FT_DEFINE_SERVICE_PSCMAPSREC(class_,                               \
                                       unicode_value_,                       \
                                       unicodes_init_,                       \
                                       unicodes_char_index_,                 \
@@ -146,12 +146,12 @@ FT_BEGIN_HEADER
                                       macintosh_name_,                      \
                                       adobe_std_strings_,                   \
                                       adobe_std_encoding_,                  \
-                                      adobe_expert_encoding_ )              \
+                                      adobe_expert_encoding_)              \
   void                                                                      \
-  FT_Init_Class_ ## class_( FT_Library              library,                \
-                            FT_Service_PsCMapsRec*  clazz )                 \
+  FT_Init_Class_ ## class_(FT_Library              library,                \
+                            FT_Service_PsCMapsRec*  clazz)                 \
   {                                                                         \
-    FT_UNUSED( library );                                                   \
+    FT_UNUSED(library);                                                   \
                                                                             \
     clazz->unicode_value         = unicode_value_;                          \
     clazz->unicodes_init         = unicodes_init_;                          \

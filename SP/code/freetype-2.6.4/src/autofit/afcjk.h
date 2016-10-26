@@ -28,7 +28,7 @@ FT_BEGIN_HEADER
 
   /* the CJK-specific writing system */
 
-  AF_DECLARE_WRITING_SYSTEM_CLASS( af_cjk_writing_system_class )
+  AF_DECLARE_WRITING_SYSTEM_CLASS(af_cjk_writing_system_class)
 
 
   /*************************************************************************/
@@ -46,18 +46,18 @@ FT_BEGIN_HEADER
    *  leave some space between neighbour glyphs.
    */
 
-#define AF_CJK_IS_TOP_BLUE( b ) \
-          ( (b)->properties & AF_BLUE_PROPERTY_CJK_TOP )
-#define AF_CJK_IS_HORIZ_BLUE( b ) \
-          ( (b)->properties & AF_BLUE_PROPERTY_CJK_HORIZ )
+#define AF_CJK_IS_TOP_BLUE(b) \
+          ((b)->properties & AF_BLUE_PROPERTY_CJK_TOP)
+#define AF_CJK_IS_HORIZ_BLUE(b) \
+          ((b)->properties & AF_BLUE_PROPERTY_CJK_HORIZ)
 #define AF_CJK_IS_RIGHT_BLUE  AF_CJK_IS_TOP_BLUE
 
 #define AF_CJK_MAX_WIDTHS  16
 
 
-#define AF_CJK_BLUE_ACTIVE      ( 1U << 0 ) /* zone height is <= 3/4px      */
-#define AF_CJK_BLUE_TOP         ( 1U << 1 ) /* result of AF_CJK_IS_TOP_BLUE */
-#define AF_CJK_BLUE_ADJUSTMENT  ( 1U << 2 ) /* used for scale adjustment    */
+#define AF_CJK_BLUE_ACTIVE      (1U << 0) /* zone height is <= 3/4px      */
+#define AF_CJK_BLUE_TOP         (1U << 1) /* result of AF_CJK_IS_TOP_BLUE */
+#define AF_CJK_BLUE_ADJUSTMENT  (1U << 2) /* used for scale adjustment    */
                                             /* optimization                 */
 
 
@@ -102,32 +102,32 @@ FT_BEGIN_HEADER
 
 
 #ifdef AF_CONFIG_OPTION_CJK
-  FT_LOCAL( FT_Error )
-  af_cjk_metrics_init( AF_CJKMetrics  metrics,
-                       FT_Face        face );
+  FT_LOCAL(FT_Error)
+  af_cjk_metrics_init(AF_CJKMetrics  metrics,
+                       FT_Face        face);
 
-  FT_LOCAL( void )
-  af_cjk_metrics_scale( AF_CJKMetrics  metrics,
-                        AF_Scaler      scaler );
+  FT_LOCAL(void)
+  af_cjk_metrics_scale(AF_CJKMetrics  metrics,
+                        AF_Scaler      scaler);
 
-  FT_LOCAL( FT_Error )
-  af_cjk_hints_init( AF_GlyphHints  hints,
-                     AF_CJKMetrics  metrics );
+  FT_LOCAL(FT_Error)
+  af_cjk_hints_init(AF_GlyphHints  hints,
+                     AF_CJKMetrics  metrics);
 
-  FT_LOCAL( FT_Error )
-  af_cjk_hints_apply( FT_UInt        glyph_index,
+  FT_LOCAL(FT_Error)
+  af_cjk_hints_apply(FT_UInt        glyph_index,
                       AF_GlyphHints  hints,
                       FT_Outline*    outline,
-                      AF_CJKMetrics  metrics );
+                      AF_CJKMetrics  metrics);
 
   /* shared; called from afindic.c */
-  FT_LOCAL( void )
-  af_cjk_metrics_check_digits( AF_CJKMetrics  metrics,
-                               FT_Face        face );
+  FT_LOCAL(void)
+  af_cjk_metrics_check_digits(AF_CJKMetrics  metrics,
+                               FT_Face        face);
 
-  FT_LOCAL( void )
-  af_cjk_metrics_init_widths( AF_CJKMetrics  metrics,
-                              FT_Face        face );
+  FT_LOCAL(void)
+  af_cjk_metrics_init_widths(AF_CJKMetrics  metrics,
+                              FT_Face        face);
 #endif /* AF_CONFIG_OPTION_CJK */
 
 

@@ -53,18 +53,18 @@ FT_BEGIN_HEADER
   } CFF_ParserRec, *CFF_Parser;
 
 
-  FT_LOCAL( void )
-  cff_parser_init( CFF_Parser  parser,
+  FT_LOCAL(void)
+  cff_parser_init(CFF_Parser  parser,
                    FT_UInt     code,
                    void*       object,
                    FT_Library  library,
                    FT_UShort   num_designs,
-                   FT_UShort   num_axes );
+                   FT_UShort   num_axes);
 
-  FT_LOCAL( FT_Error )
-  cff_parser_run( CFF_Parser  parser,
+  FT_LOCAL(FT_Error)
+  cff_parser_run(CFF_Parser  parser,
                   FT_Byte*    start,
-                  FT_Byte*    limit );
+                  FT_Byte*    limit);
 
 
   enum
@@ -83,7 +83,7 @@ FT_BEGIN_HEADER
 
 
   /* now generate handlers for the most simple fields */
-  typedef FT_Error  (*CFF_Field_Reader)( CFF_Parser  parser );
+  typedef FT_Error  (*CFF_Field_Reader)(CFF_Parser  parser);
 
   typedef struct  CFF_Field_Handler_
   {

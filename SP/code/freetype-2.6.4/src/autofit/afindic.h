@@ -28,7 +28,7 @@ FT_BEGIN_HEADER
 
   /* the `indic' writing system */
 
-  AF_DECLARE_WRITING_SYSTEM_CLASS( af_indic_writing_system_class )
+  AF_DECLARE_WRITING_SYSTEM_CLASS(af_indic_writing_system_class)
 
 
 /* */

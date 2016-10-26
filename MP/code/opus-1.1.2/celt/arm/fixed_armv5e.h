@@ -42,7 +42,7 @@ static OPUS_INLINE opus_val32 MULT16_32_Q16_armv5e(opus_val16 a, opus_val32 b)
       "smulwb %0, %1, %2\n\t"
       : "=r"(res)
       : "r"(b),"r"(a)
-  );
+ );
   return res;
 }
 #define MULT16_32_Q16(a, b) (MULT16_32_Q16_armv5e(a, b))
@@ -58,7 +58,7 @@ static OPUS_INLINE opus_val32 MULT16_32_Q15_armv5e(opus_val16 a, opus_val32 b)
       "smulwb %0, %1, %2\n\t"
       : "=r"(res)
       : "r"(b), "r"(a)
-  );
+ );
   return res<<1;
 }
 #define MULT16_32_Q15(a, b) (MULT16_32_Q15_armv5e(a, b))
@@ -77,7 +77,7 @@ static OPUS_INLINE opus_val32 MAC16_32_Q15_armv5e(opus_val32 c, opus_val16 a,
       "smlawb %0, %1, %2, %3;\n"
       : "=r"(res)
       : "r"(b<<1), "r"(a), "r"(c)
-  );
+ );
   return res;
 }
 #define MAC16_32_Q15(c, a, b) (MAC16_32_Q15_armv5e(c, a, b))
@@ -94,7 +94,7 @@ static OPUS_INLINE opus_val32 MAC16_32_Q16_armv5e(opus_val32 c, opus_val16 a,
       "smlawb %0, %1, %2, %3;\n"
       : "=r"(res)
       : "r"(b), "r"(a), "r"(c)
-  );
+ );
   return res;
 }
 #define MAC16_32_Q16(c, a, b) (MAC16_32_Q16_armv5e(c, a, b))
@@ -110,7 +110,7 @@ static OPUS_INLINE opus_val32 MAC16_16_armv5e(opus_val32 c, opus_val16 a,
       "smlabb %0, %1, %2, %3;\n"
       : "=r"(res)
       : "r"(a), "r"(b), "r"(c)
-  );
+ );
   return res;
 }
 #define MAC16_16(c, a, b) (MAC16_16_armv5e(c, a, b))
@@ -125,7 +125,7 @@ static OPUS_INLINE opus_val32 MULT16_16_armv5e(opus_val16 a, opus_val16 b)
       "smulbb %0, %1, %2;\n"
       : "=r"(res)
       : "r"(a), "r"(b)
-  );
+ );
   return res;
 }
 #define MULT16_16(a, b) (MULT16_16_armv5e(a, b))
@@ -141,7 +141,7 @@ static OPUS_INLINE opus_val16 SIG2WORD16_armv6(opus_val32 x)
        "ssat %0, #16, %1, ASR #12\n\t"
        : "=r"(res)
        : "r"(x+2048)
-   );
+  );
    return EXTRACT16(res);
 }
 #define SIG2WORD16(x) (SIG2WORD16_armv6(x))

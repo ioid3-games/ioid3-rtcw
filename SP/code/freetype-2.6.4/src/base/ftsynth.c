@@ -44,20 +44,20 @@
 
   /* documentation is in ftsynth.h */
 
-  FT_EXPORT_DEF( void )
-  FT_GlyphSlot_Oblique( FT_GlyphSlot  slot )
+  FT_EXPORT_DEF(void)
+  FT_GlyphSlot_Oblique(FT_GlyphSlot  slot)
   {
     FT_Matrix    transform;
     FT_Outline*  outline;
 
 
-    if ( !slot )
+    if (!slot)
       return;
 
     outline = &slot->outline;
 
     /* only oblique outline glyphs */
-    if ( slot->format != FT_GLYPH_FORMAT_OUTLINE )
+    if (slot->format != FT_GLYPH_FORMAT_OUTLINE)
       return;
 
     /* we don't touch the advance width */
@@ -71,7 +71,7 @@
     transform.xy = 0x0366AL;
     transform.yy = 0x10000L;
 
-    FT_Outline_Transform( outline, &transform );
+    FT_Outline_Transform(outline, &transform);
   }
 
 
@@ -86,8 +86,8 @@
 
   /* documentation is in ftsynth.h */
 
-  FT_EXPORT_DEF( void )
-  FT_GlyphSlot_Embolden( FT_GlyphSlot  slot )
+  FT_EXPORT_DEF(void)
+  FT_GlyphSlot_Embolden(FT_GlyphSlot  slot)
   {
     FT_Library  library;
     FT_Face     face;
@@ -95,29 +95,29 @@
     FT_Pos      xstr, ystr;
 
 
-    if ( !slot )
+    if (!slot)
       return;
 
     library = slot->library;
     face    = slot->face;
 
-    if ( slot->format != FT_GLYPH_FORMAT_OUTLINE &&
-         slot->format != FT_GLYPH_FORMAT_BITMAP  )
+    if (slot->format != FT_GLYPH_FORMAT_OUTLINE &&
+         slot->format != FT_GLYPH_FORMAT_BITMAP )
       return;
 
     /* some reasonable strength */
-    xstr = FT_MulFix( face->units_per_EM,
-                      face->size->metrics.y_scale ) / 24;
+    xstr = FT_MulFix(face->units_per_EM,
+                      face->size->metrics.y_scale) / 24;
     ystr = xstr;
 
-    if ( slot->format == FT_GLYPH_FORMAT_OUTLINE )
-      FT_Outline_EmboldenXY( &slot->outline, xstr, ystr );
+    if (slot->format == FT_GLYPH_FORMAT_OUTLINE)
+      FT_Outline_EmboldenXY(&slot->outline, xstr, ystr);
 
     else /* slot->format == FT_GLYPH_FORMAT_BITMAP */
     {
       /* round to full pixels */
       xstr &= ~63;
-      if ( xstr == 0 )
+      if (xstr == 0)
         xstr = 1 << 6;
       ystr &= ~63;
 
@@ -127,25 +127,25 @@
        *      unfortunately, this function return no informations
        *      about the cause of error.
        */
-      if ( ( ystr >> 6 ) > FT_INT_MAX || ( ystr >> 6 ) < FT_INT_MIN )
+      if ((ystr >> 6) > FT_INT_MAX || (ystr >> 6) < FT_INT_MIN)
       {
-        FT_TRACE1(( "FT_GlyphSlot_Embolden:" ));
-        FT_TRACE1(( "too strong embolding parameter ystr=%d\n", ystr ));
+        FT_TRACE1(("FT_GlyphSlot_Embolden:"));
+        FT_TRACE1(("too strong embolding parameter ystr=%d\n", ystr));
         return;
       }
-      error = FT_GlyphSlot_Own_Bitmap( slot );
-      if ( error )
+      error = FT_GlyphSlot_Own_Bitmap(slot);
+      if (error)
         return;
 
-      error = FT_Bitmap_Embolden( library, &slot->bitmap, xstr, ystr );
-      if ( error )
+      error = FT_Bitmap_Embolden(library, &slot->bitmap, xstr, ystr);
+      if (error)
         return;
     }
 
-    if ( slot->advance.x )
+    if (slot->advance.x)
       slot->advance.x += xstr;
 
-    if ( slot->advance.y )
+    if (slot->advance.y)
       slot->advance.y += ystr;
 
     slot->metrics.width        += xstr;
@@ -155,8 +155,8 @@
     slot->metrics.horiBearingY += ystr;
 
     /* XXX: 16-bit overflow case must be excluded before here */
-    if ( slot->format == FT_GLYPH_FORMAT_BITMAP )
-      slot->bitmap_top += (FT_Int)( ystr >> 6 );
+    if (slot->format == FT_GLYPH_FORMAT_BITMAP)
+      slot->bitmap_top += (FT_Int)(ystr >> 6);
   }
 
 

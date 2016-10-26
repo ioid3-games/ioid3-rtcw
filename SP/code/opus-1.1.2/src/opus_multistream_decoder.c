@@ -262,7 +262,7 @@ static int opus_multistream_decode_native(
          int chan, prev;
          prev = -1;
          /* Copy "left" audio to the channel(s) where it belongs */
-         while ( (chan = get_left_channel(&st->layout, s, prev)) != -1)
+         while ((chan = get_left_channel(&st->layout, s, prev)) != -1)
          {
             (*copy_channel_out)(pcm, st->layout.nb_channels, chan,
                buf, 2, frame_size);
@@ -270,7 +270,7 @@ static int opus_multistream_decode_native(
          }
          prev = -1;
          /* Copy "right" audio to the channel(s) where it belongs */
-         while ( (chan = get_right_channel(&st->layout, s, prev)) != -1)
+         while ((chan = get_right_channel(&st->layout, s, prev)) != -1)
          {
             (*copy_channel_out)(pcm, st->layout.nb_channels, chan,
                buf+1, 2, frame_size);
@@ -280,7 +280,7 @@ static int opus_multistream_decode_native(
          int chan, prev;
          prev = -1;
          /* Copy audio to the channel(s) where it belongs */
-         while ( (chan = get_mono_channel(&st->layout, s, prev)) != -1)
+         while ((chan = get_mono_channel(&st->layout, s, prev)) != -1)
          {
             (*copy_channel_out)(pcm, st->layout.nb_channels, chan,
                buf, 1, frame_size);

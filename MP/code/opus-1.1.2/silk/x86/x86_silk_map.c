@@ -41,7 +41,7 @@
 
 #include "fixed/main_FIX.h"
 
-opus_int64 (*const SILK_INNER_PROD16_ALIGNED_64_IMPL[ OPUS_ARCHMASK + 1 ] )(
+opus_int64 (*const SILK_INNER_PROD16_ALIGNED_64_IMPL[ OPUS_ARCHMASK + 1 ])(
     const opus_int16 *inVec1,
     const opus_int16 *inVec2,
     const opus_int   len
@@ -49,24 +49,24 @@ opus_int64 (*const SILK_INNER_PROD16_ALIGNED_64_IMPL[ OPUS_ARCHMASK + 1 ] )(
   silk_inner_prod16_aligned_64_c,                  /* non-sse */
   silk_inner_prod16_aligned_64_c,
   silk_inner_prod16_aligned_64_c,
-  MAY_HAVE_SSE4_1( silk_inner_prod16_aligned_64 ), /* sse4.1 */
-  MAY_HAVE_SSE4_1( silk_inner_prod16_aligned_64 )  /* avx */
+  MAY_HAVE_SSE4_1(silk_inner_prod16_aligned_64), /* sse4.1 */
+  MAY_HAVE_SSE4_1(silk_inner_prod16_aligned_64)  /* avx */
 };
 
 #endif
 
-opus_int (*const SILK_VAD_GETSA_Q8_IMPL[ OPUS_ARCHMASK + 1 ] )(
+opus_int (*const SILK_VAD_GETSA_Q8_IMPL[ OPUS_ARCHMASK + 1 ])(
     silk_encoder_state *psEncC,
     const opus_int16   pIn[]
 ) = {
   silk_VAD_GetSA_Q8_c,                  /* non-sse */
   silk_VAD_GetSA_Q8_c,
   silk_VAD_GetSA_Q8_c,
-  MAY_HAVE_SSE4_1( silk_VAD_GetSA_Q8 ), /* sse4.1 */
-  MAY_HAVE_SSE4_1( silk_VAD_GetSA_Q8 )  /* avx */
+  MAY_HAVE_SSE4_1(silk_VAD_GetSA_Q8), /* sse4.1 */
+  MAY_HAVE_SSE4_1(silk_VAD_GetSA_Q8)  /* avx */
 };
 
-void (*const SILK_NSQ_IMPL[ OPUS_ARCHMASK + 1 ] )(
+void (*const SILK_NSQ_IMPL[ OPUS_ARCHMASK + 1 ])(
     const silk_encoder_state    *psEncC,                                    /* I/O  Encoder State                   */
     silk_nsq_state              *NSQ,                                       /* I/O  NSQ state                       */
     SideInfoIndices             *psIndices,                                 /* I/O  Quantization Indices            */
@@ -86,11 +86,11 @@ void (*const SILK_NSQ_IMPL[ OPUS_ARCHMASK + 1 ] )(
   silk_NSQ_c,                  /* non-sse */
   silk_NSQ_c,
   silk_NSQ_c,
-  MAY_HAVE_SSE4_1( silk_NSQ ), /* sse4.1 */
-  MAY_HAVE_SSE4_1( silk_NSQ )  /* avx */
+  MAY_HAVE_SSE4_1(silk_NSQ), /* sse4.1 */
+  MAY_HAVE_SSE4_1(silk_NSQ)  /* avx */
 };
 
-void (*const SILK_VQ_WMAT_EC_IMPL[ OPUS_ARCHMASK + 1 ] )(
+void (*const SILK_VQ_WMAT_EC_IMPL[ OPUS_ARCHMASK + 1 ])(
     opus_int8                   *ind,                           /* O    index of best codebook vector               */
     opus_int32                  *rate_dist_Q14,                 /* O    best weighted quant error + mu * rate       */
     opus_int                    *gain_Q7,                       /* O    sum of absolute LTP coefficients            */
@@ -106,11 +106,11 @@ void (*const SILK_VQ_WMAT_EC_IMPL[ OPUS_ARCHMASK + 1 ] )(
   silk_VQ_WMat_EC_c,                  /* non-sse */
   silk_VQ_WMat_EC_c,
   silk_VQ_WMat_EC_c,
-  MAY_HAVE_SSE4_1( silk_VQ_WMat_EC ), /* sse4.1 */
-  MAY_HAVE_SSE4_1( silk_VQ_WMat_EC )  /* avx */
+  MAY_HAVE_SSE4_1(silk_VQ_WMat_EC), /* sse4.1 */
+  MAY_HAVE_SSE4_1(silk_VQ_WMat_EC)  /* avx */
 };
 
-void (*const SILK_NSQ_DEL_DEC_IMPL[ OPUS_ARCHMASK + 1 ] )(
+void (*const SILK_NSQ_DEL_DEC_IMPL[ OPUS_ARCHMASK + 1 ])(
     const silk_encoder_state    *psEncC,                                    /* I/O  Encoder State                   */
     silk_nsq_state              *NSQ,                                       /* I/O  NSQ state                       */
     SideInfoIndices             *psIndices,                                 /* I/O  Quantization Indices            */
@@ -130,13 +130,13 @@ void (*const SILK_NSQ_DEL_DEC_IMPL[ OPUS_ARCHMASK + 1 ] )(
   silk_NSQ_del_dec_c,                  /* non-sse */
   silk_NSQ_del_dec_c,
   silk_NSQ_del_dec_c,
-  MAY_HAVE_SSE4_1( silk_NSQ_del_dec ), /* sse4.1 */
-  MAY_HAVE_SSE4_1( silk_NSQ_del_dec )  /* avx */
+  MAY_HAVE_SSE4_1(silk_NSQ_del_dec), /* sse4.1 */
+  MAY_HAVE_SSE4_1(silk_NSQ_del_dec)  /* avx */
 };
 
 #if defined(FIXED_POINT)
 
-void (*const SILK_WARPED_LPC_ANALYSIS_FILTER_FIX_IMPL[ OPUS_ARCHMASK + 1 ] )(
+void (*const SILK_WARPED_LPC_ANALYSIS_FILTER_FIX_IMPL[ OPUS_ARCHMASK + 1 ])(
     opus_int32                  state[],                    /* I/O  State [order + 1]                   */
     opus_int32                  res_Q2[],                   /* O    Residual signal [length]            */
     const opus_int16            coef_Q13[],                 /* I    Coefficients [order]                */
@@ -148,15 +148,15 @@ void (*const SILK_WARPED_LPC_ANALYSIS_FILTER_FIX_IMPL[ OPUS_ARCHMASK + 1 ] )(
   silk_warped_LPC_analysis_filter_FIX_c,                  /* non-sse */
   silk_warped_LPC_analysis_filter_FIX_c,
   silk_warped_LPC_analysis_filter_FIX_c,
-  MAY_HAVE_SSE4_1( silk_warped_LPC_analysis_filter_FIX ), /* sse4.1 */
-  MAY_HAVE_SSE4_1( silk_warped_LPC_analysis_filter_FIX )  /* avx */
+  MAY_HAVE_SSE4_1(silk_warped_LPC_analysis_filter_FIX), /* sse4.1 */
+  MAY_HAVE_SSE4_1(silk_warped_LPC_analysis_filter_FIX)  /* avx */
 };
 
-void (*const SILK_BURG_MODIFIED_IMPL[ OPUS_ARCHMASK + 1 ] )(
+void (*const SILK_BURG_MODIFIED_IMPL[ OPUS_ARCHMASK + 1 ])(
     opus_int32                  *res_nrg,           /* O    Residual energy                                             */
     opus_int                    *res_nrg_Q,         /* O    Residual energy Q value                                     */
     opus_int32                  A_Q16[],            /* O    Prediction coefficients (length order)                      */
-    const opus_int16            x[],                /* I    Input signal, length: nb_subfr * ( D + subfr_length )       */
+    const opus_int16            x[],                /* I    Input signal, length: nb_subfr * (D + subfr_length)       */
     const opus_int32            minInvGain_Q30,     /* I    Inverse of max prediction gain                              */
     const opus_int              subfr_length,       /* I    Input signal subframe length (incl. D preceding samples)    */
     const opus_int              nb_subfr,           /* I    Number of subframes stacked in x                            */
@@ -166,8 +166,8 @@ void (*const SILK_BURG_MODIFIED_IMPL[ OPUS_ARCHMASK + 1 ] )(
   silk_burg_modified_c,                  /* non-sse */
   silk_burg_modified_c,
   silk_burg_modified_c,
-  MAY_HAVE_SSE4_1( silk_burg_modified ), /* sse4.1 */
-  MAY_HAVE_SSE4_1( silk_burg_modified )  /* avx */
+  MAY_HAVE_SSE4_1(silk_burg_modified), /* sse4.1 */
+  MAY_HAVE_SSE4_1(silk_burg_modified)  /* avx */
 };
 
 #endif

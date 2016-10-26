@@ -38,7 +38,7 @@ static OPUS_INLINE opus_val32 MULT16_32_Q16_armv4(opus_val16 a, opus_val32 b)
       "smull %0, %1, %2, %3\n\t"
       : "=&r"(rd_lo), "=&r"(rd_hi)
       : "%r"(b),"r"(a<<16)
-  );
+ );
   return rd_hi;
 }
 #define MULT16_32_Q16(a, b) (MULT16_32_Q16_armv4(a, b))
@@ -55,7 +55,7 @@ static OPUS_INLINE opus_val32 MULT16_32_Q15_armv4(opus_val16 a, opus_val32 b)
       "smull %0, %1, %2, %3\n\t"
       : "=&r"(rd_lo), "=&r"(rd_hi)
       : "%r"(b), "r"(a<<16)
-  );
+ );
   /*We intentionally don't OR in the high bit of rd_lo for speed.*/
   return rd_hi<<1;
 }

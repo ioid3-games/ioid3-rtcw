@@ -41,8 +41,8 @@ void silk_regularize_correlations_FLP(
 {
     opus_int i;
 
-    for( i = 0; i < D; i++ ) {
-        matrix_ptr( &XX[ 0 ], i, i, D ) += noise;
+    for(i = 0; i < D; i++) {
+        matrix_ptr(&XX[ 0 ], i, i, D) += noise;
     }
     xx[ 0 ] += noise;
 }

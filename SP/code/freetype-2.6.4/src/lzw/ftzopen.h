@@ -44,7 +44,7 @@
 
 #define LZW_BIT_MASK      0x1F
 #define LZW_BLOCK_MASK    0x80
-#define LZW_MASK( n )     ( ( 1U << (n) ) - 1U )
+#define LZW_MASK(n)     ((1U << (n)) - 1U)
 
 
   typedef enum  FT_LzwPhase_
@@ -147,22 +147,22 @@
   } FT_LzwStateRec, *FT_LzwState;
 
 
-  FT_LOCAL( void )
-  ft_lzwstate_init( FT_LzwState  state,
-                    FT_Stream    source );
+  FT_LOCAL(void)
+  ft_lzwstate_init(FT_LzwState  state,
+                    FT_Stream    source);
 
-  FT_LOCAL( void )
-  ft_lzwstate_done( FT_LzwState  state );
-
-
-  FT_LOCAL( void )
-  ft_lzwstate_reset( FT_LzwState  state );
+  FT_LOCAL(void)
+  ft_lzwstate_done(FT_LzwState  state);
 
 
-  FT_LOCAL( FT_ULong )
-  ft_lzwstate_io( FT_LzwState  state,
+  FT_LOCAL(void)
+  ft_lzwstate_reset(FT_LzwState  state);
+
+
+  FT_LOCAL(FT_ULong)
+  ft_lzwstate_io(FT_LzwState  state,
                   FT_Byte*     buffer,
-                  FT_ULong     out_size );
+                  FT_ULong     out_size);
 
 /* */
 

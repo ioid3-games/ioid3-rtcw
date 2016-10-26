@@ -36,13 +36,13 @@ FT_BEGIN_HEADER
   } CID_Loader;
 
 
-  FT_LOCAL( FT_ULong )
-  cid_get_offset( FT_Byte**  start,
-                  FT_Byte    offsize );
+  FT_LOCAL(FT_ULong)
+  cid_get_offset(FT_Byte**  start,
+                  FT_Byte    offsize);
 
-  FT_LOCAL( FT_Error )
-  cid_face_open( CID_Face  face,
-                 FT_Int    face_index );
+  FT_LOCAL(FT_Error)
+  cid_face_open(CID_Face  face,
+                 FT_Int    face_index);
 
 
 FT_END_HEADER

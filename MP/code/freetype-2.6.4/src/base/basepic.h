@@ -57,27 +57,27 @@ FT_BEGIN_HEADER
   } BasePIC;
 
 
-#define GET_PIC( lib )  ( (BasePIC*)( (lib)->pic_container.base ) )
+#define GET_PIC(lib)  ((BasePIC*)((lib)->pic_container.base))
 
 #define FT_OUTLINE_GLYPH_CLASS_GET                      \
-          ( &GET_PIC( library )->ft_outline_glyph_class )
+          (&GET_PIC(library)->ft_outline_glyph_class)
 #define FT_BITMAP_GLYPH_CLASS_GET                        \
-          ( &GET_PIC( library )->ft_bitmap_glyph_class )
+          (&GET_PIC(library)->ft_bitmap_glyph_class)
 #define FT_DEFAULT_MODULES_GET                           \
-          ( GET_PIC( library )->default_module_classes )
+          (GET_PIC(library)->default_module_classes)
 
 #ifdef FT_CONFIG_OPTION_GUESSING_EMBEDDED_RFORK
 #define FT_RACCESS_GUESS_TABLE_GET                       \
-          ( GET_PIC( library )->ft_raccess_guess_table )
+          (GET_PIC(library)->ft_raccess_guess_table)
 #endif
 
 
   /* see basepic.c for the implementation */
   void
-  ft_base_pic_free( FT_Library  library );
+  ft_base_pic_free(FT_Library  library);
 
   FT_Error
-  ft_base_pic_init( FT_Library  library );
+  ft_base_pic_init(FT_Library  library);
 
 FT_END_HEADER
 

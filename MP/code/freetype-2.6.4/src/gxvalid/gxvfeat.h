@@ -53,8 +53,8 @@
 
 
 #define gxv_feat_registry_length                  \
-          ( sizeof ( gxv_feat_registry ) /        \
-              sizeof ( GX_Feature_RegistryRec ) )
+          (sizeof (gxv_feat_registry) /        \
+              sizeof (GX_Feature_RegistryRec))
 
 
   static GX_Feature_RegistryRec  gxv_feat_registry[] =

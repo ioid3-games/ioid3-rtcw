@@ -53,10 +53,10 @@
   /* <Return>                                                              */
   /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
-  FT_LOCAL_DEF( FT_Error )
-  tt_face_load_hmtx( TT_Face    face,
+  FT_LOCAL_DEF(FT_Error)
+  tt_face_load_hmtx(TT_Face    face,
                      FT_Stream  stream,
-                     FT_Bool    vertical )
+                     FT_Bool    vertical)
   {
     FT_Error   error;
     FT_ULong   tag, table_size;
@@ -64,7 +64,7 @@
     FT_ULong*  ptable_size;
 
 
-    if ( vertical )
+    if (vertical)
     {
       tag           = TTAG_vmtx;
       ptable_offset = &face->vert_metrics_offset;
@@ -77,8 +77,8 @@
       ptable_size   = &face->horz_metrics_size;
     }
 
-    error = face->goto_table( face, tag, stream, &table_size );
-    if ( error )
+    error = face->goto_table(face, tag, stream, &table_size);
+    if (error)
       goto Fail;
 
     *ptable_size   = table_size;
@@ -107,10 +107,10 @@
   /* <Return>                                                              */
   /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
-  FT_LOCAL_DEF( FT_Error )
-  tt_face_load_hhea( TT_Face    face,
+  FT_LOCAL_DEF(FT_Error)
+  tt_face_load_hhea(TT_Face    face,
                      FT_Stream  stream,
-                     FT_Bool    vertical )
+                     FT_Bool    vertical)
   {
     FT_Error        error;
     TT_HoriHeader*  header;
@@ -120,54 +120,54 @@
 #undef  FT_STRUCTURE
 #define FT_STRUCTURE  TT_HoriHeader
 
-      FT_FRAME_START( 36 ),
-        FT_FRAME_ULONG ( Version ),
-        FT_FRAME_SHORT ( Ascender ),
-        FT_FRAME_SHORT ( Descender ),
-        FT_FRAME_SHORT ( Line_Gap ),
-        FT_FRAME_USHORT( advance_Width_Max ),
-        FT_FRAME_SHORT ( min_Left_Side_Bearing ),
-        FT_FRAME_SHORT ( min_Right_Side_Bearing ),
-        FT_FRAME_SHORT ( xMax_Extent ),
-        FT_FRAME_SHORT ( caret_Slope_Rise ),
-        FT_FRAME_SHORT ( caret_Slope_Run ),
-        FT_FRAME_SHORT ( caret_Offset ),
-        FT_FRAME_SHORT ( Reserved[0] ),
-        FT_FRAME_SHORT ( Reserved[1] ),
-        FT_FRAME_SHORT ( Reserved[2] ),
-        FT_FRAME_SHORT ( Reserved[3] ),
-        FT_FRAME_SHORT ( metric_Data_Format ),
-        FT_FRAME_USHORT( number_Of_HMetrics ),
+      FT_FRAME_START(36),
+        FT_FRAME_ULONG (Version),
+        FT_FRAME_SHORT (Ascender),
+        FT_FRAME_SHORT (Descender),
+        FT_FRAME_SHORT (Line_Gap),
+        FT_FRAME_USHORT(advance_Width_Max),
+        FT_FRAME_SHORT (min_Left_Side_Bearing),
+        FT_FRAME_SHORT (min_Right_Side_Bearing),
+        FT_FRAME_SHORT (xMax_Extent),
+        FT_FRAME_SHORT (caret_Slope_Rise),
+        FT_FRAME_SHORT (caret_Slope_Run),
+        FT_FRAME_SHORT (caret_Offset),
+        FT_FRAME_SHORT (Reserved[0]),
+        FT_FRAME_SHORT (Reserved[1]),
+        FT_FRAME_SHORT (Reserved[2]),
+        FT_FRAME_SHORT (Reserved[3]),
+        FT_FRAME_SHORT (metric_Data_Format),
+        FT_FRAME_USHORT(number_Of_HMetrics),
       FT_FRAME_END
     };
 
 
-    if ( vertical )
+    if (vertical)
     {
       void  *v = &face->vertical;
 
 
-      error = face->goto_table( face, TTAG_vhea, stream, 0 );
-      if ( error )
+      error = face->goto_table(face, TTAG_vhea, stream, 0);
+      if (error)
         goto Fail;
 
       header = (TT_HoriHeader*)v;
     }
     else
     {
-      error = face->goto_table( face, TTAG_hhea, stream, 0 );
-      if ( error )
+      error = face->goto_table(face, TTAG_hhea, stream, 0);
+      if (error)
         goto Fail;
 
       header = &face->horizontal;
     }
 
-    if ( FT_STREAM_READ_FIELDS( metrics_header_fields, header ) )
+    if (FT_STREAM_READ_FIELDS(metrics_header_fields, header))
       goto Fail;
 
-    FT_TRACE3(( "Ascender:          %5d\n", header->Ascender ));
-    FT_TRACE3(( "Descender:         %5d\n", header->Descender ));
-    FT_TRACE3(( "number_Of_Metrics: %5u\n", header->number_Of_HMetrics ));
+    FT_TRACE3(("Ascender:          %5d\n", header->Ascender));
+    FT_TRACE3(("Descender:         %5d\n", header->Descender));
+    FT_TRACE3(("number_Of_Metrics: %5u\n", header->number_Of_HMetrics));
 
     header->long_metrics  = NULL;
     header->short_metrics = NULL;
@@ -201,12 +201,12 @@
   /*    aadvance :: The advance width or advance height, depending on      */
   /*                the `vertical' flag.                                   */
   /*                                                                       */
-  FT_LOCAL_DEF( void )
-  tt_face_get_metrics( TT_Face     face,
+  FT_LOCAL_DEF(void)
+  tt_face_get_metrics(TT_Face     face,
                        FT_Bool     vertical,
                        FT_UInt     gindex,
                        FT_Short   *abearing,
-                       FT_UShort  *aadvance )
+                       FT_UShort  *aadvance)
   {
     FT_Error        error;
     FT_Stream       stream = face->root.stream;
@@ -215,7 +215,7 @@
     FT_UShort       k;
 
 
-    if ( vertical )
+    if (vertical)
     {
       void*  v = &face->vertical;
 
@@ -235,36 +235,36 @@
 
     k = header->number_Of_HMetrics;
 
-    if ( k > 0 )
+    if (k > 0)
     {
-      if ( gindex < (FT_UInt)k )
+      if (gindex < (FT_UInt)k)
       {
         table_pos += 4 * gindex;
-        if ( table_pos + 4 > table_end )
+        if (table_pos + 4 > table_end)
           goto NoData;
 
-        if ( FT_STREAM_SEEK( table_pos ) ||
-             FT_READ_USHORT( *aadvance ) ||
-             FT_READ_SHORT( *abearing )  )
+        if (FT_STREAM_SEEK(table_pos) ||
+             FT_READ_USHORT(*aadvance) ||
+             FT_READ_SHORT(*abearing) )
           goto NoData;
       }
       else
       {
-        table_pos += 4 * ( k - 1 );
-        if ( table_pos + 4 > table_end )
+        table_pos += 4 * (k - 1);
+        if (table_pos + 4 > table_end)
           goto NoData;
 
-        if ( FT_STREAM_SEEK( table_pos ) ||
-             FT_READ_USHORT( *aadvance ) )
+        if (FT_STREAM_SEEK(table_pos) ||
+             FT_READ_USHORT(*aadvance))
           goto NoData;
 
-        table_pos += 4 + 2 * ( gindex - k );
-        if ( table_pos + 2 > table_end )
+        table_pos += 4 + 2 * (gindex - k);
+        if (table_pos + 2 > table_end)
           *abearing = 0;
         else
         {
-          if ( !FT_STREAM_SEEK( table_pos ) )
-            (void)FT_READ_SHORT( *abearing );
+          if (!FT_STREAM_SEEK(table_pos))
+            (void)FT_READ_SHORT(*abearing);
         }
       }
     }

@@ -29,14 +29,14 @@
 
   /* initialize renderer -- init its raster */
   static FT_Error
-  ft_raster1_init( FT_Renderer  render )
+  ft_raster1_init(FT_Renderer  render)
   {
-    FT_Library  library = FT_MODULE_LIBRARY( render );
+    FT_Library  library = FT_MODULE_LIBRARY(render);
 
 
-    render->clazz->raster_class->raster_reset( render->raster,
+    render->clazz->raster_class->raster_reset(render->raster,
                                                library->raster_pool,
-                                               library->raster_pool_size );
+                                               library->raster_pool_size);
 
     return FT_Err_Ok;
   }
@@ -44,38 +44,38 @@
 
   /* set render-specific mode */
   static FT_Error
-  ft_raster1_set_mode( FT_Renderer  render,
+  ft_raster1_set_mode(FT_Renderer  render,
                        FT_ULong     mode_tag,
-                       FT_Pointer   data )
+                       FT_Pointer   data)
   {
     /* we simply pass it to the raster */
-    return render->clazz->raster_class->raster_set_mode( render->raster,
+    return render->clazz->raster_class->raster_set_mode(render->raster,
                                                          mode_tag,
-                                                         data );
+                                                         data);
   }
 
 
   /* transform a given glyph image */
   static FT_Error
-  ft_raster1_transform( FT_Renderer       render,
+  ft_raster1_transform(FT_Renderer       render,
                         FT_GlyphSlot      slot,
                         const FT_Matrix*  matrix,
-                        const FT_Vector*  delta )
+                        const FT_Vector*  delta)
   {
     FT_Error error = FT_Err_Ok;
 
 
-    if ( slot->format != render->glyph_format )
+    if (slot->format != render->glyph_format)
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_THROW(Invalid_Argument);
       goto Exit;
     }
 
-    if ( matrix )
-      FT_Outline_Transform( &slot->outline, matrix );
+    if (matrix)
+      FT_Outline_Transform(&slot->outline, matrix);
 
-    if ( delta )
-      FT_Outline_Translate( &slot->outline, delta->x, delta->y );
+    if (delta)
+      FT_Outline_Translate(&slot->outline, delta->x, delta->y);
 
   Exit:
     return error;
@@ -84,23 +84,23 @@
 
   /* return the glyph's control box */
   static void
-  ft_raster1_get_cbox( FT_Renderer   render,
+  ft_raster1_get_cbox(FT_Renderer   render,
                        FT_GlyphSlot  slot,
-                       FT_BBox*      cbox )
+                       FT_BBox*      cbox)
   {
-    FT_MEM_ZERO( cbox, sizeof ( *cbox ) );
+    FT_MEM_ZERO(cbox, sizeof (*cbox));
 
-    if ( slot->format == render->glyph_format )
-      FT_Outline_Get_CBox( &slot->outline, cbox );
+    if (slot->format == render->glyph_format)
+      FT_Outline_Get_CBox(&slot->outline, cbox);
   }
 
 
   /* convert a slot's glyph image into a bitmap */
   static FT_Error
-  ft_raster1_render( FT_Renderer       render,
+  ft_raster1_render(FT_Renderer       render,
                      FT_GlyphSlot      slot,
                      FT_Render_Mode    mode,
-                     const FT_Vector*  origin )
+                     const FT_Vector*  origin)
   {
     FT_Error     error;
     FT_Outline*  outline;
@@ -113,39 +113,39 @@
 
 
     /* check glyph image format */
-    if ( slot->format != render->glyph_format )
+    if (slot->format != render->glyph_format)
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_THROW(Invalid_Argument);
       goto Exit;
     }
 
     /* check rendering mode */
-    if ( mode != FT_RENDER_MODE_MONO )
+    if (mode != FT_RENDER_MODE_MONO)
     {
       /* raster1 is only capable of producing monochrome bitmaps */
-      return FT_THROW( Cannot_Render_Glyph );
+      return FT_THROW(Cannot_Render_Glyph);
     }
 
     outline = &slot->outline;
 
     /* translate the outline to the new origin if needed */
-    if ( origin )
-      FT_Outline_Translate( outline, origin->x, origin->y );
+    if (origin)
+      FT_Outline_Translate(outline, origin->x, origin->y);
 
     /* compute the control box, and grid fit it */
-    FT_Outline_Get_CBox( outline, &cbox0 );
+    FT_Outline_Get_CBox(outline, &cbox0);
 
     /* undocumented but confirmed: bbox values get rounded */
 #if 1
-    cbox.xMin = FT_PIX_ROUND( cbox0.xMin );
-    cbox.yMin = FT_PIX_ROUND( cbox0.yMin );
-    cbox.xMax = FT_PIX_ROUND( cbox0.xMax );
-    cbox.yMax = FT_PIX_ROUND( cbox0.yMax );
+    cbox.xMin = FT_PIX_ROUND(cbox0.xMin);
+    cbox.yMin = FT_PIX_ROUND(cbox0.yMin);
+    cbox.xMax = FT_PIX_ROUND(cbox0.xMax);
+    cbox.yMax = FT_PIX_ROUND(cbox0.yMax);
 #else
-    cbox.xMin = FT_PIX_FLOOR( cbox.xMin );
-    cbox.yMin = FT_PIX_FLOOR( cbox.yMin );
-    cbox.xMax = FT_PIX_CEIL( cbox.xMax );
-    cbox.yMax = FT_PIX_CEIL( cbox.yMax );
+    cbox.xMin = FT_PIX_FLOOR(cbox.xMin);
+    cbox.yMin = FT_PIX_FLOOR(cbox.yMin);
+    cbox.xMax = FT_PIX_CEIL(cbox.xMax);
+    cbox.yMax = FT_PIX_CEIL(cbox.yMax);
 #endif
 
     /* If either `width' or `height' round to 0, try    */
@@ -153,27 +153,27 @@
     /* glyphs containing only one very narrow feature,  */
     /* this gives the drop-out compensation in the scan */
     /* conversion code a chance to do its stuff.        */
-    width  = (FT_UInt)( ( cbox.xMax - cbox.xMin ) >> 6 );
-    if ( width == 0 )
+    width  = (FT_UInt)((cbox.xMax - cbox.xMin) >> 6);
+    if (width == 0)
     {
-      cbox.xMin = FT_PIX_FLOOR( cbox0.xMin );
-      cbox.xMax = FT_PIX_CEIL( cbox0.xMax );
+      cbox.xMin = FT_PIX_FLOOR(cbox0.xMin);
+      cbox.xMax = FT_PIX_CEIL(cbox0.xMax);
 
-      width = (FT_UInt)( ( cbox.xMax - cbox.xMin ) >> 6 );
+      width = (FT_UInt)((cbox.xMax - cbox.xMin) >> 6);
     }
 
-    height = (FT_UInt)( ( cbox.yMax - cbox.yMin ) >> 6 );
-    if ( height == 0 )
+    height = (FT_UInt)((cbox.yMax - cbox.yMin) >> 6);
+    if (height == 0)
     {
-      cbox.yMin = FT_PIX_FLOOR( cbox0.yMin );
-      cbox.yMax = FT_PIX_CEIL( cbox0.yMax );
+      cbox.yMin = FT_PIX_FLOOR(cbox0.yMin);
+      cbox.yMax = FT_PIX_CEIL(cbox0.yMax);
 
-      height = (FT_UInt)( ( cbox.yMax - cbox.yMin ) >> 6 );
+      height = (FT_UInt)((cbox.yMax - cbox.yMin) >> 6);
     }
 
-    if ( width > FT_USHORT_MAX || height > FT_USHORT_MAX )
+    if (width > FT_USHORT_MAX || height > FT_USHORT_MAX)
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_THROW(Invalid_Argument);
       goto Exit;
     }
 
@@ -181,26 +181,26 @@
     memory = render->root.memory;
 
     /* release old bitmap buffer */
-    if ( slot->internal->flags & FT_GLYPH_OWN_BITMAP )
+    if (slot->internal->flags & FT_GLYPH_OWN_BITMAP)
     {
-      FT_FREE( bitmap->buffer );
+      FT_FREE(bitmap->buffer);
       slot->internal->flags &= ~FT_GLYPH_OWN_BITMAP;
     }
 
-    pitch              = ( ( width + 15 ) >> 4 ) << 1;
+    pitch              = ((width + 15) >> 4) << 1;
     bitmap->pixel_mode = FT_PIXEL_MODE_MONO;
 
     bitmap->width = width;
     bitmap->rows  = height;
     bitmap->pitch = (int)pitch;
 
-    if ( FT_ALLOC_MULT( bitmap->buffer, pitch, height ) )
+    if (FT_ALLOC_MULT(bitmap->buffer, pitch, height))
       goto Exit;
 
     slot->internal->flags |= FT_GLYPH_OWN_BITMAP;
 
     /* translate outline to render it into the bitmap */
-    FT_Outline_Translate( outline, -cbox.xMin, -cbox.yMin );
+    FT_Outline_Translate(outline, -cbox.xMin, -cbox.yMin);
 
     /* set up parameters */
     params.target = bitmap;
@@ -208,26 +208,26 @@
     params.flags  = 0;
 
     /* render outline into the bitmap */
-    error = render->raster_render( render->raster, &params );
+    error = render->raster_render(render->raster, &params);
 
-    FT_Outline_Translate( outline, cbox.xMin, cbox.yMin );
+    FT_Outline_Translate(outline, cbox.xMin, cbox.yMin);
 
-    if ( error )
+    if (error)
       goto Exit;
 
     slot->format      = FT_GLYPH_FORMAT_BITMAP;
-    slot->bitmap_left = (FT_Int)( cbox.xMin >> 6 );
-    slot->bitmap_top  = (FT_Int)( cbox.yMax >> 6 );
+    slot->bitmap_left = (FT_Int)(cbox.xMin >> 6);
+    slot->bitmap_top  = (FT_Int)(cbox.yMax >> 6);
 
   Exit:
     return error;
   }
 
 
-  FT_DEFINE_RENDERER( ft_raster1_renderer_class,
+  FT_DEFINE_RENDERER(ft_raster1_renderer_class,
 
       FT_MODULE_RENDERER,
-      sizeof ( FT_RendererRec ),
+      sizeof (FT_RendererRec),
 
       "raster1",
       0x10000L,
@@ -248,7 +248,7 @@
     (FT_Renderer_SetModeFunc)  ft_raster1_set_mode,
 
     (FT_Raster_Funcs*)    &FT_STANDARD_RASTER_GET
-  )
+ )
 
 
 /* END */

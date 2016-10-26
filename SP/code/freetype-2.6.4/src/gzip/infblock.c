@@ -64,10 +64,10 @@ local const uInt border[] = { /* Order of the bit length code lengths */
  */
 
 
-local void inflate_blocks_reset( /* s, z, c) */
+local void inflate_blocks_reset(/* s, z, c) */
 inflate_blocks_statef *s,
 z_streamp z,
-uLongf *c )
+uLongf *c)
 {
   if (c != Z_NULL)
     *c = s->check;
@@ -85,10 +85,10 @@ uLongf *c )
 }
 
 
-local inflate_blocks_statef *inflate_blocks_new( /* z, c, w) */
+local inflate_blocks_statef *inflate_blocks_new(/* z, c, w) */
 z_streamp z,
 check_func c,
-uInt w )
+uInt w)
 {
   inflate_blocks_statef *s;
 
@@ -116,10 +116,10 @@ uInt w )
 }
 
 
-local int inflate_blocks( /* s, z, r) */
+local int inflate_blocks(/* s, z, r) */
 inflate_blocks_statef *s,
 z_streamp z,
-int r )
+int r)
 {
   uInt t;               /* temporary storage */
   uLong b;              /* bit buffer */
@@ -372,9 +372,9 @@ int r )
 }
 
 
-local int inflate_blocks_free( /* s, z) */
+local int inflate_blocks_free(/* s, z) */
 inflate_blocks_statef *s,
-z_streamp z )
+z_streamp z)
 {
   inflate_blocks_reset(s, z, Z_NULL);
   ZFREE(z, s->window);

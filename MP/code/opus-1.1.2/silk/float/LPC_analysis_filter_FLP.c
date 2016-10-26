@@ -51,7 +51,7 @@ static OPUS_INLINE void silk_LPC_analysis_filter16_FLP(
     silk_float LPC_pred;
     const silk_float *s_ptr;
 
-    for( ix = 16; ix < length; ix++ ) {
+    for(ix = 16; ix < length; ix++) {
         s_ptr = &s[ix - 1];
 
         /* short-term prediction */
@@ -89,7 +89,7 @@ static OPUS_INLINE void silk_LPC_analysis_filter12_FLP(
     silk_float LPC_pred;
     const silk_float *s_ptr;
 
-    for( ix = 12; ix < length; ix++ ) {
+    for(ix = 12; ix < length; ix++) {
         s_ptr = &s[ix - 1];
 
         /* short-term prediction */
@@ -123,7 +123,7 @@ static OPUS_INLINE void silk_LPC_analysis_filter10_FLP(
     silk_float LPC_pred;
     const silk_float *s_ptr;
 
-    for( ix = 10; ix < length; ix++ ) {
+    for(ix = 10; ix < length; ix++) {
         s_ptr = &s[ix - 1];
 
         /* short-term prediction */
@@ -155,7 +155,7 @@ static OPUS_INLINE void silk_LPC_analysis_filter8_FLP(
     silk_float LPC_pred;
     const silk_float *s_ptr;
 
-    for( ix = 8; ix < length; ix++ ) {
+    for(ix = 8; ix < length; ix++) {
         s_ptr = &s[ix - 1];
 
         /* short-term prediction */
@@ -185,7 +185,7 @@ static OPUS_INLINE void silk_LPC_analysis_filter6_FLP(
     silk_float LPC_pred;
     const silk_float *s_ptr;
 
-    for( ix = 6; ix < length; ix++ ) {
+    for(ix = 6; ix < length; ix++) {
         s_ptr = &s[ix - 1];
 
         /* short-term prediction */
@@ -215,35 +215,35 @@ void silk_LPC_analysis_filter_FLP(
     const opus_int                  Order                               /* I    LPC order                                   */
 )
 {
-    silk_assert( Order <= length );
+    silk_assert(Order <= length);
 
-    switch( Order ) {
+    switch(Order) {
         case 6:
-            silk_LPC_analysis_filter6_FLP(  r_LPC, PredCoef, s, length );
+            silk_LPC_analysis_filter6_FLP( r_LPC, PredCoef, s, length);
         break;
 
         case 8:
-            silk_LPC_analysis_filter8_FLP(  r_LPC, PredCoef, s, length );
+            silk_LPC_analysis_filter8_FLP( r_LPC, PredCoef, s, length);
         break;
 
         case 10:
-            silk_LPC_analysis_filter10_FLP( r_LPC, PredCoef, s, length );
+            silk_LPC_analysis_filter10_FLP(r_LPC, PredCoef, s, length);
         break;
 
         case 12:
-            silk_LPC_analysis_filter12_FLP( r_LPC, PredCoef, s, length );
+            silk_LPC_analysis_filter12_FLP(r_LPC, PredCoef, s, length);
         break;
 
         case 16:
-            silk_LPC_analysis_filter16_FLP( r_LPC, PredCoef, s, length );
+            silk_LPC_analysis_filter16_FLP(r_LPC, PredCoef, s, length);
         break;
 
         default:
-            silk_assert( 0 );
+            silk_assert(0);
         break;
     }
 
     /* Set first Order output samples to zero */
-    silk_memset( r_LPC, 0, Order * sizeof( silk_float ) );
+    silk_memset(r_LPC, 0, Order * sizeof(silk_float));
 }
 

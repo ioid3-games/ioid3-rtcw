@@ -40,12 +40,12 @@
   /* Add new writing systems here.  The arguments are the writing system */
   /* name in lowercase and uppercase, respectively.                      */
 
-  WRITING_SYSTEM( dummy,  DUMMY  )
-  WRITING_SYSTEM( latin,  LATIN  )
-  WRITING_SYSTEM( cjk,    CJK    )
-  WRITING_SYSTEM( indic,  INDIC  )
+  WRITING_SYSTEM(dummy,  DUMMY )
+  WRITING_SYSTEM(latin,  LATIN )
+  WRITING_SYSTEM(cjk,    CJK   )
+  WRITING_SYSTEM(indic,  INDIC )
 #ifdef FT_OPTION_AUTOFIT2
-  WRITING_SYSTEM( latin2, LATIN2 )
+  WRITING_SYSTEM(latin2, LATIN2)
 #endif
 
 

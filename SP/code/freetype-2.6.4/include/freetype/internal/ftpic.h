@@ -51,13 +51,13 @@ FT_BEGIN_HEADER
 
   /* Initialize the various function tables, structs, etc. */
   /* stored in the container.                              */
-  FT_BASE( FT_Error )
-  ft_pic_container_init( FT_Library  library );
+  FT_BASE(FT_Error)
+  ft_pic_container_init(FT_Library  library);
 
 
   /* Destroy the contents of the container. */
-  FT_BASE( void )
-  ft_pic_container_destroy( FT_Library  library );
+  FT_BASE(void)
+  ft_pic_container_destroy(FT_Library  library);
 
 #endif /* FT_CONFIG_OPTION_PIC */
 

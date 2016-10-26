@@ -45,47 +45,47 @@
 
 #define GXV_MORT_FEATURE_OFF  {0, 1, 0x00000000UL, 0x00000000UL}
 
-#define IS_GXV_MORT_FEATURE_OFF( f )              \
-          ( (f).featureType    == 0            || \
+#define IS_GXV_MORT_FEATURE_OFF(f)              \
+          ((f).featureType    == 0            || \
             (f).featureSetting == 1            || \
             (f).enableFlags    == 0x00000000UL || \
-            (f).disableFlags   == 0x00000000UL )
+            (f).disableFlags   == 0x00000000UL)
 
 
-  FT_LOCAL( void )
-  gxv_mort_featurearray_validate( FT_Bytes       table,
+  FT_LOCAL(void)
+  gxv_mort_featurearray_validate(FT_Bytes       table,
                                   FT_Bytes       limit,
                                   FT_ULong       nFeatureFlags,
-                                  GXV_Validator  gxvalid );
+                                  GXV_Validator  gxvalid);
 
-  FT_LOCAL( void )
-  gxv_mort_coverage_validate( FT_UShort      coverage,
-                              GXV_Validator  gxvalid );
+  FT_LOCAL(void)
+  gxv_mort_coverage_validate(FT_UShort      coverage,
+                              GXV_Validator  gxvalid);
 
-  FT_LOCAL( void )
-  gxv_mort_subtable_type0_validate( FT_Bytes       table,
+  FT_LOCAL(void)
+  gxv_mort_subtable_type0_validate(FT_Bytes       table,
                                     FT_Bytes       limit,
-                                    GXV_Validator  gxvalid );
+                                    GXV_Validator  gxvalid);
 
-  FT_LOCAL( void )
-  gxv_mort_subtable_type1_validate( FT_Bytes       table,
+  FT_LOCAL(void)
+  gxv_mort_subtable_type1_validate(FT_Bytes       table,
                                     FT_Bytes       limit,
-                                    GXV_Validator  gxvalid );
+                                    GXV_Validator  gxvalid);
 
-  FT_LOCAL( void )
-  gxv_mort_subtable_type2_validate( FT_Bytes       table,
+  FT_LOCAL(void)
+  gxv_mort_subtable_type2_validate(FT_Bytes       table,
                                     FT_Bytes       limit,
-                                    GXV_Validator  gxvalid );
+                                    GXV_Validator  gxvalid);
 
-  FT_LOCAL( void )
-  gxv_mort_subtable_type4_validate( FT_Bytes       table,
+  FT_LOCAL(void)
+  gxv_mort_subtable_type4_validate(FT_Bytes       table,
                                     FT_Bytes       limit,
-                                    GXV_Validator  gxvalid );
+                                    GXV_Validator  gxvalid);
 
-  FT_LOCAL( void )
-  gxv_mort_subtable_type5_validate( FT_Bytes       table,
+  FT_LOCAL(void)
+  gxv_mort_subtable_type5_validate(FT_Bytes       table,
                                     FT_Bytes       limit,
-                                    GXV_Validator  gxvalid );
+                                    GXV_Validator  gxvalid);
 
 
 #endif /* GXVMORT_H_ */

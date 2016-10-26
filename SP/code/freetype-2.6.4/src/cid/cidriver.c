@@ -45,12 +45,12 @@
    */
 
   static const char*
-  cid_get_postscript_name( CID_Face  face )
+  cid_get_postscript_name(CID_Face  face)
   {
     const char*  result = face->cid.cid_font_name;
 
 
-    if ( result && result[0] == '/' )
+    if (result && result[0] == '/')
       result++;
 
     return result;
@@ -69,8 +69,8 @@
    */
 
   static FT_Error
-  cid_ps_get_font_info( FT_Face          face,
-                        PS_FontInfoRec*  afont_info )
+  cid_ps_get_font_info(FT_Face          face,
+                        PS_FontInfoRec*  afont_info)
   {
     *afont_info = ((CID_Face)face)->cid.font_info;
 
@@ -78,8 +78,8 @@
   }
 
   static FT_Error
-  cid_ps_get_font_extra( FT_Face          face,
-                        PS_FontExtraRec*  afont_extra )
+  cid_ps_get_font_extra(FT_Face          face,
+                        PS_FontExtraRec*  afont_extra)
   {
     *afont_extra = ((CID_Face)face)->font_extra;
 
@@ -104,21 +104,21 @@
    *
    */
   static FT_Error
-  cid_get_ros( CID_Face      face,
+  cid_get_ros(CID_Face      face,
                const char*  *registry,
                const char*  *ordering,
-               FT_Int       *supplement )
+               FT_Int       *supplement)
   {
     CID_FaceInfo  cid = &face->cid;
 
 
-    if ( registry )
+    if (registry)
       *registry = cid->registry;
 
-    if ( ordering )
+    if (ordering)
       *ordering = cid->ordering;
 
-    if ( supplement )
+    if (supplement)
       *supplement = cid->supplement;
 
     return FT_Err_Ok;
@@ -126,14 +126,14 @@
 
 
   static FT_Error
-  cid_get_is_cid( CID_Face  face,
-                  FT_Bool  *is_cid )
+  cid_get_is_cid(CID_Face  face,
+                  FT_Bool  *is_cid)
   {
     FT_Error  error = FT_Err_Ok;
-    FT_UNUSED( face );
+    FT_UNUSED(face);
 
 
-    if ( is_cid )
+    if (is_cid)
       *is_cid = 1; /* cid driver is only used for CID keyed fonts */
 
     return error;
@@ -141,15 +141,15 @@
 
 
   static FT_Error
-  cid_get_cid_from_glyph_index( CID_Face  face,
+  cid_get_cid_from_glyph_index(CID_Face  face,
                                 FT_UInt   glyph_index,
-                                FT_UInt  *cid )
+                                FT_UInt  *cid)
   {
     FT_Error  error = FT_Err_Ok;
-    FT_UNUSED( face );
+    FT_UNUSED(face);
 
 
-    if ( cid )
+    if (cid)
       *cid = glyph_index; /* identity mapping */
 
     return error;
@@ -182,13 +182,13 @@
   };
 
 
-  FT_CALLBACK_DEF( FT_Module_Interface )
-  cid_get_interface( FT_Module    module,
-                     const char*  cid_interface )
+  FT_CALLBACK_DEF(FT_Module_Interface)
+  cid_get_interface(FT_Module    module,
+                     const char*  cid_interface)
   {
-    FT_UNUSED( module );
+    FT_UNUSED(module);
 
-    return ft_service_list_lookup( cid_services, cid_interface );
+    return ft_service_list_lookup(cid_services, cid_interface);
   }
 
 
@@ -200,7 +200,7 @@
       FT_MODULE_FONT_DRIVER       |
       FT_MODULE_DRIVER_SCALABLE   |
       FT_MODULE_DRIVER_HAS_HINTER,
-      sizeof ( FT_DriverRec ),
+      sizeof (FT_DriverRec),
 
       "t1cid",   /* module name           */
       0x10000L,  /* version 1.0 of driver */
@@ -213,9 +213,9 @@
       cid_get_interface         /* FT_Module_Requester    get_interface */
     },
 
-    sizeof ( CID_FaceRec ),
-    sizeof ( CID_SizeRec ),
-    sizeof ( CID_GlyphSlotRec ),
+    sizeof (CID_FaceRec),
+    sizeof (CID_SizeRec),
+    sizeof (CID_GlyphSlotRec),
 
     cid_face_init,              /* FT_Face_InitFunc  init_face */
     cid_face_done,              /* FT_Face_DoneFunc  done_face */

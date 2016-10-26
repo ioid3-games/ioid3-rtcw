@@ -499,12 +499,12 @@ FT_BEGIN_HEADER
   /*    min_advance_SB          :: Minimum of                              */
   /*                                                                       */
   /*                                 horizontal advance -                  */
-  /*                                   ( horiBearingX + width )            */
+  /*                                   (horiBearingX + width)            */
   /*                                                                       */
   /*                               resp.                                   */
   /*                                                                       */
   /*                                 vertical advance -                    */
-  /*                                   ( vertBearingY + height )           */
+  /*                                   (vertBearingY + height)           */
   /*                                                                       */
   /*    max_before_BL           :: Maximum of horiBearingY (resp.          */
   /*                               vertBearingY).                          */
@@ -939,7 +939,7 @@ FT_BEGIN_HEADER
 
   /* a function type used for the truetype bytecode interpreter hooks */
   typedef FT_Error
-  (*TT_Interpreter)( void*  exec_context );
+  (*TT_Interpreter)(void*  exec_context);
 
   /* forward declaration */
   typedef struct TT_LoaderRec_*  TT_Loader;
@@ -971,10 +971,10 @@ FT_BEGIN_HEADER
   /*    The stream cursor must be at the font file's origin.               */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Loader_GotoTableFunc)( TT_Face    face,
+  (*TT_Loader_GotoTableFunc)(TT_Face    face,
                               FT_ULong   tag,
                               FT_Stream  stream,
-                              FT_ULong*  length );
+                              FT_ULong*  length);
 
 
   /*************************************************************************/
@@ -1006,10 +1006,10 @@ FT_BEGIN_HEADER
   /*    different.                                                         */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Loader_StartGlyphFunc)( TT_Loader  loader,
+  (*TT_Loader_StartGlyphFunc)(TT_Loader  loader,
                                FT_UInt    glyph_index,
                                FT_ULong   offset,
-                               FT_UInt    byte_count );
+                               FT_UInt    byte_count);
 
 
   /*************************************************************************/
@@ -1028,7 +1028,7 @@ FT_BEGIN_HEADER
   /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Loader_ReadGlyphFunc)( TT_Loader  loader );
+  (*TT_Loader_ReadGlyphFunc)(TT_Loader  loader);
 
 
   /*************************************************************************/
@@ -1043,7 +1043,7 @@ FT_BEGIN_HEADER
   /*    loader :: The current TrueType glyph loader object.                */
   /*                                                                       */
   typedef void
-  (*TT_Loader_EndGlyphFunc)( TT_Loader  loader );
+  (*TT_Loader_EndGlyphFunc)(TT_Loader  loader);
 
 
   typedef enum TT_SbitTableType_

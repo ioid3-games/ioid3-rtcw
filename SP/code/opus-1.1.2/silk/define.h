@@ -87,28 +87,28 @@ extern "C"
 /* Number of samples per frame */
 #define LTP_MEM_LENGTH_MS                       20
 #define SUB_FRAME_LENGTH_MS                     5
-#define MAX_SUB_FRAME_LENGTH                    ( SUB_FRAME_LENGTH_MS * MAX_FS_KHZ )
-#define MAX_FRAME_LENGTH_MS                     ( SUB_FRAME_LENGTH_MS * MAX_NB_SUBFR )
-#define MAX_FRAME_LENGTH                        ( MAX_FRAME_LENGTH_MS * MAX_FS_KHZ )
+#define MAX_SUB_FRAME_LENGTH                    (SUB_FRAME_LENGTH_MS * MAX_FS_KHZ)
+#define MAX_FRAME_LENGTH_MS                     (SUB_FRAME_LENGTH_MS * MAX_NB_SUBFR)
+#define MAX_FRAME_LENGTH                        (MAX_FRAME_LENGTH_MS * MAX_FS_KHZ)
 
 /* Milliseconds of lookahead for pitch analysis */
 #define LA_PITCH_MS                             2
-#define LA_PITCH_MAX                            ( LA_PITCH_MS * MAX_FS_KHZ )
+#define LA_PITCH_MAX                            (LA_PITCH_MS * MAX_FS_KHZ)
 
 /* Order of LPC used in find pitch */
 #define MAX_FIND_PITCH_LPC_ORDER                16
 
 /* Length of LPC window used in find pitch */
-#define FIND_PITCH_LPC_WIN_MS                   ( 20 + (LA_PITCH_MS << 1) )
-#define FIND_PITCH_LPC_WIN_MS_2_SF              ( 10 + (LA_PITCH_MS << 1) )
-#define FIND_PITCH_LPC_WIN_MAX                  ( FIND_PITCH_LPC_WIN_MS * MAX_FS_KHZ )
+#define FIND_PITCH_LPC_WIN_MS                   (20 + (LA_PITCH_MS << 1))
+#define FIND_PITCH_LPC_WIN_MS_2_SF              (10 + (LA_PITCH_MS << 1))
+#define FIND_PITCH_LPC_WIN_MAX                  (FIND_PITCH_LPC_WIN_MS * MAX_FS_KHZ)
 
 /* Milliseconds of lookahead for noise shape analysis */
 #define LA_SHAPE_MS                             5
-#define LA_SHAPE_MAX                            ( LA_SHAPE_MS * MAX_FS_KHZ )
+#define LA_SHAPE_MAX                            (LA_SHAPE_MS * MAX_FS_KHZ)
 
 /* Maximum length of LPC window used in noise shape analysis */
-#define SHAPE_LPC_WIN_MAX                       ( 15 * MAX_FS_KHZ )
+#define SHAPE_LPC_WIN_MAX                       (15 * MAX_FS_KHZ)
 
 /* dB level of lowest gain quantization level */
 #define MIN_QGAIN_DB                            2
@@ -155,15 +155,15 @@ extern "C"
 #define MAX_DEL_DEC_STATES                      4
 
 #define LTP_BUF_LENGTH                          512
-#define LTP_MASK                                ( LTP_BUF_LENGTH - 1 )
+#define LTP_MASK                                (LTP_BUF_LENGTH - 1)
 
 #define DECISION_DELAY                          32
-#define DECISION_DELAY_MASK                     ( DECISION_DELAY - 1 )
+#define DECISION_DELAY_MASK                     (DECISION_DELAY - 1)
 
 /* Number of subframes for excitation entropy coding */
 #define SHELL_CODEC_FRAME_LENGTH                16
 #define LOG2_SHELL_CODEC_FRAME_LENGTH           4
-#define MAX_NB_SHELL_BLOCKS                     ( MAX_FRAME_LENGTH / SHELL_CODEC_FRAME_LENGTH )
+#define MAX_NB_SHELL_BLOCKS                     (MAX_FRAME_LENGTH / SHELL_CODEC_FRAME_LENGTH)
 
 /* Number of rate levels, for entropy coding of excitation */
 #define N_RATE_LEVELS                           10
@@ -173,7 +173,7 @@ extern "C"
 
 #define MAX_MATRIX_SIZE                         MAX_LPC_ORDER /* Max of LPC Order and LTP order */
 
-#if( MAX_LPC_ORDER > DECISION_DELAY )
+#if(MAX_LPC_ORDER > DECISION_DELAY)
 # define NSQ_LPC_BUF_LENGTH                     MAX_LPC_ORDER
 #else
 # define NSQ_LPC_BUF_LENGTH                     DECISION_DELAY
@@ -185,7 +185,7 @@ extern "C"
 #define VAD_N_BANDS                             4
 
 #define VAD_INTERNAL_SUBFRAMES_LOG2             2
-#define VAD_INTERNAL_SUBFRAMES                  ( 1 << VAD_INTERNAL_SUBFRAMES_LOG2 )
+#define VAD_INTERNAL_SUBFRAMES                  (1 << VAD_INTERNAL_SUBFRAMES_LOG2)
 
 #define VAD_NOISE_LEVEL_SMOOTH_COEF_Q16         1024    /* Must be <  4096 */
 #define VAD_NOISE_LEVELS_BIAS                   50
@@ -210,15 +210,15 @@ extern "C"
 #define NLSF_QUANT_MAX_AMPLITUDE_EXT            10
 #define NLSF_QUANT_LEVEL_ADJ                    0.1
 #define NLSF_QUANT_DEL_DEC_STATES_LOG2          2
-#define NLSF_QUANT_DEL_DEC_STATES               ( 1 << NLSF_QUANT_DEL_DEC_STATES_LOG2 )
+#define NLSF_QUANT_DEL_DEC_STATES               (1 << NLSF_QUANT_DEL_DEC_STATES_LOG2)
 
 /* Transition filtering for mode switching */
-#define TRANSITION_TIME_MS                      5120    /* 5120 = 64 * FRAME_LENGTH_MS * ( TRANSITION_INT_NUM - 1 ) = 64*(20*4)*/
+#define TRANSITION_TIME_MS                      5120    /* 5120 = 64 * FRAME_LENGTH_MS * (TRANSITION_INT_NUM - 1) = 64*(20*4)*/
 #define TRANSITION_NB                           3       /* Hardcoded in tables */
 #define TRANSITION_NA                           2       /* Hardcoded in tables */
 #define TRANSITION_INT_NUM                      5       /* Hardcoded in tables */
-#define TRANSITION_FRAMES                       ( TRANSITION_TIME_MS / MAX_FRAME_LENGTH_MS )
-#define TRANSITION_INT_STEPS                    ( TRANSITION_FRAMES  / ( TRANSITION_INT_NUM - 1 ) )
+#define TRANSITION_FRAMES                       (TRANSITION_TIME_MS / MAX_FRAME_LENGTH_MS)
+#define TRANSITION_INT_STEPS                    (TRANSITION_FRAMES  / (TRANSITION_INT_NUM - 1))
 
 /* BWE factors to apply after packet loss */
 #define BWE_AFTER_LOSS_Q16                      63570

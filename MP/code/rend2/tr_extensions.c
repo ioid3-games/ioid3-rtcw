@@ -45,7 +45,7 @@ QGL_EXT_direct_state_access_PROCS;
 
 static qboolean GLimp_HaveExtension(const char *ext)
 {
-	const char *ptr = Q_stristr( (char *)qglGetString(GL_EXTENSIONS), ext );
+	const char *ptr = Q_stristr((char *)qglGetString(GL_EXTENSIONS), ext);
 	if (ptr == NULL)
 		return qfalse;
 	ptr += strlen(ext);
@@ -107,7 +107,7 @@ void GLimp_InitExtraExtensions()
 
 	// GL_NVX_gpu_memory_info
 	extension = "GL_NVX_gpu_memory_info";
-	if( GLimp_HaveExtension( extension ) )
+	if(GLimp_HaveExtension(extension))
 	{
 		glRefConfig.memInfo = MI_NVX;
 
@@ -120,7 +120,7 @@ void GLimp_InitExtraExtensions()
 
 	// GL_ATI_meminfo
 	extension = "GL_ATI_meminfo";
-	if( GLimp_HaveExtension( extension ) )
+	if(GLimp_HaveExtension(extension))
 	{
 		if (glRefConfig.memInfo == MI_NONE)
 		{
@@ -138,24 +138,10 @@ void GLimp_InitExtraExtensions()
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
 
-	// GL_ARB_texture_non_power_of_two
-	extension = "GL_ARB_texture_non_power_of_two";
-	glRefConfig.textureNonPowerOfTwo = qfalse;
-	if( GLimp_HaveExtension( extension ) )
-	{
-		glRefConfig.textureNonPowerOfTwo = qtrue; // !!r_ext_texture_non_power_of_two->integer
-
-		ri.Printf(PRINT_ALL, result[glRefConfig.textureNonPowerOfTwo], extension);
-	}
-	else
-	{
-		ri.Printf(PRINT_ALL, result[2], extension);
-	}
-
 	// GL_ARB_texture_float
 	extension = "GL_ARB_texture_float";
 	glRefConfig.textureFloat = qfalse;
-	if( GLimp_HaveExtension( extension ) )
+	if(GLimp_HaveExtension(extension))
 	{
 		glRefConfig.textureFloat = !!r_ext_texture_float->integer;
 
@@ -166,24 +152,10 @@ void GLimp_InitExtraExtensions()
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
 
-	// GL_ARB_half_float_pixel
-	extension = "GL_ARB_half_float_pixel";
-	glRefConfig.halfFloatPixel = qfalse;
-	if( GLimp_HaveExtension( extension ) )
-	{
-		glRefConfig.halfFloatPixel = !!r_arb_half_float_pixel->integer;
-
-		ri.Printf(PRINT_ALL, result[glRefConfig.halfFloatPixel], extension);
-	}
-	else
-	{
-		ri.Printf(PRINT_ALL, result[2], extension);
-	}
-
 	// GL_EXT_framebuffer_object
 	extension = "GL_EXT_framebuffer_object";
 	glRefConfig.framebufferObject = qfalse;
-	if( GLimp_HaveExtension( extension ) )
+	if(GLimp_HaveExtension(extension))
 	{
 		glRefConfig.framebufferObject = !!r_ext_framebuffer_object->integer;
 
@@ -270,7 +242,7 @@ void GLimp_InitExtraExtensions()
 	// GL_ARB_depth_clamp
 	extension = "GL_ARB_depth_clamp";
 	glRefConfig.depthClamp = qfalse;
-	if( GLimp_HaveExtension( extension ) )
+	if(GLimp_HaveExtension(extension))
 	{
 		glRefConfig.depthClamp = qtrue;
 
@@ -284,7 +256,7 @@ void GLimp_InitExtraExtensions()
 	// GL_ARB_seamless_cube_map
 	extension = "GL_ARB_seamless_cube_map";
 	glRefConfig.seamlessCubeMap = qfalse;
-	if( GLimp_HaveExtension( extension ) )
+	if(GLimp_HaveExtension(extension))
 	{
 		glRefConfig.seamlessCubeMap = !!r_arb_seamless_cube_map->integer;
 
@@ -295,44 +267,16 @@ void GLimp_InitExtraExtensions()
 		ri.Printf(PRINT_ALL, result[2], extension);
 	}
 
-	// use float lightmaps?
-	glRefConfig.floatLightmap = (glRefConfig.textureFloat && glRefConfig.halfFloatPixel && r_floatLightmap->integer && r_hdr->integer);
-
 	// GL_ARB_vertex_array_object
 	extension = "GL_ARB_vertex_array_object";
 	glRefConfig.vertexArrayObject = qfalse;
-	if( GLimp_HaveExtension( extension ) )
+	if(GLimp_HaveExtension(extension))
 	{
 		glRefConfig.vertexArrayObject = !!r_arb_vertex_array_object->integer;
 
 		QGL_ARB_vertex_array_object_PROCS;
 
 		ri.Printf(PRINT_ALL, result[glRefConfig.vertexArrayObject], extension);
-	}
-	else
-	{
-		ri.Printf(PRINT_ALL, result[2], extension);
-	}
-
-	// GL_ARB_half_float_vertex
-	extension = "GL_ARB_half_float_vertex";
-	glRefConfig.packedTexcoordDataType = GL_FLOAT;
-	glRefConfig.packedTexcoordDataSize = sizeof(float) * 2;
-	glRefConfig.packedColorDataType    = GL_FLOAT;
-	glRefConfig.packedColorDataSize    = sizeof(float) * 4;
-	if( GLimp_HaveExtension( extension ) )
-	{
-		qboolean useExt = !!r_arb_half_float_vertex->integer;
-
-		if (useExt)
-		{
-			glRefConfig.packedTexcoordDataType = GL_HALF_FLOAT;
-			glRefConfig.packedTexcoordDataSize = sizeof(uint16_t) * 2;
-			glRefConfig.packedColorDataType    = GL_HALF_FLOAT;
-			glRefConfig.packedColorDataSize    = sizeof(uint16_t) * 4;
-		}
-
-		ri.Printf(PRINT_ALL, result[useExt], extension);
 	}
 	else
 	{

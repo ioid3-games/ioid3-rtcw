@@ -102,8 +102,8 @@ FT_BEGIN_HEADER
    */
   enum
   {
-    CF2_ICF_Top    = cf2_intToFixed(  880 ),
-    CF2_ICF_Bottom = cf2_intToFixed( -120 )
+    CF2_ICF_Top    = cf2_intToFixed( 880),
+    CF2_ICF_Bottom = cf2_intToFixed(-120)
   };
 
 
@@ -111,7 +111,7 @@ FT_BEGIN_HEADER
    * Constant used for hint adjustment and for synthetic em box hint
    * placement.
    */
-#define CF2_MIN_COUNTER  cf2_floatToFixed( 0.5 )
+#define CF2_MIN_COUNTER  cf2_floatToFixed(0.5)
 
 
   /* shared typedef is in cf2glue.h */
@@ -167,13 +167,13 @@ FT_BEGIN_HEADER
   } CF2_BluesRec, *CF2_Blues;
 
 
-  FT_LOCAL( void )
-  cf2_blues_init( CF2_Blues  blues,
-                  CF2_Font   font );
-  FT_LOCAL( FT_Bool )
-  cf2_blues_capture( const CF2_Blues  blues,
+  FT_LOCAL(void)
+  cf2_blues_init(CF2_Blues  blues,
+                  CF2_Font   font);
+  FT_LOCAL(FT_Bool)
+  cf2_blues_capture(const CF2_Blues  blues,
                      CF2_Hint         bottomHintEdge,
-                     CF2_Hint         topHintEdge );
+                     CF2_Hint         topHintEdge);
 
 
 FT_END_HEADER

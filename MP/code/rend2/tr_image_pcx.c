@@ -48,7 +48,7 @@ typedef struct {
 	unsigned char	data[];
 } pcx_t;
 
-void R_LoadPCX ( const char *filename, byte **pic, int *width, int *height)
+void R_LoadPCX (const char *filename, byte **pic, int *width, int *height)
 {
 	union {
 		byte *b;
@@ -74,7 +74,7 @@ void R_LoadPCX ( const char *filename, byte **pic, int *width, int *height)
 	//
 	// load the file
 	//
-	len = ri.FS_ReadFile( ( char * ) filename, &raw.v);
+	len = ri.FS_ReadFile((char *) filename, &raw.v);
 	if (!raw.b || len < 0) {
 		return;
 	}
@@ -108,7 +108,7 @@ void R_LoadPCX ( const char *filename, byte **pic, int *width, int *height)
 		return;
 	}
 
-	pix = pic8 = ri.Z_Malloc ( size );
+	pix = pic8 = ri.Z_Malloc (size);
 
 	raw.b = pcx->data;
 	// FIXME: should use bytes_per_line but original q3 didn't do that either
@@ -152,7 +152,7 @@ void R_LoadPCX ( const char *filename, byte **pic, int *width, int *height)
 
 	palette = end-768;
 
-	pix = out = ri.Z_Malloc(4 * size );
+	pix = out = ri.Z_Malloc(4 * size);
 	for (i = 0 ; i < size ; i++)
 	{
 		unsigned char p = pic8[i];

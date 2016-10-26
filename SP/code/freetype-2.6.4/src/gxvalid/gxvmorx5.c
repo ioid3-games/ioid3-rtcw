@@ -59,13 +59,13 @@
 
 
 #define GXV_MORX_SUBTABLE_TYPE5_HEADER_SIZE \
-          ( GXV_STATETABLE_HEADER_SIZE + 4 )
+          (GXV_STATETABLE_HEADER_SIZE + 4)
 
 
   static void
-  gxv_morx_subtable_type5_insertionGlyphList_load( FT_Bytes       table,
+  gxv_morx_subtable_type5_insertionGlyphList_load(FT_Bytes       table,
                                                    FT_Bytes       limit,
-                                                   GXV_Validator  gxvalid )
+                                                   GXV_Validator  gxvalid)
   {
     FT_Bytes  p = table;
 
@@ -73,20 +73,20 @@
       (GXV_morx_subtable_type5_StateOptRecData)gxvalid->xstatetable.optdata;
 
 
-    GXV_LIMIT_CHECK( 4 );
-    optdata->insertionGlyphList = FT_NEXT_ULONG( p );
+    GXV_LIMIT_CHECK(4);
+    optdata->insertionGlyphList = FT_NEXT_ULONG(p);
   }
 
 
   static void
-  gxv_morx_subtable_type5_subtable_setup( FT_ULong       table_size,
+  gxv_morx_subtable_type5_subtable_setup(FT_ULong       table_size,
                                           FT_ULong       classTable,
                                           FT_ULong       stateArray,
                                           FT_ULong       entryTable,
                                           FT_ULong*      classTable_length_p,
                                           FT_ULong*      stateArray_length_p,
                                           FT_ULong*      entryTable_length_p,
-                                          GXV_Validator  gxvalid )
+                                          GXV_Validator  gxvalid)
   {
     FT_ULong   o[4];
     FT_ULong*  l[4];
@@ -105,34 +105,34 @@
     l[2] = entryTable_length_p;
     l[3] = &(optdata->insertionGlyphList_length);
 
-    gxv_set_length_by_ulong_offset( o, l, buff, 4, table_size, gxvalid );
+    gxv_set_length_by_ulong_offset(o, l, buff, 4, table_size, gxvalid);
   }
 
 
   static void
-  gxv_morx_subtable_type5_InsertList_validate( FT_UShort      table_index,
+  gxv_morx_subtable_type5_InsertList_validate(FT_UShort      table_index,
                                                FT_UShort      count,
                                                FT_Bytes       table,
                                                FT_Bytes       limit,
-                                               GXV_Validator  gxvalid )
+                                               GXV_Validator  gxvalid)
   {
     FT_Bytes  p = table + table_index * 2;
 
 
 #ifndef GXV_LOAD_TRACE_VARS
-    GXV_LIMIT_CHECK( count * 2 );
+    GXV_LIMIT_CHECK(count * 2);
 #else
-    while ( p < table + count * 2 + table_index * 2 )
+    while (p < table + count * 2 + table_index * 2)
     {
       FT_UShort  insert_glyphID;
 
 
-      GXV_LIMIT_CHECK( 2 );
-      insert_glyphID = FT_NEXT_USHORT( p );
-      GXV_TRACE(( " 0x%04x", insert_glyphID ));
+      GXV_LIMIT_CHECK(2);
+      insert_glyphID = FT_NEXT_USHORT(p);
+      GXV_TRACE((" 0x%04x", insert_glyphID));
     }
 
-    GXV_TRACE(( "\n" ));
+    GXV_TRACE(("\n"));
 #endif
   }
 
@@ -144,7 +144,7 @@
     GXV_StateTable_GlyphOffsetCPtr  glyphOffset_p,
     FT_Bytes                        table,
     FT_Bytes                        limit,
-    GXV_Validator                   gxvalid )
+    GXV_Validator                   gxvalid)
   {
 #ifdef GXV_LOAD_UNUSED_VARS
     FT_Bool    setMark;
@@ -159,42 +159,42 @@
     FT_Byte    currentInsertList;
     FT_UShort  markedInsertList;
 
-    FT_UNUSED( state );
+    FT_UNUSED(state);
 
 
 #ifdef GXV_LOAD_UNUSED_VARS
-    setMark              = FT_BOOL( ( flags >> 15 ) & 1 );
-    dontAdvance          = FT_BOOL( ( flags >> 14 ) & 1 );
-    currentIsKashidaLike = FT_BOOL( ( flags >> 13 ) & 1 );
-    markedIsKashidaLike  = FT_BOOL( ( flags >> 12 ) & 1 );
-    currentInsertBefore  = FT_BOOL( ( flags >> 11 ) & 1 );
-    markedInsertBefore   = FT_BOOL( ( flags >> 10 ) & 1 );
+    setMark              = FT_BOOL((flags >> 15) & 1);
+    dontAdvance          = FT_BOOL((flags >> 14) & 1);
+    currentIsKashidaLike = FT_BOOL((flags >> 13) & 1);
+    markedIsKashidaLike  = FT_BOOL((flags >> 12) & 1);
+    currentInsertBefore  = FT_BOOL((flags >> 11) & 1);
+    markedInsertBefore   = FT_BOOL((flags >> 10) & 1);
 #endif
 
-    currentInsertCount = (FT_Byte)( ( flags >> 5 ) & 0x1F   );
-    markedInsertCount  = (FT_Byte)(   flags        & 0x001F );
+    currentInsertCount = (FT_Byte)((flags >> 5) & 0x1F  );
+    markedInsertCount  = (FT_Byte)(  flags        & 0x001F);
 
-    currentInsertList = (FT_Byte)  ( glyphOffset_p->ul >> 16 );
-    markedInsertList  = (FT_UShort)( glyphOffset_p->ul       );
+    currentInsertList = (FT_Byte)  (glyphOffset_p->ul >> 16);
+    markedInsertList  = (FT_UShort)(glyphOffset_p->ul      );
 
-    if ( currentInsertList && 0 != currentInsertCount )
-      gxv_morx_subtable_type5_InsertList_validate( currentInsertList,
+    if (currentInsertList && 0 != currentInsertCount)
+      gxv_morx_subtable_type5_InsertList_validate(currentInsertList,
                                                    currentInsertCount,
                                                    table, limit,
-                                                   gxvalid );
+                                                   gxvalid);
 
-    if ( markedInsertList && 0 != markedInsertCount )
-      gxv_morx_subtable_type5_InsertList_validate( markedInsertList,
+    if (markedInsertList && 0 != markedInsertCount)
+      gxv_morx_subtable_type5_InsertList_validate(markedInsertList,
                                                    markedInsertCount,
                                                    table, limit,
-                                                   gxvalid );
+                                                   gxvalid);
   }
 
 
-  FT_LOCAL_DEF( void )
-  gxv_morx_subtable_type5_validate( FT_Bytes       table,
+  FT_LOCAL_DEF(void)
+  gxv_morx_subtable_type5_validate(FT_Bytes       table,
                                     FT_Bytes       limit,
-                                    GXV_Validator  gxvalid )
+                                    GXV_Validator  gxvalid)
   {
     FT_Bytes  p = table;
 
@@ -202,9 +202,9 @@
     GXV_morx_subtable_type5_StateOptRecData  et = &et_rec;
 
 
-    GXV_NAME_ENTER( "morx chain subtable type5 (Glyph Insertion)" );
+    GXV_NAME_ENTER("morx chain subtable type5 (Glyph Insertion)");
 
-    GXV_LIMIT_CHECK( GXV_MORX_SUBTABLE_TYPE5_HEADER_SIZE );
+    GXV_LIMIT_CHECK(GXV_MORX_SUBTABLE_TYPE5_HEADER_SIZE);
 
     gxvalid->xstatetable.optdata =
       et;
@@ -217,7 +217,7 @@
     gxvalid->xstatetable.entry_validate_func =
       gxv_morx_subtable_type5_entry_validate;
 
-    gxv_XStateTable_validate( p, limit, gxvalid );
+    gxv_XStateTable_validate(p, limit, gxvalid);
 
     GXV_EXIT;
   }

@@ -32,22 +32,22 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "tr_local.h"
 
-static float ProjectRadius( float r, vec3_t location ) {
+static float ProjectRadius(float r, vec3_t location) {
 	float pr;
 	float dist;
 	float c;
 	vec3_t p;
 	float projected[4];
 
-	c = DotProduct( tr.viewParms.or.axis[0], tr.viewParms.or.origin );
-	dist = DotProduct( tr.viewParms.or.axis[0], location ) - c;
+	c = DotProduct(tr.viewParms.or.axis[0], tr.viewParms.or.origin);
+	dist = DotProduct(tr.viewParms.or.axis[0], location) - c;
 
-	if ( dist <= 0 ) {
+	if (dist <= 0) {
 		return 0;
 	}
 
 	p[0] = 0;
-	p[1] = fabs( r );
+	p[1] = fabs(r);
 	p[2] = -dist;
 
 	projected[0] = p[0] * tr.viewParms.projectionMatrix[0] +
@@ -73,7 +73,7 @@ static float ProjectRadius( float r, vec3_t location ) {
 
 	pr = projected[1] / projected[3];
 
-	if ( pr > 1.0f ) {
+	if (pr > 1.0f) {
 		pr = 1.0f;
 	}
 
@@ -85,7 +85,7 @@ static float ProjectRadius( float r, vec3_t location ) {
 R_CullModel
 =============
 */
-static int R_CullModel( mdcHeader_t *header, trRefEntity_t *ent ) {
+static int R_CullModel(mdcHeader_t *header, trRefEntity_t *ent) {
 	vec3_t bounds[2];
 	md3Frame_t  *oldFrame, *newFrame;
 	int i;
@@ -97,12 +97,12 @@ static int R_CullModel( mdcHeader_t *header, trRefEntity_t *ent ) {
 
 
 	// compute frame pointers
-	newFrame = ( md3Frame_t * )( ( byte * ) header + header->ofsFrames ) + ent->e.frame;
-	oldFrame = ( md3Frame_t * )( ( byte * ) header + header->ofsFrames ) + ent->e.oldframe;
+	newFrame = (md3Frame_t *)((byte *) header + header->ofsFrames) + ent->e.frame;
+	oldFrame = (md3Frame_t *)((byte *) header + header->ofsFrames) + ent->e.oldframe;
 
 	radScale = 1.0f;
 
-	if ( ent->e.nonNormalizedAxes ) {
+	if (ent->e.nonNormalizedAxes) {
 		cullSphere = qfalse;    // by defalut, cull bounding sphere ONLY if this is not an upscaled entity
 
 		// but allow the radius to be scaled if specified
@@ -112,9 +112,9 @@ static int R_CullModel( mdcHeader_t *header, trRefEntity_t *ent ) {
 //		}
 	}
 
-	if ( cullSphere ) {
-		if ( ent->e.frame == ent->e.oldframe ) {
-			switch ( R_CullLocalPointAndRadius( newFrame->localOrigin, newFrame->radius * radScale ) )
+	if (cullSphere) {
+		if (ent->e.frame == ent->e.oldframe) {
+			switch (R_CullLocalPointAndRadius(newFrame->localOrigin, newFrame->radius * radScale))
 			{
 			case CULL_OUT:
 				tr.pc.c_sphere_cull_md3_out++;
@@ -132,18 +132,18 @@ static int R_CullModel( mdcHeader_t *header, trRefEntity_t *ent ) {
 		{
 			int sphereCull, sphereCullB;
 
-			sphereCull  = R_CullLocalPointAndRadius( newFrame->localOrigin, newFrame->radius * radScale );
-			if ( newFrame == oldFrame ) {
+			sphereCull  = R_CullLocalPointAndRadius(newFrame->localOrigin, newFrame->radius * radScale);
+			if (newFrame == oldFrame) {
 				sphereCullB = sphereCull;
 			} else {
-				sphereCullB = R_CullLocalPointAndRadius( oldFrame->localOrigin, oldFrame->radius * radScale );
+				sphereCullB = R_CullLocalPointAndRadius(oldFrame->localOrigin, oldFrame->radius * radScale);
 			}
 
-			if ( sphereCull == sphereCullB ) {
-				if ( sphereCull == CULL_OUT ) {
+			if (sphereCull == sphereCullB) {
+				if (sphereCull == CULL_OUT) {
 					tr.pc.c_sphere_cull_md3_out++;
 					return CULL_OUT;
-				} else if ( sphereCull == CULL_IN )   {
+				} else if (sphereCull == CULL_IN)   {
 					tr.pc.c_sphere_cull_md3_in++;
 					return CULL_IN;
 				} else
@@ -155,7 +155,7 @@ static int R_CullModel( mdcHeader_t *header, trRefEntity_t *ent ) {
 	}
 
 	// calculate a bounding box in the current coordinate system
-	for ( i = 0 ; i < 3 ; i++ ) {
+	for (i = 0 ; i < 3 ; i++) {
 		bounds[0][i] = oldFrame->bounds[0][i] < newFrame->bounds[0][i] ? oldFrame->bounds[0][i] : newFrame->bounds[0][i];
 		bounds[1][i] = oldFrame->bounds[1][i] > newFrame->bounds[1][i] ? oldFrame->bounds[1][i] : newFrame->bounds[1][i];
 
@@ -163,7 +163,7 @@ static int R_CullModel( mdcHeader_t *header, trRefEntity_t *ent ) {
 		bounds[1][i] *= radScale;   //----(SA)	added
 	}
 
-	switch ( R_CullLocalBox( bounds ) )
+	switch (R_CullLocalBox(bounds))
 	{
 	case CULL_IN:
 		tr.pc.c_box_cull_md3_in++;
@@ -185,7 +185,7 @@ R_ComputeLOD
 
 =================
 */
-static int R_ComputeLOD( trRefEntity_t *ent ) {
+static int R_ComputeLOD(trRefEntity_t *ent) {
 	float radius;
 	float flod, lodscale;
 	float projectedRadius;
@@ -194,7 +194,7 @@ static int R_ComputeLOD( trRefEntity_t *ent ) {
 	mdrFrame_t *mdrframe;
 	int lod;
 
-	if ( tr.currentModel->numLods < 2 ) {
+	if (tr.currentModel->numLods < 2) {
 		// model has only 1 LOD level, skip computations and bias
 		lod = 0;
 	}
@@ -216,18 +216,18 @@ static int R_ComputeLOD( trRefEntity_t *ent ) {
 		else
 		{
 			// RF, checked for a forced lowest LOD
-			if ( ent->e.reFlags & REFLAG_FORCE_LOD ) {
-				return ( tr.currentModel->numLods - 1 );
+			if (ent->e.reFlags & REFLAG_FORCE_LOD) {
+				return (tr.currentModel->numLods - 1);
 			}
 
-			frame = ( md3Frame_t * )( ( ( unsigned char * ) tr.currentModel->mdc[0] ) + tr.currentModel->mdc[0]->ofsFrames );
+			frame = (md3Frame_t *)(((unsigned char *) tr.currentModel->mdc[0]) + tr.currentModel->mdc[0]->ofsFrames);
 	
 			frame += ent->e.frame;
 	
-			radius = RadiusFromBounds( frame->bounds[0], frame->bounds[1] );
+			radius = RadiusFromBounds(frame->bounds[0], frame->bounds[1]);
 	
 			//----(SA)	testing
-			if ( ent->e.reFlags & REFLAG_ORIENT_LOD ) {
+			if (ent->e.reFlags & REFLAG_ORIENT_LOD) {
 				// right now this is for trees, and pushes the lod distance way in.
 				// this is not the intended purpose, but is helpful for the new
 				// terrain level that has loads of trees
@@ -236,9 +236,9 @@ static int R_ComputeLOD( trRefEntity_t *ent ) {
 			//----(SA)	end
 		}
 
-		if ( ( projectedRadius = ProjectRadius( radius, ent->e.origin ) ) != 0 ) {
+		if ((projectedRadius = ProjectRadius(radius, ent->e.origin)) != 0) {
 			lodscale = r_lodscale->value;
-			if ( lodscale > 20 ) {
+			if (lodscale > 20) {
 				lodscale = 20;
 			}
 			flod = 1.0f - projectedRadius * lodscale;
@@ -249,21 +249,21 @@ static int R_ComputeLOD( trRefEntity_t *ent ) {
 		}
 
 		flod *= tr.currentModel->numLods;
-		lod = ri.ftol( flod );
+		lod = ri.ftol(flod);
 
-		if ( lod < 0 ) {
+		if (lod < 0) {
 			lod = 0;
-		} else if ( lod >= tr.currentModel->numLods )   {
+		} else if (lod >= tr.currentModel->numLods)   {
 			lod = tr.currentModel->numLods - 1;
 		}
 	}
 
 	lod += r_lodbias->integer;
 
-	if ( lod >= tr.currentModel->numLods ) {
+	if (lod >= tr.currentModel->numLods) {
 		lod = tr.currentModel->numLods - 1;
 	}
-	if ( lod < 0 ) {
+	if (lod < 0) {
 		lod = 0;
 	}
 
@@ -276,30 +276,30 @@ R_ComputeFogNum
 
 =================
 */
-static int R_ComputeFogNum( mdcHeader_t *header, trRefEntity_t *ent ) {
+static int R_ComputeFogNum(mdcHeader_t *header, trRefEntity_t *ent) {
 	int i, j;
 	fog_t           *fog;
 	md3Frame_t      *md3Frame;
 	vec3_t localOrigin;
 
-	if ( tr.refdef.rdflags & RDF_NOWORLDMODEL ) {
+	if (tr.refdef.rdflags & RDF_NOWORLDMODEL) {
 		return 0;
 	}
 
 	// FIXME: non-normalized axis issues
-	md3Frame = ( md3Frame_t * )( ( byte * ) header + header->ofsFrames ) + ent->e.frame;
-	VectorAdd( ent->e.origin, md3Frame->localOrigin, localOrigin );
-	for ( i = 1 ; i < tr.world->numfogs ; i++ ) {
+	md3Frame = (md3Frame_t *)((byte *) header + header->ofsFrames) + ent->e.frame;
+	VectorAdd(ent->e.origin, md3Frame->localOrigin, localOrigin);
+	for (i = 1 ; i < tr.world->numfogs ; i++) {
 		fog = &tr.world->fogs[i];
-		for ( j = 0 ; j < 3 ; j++ ) {
-			if ( localOrigin[j] - md3Frame->radius >= fog->bounds[1][j] ) {
+		for (j = 0 ; j < 3 ; j++) {
+			if (localOrigin[j] - md3Frame->radius >= fog->bounds[1][j]) {
 				break;
 			}
-			if ( localOrigin[j] + md3Frame->radius <= fog->bounds[0][j] ) {
+			if (localOrigin[j] + md3Frame->radius <= fog->bounds[0][j]) {
 				break;
 			}
 		}
-		if ( j == 3 ) {
+		if (j == 3) {
 			return i;
 		}
 	}
@@ -313,7 +313,7 @@ R_AddMDCSurfaces
 
 =================
 */
-void R_AddMDCSurfaces( trRefEntity_t *ent ) {
+void R_AddMDCSurfaces(trRefEntity_t *ent) {
 	int i;
 	mdcHeader_t     *header = NULL;
 	mdcSurface_t    *surface = NULL;
@@ -325,9 +325,9 @@ void R_AddMDCSurfaces( trRefEntity_t *ent ) {
 	qboolean personalModel;
 
 	// don't add third_person objects if not in a portal
-	personalModel = ( ent->e.renderfx & RF_THIRD_PERSON ) && !tr.viewParms.isPortal;
+	personalModel = (ent->e.renderfx & RF_THIRD_PERSON) && !tr.viewParms.isPortal;
 
-	if ( ent->e.renderfx & RF_WRAP_FRAMES ) {
+	if (ent->e.renderfx & RF_WRAP_FRAMES) {
 		ent->e.frame %= tr.currentModel->mdc[0]->numFrames;
 		ent->e.oldframe %= tr.currentModel->mdc[0]->numFrames;
 	}
@@ -338,13 +338,13 @@ void R_AddMDCSurfaces( trRefEntity_t *ent ) {
 	// when the surfaces are rendered, they don't need to be
 	// range checked again.
 	//
-	if ( ( ent->e.frame >= tr.currentModel->mdc[0]->numFrames )
-		 || ( ent->e.frame < 0 )
-		 || ( ent->e.oldframe >= tr.currentModel->mdc[0]->numFrames )
-		 || ( ent->e.oldframe < 0 ) ) {
-		ri.Printf( PRINT_DEVELOPER, "R_AddMDCSurfaces: no such frame %d to %d for '%s'\n",
+	if ((ent->e.frame >= tr.currentModel->mdc[0]->numFrames)
+		 || (ent->e.frame < 0)
+		 || (ent->e.oldframe >= tr.currentModel->mdc[0]->numFrames)
+		 || (ent->e.oldframe < 0)) {
+		ri.Printf(PRINT_DEVELOPER, "R_AddMDCSurfaces: no such frame %d to %d for '%s'\n",
 				   ent->e.oldframe, ent->e.frame,
-				   tr.currentModel->name );
+				   tr.currentModel->name);
 		ent->e.frame = 0;
 		ent->e.oldframe = 0;
 	}
@@ -352,7 +352,7 @@ void R_AddMDCSurfaces( trRefEntity_t *ent ) {
 	//
 	// compute LOD
 	//
-	lod = R_ComputeLOD( ent );
+	lod = R_ComputeLOD(ent);
 
 	header = tr.currentModel->mdc[lod];
 
@@ -360,62 +360,62 @@ void R_AddMDCSurfaces( trRefEntity_t *ent ) {
 	// cull the entire model if merged bounding box of both frames
 	// is outside the view frustum.
 	//
-	cull = R_CullModel( header, ent );
-	if ( cull == CULL_OUT ) {
+	cull = R_CullModel(header, ent);
+	if (cull == CULL_OUT) {
 		return;
 	}
 
 	//
 	// set up lighting now that we know we aren't culled
 	//
-	if ( !personalModel || r_shadows->integer > 1 ) {
-		R_SetupEntityLighting( &tr.refdef, ent );
+	if (!personalModel || r_shadows->integer > 1) {
+		R_SetupEntityLighting(&tr.refdef, ent);
 	}
 
 	//
 	// see if we are in a fog volume
 	//
-	fogNum = R_ComputeFogNum( header, ent );
+	fogNum = R_ComputeFogNum(header, ent);
 
 	//
 	// draw all surfaces
 	//
-	surface = ( mdcSurface_t * )( (byte *)header + header->ofsSurfaces );
-	for ( i = 0 ; i < header->numSurfaces ; i++ ) {
+	surface = (mdcSurface_t *)((byte *)header + header->ofsSurfaces);
+	for (i = 0 ; i < header->numSurfaces ; i++) {
 		int j;
 
 //----(SA)	blink will change to be an overlay rather than replacing the head texture.
 //		think of it like batman's mask.  the polygons that have eye texture are duplicated
 //		and the 'lids' rendered with polygonoffset over the top of the open eyes.  this gives
 //		minimal overdraw/alpha blending/texture use without breaking the model and causing seams
-		if ( !Q_stricmp( surface->name, "h_blink" ) ) {
-			if ( !( ent->e.renderfx & RF_BLINK ) ) {
-				surface = ( mdcSurface_t * )( (byte *)surface + surface->ofsEnd );
+		if (!Q_stricmp(surface->name, "h_blink")) {
+			if (!(ent->e.renderfx & RF_BLINK)) {
+				surface = (mdcSurface_t *)((byte *)surface + surface->ofsEnd);
 				continue;
 			}
 		}
 //----(SA)	end
 
-		if ( ent->e.customShader ) {
-			shader = R_GetShaderByHandle( ent->e.customShader );
-		} else if ( ent->e.customSkin > 0 && ent->e.customSkin < tr.numSkins ) {
+		if (ent->e.customShader) {
+			shader = R_GetShaderByHandle(ent->e.customShader);
+		} else if (ent->e.customSkin > 0 && ent->e.customSkin < tr.numSkins) {
 			skin_t *skin;
 
-			skin = R_GetSkinByHandle( ent->e.customSkin );
+			skin = R_GetSkinByHandle(ent->e.customSkin);
 
 			// match the surface name to something in the skin file
 			shader = tr.defaultShader;
-			for ( j = 0 ; j < skin->numSurfaces ; j++ ) {
+			for (j = 0 ; j < skin->numSurfaces ; j++) {
 				// the names have both been lowercased
-				if ( !strcmp( skin->surfaces[j]->name, surface->name ) ) {
+				if (!strcmp(skin->surfaces[j]->name, surface->name)) {
 					shader = skin->surfaces[j]->shader;
 					break;
 				}
 			}
-		} else if ( surface->numShaders <= 0 ) {
+		} else if (surface->numShaders <= 0) {
 			shader = tr.defaultShader;
 		} else {
-			md3Shader = ( md3Shader_t * )( (byte *)surface + surface->ofsShaders );
+			md3Shader = (md3Shader_t *)((byte *)surface + surface->ofsShaders);
 			md3Shader += ent->e.skinNum % surface->numShaders;
 			shader = tr.shaders[ md3Shader->shaderIndex ];
 		}
@@ -424,38 +424,38 @@ void R_AddMDCSurfaces( trRefEntity_t *ent ) {
 		// we will add shadows even if the main object isn't visible in the view
 
 		// stencil shadows can't do personal models unless I polyhedron clip
-		if ( !personalModel
+		if (!personalModel
 			 && r_shadows->integer == 2
 			 && fogNum == 0
-			 && !( ent->e.renderfx & ( RF_NOSHADOW | RF_DEPTHHACK ) )
-			 && shader->sort == SS_OPAQUE ) {
+			 && !(ent->e.renderfx & (RF_NOSHADOW | RF_DEPTHHACK))
+			 && shader->sort == SS_OPAQUE) {
 // GR - tessellate according to model capabilities
-			R_AddDrawSurf( (void *)surface, tr.shadowShader, 0, qfalse, tr.currentModel->ATI_tess );
+			R_AddDrawSurf((void *)surface, tr.shadowShader, 0, qfalse, tr.currentModel->ATI_tess);
 		}
 
 //----(SA)
 
 		// projection shadows work fine with personal models
-//		if ( r_shadows->integer == 3
+//		if (r_shadows->integer == 3
 //			&& fogNum == 0
-//			&& (ent->e.renderfx & RF_SHADOW_PLANE )
-//			&& shader->sort == SS_OPAQUE ) {
-//			R_AddDrawSurf( (void *)surface, tr.projectionShadowShader, 0, qfalse );
+//			&& (ent->e.renderfx & RF_SHADOW_PLANE)
+//			&& shader->sort == SS_OPAQUE) {
+//			R_AddDrawSurf((void *)surface, tr.projectionShadowShader, 0, qfalse);
 //		}
 
 //----(SA)	for testing polygon shadows (on /all/ models)
-//		if ( r_shadows->integer == 4)
-//			R_AddDrawSurf( (void *)surface, tr.projectionShadowShader, 0, qfalse );
+//		if (r_shadows->integer == 4)
+//			R_AddDrawSurf((void *)surface, tr.projectionShadowShader, 0, qfalse);
 
 //----(SA)	done testing
 
 		// don't add third_person objects if not viewing through a portal
-		if ( !personalModel ) {
+		if (!personalModel) {
 // GR - tessellate according to model capabilities
-			R_AddDrawSurf( (void *)surface, shader, fogNum, qfalse, tr.currentModel->ATI_tess );
+			R_AddDrawSurf((void *)surface, shader, fogNum, qfalse, tr.currentModel->ATI_tess);
 		}
 
-		surface = ( mdcSurface_t * )( (byte *)surface + surface->ofsEnd );
+		surface = (mdcSurface_t *)((byte *)surface + surface->ofsEnd);
 	}
 
 }

@@ -141,8 +141,8 @@ FT_BEGIN_HEADER
 
   } FTC_FamilyRec, *FTC_Family;
 
-#define  FTC_FAMILY(x)    ( (FTC_Family)(x) )
-#define  FTC_FAMILY_P(x)  ( (FTC_Family*)(x) )
+#define  FTC_FAMILY(x)    ((FTC_Family)(x))
+#define  FTC_FAMILY_P(x)  ((FTC_Family*)(x))
 
 
   typedef struct  FTC_GNodeRec_
@@ -153,8 +153,8 @@ FT_BEGIN_HEADER
 
   } FTC_GNodeRec, *FTC_GNode;
 
-#define FTC_GNODE( x )    ( (FTC_GNode)(x) )
-#define FTC_GNODE_P( x )  ( (FTC_GNode*)(x) )
+#define FTC_GNODE(x)    ((FTC_GNode)(x))
+#define FTC_GNODE_P(x)  ((FTC_GNode*)(x))
 
 
   typedef struct  FTC_GQueryRec_
@@ -164,7 +164,7 @@ FT_BEGIN_HEADER
 
   } FTC_GQueryRec, *FTC_GQuery;
 
-#define FTC_GQUERY( x )  ( (FTC_GQuery)(x) )
+#define FTC_GQUERY(x)  ((FTC_GQuery)(x))
 
 
   /*************************************************************************/
@@ -175,39 +175,39 @@ FT_BEGIN_HEADER
   /*                                                                       */
 
   /* must be called by derived FTC_Node_InitFunc routines */
-  FT_LOCAL( void )
-  FTC_GNode_Init( FTC_GNode   node,
+  FT_LOCAL(void)
+  FTC_GNode_Init(FTC_GNode   node,
                   FT_UInt     gindex,  /* glyph index for node */
-                  FTC_Family  family );
+                  FTC_Family  family);
 
 #ifdef FTC_INLINE
 
   /* returns TRUE iff the query's glyph index correspond to the node;  */
   /* this assumes that the `family' and `hash' fields of the query are */
   /* already correctly set                                             */
-  FT_LOCAL( FT_Bool )
-  FTC_GNode_Compare( FTC_GNode   gnode,
+  FT_LOCAL(FT_Bool)
+  FTC_GNode_Compare(FTC_GNode   gnode,
                      FTC_GQuery  gquery,
                      FTC_Cache   cache,
-                     FT_Bool*    list_changed );
+                     FT_Bool*    list_changed);
 
 #endif
 
   /* call this function to clear a node's family -- this is necessary */
   /* to implement the `node_remove_faceid' cache method correctly     */
-  FT_LOCAL( void )
-  FTC_GNode_UnselectFamily( FTC_GNode  gnode,
-                            FTC_Cache  cache );
+  FT_LOCAL(void)
+  FTC_GNode_UnselectFamily(FTC_GNode  gnode,
+                            FTC_Cache  cache);
 
   /* must be called by derived FTC_Node_DoneFunc routines */
-  FT_LOCAL( void )
-  FTC_GNode_Done( FTC_GNode  node,
-                  FTC_Cache  cache );
+  FT_LOCAL(void)
+  FTC_GNode_Done(FTC_GNode  node,
+                  FTC_Cache  cache);
 
 
-  FT_LOCAL( void )
-  FTC_Family_Init( FTC_Family  family,
-                   FTC_Cache   cache );
+  FT_LOCAL(void)
+  FTC_Family_Init(FTC_Family  family,
+                   FTC_Cache   cache);
 
   typedef struct FTC_GCacheRec_
   {
@@ -216,20 +216,20 @@ FT_BEGIN_HEADER
 
   } FTC_GCacheRec, *FTC_GCache;
 
-#define FTC_GCACHE( x )  ((FTC_GCache)(x))
+#define FTC_GCACHE(x)  ((FTC_GCache)(x))
 
 
 #if 0
   /* can be used as @FTC_Cache_InitFunc */
-  FT_LOCAL( FT_Error )
-  FTC_GCache_Init( FTC_GCache  cache );
+  FT_LOCAL(FT_Error)
+  FTC_GCache_Init(FTC_GCache  cache);
 #endif
 
 
 #if 0
   /* can be used as @FTC_Cache_DoneFunc */
-  FT_LOCAL( void )
-  FTC_GCache_Done( FTC_GCache  cache );
+  FT_LOCAL(void)
+  FTC_GCache_Done(FTC_GCache  cache);
 #endif
 
 
@@ -243,77 +243,77 @@ FT_BEGIN_HEADER
 
   typedef const FTC_GCacheClassRec*   FTC_GCacheClass;
 
-#define FTC_GCACHE_CLASS( x )  ((FTC_GCacheClass)(x))
+#define FTC_GCACHE_CLASS(x)  ((FTC_GCacheClass)(x))
 
-#define FTC_CACHE_GCACHE_CLASS( x ) \
-          FTC_GCACHE_CLASS( FTC_CACHE(x)->org_class )
-#define FTC_CACHE_FAMILY_CLASS( x ) \
-          ( (FTC_MruListClass)FTC_CACHE_GCACHE_CLASS( x )->family_class )
+#define FTC_CACHE_GCACHE_CLASS(x) \
+          FTC_GCACHE_CLASS(FTC_CACHE(x)->org_class)
+#define FTC_CACHE_FAMILY_CLASS(x) \
+          ((FTC_MruListClass)FTC_CACHE_GCACHE_CLASS(x)->family_class)
 
 
   /* convenience function; use it instead of FTC_Manager_Register_Cache */
-  FT_LOCAL( FT_Error )
-  FTC_GCache_New( FTC_Manager       manager,
+  FT_LOCAL(FT_Error)
+  FTC_GCache_New(FTC_Manager       manager,
                   FTC_GCacheClass   clazz,
-                  FTC_GCache       *acache );
+                  FTC_GCache       *acache);
 
 #ifndef FTC_INLINE
-  FT_LOCAL( FT_Error )
-  FTC_GCache_Lookup( FTC_GCache   cache,
+  FT_LOCAL(FT_Error)
+  FTC_GCache_Lookup(FTC_GCache   cache,
                      FT_Offset    hash,
                      FT_UInt      gindex,
                      FTC_GQuery   query,
-                     FTC_Node    *anode );
+                     FTC_Node    *anode);
 #endif
 
 
   /* */
 
 
-#define FTC_FAMILY_FREE( family, cache )                      \
-          FTC_MruList_Remove( &FTC_GCACHE((cache))->families, \
-                              (FTC_MruNode)(family) )
+#define FTC_FAMILY_FREE(family, cache)                      \
+          FTC_MruList_Remove(&FTC_GCACHE((cache))->families, \
+                              (FTC_MruNode)(family))
 
 
 #ifdef FTC_INLINE
 
-#define FTC_GCACHE_LOOKUP_CMP( cache, famcmp, nodecmp, hash,                \
-                               gindex, query, node, error )                 \
+#define FTC_GCACHE_LOOKUP_CMP(cache, famcmp, nodecmp, hash,                \
+                               gindex, query, node, error)                 \
   FT_BEGIN_STMNT                                                            \
-    FTC_GCache               _gcache   = FTC_GCACHE( cache );               \
-    FTC_GQuery               _gquery   = (FTC_GQuery)( query );             \
+    FTC_GCache               _gcache   = FTC_GCACHE(cache);               \
+    FTC_GQuery               _gquery   = (FTC_GQuery)(query);             \
     FTC_MruNode_CompareFunc  _fcompare = (FTC_MruNode_CompareFunc)(famcmp); \
     FTC_MruNode              _mrunode;                                      \
                                                                             \
                                                                             \
     _gquery->gindex = (gindex);                                             \
                                                                             \
-    FTC_MRULIST_LOOKUP_CMP( &_gcache->families, _gquery, _fcompare,         \
-                            _mrunode, error );                              \
-    _gquery->family = FTC_FAMILY( _mrunode );                               \
-    if ( !error )                                                           \
+    FTC_MRULIST_LOOKUP_CMP(&_gcache->families, _gquery, _fcompare,         \
+                            _mrunode, error);                              \
+    _gquery->family = FTC_FAMILY(_mrunode);                               \
+    if (!error)                                                           \
     {                                                                       \
       FTC_Family  _gqfamily = _gquery->family;                              \
                                                                             \
                                                                             \
       _gqfamily->num_nodes++;                                               \
                                                                             \
-      FTC_CACHE_LOOKUP_CMP( cache, nodecmp, hash, query, node, error );     \
+      FTC_CACHE_LOOKUP_CMP(cache, nodecmp, hash, query, node, error);     \
                                                                             \
-      if ( --_gqfamily->num_nodes == 0 )                                    \
-        FTC_FAMILY_FREE( _gqfamily, _gcache );                              \
+      if (--_gqfamily->num_nodes == 0)                                    \
+        FTC_FAMILY_FREE(_gqfamily, _gcache);                              \
     }                                                                       \
   FT_END_STMNT
   /* */
 
 #else /* !FTC_INLINE */
 
-#define FTC_GCACHE_LOOKUP_CMP( cache, famcmp, nodecmp, hash,          \
-                               gindex, query, node, error )           \
+#define FTC_GCACHE_LOOKUP_CMP(cache, famcmp, nodecmp, hash,          \
+                               gindex, query, node, error)           \
    FT_BEGIN_STMNT                                                     \
                                                                       \
-     error = FTC_GCache_Lookup( FTC_GCACHE( cache ), hash, gindex,    \
-                                FTC_GQUERY( query ), &node );         \
+     error = FTC_GCache_Lookup(FTC_GCACHE(cache), hash, gindex,    \
+                                FTC_GQUERY(query), &node);         \
                                                                       \
    FT_END_STMNT
 

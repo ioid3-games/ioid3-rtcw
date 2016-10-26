@@ -29,32 +29,32 @@
 FT_BEGIN_HEADER
 
 
-  FT_LOCAL_ARRAY( AF_WritingSystemClass )
+  FT_LOCAL_ARRAY(AF_WritingSystemClass)
   af_writing_system_classes[];
 
 
 #undef  SCRIPT
-#define SCRIPT( s, S, d, h, H, ss )                            \
-          AF_DECLARE_SCRIPT_CLASS( af_ ## s ## _script_class )
+#define SCRIPT(s, S, d, h, H, ss)                            \
+          AF_DECLARE_SCRIPT_CLASS(af_ ## s ## _script_class)
 
 #include "afscript.h"
 
-  FT_LOCAL_ARRAY( AF_ScriptClass )
+  FT_LOCAL_ARRAY(AF_ScriptClass)
   af_script_classes[];
 
 
 #undef  STYLE
-#define STYLE( s, S, d, ws, sc, ss, c )                      \
-          AF_DECLARE_STYLE_CLASS( af_ ## s ## _style_class )
+#define STYLE(s, S, d, ws, sc, ss, c)                      \
+          AF_DECLARE_STYLE_CLASS(af_ ## s ## _style_class)
 
 #include "afstyles.h"
 
-  FT_LOCAL_ARRAY( AF_StyleClass )
+  FT_LOCAL_ARRAY(AF_StyleClass)
   af_style_classes[];
 
 
 #ifdef FT_DEBUG_LEVEL_TRACE
-  FT_LOCAL_ARRAY( char* )
+  FT_LOCAL_ARRAY(char*)
   af_style_names[];
 #endif
 
@@ -144,23 +144,23 @@ FT_BEGIN_HEADER
    *  style-specific items
    */
 
-  FT_LOCAL( FT_Error )
-  af_face_globals_new( FT_Face          face,
+  FT_LOCAL(FT_Error)
+  af_face_globals_new(FT_Face          face,
                        AF_FaceGlobals  *aglobals,
-                       AF_Module        module );
+                       AF_Module        module);
 
-  FT_LOCAL( FT_Error )
-  af_face_globals_get_metrics( AF_FaceGlobals    globals,
+  FT_LOCAL(FT_Error)
+  af_face_globals_get_metrics(AF_FaceGlobals    globals,
                                FT_UInt           gindex,
                                FT_UInt           options,
-                               AF_StyleMetrics  *ametrics );
+                               AF_StyleMetrics  *ametrics);
 
-  FT_LOCAL( void )
-  af_face_globals_free( AF_FaceGlobals  globals );
+  FT_LOCAL(void)
+  af_face_globals_free(AF_FaceGlobals  globals);
 
-  FT_LOCAL_DEF( FT_Bool )
-  af_face_globals_is_digit( AF_FaceGlobals  globals,
-                            FT_UInt         gindex );
+  FT_LOCAL_DEF(FT_Bool)
+  af_face_globals_is_digit(AF_FaceGlobals  globals,
+                            FT_UInt         gindex);
 
   /* */
 

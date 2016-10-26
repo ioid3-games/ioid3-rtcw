@@ -102,10 +102,10 @@ FT_BEGIN_HEADER
   /*    global_len   :: The size in bytes of the global hints.             */
   /*                                                                       */
   typedef void
-  (*FT_AutoHinter_GlobalGetFunc)( FT_AutoHinter  hinter,
+  (*FT_AutoHinter_GlobalGetFunc)(FT_AutoHinter  hinter,
                                   FT_Face        face,
                                   void**         global_hints,
-                                  long*          global_len );
+                                  long*          global_len);
 
 
   /*************************************************************************/
@@ -124,8 +124,8 @@ FT_BEGIN_HEADER
   /*    global :: A pointer to retrieved global hints to discard.          */
   /*                                                                       */
   typedef void
-  (*FT_AutoHinter_GlobalDoneFunc)( FT_AutoHinter  hinter,
-                                   void*          global );
+  (*FT_AutoHinter_GlobalDoneFunc)(FT_AutoHinter  hinter,
+                                   void*          global);
 
 
   /*************************************************************************/
@@ -144,8 +144,8 @@ FT_BEGIN_HEADER
   /*    face   :: A handle to the face.                                    */
   /*                                                                       */
   typedef void
-  (*FT_AutoHinter_GlobalResetFunc)( FT_AutoHinter  hinter,
-                                    FT_Face        face );
+  (*FT_AutoHinter_GlobalResetFunc)(FT_AutoHinter  hinter,
+                                    FT_Face        face);
 
 
   /*************************************************************************/
@@ -172,11 +172,11 @@ FT_BEGIN_HEADER
   /*    @FT_LOAD_NO_SCALE set.                                             */
   /*                                                                       */
   typedef FT_Error
-  (*FT_AutoHinter_GlyphLoadFunc)( FT_AutoHinter  hinter,
+  (*FT_AutoHinter_GlyphLoadFunc)(FT_AutoHinter  hinter,
                                   FT_GlyphSlot   slot,
                                   FT_Size        size,
                                   FT_UInt        glyph_index,
-                                  FT_Int32       load_flags );
+                                  FT_Int32       load_flags);
 
 
   /*************************************************************************/
@@ -199,12 +199,12 @@ FT_BEGIN_HEADER
 
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DEFINE_AUTOHINTER_INTERFACE(       \
+#define FT_DEFINE_AUTOHINTER_INTERFACE(      \
           class_,                             \
           reset_face_,                        \
           get_global_hints_,                  \
           done_global_hints_,                 \
-          load_glyph_ )                       \
+          load_glyph_)                       \
   FT_CALLBACK_TABLE_DEF                       \
   const FT_AutoHinter_InterfaceRec  class_ =  \
   {                                           \
@@ -216,17 +216,17 @@ FT_BEGIN_HEADER
 
 #else /* FT_CONFIG_OPTION_PIC */
 
-#define FT_DEFINE_AUTOHINTER_INTERFACE(                            \
+#define FT_DEFINE_AUTOHINTER_INTERFACE(                           \
           class_,                                                  \
           reset_face_,                                             \
           get_global_hints_,                                       \
           done_global_hints_,                                      \
-          load_glyph_ )                                            \
+          load_glyph_)                                            \
   void                                                             \
-  FT_Init_Class_ ## class_( FT_Library                   library,  \
-                            FT_AutoHinter_InterfaceRec*  clazz )   \
+  FT_Init_Class_ ## class_(FT_Library                   library,  \
+                            FT_AutoHinter_InterfaceRec*  clazz)   \
   {                                                                \
-    FT_UNUSED( library );                                          \
+    FT_UNUSED(library);                                          \
                                                                    \
     clazz->reset_face        = reset_face_;                        \
     clazz->get_global_hints  = get_global_hints_;                  \

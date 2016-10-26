@@ -3,8 +3,8 @@
  * find the declaration of all public APIs.  This is easy, because
  * they all look like the following:
  *
- *   FT_EXPORT( return_type )
- *   function_name( function arguments );
+ *   FT_EXPORT(return_type)
+ *   function_name(function arguments);
  *
  * You must pass the list of header files as arguments.  Wildcards are
  * accepted if you are using GCC for compilation (and probably by
@@ -38,9 +38,9 @@ typedef enum  OutputFormat_
 
 
 static void
-panic( const char*  message )
+panic(const char*  message)
 {
-  fprintf( stderr, "PANIC: %s\n", message );
+  fprintf(stderr, "PANIC: %s\n", message);
   exit(2);
 }
 
@@ -57,100 +57,100 @@ static int   num_names;
 static int   max_names;
 
 static void
-names_add( const char*  name,
-           const char*  end )
+names_add(const char*  name,
+           const char*  end)
 {
   unsigned int  h;
   int           nn, len;
   Name          nm;
 
-  if ( end <= name )
+  if (end <= name)
     return;
 
   /* compute hash value */
   len = (int)(end - name);
   h   = 0;
-  for ( nn = 0; nn < len; nn++ )
+  for (nn = 0; nn < len; nn++)
     h = h*33 + name[nn];
 
   /* check for an pre-existing name */
-  for ( nn = 0; nn < num_names; nn++ )
+  for (nn = 0; nn < num_names; nn++)
   {
     nm = the_names + nn;
 
-    if ( (int)nm->hash                 == h &&
-         memcmp( name, nm->name, len ) == 0 &&
-         nm->name[len]                 == 0 )
+    if ((int)nm->hash                 == h &&
+         memcmp(name, nm->name, len) == 0 &&
+         nm->name[len]                 == 0)
       return;
   }
 
   /* add new name */
-  if ( num_names >= max_names )
+  if (num_names >= max_names)
   {
     max_names += (max_names >> 1) + 4;
-    the_names  = (NameRec*)realloc( the_names,
-                                    sizeof ( the_names[0] ) * max_names );
-    if ( the_names == NULL )
-      panic( "not enough memory" );
+    the_names  = (NameRec*)realloc(the_names,
+                                    sizeof (the_names[0]) * max_names);
+    if (the_names == NULL)
+      panic("not enough memory");
   }
   nm = &the_names[num_names++];
 
   nm->hash = h;
-  nm->name = (char*)malloc( len+1 );
-  if ( nm->name == NULL )
-    panic( "not enough memory" );
+  nm->name = (char*)malloc(len+1);
+  if (nm->name == NULL)
+    panic("not enough memory");
 
-  memcpy( nm->name, name, len );
+  memcpy(nm->name, name, len);
   nm->name[len] = 0;
 }
 
 
 static int
-name_compare( const void*  name1,
-              const void*  name2 )
+name_compare(const void*  name1,
+              const void*  name2)
 {
   Name  n1 = (Name)name1;
   Name  n2 = (Name)name2;
 
-  return strcmp( n1->name, n2->name );
+  return strcmp(n1->name, n2->name);
 }
 
 static void
-names_sort( void )
+names_sort(void)
 {
-  qsort( the_names, (size_t)num_names,
-         sizeof ( the_names[0] ), name_compare );
+  qsort(the_names, (size_t)num_names,
+         sizeof (the_names[0]), name_compare);
 }
 
 
 static void
-names_dump( FILE*         out,
+names_dump(FILE*         out,
             OutputFormat  format,
-            const char*   dll_name )
+            const char*   dll_name)
 {
   int  nn;
 
 
-  switch ( format )
+  switch (format)
   {
     case OUTPUT_WINDOWS_DEF:
-      if ( dll_name )
-        fprintf( out, "LIBRARY %s\n", dll_name );
+      if (dll_name)
+        fprintf(out, "LIBRARY %s\n", dll_name);
 
-      fprintf( out, "DESCRIPTION  FreeType 2 DLL\n" );
-      fprintf( out, "EXPORTS\n" );
-      for ( nn = 0; nn < num_names; nn++ )
-        fprintf( out, "  %s\n", the_names[nn].name );
+      fprintf(out, "DESCRIPTION  FreeType 2 DLL\n");
+      fprintf(out, "EXPORTS\n");
+      for (nn = 0; nn < num_names; nn++)
+        fprintf(out, "  %s\n", the_names[nn].name);
       break;
 
     case OUTPUT_BORLAND_DEF:
-      if ( dll_name )
-        fprintf( out, "LIBRARY %s\n", dll_name );
+      if (dll_name)
+        fprintf(out, "LIBRARY %s\n", dll_name);
 
-      fprintf( out, "DESCRIPTION  FreeType 2 DLL\n" );
-      fprintf( out, "EXPORTS\n" );
-      for ( nn = 0; nn < num_names; nn++ )
-        fprintf( out, "  _%s\n", the_names[nn].name );
+      fprintf(out, "DESCRIPTION  FreeType 2 DLL\n");
+      fprintf(out, "EXPORTS\n");
+      for (nn = 0; nn < num_names; nn++)
+        fprintf(out, "  _%s\n", the_names[nn].name);
       break;
 
     case OUTPUT_WATCOM_LBC:
@@ -159,48 +159,48 @@ names_dump( FILE*         out,
         char         temp[512];
 
 
-        if ( dll_name == NULL )
+        if (dll_name == NULL)
         {
-          fprintf( stderr,
-                   "you must provide a DLL name with the -d option!\n" );
-          exit( 4 );
+          fprintf(stderr,
+                   "you must provide a DLL name with the -d option!\n");
+          exit(4);
         }
 
         /* we must omit the .dll suffix from the library name */
-        dot = strchr( dll_name, '.' );
-        if ( dot != NULL )
+        dot = strchr(dll_name, '.');
+        if (dot != NULL)
         {
           int  len = dot - dll_name;
 
 
-          if ( len > (int)( sizeof ( temp ) - 1 ) )
-            len = sizeof ( temp ) - 1;
+          if (len > (int)(sizeof (temp) - 1))
+            len = sizeof (temp) - 1;
 
-          memcpy( temp, dll_name, len );
+          memcpy(temp, dll_name, len);
           temp[len] = 0;
 
           dll_name = (const char*)temp;
         }
 
-        for ( nn = 0; nn < num_names; nn++ )
-          fprintf( out, "++_%s.%s.%s\n", the_names[nn].name, dll_name,
-                        the_names[nn].name );
+        for (nn = 0; nn < num_names; nn++)
+          fprintf(out, "++_%s.%s.%s\n", the_names[nn].name, dll_name,
+                        the_names[nn].name);
       }
       break;
 
     case OUTPUT_NETWARE_IMP:
       {
-        if ( dll_name != NULL )
-          fprintf( out, "  (%s)\n", dll_name );
-        for ( nn = 0; nn < num_names - 1; nn++ )
-          fprintf( out, "  %s,\n", the_names[nn].name );
-        fprintf( out, "  %s\n", the_names[num_names - 1].name );
+        if (dll_name != NULL)
+          fprintf(out, "  (%s)\n", dll_name);
+        for (nn = 0; nn < num_names - 1; nn++)
+          fprintf(out, "  %s,\n", the_names[nn].name);
+        fprintf(out, "  %s\n", the_names[num_names - 1].name);
       }
       break;
 
     default:  /* LIST */
-      for ( nn = 0; nn < num_names; nn++ )
-        fprintf( out, "%s\n", the_names[nn].name );
+      for (nn = 0; nn < num_names; nn++)
+        fprintf(out, "%s\n", the_names[nn].name);
   }
 }
 
@@ -217,40 +217,40 @@ typedef enum  State_
 } State;
 
 static int
-read_header_file( FILE*  file, int  verbose )
+read_header_file(FILE*  file, int  verbose)
 {
   static char  buff[LINEBUFF_SIZE + 1];
   State        state = STATE_START;
 
-  while ( !feof( file ) )
+  while (!feof(file))
   {
     char*  p;
 
-    if ( !fgets( buff, LINEBUFF_SIZE, file ) )
+    if (!fgets(buff, LINEBUFF_SIZE, file))
       break;
 
     p = buff;
 
-    while ( *p && (*p == ' ' || *p == '\\') )  /* skip leading whitespace */
+    while (*p && (*p == ' ' || *p == '\\'))  /* skip leading whitespace */
       p++;
 
-    if ( *p == '\n' || *p == '\r' )  /* skip empty lines */
+    if (*p == '\n' || *p == '\r')  /* skip empty lines */
       continue;
 
-    switch ( state )
+    switch (state)
     {
       case STATE_START:
         {
-          if ( memcmp( p, "FT_EXPORT(", 10 ) != 0 )
+          if (memcmp(p, "FT_EXPORT(", 10) != 0)
             break;
 
           p += 10;
           for (;;)
           {
-            if ( *p == 0 || *p == '\n' || *p == '\r' )
+            if (*p == 0 || *p == '\n' || *p == '\r')
               goto NextLine;
 
-            if ( *p == ')' )
+            if (*p == ')')
             {
               p++;
               break;
@@ -265,10 +265,10 @@ read_header_file( FILE*  file, int  verbose )
           * skip whitespace, and fall-through if we find an alphanumeric
           * character
           */
-          while ( *p == ' ' || *p == '\t' )
+          while (*p == ' ' || *p == '\t')
             p++;
 
-          if ( !isalpha(*p) )
+          if (!isalpha(*p))
             break;
         }
         /* fall-through */
@@ -277,15 +277,15 @@ read_header_file( FILE*  file, int  verbose )
         {
           char*   name = p;
 
-          while ( isalnum(*p) || *p == '_' )
+          while (isalnum(*p) || *p == '_')
             p++;
 
-          if ( p > name )
+          if (p > name)
           {
-            if ( verbose )
-              fprintf( stderr, ">>> %.*s\n", (int)(p - name), name );
+            if (verbose)
+              fprintf(stderr, ">>> %.*s\n", (int)(p - name), name);
 
-            names_add( name, p );
+            names_add(name, p);
           }
 
           state = STATE_START;
@@ -305,7 +305,7 @@ read_header_file( FILE*  file, int  verbose )
 
 
 static void
-usage( void )
+usage(void)
 {
   static const char* const  format =
    "%s %s: extract FreeType API names from header files\n\n"
@@ -325,17 +325,17 @@ usage( void )
    "           -wN    : output NetWare Import File\n"
    "\n";
 
-  fprintf( stderr,
+  fprintf(stderr,
            format,
            PROGRAM_NAME,
            PROGRAM_VERSION,
            PROGRAM_NAME
-           );
+          );
   exit(1);
 }
 
 
-int  main( int argc, const char* const*  argv )
+int  main(int argc, const char* const*  argv)
 {
   int           from_stdin = 0;
   int           verbose = 0;
@@ -343,24 +343,24 @@ int  main( int argc, const char* const*  argv )
   FILE*         out    = stdout;
   const char*   library_name = NULL;
 
-  if ( argc < 2 )
+  if (argc < 2)
     usage();
 
   /* '-' used as a single argument means read source file from stdin */
-  while ( argc > 1 && argv[1][0] == '-' )
+  while (argc > 1 && argv[1][0] == '-')
   {
     const char*  arg = argv[1];
 
-    switch ( arg[1] )
+    switch (arg[1])
     {
       case 'v':
         verbose = 1;
         break;
 
       case 'o':
-        if ( arg[2] == 0 )
+        if (arg[2] == 0)
         {
-          if ( argc < 2 )
+          if (argc < 2)
             usage();
 
           arg = argv[2];
@@ -370,18 +370,18 @@ int  main( int argc, const char* const*  argv )
         else
           arg += 2;
 
-        out = fopen( arg, "wt" );
-        if ( out == NULL )
+        out = fopen(arg, "wt");
+        if (out == NULL)
         {
-          fprintf( stderr, "could not open '%s' for writing\n", argv[2] );
+          fprintf(stderr, "could not open '%s' for writing\n", argv[2]);
           exit(3);
         }
         break;
 
       case 'd':
-        if ( arg[2] == 0 )
+        if (arg[2] == 0)
         {
-          if ( argc < 2 )
+          if (argc < 2)
             usage();
 
           arg = argv[2];
@@ -396,7 +396,7 @@ int  main( int argc, const char* const*  argv )
 
       case 'w':
         format = OUTPUT_WINDOWS_DEF;
-        switch ( arg[2] )
+        switch (arg[2])
         {
           case 'B':
             format = OUTPUT_BORLAND_DEF;
@@ -430,37 +430,37 @@ int  main( int argc, const char* const*  argv )
     argv++;
   }
 
-  if ( from_stdin )
+  if (from_stdin)
   {
-    read_header_file( stdin, verbose );
+    read_header_file(stdin, verbose);
   }
   else
   {
-    for ( --argc, argv++; argc > 0; argc--, argv++ )
+    for (--argc, argv++; argc > 0; argc--, argv++)
     {
-      FILE*  file = fopen( argv[0], "rb" );
+      FILE*  file = fopen(argv[0], "rb");
 
-      if ( file == NULL )
-        fprintf( stderr, "unable to open '%s'\n", argv[0] );
+      if (file == NULL)
+        fprintf(stderr, "unable to open '%s'\n", argv[0]);
       else
       {
-        if ( verbose )
-          fprintf( stderr, "opening '%s'\n", argv[0] );
+        if (verbose)
+          fprintf(stderr, "opening '%s'\n", argv[0]);
 
-        read_header_file( file, verbose );
-        fclose( file );
+        read_header_file(file, verbose);
+        fclose(file);
       }
     }
   }
 
-  if ( num_names == 0 )
-    panic( "could not find exported functions !!\n" );
+  if (num_names == 0)
+    panic("could not find exported functions !!\n");
 
   names_sort();
-  names_dump( out, format, library_name );
+  names_dump(out, format, library_name);
 
-  if ( out != stdout )
-    fclose( out );
+  if (out != stdout)
+    fclose(out);
 
   return 0;
 }

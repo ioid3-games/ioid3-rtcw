@@ -51,15 +51,15 @@ FT_BEGIN_HEADER
 
   } FTC_INodeRec, *FTC_INode;
 
-#define FTC_INODE( x )         ( (FTC_INode)( x ) )
-#define FTC_INODE_GINDEX( x )  FTC_GNODE(x)->gindex
-#define FTC_INODE_FAMILY( x )  FTC_GNODE(x)->family
+#define FTC_INODE(x)         ((FTC_INode)(x))
+#define FTC_INODE_GINDEX(x)  FTC_GNODE(x)->gindex
+#define FTC_INODE_FAMILY(x)  FTC_GNODE(x)->family
 
   typedef FT_Error
-  (*FTC_IFamily_LoadGlyphFunc)( FTC_Family  family,
+  (*FTC_IFamily_LoadGlyphFunc)(FTC_Family  family,
                                 FT_UInt     gindex,
                                 FTC_Cache   cache,
-                                FT_Glyph   *aglyph );
+                                FT_Glyph   *aglyph);
 
   typedef struct  FTC_IFamilyClassRec_
   {
@@ -70,30 +70,30 @@ FT_BEGIN_HEADER
 
   typedef const FTC_IFamilyClassRec*  FTC_IFamilyClass;
 
-#define FTC_IFAMILY_CLASS( x )  ((FTC_IFamilyClass)(x))
+#define FTC_IFAMILY_CLASS(x)  ((FTC_IFamilyClass)(x))
 
-#define FTC_CACHE_IFAMILY_CLASS( x ) \
-          FTC_IFAMILY_CLASS( FTC_CACHE_GCACHE_CLASS(x)->family_class )
+#define FTC_CACHE_IFAMILY_CLASS(x) \
+          FTC_IFAMILY_CLASS(FTC_CACHE_GCACHE_CLASS(x)->family_class)
 
 
   /* can be used as a @FTC_Node_FreeFunc */
-  FT_LOCAL( void )
-  FTC_INode_Free( FTC_INode  inode,
-                  FTC_Cache  cache );
+  FT_LOCAL(void)
+  FTC_INode_Free(FTC_INode  inode,
+                  FTC_Cache  cache);
 
   /* Can be used as @FTC_Node_NewFunc.  `gquery.index' and `gquery.family'
    * must be set correctly.  This function will call the `family_load_glyph'
    * method to load the FT_Glyph into the cache node.
    */
-  FT_LOCAL( FT_Error )
-  FTC_INode_New( FTC_INode   *pinode,
+  FT_LOCAL(FT_Error)
+  FTC_INode_New(FTC_INode   *pinode,
                  FTC_GQuery   gquery,
-                 FTC_Cache    cache );
+                 FTC_Cache    cache);
 
 #if 0
   /* can be used as @FTC_Node_WeightFunc */
-  FT_LOCAL( FT_ULong )
-  FTC_INode_Weight( FTC_INode  inode );
+  FT_LOCAL(FT_ULong)
+  FTC_INode_Weight(FTC_INode  inode);
 #endif
 
 

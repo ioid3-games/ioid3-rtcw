@@ -41,32 +41,32 @@
  *    SDL_Haptic *haptic;
  *
  *    // Open the device
- *    haptic = SDL_HapticOpen( 0 );
+ *    haptic = SDL_HapticOpen(0);
  *    if (haptic == NULL)
  *       return -1;
  *
  *    // Initialize simple rumble
- *    if (SDL_HapticRumbleInit( haptic ) != 0)
+ *    if (SDL_HapticRumbleInit(haptic) != 0)
  *       return -1;
  *
  *    // Play effect at 50% strength for 2 seconds
- *    if (SDL_HapticRumblePlay( haptic, 0.5, 2000 ) != 0)
+ *    if (SDL_HapticRumblePlay(haptic, 0.5, 2000) != 0)
  *       return -1;
- *    SDL_Delay( 2000 );
+ *    SDL_Delay(2000);
  *
  *    // Clean up
- *    SDL_HapticClose( haptic );
+ *    SDL_HapticClose(haptic);
  * \endcode
  *
  * \par Complete example:
  * \code
- * int test_haptic( SDL_Joystick * joystick ) {
+ * int test_haptic(SDL_Joystick * joystick) {
  *    SDL_Haptic *haptic;
  *    SDL_HapticEffect effect;
  *    int effect_id;
  *
  *    // Open the device
- *    haptic = SDL_HapticOpenFromJoystick( joystick );
+ *    haptic = SDL_HapticOpenFromJoystick(joystick);
  *    if (haptic == NULL) return -1; // Most likely joystick isn't haptic
  *
  *    // See if it can do sine waves
@@ -76,7 +76,7 @@
  *    }
  *
  *    // Create the effect
- *    memset( &effect, 0, sizeof(SDL_HapticEffect) ); // 0 is safe default
+ *    memset(&effect, 0, sizeof(SDL_HapticEffect)); // 0 is safe default
  *    effect.type = SDL_HAPTIC_SINE;
  *    effect.periodic.direction.type = SDL_HAPTIC_POLAR; // Polar coordinates
  *    effect.periodic.direction.dir[0] = 18000; // Force comes from south
@@ -87,14 +87,14 @@
  *    effect.periodic.fade_length = 1000; // Takes 1 second to fade away
  *
  *    // Upload the effect
- *    effect_id = SDL_HapticNewEffect( haptic, &effect );
+ *    effect_id = SDL_HapticNewEffect(haptic, &effect);
  *
  *    // Test the effect
- *    SDL_HapticRunEffect( haptic, effect_id, 1 );
- *    SDL_Delay( 5000); // Wait for the effect to finish
+ *    SDL_HapticRunEffect(haptic, effect_id, 1);
+ *    SDL_Delay(5000); // Wait for the effect to finish
  *
  *    // We destroy the effect, although closing the device also does this
- *    SDL_HapticDestroyEffect( haptic, effect_id );
+ *    SDL_HapticDestroyEffect(haptic, effect_id);
  *
  *    // Close the device
  *    SDL_HapticClose(haptic);
@@ -1198,7 +1198,7 @@ extern DECLSPEC int SDLCALL SDL_HapticRumbleInit(SDL_Haptic * haptic);
  *  \sa SDL_HapticRumbleInit
  *  \sa SDL_HapticRumbleStop
  */
-extern DECLSPEC int SDLCALL SDL_HapticRumblePlay(SDL_Haptic * haptic, float strength, Uint32 length );
+extern DECLSPEC int SDLCALL SDL_HapticRumblePlay(SDL_Haptic * haptic, float strength, Uint32 length);
 
 /**
  *  \brief Stops the simple rumble on a haptic device.

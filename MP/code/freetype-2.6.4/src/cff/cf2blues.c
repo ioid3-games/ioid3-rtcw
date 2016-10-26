@@ -59,12 +59,12 @@
    * while the Adobe CFF engine produces an array of fixed.
    * Define a macro to convert FreeType to fixed.
    */
-#define cf2_blueToFixed( x )  cf2_intToFixed( x )
+#define cf2_blueToFixed(x)  cf2_intToFixed(x)
 
 
-  FT_LOCAL_DEF( void )
-  cf2_blues_init( CF2_Blues  blues,
-                  CF2_Font   font )
+  FT_LOCAL_DEF(void)
+  cf2_blues_init(CF2_Blues  blues,
+                  CF2_Font   font)
   {
     /* pointer to parsed font object */
     CFF_Decoder*  decoder = font->decoder;
@@ -90,22 +90,22 @@
     CF2_Int  unitsPerEm = font->unitsPerEm;
 
 
-    if ( unitsPerEm == 0 )
+    if (unitsPerEm == 0)
       unitsPerEm = 1000;
 #endif
 
-    FT_ZERO( blues );
+    FT_ZERO(blues);
     blues->scale = font->innerTransform.d;
 
-    cf2_getBlueMetrics( decoder,
+    cf2_getBlueMetrics(decoder,
                         &blues->blueScale,
                         &blues->blueShift,
-                        &blues->blueFuzz );
+                        &blues->blueFuzz);
 
-    cf2_getBlueValues( decoder, &numBlueValues, &blueValues );
-    cf2_getOtherBlues( decoder, &numOtherBlues, &otherBlues );
-    cf2_getFamilyBlues( decoder, &numFamilyBlues, &familyBlues );
-    cf2_getFamilyOtherBlues( decoder, &numFamilyOtherBlues, &familyOtherBlues );
+    cf2_getBlueValues(decoder, &numBlueValues, &blueValues);
+    cf2_getOtherBlues(decoder, &numOtherBlues, &otherBlues);
+    cf2_getFamilyBlues(decoder, &numFamilyBlues, &familyBlues);
+    cf2_getFamilyOtherBlues(decoder, &numFamilyOtherBlues, &familyOtherBlues);
 
     /*
      * synthetic em box hint heuristic
@@ -121,15 +121,15 @@
     /* get em box from OS/2 typoAscender/Descender                      */
     /* TODO: FreeType does not parse these metrics.  Skip them for now. */
 #if 0
-    FCM_getHorizontalLineMetrics( &e,
+    FCM_getHorizontalLineMetrics(&e,
                                   font->font,
                                   &ascender,
                                   &descender,
-                                  &linegap );
-    if ( ascender - descender == unitsPerEm )
+                                  &linegap);
+    if (ascender - descender == unitsPerEm)
     {
-      emBoxBottom = cf2_intToFixed( descender );
-      emBoxTop    = cf2_intToFixed( ascender );
+      emBoxBottom = cf2_intToFixed(descender);
+      emBoxTop    = cf2_intToFixed(ascender);
     }
     else
 #endif
@@ -138,13 +138,13 @@
       emBoxTop    = CF2_ICF_Top;
     }
 
-    if ( cf2_getLanguageGroup( decoder ) == 1                   &&
-         ( numBlueValues == 0                                 ||
-           ( numBlueValues == 4                             &&
-             cf2_blueToFixed( blueValues[0] ) < emBoxBottom &&
-             cf2_blueToFixed( blueValues[1] ) < emBoxBottom &&
-             cf2_blueToFixed( blueValues[2] ) > emBoxTop    &&
-             cf2_blueToFixed( blueValues[3] ) > emBoxTop    ) ) )
+    if (cf2_getLanguageGroup(decoder) == 1                   &&
+         (numBlueValues == 0                                 ||
+           (numBlueValues == 4                             &&
+             cf2_blueToFixed(blueValues[0]) < emBoxBottom &&
+             cf2_blueToFixed(blueValues[1]) < emBoxBottom &&
+             cf2_blueToFixed(blueValues[2]) > emBoxTop    &&
+             cf2_blueToFixed(blueValues[3]) > emBoxTop   )))
     {
       /*
        * Construct hint edges suitable for synthetic ghost hints at top
@@ -161,7 +161,7 @@
       blues->emBoxBottomEdge.dsCoord = cf2_fixedRound(
                                          FT_MulFix(
                                            blues->emBoxBottomEdge.csCoord,
-                                           blues->scale ) ) -
+                                           blues->scale)) -
                                        CF2_MIN_COUNTER;
       blues->emBoxBottomEdge.scale   = blues->scale;
       blues->emBoxBottomEdge.flags   = CF2_GhostBottom |
@@ -173,7 +173,7 @@
       blues->emBoxTopEdge.dsCoord = cf2_fixedRound(
                                       FT_MulFix(
                                         blues->emBoxTopEdge.csCoord,
-                                        blues->scale ) ) +
+                                        blues->scale)) +
                                     CF2_MIN_COUNTER;
       blues->emBoxTopEdge.scale   = blues->scale;
       blues->emBoxTopEdge.flags   = CF2_GhostTop |
@@ -187,23 +187,23 @@
 
     /* copy `BlueValues' and `OtherBlues' to a combined array of top and */
     /* bottom zones                                                      */
-    for ( i = 0; i < numBlueValues; i += 2 )
+    for (i = 0; i < numBlueValues; i += 2)
     {
       blues->zone[blues->count].csBottomEdge =
-        cf2_blueToFixed( blueValues[i] );
+        cf2_blueToFixed(blueValues[i]);
       blues->zone[blues->count].csTopEdge =
-        cf2_blueToFixed( blueValues[i + 1] );
+        cf2_blueToFixed(blueValues[i + 1]);
 
       zoneHeight = blues->zone[blues->count].csTopEdge -
                    blues->zone[blues->count].csBottomEdge;
 
-      if ( zoneHeight < 0 )
+      if (zoneHeight < 0)
       {
-        FT_TRACE4(( "cf2_blues_init: ignoring negative zone height\n" ));
+        FT_TRACE4(("cf2_blues_init: ignoring negative zone height\n"));
         continue;   /* reject this zone */
       }
 
-      if ( zoneHeight > maxZoneHeight )
+      if (zoneHeight > maxZoneHeight)
       {
         /* take maximum before darkening adjustment      */
         /* so overshoot suppression point doesn't change */
@@ -211,14 +211,14 @@
       }
 
       /* adjust both edges of top zone upward by twice darkening amount */
-      if ( i != 0 )
+      if (i != 0)
       {
         blues->zone[blues->count].csTopEdge    += 2 * font->darkenY;
         blues->zone[blues->count].csBottomEdge += 2 * font->darkenY;
       }
 
       /* first `BlueValue' is bottom zone; others are top */
-      if ( i == 0 )
+      if (i == 0)
       {
         blues->zone[blues->count].bottomZone =
           TRUE;
@@ -236,23 +236,23 @@
       blues->count += 1;
     }
 
-    for ( i = 0; i < numOtherBlues; i += 2 )
+    for (i = 0; i < numOtherBlues; i += 2)
     {
       blues->zone[blues->count].csBottomEdge =
-        cf2_blueToFixed( otherBlues[i] );
+        cf2_blueToFixed(otherBlues[i]);
       blues->zone[blues->count].csTopEdge =
-        cf2_blueToFixed( otherBlues[i + 1] );
+        cf2_blueToFixed(otherBlues[i + 1]);
 
       zoneHeight = blues->zone[blues->count].csTopEdge -
                    blues->zone[blues->count].csBottomEdge;
 
-      if ( zoneHeight < 0 )
+      if (zoneHeight < 0)
       {
-        FT_TRACE4(( "cf2_blues_init: ignoring negative zone height\n" ));
+        FT_TRACE4(("cf2_blues_init: ignoring negative zone height\n"));
         continue;   /* reject this zone */
       }
 
-      if ( zoneHeight > maxZoneHeight )
+      if (zoneHeight > maxZoneHeight)
       {
         /* take maximum before darkening adjustment      */
         /* so overshoot suppression point doesn't change */
@@ -276,10 +276,10 @@
     /* `FamilyOtherBlues'.  According to the Black Book, any matching edge */
     /* must be within one device pixel                                     */
 
-    csUnitsPerPixel = FT_DivFix( cf2_intToFixed( 1 ), blues->scale );
+    csUnitsPerPixel = FT_DivFix(cf2_intToFixed(1), blues->scale);
 
     /* loop on all zones in this font */
-    for ( i = 0; i < blues->count; i++ )
+    for (i = 0; i < blues->count; i++)
     {
       size_t     j;
       CF2_Fixed  minDiff;
@@ -288,7 +288,7 @@
       CF2_Fixed  flatEdge = blues->zone[i].csFlatEdge;
 
 
-      if ( blues->zone[i].bottomZone )
+      if (blues->zone[i].bottomZone)
       {
         /* In a bottom zone, the top edge is the flat edge.             */
         /* Search `FamilyOtherBlues' for bottom zones; look for closest */
@@ -296,32 +296,32 @@
 
         minDiff = CF2_FIXED_MAX;
 
-        for ( j = 0; j < numFamilyOtherBlues; j += 2 )
+        for (j = 0; j < numFamilyOtherBlues; j += 2)
         {
           /* top edge */
-          flatFamilyEdge = cf2_blueToFixed( familyOtherBlues[j + 1] );
+          flatFamilyEdge = cf2_blueToFixed(familyOtherBlues[j + 1]);
 
-          diff = cf2_fixedAbs( flatEdge - flatFamilyEdge );
+          diff = cf2_fixedAbs(flatEdge - flatFamilyEdge);
 
-          if ( diff < minDiff && diff < csUnitsPerPixel )
+          if (diff < minDiff && diff < csUnitsPerPixel)
           {
             blues->zone[i].csFlatEdge = flatFamilyEdge;
             minDiff                   = diff;
 
-            if ( diff == 0 )
+            if (diff == 0)
               break;
           }
         }
 
         /* check the first member of FamilyBlues, which is a bottom zone */
-        if ( numFamilyBlues >= 2 )
+        if (numFamilyBlues >= 2)
         {
           /* top edge */
-          flatFamilyEdge = cf2_blueToFixed( familyBlues[1] );
+          flatFamilyEdge = cf2_blueToFixed(familyBlues[1]);
 
-          diff = cf2_fixedAbs( flatEdge - flatFamilyEdge );
+          diff = cf2_fixedAbs(flatEdge - flatFamilyEdge);
 
-          if ( diff < minDiff && diff < csUnitsPerPixel )
+          if (diff < minDiff && diff < csUnitsPerPixel)
             blues->zone[i].csFlatEdge = flatFamilyEdge;
         }
       }
@@ -334,22 +334,22 @@
 
         minDiff = CF2_FIXED_MAX;
 
-        for ( j = 2; j < numFamilyBlues; j += 2 )
+        for (j = 2; j < numFamilyBlues; j += 2)
         {
           /* bottom edge */
-          flatFamilyEdge = cf2_blueToFixed( familyBlues[j] );
+          flatFamilyEdge = cf2_blueToFixed(familyBlues[j]);
 
           /* adjust edges of top zone upward by twice darkening amount */
           flatFamilyEdge += 2 * font->darkenY;      /* bottom edge */
 
-          diff = cf2_fixedAbs( flatEdge - flatFamilyEdge );
+          diff = cf2_fixedAbs(flatEdge - flatFamilyEdge);
 
-          if ( diff < minDiff && diff < csUnitsPerPixel )
+          if (diff < minDiff && diff < csUnitsPerPixel)
           {
             blues->zone[i].csFlatEdge = flatFamilyEdge;
             minDiff                   = diff;
 
-            if ( diff == 0 )
+            if (diff == 0)
               break;
           }
         }
@@ -361,14 +361,14 @@
     /* Adjust BlueScale; similar to AdjustBlueScale() in coretype */
     /* `bcsetup.c'.                                               */
 
-    if ( maxZoneHeight > 0 )
+    if (maxZoneHeight > 0)
     {
-      if ( blues->blueScale > FT_DivFix( cf2_intToFixed( 1 ),
-                                         maxZoneHeight ) )
+      if (blues->blueScale > FT_DivFix(cf2_intToFixed(1),
+                                         maxZoneHeight))
       {
         /* clamp at maximum scale */
-        blues->blueScale = FT_DivFix( cf2_intToFixed( 1 ),
-                                      maxZoneHeight );
+        blues->blueScale = FT_DivFix(cf2_intToFixed(1),
+                                      maxZoneHeight);
       }
 
       /*
@@ -382,9 +382,9 @@
        *
        */
 #if 0
-      if ( blueScale < .4 / maxZoneHeight )
+      if (blueScale < .4 / maxZoneHeight)
       {
-        tetraphilia_assert( 0 );
+        tetraphilia_assert(0);
         /* clamp at minimum scale, per bug 0613448 fix */
         blueScale = .4 / maxZoneHeight;
       }
@@ -400,7 +400,7 @@
      *
      */
 
-    if ( blues->scale < blues->blueScale )
+    if (blues->scale < blues->blueScale)
     {
       blues->suppressOvershoot = TRUE;
 
@@ -408,11 +408,11 @@
       /* Note: constant changed from 0.5 to 0.6 to avoid a problem with */
       /*       10ppem Arial                                             */
 
-      blues->boost = cf2_floatToFixed( .6 ) -
-                       FT_MulDiv( cf2_floatToFixed ( .6 ),
+      blues->boost = cf2_floatToFixed(.6) -
+                       FT_MulDiv(cf2_floatToFixed (.6),
                                   blues->scale,
-                                  blues->blueScale );
-      if ( blues->boost > 0x7FFF )
+                                  blues->blueScale);
+      if (blues->boost > 0x7FFF)
       {
         /* boost must remain less than 0.5, or baseline could go negative */
         blues->boost = 0x7FFF;
@@ -420,26 +420,26 @@
     }
 
     /* boost and darkening have similar effects; don't do both */
-    if ( font->stemDarkened )
+    if (font->stemDarkened)
       blues->boost = 0;
 
     /* set device space alignment for each zone;    */
     /* apply boost amount before rounding flat edge */
 
-    for ( i = 0; i < blues->count; i++ )
+    for (i = 0; i < blues->count; i++)
     {
-      if ( blues->zone[i].bottomZone )
+      if (blues->zone[i].bottomZone)
         blues->zone[i].dsFlatEdge = cf2_fixedRound(
                                       FT_MulFix(
                                         blues->zone[i].csFlatEdge,
-                                        blues->scale ) -
-                                      blues->boost );
+                                        blues->scale) -
+                                      blues->boost);
       else
         blues->zone[i].dsFlatEdge = cf2_fixedRound(
                                       FT_MulFix(
                                         blues->zone[i].csFlatEdge,
-                                        blues->scale ) +
-                                      blues->boost );
+                                        blues->scale) +
+                                      blues->boost);
     }
   }
 
@@ -461,10 +461,10 @@
    *     edge at the nearest device pixel.
    *
    */
-  FT_LOCAL_DEF( FT_Bool )
-  cf2_blues_capture( const CF2_Blues  blues,
+  FT_LOCAL_DEF(FT_Bool)
+  cf2_blues_capture(const CF2_Blues  blues,
                      CF2_Hint         bottomHintEdge,
-                     CF2_Hint         topHintEdge )
+                     CF2_Hint         topHintEdge)
   {
     /* TODO: validate? */
     CF2_Fixed  csFuzz = blues->blueFuzz;
@@ -480,38 +480,38 @@
 
 
     /* assert edge flags are consistent */
-    FT_ASSERT( !cf2_hint_isTop( bottomHintEdge ) &&
-               !cf2_hint_isBottom( topHintEdge ) );
+    FT_ASSERT(!cf2_hint_isTop(bottomHintEdge) &&
+               !cf2_hint_isBottom(topHintEdge));
 
     /* TODO: search once without blue fuzz for compatibility with coretype? */
-    for ( i = 0; i < blues->count; i++ )
+    for (i = 0; i < blues->count; i++)
     {
-      if ( blues->zone[i].bottomZone           &&
-           cf2_hint_isBottom( bottomHintEdge ) )
+      if (blues->zone[i].bottomZone           &&
+           cf2_hint_isBottom(bottomHintEdge))
       {
-        if ( ( blues->zone[i].csBottomEdge - csFuzz ) <=
+        if ((blues->zone[i].csBottomEdge - csFuzz) <=
                bottomHintEdge->csCoord                   &&
              bottomHintEdge->csCoord <=
-               ( blues->zone[i].csTopEdge + csFuzz )     )
+               (blues->zone[i].csTopEdge + csFuzz)    )
         {
           /* bottom edge captured by bottom zone */
 
-          if ( blues->suppressOvershoot )
+          if (blues->suppressOvershoot)
             dsNew = blues->zone[i].dsFlatEdge;
 
-          else if ( ( blues->zone[i].csTopEdge - bottomHintEdge->csCoord ) >=
-                      blues->blueShift )
+          else if ((blues->zone[i].csTopEdge - bottomHintEdge->csCoord) >=
+                      blues->blueShift)
           {
             /* guarantee minimum of 1 pixel overshoot */
             dsNew = FT_MIN(
-                      cf2_fixedRound( bottomHintEdge->dsCoord ),
-                      blues->zone[i].dsFlatEdge - cf2_intToFixed( 1 ) );
+                      cf2_fixedRound(bottomHintEdge->dsCoord),
+                      blues->zone[i].dsFlatEdge - cf2_intToFixed(1));
           }
 
           else
           {
             /* simply round captured edge */
-            dsNew = cf2_fixedRound( bottomHintEdge->dsCoord );
+            dsNew = cf2_fixedRound(bottomHintEdge->dsCoord);
           }
 
           dsMove   = dsNew - bottomHintEdge->dsCoord;
@@ -521,31 +521,31 @@
         }
       }
 
-      if ( !blues->zone[i].bottomZone && cf2_hint_isTop( topHintEdge ) )
+      if (!blues->zone[i].bottomZone && cf2_hint_isTop(topHintEdge))
       {
-        if ( ( blues->zone[i].csBottomEdge - csFuzz ) <=
+        if ((blues->zone[i].csBottomEdge - csFuzz) <=
                topHintEdge->csCoord                      &&
              topHintEdge->csCoord <=
-               ( blues->zone[i].csTopEdge + csFuzz )     )
+               (blues->zone[i].csTopEdge + csFuzz)    )
         {
           /* top edge captured by top zone */
 
-          if ( blues->suppressOvershoot )
+          if (blues->suppressOvershoot)
             dsNew = blues->zone[i].dsFlatEdge;
 
-          else if ( ( topHintEdge->csCoord - blues->zone[i].csBottomEdge ) >=
-                      blues->blueShift )
+          else if ((topHintEdge->csCoord - blues->zone[i].csBottomEdge) >=
+                      blues->blueShift)
           {
             /* guarantee minimum of 1 pixel overshoot */
             dsNew = FT_MAX(
-                      cf2_fixedRound( topHintEdge->dsCoord ),
-                      blues->zone[i].dsFlatEdge + cf2_intToFixed( 1 ) );
+                      cf2_fixedRound(topHintEdge->dsCoord),
+                      blues->zone[i].dsFlatEdge + cf2_intToFixed(1));
           }
 
           else
           {
             /* simply round captured edge */
-            dsNew = cf2_fixedRound( topHintEdge->dsCoord );
+            dsNew = cf2_fixedRound(topHintEdge->dsCoord);
           }
 
           dsMove   = dsNew - topHintEdge->dsCoord;
@@ -556,19 +556,19 @@
       }
     }
 
-    if ( captured )
+    if (captured)
     {
       /* move both edges and flag them `locked' */
-      if ( cf2_hint_isValid( bottomHintEdge ) )
+      if (cf2_hint_isValid(bottomHintEdge))
       {
         bottomHintEdge->dsCoord += dsMove;
-        cf2_hint_lock( bottomHintEdge );
+        cf2_hint_lock(bottomHintEdge);
       }
 
-      if ( cf2_hint_isValid( topHintEdge ) )
+      if (cf2_hint_isValid(topHintEdge))
       {
         topHintEdge->dsCoord += dsMove;
-        cf2_hint_lock( topHintEdge );
+        cf2_hint_lock(topHintEdge);
       }
     }
 

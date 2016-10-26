@@ -138,17 +138,17 @@ void xcorr_kernel_sse4_1(const opus_val16 * x, const opus_val16 * y, opus_val32 
         sum3 = _mm_add_epi32(sum3, _mm_madd_epi16(vecX, vecY3));
     }
 
-    sum0 = _mm_add_epi32(sum0, _mm_unpackhi_epi64( sum0, sum0));
-    sum0 = _mm_add_epi32(sum0, _mm_shufflelo_epi16( sum0, 0x0E));
+    sum0 = _mm_add_epi32(sum0, _mm_unpackhi_epi64(sum0, sum0));
+    sum0 = _mm_add_epi32(sum0, _mm_shufflelo_epi16(sum0, 0x0E));
 
-    sum1 = _mm_add_epi32(sum1, _mm_unpackhi_epi64( sum1, sum1));
-    sum1 = _mm_add_epi32(sum1, _mm_shufflelo_epi16( sum1, 0x0E));
+    sum1 = _mm_add_epi32(sum1, _mm_unpackhi_epi64(sum1, sum1));
+    sum1 = _mm_add_epi32(sum1, _mm_shufflelo_epi16(sum1, 0x0E));
 
-    sum2 = _mm_add_epi32(sum2, _mm_unpackhi_epi64( sum2, sum2));
-    sum2 = _mm_add_epi32(sum2, _mm_shufflelo_epi16( sum2, 0x0E));
+    sum2 = _mm_add_epi32(sum2, _mm_unpackhi_epi64(sum2, sum2));
+    sum2 = _mm_add_epi32(sum2, _mm_shufflelo_epi16(sum2, 0x0E));
 
-    sum3 = _mm_add_epi32(sum3, _mm_unpackhi_epi64( sum3, sum3));
-    sum3 = _mm_add_epi32(sum3, _mm_shufflelo_epi16( sum3, 0x0E));
+    sum3 = _mm_add_epi32(sum3, _mm_unpackhi_epi64(sum3, sum3));
+    sum3 = _mm_add_epi32(sum3, _mm_shufflelo_epi16(sum3, 0x0E));
 
     vecSum = _mm_unpacklo_epi64(_mm_unpacklo_epi32(sum0, sum1),
           _mm_unpacklo_epi32(sum2, sum3));

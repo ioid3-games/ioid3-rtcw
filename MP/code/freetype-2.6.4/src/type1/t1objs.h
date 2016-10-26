@@ -94,15 +94,15 @@ FT_BEGIN_HEADER
   } T1_SizeRec;
 
 
-  FT_LOCAL( void )
-  T1_Size_Done( FT_Size  size );
+  FT_LOCAL(void)
+  T1_Size_Done(FT_Size  size);
 
-  FT_LOCAL( FT_Error )
-  T1_Size_Request( FT_Size          size,
-                   FT_Size_Request  req );
+  FT_LOCAL(FT_Error)
+  T1_Size_Request(FT_Size          size,
+                   FT_Size_Request  req);
 
-  FT_LOCAL( FT_Error )
-  T1_Size_Init( FT_Size  size );
+  FT_LOCAL(FT_Error)
+  T1_Size_Init(FT_Size  size);
 
 
   /*************************************************************************/
@@ -129,27 +129,27 @@ FT_BEGIN_HEADER
   } T1_GlyphSlotRec;
 
 
-  FT_LOCAL( FT_Error )
-  T1_Face_Init( FT_Stream      stream,
+  FT_LOCAL(FT_Error)
+  T1_Face_Init(FT_Stream      stream,
                 FT_Face        face,
                 FT_Int         face_index,
                 FT_Int         num_params,
-                FT_Parameter*  params );
+                FT_Parameter*  params);
 
-  FT_LOCAL( void )
-  T1_Face_Done( FT_Face  face );
+  FT_LOCAL(void)
+  T1_Face_Done(FT_Face  face);
 
-  FT_LOCAL( FT_Error )
-  T1_GlyphSlot_Init( FT_GlyphSlot  slot );
+  FT_LOCAL(FT_Error)
+  T1_GlyphSlot_Init(FT_GlyphSlot  slot);
 
-  FT_LOCAL( void )
-  T1_GlyphSlot_Done( FT_GlyphSlot  slot );
+  FT_LOCAL(void)
+  T1_GlyphSlot_Done(FT_GlyphSlot  slot);
 
-  FT_LOCAL( FT_Error )
-  T1_Driver_Init( FT_Module  driver );
+  FT_LOCAL(FT_Error)
+  T1_Driver_Init(FT_Module  driver);
 
-  FT_LOCAL( void )
-  T1_Driver_Done( FT_Module  driver );
+  FT_LOCAL(void)
+  T1_Driver_Done(FT_Module  driver);
 
 
 FT_END_HEADER

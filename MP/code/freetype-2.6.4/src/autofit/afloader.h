@@ -53,32 +53,32 @@ FT_BEGIN_HEADER
   } AF_LoaderRec, *AF_Loader;
 
 
-  FT_LOCAL( void )
-  af_loader_init( AF_Loader      loader,
-                  AF_GlyphHints  hints );
+  FT_LOCAL(void)
+  af_loader_init(AF_Loader      loader,
+                  AF_GlyphHints  hints);
 
 
-  FT_LOCAL( FT_Error )
-  af_loader_reset( AF_Loader  loader,
+  FT_LOCAL(FT_Error)
+  af_loader_reset(AF_Loader  loader,
                    AF_Module  module,
-                   FT_Face    face );
+                   FT_Face    face);
 
 
-  FT_LOCAL( void )
-  af_loader_done( AF_Loader  loader );
+  FT_LOCAL(void)
+  af_loader_done(AF_Loader  loader);
 
 
-  FT_LOCAL( FT_Error )
-  af_loader_load_glyph( AF_Loader  loader,
+  FT_LOCAL(FT_Error)
+  af_loader_load_glyph(AF_Loader  loader,
                         AF_Module  module,
                         FT_Face    face,
                         FT_UInt    gindex,
-                        FT_Int32   load_flags );
+                        FT_Int32   load_flags);
 
-  FT_LOCAL_DEF( FT_Int32 )
-  af_loader_compute_darkening( AF_Loader  loader,
+  FT_LOCAL_DEF(FT_Int32)
+  af_loader_compute_darkening(AF_Loader  loader,
                                FT_Face    face,
-                               FT_Pos     standard_width );
+                               FT_Pos     standard_width);
 
 /* */
 

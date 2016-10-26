@@ -95,7 +95,7 @@ FT_BEGIN_HEADER
 #define PFR_LINE_JOIN_MITER   0x00U
 #define PFR_LINE_JOIN_ROUND   0x01U
 #define PFR_LINE_JOIN_BEVEL   0x02U
-#define PFR_LINE_JOIN_MASK    ( PFR_LINE_JOIN_ROUND | PFR_LINE_JOIN_BEVEL )
+#define PFR_LINE_JOIN_MASK    (PFR_LINE_JOIN_ROUND | PFR_LINE_JOIN_BEVEL)
 
 #define PFR_LOG_STROKE        0x04U
 #define PFR_LOG_2BYTE_STROKE  0x08U
@@ -190,14 +190,14 @@ FT_BEGIN_HEADER
   } PFR_KernItemRec;
 
 
-#define PFR_KERN_INDEX( g1, g2 )                          \
-          ( ( (FT_UInt32)(g1) << 16 ) | (FT_UInt16)(g2) )
+#define PFR_KERN_INDEX(g1, g2)                          \
+          (((FT_UInt32)(g1) << 16) | (FT_UInt16)(g2))
 
-#define PFR_KERN_PAIR_INDEX( pair )                        \
-          PFR_KERN_INDEX( (pair)->glyph1, (pair)->glyph2 )
+#define PFR_KERN_PAIR_INDEX(pair)                        \
+          PFR_KERN_INDEX((pair)->glyph1, (pair)->glyph2)
 
-#define PFR_NEXT_KPAIR( p )  ( p += 2,                              \
-                               ( (FT_UInt32)p[-2] << 16 ) | p[-1] )
+#define PFR_NEXT_KPAIR(p)  (p += 2,                              \
+                               ((FT_UInt32)p[-2] << 16) | p[-1])
 
 
   /************************************************************************/

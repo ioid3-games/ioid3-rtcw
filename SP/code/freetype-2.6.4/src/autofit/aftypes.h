@@ -83,14 +83,14 @@ extern void*  _af_debug_hints;
   } AF_WidthRec, *AF_Width;
 
 
-  FT_LOCAL( void )
-  af_sort_pos( FT_UInt  count,
-               FT_Pos*  table );
+  FT_LOCAL(void)
+  af_sort_pos(FT_UInt  count,
+               FT_Pos*  table);
 
-  FT_LOCAL( void )
-  af_sort_and_quantize_widths( FT_UInt*  count,
+  FT_LOCAL(void)
+  af_sort_and_quantize_widths(FT_UInt*  count,
                                AF_Width  widths,
-                               FT_Pos    threshold );
+                               FT_Pos    threshold);
 
 
   /*************************************************************************/
@@ -111,39 +111,39 @@ extern void*  _af_debug_hints;
 
 
 #define AF_ANGLE_PI   256
-#define AF_ANGLE_2PI  ( AF_ANGLE_PI * 2 )
-#define AF_ANGLE_PI2  ( AF_ANGLE_PI / 2 )
-#define AF_ANGLE_PI4  ( AF_ANGLE_PI / 4 )
+#define AF_ANGLE_2PI  (AF_ANGLE_PI * 2)
+#define AF_ANGLE_PI2  (AF_ANGLE_PI / 2)
+#define AF_ANGLE_PI4  (AF_ANGLE_PI / 4)
 
 
 #if 0
   /*
    *  compute the angle of a given 2-D vector
    */
-  FT_LOCAL( AF_Angle )
-  af_angle_atan( FT_Pos  dx,
-                 FT_Pos  dy );
+  FT_LOCAL(AF_Angle)
+  af_angle_atan(FT_Pos  dx,
+                 FT_Pos  dy);
 
 
   /*
    *  compute `angle2 - angle1'; the result is always within
    *  the range [-AF_ANGLE_PI .. AF_ANGLE_PI - 1]
    */
-  FT_LOCAL( AF_Angle )
-  af_angle_diff( AF_Angle  angle1,
-                 AF_Angle  angle2 );
+  FT_LOCAL(AF_Angle)
+  af_angle_diff(AF_Angle  angle1,
+                 AF_Angle  angle2);
 #endif /* 0 */
 
 
-#define AF_ANGLE_DIFF( result, angle1, angle2 ) \
+#define AF_ANGLE_DIFF(result, angle1, angle2) \
   FT_BEGIN_STMNT                                \
     AF_Angle  _delta = (angle2) - (angle1);     \
                                                 \
                                                 \
-    while ( _delta <= -AF_ANGLE_PI )            \
+    while (_delta <= -AF_ANGLE_PI)            \
       _delta += AF_ANGLE_2PI;                   \
                                                 \
-    while ( _delta > AF_ANGLE_PI )              \
+    while (_delta > AF_ANGLE_PI)              \
       _delta -= AF_ANGLE_2PI;                   \
                                                 \
     result = _delta;                            \
@@ -188,11 +188,11 @@ extern void*  _af_debug_hints;
   } AF_ScalerRec, *AF_Scaler;
 
 
-#define AF_SCALER_EQUAL_SCALES( a, b )      \
-          ( (a)->x_scale == (b)->x_scale && \
+#define AF_SCALER_EQUAL_SCALES(a, b)      \
+          ((a)->x_scale == (b)->x_scale && \
             (a)->y_scale == (b)->y_scale && \
             (a)->x_delta == (b)->x_delta && \
-            (a)->y_delta == (b)->y_delta )
+            (a)->y_delta == (b)->y_delta)
 
 
   typedef struct AF_StyleMetricsRec_*  AF_StyleMetrics;
@@ -201,31 +201,31 @@ extern void*  _af_debug_hints;
    *  a specific style.
    */
   typedef FT_Error
-  (*AF_WritingSystem_InitMetricsFunc)( AF_StyleMetrics  metrics,
-                                       FT_Face          face );
+  (*AF_WritingSystem_InitMetricsFunc)(AF_StyleMetrics  metrics,
+                                       FT_Face          face);
 
   typedef void
-  (*AF_WritingSystem_ScaleMetricsFunc)( AF_StyleMetrics  metrics,
-                                        AF_Scaler        scaler );
+  (*AF_WritingSystem_ScaleMetricsFunc)(AF_StyleMetrics  metrics,
+                                        AF_Scaler        scaler);
 
   typedef void
-  (*AF_WritingSystem_DoneMetricsFunc)( AF_StyleMetrics  metrics );
+  (*AF_WritingSystem_DoneMetricsFunc)(AF_StyleMetrics  metrics);
 
   typedef void
-  (*AF_WritingSystem_GetStdWidthsFunc)( AF_StyleMetrics  metrics,
+  (*AF_WritingSystem_GetStdWidthsFunc)(AF_StyleMetrics  metrics,
                                         FT_Pos*          stdHW,
-                                        FT_Pos*          stdVW );
+                                        FT_Pos*          stdVW);
 
 
   typedef FT_Error
-  (*AF_WritingSystem_InitHintsFunc)( AF_GlyphHints    hints,
-                                     AF_StyleMetrics  metrics );
+  (*AF_WritingSystem_InitHintsFunc)(AF_GlyphHints    hints,
+                                     AF_StyleMetrics  metrics);
 
   typedef void
-  (*AF_WritingSystem_ApplyHintsFunc)( FT_UInt          glyph_index,
+  (*AF_WritingSystem_ApplyHintsFunc)(FT_UInt          glyph_index,
                                       AF_GlyphHints    hints,
                                       FT_Outline*      outline,
-                                      AF_StyleMetrics  metrics );
+                                      AF_StyleMetrics  metrics);
 
 
   /*************************************************************************/
@@ -257,7 +257,7 @@ extern void*  _af_debug_hints;
 
 #define AFWRTSYS_H_  /* don't load header files */
 #undef  WRITING_SYSTEM
-#define WRITING_SYSTEM( ws, WS )    \
+#define WRITING_SYSTEM(ws, WS)    \
           AF_WRITING_SYSTEM_ ## WS,
 
   /* The list of known writing systems. */
@@ -309,7 +309,7 @@ extern void*  _af_debug_hints;
    */
 
 #undef  SCRIPT
-#define SCRIPT( s, S, d, h, H, ss ) \
+#define SCRIPT(s, S, d, h, H, ss) \
           AF_SCRIPT_ ## S,
 
   /* The list of known scripts. */
@@ -330,7 +330,7 @@ extern void*  _af_debug_hints;
 
   } AF_Script_UniRangeRec;
 
-#define AF_UNIRANGE_REC( a, b ) { (FT_UInt32)(a), (FT_UInt32)(b) }
+#define AF_UNIRANGE_REC(a, b) { (FT_UInt32)(a), (FT_UInt32)(b) }
 
   typedef const AF_Script_UniRangeRec*  AF_Script_UniRange;
 
@@ -400,8 +400,8 @@ extern void*  _af_debug_hints;
    */
 
 #undef  COVERAGE
-#define COVERAGE( name, NAME, description, \
-                  tag1, tag2, tag3, tag4 ) \
+#define COVERAGE(name, NAME, description, \
+                  tag1, tag2, tag3, tag4) \
           AF_COVERAGE_ ## NAME,
 
 
@@ -428,7 +428,7 @@ extern void*  _af_debug_hints;
    */
 
 #undef  STYLE
-#define STYLE( s, S, d, ws, sc, ss, c ) \
+#define STYLE(s, S, d, ws, sc, ss, c) \
           AF_STYLE_ ## S,
 
   /* The list of known styles. */
@@ -488,11 +488,11 @@ extern void*  _af_debug_hints;
   /* Declare and define vtables for classes */
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define AF_DECLARE_WRITING_SYSTEM_CLASS( writing_system_class ) \
+#define AF_DECLARE_WRITING_SYSTEM_CLASS(writing_system_class) \
   FT_CALLBACK_TABLE const AF_WritingSystemClassRec              \
   writing_system_class;
 
-#define AF_DEFINE_WRITING_SYSTEM_CLASS(                  \
+#define AF_DEFINE_WRITING_SYSTEM_CLASS(                 \
           writing_system_class,                          \
           system,                                        \
           m_size,                                        \
@@ -501,7 +501,7 @@ extern void*  _af_debug_hints;
           m_done,                                        \
           m_stdw,                                        \
           h_init,                                        \
-          h_apply )                                      \
+          h_apply)                                      \
   FT_CALLBACK_TABLE_DEF                                  \
   const AF_WritingSystemClassRec  writing_system_class = \
   {                                                      \
@@ -519,17 +519,17 @@ extern void*  _af_debug_hints;
   };
 
 
-#define AF_DECLARE_SCRIPT_CLASS( script_class ) \
+#define AF_DECLARE_SCRIPT_CLASS(script_class) \
   FT_CALLBACK_TABLE const AF_ScriptClassRec     \
   script_class;
 
-#define AF_DEFINE_SCRIPT_CLASS(           \
+#define AF_DEFINE_SCRIPT_CLASS(          \
           script_class,                   \
           script,                         \
           ranges,                         \
           nonbase_ranges,                 \
           top_to_bottom,                  \
-          std_charstring )                \
+          std_charstring)                \
   FT_CALLBACK_TABLE_DEF                   \
   const AF_ScriptClassRec  script_class = \
   {                                       \
@@ -541,17 +541,17 @@ extern void*  _af_debug_hints;
   };
 
 
-#define AF_DECLARE_STYLE_CLASS( style_class ) \
+#define AF_DECLARE_STYLE_CLASS(style_class) \
   FT_CALLBACK_TABLE const AF_StyleClassRec    \
   style_class;
 
-#define AF_DEFINE_STYLE_CLASS(          \
+#define AF_DEFINE_STYLE_CLASS(         \
           style_class,                  \
           style,                        \
           writing_system,               \
           script,                       \
           blue_stringset,               \
-          coverage )                    \
+          coverage)                    \
   FT_CALLBACK_TABLE_DEF                 \
   const AF_StyleClassRec  style_class = \
   {                                     \
@@ -564,11 +564,11 @@ extern void*  _af_debug_hints;
 
 #else /* FT_CONFIG_OPTION_PIC */
 
-#define AF_DECLARE_WRITING_SYSTEM_CLASS( writing_system_class )            \
-  FT_LOCAL( void )                                                         \
-  FT_Init_Class_ ## writing_system_class( AF_WritingSystemClassRec*  ac );
+#define AF_DECLARE_WRITING_SYSTEM_CLASS(writing_system_class)            \
+  FT_LOCAL(void)                                                         \
+  FT_Init_Class_ ## writing_system_class(AF_WritingSystemClassRec*  ac);
 
-#define AF_DEFINE_WRITING_SYSTEM_CLASS(                                   \
+#define AF_DEFINE_WRITING_SYSTEM_CLASS(                                  \
           writing_system_class,                                           \
           system,                                                         \
           m_size,                                                         \
@@ -576,9 +576,9 @@ extern void*  _af_debug_hints;
           m_scale,                                                        \
           m_done,                                                         \
           h_init,                                                         \
-          h_apply )                                                       \
-  FT_LOCAL_DEF( void )                                                    \
-  FT_Init_Class_ ## writing_system_class( AF_WritingSystemClassRec*  ac ) \
+          h_apply)                                                       \
+  FT_LOCAL_DEF(void)                                                    \
+  FT_Init_Class_ ## writing_system_class(AF_WritingSystemClassRec*  ac) \
   {                                                                       \
     ac->writing_system        = system;                                   \
                                                                           \
@@ -594,19 +594,19 @@ extern void*  _af_debug_hints;
   }
 
 
-#define AF_DECLARE_SCRIPT_CLASS( script_class )             \
-  FT_LOCAL( void )                                          \
-  FT_Init_Class_ ## script_class( AF_ScriptClassRec*  ac );
+#define AF_DECLARE_SCRIPT_CLASS(script_class)             \
+  FT_LOCAL(void)                                          \
+  FT_Init_Class_ ## script_class(AF_ScriptClassRec*  ac);
 
-#define AF_DEFINE_SCRIPT_CLASS(                            \
+#define AF_DEFINE_SCRIPT_CLASS(                           \
           script_class,                                    \
           script_,                                         \
           ranges,                                          \
           nonbase_ranges,                                  \
           top_to_bottom,                                   \
-          std_charstring )                                 \
-  FT_LOCAL_DEF( void )                                     \
-  FT_Init_Class_ ## script_class( AF_ScriptClassRec*  ac ) \
+          std_charstring)                                 \
+  FT_LOCAL_DEF(void)                                     \
+  FT_Init_Class_ ## script_class(AF_ScriptClassRec*  ac) \
   {                                                        \
     ac->script                    = script_;               \
     ac->script_uni_ranges         = ranges;                \
@@ -616,19 +616,19 @@ extern void*  _af_debug_hints;
   }
 
 
-#define AF_DECLARE_STYLE_CLASS( style_class )             \
-  FT_LOCAL( void )                                        \
-  FT_Init_Class_ ## style_class( AF_StyleClassRec*  ac );
+#define AF_DECLARE_STYLE_CLASS(style_class)             \
+  FT_LOCAL(void)                                        \
+  FT_Init_Class_ ## style_class(AF_StyleClassRec*  ac);
 
-#define AF_DEFINE_STYLE_CLASS(                           \
+#define AF_DEFINE_STYLE_CLASS(                          \
           style_class,                                   \
           style_,                                        \
           writing_system_,                               \
           script_,                                       \
           blue_stringset_,                               \
-          coverage_ )                                    \
-  FT_LOCAL_DEF( void )                                   \
-  FT_Init_Class_ ## style_class( AF_StyleClassRec*  ac ) \
+          coverage_)                                    \
+  FT_LOCAL_DEF(void)                                   \
+  FT_Init_Class_ ## style_class(AF_StyleClassRec*  ac) \
   {                                                      \
     ac->style          = style_;                         \
     ac->writing_system = writing_system_;                \

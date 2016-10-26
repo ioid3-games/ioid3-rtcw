@@ -27,30 +27,30 @@
 #include "pfrerror.h"
 
 
-  FT_CALLBACK_DEF( FT_Error )
-  pfr_get_kerning( FT_Face     pfrface,     /* PFR_Face */
+  FT_CALLBACK_DEF(FT_Error)
+  pfr_get_kerning(FT_Face     pfrface,     /* PFR_Face */
                    FT_UInt     left,
                    FT_UInt     right,
-                   FT_Vector  *avector )
+                   FT_Vector  *avector)
   {
     PFR_Face     face = (PFR_Face)pfrface;
     PFR_PhyFont  phys = &face->phy_font;
 
 
-    (void)pfr_face_get_kerning( pfrface, left, right, avector );
+    (void)pfr_face_get_kerning(pfrface, left, right, avector);
 
     /* convert from metrics to outline units when necessary */
-    if ( phys->outline_resolution != phys->metrics_resolution )
+    if (phys->outline_resolution != phys->metrics_resolution)
     {
-      if ( avector->x != 0 )
-        avector->x = FT_MulDiv( avector->x,
+      if (avector->x != 0)
+        avector->x = FT_MulDiv(avector->x,
                                 (FT_Long)phys->outline_resolution,
-                                (FT_Long)phys->metrics_resolution );
+                                (FT_Long)phys->metrics_resolution);
 
-      if ( avector->y != 0 )
-        avector->y = FT_MulDiv( avector->y,
+      if (avector->y != 0)
+        avector->y = FT_MulDiv(avector->y,
                                 (FT_Long)phys->outline_resolution,
-                                (FT_Long)phys->metrics_resolution );
+                                (FT_Long)phys->metrics_resolution);
     }
 
     return FT_Err_Ok;
@@ -62,28 +62,28 @@
   *
   */
 
-  FT_CALLBACK_DEF( FT_Error )
-  pfr_get_advance( FT_Face   pfrface,       /* PFR_Face */
+  FT_CALLBACK_DEF(FT_Error)
+  pfr_get_advance(FT_Face   pfrface,       /* PFR_Face */
                    FT_UInt   gindex,
-                   FT_Pos   *anadvance )
+                   FT_Pos   *anadvance)
   {
     PFR_Face  face  = (PFR_Face)pfrface;
-    FT_Error  error = FT_ERR( Invalid_Argument );
+    FT_Error  error = FT_ERR(Invalid_Argument);
 
 
     *anadvance = 0;
 
-    if ( !gindex )
+    if (!gindex)
       goto Exit;
 
     gindex--;
 
-    if ( face )
+    if (face)
     {
       PFR_PhyFont  phys = &face->phy_font;
 
 
-      if ( gindex < phys->num_chars )
+      if (gindex < phys->num_chars)
       {
         *anadvance = phys->chars[gindex].advance;
         error      = FT_Err_Ok;
@@ -95,12 +95,12 @@
   }
 
 
-  FT_CALLBACK_DEF( FT_Error )
-  pfr_get_metrics( FT_Face    pfrface,      /* PFR_Face */
+  FT_CALLBACK_DEF(FT_Error)
+  pfr_get_metrics(FT_Face    pfrface,      /* PFR_Face */
                    FT_UInt   *anoutline_resolution,
                    FT_UInt   *ametrics_resolution,
                    FT_Fixed  *ametrics_x_scale,
-                   FT_Fixed  *ametrics_y_scale )
+                   FT_Fixed  *ametrics_y_scale)
   {
     PFR_Face     face = (PFR_Face)pfrface;
     PFR_PhyFont  phys = &face->phy_font;
@@ -108,28 +108,28 @@
     FT_Size      size = face->root.size;
 
 
-    if ( anoutline_resolution )
+    if (anoutline_resolution)
       *anoutline_resolution = phys->outline_resolution;
 
-    if ( ametrics_resolution )
+    if (ametrics_resolution)
       *ametrics_resolution = phys->metrics_resolution;
 
     x_scale = 0x10000L;
     y_scale = 0x10000L;
 
-    if ( size )
+    if (size)
     {
-      x_scale = FT_DivFix( size->metrics.x_ppem << 6,
-                           (FT_Long)phys->metrics_resolution );
+      x_scale = FT_DivFix(size->metrics.x_ppem << 6,
+                           (FT_Long)phys->metrics_resolution);
 
-      y_scale = FT_DivFix( size->metrics.y_ppem << 6,
-                           (FT_Long)phys->metrics_resolution );
+      y_scale = FT_DivFix(size->metrics.y_ppem << 6,
+                           (FT_Long)phys->metrics_resolution);
     }
 
-    if ( ametrics_x_scale )
+    if (ametrics_x_scale)
       *ametrics_x_scale = x_scale;
 
-    if ( ametrics_y_scale )
+    if (ametrics_y_scale)
       *ametrics_y_scale = y_scale;
 
     return FT_Err_Ok;
@@ -158,13 +158,13 @@
   };
 
 
-  FT_CALLBACK_DEF( FT_Module_Interface )
-  pfr_get_service( FT_Module         module,
-                   const FT_String*  service_id )
+  FT_CALLBACK_DEF(FT_Module_Interface)
+  pfr_get_service(FT_Module         module,
+                   const FT_String*  service_id)
   {
-    FT_UNUSED( module );
+    FT_UNUSED(module);
 
-    return ft_service_list_lookup( pfr_services, service_id );
+    return ft_service_list_lookup(pfr_services, service_id);
   }
 
 
@@ -175,7 +175,7 @@
       FT_MODULE_FONT_DRIVER     |
       FT_MODULE_DRIVER_SCALABLE,
 
-      sizeof ( FT_DriverRec ),
+      sizeof (FT_DriverRec),
 
       "pfr",
       0x10000L,
@@ -188,9 +188,9 @@
       pfr_get_service           /* FT_Module_Requester    get_interface */
     },
 
-    sizeof ( PFR_FaceRec ),
-    sizeof ( PFR_SizeRec ),
-    sizeof ( PFR_SlotRec ),
+    sizeof (PFR_FaceRec),
+    sizeof (PFR_SizeRec),
+    sizeof (PFR_SlotRec),
 
     pfr_face_init,              /* FT_Face_InitFunc  init_face */
     pfr_face_done,              /* FT_Face_DoneFunc  done_face */

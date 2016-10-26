@@ -42,27 +42,27 @@
 
 #define MAX_PACKET 1500
 
-void print_usage( char* argv[] )
+void print_usage(char* argv[])
 {
     fprintf(stderr, "Usage: %s [-e] <application> <sampling rate (Hz)> <channels (1/2)> "
         "<bits per second>  [options] <input> <output>\n", argv[0]);
     fprintf(stderr, "       %s -d <sampling rate (Hz)> <channels (1/2)> "
         "[options] <input> <output>\n\n", argv[0]);
-    fprintf(stderr, "application: voip | audio | restricted-lowdelay\n" );
-    fprintf(stderr, "options:\n" );
-    fprintf(stderr, "-e                   : only runs the encoder (output the bit-stream)\n" );
-    fprintf(stderr, "-d                   : only runs the decoder (reads the bit-stream as input)\n" );
-    fprintf(stderr, "-cbr                 : enable constant bitrate; default: variable bitrate\n" );
-    fprintf(stderr, "-cvbr                : enable constrained variable bitrate; default: unconstrained\n" );
-    fprintf(stderr, "-variable-duration   : enable frames of variable duration (experts only); default: disabled\n" );
-    fprintf(stderr, "-bandwidth <NB|MB|WB|SWB|FB> : audio bandwidth (from narrowband to fullband); default: sampling rate\n" );
-    fprintf(stderr, "-framesize <2.5|5|10|20|40|60> : frame size in ms; default: 20 \n" );
-    fprintf(stderr, "-max_payload <bytes> : maximum payload size in bytes, default: 1024\n" );
-    fprintf(stderr, "-complexity <comp>   : complexity, 0 (lowest) ... 10 (highest); default: 10\n" );
-    fprintf(stderr, "-inbandfec           : enable SILK inband FEC\n" );
-    fprintf(stderr, "-forcemono           : force mono encoding, even for stereo input\n" );
-    fprintf(stderr, "-dtx                 : enable SILK DTX\n" );
-    fprintf(stderr, "-loss <perc>         : simulate packet loss, in percent (0-100); default: 0\n" );
+    fprintf(stderr, "application: voip | audio | restricted-lowdelay\n");
+    fprintf(stderr, "options:\n");
+    fprintf(stderr, "-e                   : only runs the encoder (output the bit-stream)\n");
+    fprintf(stderr, "-d                   : only runs the decoder (reads the bit-stream as input)\n");
+    fprintf(stderr, "-cbr                 : enable constant bitrate; default: variable bitrate\n");
+    fprintf(stderr, "-cvbr                : enable constrained variable bitrate; default: unconstrained\n");
+    fprintf(stderr, "-variable-duration   : enable frames of variable duration (experts only); default: disabled\n");
+    fprintf(stderr, "-bandwidth <NB|MB|WB|SWB|FB> : audio bandwidth (from narrowband to fullband); default: sampling rate\n");
+    fprintf(stderr, "-framesize <2.5|5|10|20|40|60> : frame size in ms; default: 20 \n");
+    fprintf(stderr, "-max_payload <bytes> : maximum payload size in bytes, default: 1024\n");
+    fprintf(stderr, "-complexity <comp>   : complexity, 0 (lowest) ... 10 (highest); default: 10\n");
+    fprintf(stderr, "-inbandfec           : enable SILK inband FEC\n");
+    fprintf(stderr, "-forcemono           : force mono encoding, even for stereo input\n");
+    fprintf(stderr, "-dtx                 : enable SILK DTX\n");
+    fprintf(stderr, "-loss <perc>         : simulate packet loss, in percent (0-100); default: 0\n");
 }
 
 static void int_to_char(opus_uint32 i, unsigned char ch[4])
@@ -268,9 +268,9 @@ int main(int argc, char *argv[])
     int variable_duration=OPUS_FRAMESIZE_ARG;
     int delayed_decision=0;
 
-    if (argc < 5 )
+    if (argc < 5)
     {
-       print_usage( argv );
+       print_usage(argv);
        return EXIT_FAILURE;
     }
 
@@ -287,9 +287,9 @@ int main(int argc, char *argv[])
         decode_only = 1;
         args++;
     }
-    if (!decode_only && argc < 7 )
+    if (!decode_only && argc < 7)
     {
-       print_usage( argv );
+       print_usage(argv);
        return EXIT_FAILURE;
     }
 
@@ -343,13 +343,13 @@ int main(int argc, char *argv[])
     use_dtx = 0;
     packet_loss_perc = 0;
 
-    while( args < argc - 2 ) {
+    while(args < argc - 2) {
         /* process command line options */
-        if( strcmp( argv[ args ], "-cbr" ) == 0 ) {
+        if(strcmp(argv[ args ], "-cbr") == 0) {
             check_encoder_option(decode_only, "-cbr");
             use_vbr = 0;
             args++;
-        } else if( strcmp( argv[ args ], "-bandwidth" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-bandwidth") == 0) {
             check_encoder_option(decode_only, "-bandwidth");
             if (strcmp(argv[ args + 1 ], "NB")==0)
                 bandwidth = OPUS_BANDWIDTH_NARROWBAND;
@@ -368,7 +368,7 @@ int main(int argc, char *argv[])
                 return EXIT_FAILURE;
             }
             args += 2;
-        } else if( strcmp( argv[ args ], "-framesize" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-framesize") == 0) {
             check_encoder_option(decode_only, "-framesize");
             if (strcmp(argv[ args + 1 ], "2.5")==0)
                 frame_size = sampling_rate/400;
@@ -389,94 +389,94 @@ int main(int argc, char *argv[])
                 return EXIT_FAILURE;
             }
             args += 2;
-        } else if( strcmp( argv[ args ], "-max_payload" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-max_payload") == 0) {
             check_encoder_option(decode_only, "-max_payload");
-            max_payload_bytes = atoi( argv[ args + 1 ] );
+            max_payload_bytes = atoi(argv[ args + 1 ]);
             args += 2;
-        } else if( strcmp( argv[ args ], "-complexity" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-complexity") == 0) {
             check_encoder_option(decode_only, "-complexity");
-            complexity = atoi( argv[ args + 1 ] );
+            complexity = atoi(argv[ args + 1 ]);
             args += 2;
-        } else if( strcmp( argv[ args ], "-inbandfec" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-inbandfec") == 0) {
             use_inbandfec = 1;
             args++;
-        } else if( strcmp( argv[ args ], "-forcemono" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-forcemono") == 0) {
             check_encoder_option(decode_only, "-forcemono");
             forcechannels = 1;
             args++;
-        } else if( strcmp( argv[ args ], "-cvbr" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-cvbr") == 0) {
             check_encoder_option(decode_only, "-cvbr");
             cvbr = 1;
             args++;
-        } else if( strcmp( argv[ args ], "-variable-duration" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-variable-duration") == 0) {
             check_encoder_option(decode_only, "-variable-duration");
             variable_duration = OPUS_FRAMESIZE_VARIABLE;
             args++;
-        } else if( strcmp( argv[ args ], "-delayed-decision" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-delayed-decision") == 0) {
             check_encoder_option(decode_only, "-delayed-decision");
             delayed_decision = 1;
             args++;
-        } else if( strcmp( argv[ args ], "-dtx") == 0 ) {
+        } else if(strcmp(argv[ args ], "-dtx") == 0) {
             check_encoder_option(decode_only, "-dtx");
             use_dtx = 1;
             args++;
-        } else if( strcmp( argv[ args ], "-loss" ) == 0 ) {
-            packet_loss_perc = atoi( argv[ args + 1 ] );
+        } else if(strcmp(argv[ args ], "-loss") == 0) {
+            packet_loss_perc = atoi(argv[ args + 1 ]);
             args += 2;
-        } else if( strcmp( argv[ args ], "-sweep" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-sweep") == 0) {
             check_encoder_option(decode_only, "-sweep");
-            sweep_bps = atoi( argv[ args + 1 ] );
+            sweep_bps = atoi(argv[ args + 1 ]);
             args += 2;
-        } else if( strcmp( argv[ args ], "-random_framesize" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-random_framesize") == 0) {
             check_encoder_option(decode_only, "-random_framesize");
             random_framesize = 1;
             args++;
-        } else if( strcmp( argv[ args ], "-sweep_max" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-sweep_max") == 0) {
             check_encoder_option(decode_only, "-sweep_max");
-            sweep_max = atoi( argv[ args + 1 ] );
+            sweep_max = atoi(argv[ args + 1 ]);
             args += 2;
-        } else if( strcmp( argv[ args ], "-random_fec" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-random_fec") == 0) {
             check_encoder_option(decode_only, "-random_fec");
             random_fec = 1;
             args++;
-        } else if( strcmp( argv[ args ], "-silk8k_test" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-silk8k_test") == 0) {
             check_encoder_option(decode_only, "-silk8k_test");
             mode_list = silk8_test;
             nb_modes_in_list = 8;
             args++;
-        } else if( strcmp( argv[ args ], "-silk12k_test" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-silk12k_test") == 0) {
             check_encoder_option(decode_only, "-silk12k_test");
             mode_list = silk12_test;
             nb_modes_in_list = 8;
             args++;
-        } else if( strcmp( argv[ args ], "-silk16k_test" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-silk16k_test") == 0) {
             check_encoder_option(decode_only, "-silk16k_test");
             mode_list = silk16_test;
             nb_modes_in_list = 8;
             args++;
-        } else if( strcmp( argv[ args ], "-hybrid24k_test" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-hybrid24k_test") == 0) {
             check_encoder_option(decode_only, "-hybrid24k_test");
             mode_list = hybrid24_test;
             nb_modes_in_list = 4;
             args++;
-        } else if( strcmp( argv[ args ], "-hybrid48k_test" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-hybrid48k_test") == 0) {
             check_encoder_option(decode_only, "-hybrid48k_test");
             mode_list = hybrid48_test;
             nb_modes_in_list = 4;
             args++;
-        } else if( strcmp( argv[ args ], "-celt_test" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-celt_test") == 0) {
             check_encoder_option(decode_only, "-celt_test");
             mode_list = celt_test;
             nb_modes_in_list = 32;
             args++;
-        } else if( strcmp( argv[ args ], "-celt_hq_test" ) == 0 ) {
+        } else if(strcmp(argv[ args ], "-celt_hq_test") == 0) {
             check_encoder_option(decode_only, "-celt_hq_test");
             mode_list = celt_hq_test;
             nb_modes_in_list = 4;
             args++;
         } else {
-            printf( "Error: unrecognized setting: %s\n\n", argv[ args ] );
-            print_usage( argv );
+            printf("Error: unrecognized setting: %s\n\n", argv[ args ]);
+            print_usage(argv);
             return EXIT_FAILURE;
         }
     }
@@ -593,7 +593,7 @@ int main(int argc, char *argv[])
     out = (short*)malloc(max_frame_size*channels*sizeof(short));
     fbytes = (unsigned char*)malloc(max_frame_size*channels*sizeof(short));
     data[0] = (unsigned char*)calloc(max_payload_bytes,sizeof(char));
-    if ( use_inbandfec ) {
+    if (use_inbandfec) {
         data[1] = (unsigned char*)calloc(max_payload_bytes,sizeof(char));
     }
     if(delayed_decision)
@@ -769,10 +769,10 @@ int main(int argc, char *argv[])
                opus_decoder_ctl(dec, OPUS_GET_LAST_PACKET_DURATION(&output_samples));
             else
                output_samples = max_frame_size;
-            if( count >= use_inbandfec ) {
+            if(count >= use_inbandfec) {
                 /* delay by one packet when using in-band FEC */
-                if( use_inbandfec  ) {
-                    if( lost_prev ) {
+                if(use_inbandfec ) {
+                    if(lost_prev) {
                         /* attempt to decode with in-band FEC from next packet */
                         opus_decoder_ctl(dec, OPUS_GET_LAST_PACKET_DURATION(&output_samples));
                         output_samples = opus_decode(dec, lost ? NULL : data[toggle], len[toggle], out, output_samples, 1);
@@ -819,9 +819,9 @@ int main(int argc, char *argv[])
         if (!encode_only)
            opus_decoder_ctl(dec, OPUS_GET_FINAL_RANGE(&dec_final_range));
         /* compare final range encoder rng values of encoder and decoder */
-        if( enc_final_range[toggle^use_inbandfec]!=0  && !encode_only
+        if(enc_final_range[toggle^use_inbandfec]!=0  && !encode_only
          && !lost && !lost_prev
-         && dec_final_range != enc_final_range[toggle^use_inbandfec] ) {
+         && dec_final_range != enc_final_range[toggle^use_inbandfec]) {
             fprintf (stderr, "Error: Range coder state mismatch "
                              "between encoder and decoder "
                              "in frame %ld: 0x%8lx vs 0x%8lx\n",
@@ -834,19 +834,19 @@ int main(int argc, char *argv[])
         }
 
         lost_prev = lost;
-        if( count >= use_inbandfec ) {
+        if(count >= use_inbandfec) {
             /* count bits */
             bits += len[toggle]*8;
-            bits_max = ( len[toggle]*8 > bits_max ) ? len[toggle]*8 : bits_max;
+            bits_max = (len[toggle]*8 > bits_max) ? len[toggle]*8 : bits_max;
             bits2 += len[toggle]*len[toggle]*64;
             if (!decode_only)
             {
                 nrg = 0.0;
-                for ( k = 0; k < frame_size * channels; k++ ) {
+                for (k = 0; k < frame_size * channels; k++) {
                     nrg += in[ k ] * (double)in[ k ];
                 }
                 nrg /= frame_size * channels;
-                if( nrg > 1e5 ) {
+                if(nrg > 1e5) {
                     bits_act += len[toggle]*8;
                     count_act++;
                 }

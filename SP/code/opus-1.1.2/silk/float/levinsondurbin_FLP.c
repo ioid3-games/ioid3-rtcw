@@ -32,7 +32,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "SigProc_FLP.h"
 
 /* Solve the normal equations using the Levinson-Durbin recursion */
-silk_float silk_levinsondurbin_FLP(         /* O    prediction error energy                                     */
+silk_float silk_levinsondurbin_FLP(        /* O    prediction error energy                                     */
     silk_float          A[],                /* O    prediction coefficients    [order]                          */
     const silk_float    corr[],             /* I    input auto-correlations [order + 1]                         */
     const opus_int      order               /* I    prediction order                                            */
@@ -48,10 +48,10 @@ silk_float silk_levinsondurbin_FLP(         /* O    prediction error energy     
     nrg -= A[ 0 ] * corr[ 1 ];
     nrg = silk_max_float(min_nrg, nrg);
 
-    for( m = 1; m < order; m++ )
+    for(m = 1; m < order; m++)
     {
         t = corr[ m + 1 ];
-        for( i = 0; i < m; i++ ) {
+        for(i = 0; i < m; i++) {
             t -= A[ i ] * corr[ m - i ];
         }
 
@@ -63,13 +63,13 @@ silk_float silk_levinsondurbin_FLP(         /* O    prediction error energy     
         nrg = silk_max_float(min_nrg, nrg);
 
         mHalf = m >> 1;
-        for( i = 0; i < mHalf; i++ ) {
+        for(i = 0; i < mHalf; i++) {
             Atmp1 = A[ i ];
             Atmp2 = A[ m - i - 1 ];
             A[ m - i - 1 ] -= km * Atmp1;
             A[ i ]         -= km * Atmp2;
         }
-        if( m & 1 ) {
+        if(m & 1) {
             A[ mHalf ]     -= km * A[ mHalf ];
         }
         A[ m ] = km;

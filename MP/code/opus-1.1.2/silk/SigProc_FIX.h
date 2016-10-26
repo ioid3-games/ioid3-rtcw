@@ -132,13 +132,13 @@ void silk_bwexpander_32(
 
 /* Compute inverse of LPC prediction gain, and                           */
 /* test if LPC coefficients are stable (all poles within unit circle)    */
-opus_int32 silk_LPC_inverse_pred_gain(              /* O   Returns inverse prediction gain in energy domain, Q30        */
+opus_int32 silk_LPC_inverse_pred_gain(             /* O   Returns inverse prediction gain in energy domain, Q30        */
     const opus_int16            *A_Q12,             /* I   Prediction coefficients, Q12 [order]                         */
     const opus_int              order               /* I   Prediction order                                             */
 );
 
 /* For input in Q24 domain */
-opus_int32 silk_LPC_inverse_pred_gain_Q24(          /* O    Returns inverse prediction gain in energy domain, Q30       */
+opus_int32 silk_LPC_inverse_pred_gain_Q24(         /* O    Returns inverse prediction gain in energy domain, Q30       */
     const opus_int32            *A_Q24,             /* I    Prediction coefficients [order]                             */
     const opus_int              order               /* I    Prediction order                                            */
 );
@@ -185,7 +185,7 @@ void silk_sum_sqr_shift(
 /* Calculates the reflection coefficients from the correlation sequence    */
 /* Faster than schur64(), but much less accurate.                          */
 /* uses SMLAWB(), requiring armv5E and higher.                             */
-opus_int32 silk_schur(                              /* O    Returns residual energy                                     */
+opus_int32 silk_schur(                             /* O    Returns residual energy                                     */
     opus_int16                  *rc_Q15,            /* O    reflection coefficients [order] Q15                         */
     const opus_int32            *c,                 /* I    correlations [order+1]                                      */
     const opus_int32            order               /* I    prediction order                                            */
@@ -194,7 +194,7 @@ opus_int32 silk_schur(                              /* O    Returns residual ene
 /* Calculates the reflection coefficients from the correlation sequence    */
 /* Slower than schur(), but more accurate.                                 */
 /* Uses SMULL(), available on armv4                                        */
-opus_int32 silk_schur64(                            /* O    returns residual energy                                     */
+opus_int32 silk_schur64(                           /* O    returns residual energy                                     */
     opus_int32                  rc_Q16[],           /* O    Reflection coefficients [order] Q16                         */
     const opus_int32            c[],                /* I    Correlations [order+1]                                      */
     opus_int32                  order               /* I    Prediction order                                            */
@@ -244,7 +244,7 @@ void silk_decode_pitch(
     const opus_int              nb_subfr            /* I    number of sub frames                                        */
 );
 
-opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 voiced, 1 unvoiced                      */
+opus_int silk_pitch_analysis_core(                 /* O    Voicing estimate: 0 voiced, 1 unvoiced                      */
     const opus_int16            *frame,             /* I    Signal of length PE_FRAME_LENGTH_MS*Fs_kHz                  */
     opus_int                    *pitch_out,         /* O    4 pitch lag values                                          */
     opus_int16                  *lagIndex,          /* O    Lag Index                                                   */
@@ -312,7 +312,7 @@ void silk_burg_modified_c(
     opus_int32                  *res_nrg,           /* O    Residual energy                                             */
     opus_int                    *res_nrg_Q,         /* O    Residual energy Q value                                     */
     opus_int32                  A_Q16[],            /* O    Prediction coefficients (length order)                      */
-    const opus_int16            x[],                /* I    Input signal, length: nb_subfr * ( D + subfr_length )       */
+    const opus_int16            x[],                /* I    Input signal, length: nb_subfr * (D + subfr_length)       */
     const opus_int32            minInvGain_Q30,     /* I    Inverse of max prediction gain                              */
     const opus_int              subfr_length,       /* I    Input signal subframe length (incl. D preceding samples)    */
     const opus_int              nb_subfr,           /* I    Number of subframes stacked in x                            */
@@ -339,7 +339,7 @@ void silk_scale_vector32_Q26_lshift_18(
 /*                        INLINE ARM MATH                           */
 /********************************************************************/
 
-/*    return sum( inVec1[i] * inVec2[i] ) */
+/*    return sum(inVec1[i] * inVec2[i]) */
 
 opus_int32 silk_inner_prod_aligned(
     const opus_int16 *const     inVec1,             /*    I input vector 1                                              */
@@ -370,14 +370,14 @@ opus_int64 silk_inner_prod16_aligned_64_c(
    left. Output is 32bit int.
    Note: contemporary compilers recognize the C expression below and
    compile it into a 'ror' instruction if available. No need for OPUS_INLINE ASM! */
-static OPUS_INLINE opus_int32 silk_ROR32( opus_int32 a32, opus_int rot )
+static OPUS_INLINE opus_int32 silk_ROR32(opus_int32 a32, opus_int rot)
 {
     opus_uint32 x = (opus_uint32) a32;
     opus_uint32 r = (opus_uint32) rot;
     opus_uint32 m = (opus_uint32) -rot;
-    if( rot == 0 ) {
+    if(rot == 0) {
         return a32;
-    } else if( rot < 0 ) {
+    } else if(rot < 0) {
         return (opus_int32) ((x << m) | (x >> (32 - m)));
     } else {
         return (opus_int32) ((x << (32 - r)) | (x >> r));
@@ -455,15 +455,15 @@ static OPUS_INLINE opus_int32 silk_ROR32( opus_int32 a32, opus_int rot )
 #define silk_CHECK_FIT16(a)                 (a)
 #define silk_CHECK_FIT32(a)                 (a)
 
-#define silk_ADD_SAT16(a, b)                (opus_int16)silk_SAT16( silk_ADD32( (opus_int32)(a), (b) ) )
+#define silk_ADD_SAT16(a, b)                (opus_int16)silk_SAT16(silk_ADD32((opus_int32)(a), (b)))
 #define silk_ADD_SAT64(a, b)                ((((a) + (b)) & 0x8000000000000000LL) == 0 ?                            \
                                             ((((a) & (b)) & 0x8000000000000000LL) != 0 ? silk_int64_MIN : (a)+(b)) : \
-                                            ((((a) | (b)) & 0x8000000000000000LL) == 0 ? silk_int64_MAX : (a)+(b)) )
+                                            ((((a) | (b)) & 0x8000000000000000LL) == 0 ? silk_int64_MAX : (a)+(b)))
 
-#define silk_SUB_SAT16(a, b)                (opus_int16)silk_SAT16( silk_SUB32( (opus_int32)(a), (b) ) )
+#define silk_SUB_SAT16(a, b)                (opus_int16)silk_SAT16(silk_SUB32((opus_int32)(a), (b)))
 #define silk_SUB_SAT64(a, b)                ((((a)-(b)) & 0x8000000000000000LL) == 0 ?                                               \
-                                            (( (a) & ((b)^0x8000000000000000LL) & 0x8000000000000000LL) ? silk_int64_MIN : (a)-(b)) : \
-                                            ((((a)^0x8000000000000000LL) & (b)  & 0x8000000000000000LL) ? silk_int64_MAX : (a)-(b)) )
+                                            (((a) & ((b)^0x8000000000000000LL) & 0x8000000000000000LL) ? silk_int64_MIN : (a)-(b)) : \
+                                            ((((a)^0x8000000000000000LL) & (b)  & 0x8000000000000000LL) ? silk_int64_MAX : (a)-(b)))
 
 /* Saturation for positive input values */
 #define silk_POS_SAT32(a)                   ((a) > silk_int32_MAX ? silk_int32_MAX : (a))
@@ -487,8 +487,8 @@ static OPUS_INLINE opus_int32 silk_ROR32( opus_int32 a32, opus_int rot )
 #define silk_RSHIFT(a, shift)               silk_RSHIFT32(a, shift)                         /* shift >= 0, shift < 32 */
 
 /* saturates before shifting */
-#define silk_LSHIFT_SAT32(a, shift)         (silk_LSHIFT32( silk_LIMIT( (a), silk_RSHIFT32( silk_int32_MIN, (shift) ), \
-                                                    silk_RSHIFT32( silk_int32_MAX, (shift) ) ), (shift) ))
+#define silk_LSHIFT_SAT32(a, shift)         (silk_LSHIFT32(silk_LIMIT((a), silk_RSHIFT32(silk_int32_MIN, (shift)), \
+                                                    silk_RSHIFT32(silk_int32_MAX, (shift))), (shift)))
 
 #define silk_LSHIFT_ovflw(a, shift)         ((opus_int32)((opus_uint32)(a) << (shift)))     /* shift >= 0, allowed to overflow */
 #define silk_LSHIFT_uint(a, shift)          ((a) << (shift))                                /* shift >= 0 */
@@ -508,15 +508,15 @@ static OPUS_INLINE opus_int32 silk_ROR32( opus_int32 a32, opus_int rot )
 #define silk_RSHIFT_ROUND64(a, shift)       ((shift) == 1 ? ((a) >> 1) + ((a) & 1) : (((a) >> ((shift) - 1)) + 1) >> 1)
 
 /* Number of rightshift required to fit the multiplication */
-#define silk_NSHIFT_MUL_32_32(a, b)         ( -(31- (32-silk_CLZ32(silk_abs(a)) + (32-silk_CLZ32(silk_abs(b))))) )
-#define silk_NSHIFT_MUL_16_16(a, b)         ( -(15- (16-silk_CLZ16(silk_abs(a)) + (16-silk_CLZ16(silk_abs(b))))) )
+#define silk_NSHIFT_MUL_32_32(a, b)         (-(31- (32-silk_CLZ32(silk_abs(a)) + (32-silk_CLZ32(silk_abs(b))))))
+#define silk_NSHIFT_MUL_16_16(a, b)         (-(15- (16-silk_CLZ16(silk_abs(a)) + (16-silk_CLZ16(silk_abs(b))))))
 
 
 #define silk_min(a, b)                      (((a) < (b)) ? (a) : (b))
 #define silk_max(a, b)                      (((a) > (b)) ? (a) : (b))
 
 /* Macro to convert floating-point constants to fixed-point */
-#define SILK_FIX_CONST( C, Q )              ((opus_int32)((C) * ((opus_int64)1 << (Q)) + 0.5))
+#define SILK_FIX_CONST(C, Q)              ((opus_int32)((C) * ((opus_int64)1 << (Q)) + 0.5))
 
 /* silk_min() versions with typecast in the function call */
 static OPUS_INLINE opus_int silk_min_int(opus_int a, opus_int b)
@@ -554,7 +554,7 @@ static OPUS_INLINE opus_int64 silk_max_64(opus_int64 a, opus_int64 b)
     return (((a) > (b)) ? (a) : (b));
 }
 
-#define silk_LIMIT( a, limit1, limit2)      ((limit1) > (limit2) ? ((a) > (limit1) ? (limit1) : ((a) < (limit2) ? (limit2) : (a))) \
+#define silk_LIMIT(a, limit1, limit2)      ((limit1) > (limit2) ? ((a) > (limit1) ? (limit1) : ((a) < (limit2) ? (limit2) : (a))) \
                                                                  : ((a) > (limit2) ? (limit2) : ((a) < (limit1) ? (limit1) : (a))))
 
 #define silk_LIMIT_int                      silk_LIMIT
@@ -566,7 +566,7 @@ static OPUS_INLINE opus_int64 silk_max_64(opus_int64 a, opus_int64 b)
 #define silk_abs_int32(a)                   (((a) ^ ((a) >> 31)) - ((a) >> 31))
 #define silk_abs_int64(a)                   (((a) >  0)  ? (a) : -(a))
 
-#define silk_sign(a)                        ((a) > 0 ? 1 : ( (a) < 0 ? -1 : 0 ))
+#define silk_sign(a)                        ((a) > 0 ? 1 : ((a) < 0 ? -1 : 0))
 
 /* PSEUDO-RANDOM GENERATOR                                                          */
 /* Make sure to store the result as the seed for the next call (also in between     */

@@ -92,7 +92,7 @@ static void kf_bfly5(
                      int m,
                      int N,
                      int mm
-                    )
+                   )
 {
    kiss_fft_cpx *Fout0,*Fout1,*Fout2,*Fout3,*Fout4;
    int i, u;
@@ -124,7 +124,7 @@ static void kf_bfly5(
       Fout4=Fout0+4*m;
 
       /* For non-custom modes, m is guaranteed to be a multiple of 4. */
-      for ( u=0; u<m; ++u ) {
+      for (u=0; u<m; ++u) {
          scratch[0] = *Fout0;
 
 
@@ -133,10 +133,10 @@ static void kf_bfly5(
          C_MUL(scratch[3] ,*Fout3, tw[3*u*fstride]);
          C_MUL(scratch[4] ,*Fout4, tw[4*u*fstride]);
 
-         C_ADD( scratch[7],scratch[1],scratch[4]);
-         C_SUB( scratch[10],scratch[1],scratch[4]);
-         C_ADD( scratch[8],scratch[2],scratch[3]);
-         C_SUB( scratch[9],scratch[2],scratch[3]);
+         C_ADD(scratch[7],scratch[1],scratch[4]);
+         C_SUB(scratch[10],scratch[1],scratch[4]);
+         C_ADD(scratch[8],scratch[2],scratch[3]);
+         C_SUB(scratch[9],scratch[2],scratch[3]);
 
          Fout0->r += scratch[7].r + scratch[8].r;
          Fout0->i += scratch[7].i + scratch[8].i;

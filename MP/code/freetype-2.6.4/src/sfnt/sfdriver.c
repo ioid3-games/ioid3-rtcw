@@ -67,13 +67,13 @@
    */
 
   static void*
-  get_sfnt_table( TT_Face      face,
-                  FT_Sfnt_Tag  tag )
+  get_sfnt_table(TT_Face      face,
+                  FT_Sfnt_Tag  tag)
   {
     void*  table;
 
 
-    switch ( tag )
+    switch (tag)
     {
     case FT_SFNT_HEAD:
       table = &face->header;
@@ -112,21 +112,21 @@
 
 
   static FT_Error
-  sfnt_table_info( TT_Face    face,
+  sfnt_table_info(TT_Face    face,
                    FT_UInt    idx,
                    FT_ULong  *tag,
                    FT_ULong  *offset,
-                   FT_ULong  *length )
+                   FT_ULong  *length)
   {
-    if ( !offset || !length )
-      return FT_THROW( Invalid_Argument );
+    if (!offset || !length)
+      return FT_THROW(Invalid_Argument);
 
-    if ( !tag )
+    if (!tag)
       *length = face->num_tables;
     else
     {
-      if ( idx >= face->num_tables )
-        return FT_THROW( Table_Missing );
+      if (idx >= face->num_tables)
+        return FT_THROW(Table_Missing);
 
       *tag    = face->dir_tables[idx].Tag;
       *offset = face->dir_tables[idx].Offset;
@@ -141,7 +141,7 @@
     sfnt_service_sfnt_table,
     (FT_SFNT_TableLoadFunc)tt_face_load_any,     /* load_table */
     (FT_SFNT_TableGetFunc) get_sfnt_table,       /* get_table  */
-    (FT_SFNT_TableInfoFunc)sfnt_table_info )     /* table_info */
+    (FT_SFNT_TableInfoFunc)sfnt_table_info)     /* table_info */
 
 
 #ifdef TT_CONFIG_OPTION_POSTSCRIPT_NAMES
@@ -152,50 +152,50 @@
    */
 
   static FT_Error
-  sfnt_get_glyph_name( TT_Face     face,
+  sfnt_get_glyph_name(TT_Face     face,
                        FT_UInt     glyph_index,
                        FT_Pointer  buffer,
-                       FT_UInt     buffer_max )
+                       FT_UInt     buffer_max)
   {
     FT_String*  gname;
     FT_Error    error;
 
 
-    error = tt_face_get_ps_name( face, glyph_index, &gname );
-    if ( !error )
-      FT_STRCPYN( buffer, gname, buffer_max );
+    error = tt_face_get_ps_name(face, glyph_index, &gname);
+    if (!error)
+      FT_STRCPYN(buffer, gname, buffer_max);
 
     return error;
   }
 
 
   static FT_UInt
-  sfnt_get_name_index( TT_Face     face,
-                       FT_String*  glyph_name )
+  sfnt_get_name_index(TT_Face     face,
+                       FT_String*  glyph_name)
   {
     FT_Face  root = &face->root;
 
     FT_UInt  i, max_gid = FT_UINT_MAX;
 
 
-    if ( root->num_glyphs < 0 )
+    if (root->num_glyphs < 0)
       return 0;
-    else if ( (FT_ULong)root->num_glyphs < FT_UINT_MAX )
+    else if ((FT_ULong)root->num_glyphs < FT_UINT_MAX)
       max_gid = (FT_UInt)root->num_glyphs;
     else
-      FT_TRACE0(( "Ignore glyph names for invalid GID 0x%08x - 0x%08x\n",
-                  FT_UINT_MAX, root->num_glyphs ));
+      FT_TRACE0(("Ignore glyph names for invalid GID 0x%08x - 0x%08x\n",
+                  FT_UINT_MAX, root->num_glyphs));
 
-    for ( i = 0; i < max_gid; i++ )
+    for (i = 0; i < max_gid; i++)
     {
       FT_String*  gname;
-      FT_Error    error = tt_face_get_ps_name( face, i, &gname );
+      FT_Error    error = tt_face_get_ps_name(face, i, &gname);
 
 
-      if ( error )
+      if (error)
         continue;
 
-      if ( !ft_strcmp( glyph_name, gname ) )
+      if (!ft_strcmp(glyph_name, gname))
         return i;
     }
 
@@ -206,7 +206,7 @@
   FT_DEFINE_SERVICE_GLYPHDICTREC(
     sfnt_service_glyph_dict,
     (FT_GlyphDict_GetNameFunc)  sfnt_get_glyph_name,    /* get_name   */
-    (FT_GlyphDict_NameIndexFunc)sfnt_get_name_index )   /* name_index */
+    (FT_GlyphDict_NameIndexFunc)sfnt_get_name_index)   /* name_index */
 
 
 #endif /* TT_CONFIG_OPTION_POSTSCRIPT_NAMES */
@@ -218,14 +218,14 @@
    */
 
   static const char*
-  sfnt_get_ps_name( TT_Face  face )
+  sfnt_get_ps_name(TT_Face  face)
   {
     FT_Int       n, found_win, found_apple;
     const char*  result = NULL;
 
 
     /* shouldn't happen, but just in case to avoid memory leaks */
-    if ( face->postscript_name )
+    if (face->postscript_name)
       return face->postscript_name;
 
     /* scan the name table to see whether we have a Postscript name here, */
@@ -233,58 +233,58 @@
     found_win   = -1;
     found_apple = -1;
 
-    for ( n = 0; n < face->num_names; n++ )
+    for (n = 0; n < face->num_names; n++)
     {
       TT_NameEntryRec*  name = face->name_table.names + n;
 
 
-      if ( name->nameID == 6 && name->stringLength > 0 )
+      if (name->nameID == 6 && name->stringLength > 0)
       {
-        if ( name->platformID == 3     &&
+        if (name->platformID == 3     &&
              name->encodingID == 1     &&
-             name->languageID == 0x409 )
+             name->languageID == 0x409)
           found_win = n;
 
-        if ( name->platformID == 1 &&
+        if (name->platformID == 1 &&
              name->encodingID == 0 &&
-             name->languageID == 0 )
+             name->languageID == 0)
           found_apple = n;
       }
     }
 
-    if ( found_win != -1 )
+    if (found_win != -1)
     {
       FT_Memory         memory = face->root.memory;
       TT_NameEntryRec*  name   = face->name_table.names + found_win;
       FT_UInt           len    = name->stringLength / 2;
       FT_Error          error  = FT_Err_Ok;
 
-      FT_UNUSED( error );
+      FT_UNUSED(error);
 
 
-      if ( !FT_ALLOC( result, name->stringLength + 1 ) )
+      if (!FT_ALLOC(result, name->stringLength + 1))
       {
         FT_Stream   stream = face->name_table.stream;
         FT_String*  r      = (FT_String*)result;
         FT_Char*    p;
 
 
-        if ( FT_STREAM_SEEK( name->stringOffset ) ||
-             FT_FRAME_ENTER( name->stringLength ) )
+        if (FT_STREAM_SEEK(name->stringOffset) ||
+             FT_FRAME_ENTER(name->stringLength))
         {
-          FT_FREE( result );
+          FT_FREE(result);
           name->stringLength = 0;
           name->stringOffset = 0;
-          FT_FREE( name->string );
+          FT_FREE(name->string);
 
           goto Exit;
         }
 
         p = (FT_Char*)stream->cursor;
 
-        for ( ; len > 0; len--, p += 2 )
+        for (; len > 0; len--, p += 2)
         {
-          if ( p[0] == 0 && p[1] >= 32 )
+          if (p[0] == 0 && p[1] >= 32)
             *r++ = p[1];
         }
         *r = '\0';
@@ -294,28 +294,28 @@
       goto Exit;
     }
 
-    if ( found_apple != -1 )
+    if (found_apple != -1)
     {
       FT_Memory         memory = face->root.memory;
       TT_NameEntryRec*  name   = face->name_table.names + found_apple;
       FT_UInt           len    = name->stringLength;
       FT_Error          error  = FT_Err_Ok;
 
-      FT_UNUSED( error );
+      FT_UNUSED(error);
 
 
-      if ( !FT_ALLOC( result, len + 1 ) )
+      if (!FT_ALLOC(result, len + 1))
       {
         FT_Stream  stream = face->name_table.stream;
 
 
-        if ( FT_STREAM_SEEK( name->stringOffset ) ||
-             FT_STREAM_READ( result, len )        )
+        if (FT_STREAM_SEEK(name->stringOffset) ||
+             FT_STREAM_READ(result, len)       )
         {
           name->stringOffset = 0;
           name->stringLength = 0;
-          FT_FREE( name->string );
-          FT_FREE( result );
+          FT_FREE(name->string);
+          FT_FREE(result);
           goto Exit;
         }
         ((char*)result)[len] = '\0';
@@ -330,7 +330,7 @@
 
   FT_DEFINE_SERVICE_PSFONTNAMEREC(
     sfnt_service_ps_name,
-    (FT_PsName_GetFunc)sfnt_get_ps_name )     /* get_ps_font_name */
+    (FT_PsName_GetFunc)sfnt_get_ps_name)     /* get_ps_font_name */
 
 
   /*
@@ -338,15 +338,15 @@
    */
   FT_DEFINE_SERVICE_TTCMAPSREC(
     tt_service_get_cmap_info,
-    (TT_CMap_Info_GetFunc)tt_get_cmap_info )  /* get_cmap_info */
+    (TT_CMap_Info_GetFunc)tt_get_cmap_info)  /* get_cmap_info */
 
 
 #ifdef TT_CONFIG_OPTION_BDF
 
   static FT_Error
-  sfnt_get_charset_id( TT_Face       face,
+  sfnt_get_charset_id(TT_Face       face,
                        const char*  *acharset_encoding,
-                       const char*  *acharset_registry )
+                       const char*  *acharset_registry)
   {
     BDF_PropertyRec  encoding, registry;
     FT_Error         error;
@@ -358,20 +358,20 @@
      *      Should we change the BDF table format to include single offsets
      *      for `CHARSET_REGISTRY' and `CHARSET_ENCODING'?
      */
-    error = tt_face_find_bdf_prop( face, "CHARSET_REGISTRY", &registry );
-    if ( !error )
+    error = tt_face_find_bdf_prop(face, "CHARSET_REGISTRY", &registry);
+    if (!error)
     {
-      error = tt_face_find_bdf_prop( face, "CHARSET_ENCODING", &encoding );
-      if ( !error )
+      error = tt_face_find_bdf_prop(face, "CHARSET_ENCODING", &encoding);
+      if (!error)
       {
-        if ( registry.type == BDF_PROPERTY_TYPE_ATOM &&
-             encoding.type == BDF_PROPERTY_TYPE_ATOM )
+        if (registry.type == BDF_PROPERTY_TYPE_ATOM &&
+             encoding.type == BDF_PROPERTY_TYPE_ATOM)
         {
           *acharset_encoding = encoding.u.atom;
           *acharset_registry = registry.u.atom;
         }
         else
-          error = FT_THROW( Invalid_Argument );
+          error = FT_THROW(Invalid_Argument);
       }
     }
 
@@ -382,7 +382,7 @@
   FT_DEFINE_SERVICE_BDFRec(
     sfnt_service_bdf,
     (FT_BDF_GetCharsetIdFunc)sfnt_get_charset_id,     /* get_charset_id */
-    (FT_BDF_GetPropertyFunc) tt_face_find_bdf_prop )  /* get_property   */
+    (FT_BDF_GetPropertyFunc) tt_face_find_bdf_prop)  /* get_property   */
 
 
 #endif /* TT_CONFIG_OPTION_BDF */
@@ -399,62 +399,62 @@
     FT_SERVICE_ID_POSTSCRIPT_FONT_NAME, &SFNT_SERVICE_PS_NAME_GET,
     FT_SERVICE_ID_GLYPH_DICT,           &SFNT_SERVICE_GLYPH_DICT_GET,
     FT_SERVICE_ID_BDF,                  &SFNT_SERVICE_BDF_GET,
-    FT_SERVICE_ID_TT_CMAP,              &TT_SERVICE_CMAP_INFO_GET )
+    FT_SERVICE_ID_TT_CMAP,              &TT_SERVICE_CMAP_INFO_GET)
 #elif defined TT_CONFIG_OPTION_POSTSCRIPT_NAMES
   FT_DEFINE_SERVICEDESCREC4(
     sfnt_services,
     FT_SERVICE_ID_SFNT_TABLE,           &SFNT_SERVICE_SFNT_TABLE_GET,
     FT_SERVICE_ID_POSTSCRIPT_FONT_NAME, &SFNT_SERVICE_PS_NAME_GET,
     FT_SERVICE_ID_GLYPH_DICT,           &SFNT_SERVICE_GLYPH_DICT_GET,
-    FT_SERVICE_ID_TT_CMAP,              &TT_SERVICE_CMAP_INFO_GET )
+    FT_SERVICE_ID_TT_CMAP,              &TT_SERVICE_CMAP_INFO_GET)
 #elif defined TT_CONFIG_OPTION_BDF
   FT_DEFINE_SERVICEDESCREC4(
     sfnt_services,
     FT_SERVICE_ID_SFNT_TABLE,           &SFNT_SERVICE_SFNT_TABLE_GET,
     FT_SERVICE_ID_POSTSCRIPT_FONT_NAME, &SFNT_SERVICE_PS_NAME_GET,
     FT_SERVICE_ID_BDF,                  &SFNT_SERVICE_BDF_GET,
-    FT_SERVICE_ID_TT_CMAP,              &TT_SERVICE_CMAP_INFO_GET )
+    FT_SERVICE_ID_TT_CMAP,              &TT_SERVICE_CMAP_INFO_GET)
 #else
   FT_DEFINE_SERVICEDESCREC3(
     sfnt_services,
     FT_SERVICE_ID_SFNT_TABLE,           &SFNT_SERVICE_SFNT_TABLE_GET,
     FT_SERVICE_ID_POSTSCRIPT_FONT_NAME, &SFNT_SERVICE_PS_NAME_GET,
-    FT_SERVICE_ID_TT_CMAP,              &TT_SERVICE_CMAP_INFO_GET )
+    FT_SERVICE_ID_TT_CMAP,              &TT_SERVICE_CMAP_INFO_GET)
 #endif
 
 
-  FT_CALLBACK_DEF( FT_Module_Interface )
-  sfnt_get_interface( FT_Module    module,
-                      const char*  module_interface )
+  FT_CALLBACK_DEF(FT_Module_Interface)
+  sfnt_get_interface(FT_Module    module,
+                      const char*  module_interface)
   {
     /* SFNT_SERVICES_GET dereferences `library' in PIC mode */
 #ifdef FT_CONFIG_OPTION_PIC
     FT_Library  library;
 
 
-    if ( !module )
+    if (!module)
       return NULL;
     library = module->library;
-    if ( !library )
+    if (!library)
       return NULL;
 #else
-    FT_UNUSED( module );
+    FT_UNUSED(module);
 #endif
 
-    return ft_service_list_lookup( SFNT_SERVICES_GET, module_interface );
+    return ft_service_list_lookup(SFNT_SERVICES_GET, module_interface);
   }
 
 
 #ifdef TT_CONFIG_OPTION_EMBEDDED_BITMAPS
-#define PUT_EMBEDDED_BITMAPS( a )  a
+#define PUT_EMBEDDED_BITMAPS(a)  a
 #else
-#define PUT_EMBEDDED_BITMAPS( a )  NULL
+#define PUT_EMBEDDED_BITMAPS(a)  NULL
 #endif
 
 #ifdef TT_CONFIG_OPTION_POSTSCRIPT_NAMES
-#define PUT_PS_NAMES( a )  a
+#define PUT_PS_NAMES(a)  a
 #else
-#define PUT_PS_NAMES( a )  NULL
+#define PUT_PS_NAMES(a)  NULL
 #endif
 
   FT_DEFINE_SFNT_INTERFACE(
@@ -483,13 +483,13 @@
     tt_face_load_pclt,
 
     /* see `ttload.h' */
-    PUT_EMBEDDED_BITMAPS( tt_face_load_bhed ),
+    PUT_EMBEDDED_BITMAPS(tt_face_load_bhed),
 
-    PUT_EMBEDDED_BITMAPS( tt_face_load_sbit_image ),
+    PUT_EMBEDDED_BITMAPS(tt_face_load_sbit_image),
 
     /* see `ttpost.h' */
-    PUT_PS_NAMES( tt_face_get_ps_name   ),
-    PUT_PS_NAMES( tt_face_free_ps_names ),
+    PUT_PS_NAMES(tt_face_get_ps_name  ),
+    PUT_PS_NAMES(tt_face_free_ps_names),
 
     /* since version 2.1.8 */
     tt_face_get_kerning,
@@ -499,23 +499,23 @@
     tt_face_load_hmtx,
 
     /* see `ttsbit.h' and `sfnt.h' */
-    PUT_EMBEDDED_BITMAPS( tt_face_load_sbit ),
-    PUT_EMBEDDED_BITMAPS( tt_face_free_sbit ),
+    PUT_EMBEDDED_BITMAPS(tt_face_load_sbit),
+    PUT_EMBEDDED_BITMAPS(tt_face_free_sbit),
 
-    PUT_EMBEDDED_BITMAPS( tt_face_set_sbit_strike     ),
-    PUT_EMBEDDED_BITMAPS( tt_face_load_strike_metrics ),
+    PUT_EMBEDDED_BITMAPS(tt_face_set_sbit_strike    ),
+    PUT_EMBEDDED_BITMAPS(tt_face_load_strike_metrics),
 
     tt_face_get_metrics,
 
     tt_face_get_name
-  )
+ )
 
 
   FT_DEFINE_MODULE(
     sfnt_module_class,
 
     0,  /* not a font driver or renderer */
-    sizeof ( FT_ModuleRec ),
+    sizeof (FT_ModuleRec),
 
     "sfnt",     /* driver name                            */
     0x10000L,   /* driver version 1.0                     */
@@ -525,7 +525,7 @@
 
     (FT_Module_Constructor)0,
     (FT_Module_Destructor) 0,
-    (FT_Module_Requester)  sfnt_get_interface )
+    (FT_Module_Requester)  sfnt_get_interface)
 
 
 /* END */

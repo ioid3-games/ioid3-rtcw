@@ -47,7 +47,7 @@ static void find_best_pitch(opus_val32 *xcorr, opus_val16 *y, int len,
 #ifdef FIXED_POINT
                             , int yshift, opus_val32 maxcorr
 #endif
-                            )
+                           )
 {
    int i, j;
    opus_val32 Syy=1;
@@ -361,7 +361,7 @@ void pitch_search(const opus_val16 * OPUS_RESTRICT x_lp, opus_val16 * OPUS_RESTR
 #ifdef FIXED_POINT
                    , 0, maxcorr
 #endif
-                   );
+                  );
 
    /* Finer search with 2x decimation */
 #ifdef FIXED_POINT
@@ -389,7 +389,7 @@ void pitch_search(const opus_val16 * OPUS_RESTRICT x_lp, opus_val16 * OPUS_RESTR
 #ifdef FIXED_POINT
                    , shift+1, maxcorr
 #endif
-                   );
+                  );
 
    /* Refine by pseudo-interpolation */
    if (best_pitch[0]>0 && best_pitch[0]<(max_pitch>>1)-1)

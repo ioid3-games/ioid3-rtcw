@@ -478,7 +478,7 @@ GL_APICALL void         GL_APIENTRY glBindFramebuffer (GLenum target, GLuint fra
 GL_APICALL void         GL_APIENTRY glBindRenderbuffer (GLenum target, GLuint renderbuffer);
 GL_APICALL void         GL_APIENTRY glBindTexture (GLenum target, GLuint texture);
 GL_APICALL void         GL_APIENTRY glBlendColor (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
-GL_APICALL void         GL_APIENTRY glBlendEquation ( GLenum mode );
+GL_APICALL void         GL_APIENTRY glBlendEquation (GLenum mode);
 GL_APICALL void         GL_APIENTRY glBlendEquationSeparate (GLenum modeRGB, GLenum modeAlpha);
 GL_APICALL void         GL_APIENTRY glBlendFunc (GLenum sfactor, GLenum dfactor);
 GL_APICALL void         GL_APIENTRY glBlendFuncSeparate (GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);

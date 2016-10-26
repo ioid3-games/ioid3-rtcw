@@ -104,7 +104,7 @@ int flareCoeff;
 R_SetFlareCoeff
 ==================
 */
-static void R_SetFlareCoeff( void ) {
+static void R_SetFlareCoeff(void) {
 
 	if(r_flareCoeff->value == 0.0f)
 		flareCoeff = atof(FLARE_STDCOEFF);
@@ -117,14 +117,14 @@ static void R_SetFlareCoeff( void ) {
 R_ClearFlares
 ==================
 */
-void R_ClearFlares( void ) {
+void R_ClearFlares(void) {
 	int i;
 
-	memset( r_flareStructs, 0, sizeof( r_flareStructs ) );
+	memset(r_flareStructs, 0, sizeof(r_flareStructs));
 	r_activeFlares = NULL;
 	r_inactiveFlares = NULL;
 
-	for ( i = 0 ; i < MAX_FLARES ; i++ ) {
+	for (i = 0 ; i < MAX_FLARES ; i++) {
 		r_flareStructs[i].next = r_inactiveFlares;
 		r_inactiveFlares = &r_flareStructs[i];
 	}
@@ -140,7 +140,7 @@ RB_AddFlare
 This is called at surface tesselation time
 ==================
 */
-void RB_AddFlare( void *surface, int fogNum, vec3_t point, vec3_t color, float scale, vec3_t normal, int id, int flags ) {  //----(SA)	added scale. added id.  added visible
+void RB_AddFlare(void *surface, int fogNum, vec3_t point, vec3_t color, float scale, vec3_t normal, int id, int flags) {  //----(SA)	added scale. added id.  added visible
 	int i;
 	flare_t         *f;
 	vec3_t local;
@@ -151,7 +151,7 @@ void RB_AddFlare( void *surface, int fogNum, vec3_t point, vec3_t color, float s
 
 	if(normal && (normal[0] || normal[1] || normal[2]))
 	{
-		VectorSubtract( backEnd.viewParms.or.origin, point, local );
+		VectorSubtract(backEnd.viewParms.or.origin, point, local);
 		VectorNormalizeFast(local);
 		d = DotProduct(local, normal);
 
@@ -162,41 +162,41 @@ void RB_AddFlare( void *surface, int fogNum, vec3_t point, vec3_t color, float s
 
 	// if the point is off the screen, don't bother adding it
 	// calculate screen coordinates and depth
-	R_TransformModelToClip( point, backEnd.or.modelMatrix,
-							backEnd.viewParms.projectionMatrix, eye, clip );
+	R_TransformModelToClip(point, backEnd.or.modelMatrix,
+							backEnd.viewParms.projectionMatrix, eye, clip);
 
 	//ri.Printf(PRINT_ALL, "src:  %f  %f  %f  \n", point[0], point[1], point[2]);
 	//ri.Printf(PRINT_ALL, "eye:  %f  %f  %f  %f\n", eye[0], eye[1], eye[2], eye[3]);
 
 	// check to see if the point is completely off screen
-	for ( i = 0 ; i < 3 ; i++ ) {
-		if ( clip[i] >= clip[3] || clip[i] <= -clip[3] ) {
+	for (i = 0 ; i < 3 ; i++) {
+		if (clip[i] >= clip[3] || clip[i] <= -clip[3]) {
 			return;
 		}
 	}
 
-	R_TransformClipToWindow( clip, &backEnd.viewParms, normalized, window );
+	R_TransformClipToWindow(clip, &backEnd.viewParms, normalized, window);
 
 	//ri.Printf(PRINT_ALL, "window:  %f  %f  %f  \n", window[0], window[1], window[2]);
 
-	if ( window[0] < 0 || window[0] >= backEnd.viewParms.viewportWidth
-		 || window[1] < 0 || window[1] >= backEnd.viewParms.viewportHeight ) {
+	if (window[0] < 0 || window[0] >= backEnd.viewParms.viewportWidth
+		 || window[1] < 0 || window[1] >= backEnd.viewParms.viewportHeight) {
 		return; // shouldn't happen, since we check the clip[] above, except for FP rounding
 	}
 
 	// see if a flare with a matching surface, scene, and view exists
-	for ( f = r_activeFlares ; f ; f = f->next ) {
-//		if ( f->surface == surface && f->frameSceneNum == backEnd.viewParms.frameSceneNum && f->inPortal == backEnd.viewParms.isPortal ) {
+	for (f = r_activeFlares ; f ; f = f->next) {
+//		if (f->surface == surface && f->frameSceneNum == backEnd.viewParms.frameSceneNum && f->inPortal == backEnd.viewParms.isPortal) {
 
 		// (SA) added back in more checks for different scenes
-		if ( f->id == id && f->frameSceneNum == backEnd.viewParms.frameSceneNum && f->inPortal == backEnd.viewParms.isPortal ) {
+		if (f->id == id && f->frameSceneNum == backEnd.viewParms.frameSceneNum && f->inPortal == backEnd.viewParms.isPortal) {
 			break;
 		}
 	}
 
 	// allocate a new one
-	if ( !f ) {
-		if ( !r_inactiveFlares ) {
+	if (!f) {
+		if (!r_inactiveFlares) {
 			// the list is completely full
 			return;
 		}
@@ -214,7 +214,7 @@ void RB_AddFlare( void *surface, int fogNum, vec3_t point, vec3_t color, float s
 
 	f->flags = flags;
 
-	if ( f->addedFrame != backEnd.viewParms.frameCount - 1 ) {
+	if (f->addedFrame != backEnd.viewParms.frameCount - 1) {
 		f->visible = qfalse;
 		f->fadeTime = backEnd.refdef.time - 2000;
 	}
@@ -223,13 +223,13 @@ void RB_AddFlare( void *surface, int fogNum, vec3_t point, vec3_t color, float s
 	f->fogNum = fogNum;
 
 	VectorCopy(point, f->origin);
-	VectorCopy( color, f->color );
+	VectorCopy(color, f->color);
 
 	f->scale = scale;   //----(SA)
 
 	// fade the intensity of the flare down as the
 	// light surface turns away from the viewer
-	VectorScale( f->color, d, f->color );
+	VectorScale(f->color, d, f->color);
 
 	// save info needed to test
 	f->windowX = backEnd.viewParms.viewportX + window[0];
@@ -243,13 +243,13 @@ void RB_AddFlare( void *surface, int fogNum, vec3_t point, vec3_t color, float s
 RB_AddDlightFlares
 ==================
 */
-void RB_AddDlightFlares( void ) {
+void RB_AddDlightFlares(void) {
 	dlight_t        *l;
 	int i, j, k;
 	int id = 0;
 	fog_t           *fog = NULL;
 
-	if ( r_flares->integer < 2 ) {
+	if (r_flares->integer < 2) {
 		return;
 	}
 
@@ -258,31 +258,31 @@ void RB_AddDlightFlares( void ) {
 	if(tr.world)
 		fog = tr.world->fogs;
 
-	for ( i = 0 ; i < backEnd.refdef.num_dlights ; i++, l++ ) {
+	for (i = 0 ; i < backEnd.refdef.num_dlights ; i++, l++) {
 
 		// find which fog volume the light is in
 		if(fog)
 		{
 			// find which fog volume the light is in 
-			for ( j = 1 ; j < tr.world->numfogs ; j++ ) {
+			for (j = 1 ; j < tr.world->numfogs ; j++) {
 				fog = &tr.world->fogs[j];
-				for ( k = 0 ; k < 3 ; k++ ) {
-					if ( l->origin[k] < fog->bounds[0][k] || l->origin[k] > fog->bounds[1][k] ) {
+				for (k = 0 ; k < 3 ; k++) {
+					if (l->origin[k] < fog->bounds[0][k] || l->origin[k] > fog->bounds[1][k]) {
 						break;
 					}
 				}
-				if ( k == 3 ) {
+				if (k == 3) {
 					break;
 				}
 			}
-			if ( j == tr.world->numfogs ) {
+			if (j == tr.world->numfogs) {
 				j = 0;
 			}
 		}
 		else
 			j = 0;
 
-		RB_AddFlare( (void *)l, j, l->origin, l->color, 1.0f, NULL, id++, qtrue );  //----(SA)	also set scale
+		RB_AddFlare((void *)l, j, l->origin, l->color, 1.0f, NULL, id++, qtrue);  //----(SA)	also set scale
 	}
 }
 
@@ -292,39 +292,39 @@ void RB_AddDlightFlares( void ) {
 RB_AddCoronaFlares
 ==============
 */
-void RB_AddCoronaFlares( void ) {
+void RB_AddCoronaFlares(void) {
 	corona_t        *cor;
 	int i, j, k;
 	fog_t           *fog;
 
-	if ( r_flares->integer != 1 && r_flares->integer != 3 ) {
+	if (r_flares->integer != 1 && r_flares->integer != 3) {
 		return;
 	}
 
-	if ( !( tr.world ) ) { // (SA) possible currently at the player model selection menu
+	if (!(tr.world)) { // (SA) possible currently at the player model selection menu
 		return;
 	}
 
 	cor = backEnd.refdef.coronas;
 
-	for ( i = 0 ; i < backEnd.refdef.num_coronas ; i++, cor++ ) {
+	for (i = 0 ; i < backEnd.refdef.num_coronas ; i++, cor++) {
 
 		// find which fog volume the corona is in
-		for ( j = 1 ; j < tr.world->numfogs ; j++ ) {
+		for (j = 1 ; j < tr.world->numfogs ; j++) {
 			fog = &tr.world->fogs[j];
-			for ( k = 0 ; k < 3 ; k++ ) {
-				if ( cor->origin[k] < fog->bounds[0][k] || cor->origin[k] > fog->bounds[1][k] ) {
+			for (k = 0 ; k < 3 ; k++) {
+				if (cor->origin[k] < fog->bounds[0][k] || cor->origin[k] > fog->bounds[1][k]) {
 					break;
 				}
 			}
-			if ( k == 3 ) {
+			if (k == 3) {
 				break;
 			}
 		}
-		if ( j == tr.world->numfogs ) {
+		if (j == tr.world->numfogs) {
 			j = 0;
 		}
-		RB_AddFlare( (void *)cor, j, cor->origin, cor->color, cor->scale, NULL, cor->id, cor->flags );
+		RB_AddFlare((void *)cor, j, cor->origin, cor->color, cor->scale, NULL, cor->id, cor->flags);
 	}
 }
 
@@ -341,7 +341,7 @@ FLARE BACK END
 RB_TestFlare
 ==================
 */
-void RB_TestFlare( flare_t *f ) {
+void RB_TestFlare(flare_t *f) {
 	float			depth;
 	qboolean		visible;
 	float			fade;
@@ -362,7 +362,7 @@ void RB_TestFlare( flare_t *f ) {
 	}
 
 	// read back the z buffer contents
-	qglReadPixels( f->windowX, f->windowY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth );
+	qglReadPixels(f->windowX, f->windowY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
 
 	// if we're doing multisample rendering, switch to the old FBO
 	if (tr.msaaResolveFbo)
@@ -371,31 +371,31 @@ void RB_TestFlare( flare_t *f ) {
 	}
 
 	screenZ = backEnd.viewParms.projectionMatrix[14] / 
-		( ( 2*depth - 1 ) * backEnd.viewParms.projectionMatrix[11] - backEnd.viewParms.projectionMatrix[10] );
+		((2*depth - 1) * backEnd.viewParms.projectionMatrix[11] - backEnd.viewParms.projectionMatrix[10]);
 
-	visible = (qboolean)( f->flags & 1 );
+	visible = (qboolean)(f->flags & 1);
 
-	if ( -f->eyeZ - -screenZ  > 24 )
+	if (-f->eyeZ - -screenZ  > 24)
 		visible = qfalse;
 
-	if ( visible ) {
-		if ( !f->visible ) {
+	if (visible) {
+		if (!f->visible) {
 			f->visible = qtrue;
 			f->fadeTime = backEnd.refdef.time - 1;
 		}
-		fade = ( ( backEnd.refdef.time - f->fadeTime ) /1000.0f ) * r_flareFade->value;
+		fade = ((backEnd.refdef.time - f->fadeTime) /1000.0f) * r_flareFade->value;
 	} else {
-		if ( f->visible ) {
+		if (f->visible) {
 			f->visible = qfalse;
 			f->fadeTime = backEnd.refdef.time - 1;
 		}
-		fade = 1.0f - ( ( backEnd.refdef.time - f->fadeTime ) / 1000.0f ) * r_flareFade->value;
+		fade = 1.0f - ((backEnd.refdef.time - f->fadeTime) / 1000.0f) * r_flareFade->value;
 	}
 
-	if ( fade < 0 ) {
+	if (fade < 0) {
 		fade = 0;
 	}
-	if ( fade > 1 ) {
+	if (fade > 1) {
 		fade = 1;
 	}
 
@@ -408,7 +408,7 @@ void RB_TestFlare( flare_t *f ) {
 RB_RenderFlare
 ==================
 */
-void RB_RenderFlare( flare_t *f ) {
+void RB_RenderFlare(flare_t *f) {
 	float size;
 	vec3_t color;
 	int iColor[3];
@@ -424,7 +424,7 @@ void RB_RenderFlare( flare_t *f ) {
 		distance = -f->eyeZ;
 
 	// calculate the flare size..
-	size = backEnd.viewParms.viewportWidth * ( r_flareSize->value/640.0f + 8 / distance );
+	size = backEnd.viewParms.viewportWidth * (r_flareSize->value/640.0f + 8 / distance);
 
 /*
  * This is an alternative to intensity scaling. It changes the size of the flare on screen instead
@@ -467,14 +467,14 @@ void RB_RenderFlare( flare_t *f ) {
 			return;
 	}
 
-	iColor[0] = color[0] * fogFactors[0];
-	iColor[1] = color[1] * fogFactors[1];
-	iColor[2] = color[2] * fogFactors[2];
+	iColor[0] = color[0] * fogFactors[0] * 257;
+	iColor[1] = color[1] * fogFactors[1] * 257;
+	iColor[2] = color[2] * fogFactors[2] * 257;
 
-	if ( f->flags & 2 ) {  // spotlight flare
-		RB_BeginSurface( tr.spotFlareShader, f->fogNum, 0 );
+	if (f->flags & 2) {  // spotlight flare
+		RB_BeginSurface(tr.spotFlareShader, f->fogNum, 0);
 	} else {
-		RB_BeginSurface( tr.flareShader, f->fogNum, 0 );
+		RB_BeginSurface(tr.flareShader, f->fogNum, 0);
 	}
 
 	// FIXME: use quadstamp?
@@ -482,44 +482,44 @@ void RB_RenderFlare( flare_t *f ) {
 	tess.xyz[tess.numVertexes][1] = f->windowY - size;
 	tess.texCoords[tess.numVertexes][0][0] = 0;
 	tess.texCoords[tess.numVertexes][0][1] = 0;
-	tess.vertexColors[tess.numVertexes][0] = iColor[0] / 255.0f;
-	tess.vertexColors[tess.numVertexes][1] = iColor[1] / 255.0f;
-	tess.vertexColors[tess.numVertexes][2] = iColor[2] / 255.0f;
-	tess.vertexColors[tess.numVertexes][3] = f->drawIntensity;      //----(SA)	mod for alpha blend rather than additive
-//	tess.vertexColors[tess.numVertexes][3] = 1.0f;		// rend2
+	tess.color[tess.numVertexes][0] = iColor[0];
+	tess.color[tess.numVertexes][1] = iColor[1];
+	tess.color[tess.numVertexes][2] = iColor[2];
+//	tess.color[tess.numVertexes][3] = 65535;			//rend2
+	tess.color[tess.numVertexes][3] = f->drawIntensity * 65535;	//----(SA)	mod for alpha blend rather than additive
 	tess.numVertexes++;
 
 	tess.xyz[tess.numVertexes][0] = f->windowX - size;
 	tess.xyz[tess.numVertexes][1] = f->windowY + size;
 	tess.texCoords[tess.numVertexes][0][0] = 0;
 	tess.texCoords[tess.numVertexes][0][1] = 1;
-	tess.vertexColors[tess.numVertexes][0] = iColor[0] / 255.0f;
-	tess.vertexColors[tess.numVertexes][1] = iColor[1] / 255.0f;
-	tess.vertexColors[tess.numVertexes][2] = iColor[2] / 255.0f;
-	tess.vertexColors[tess.numVertexes][3] = f->drawIntensity;      //----(SA)	mod for alpha blend rather than additive
-//	tess.vertexColors[tess.numVertexes][3] = 1.0f;		// rend2
+	tess.color[tess.numVertexes][0] = iColor[0];
+	tess.color[tess.numVertexes][1] = iColor[1];
+	tess.color[tess.numVertexes][2] = iColor[2];
+//	tess.color[tess.numVertexes][3] = 65535;			// rend2
+	tess.color[tess.numVertexes][3] = f->drawIntensity * 65535;	//----(SA)	mod for alpha blend rather than additive
 	tess.numVertexes++;
 
 	tess.xyz[tess.numVertexes][0] = f->windowX + size;
 	tess.xyz[tess.numVertexes][1] = f->windowY + size;
 	tess.texCoords[tess.numVertexes][0][0] = 1;
 	tess.texCoords[tess.numVertexes][0][1] = 1;
-	tess.vertexColors[tess.numVertexes][0] = iColor[0] / 255.0f;
-	tess.vertexColors[tess.numVertexes][1] = iColor[1] / 255.0f;
-	tess.vertexColors[tess.numVertexes][2] = iColor[2] / 255.0f;
-	tess.vertexColors[tess.numVertexes][3] = f->drawIntensity;      //----(SA)	mod for alpha blend rather than additive
-//	tess.vertexColors[tess.numVertexes][3] = 1.0f;		// rend2
+	tess.color[tess.numVertexes][0] = iColor[0];
+	tess.color[tess.numVertexes][1] = iColor[1];
+	tess.color[tess.numVertexes][2] = iColor[2];
+//	tess.color[tess.numVertexes][3] = 65535;			// rend2
+	tess.color[tess.numVertexes][3] = f->drawIntensity * 65535;	//----(SA)	mod for alpha blend rather than additive
 	tess.numVertexes++;
 
 	tess.xyz[tess.numVertexes][0] = f->windowX + size;
 	tess.xyz[tess.numVertexes][1] = f->windowY - size;
 	tess.texCoords[tess.numVertexes][0][0] = 1;
 	tess.texCoords[tess.numVertexes][0][1] = 0;
-	tess.vertexColors[tess.numVertexes][0] = iColor[0] / 255.0f;
-	tess.vertexColors[tess.numVertexes][1] = iColor[1] / 255.0f;
-	tess.vertexColors[tess.numVertexes][2] = iColor[2] / 255.0f;
-	tess.vertexColors[tess.numVertexes][3] = f->drawIntensity;      //----(SA)	mod for alpha blend rather than additive
-//	tess.vertexColors[tess.numVertexes][3] = 1.0f;		// rend2
+	tess.color[tess.numVertexes][0] = iColor[0];
+	tess.color[tess.numVertexes][1] = iColor[1];
+	tess.color[tess.numVertexes][2] = iColor[2];
+//	tess.color[tess.numVertexes][3] = 65535;			// rend2
+	tess.color[tess.numVertexes][3] = f->drawIntensity * 65535;	//----(SA)	mod for alpha blend rather than additive
 	tess.numVertexes++;
 
 	tess.indexes[tess.numIndexes++] = 0;
@@ -548,13 +548,13 @@ when occluded by something in the main view, and portal flares that should
 extend past the portal edge will be overwritten.
 ==================
 */
-void RB_RenderFlares( void ) {
+void RB_RenderFlares(void) {
 	flare_t     *f;
 	flare_t     **prev;
 	qboolean draw;
 	mat4_t    oldmodelview, oldprojection, matrix;
 
-	if ( !r_flares->integer ) {
+	if (!r_flares->integer) {
 		return;
 	}
 
@@ -576,9 +576,9 @@ void RB_RenderFlares( void ) {
 	// perform z buffer readback on each flare in this view
 	draw = qfalse;
 	prev = &r_activeFlares;
-	while ( ( f = *prev ) != NULL ) {
+	while ((f = *prev) != NULL) {
 		// throw out any flares that weren't added last frame
-		if ( f->addedFrame < backEnd.viewParms.frameCount - 1 ) {
+		if (f->addedFrame < backEnd.viewParms.frameCount - 1) {
 			*prev = f->next;
 			f->next = r_inactiveFlares;
 			r_inactiveFlares = f;
@@ -587,10 +587,10 @@ void RB_RenderFlares( void ) {
 
 		// don't draw any here that aren't from this scene / portal
 		f->drawIntensity = 0;
-		if ( f->frameSceneNum == backEnd.viewParms.frameSceneNum
-			 && f->inPortal == backEnd.viewParms.isPortal ) {
-			RB_TestFlare( f );
-			if ( f->drawIntensity ) {
+		if (f->frameSceneNum == backEnd.viewParms.frameSceneNum
+			 && f->inPortal == backEnd.viewParms.isPortal) {
+			RB_TestFlare(f);
+			if (f->drawIntensity) {
 				draw = qtrue;
 			} else {
 				// this flare has completely faded out, so remove it from the chain
@@ -604,28 +604,28 @@ void RB_RenderFlares( void ) {
 		prev = &f->next;
 	}
 
-	if ( !draw ) {
+	if (!draw) {
 		return;     // none visible
 	}
 
-	if ( backEnd.viewParms.isPortal ) {
-		qglDisable( GL_CLIP_PLANE0 );
+	if (backEnd.viewParms.isPortal) {
+		qglDisable(GL_CLIP_PLANE0);
 	}
 
 	Mat4Copy(glState.projection, oldprojection);
 	Mat4Copy(glState.modelview, oldmodelview);
 	Mat4Identity(matrix);
 	GL_SetModelviewMatrix(matrix);
-	Mat4Ortho( backEnd.viewParms.viewportX, backEnd.viewParms.viewportX + backEnd.viewParms.viewportWidth,
+	Mat4Ortho(backEnd.viewParms.viewportX, backEnd.viewParms.viewportX + backEnd.viewParms.viewportWidth,
 	               backEnd.viewParms.viewportY, backEnd.viewParms.viewportY + backEnd.viewParms.viewportHeight,
-	               -99999, 99999, matrix );
+	               -99999, 99999, matrix);
 	GL_SetProjectionMatrix(matrix);
 
-	for ( f = r_activeFlares ; f ; f = f->next ) {
-		if ( f->frameSceneNum == backEnd.viewParms.frameSceneNum
+	for (f = r_activeFlares ; f ; f = f->next) {
+		if (f->frameSceneNum == backEnd.viewParms.frameSceneNum
 			 && f->inPortal == backEnd.viewParms.isPortal
-			 && f->drawIntensity ) {
-			RB_RenderFlare( f );
+			 && f->drawIntensity) {
+			RB_RenderFlare(f);
 		}
 	}
 

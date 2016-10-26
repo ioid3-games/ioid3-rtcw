@@ -39,7 +39,7 @@ static OPUS_INLINE opus_int32 silk_SMULWB_armv5e(opus_int32 a, opus_int16 b)
       "smulwb %0, %1, %2\n\t"
       : "=r"(res)
       : "r"(a), "r"(b)
-  );
+ );
   return res;
 }
 #define silk_SMULWB(a, b) (silk_SMULWB_armv5e(a, b))
@@ -55,7 +55,7 @@ static OPUS_INLINE opus_int32 silk_SMLAWB_armv5e(opus_int32 a, opus_int32 b,
       "smlawb %0, %1, %2, %3\n\t"
       : "=r"(res)
       : "r"(b), "r"(c), "r"(a)
-  );
+ );
   return res;
 }
 #define silk_SMLAWB(a, b, c) (silk_SMLAWB_armv5e(a, b, c))
@@ -70,7 +70,7 @@ static OPUS_INLINE opus_int32 silk_SMULWT_armv5e(opus_int32 a, opus_int32 b)
       "smulwt %0, %1, %2\n\t"
       : "=r"(res)
       : "r"(a), "r"(b)
-  );
+ );
   return res;
 }
 #define silk_SMULWT(a, b) (silk_SMULWT_armv5e(a, b))
@@ -86,7 +86,7 @@ static OPUS_INLINE opus_int32 silk_SMLAWT_armv5e(opus_int32 a, opus_int32 b,
       "smlawt %0, %1, %2, %3\n\t"
       : "=r"(res)
       : "r"(b), "r"(c), "r"(a)
-  );
+ );
   return res;
 }
 #define silk_SMLAWT(a, b, c) (silk_SMLAWT_armv5e(a, b, c))
@@ -101,7 +101,7 @@ static OPUS_INLINE opus_int32 silk_SMULBB_armv5e(opus_int32 a, opus_int32 b)
       "smulbb %0, %1, %2\n\t"
       : "=r"(res)
       : "%r"(a), "r"(b)
-  );
+ );
   return res;
 }
 #define silk_SMULBB(a, b) (silk_SMULBB_armv5e(a, b))
@@ -117,7 +117,7 @@ static OPUS_INLINE opus_int32 silk_SMLABB_armv5e(opus_int32 a, opus_int32 b,
       "smlabb %0, %1, %2, %3\n\t"
       : "=r"(res)
       : "%r"(b), "r"(c), "r"(a)
-  );
+ );
   return res;
 }
 #define silk_SMLABB(a, b, c) (silk_SMLABB_armv5e(a, b, c))
@@ -132,7 +132,7 @@ static OPUS_INLINE opus_int32 silk_SMULBT_armv5e(opus_int32 a, opus_int32 b)
       "smulbt %0, %1, %2\n\t"
       : "=r"(res)
       : "r"(a), "r"(b)
-  );
+ );
   return res;
 }
 #define silk_SMULBT(a, b) (silk_SMULBT_armv5e(a, b))
@@ -148,7 +148,7 @@ static OPUS_INLINE opus_int32 silk_SMLABT_armv5e(opus_int32 a, opus_int32 b,
       "smlabt %0, %1, %2, %3\n\t"
       : "=r"(res)
       : "r"(b), "r"(c), "r"(a)
-  );
+ );
   return res;
 }
 #define silk_SMLABT(a, b, c) (silk_SMLABT_armv5e(a, b, c))
@@ -163,7 +163,7 @@ static OPUS_INLINE opus_int32 silk_ADD_SAT32_armv5e(opus_int32 a, opus_int32 b)
       "qadd %0, %1, %2\n\t"
       : "=r"(res)
       : "%r"(a), "r"(b)
-  );
+ );
   return res;
 }
 #define silk_ADD_SAT32(a, b) (silk_ADD_SAT32_armv5e(a, b))
@@ -177,7 +177,7 @@ static OPUS_INLINE opus_int32 silk_SUB_SAT32_armv5e(opus_int32 a, opus_int32 b)
       "qsub %0, %1, %2\n\t"
       : "=r"(res)
       : "r"(a), "r"(b)
-  );
+ );
   return res;
 }
 #define silk_SUB_SAT32(a, b) (silk_SUB_SAT32_armv5e(a, b))
@@ -191,7 +191,7 @@ static OPUS_INLINE opus_int32 silk_CLZ16_armv5(opus_int16 in16)
       "clz %0, %1;\n"
       : "=r"(res)
       : "r"(in16<<16|0x8000)
-  );
+ );
   return res;
 }
 #define silk_CLZ16(in16) (silk_CLZ16_armv5(in16))
@@ -205,7 +205,7 @@ static OPUS_INLINE opus_int32 silk_CLZ32_armv5(opus_int32 in32)
       "clz %0, %1\n\t"
       : "=r"(res)
       : "r"(in32)
-  );
+ );
   return res;
 }
 #define silk_CLZ32(in32) (silk_CLZ32_armv5(in32))

@@ -131,7 +131,7 @@ extern int vorbis_encode_setup_vbr(vorbis_info *vi,
                                   long rate,
 
                                   float quality
-                                  );
+                                 );
 
 /**
  * This is the primary function within libvorbisenc for setting up variable
@@ -160,7 +160,7 @@ extern int vorbis_encode_init_vbr(vorbis_info *vi,
                                   long rate,
 
                                   float base_quality
-                                  );
+                                 );
 
 /**
  * This function performs the last stage of three-step encoding setup, as

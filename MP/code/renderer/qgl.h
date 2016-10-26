@@ -61,7 +61,7 @@ extern void (APIENTRYP qglUnlockArraysEXT) (void);
 
 #ifdef USE_OPENGLES
 #define GLdouble	GLfloat
-extern void myglMultiTexCoord2f( GLenum texture, GLfloat s, GLfloat t );
+extern void myglMultiTexCoord2f(GLenum texture, GLfloat s, GLfloat t);
 #define GL_CLAMP     GL_CLAMP_TO_EDGE
 #define GL_TEXTURE0_ARB	GL_TEXTURE0
 #define GL_TEXTURE1_ARB	GL_TEXTURE1

@@ -57,40 +57,40 @@ FT_BEGIN_HEADER
   /* treatment of some keywords differs depending on whether */
   /* they precede or follow certain other keywords           */
 
-#define T1_PRIVATE                ( 1 << 0 )
-#define T1_FONTDIR_AFTER_PRIVATE  ( 1 << 1 )
+#define T1_PRIVATE                (1 << 0)
+#define T1_FONTDIR_AFTER_PRIVATE  (1 << 1)
 
 
-  FT_LOCAL( FT_Error )
-  T1_Open_Face( T1_Face  face );
+  FT_LOCAL(FT_Error)
+  T1_Open_Face(T1_Face  face);
 
 #ifndef T1_CONFIG_OPTION_NO_MM_SUPPORT
 
-  FT_LOCAL( FT_Error )
-  T1_Get_Multi_Master( T1_Face           face,
-                       FT_Multi_Master*  master );
+  FT_LOCAL(FT_Error)
+  T1_Get_Multi_Master(T1_Face           face,
+                       FT_Multi_Master*  master);
 
-  FT_LOCAL_DEF( FT_Error )
-  T1_Get_MM_Var( T1_Face      face,
-                 FT_MM_Var*  *master );
+  FT_LOCAL_DEF(FT_Error)
+  T1_Get_MM_Var(T1_Face      face,
+                 FT_MM_Var*  *master);
 
-  FT_LOCAL( FT_Error )
-  T1_Set_MM_Blend( T1_Face    face,
+  FT_LOCAL(FT_Error)
+  T1_Set_MM_Blend(T1_Face    face,
                    FT_UInt    num_coords,
-                   FT_Fixed*  coords );
+                   FT_Fixed*  coords);
 
-  FT_LOCAL( FT_Error )
-  T1_Set_MM_Design( T1_Face   face,
+  FT_LOCAL(FT_Error)
+  T1_Set_MM_Design(T1_Face   face,
                     FT_UInt   num_coords,
-                    FT_Long*  coords );
+                    FT_Long*  coords);
 
-  FT_LOCAL_DEF( FT_Error )
-  T1_Set_Var_Design( T1_Face    face,
+  FT_LOCAL_DEF(FT_Error)
+  T1_Set_Var_Design(T1_Face    face,
                      FT_UInt    num_coords,
-                     FT_Fixed*  coords );
+                     FT_Fixed*  coords);
 
-  FT_LOCAL( void )
-  T1_Done_Blend( T1_Face  face );
+  FT_LOCAL(void)
+  T1_Done_Blend(T1_Face  face);
 
 #endif /* !T1_CONFIG_OPTION_NO_MM_SUPPORT */
 

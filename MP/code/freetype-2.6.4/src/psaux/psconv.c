@@ -80,10 +80,10 @@
 #endif /* 'A' == 193 */
 
 
-  FT_LOCAL_DEF( FT_Long )
-  PS_Conv_Strtol( FT_Byte**  cursor,
+  FT_LOCAL_DEF(FT_Long)
+  PS_Conv_Strtol(FT_Byte**  cursor,
                   FT_Byte*   limit,
-                  FT_Long    base )
+                  FT_Long    base)
   {
     FT_Byte*  p = *cursor;
 
@@ -95,41 +95,41 @@
     FT_Char   c_limit;
 
 
-    if ( p >= limit )
+    if (p >= limit)
       goto Bad;
 
-    if ( base < 2 || base > 36 )
+    if (base < 2 || base > 36)
     {
-      FT_TRACE4(( "!!!INVALID BASE:!!!" ));
+      FT_TRACE4(("!!!INVALID BASE:!!!"));
       return 0;
     }
 
-    if ( *p == '-' || *p == '+' )
+    if (*p == '-' || *p == '+')
     {
-      sign = FT_BOOL( *p == '-' );
+      sign = FT_BOOL(*p == '-');
 
       p++;
-      if ( p == limit )
+      if (p == limit)
         goto Bad;
     }
 
     num_limit = 0x7FFFFFFFL / base;
-    c_limit   = (FT_Char)( 0x7FFFFFFFL % base );
+    c_limit   = (FT_Char)(0x7FFFFFFFL % base);
 
-    for ( ; p < limit; p++ )
+    for (; p < limit; p++)
     {
       FT_Char  c;
 
 
-      if ( IS_PS_SPACE( *p ) || *p OP 0x80 )
+      if (IS_PS_SPACE(*p) || *p OP 0x80)
         break;
 
       c = ft_char_table[*p & 0x7F];
 
-      if ( c < 0 || c >= base )
+      if (c < 0 || c >= base)
         break;
 
-      if ( num > num_limit || ( num == num_limit && c > c_limit ) )
+      if (num > num_limit || (num == num_limit && c > c_limit))
         have_overflow = 1;
       else
         num = num * base + c;
@@ -137,26 +137,26 @@
 
     *cursor = p;
 
-    if ( have_overflow )
+    if (have_overflow)
     {
       num = 0x7FFFFFFFL;
-      FT_TRACE4(( "!!!OVERFLOW:!!!" ));
+      FT_TRACE4(("!!!OVERFLOW:!!!"));
     }
 
-    if ( sign )
+    if (sign)
       num = -num;
 
     return num;
 
   Bad:
-    FT_TRACE4(( "!!!END OF DATA:!!!" ));
+    FT_TRACE4(("!!!END OF DATA:!!!"));
     return 0;
   }
 
 
-  FT_LOCAL_DEF( FT_Long )
-  PS_Conv_ToInt( FT_Byte**  cursor,
-                 FT_Byte*   limit )
+  FT_LOCAL_DEF(FT_Long)
+  PS_Conv_ToInt(FT_Byte**  cursor,
+                 FT_Byte*   limit)
 
   {
     FT_Byte*  p = *cursor;
@@ -166,19 +166,19 @@
 
 
     curp = p;
-    num  = PS_Conv_Strtol( &p, limit, 10 );
+    num  = PS_Conv_Strtol(&p, limit, 10);
 
-    if ( p == curp )
+    if (p == curp)
       return 0;
 
-    if ( p < limit && *p == '#' )
+    if (p < limit && *p == '#')
     {
       p++;
 
       curp = p;
-      num  = PS_Conv_Strtol( &p, limit, num );
+      num  = PS_Conv_Strtol(&p, limit, num);
 
-      if ( p == curp )
+      if (p == curp)
         return 0;
     }
 
@@ -188,10 +188,10 @@
   }
 
 
-  FT_LOCAL_DEF( FT_Fixed )
-  PS_Conv_ToFixed( FT_Byte**  cursor,
+  FT_LOCAL_DEF(FT_Fixed)
+  PS_Conv_ToFixed(FT_Byte**  cursor,
                    FT_Byte*   limit,
-                   FT_Long    power_ten )
+                   FT_Long    power_ten)
   {
     FT_Byte*  p = *cursor;
     FT_Byte*  curp;
@@ -205,57 +205,57 @@
     FT_Bool   have_underflow = 0;
 
 
-    if ( p >= limit )
+    if (p >= limit)
       goto Bad;
 
-    if ( *p == '-' || *p == '+' )
+    if (*p == '-' || *p == '+')
     {
-      sign = FT_BOOL( *p == '-' );
+      sign = FT_BOOL(*p == '-');
 
       p++;
-      if ( p == limit )
+      if (p == limit)
         goto Bad;
     }
 
     /* read the integer part */
-    if ( *p != '.' )
+    if (*p != '.')
     {
       curp     = p;
-      integral = PS_Conv_ToInt( &p, limit );
+      integral = PS_Conv_ToInt(&p, limit);
 
-      if ( p == curp )
+      if (p == curp)
         return 0;
 
-      if ( integral > 0x7FFF )
+      if (integral > 0x7FFF)
         have_overflow = 1;
       else
-        integral = (FT_Fixed)( (FT_UInt32)integral << 16 );
+        integral = (FT_Fixed)((FT_UInt32)integral << 16);
     }
 
     /* read the decimal part */
-    if ( p < limit && *p == '.' )
+    if (p < limit && *p == '.')
     {
       p++;
 
-      for ( ; p < limit; p++ )
+      for (; p < limit; p++)
       {
         FT_Char  c;
 
 
-        if ( IS_PS_SPACE( *p ) || *p OP 0x80 )
+        if (IS_PS_SPACE(*p) || *p OP 0x80)
           break;
 
         c = ft_char_table[*p & 0x7F];
 
-        if ( c < 0 || c >= 10 )
+        if (c < 0 || c >= 10)
           break;
 
         /* only add digit if we don't overflow */
-        if ( divider < 0xCCCCCCCL && decimal < 0xCCCCCCCL )
+        if (divider < 0xCCCCCCCL && decimal < 0xCCCCCCCL)
         {
           decimal = decimal * 10 + c;
 
-          if ( !integral && power_ten > 0 )
+          if (!integral && power_ten > 0)
             power_ten--;
           else
             divider *= 10;
@@ -264,7 +264,7 @@
     }
 
     /* read exponent, if any */
-    if ( p + 1 < limit && ( *p == 'e' || *p == 'E' ) )
+    if (p + 1 < limit && (*p == 'e' || *p == 'E'))
     {
       FT_Long  exponent;
 
@@ -272,15 +272,15 @@
       p++;
 
       curp     = p;
-      exponent = PS_Conv_ToInt( &p, limit );
+      exponent = PS_Conv_ToInt(&p, limit);
 
-      if ( curp == p )
+      if (curp == p)
         return 0;
 
       /* arbitrarily limit exponent */
-      if ( exponent > 1000 )
+      if (exponent > 1000)
         have_overflow = 1;
-      else if ( exponent < -1000 )
+      else if (exponent < -1000)
         have_underflow = 1;
       else
         power_ten += exponent;
@@ -288,23 +288,23 @@
 
     *cursor = p;
 
-    if ( !integral && !decimal )
+    if (!integral && !decimal)
       return 0;
 
-    if ( have_overflow )
+    if (have_overflow)
       goto Overflow;
-    if ( have_underflow )
+    if (have_underflow)
       goto Underflow;
 
-    while ( power_ten > 0 )
+    while (power_ten > 0)
     {
-      if ( integral >= 0xCCCCCCCL )
+      if (integral >= 0xCCCCCCCL)
         goto Overflow;
       integral *= 10;
 
-      if ( decimal >= 0xCCCCCCCL )
+      if (decimal >= 0xCCCCCCCL)
       {
-        if ( divider == 1 )
+        if (divider == 1)
           goto Overflow;
         divider /= 10;
       }
@@ -314,66 +314,66 @@
       power_ten--;
     }
 
-    while ( power_ten < 0 )
+    while (power_ten < 0)
     {
       integral /= 10;
-      if ( divider < 0xCCCCCCCL )
+      if (divider < 0xCCCCCCCL)
         divider *= 10;
       else
         decimal /= 10;
 
-      if ( !integral && !decimal )
+      if (!integral && !decimal)
         goto Underflow;
 
       power_ten++;
     }
 
-    if ( decimal )
+    if (decimal)
     {
-      decimal = FT_DivFix( decimal, divider );
+      decimal = FT_DivFix(decimal, divider);
       /* it's not necessary to check this addition for overflow */
       /* due to the structure of the real number representation */
       integral += decimal;
     }
 
   Exit:
-    if ( sign )
+    if (sign)
       integral = -integral;
 
     return integral;
 
   Bad:
-    FT_TRACE4(( "!!!END OF DATA:!!!" ));
+    FT_TRACE4(("!!!END OF DATA:!!!"));
     return 0;
 
   Overflow:
     integral = 0x7FFFFFFFL;
-    FT_TRACE4(( "!!!OVERFLOW:!!!" ));
+    FT_TRACE4(("!!!OVERFLOW:!!!"));
     goto Exit;
 
   Underflow:
-    FT_TRACE4(( "!!!UNDERFLOW:!!!" ));
+    FT_TRACE4(("!!!UNDERFLOW:!!!"));
     return 0;
   }
 
 
 #if 0
-  FT_LOCAL_DEF( FT_UInt )
-  PS_Conv_StringDecode( FT_Byte**  cursor,
+  FT_LOCAL_DEF(FT_UInt)
+  PS_Conv_StringDecode(FT_Byte**  cursor,
                         FT_Byte*   limit,
                         FT_Byte*   buffer,
-                        FT_Offset  n )
+                        FT_Offset  n)
   {
     FT_Byte*  p;
     FT_UInt   r = 0;
 
 
-    for ( p = *cursor; r < n && p < limit; p++ )
+    for (p = *cursor; r < n && p < limit; p++)
     {
       FT_Byte  b;
 
 
-      if ( *p != '\\' )
+      if (*p != '\\')
       {
         buffer[r++] = *p;
 
@@ -382,7 +382,7 @@
 
       p++;
 
-      switch ( *p )
+      switch (*p)
       {
       case 'n':
         b = '\n';
@@ -401,7 +401,7 @@
         break;
       case '\r':
         p++;
-        if ( *p != '\n' )
+        if (*p != '\n')
         {
           b = *p;
 
@@ -412,19 +412,19 @@
         continue;
         break;
       default:
-        if ( IS_PS_DIGIT( *p ) )
+        if (IS_PS_DIGIT(*p))
         {
           b = *p - '0';
 
           p++;
 
-          if ( IS_PS_DIGIT( *p ) )
+          if (IS_PS_DIGIT(*p))
           {
             b = b * 8 + *p - '0';
 
             p++;
 
-            if ( IS_PS_DIGIT( *p ) )
+            if (IS_PS_DIGIT(*p))
               b = b * 8 + *p - '0';
             else
             {
@@ -453,11 +453,11 @@
 #endif /* 0 */
 
 
-  FT_LOCAL_DEF( FT_UInt )
-  PS_Conv_ASCIIHexDecode( FT_Byte**  cursor,
+  FT_LOCAL_DEF(FT_UInt)
+  PS_Conv_ASCIIHexDecode(FT_Byte**  cursor,
                           FT_Byte*   limit,
                           FT_Byte*   buffer,
-                          FT_Offset  n )
+                          FT_Offset  n)
   {
     FT_Byte*  p;
     FT_UInt   r   = 0;
@@ -471,38 +471,38 @@
 
     p = *cursor;
 
-    if ( p >= limit )
+    if (p >= limit)
       return 0;
 
-    if ( n > (FT_UInt)( limit - p ) )
-      n = (FT_UInt)( limit - p );
+    if (n > (FT_UInt)(limit - p))
+      n = (FT_UInt)(limit - p);
 
     /* we try to process two nibbles at a time to be as fast as possible */
-    for ( ; r < n; r++ )
+    for (; r < n; r++)
     {
       FT_UInt  c = p[r];
 
 
-      if ( IS_PS_SPACE( c ) )
+      if (IS_PS_SPACE(c))
         continue;
 
-      if ( c OP 0x80 )
+      if (c OP 0x80)
         break;
 
       c = (FT_UInt)ft_char_table[c & 0x7F];
-      if ( c >= 16 )
+      if (c >= 16)
         break;
 
-      pad = ( pad << 4 ) | c;
-      if ( pad & 0x100 )
+      pad = (pad << 4) | c;
+      if (pad & 0x100)
       {
         buffer[w++] = (FT_Byte)pad;
         pad         = 0x01;
       }
     }
 
-    if ( pad != 0x01 )
-      buffer[w++] = (FT_Byte)( pad << 4 );
+    if (pad != 0x01)
+      buffer[w++] = (FT_Byte)(pad << 4);
 
     *cursor = p + r;
 
@@ -510,23 +510,23 @@
 
 #else /* 0 */
 
-    for ( r = 0; r < n; r++ )
+    for (r = 0; r < n; r++)
     {
       FT_Char  c;
 
 
-      if ( IS_PS_SPACE( *p ) )
+      if (IS_PS_SPACE(*p))
         continue;
 
-      if ( *p OP 0x80 )
+      if (*p OP 0x80)
         break;
 
       c = ft_char_table[*p & 0x7F];
 
-      if ( (unsigned)c >= 16 )
+      if ((unsigned)c >= 16)
         break;
 
-      if ( r & 1 )
+      if (r & 1)
       {
         *buffer = (FT_Byte)(*buffer + c);
         buffer++;
@@ -539,19 +539,19 @@
 
     *cursor = p;
 
-    return ( r + 1 ) / 2;
+    return (r + 1) / 2;
 
 #endif /* 0 */
 
   }
 
 
-  FT_LOCAL_DEF( FT_UInt )
-  PS_Conv_EexecDecode( FT_Byte**   cursor,
+  FT_LOCAL_DEF(FT_UInt)
+  PS_Conv_EexecDecode(FT_Byte**   cursor,
                        FT_Byte*    limit,
                        FT_Byte*    buffer,
                        FT_Offset   n,
-                       FT_UShort*  seed )
+                       FT_UShort*  seed)
   {
     FT_Byte*  p;
     FT_UInt   r;
@@ -562,19 +562,19 @@
 
     p = *cursor;
 
-    if ( p >= limit )
+    if (p >= limit)
       return 0;
 
-    if ( n > (FT_UInt)(limit - p) )
+    if (n > (FT_UInt)(limit - p))
       n = (FT_UInt)(limit - p);
 
-    for ( r = 0; r < n; r++ )
+    for (r = 0; r < n; r++)
     {
       FT_UInt  val = p[r];
-      FT_UInt  b   = ( val ^ ( s >> 8 ) );
+      FT_UInt  b   = (val ^ (s >> 8));
 
 
-      s         = ( (val + s)*52845U + 22719 ) & 0xFFFFU;
+      s         = ((val + s)*52845U + 22719) & 0xFFFFU;
       buffer[r] = (FT_Byte) b;
     }
 
@@ -583,12 +583,12 @@
 
 #else /* 0 */
 
-    for ( r = 0, p = *cursor; r < n && p < limit; r++, p++ )
+    for (r = 0, p = *cursor; r < n && p < limit; r++, p++)
     {
-      FT_Byte  b = (FT_Byte)( *p ^ ( s >> 8 ) );
+      FT_Byte  b = (FT_Byte)(*p ^ (s >> 8));
 
 
-      s = (FT_UShort)( ( *p + s ) * 52845U + 22719 );
+      s = (FT_UShort)((*p + s) * 52845U + 22719);
       *buffer++ = b;
     }
     *cursor = p;

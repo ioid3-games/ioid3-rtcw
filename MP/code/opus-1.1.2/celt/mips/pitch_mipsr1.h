@@ -83,35 +83,35 @@ static inline void xcorr_kernel_mips(const opus_val16 * x,
         tmp = *x++;
         y_3=*y++;
 
-        sum_0 = __builtin_mips_madd( sum_0, tmp, y_0);
-        sum_1 = __builtin_mips_madd( sum_1, tmp, y_1);
-        sum_2 = __builtin_mips_madd( sum_2, tmp, y_2);
-        sum_3 = __builtin_mips_madd( sum_3, tmp, y_3);
+        sum_0 = __builtin_mips_madd(sum_0, tmp, y_0);
+        sum_1 = __builtin_mips_madd(sum_1, tmp, y_1);
+        sum_2 = __builtin_mips_madd(sum_2, tmp, y_2);
+        sum_3 = __builtin_mips_madd(sum_3, tmp, y_3);
 
         tmp=*x++;
         y_0=*y++;
 
-        sum_0 = __builtin_mips_madd( sum_0, tmp, y_1 );
-        sum_1 = __builtin_mips_madd( sum_1, tmp, y_2 );
-        sum_2 = __builtin_mips_madd( sum_2, tmp, y_3);
-        sum_3 = __builtin_mips_madd( sum_3, tmp, y_0);
+        sum_0 = __builtin_mips_madd(sum_0, tmp, y_1);
+        sum_1 = __builtin_mips_madd(sum_1, tmp, y_2);
+        sum_2 = __builtin_mips_madd(sum_2, tmp, y_3);
+        sum_3 = __builtin_mips_madd(sum_3, tmp, y_0);
 
        tmp=*x++;
        y_1=*y++;
 
-       sum_0 = __builtin_mips_madd( sum_0, tmp, y_2 );
-       sum_1 = __builtin_mips_madd( sum_1, tmp, y_3 );
-       sum_2 = __builtin_mips_madd( sum_2, tmp, y_0);
-       sum_3 = __builtin_mips_madd( sum_3, tmp, y_1);
+       sum_0 = __builtin_mips_madd(sum_0, tmp, y_2);
+       sum_1 = __builtin_mips_madd(sum_1, tmp, y_3);
+       sum_2 = __builtin_mips_madd(sum_2, tmp, y_0);
+       sum_3 = __builtin_mips_madd(sum_3, tmp, y_1);
 
 
       tmp=*x++;
       y_2=*y++;
 
-       sum_0 = __builtin_mips_madd( sum_0, tmp, y_3 );
-       sum_1 = __builtin_mips_madd( sum_1, tmp, y_0 );
-       sum_2 = __builtin_mips_madd( sum_2, tmp, y_1);
-       sum_3 = __builtin_mips_madd( sum_3, tmp, y_2);
+       sum_0 = __builtin_mips_madd(sum_0, tmp, y_3);
+       sum_1 = __builtin_mips_madd(sum_1, tmp, y_0);
+       sum_2 = __builtin_mips_madd(sum_2, tmp, y_1);
+       sum_3 = __builtin_mips_madd(sum_3, tmp, y_2);
 
    }
    if (j++<len)
@@ -119,10 +119,10 @@ static inline void xcorr_kernel_mips(const opus_val16 * x,
       opus_val16 tmp = *x++;
       y_3=*y++;
 
-       sum_0 = __builtin_mips_madd( sum_0, tmp, y_0 );
-       sum_1 = __builtin_mips_madd( sum_1, tmp, y_1 );
-       sum_2 = __builtin_mips_madd( sum_2, tmp, y_2);
-       sum_3 = __builtin_mips_madd( sum_3, tmp, y_3);
+       sum_0 = __builtin_mips_madd(sum_0, tmp, y_0);
+       sum_1 = __builtin_mips_madd(sum_1, tmp, y_1);
+       sum_2 = __builtin_mips_madd(sum_2, tmp, y_2);
+       sum_3 = __builtin_mips_madd(sum_3, tmp, y_3);
    }
 
    if (j++<len)
@@ -130,10 +130,10 @@ static inline void xcorr_kernel_mips(const opus_val16 * x,
       opus_val16 tmp=*x++;
       y_0=*y++;
 
-      sum_0 = __builtin_mips_madd( sum_0, tmp, y_1 );
-      sum_1 = __builtin_mips_madd( sum_1, tmp, y_2 );
-      sum_2 = __builtin_mips_madd( sum_2, tmp, y_3);
-      sum_3 = __builtin_mips_madd( sum_3, tmp, y_0);
+      sum_0 = __builtin_mips_madd(sum_0, tmp, y_1);
+      sum_1 = __builtin_mips_madd(sum_1, tmp, y_2);
+      sum_2 = __builtin_mips_madd(sum_2, tmp, y_3);
+      sum_3 = __builtin_mips_madd(sum_3, tmp, y_0);
    }
 
    if (j<len)
@@ -141,10 +141,10 @@ static inline void xcorr_kernel_mips(const opus_val16 * x,
       opus_val16 tmp=*x++;
       y_1=*y++;
 
-       sum_0 = __builtin_mips_madd( sum_0, tmp, y_2 );
-       sum_1 = __builtin_mips_madd( sum_1, tmp, y_3 );
-       sum_2 = __builtin_mips_madd( sum_2, tmp, y_0);
-       sum_3 = __builtin_mips_madd( sum_3, tmp, y_1);
+       sum_0 = __builtin_mips_madd(sum_0, tmp, y_2);
+       sum_1 = __builtin_mips_madd(sum_1, tmp, y_3);
+       sum_2 = __builtin_mips_madd(sum_2, tmp, y_0);
+       sum_3 = __builtin_mips_madd(sum_3, tmp, y_1);
 
    }
 

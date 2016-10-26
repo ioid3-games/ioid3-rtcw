@@ -40,18 +40,18 @@ in this Software without prior written authorization from The Open Group.
    *  Invert bit order within each BYTE of an array.
    */
 
-  FT_LOCAL_DEF( void )
-  BitOrderInvert( unsigned char*  buf,
-                  size_t          nbytes )
+  FT_LOCAL_DEF(void)
+  BitOrderInvert(unsigned char*  buf,
+                  size_t          nbytes)
   {
-    for ( ; nbytes > 0; nbytes--, buf++ )
+    for (; nbytes > 0; nbytes--, buf++)
     {
       unsigned int  val = *buf;
 
 
-      val = ( ( val >> 1 ) & 0x55 ) | ( ( val << 1 ) & 0xAA );
-      val = ( ( val >> 2 ) & 0x33 ) | ( ( val << 2 ) & 0xCC );
-      val = ( ( val >> 4 ) & 0x0F ) | ( ( val << 4 ) & 0xF0 );
+      val = ((val >> 1) & 0x55) | ((val << 1) & 0xAA);
+      val = ((val >> 2) & 0x33) | ((val << 2) & 0xCC);
+      val = ((val >> 4) & 0x0F) | ((val << 4) & 0xF0);
 
       *buf = (unsigned char)val;
     }
@@ -62,11 +62,11 @@ in this Software without prior written authorization from The Open Group.
    *  Invert byte order within each 16-bits of an array.
    */
 
-  FT_LOCAL_DEF( void )
-  TwoByteSwap( unsigned char*  buf,
-               size_t          nbytes )
+  FT_LOCAL_DEF(void)
+  TwoByteSwap(unsigned char*  buf,
+               size_t          nbytes)
   {
-    for ( ; nbytes >= 2; nbytes -= 2, buf += 2 )
+    for (; nbytes >= 2; nbytes -= 2, buf += 2)
     {
       unsigned char  c;
 
@@ -81,11 +81,11 @@ in this Software without prior written authorization from The Open Group.
    *  Invert byte order within each 32-bits of an array.
    */
 
-  FT_LOCAL_DEF( void )
-  FourByteSwap( unsigned char*  buf,
-                size_t          nbytes )
+  FT_LOCAL_DEF(void)
+  FourByteSwap(unsigned char*  buf,
+                size_t          nbytes)
   {
-    for ( ; nbytes >= 4; nbytes -= 4, buf += 4 )
+    for (; nbytes >= 4; nbytes -= 4, buf += 4)
     {
       unsigned char  c;
 

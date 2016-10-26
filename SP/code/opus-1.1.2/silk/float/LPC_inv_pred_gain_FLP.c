@@ -37,7 +37,7 @@ POSSIBILITY OF SUCH DAMAGE.
 /* compute inverse of LPC prediction gain, and                          */
 /* test if LPC coefficients are stable (all poles within unit circle)   */
 /* this code is based on silk_a2k_FLP()                                 */
-silk_float silk_LPC_inverse_pred_gain_FLP(  /* O    return inverse prediction gain, energy domain               */
+silk_float silk_LPC_inverse_pred_gain_FLP( /* O    return inverse prediction gain, energy domain               */
     const silk_float    *A,                 /* I    prediction coefficients [order]                             */
     opus_int32          order               /* I    prediction order                                            */
 )
@@ -48,12 +48,12 @@ silk_float silk_LPC_inverse_pred_gain_FLP(  /* O    return inverse prediction ga
     silk_float *Aold, *Anew;
 
     Anew = Atmp[ order & 1 ];
-    silk_memcpy( Anew, A, order * sizeof(silk_float) );
+    silk_memcpy(Anew, A, order * sizeof(silk_float));
 
     invGain = 1.0;
-    for( k = order - 1; k > 0; k-- ) {
+    for(k = order - 1; k > 0; k--) {
         rc = -Anew[ k ];
-        if( rc > RC_THRESHOLD || rc < -RC_THRESHOLD ) {
+        if(rc > RC_THRESHOLD || rc < -RC_THRESHOLD) {
             return 0.0f;
         }
         rc_mult1 = 1.0f - rc * rc;
@@ -62,12 +62,12 @@ silk_float silk_LPC_inverse_pred_gain_FLP(  /* O    return inverse prediction ga
         /* swap pointers */
         Aold = Anew;
         Anew = Atmp[ k & 1 ];
-        for( n = 0; n < k; n++ ) {
-            Anew[ n ] = (silk_float)( ( Aold[ n ] - Aold[ k - n - 1 ] * rc ) * rc_mult2 );
+        for(n = 0; n < k; n++) {
+            Anew[ n ] = (silk_float)((Aold[ n ] - Aold[ k - n - 1 ] * rc) * rc_mult2);
         }
     }
     rc = -Anew[ 0 ];
-    if( rc > RC_THRESHOLD || rc < -RC_THRESHOLD ) {
+    if(rc > RC_THRESHOLD || rc < -RC_THRESHOLD) {
         return 0.0f;
     }
     rc_mult1 = 1.0f - rc * rc;

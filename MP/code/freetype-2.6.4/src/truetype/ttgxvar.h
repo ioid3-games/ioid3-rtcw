@@ -137,42 +137,42 @@ FT_BEGIN_HEADER
   } GX_TupleIndexFlags;
 
 
-#define TTAG_wght  FT_MAKE_TAG( 'w', 'g', 'h', 't' )
-#define TTAG_wdth  FT_MAKE_TAG( 'w', 'd', 't', 'h' )
-#define TTAG_opsz  FT_MAKE_TAG( 'o', 'p', 's', 'z' )
-#define TTAG_slnt  FT_MAKE_TAG( 's', 'l', 'n', 't' )
+#define TTAG_wght  FT_MAKE_TAG('w', 'g', 'h', 't')
+#define TTAG_wdth  FT_MAKE_TAG('w', 'd', 't', 'h')
+#define TTAG_opsz  FT_MAKE_TAG('o', 'p', 's', 'z')
+#define TTAG_slnt  FT_MAKE_TAG('s', 'l', 'n', 't')
 
 
-  FT_LOCAL( FT_Error )
-  TT_Set_MM_Blend( TT_Face    face,
+  FT_LOCAL(FT_Error)
+  TT_Set_MM_Blend(TT_Face    face,
                    FT_UInt    num_coords,
-                   FT_Fixed*  coords );
+                   FT_Fixed*  coords);
 
-  FT_LOCAL( FT_Error )
-  TT_Set_Var_Design( TT_Face    face,
+  FT_LOCAL(FT_Error)
+  TT_Set_Var_Design(TT_Face    face,
                      FT_UInt    num_coords,
-                     FT_Fixed*  coords );
+                     FT_Fixed*  coords);
 
-  FT_LOCAL( FT_Error )
-  TT_Get_MM_Var( TT_Face      face,
-                 FT_MM_Var*  *master );
-
-
-  FT_LOCAL( FT_Error )
-  tt_face_vary_cvt( TT_Face    face,
-                    FT_Stream  stream );
+  FT_LOCAL(FT_Error)
+  TT_Get_MM_Var(TT_Face      face,
+                 FT_MM_Var*  *master);
 
 
-  FT_LOCAL( FT_Error )
-  TT_Vary_Apply_Glyph_Deltas( TT_Face      face,
+  FT_LOCAL(FT_Error)
+  tt_face_vary_cvt(TT_Face    face,
+                    FT_Stream  stream);
+
+
+  FT_LOCAL(FT_Error)
+  TT_Vary_Apply_Glyph_Deltas(TT_Face      face,
                               FT_UInt      glyph_index,
                               FT_Outline*  outline,
-                              FT_UInt      n_points );
+                              FT_UInt      n_points);
 
 
-  FT_LOCAL( void )
-  tt_done_blend( FT_Memory  memory,
-                 GX_Blend   blend );
+  FT_LOCAL(void)
+  tt_done_blend(FT_Memory  memory,
+                 GX_Blend   blend);
 
 
 FT_END_HEADER

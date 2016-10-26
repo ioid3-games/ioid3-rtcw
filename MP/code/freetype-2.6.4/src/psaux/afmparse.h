@@ -27,19 +27,19 @@
 FT_BEGIN_HEADER
 
 
-  FT_LOCAL( FT_Error )
-  afm_parser_init( AFM_Parser  parser,
+  FT_LOCAL(FT_Error)
+  afm_parser_init(AFM_Parser  parser,
                    FT_Memory   memory,
                    FT_Byte*    base,
-                   FT_Byte*    limit );
+                   FT_Byte*    limit);
 
 
-  FT_LOCAL( void )
-  afm_parser_done( AFM_Parser  parser );
+  FT_LOCAL(void)
+  afm_parser_done(AFM_Parser  parser);
 
 
-  FT_LOCAL( FT_Error )
-  afm_parser_parse( AFM_Parser  parser );
+  FT_LOCAL(FT_Error)
+  afm_parser_parse(AFM_Parser  parser);
 
 
   enum  AFM_ValueType_
@@ -70,16 +70,16 @@ FT_BEGIN_HEADER
 
 #define  AFM_MAX_ARGUMENTS  5
 
-  FT_LOCAL( FT_Int )
-  afm_parser_read_vals( AFM_Parser  parser,
+  FT_LOCAL(FT_Int)
+  afm_parser_read_vals(AFM_Parser  parser,
                         AFM_Value   vals,
-                        FT_Int      n );
+                        FT_Int      n);
 
   /* read the next key from the next line or column */
-  FT_LOCAL( char* )
-  afm_parser_next_key( AFM_Parser  parser,
+  FT_LOCAL(char*)
+  afm_parser_next_key(AFM_Parser  parser,
                        FT_Bool     line,
-                       FT_Offset*  len );
+                       FT_Offset*  len);
 
 FT_END_HEADER
 

@@ -267,8 +267,8 @@ typedef enum {
 	CGEN_IDENTITY,          // always (1,1,1,1)
 	CGEN_ENTITY,            // grabbed from entity's modulate field
 	CGEN_ONE_MINUS_ENTITY,  // grabbed from 1 - entity.modulate
-	CGEN_EXACT_VERTEX,      // tess.vertexColors
-	CGEN_VERTEX,            // tess.vertexColors * tr.identityLight
+	CGEN_EXACT_VERTEX,      // tess.color
+	CGEN_VERTEX,            // tess.color * tr.identityLight
 	CGEN_EXACT_VERTEX_LIT,	// like CGEN_EXACT_VERTEX but takes a light direction from the lightgrid
 	CGEN_VERTEX_LIT,	// like CGEN_VERTEX but takes a light direction from the lightgrid
 	CGEN_ONE_MINUS_VERTEX,
@@ -517,7 +517,7 @@ typedef struct shader_s {
 	int numUnfoggedPasses;
 	shaderStage_t   *stages[MAX_SHADER_STAGES];
 
-	void ( *optimalStageIteratorFunc )( void );
+	void (*optimalStageIteratorFunc)(void);
 
 	float clampTime;                                    // time this shader is clamped to
 	float timeOffset;                                   // current time offset for this shader
@@ -965,7 +965,7 @@ typedef enum {
 	SF_VAO_MDVMESH,
 
 	SF_NUM_SURFACE_TYPES,
-	SF_MAX = 0xffffffff         // ensures that sizeof( surfaceType_t ) == sizeof( int )
+	SF_MAX = 0xffffffff         // ensures that sizeof(surfaceType_t) == sizeof(int)
 } surfaceType_t;
 
 typedef struct drawSurf_s {
@@ -1006,7 +1006,7 @@ typedef struct
 	int16_t         normal[4];
 	int16_t         tangent[4];
 	int16_t         lightdir[4];
-	vec4_t			vertexColors;
+	uint16_t        color[4];
 
 #if DEBUG_OPTIMIZEVERTICES
 	unsigned int    id;
@@ -1124,7 +1124,7 @@ typedef struct srfVaoMdvMesh_s
 	vao_t          *vao;
 } srfVaoMdvMesh_t;
 
-extern void( *rb_surfaceTable[SF_NUM_SURFACE_TYPES] ) ( void * );
+extern void(*rb_surfaceTable[SF_NUM_SURFACE_TYPES]) (void *);
 
 /*
 ==============================================================================
@@ -1265,7 +1265,7 @@ typedef struct {
 	vec3_t lightGridInverseSize;
 	int lightGridBounds[3];
 	byte        *lightGridData;
-	float		*hdrLightGrid;
+	uint16_t	*lightGrid16;
 
 	int numClusters;
 	int clusterBytes;
@@ -1376,12 +1376,12 @@ typedef struct model_s {
 
 #define MAX_MOD_KNOWN   2048
 
-void        R_ModelInit( void );
-model_t     *R_GetModelByHandle( qhandle_t hModel );
-int         R_LerpTag( orientation_t *tag, const refEntity_t *refent, const char *tagName, int startIndex );
-void        R_ModelBounds( qhandle_t handle, vec3_t mins, vec3_t maxs );
+void        R_ModelInit(void);
+model_t     *R_GetModelByHandle(qhandle_t hModel);
+int         R_LerpTag(orientation_t *tag, const refEntity_t *refent, const char *tagName, int startIndex);
+void        R_ModelBounds(qhandle_t handle, vec3_t mins, vec3_t maxs);
 
-void        R_Modellist_f( void );
+void        R_Modellist_f(void);
 
 //====================================================
 extern refimport_t ri;
@@ -1391,7 +1391,7 @@ extern refimport_t ri;
 
 
 #define MAX_DRAWSURFS           0x10000
-#define DRAWSURF_MASK           ( MAX_DRAWSURFS - 1 )
+#define DRAWSURF_MASK           (MAX_DRAWSURFS - 1)
 
 /*
 
@@ -1465,7 +1465,7 @@ typedef struct {
 #define FOG_TABLE_SIZE      256
 #define FUNCTABLE_SIZE      1024
 #define FUNCTABLE_SIZE2     10
-#define FUNCTABLE_MASK      ( FUNCTABLE_SIZE - 1 )
+#define FUNCTABLE_MASK      (FUNCTABLE_SIZE - 1)
 
 
 // the renderer front end should never modify glstate_t
@@ -1517,9 +1517,7 @@ typedef struct {
 	int maxRenderbufferSize;
 	int maxColorAttachments;
 
-	qboolean textureNonPowerOfTwo;
 	qboolean textureFloat;
-	qboolean halfFloatPixel;
 	textureCompressionRef_t textureCompression;
 	qboolean swizzleNormalmap;
 	
@@ -1529,12 +1527,6 @@ typedef struct {
 	qboolean depthClamp;
 	qboolean seamlessCubeMap;
 
-	GLenum packedTexcoordDataType;
-	GLenum packedColorDataType;
-	int packedTexcoordDataSize;
-	int packedColorDataSize;
-
-	qboolean floatLightmap;
 	qboolean vertexArrayObject;
 	qboolean directStateAccess;
 } glRefConfig_t;
@@ -1719,7 +1711,7 @@ typedef struct {
 
 	viewParms_t viewParms;
 
-	float identityLight;                        // 1.0 / ( 1 << overbrightBits )
+	float identityLight;                        // 1.0 / (1 << overbrightBits)
 	int identityLightByte;                      // identityLight * 255
 	int overbrightBits;                         // r_overbrightBits->integer, but set to 0 if no hw gamma
 
@@ -1878,8 +1870,6 @@ extern  cvar_t  *r_ext_draw_range_elements;
 extern  cvar_t  *r_ext_multi_draw_arrays;
 extern  cvar_t  *r_ext_framebuffer_object;
 extern  cvar_t  *r_ext_texture_float;
-extern  cvar_t  *r_arb_half_float_pixel;
-extern  cvar_t  *r_arb_half_float_vertex;
 extern  cvar_t  *r_ext_framebuffer_multisample;
 extern  cvar_t  *r_arb_seamless_cube_map;
 extern  cvar_t  *r_arb_vertex_array_object;
@@ -2027,32 +2017,32 @@ extern cvar_t   *r_wolffog;
 extern cvar_t  *r_highQualityVideo;
 //====================================================================
 
-float R_NoiseGet4f( float x, float y, float z, float t );
-void  R_NoiseInit( void );
+float R_NoiseGet4f(float x, float y, float z, float t);
+void  R_NoiseInit(void);
 
-void R_SwapBuffers( int );
+void R_SwapBuffers(int);
 
-void R_RenderView( viewParms_t *parms );
+void R_RenderView(viewParms_t *parms);
 void R_RenderDlightCubemaps(const refdef_t *fd);
 void R_RenderPshadowMaps(const refdef_t *fd);
 void R_RenderSunShadowMaps(const refdef_t *fd, int level);
-void R_RenderCubemapSide( int cubemapIndex, int cubemapSide, qboolean subscene );
+void R_RenderCubemapSide(int cubemapIndex, int cubemapSide, qboolean subscene);
 
-void R_AddMD3Surfaces( trRefEntity_t *e );
-void R_AddNullModelSurfaces( trRefEntity_t *e );
-void R_AddBeamSurfaces( trRefEntity_t *e );
-void R_AddRailSurfaces( trRefEntity_t *e, qboolean isUnderwater );
-void R_AddLightningBoltSurfaces( trRefEntity_t *e );
+void R_AddMD3Surfaces(trRefEntity_t *e);
+void R_AddNullModelSurfaces(trRefEntity_t *e);
+void R_AddBeamSurfaces(trRefEntity_t *e);
+void R_AddRailSurfaces(trRefEntity_t *e, qboolean isUnderwater);
+void R_AddLightningBoltSurfaces(trRefEntity_t *e);
 
-void R_TagInfo_f( void );
+void R_TagInfo_f(void);
 
-void R_AddPolygonSurfaces( void );
+void R_AddPolygonSurfaces(void);
 
-void R_DecomposeSort( unsigned sort, int *entityNum, shader_t **shader,
-					int *fogNum, int *dlightMap, int *pshadowMap );
+void R_DecomposeSort(unsigned sort, int *entityNum, shader_t **shader,
+					int *fogNum, int *dlightMap, int *pshadowMap);
 
-void R_AddDrawSurf( surfaceType_t *surface, shader_t *shader, 
-			int fogIndex, int dlightMap, int pshadowMap, int cubemap );
+void R_AddDrawSurf(surfaceType_t *surface, shader_t *shader, 
+			int fogIndex, int dlightMap, int pshadowMap, int cubemap);
 
 void R_CalcTexDirs(vec3_t sdir, vec3_t tdir, const vec3_t v1, const vec3_t v2,
 				   const vec3_t v3, const vec2_t w1, const vec2_t w2, const vec2_t w3);
@@ -2065,26 +2055,26 @@ qboolean R_CalcTangentVectors(srfVert_t * dv[3]);
 void R_LocalNormalToWorld (const vec3_t local, vec3_t world);
 void R_LocalPointToWorld (const vec3_t local, vec3_t world);
 int R_CullBox (vec3_t bounds[2]);
-int R_CullLocalBox( vec3_t bounds[2] );
-int R_CullPointAndRadiusEx( const vec3_t origin, float radius, const cplane_t* frustum, int numPlanes );
-int R_CullPointAndRadius( const vec3_t origin, float radius );
-int R_CullLocalPointAndRadius( const vec3_t origin, float radius );
+int R_CullLocalBox(vec3_t bounds[2]);
+int R_CullPointAndRadiusEx(const vec3_t origin, float radius, const cplane_t* frustum, int numPlanes);
+int R_CullPointAndRadius(const vec3_t origin, float radius);
+int R_CullLocalPointAndRadius(const vec3_t origin, float radius);
 
 void R_SetupProjection(viewParms_t *dest, float zProj, float zFar, qboolean computeFrustum);
-void R_RotateForEntity( const trRefEntity_t * ent, const viewParms_t * viewParms, orientationr_t * or );
+void R_RotateForEntity(const trRefEntity_t * ent, const viewParms_t * viewParms, orientationr_t * or);
 
 /*
 ** GL wrapper/helper functions
 */
-void	GL_BindToTMU( image_t *image, int tmu );
-void    GL_SetDefaultState( void );
-void    GL_TextureMode( const char *string );
-void	GL_CheckErrs( char *file, int line );
+void	GL_BindToTMU(image_t *image, int tmu);
+void    GL_SetDefaultState(void);
+void    GL_TextureMode(const char *string);
+void	GL_CheckErrs(char *file, int line);
 #define GL_CheckErrors(...) GL_CheckErrs(__FILE__, __LINE__)
-void    GL_State( unsigned long stateVector );
+void    GL_State(unsigned long stateVector);
 void    GL_SetProjectionMatrix(mat4_t matrix);
 void    GL_SetModelviewMatrix(mat4_t matrix);
-void    GL_Cull( int cullType );
+void    GL_Cull(int cullType);
 
 #define GLS_SRCBLEND_ZERO                       0x00000001
 #define GLS_SRCBLEND_ONE                        0x00000002
@@ -2123,69 +2113,69 @@ void    GL_Cull( int cullType );
 
 #define GLS_DEFAULT         GLS_DEPTHMASK_TRUE
 
-void    RE_StretchRaw( int x, int y, int w, int h, int cols, int rows, const byte *data, int client, qboolean dirty );
-void    RE_UploadCinematic( int w, int h, int cols, int rows, const byte *data, int client, qboolean dirty );
+void    RE_StretchRaw(int x, int y, int w, int h, int cols, int rows, const byte *data, int client, qboolean dirty);
+void    RE_UploadCinematic(int w, int h, int cols, int rows, const byte *data, int client, qboolean dirty);
 
-void        RE_BeginFrame( stereoFrame_t stereoFrame );
-void        RE_BeginRegistration( glconfig_t *glconfig );
-void        RE_LoadWorldMap( const char *mapname );
-void        RE_SetWorldVisData( const byte *vis );
-qhandle_t   RE_RegisterModel( const char *name );
-qhandle_t   RE_RegisterSkin( const char *name );
-void        RE_Shutdown( qboolean destroyWindow );
+void        RE_BeginFrame(stereoFrame_t stereoFrame);
+void        RE_BeginRegistration(glconfig_t *glconfig);
+void        RE_LoadWorldMap(const char *mapname);
+void        RE_SetWorldVisData(const byte *vis);
+qhandle_t   RE_RegisterModel(const char *name);
+qhandle_t   RE_RegisterSkin(const char *name);
+void        RE_Shutdown(qboolean destroyWindow);
 
-qboolean    R_GetEntityToken( char *buffer, int size );
+qboolean    R_GetEntityToken(char *buffer, int size);
 
 //----(SA)
-qboolean    RE_GetSkinModel( qhandle_t skinid, const char *type, char *name );
-qhandle_t   RE_GetShaderFromModel( qhandle_t modelid, int surfnum, int withlightmap );    //----(SA)
+qboolean    RE_GetSkinModel(qhandle_t skinid, const char *type, char *name);
+qhandle_t   RE_GetShaderFromModel(qhandle_t modelid, int surfnum, int withlightmap);    //----(SA)
 //----(SA) end
 
-model_t     *R_AllocModel( void );
+model_t     *R_AllocModel(void);
 
-void        R_Init( void );
-image_t     *R_FindImageFile( const char *name, imgType_t type, imgFlags_t flags );
-image_t *R_CreateImage( const char *name, byte *pic, int width, int height, imgType_t type, imgFlags_t flags, int internalFormat );
-void		R_UpdateSubImage( image_t *image, byte *pic, int x, int y, int width, int height );
-qboolean    R_GetModeInfo( int *width, int *height, float *windowAspect, int mode );
+void        R_Init(void);
+image_t     *R_FindImageFile(const char *name, imgType_t type, imgFlags_t flags);
+image_t     *R_CreateImage(const char *name, byte *pic, int width, int height, imgType_t type, imgFlags_t flags, int internalFormat);
+void        R_UpdateSubImage(image_t *image, byte *pic, int x, int y, int width, int height, GLenum picFormat);
+qboolean    R_GetModeInfo(int *width, int *height, float *windowAspect, int mode);
 
-void        R_SetColorMappings( void );
-void        R_GammaCorrect( byte *buffer, int bufSize );
+void        R_SetColorMappings(void);
+void        R_GammaCorrect(byte *buffer, int bufSize);
 
-void    R_ImageList_f( void );
-void    R_SkinList_f( void );
+void    R_ImageList_f(void);
+void    R_SkinList_f(void);
 // https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=516
-const void *RB_TakeScreenshotCmd( const void *data );
-void    R_ScreenShot_f( void );
-void    R_ScreenShotJPEG_f( void );
+const void *RB_TakeScreenshotCmd(const void *data);
+void    R_ScreenShot_f(void);
+void    R_ScreenShotJPEG_f(void);
 
-void    R_InitFogTable( void );
-float   R_FogFactor( float s, float t );
-void    R_InitImages( void );
-void    R_DeleteTextures( void );
-int     R_SumOfUsedImages( void );
-void    R_InitSkins( void );
-skin_t  *R_GetSkinByHandle( qhandle_t hSkin );
+void    R_InitFogTable(void);
+float   R_FogFactor(float s, float t);
+void    R_InitImages(void);
+void    R_DeleteTextures(void);
+int     R_SumOfUsedImages(void);
+void    R_InitSkins(void);
+skin_t  *R_GetSkinByHandle(qhandle_t hSkin);
 
-int R_ComputeLOD( trRefEntity_t *ent );
+int R_ComputeLOD(trRefEntity_t *ent);
 
-const void *RB_TakeVideoFrameCmd( const void *data );
+const void *RB_TakeVideoFrameCmd(const void *data);
 
 //
 // tr_shader.c
 //
-qhandle_t        RE_RegisterShaderLightMap( const char *name, int lightmapIndex );
-qhandle_t        RE_RegisterShader( const char *name );
-qhandle_t        RE_RegisterShaderNoMip( const char *name );
-qhandle_t RE_RegisterShaderFromImage( const char *name, int lightmapIndex, image_t *image, qboolean mipRawImage );
+qhandle_t        RE_RegisterShaderLightMap(const char *name, int lightmapIndex);
+qhandle_t        RE_RegisterShader(const char *name);
+qhandle_t        RE_RegisterShaderNoMip(const char *name);
+qhandle_t RE_RegisterShaderFromImage(const char *name, int lightmapIndex, image_t *image, qboolean mipRawImage);
 
-shader_t    *R_FindShader( const char *name, int lightmapIndex, qboolean mipRawImage );
-shader_t    *R_GetShaderByHandle( qhandle_t hShader );
-shader_t    *R_GetShaderByState( int index, long *cycleTime );
-shader_t *R_FindShaderByName( const char *name );
-void        R_InitShaders( void );
-void        R_ShaderList_f( void );
-void    R_RemapShader( const char *oldShader, const char *newShader, const char *timeOffset );
+shader_t    *R_FindShader(const char *name, int lightmapIndex, qboolean mipRawImage);
+shader_t    *R_GetShaderByHandle(qhandle_t hShader);
+shader_t    *R_GetShaderByState(int index, long *cycleTime);
+shader_t *R_FindShaderByName(const char *name);
+void        R_InitShaders(void);
+void        R_ShaderList_f(void);
+void    R_RemapShader(const char *oldShader, const char *newShader, const char *timeOffset);
 
 /*
 ====================================================================
@@ -2195,18 +2185,18 @@ IMPLEMENTATION SPECIFIC FUNCTIONS
 ====================================================================
 */
 
-void	GLimp_Init( void );
-void	GLimp_Shutdown( void );
-void	GLimp_EndFrame( void );
+void	GLimp_Init(void);
+void	GLimp_Shutdown(void);
+void	GLimp_EndFrame(void);
 
-void	GLimp_LogComment( char *comment );
+void	GLimp_LogComment(char *comment);
 void	GLimp_Minimize(void);
 
-void	GLimp_SetGamma( unsigned char red[256],
+void	GLimp_SetGamma(unsigned char red[256],
 					 unsigned char green[256],
-					 unsigned char blue[256] );
+					 unsigned char blue[256]);
 
-void		GLimp_InitExtraExtensions( void );
+void		GLimp_InitExtraExtensions(void);
 
 /*
 ====================================================================
@@ -2231,7 +2221,7 @@ typedef struct shaderCommands_s
 	int16_t		normal[SHADER_MAX_VERTEXES][4] QALIGN(16);
 	int16_t		tangent[SHADER_MAX_VERTEXES][4] QALIGN(16);
 	vec2_t		texCoords[SHADER_MAX_VERTEXES][2] QALIGN(16);
-	vec4_t		vertexColors[SHADER_MAX_VERTEXES] QALIGN(16);
+	uint16_t	color[SHADER_MAX_VERTEXES][4] QALIGN(16);
 	int16_t		lightdir[SHADER_MAX_VERTEXES][4] QALIGN(16);
 	//int			vertexDlightBits[SHADER_MAX_VERTEXES] QALIGN(16);
 
@@ -2266,30 +2256,30 @@ typedef struct shaderCommands_s
 
 	// info extracted from current shader
 	int numPasses;
-	void ( *currentStageIteratorFunc )( void );
+	void (*currentStageIteratorFunc)(void);
 	shaderStage_t   **xstages;
 } shaderCommands_t;
 
 extern shaderCommands_t tess;
 
-void RB_BeginSurface(shader_t *shader, int fogNum, int cubemapIndex );
-void RB_EndSurface( void );
-void RB_CheckOverflow( int verts, int indexes );
-#define RB_CHECKOVERFLOW( v,i ) if ( tess.numVertexes + ( v ) >= SHADER_MAX_VERTEXES || tess.numIndexes + ( i ) >= SHADER_MAX_INDEXES ) {RB_CheckOverflow( v,i );}
+void RB_BeginSurface(shader_t *shader, int fogNum, int cubemapIndex);
+void RB_EndSurface(void);
+void RB_CheckOverflow(int verts, int indexes);
+#define RB_CHECKOVERFLOW(v,i) if (tess.numVertexes + (v) >= SHADER_MAX_VERTEXES || tess.numIndexes + (i) >= SHADER_MAX_INDEXES) {RB_CheckOverflow(v,i);}
 
-void R_DrawElementsVao( int numIndexes, glIndex_t firstIndex, glIndex_t minIndex, glIndex_t maxIndex );
-void RB_StageIteratorGeneric( void );
-void RB_StageIteratorSky( void );
-void RB_StageIteratorVertexLitTexture( void );
-void RB_StageIteratorLightmappedMultitexture( void );
+void R_DrawElementsVao(int numIndexes, glIndex_t firstIndex, glIndex_t minIndex, glIndex_t maxIndex);
+void RB_StageIteratorGeneric(void);
+void RB_StageIteratorSky(void);
+void RB_StageIteratorVertexLitTexture(void);
+void RB_StageIteratorLightmappedMultitexture(void);
 
-void RB_AddQuadStamp( vec3_t origin, vec3_t left, vec3_t up, float color[4] );
-void RB_AddQuadStampExt( vec3_t origin, vec3_t left, vec3_t up, float color[4], float s1, float t1, float s2, float t2 );
-void RB_InstantQuad( vec4_t quadVerts[4] );
+void RB_AddQuadStamp(vec3_t origin, vec3_t left, vec3_t up, float color[4]);
+void RB_AddQuadStampExt(vec3_t origin, vec3_t left, vec3_t up, float color[4], float s1, float t1, float s2, float t2);
+void RB_InstantQuad(vec4_t quadVerts[4]);
 //void RB_InstantQuad2(vec4_t quadVerts[4], vec2_t texCoords[4], vec4_t color, shaderProgram_t *sp, vec2_t invTexRes);
 void RB_InstantQuad2(vec4_t quadVerts[4], vec2_t texCoords[4]);
 
-void RB_ShowImages( void );
+void RB_ShowImages(void);
 
 
 /*
@@ -2300,8 +2290,8 @@ WORLD MAP
 ============================================================
 */
 
-void R_AddBrushModelSurfaces( trRefEntity_t *e );
-void R_AddWorldSurfaces( void );
+void R_AddBrushModelSurfaces(trRefEntity_t *e);
+void R_AddWorldSurfaces(void);
 
 
 /*
@@ -2312,11 +2302,11 @@ FLARES
 ============================================================
 */
 
-void R_ClearFlares( void );
+void R_ClearFlares(void);
 
-void RB_AddFlare( void *surface, int fogNum, vec3_t point, vec3_t color, float scale, vec3_t normal, int id, qboolean visible );    //----(SA)	added scale.  added id.  added visible
-void RB_AddDlightFlares( void );
-void RB_RenderFlares( void );
+void RB_AddFlare(void *surface, int fogNum, vec3_t point, vec3_t color, float scale, vec3_t normal, int id, qboolean visible);    //----(SA)	added scale.  added id.  added visible
+void RB_AddDlightFlares(void);
+void RB_RenderFlares(void);
 
 /*
 ============================================================
@@ -2326,12 +2316,12 @@ LIGHTS
 ============================================================
 */
 
-void R_DlightBmodel( bmodel_t *bmodel );
-void R_SetupEntityLighting( const trRefdef_t *refdef, trRefEntity_t *ent );
-void R_TransformDlights( int count, dlight_t * dl, orientationr_t * or );
-int R_LightForPoint( vec3_t point, vec3_t ambientLight, vec3_t directedLight, vec3_t lightDir );
-int R_LightDirForPoint( vec3_t point, vec3_t lightDir, vec3_t normal, world_t *world );
-int R_CubemapForPoint( vec3_t point );
+void R_DlightBmodel(bmodel_t *bmodel);
+void R_SetupEntityLighting(const trRefdef_t *refdef, trRefEntity_t *ent);
+void R_TransformDlights(int count, dlight_t * dl, orientationr_t * or);
+int R_LightForPoint(vec3_t point, vec3_t ambientLight, vec3_t directedLight, vec3_t lightDir);
+int R_LightDirForPoint(vec3_t point, vec3_t lightDir, vec3_t normal, world_t *world);
+int R_CubemapForPoint(vec3_t point);
 
 
 /*
@@ -2342,9 +2332,9 @@ SHADOWS
 ============================================================
 */
 
-void RB_ShadowTessEnd( void );
-void RB_ShadowFinish( void );
-void RB_ProjectionShadowDeform( void );
+void RB_ShadowTessEnd(void);
+void RB_ShadowFinish(void);
+void RB_ProjectionShadowDeform(void);
 
 /*
 ============================================================
@@ -2354,11 +2344,11 @@ SKIES
 ============================================================
 */
 
-void R_BuildCloudData( shaderCommands_t *shader );
-void R_InitSkyTexCoords( float cloudLayerHeight );
-void R_DrawSkyBox( shaderCommands_t *shader );
-void RB_DrawSun( float scale, shader_t *shader );
-void RB_ClipSkyPolygons( shaderCommands_t *shader );
+void R_BuildCloudData(shaderCommands_t *shader);
+void R_InitSkyTexCoords(float cloudLayerHeight);
+void R_DrawSkyBox(shaderCommands_t *shader);
+void RB_DrawSun(float scale, shader_t *shader);
+void RB_ClipSkyPolygons(shaderCommands_t *shader);
 
 /*
 ============================================================
@@ -2370,10 +2360,10 @@ CURVE TESSELATION
 
 #define PATCH_STITCHING
 
-void R_SubdividePatchToGrid( srfBspSurface_t *grid, int width, int height,
-								srfVert_t points[MAX_PATCH_SIZE*MAX_PATCH_SIZE] );
-void R_GridInsertColumn( srfBspSurface_t *grid, int column, int row, vec3_t point, float loderror );
-void R_GridInsertRow( srfBspSurface_t *grid, int row, int column, vec3_t point, float loderror );
+void R_SubdividePatchToGrid(srfBspSurface_t *grid, int width, int height,
+								srfVert_t points[MAX_PATCH_SIZE*MAX_PATCH_SIZE]);
+void R_GridInsertColumn(srfBspSurface_t *grid, int column, int row, vec3_t point, float loderror);
+void R_GridInsertRow(srfBspSurface_t *grid, int row, int column, vec3_t point, float loderror);
 
 /*
 ============================================================
@@ -2383,8 +2373,8 @@ MARKERS, POLYGON PROJECTION ON WORLD POLYGONS
 ============================================================
 */
 
-int R_MarkFragments( int orientation, const vec3_t *points, const vec3_t projection,
-					 int maxPoints, vec3_t pointBuffer, int maxFragments, markFragment_t *fragmentBuffer );
+int R_MarkFragments(int orientation, const vec3_t *points, const vec3_t projection,
+					 int maxPoints, vec3_t pointBuffer, int maxFragments, markFragment_t *fragmentBuffer);
 
 
 /*
@@ -2397,8 +2387,7 @@ VERTEX BUFFER OBJECTS
 
 void R_VaoPackTangent(int16_t *out, vec4_t v);
 void R_VaoPackNormal(int16_t *out, vec3_t v);
-int R_VaoPackTexCoord(byte *out, vec2_t st);
-int R_VaoPackColors(byte *out, vec4_t color);
+void R_VaoPackColor(uint16_t *out, vec4_t c);
 void R_VaoUnpackTangent(vec4_t v, int16_t *pack);
 void R_VaoUnpackNormal(vec3_t v, int16_t *pack);
 
@@ -2447,23 +2436,23 @@ SCENE GENERATION
 ============================================================
 */
 
-void R_InitNextFrame( void );
+void R_InitNextFrame(void);
 
-void RE_ClearScene( void );
-void RE_AddRefEntityToScene( const refEntity_t *ent );
-void RE_AddPolyToScene( qhandle_t hShader, int numVerts, const polyVert_t *verts );
+void RE_ClearScene(void);
+void RE_AddRefEntityToScene(const refEntity_t *ent);
+void RE_AddPolyToScene(qhandle_t hShader, int numVerts, const polyVert_t *verts);
 // Ridah
-void RE_AddPolysToScene( qhandle_t hShader, int numVerts, const polyVert_t *verts, int numPolys );
+void RE_AddPolysToScene(qhandle_t hShader, int numVerts, const polyVert_t *verts, int numPolys);
 // done.
 // Ridah
-void RE_AddLightToScene( const vec3_t org, float intensity, float r, float g, float b, int overdraw );
+void RE_AddLightToScene(const vec3_t org, float intensity, float r, float g, float b, int overdraw);
 // done.
 //----(SA)
-void RE_AddCoronaToScene( const vec3_t org, float r, float g, float b, float scale, int id, qboolean visible );
+void RE_AddCoronaToScene(const vec3_t org, float r, float g, float b, float scale, int id, qboolean visible);
 //----(SA)
-void RE_BeginScene( const refdef_t *fd );
-void RE_RenderScene( const refdef_t *fd );
-void RE_EndScene( void );
+void RE_BeginScene(const refdef_t *fd);
+void RE_RenderScene(const refdef_t *fd);
+void RE_EndScene(void);
 
 /*
 =============================================================
@@ -2492,17 +2481,17 @@ ANIMATED MODELS
 =============================================================
 */
 
-void R_AddAnimSurfaces( trRefEntity_t *ent );
-void RB_SurfaceAnim( mdsSurface_t *surfType );
-int R_GetBoneTag( orientation_t *outTag, mdsHeader_t *mds, int startTagIndex, const refEntity_t *refent, const char *tagName );
-void R_MDRAddAnimSurfaces( trRefEntity_t *ent );
-void RB_MDRSurfaceAnim( mdrSurface_t *surface );
-qboolean R_LoadIQM (model_t *mod, void *buffer, int filesize, const char *name );
-void R_AddIQMSurfaces( trRefEntity_t *ent );
-void RB_IQMSurfaceAnim( surfaceType_t *surface );
-int R_IQMLerpTag( orientation_t *tag, iqmData_t *data,
+void R_AddAnimSurfaces(trRefEntity_t *ent);
+void RB_SurfaceAnim(mdsSurface_t *surfType);
+int R_GetBoneTag(orientation_t *outTag, mdsHeader_t *mds, int startTagIndex, const refEntity_t *refent, const char *tagName);
+void R_MDRAddAnimSurfaces(trRefEntity_t *ent);
+void RB_MDRSurfaceAnim(mdrSurface_t *surface);
+qboolean R_LoadIQM (model_t *mod, void *buffer, int filesize, const char *name);
+void R_AddIQMSurfaces(trRefEntity_t *ent);
+void RB_IQMSurfaceAnim(surfaceType_t *surface);
+int R_IQMLerpTag(orientation_t *tag, iqmData_t *data,
                   int startFrame, int endFrame,
-                  float frac, const char *tagName, int startIndex );
+                  float frac, const char *tagName, int startIndex);
 
 /*
 =============================================================
@@ -2512,37 +2501,37 @@ IMAGE LOADERS
 =============================================================
 */
 
-void R_LoadBMP( const char *name, byte **pic, int *width, int *height );
-void R_LoadJPG( const char *name, byte **pic, int *width, int *height );
-void R_LoadPCX( const char *name, byte **pic, int *width, int *height );
-void R_LoadPNG( const char *name, byte **pic, int *width, int *height );
-void R_LoadTGA( const char *name, byte **pic, int *width, int *height );
+void R_LoadBMP(const char *name, byte **pic, int *width, int *height);
+void R_LoadJPG(const char *name, byte **pic, int *width, int *height);
+void R_LoadPCX(const char *name, byte **pic, int *width, int *height);
+void R_LoadPNG(const char *name, byte **pic, int *width, int *height);
+void R_LoadTGA(const char *name, byte **pic, int *width, int *height);
 
 
 /*
 =============================================================
 =============================================================
 */
-void    R_TransformModelToClip( const vec3_t src, const float *modelMatrix, const float *projectionMatrix,
-								vec4_t eye, vec4_t dst );
-void    R_TransformClipToWindow( const vec4_t clip, const viewParms_t *view, vec4_t normalized, vec4_t window );
+void    R_TransformModelToClip(const vec3_t src, const float *modelMatrix, const float *projectionMatrix,
+								vec4_t eye, vec4_t dst);
+void    R_TransformClipToWindow(const vec4_t clip, const viewParms_t *view, vec4_t normalized, vec4_t window);
 
-void    RB_DeformTessGeometry( void );
+void    RB_DeformTessGeometry(void);
 
-void    RB_CalcFireRiseEnvTexCoords( float *st );
-void    RB_CalcFogTexCoords( float *dstTexCoords );
-void    RB_CalcSwapTexCoords( float *dstTexCoords );
+void    RB_CalcFireRiseEnvTexCoords(float *st);
+void    RB_CalcFogTexCoords(float *dstTexCoords);
+void    RB_CalcSwapTexCoords(float *dstTexCoords);
 
-void	RB_CalcScaleTexMatrix( const float scale[2], float *matrix );
-void	RB_CalcScrollTexMatrix( const float scrollSpeed[2], float *matrix );
-void	RB_CalcRotateTexMatrix( float degsPerSecond, float *matrix );
-void    RB_CalcTurbulentFactors( const waveForm_t *wf, float *amplitude, float *now );
-void	RB_CalcTransformTexMatrix( const texModInfo_t *tmi, float *matrix  );
-void	RB_CalcStretchTexMatrix( const waveForm_t *wf, float *matrix );
+void	RB_CalcScaleTexMatrix(const float scale[2], float *matrix);
+void	RB_CalcScrollTexMatrix(const float scrollSpeed[2], float *matrix);
+void	RB_CalcRotateTexMatrix(float degsPerSecond, float *matrix);
+void    RB_CalcTurbulentFactors(const waveForm_t *wf, float *amplitude, float *now);
+void	RB_CalcTransformTexMatrix(const texModInfo_t *tmi, float *matrix );
+void	RB_CalcStretchTexMatrix(const waveForm_t *wf, float *matrix);
 
-void    RB_CalcModulateColorsByFog( unsigned char *dstColors );
-float	RB_CalcWaveAlphaSingle( const waveForm_t *wf );
-float	RB_CalcWaveColorSingle( const waveForm_t *wf );
+void    RB_CalcModulateColorsByFog(unsigned char *dstColors);
+float	RB_CalcWaveAlphaSingle(const waveForm_t *wf);
+float	RB_CalcWaveColorSingle(const waveForm_t *wf);
 
 /*
 =============================================================
@@ -2552,7 +2541,7 @@ RENDERER BACK END FUNCTIONS
 =============================================================
 */
 
-void RB_ExecuteRenderCommands( const void *data );
+void RB_ExecuteRenderCommands(const void *data);
 
 /*
 =============================================================
@@ -2712,35 +2701,35 @@ extern int max_polyverts;
 
 extern backEndData_t   *backEndData;    // the second one may not be allocated
 
-void *R_GetCommandBuffer( int bytes );
-void RB_ExecuteRenderCommands( const void *data );
+void *R_GetCommandBuffer(int bytes);
+void RB_ExecuteRenderCommands(const void *data);
 
-void R_IssuePendingRenderCommands( void );
+void R_IssuePendingRenderCommands(void);
 
-void R_AddDrawSurfCmd( drawSurf_t *drawSurfs, int numDrawSurfs );
-void R_AddCapShadowmapCmd( int dlight, int cubeSide );
+void R_AddDrawSurfCmd(drawSurf_t *drawSurfs, int numDrawSurfs);
+void R_AddCapShadowmapCmd(int dlight, int cubeSide);
 void R_AddPostProcessCmd (void);
 
-void RE_SetColor( const float *rgba );
-void RE_StretchPic( float x, float y, float w, float h,
-					float s1, float t1, float s2, float t2, qhandle_t hShader );
-void RE_RotatedPic( float x, float y, float w, float h,
-					float s1, float t1, float s2, float t2, qhandle_t hShader, float angle );       // NERVE - SMF
-void RE_StretchPicGradient( float x, float y, float w, float h,
-							float s1, float t1, float s2, float t2, qhandle_t hShader, const float *gradientColor, int gradientType );
-void RE_BeginFrame( stereoFrame_t stereoFrame );
-void RE_EndFrame( int *frontEndMsec, int *backEndMsec );
+void RE_SetColor(const float *rgba);
+void RE_StretchPic(float x, float y, float w, float h,
+					float s1, float t1, float s2, float t2, qhandle_t hShader);
+void RE_RotatedPic(float x, float y, float w, float h,
+					float s1, float t1, float s2, float t2, qhandle_t hShader, float angle);       // NERVE - SMF
+void RE_StretchPicGradient(float x, float y, float w, float h,
+							float s1, float t1, float s2, float t2, qhandle_t hShader, const float *gradientColor, int gradientType);
+void RE_BeginFrame(stereoFrame_t stereoFrame);
+void RE_EndFrame(int *frontEndMsec, int *backEndMsec);
 void RE_SaveJPG(char * filename, int quality, int image_width, int image_height,
                 unsigned char *image_buffer, int padding);
 size_t RE_SaveJPGToBuffer(byte *buffer, size_t bufSize, int quality,
 		          int image_width, int image_height, byte *image_buffer, int padding);
-void RE_TakeVideoFrame( int width, int height,
-		byte *captureBuffer, byte *encodeBuffer, qboolean motionJpeg );
+void RE_TakeVideoFrame(int width, int height,
+		byte *captureBuffer, byte *encodeBuffer, qboolean motionJpeg);
 
 // font stuff
-void R_InitFreeType( void );
-void R_DoneFreeType( void );
-void RE_RegisterFont( const char *fontName, int pointSize, fontInfo_t *font );
+void R_InitFreeType(void);
+void R_DoneFreeType(void);
+void RE_RegisterFont(const char *fontName, int pointSize, fontInfo_t *font);
 
 
 //------------------------------------------------------------------------------
@@ -2760,19 +2749,19 @@ extern float r_anormals[NUMMDCVERTEXNORMALS][3];
 #define MDC_BITS_PER_AXIS   8
 #define MDC_MAX_OFS         127.0   // to be safe
 
-#define MDC_MAX_DIST        ( MDC_MAX_OFS * MDC_DIST_SCALE )
+#define MDC_MAX_DIST        (MDC_MAX_OFS * MDC_DIST_SCALE)
 
 #if 0
-void R_MDC_DecodeXyzCompressed( mdcXyzCompressed_t *xyzComp, vec3_t out, vec3_t normal );
+void R_MDC_DecodeXyzCompressed(mdcXyzCompressed_t *xyzComp, vec3_t out, vec3_t normal);
 #else   // optimized version
-#define R_MDC_DecodeXyzCompressed( ofsVec, out, normal ) \
-	( out )[0] = ( (float)( ( ofsVec ) & 255 ) - MDC_MAX_OFS ) * MDC_DIST_SCALE; \
-	( out )[1] = ( (float)( ( ofsVec >> 8 ) & 255 ) - MDC_MAX_OFS ) * MDC_DIST_SCALE; \
-	( out )[2] = ( (float)( ( ofsVec >> 16 ) & 255 ) - MDC_MAX_OFS ) * MDC_DIST_SCALE; \
-	VectorCopy( ( r_anormals )[( ofsVec >> 24 )], normal );
+#define R_MDC_DecodeXyzCompressed(ofsVec, out, normal) \
+	(out)[0] = ((float)((ofsVec) & 255) - MDC_MAX_OFS) * MDC_DIST_SCALE; \
+	(out)[1] = ((float)((ofsVec >> 8) & 255) - MDC_MAX_OFS) * MDC_DIST_SCALE; \
+	(out)[2] = ((float)((ofsVec >> 16) & 255) - MDC_MAX_OFS) * MDC_DIST_SCALE; \
+	VectorCopy((r_anormals)[(ofsVec >> 24)], normal);
 #endif
 
-void R_AddMDCSurfaces( trRefEntity_t *ent );
+void R_AddMDCSurfaces(trRefEntity_t *ent);
 // done.
 //------------------------------------------------------------------------------
 
@@ -2789,13 +2778,13 @@ GL FOG
 extern glfog_t glfogsettings[NUM_FOGS];         // [0] never used (FOG_NONE)
 extern glfogType_t glfogNum;                    // fog type to use (from the fog_t enum list)
 
-extern void R_SetFog( int fogvar, int var1, int var2, float r, float g, float b, float density );
+extern void R_SetFog(int fogvar, int var1, int var2, float r, float g, float b, float density);
 
 extern int skyboxportal;
 
 
 // Ridah, virtual memory
-void *R_Hunk_Begin( void );
-void R_Hunk_End( void );
+void *R_Hunk_Begin(void);
+void R_Hunk_End(void);
 
 #endif //TR_LOCAL_H (THIS MUST BE LAST!!)

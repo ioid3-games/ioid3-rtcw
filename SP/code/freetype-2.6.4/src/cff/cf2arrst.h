@@ -64,31 +64,31 @@ FT_BEGIN_HEADER
   } CF2_ArrStackRec, *CF2_ArrStack;
 
 
-  FT_LOCAL( void )
-  cf2_arrstack_init( CF2_ArrStack  arrstack,
+  FT_LOCAL(void)
+  cf2_arrstack_init(CF2_ArrStack  arrstack,
                      FT_Memory     memory,
                      FT_Error*     error,
-                     size_t        sizeItem );
-  FT_LOCAL( void )
-  cf2_arrstack_finalize( CF2_ArrStack  arrstack );
+                     size_t        sizeItem);
+  FT_LOCAL(void)
+  cf2_arrstack_finalize(CF2_ArrStack  arrstack);
 
-  FT_LOCAL( void )
-  cf2_arrstack_setCount( CF2_ArrStack  arrstack,
-                         size_t        numElements );
-  FT_LOCAL( void )
-  cf2_arrstack_clear( CF2_ArrStack  arrstack );
-  FT_LOCAL( size_t )
-  cf2_arrstack_size( const CF2_ArrStack  arrstack );
+  FT_LOCAL(void)
+  cf2_arrstack_setCount(CF2_ArrStack  arrstack,
+                         size_t        numElements);
+  FT_LOCAL(void)
+  cf2_arrstack_clear(CF2_ArrStack  arrstack);
+  FT_LOCAL(size_t)
+  cf2_arrstack_size(const CF2_ArrStack  arrstack);
 
-  FT_LOCAL( void* )
-  cf2_arrstack_getBuffer( const CF2_ArrStack  arrstack );
-  FT_LOCAL( void* )
-  cf2_arrstack_getPointer( const CF2_ArrStack  arrstack,
-                           size_t              idx );
+  FT_LOCAL(void*)
+  cf2_arrstack_getBuffer(const CF2_ArrStack  arrstack);
+  FT_LOCAL(void*)
+  cf2_arrstack_getPointer(const CF2_ArrStack  arrstack,
+                           size_t              idx);
 
-  FT_LOCAL( void )
-  cf2_arrstack_push( CF2_ArrStack  arrstack,
-                     const void*   ptr );
+  FT_LOCAL(void)
+  cf2_arrstack_push(CF2_ArrStack  arrstack,
+                     const void*   ptr);
 
 
 FT_END_HEADER

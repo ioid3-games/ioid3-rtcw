@@ -60,15 +60,15 @@
 
 #undef  FT_USE_MODULE
 #ifdef __cplusplus
-#define FT_USE_MODULE( type, x )  extern "C" const type  x;
+#define FT_USE_MODULE(type, x)  extern "C" const type  x;
 #else
-#define FT_USE_MODULE( type, x )  extern const type  x;
+#define FT_USE_MODULE(type, x)  extern const type  x;
 #endif
 
 #include FT_CONFIG_MODULES_H
 
 #undef  FT_USE_MODULE
-#define FT_USE_MODULE( type, x )  (const FT_Module_Class*)&(x),
+#define FT_USE_MODULE(type, x)  (const FT_Module_Class*)&(x),
 
   static
   const FT_Module_Class*  const ft_default_modules[] =
@@ -89,19 +89,19 @@
 
   /* declare the module's class creation/destruction functions */
 #undef  FT_USE_MODULE
-#define FT_USE_MODULE( type, x )                            \
+#define FT_USE_MODULE(type, x)                            \
   FT_EXTERNC FT_Error                                       \
-  FT_Create_Class_ ## x( FT_Library         library,        \
-                         FT_Module_Class*  *output_class ); \
+  FT_Create_Class_ ## x(FT_Library         library,        \
+                         FT_Module_Class*  *output_class); \
   FT_EXTERNC void                                           \
-  FT_Destroy_Class_ ## x( FT_Library        library,        \
-                          FT_Module_Class*  clazz );
+  FT_Destroy_Class_ ## x(FT_Library        library,        \
+                          FT_Module_Class*  clazz);
 
 #include FT_CONFIG_MODULES_H
 
   /* count all module classes */
 #undef  FT_USE_MODULE
-#define FT_USE_MODULE( type, x )  MODULE_CLASS_ ## x,
+#define FT_USE_MODULE(type, x)  MODULE_CLASS_ ## x,
 
   enum
   {
@@ -111,16 +111,16 @@
 
   /* destroy all module classes */
 #undef  FT_USE_MODULE
-#define FT_USE_MODULE( type, x )                   \
-  if ( classes[i] )                                \
+#define FT_USE_MODULE(type, x)                   \
+  if (classes[i])                                \
   {                                                \
-    FT_Destroy_Class_ ## x( library, classes[i] ); \
+    FT_Destroy_Class_ ## x(library, classes[i]); \
   }                                                \
   i++;
 
 
-  FT_BASE_DEF( void )
-  ft_destroy_default_module_classes( FT_Library  library )
+  FT_BASE_DEF(void)
+  ft_destroy_default_module_classes(FT_Library  library)
   {
     FT_Module_Class*  *classes;
     FT_Memory          memory;
@@ -128,7 +128,7 @@
     BasePIC*           pic_container = (BasePIC*)library->pic_container.base;
 
 
-    if ( !pic_container->default_module_classes )
+    if (!pic_container->default_module_classes)
       return;
 
     memory  = library->memory;
@@ -137,22 +137,22 @@
 
 #include FT_CONFIG_MODULES_H
 
-    FT_FREE( classes );
+    FT_FREE(classes);
     pic_container->default_module_classes = NULL;
   }
 
 
   /* initialize all module classes and the pointer table */
 #undef  FT_USE_MODULE
-#define FT_USE_MODULE( type, x )                     \
-  error = FT_Create_Class_ ## x( library, &clazz );  \
-  if ( error )                                       \
+#define FT_USE_MODULE(type, x)                     \
+  error = FT_Create_Class_ ## x(library, &clazz);  \
+  if (error)                                       \
     goto Exit;                                       \
   classes[i++] = clazz;
 
 
-  FT_BASE_DEF( FT_Error )
-  ft_create_default_module_classes( FT_Library  library )
+  FT_BASE_DEF(FT_Error)
+  ft_create_default_module_classes(FT_Library  library)
   {
     FT_Error           error;
     FT_Memory          memory;
@@ -166,12 +166,12 @@
 
     pic_container->default_module_classes = NULL;
 
-    if ( FT_ALLOC( classes, sizeof ( FT_Module_Class* ) *
-                              ( FT_NUM_MODULE_CLASSES + 1 ) ) )
+    if (FT_ALLOC(classes, sizeof (FT_Module_Class*) *
+                              (FT_NUM_MODULE_CLASSES + 1)))
       return error;
 
     /* initialize all pointers to 0, especially the last one */
-    for ( i = 0; i < FT_NUM_MODULE_CLASSES; i++ )
+    for (i = 0; i < FT_NUM_MODULE_CLASSES; i++)
       classes[i] = NULL;
     classes[FT_NUM_MODULE_CLASSES] = NULL;
 
@@ -180,8 +180,8 @@
 #include FT_CONFIG_MODULES_H
 
   Exit:
-    if ( error )
-      ft_destroy_default_module_classes( library );
+    if (error)
+      ft_destroy_default_module_classes(library);
     else
       pic_container->default_module_classes = classes;
 
@@ -194,8 +194,8 @@
 
   /* documentation is in ftmodapi.h */
 
-  FT_EXPORT_DEF( void )
-  FT_Add_Default_Modules( FT_Library  library )
+  FT_EXPORT_DEF(void)
+  FT_Add_Default_Modules(FT_Library  library)
   {
     FT_Error                       error;
     const FT_Module_Class* const*  cur;
@@ -203,7 +203,7 @@
 
     /* FT_DEFAULT_MODULES_GET dereferences `library' in PIC mode */
 #ifdef FT_CONFIG_OPTION_PIC
-    if ( !library )
+    if (!library)
       return;
 #endif
 
@@ -213,14 +213,14 @@
     cur = (const FT_Module_Class* const*)FT_DEFAULT_MODULES_GET;
 
     /* test for valid `library' delayed to FT_Add_Module() */
-    while ( *cur )
+    while (*cur)
     {
-      error = FT_Add_Module( library, *cur );
+      error = FT_Add_Module(library, *cur);
       /* notify errors, but don't stop */
-      if ( error )
-        FT_TRACE0(( "FT_Add_Default_Module:"
+      if (error)
+        FT_TRACE0(("FT_Add_Default_Module:"
                     " Cannot install `%s', error = 0x%x\n",
-                    (*cur)->module_name, error ));
+                    (*cur)->module_name, error));
       cur++;
     }
   }
@@ -228,8 +228,8 @@
 
   /* documentation is in freetype.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Init_FreeType( FT_Library  *alibrary )
+  FT_EXPORT_DEF(FT_Error)
+  FT_Init_FreeType(FT_Library  *alibrary)
   {
     FT_Error   error;
     FT_Memory  memory;
@@ -241,20 +241,20 @@
     /* of the system-specific component, i.e. `ftsystem.c'.                */
 
     memory = FT_New_Memory();
-    if ( !memory )
+    if (!memory)
     {
-      FT_ERROR(( "FT_Init_FreeType: cannot find memory manager\n" ));
-      return FT_THROW( Unimplemented_Feature );
+      FT_ERROR(("FT_Init_FreeType: cannot find memory manager\n"));
+      return FT_THROW(Unimplemented_Feature);
     }
 
     /* build a library out of it, then fill it with the set of */
     /* default drivers.                                        */
 
-    error = FT_New_Library( memory, alibrary );
-    if ( error )
-      FT_Done_Memory( memory );
+    error = FT_New_Library(memory, alibrary);
+    if (error)
+      FT_Done_Memory(memory);
     else
-      FT_Add_Default_Modules( *alibrary );
+      FT_Add_Default_Modules(*alibrary);
 
     return error;
   }
@@ -262,22 +262,22 @@
 
   /* documentation is in freetype.h */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Done_FreeType( FT_Library  library )
+  FT_EXPORT_DEF(FT_Error)
+  FT_Done_FreeType(FT_Library  library)
   {
     FT_Memory  memory;
 
 
-    if ( !library )
-      return FT_THROW( Invalid_Library_Handle );
+    if (!library)
+      return FT_THROW(Invalid_Library_Handle);
 
     memory = library->memory;
 
     /* Discard the library object */
-    FT_Done_Library( library );
+    FT_Done_Library(library);
 
     /* discard memory manager */
-    FT_Done_Memory( memory );
+    FT_Done_Memory(memory);
 
     return FT_Err_Ok;
   }

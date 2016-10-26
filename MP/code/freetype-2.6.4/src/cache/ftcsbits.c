@@ -40,32 +40,32 @@
 
 
   static FT_Error
-  ftc_sbit_copy_bitmap( FTC_SBit    sbit,
+  ftc_sbit_copy_bitmap(FTC_SBit    sbit,
                         FT_Bitmap*  bitmap,
-                        FT_Memory   memory )
+                        FT_Memory   memory)
   {
     FT_Error  error;
     FT_Int    pitch = bitmap->pitch;
     FT_ULong  size;
 
 
-    if ( pitch < 0 )
+    if (pitch < 0)
       pitch = -pitch;
 
     size = (FT_ULong)pitch * bitmap->rows;
-    if ( !size )
+    if (!size)
       return FT_Err_Ok;
 
-    if ( !FT_ALLOC( sbit->buffer, size ) )
-      FT_MEM_COPY( sbit->buffer, bitmap->buffer, size );
+    if (!FT_ALLOC(sbit->buffer, size))
+      FT_MEM_COPY(sbit->buffer, bitmap->buffer, size);
 
     return error;
   }
 
 
-  FT_LOCAL_DEF( void )
-  ftc_snode_free( FTC_Node   ftcsnode,
-                  FTC_Cache  cache )
+  FT_LOCAL_DEF(void)
+  ftc_snode_free(FTC_Node   ftcsnode,
+                  FTC_Cache  cache)
   {
     FTC_SNode  snode  = (FTC_SNode)ftcsnode;
     FTC_SBit   sbit   = snode->sbits;
@@ -73,20 +73,20 @@
     FT_Memory  memory = cache->memory;
 
 
-    for ( ; count > 0; sbit++, count-- )
-      FT_FREE( sbit->buffer );
+    for (; count > 0; sbit++, count--)
+      FT_FREE(sbit->buffer);
 
-    FTC_GNode_Done( FTC_GNODE( snode ), cache );
+    FTC_GNode_Done(FTC_GNODE(snode), cache);
 
-    FT_FREE( snode );
+    FT_FREE(snode);
   }
 
 
-  FT_LOCAL_DEF( void )
-  FTC_SNode_Free( FTC_SNode  snode,
-                  FTC_Cache  cache )
+  FT_LOCAL_DEF(void)
+  FTC_SNode_Free(FTC_SNode  snode,
+                  FTC_Cache  cache)
   {
-    ftc_snode_free( FTC_NODE( snode ), cache );
+    ftc_snode_free(FTC_NODE(snode), cache);
   }
 
 
@@ -101,13 +101,13 @@
    *  function below to see how out-of-memory is handled during a lookup.
    */
   static FT_Error
-  ftc_snode_load( FTC_SNode    snode,
+  ftc_snode_load(FTC_SNode    snode,
                   FTC_Manager  manager,
                   FT_UInt      gindex,
-                  FT_ULong    *asize )
+                  FT_ULong    *asize)
   {
     FT_Error          error;
-    FTC_GNode         gnode  = FTC_GNODE( snode );
+    FTC_GNode         gnode  = FTC_GNODE(snode);
     FTC_Family        family = gnode->family;
     FT_Memory         memory = manager->memory;
     FT_Face           face;
@@ -115,19 +115,19 @@
     FTC_SFamilyClass  clazz;
 
 
-    if ( (FT_UInt)(gindex - gnode->gindex) >= snode->count )
+    if ((FT_UInt)(gindex - gnode->gindex) >= snode->count)
     {
-      FT_ERROR(( "ftc_snode_load: invalid glyph index" ));
-      return FT_THROW( Invalid_Argument );
+      FT_ERROR(("ftc_snode_load: invalid glyph index"));
+      return FT_THROW(Invalid_Argument);
     }
 
-    sbit  = snode->sbits + ( gindex - gnode->gindex );
+    sbit  = snode->sbits + (gindex - gnode->gindex);
     clazz = (FTC_SFamilyClass)family->clazz;
 
     sbit->buffer = 0;
 
-    error = clazz->family_load_glyph( family, gindex, manager, &face );
-    if ( error )
+    error = clazz->family_load_glyph(family, gindex, manager, &face);
+    if (error)
       goto BadGlyph;
 
     {
@@ -137,10 +137,10 @@
       FT_Pos        xadvance, yadvance; /* FT_GlyphSlot->advance.{x|y} */
 
 
-      if ( slot->format != FT_GLYPH_FORMAT_BITMAP )
+      if (slot->format != FT_GLYPH_FORMAT_BITMAP)
       {
-        FT_TRACE0(( "ftc_snode_load:"
-                    " glyph loaded didn't return a bitmap\n" ));
+        FT_TRACE0(("ftc_snode_load:"
+                    " glyph loaded didn't return a bitmap\n"));
         goto BadGlyph;
       }
 
@@ -148,22 +148,22 @@
       /* If this is not the case, our bitmap is too large       */
       /* and we will leave it as `missing' with sbit.buffer = 0 */
 
-#define CHECK_CHAR( d )  ( temp = (FT_Char)d, (FT_Int) temp == (FT_Int) d )
-#define CHECK_BYTE( d )  ( temp = (FT_Byte)d, (FT_UInt)temp == (FT_UInt)d )
+#define CHECK_CHAR(d)  (temp = (FT_Char)d, (FT_Int) temp == (FT_Int) d)
+#define CHECK_BYTE(d)  (temp = (FT_Byte)d, (FT_UInt)temp == (FT_UInt)d)
 
       /* horizontal advance in pixels */
-      xadvance = ( slot->advance.x + 32 ) >> 6;
-      yadvance = ( slot->advance.y + 32 ) >> 6;
+      xadvance = (slot->advance.x + 32) >> 6;
+      yadvance = (slot->advance.y + 32) >> 6;
 
-      if ( !CHECK_BYTE( bitmap->rows  )     ||
-           !CHECK_BYTE( bitmap->width )     ||
-           !CHECK_CHAR( bitmap->pitch )     ||
-           !CHECK_CHAR( slot->bitmap_left ) ||
-           !CHECK_CHAR( slot->bitmap_top  ) ||
-           !CHECK_CHAR( xadvance )          ||
-           !CHECK_CHAR( yadvance )          )
+      if (!CHECK_BYTE(bitmap->rows )     ||
+           !CHECK_BYTE(bitmap->width)     ||
+           !CHECK_CHAR(bitmap->pitch)     ||
+           !CHECK_CHAR(slot->bitmap_left) ||
+           !CHECK_CHAR(slot->bitmap_top ) ||
+           !CHECK_CHAR(xadvance)          ||
+           !CHECK_CHAR(yadvance)         )
       {
-        FT_TRACE2(( "ftc_snode_load:"
+        FT_TRACE2(("ftc_snode_load:"
                     " glyph too large for small bitmap cache\n"));
         goto BadGlyph;
       }
@@ -179,11 +179,11 @@
       sbit->max_grays = (FT_Byte)(bitmap->num_grays - 1);
 
       /* copy the bitmap into a new buffer -- ignore error */
-      error = ftc_sbit_copy_bitmap( sbit, bitmap, memory );
+      error = ftc_sbit_copy_bitmap(sbit, bitmap, memory);
 
       /* now, compute size */
-      if ( asize )
-        *asize = (FT_ULong)FT_ABS( sbit->pitch ) * sbit->height;
+      if (asize)
+        *asize = (FT_ULong)FT_ABS(sbit->pitch) * sbit->height;
 
     } /* glyph loading successful */
 
@@ -191,14 +191,14 @@
     /* we mark unloaded glyphs with `sbit.buffer == 0' */
     /* and `width == 255', `height == 0'               */
     /*                                                 */
-    if ( error && FT_ERR_NEQ( error, Out_Of_Memory ) )
+    if (error && FT_ERR_NEQ(error, Out_Of_Memory))
     {
     BadGlyph:
       sbit->width  = 255;
       sbit->height = 0;
       sbit->buffer = NULL;
       error        = FT_Err_Ok;
-      if ( asize )
+      if (asize)
         *asize = 0;
     }
 
@@ -206,10 +206,10 @@
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
-  FTC_SNode_New( FTC_SNode  *psnode,
+  FT_LOCAL_DEF(FT_Error)
+  FTC_SNode_New(FTC_SNode  *psnode,
                  FTC_GQuery  gquery,
-                 FTC_Cache   cache )
+                 FTC_Cache   cache)
   {
     FT_Memory   memory = cache->memory;
     FT_Error    error;
@@ -217,43 +217,43 @@
     FT_UInt     gindex = gquery->gindex;
     FTC_Family  family = gquery->family;
 
-    FTC_SFamilyClass  clazz = FTC_CACHE_SFAMILY_CLASS( cache );
+    FTC_SFamilyClass  clazz = FTC_CACHE_SFAMILY_CLASS(cache);
     FT_UInt           total;
     FT_UInt           node_count;
 
 
-    total = clazz->family_get_count( family, cache->manager );
-    if ( total == 0 || gindex >= total )
+    total = clazz->family_get_count(family, cache->manager);
+    if (total == 0 || gindex >= total)
     {
-      error = FT_THROW( Invalid_Argument );
+      error = FT_THROW(Invalid_Argument);
       goto Exit;
     }
 
-    if ( !FT_NEW( snode ) )
+    if (!FT_NEW(snode))
     {
       FT_UInt  count, start;
 
 
-      start = gindex - ( gindex % FTC_SBIT_ITEMS_PER_NODE );
+      start = gindex - (gindex % FTC_SBIT_ITEMS_PER_NODE);
       count = total - start;
-      if ( count > FTC_SBIT_ITEMS_PER_NODE )
+      if (count > FTC_SBIT_ITEMS_PER_NODE)
         count = FTC_SBIT_ITEMS_PER_NODE;
 
-      FTC_GNode_Init( FTC_GNODE( snode ), start, family );
+      FTC_GNode_Init(FTC_GNODE(snode), start, family);
 
       snode->count = count;
-      for ( node_count = 0; node_count < count; node_count++ )
+      for (node_count = 0; node_count < count; node_count++)
       {
         snode->sbits[node_count].width = 255;
       }
 
-      error = ftc_snode_load( snode,
+      error = ftc_snode_load(snode,
                               cache->manager,
                               gindex,
-                              NULL );
-      if ( error )
+                              NULL);
+      if (error)
       {
-        FTC_SNode_Free( snode, cache );
+        FTC_SNode_Free(snode, cache);
         snode = NULL;
       }
     }
@@ -264,22 +264,22 @@
   }
 
 
-  FT_LOCAL_DEF( FT_Error )
-  ftc_snode_new( FTC_Node   *ftcpsnode,
+  FT_LOCAL_DEF(FT_Error)
+  ftc_snode_new(FTC_Node   *ftcpsnode,
                  FT_Pointer  ftcgquery,
-                 FTC_Cache   cache )
+                 FTC_Cache   cache)
   {
     FTC_SNode  *psnode = (FTC_SNode*)ftcpsnode;
     FTC_GQuery  gquery = (FTC_GQuery)ftcgquery;
 
 
-    return FTC_SNode_New( psnode, gquery, cache );
+    return FTC_SNode_New(psnode, gquery, cache);
   }
 
 
-  FT_LOCAL_DEF( FT_Offset )
-  ftc_snode_weight( FTC_Node   ftcsnode,
-                    FTC_Cache  cache )
+  FT_LOCAL_DEF(FT_Offset)
+  ftc_snode_weight(FTC_Node   ftcsnode,
+                    FTC_Cache  cache)
   {
     FTC_SNode  snode = (FTC_SNode)ftcsnode;
     FT_UInt    count = snode->count;
@@ -287,20 +287,20 @@
     FT_Int     pitch;
     FT_Offset  size;
 
-    FT_UNUSED( cache );
+    FT_UNUSED(cache);
 
 
-    FT_ASSERT( snode->count <= FTC_SBIT_ITEMS_PER_NODE );
+    FT_ASSERT(snode->count <= FTC_SBIT_ITEMS_PER_NODE);
 
     /* the node itself */
-    size = sizeof ( *snode );
+    size = sizeof (*snode);
 
-    for ( ; count > 0; count--, sbit++ )
+    for (; count > 0; count--, sbit++)
     {
-      if ( sbit->buffer )
+      if (sbit->buffer)
       {
         pitch = sbit->pitch;
-        if ( pitch < 0 )
+        if (pitch < 0)
           pitch = -pitch;
 
         /* add the size of a given glyph image */
@@ -314,36 +314,36 @@
 
 #if 0
 
-  FT_LOCAL_DEF( FT_Offset )
-  FTC_SNode_Weight( FTC_SNode  snode )
+  FT_LOCAL_DEF(FT_Offset)
+  FTC_SNode_Weight(FTC_SNode  snode)
   {
-    return ftc_snode_weight( FTC_NODE( snode ), NULL );
+    return ftc_snode_weight(FTC_NODE(snode), NULL);
   }
 
 #endif /* 0 */
 
 
-  FT_LOCAL_DEF( FT_Bool )
-  ftc_snode_compare( FTC_Node    ftcsnode,
+  FT_LOCAL_DEF(FT_Bool)
+  ftc_snode_compare(FTC_Node    ftcsnode,
                      FT_Pointer  ftcgquery,
                      FTC_Cache   cache,
-                     FT_Bool*    list_changed )
+                     FT_Bool*    list_changed)
   {
     FTC_SNode   snode  = (FTC_SNode)ftcsnode;
     FTC_GQuery  gquery = (FTC_GQuery)ftcgquery;
-    FTC_GNode   gnode  = FTC_GNODE( snode );
+    FTC_GNode   gnode  = FTC_GNODE(snode);
     FT_UInt     gindex = gquery->gindex;
     FT_Bool     result;
 
 
     if (list_changed)
       *list_changed = FALSE;
-    result = FT_BOOL( gnode->family == gquery->family                    &&
-                      (FT_UInt)( gindex - gnode->gindex ) < snode->count );
-    if ( result )
+    result = FT_BOOL(gnode->family == gquery->family                    &&
+                      (FT_UInt)(gindex - gnode->gindex) < snode->count);
+    if (result)
     {
       /* check if we need to load the glyph bitmap now */
-      FTC_SBit  sbit = snode->sbits + ( gindex - gnode->gindex );
+      FTC_SBit  sbit = snode->sbits + (gindex - gnode->gindex);
 
 
       /*
@@ -378,7 +378,7 @@
        *
        */
 
-      if ( sbit->buffer == NULL && sbit->width == 255 )
+      if (sbit->buffer == NULL && sbit->width == 255)
       {
         FT_ULong  size;
         FT_Error  error;
@@ -387,15 +387,15 @@
         ftcsnode->ref_count++;  /* lock node to prevent flushing */
                                 /* in retry loop                 */
 
-        FTC_CACHE_TRYLOOP( cache )
+        FTC_CACHE_TRYLOOP(cache)
         {
-          error = ftc_snode_load( snode, cache->manager, gindex, &size );
+          error = ftc_snode_load(snode, cache->manager, gindex, &size);
         }
-        FTC_CACHE_TRYLOOP_END( list_changed );
+        FTC_CACHE_TRYLOOP_END(list_changed);
 
         ftcsnode->ref_count--;  /* unlock the node */
 
-        if ( error )
+        if (error)
           result = 0;
         else
           cache->manager->cur_weight += size;
@@ -408,14 +408,14 @@
 
 #ifdef FTC_INLINE
 
-  FT_LOCAL_DEF( FT_Bool )
-  FTC_SNode_Compare( FTC_SNode   snode,
+  FT_LOCAL_DEF(FT_Bool)
+  FTC_SNode_Compare(FTC_SNode   snode,
                      FTC_GQuery  gquery,
                      FTC_Cache   cache,
-                     FT_Bool*    list_changed )
+                     FT_Bool*    list_changed)
   {
-    return ftc_snode_compare( FTC_NODE( snode ), gquery,
-                              cache, list_changed );
+    return ftc_snode_compare(FTC_NODE(snode), gquery,
+                              cache, list_changed);
   }
 
 #endif

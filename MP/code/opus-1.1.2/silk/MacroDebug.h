@@ -32,7 +32,7 @@ POSSIBILITY OF SUCH DAMAGE.
 /* Redefine macro functions with extensive assertion in DEBUG mode.
    As functions can't be undefined, this file can't work with SigProcFIX_MacroCount.h */
 
-#if ( defined (FIXED_DEBUG) || ( 0 && defined (_DEBUG) ) ) && !defined (silk_MACRO_COUNT)
+#if (defined (FIXED_DEBUG) || (0 && defined (_DEBUG))) && !defined (silk_MACRO_COUNT)
 
 #undef silk_ADD16
 #define silk_ADD16(a,b) silk_ADD16_((a), (b), __FILE__, __LINE__)
@@ -40,11 +40,11 @@ static OPUS_INLINE opus_int16 silk_ADD16_(opus_int16 a, opus_int16 b, char *file
     opus_int16 ret;
 
     ret = a + b;
-    if ( ret != silk_ADD_SAT16( a, b ) )
+    if (ret != silk_ADD_SAT16(a, b))
     {
         fprintf (stderr, "silk_ADD16(%d, %d) in %s: line %d\n", a, b, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -56,11 +56,11 @@ static OPUS_INLINE opus_int32 silk_ADD32_(opus_int32 a, opus_int32 b, char *file
     opus_int32 ret;
 
     ret = a + b;
-    if ( ret != silk_ADD_SAT32( a, b ) )
+    if (ret != silk_ADD_SAT32(a, b))
     {
         fprintf (stderr, "silk_ADD32(%d, %d) in %s: line %d\n", a, b, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -72,11 +72,11 @@ static OPUS_INLINE opus_int64 silk_ADD64_(opus_int64 a, opus_int64 b, char *file
     opus_int64 ret;
 
     ret = a + b;
-    if ( ret != silk_ADD_SAT64( a, b ) )
+    if (ret != silk_ADD_SAT64(a, b))
     {
         fprintf (stderr, "silk_ADD64(%lld, %lld) in %s: line %d\n", (long long)a, (long long)b, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -88,11 +88,11 @@ static OPUS_INLINE opus_int16 silk_SUB16_(opus_int16 a, opus_int16 b, char *file
     opus_int16 ret;
 
     ret = a - b;
-    if ( ret != silk_SUB_SAT16( a, b ) )
+    if (ret != silk_SUB_SAT16(a, b))
     {
         fprintf (stderr, "silk_SUB16(%d, %d) in %s: line %d\n", a, b, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -104,11 +104,11 @@ static OPUS_INLINE opus_int32 silk_SUB32_(opus_int32 a, opus_int32 b, char *file
     opus_int32 ret;
 
     ret = a - b;
-    if ( ret != silk_SUB_SAT32( a, b ) )
+    if (ret != silk_SUB_SAT32(a, b))
     {
         fprintf (stderr, "silk_SUB32(%d, %d) in %s: line %d\n", a, b, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -120,11 +120,11 @@ static OPUS_INLINE opus_int64 silk_SUB64_(opus_int64 a, opus_int64 b, char *file
     opus_int64 ret;
 
     ret = a - b;
-    if ( ret != silk_SUB_SAT64( a, b ) )
+    if (ret != silk_SUB_SAT64(a, b))
     {
         fprintf (stderr, "silk_SUB64(%lld, %lld) in %s: line %d\n", (long long)a, (long long)b, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -132,14 +132,14 @@ static OPUS_INLINE opus_int64 silk_SUB64_(opus_int64 a, opus_int64 b, char *file
 
 #undef silk_ADD_SAT16
 #define silk_ADD_SAT16(a,b) silk_ADD_SAT16_((a), (b), __FILE__, __LINE__)
-static OPUS_INLINE opus_int16 silk_ADD_SAT16_( opus_int16 a16, opus_int16 b16, char *file, int line) {
+static OPUS_INLINE opus_int16 silk_ADD_SAT16_(opus_int16 a16, opus_int16 b16, char *file, int line) {
     opus_int16 res;
-    res = (opus_int16)silk_SAT16( silk_ADD32( (opus_int32)(a16), (b16) ) );
-    if ( res != silk_SAT16( (opus_int32)a16 + (opus_int32)b16 ) )
+    res = (opus_int16)silk_SAT16(silk_ADD32((opus_int32)(a16), (b16)));
+    if (res != silk_SAT16((opus_int32)a16 + (opus_int32)b16))
     {
         fprintf (stderr, "silk_ADD_SAT16(%d, %d) in %s: line %d\n", a16, b16, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return res;
@@ -151,12 +151,12 @@ static OPUS_INLINE opus_int32 silk_ADD_SAT32_(opus_int32 a32, opus_int32 b32, ch
     opus_int32 res;
     res =   ((((opus_uint32)(a32) + (opus_uint32)(b32)) & 0x80000000) == 0 ?       \
             ((((a32) & (b32)) & 0x80000000) != 0 ? silk_int32_MIN : (a32)+(b32)) : \
-            ((((a32) | (b32)) & 0x80000000) == 0 ? silk_int32_MAX : (a32)+(b32)) );
-    if ( res != silk_SAT32( (opus_int64)a32 + (opus_int64)b32 ) )
+            ((((a32) | (b32)) & 0x80000000) == 0 ? silk_int32_MAX : (a32)+(b32)));
+    if (res != silk_SAT32((opus_int64)a32 + (opus_int64)b32))
     {
         fprintf (stderr, "silk_ADD_SAT32(%d, %d) in %s: line %d\n", a32, b32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return res;
@@ -164,16 +164,16 @@ static OPUS_INLINE opus_int32 silk_ADD_SAT32_(opus_int32 a32, opus_int32 b32, ch
 
 #undef silk_ADD_SAT64
 #define silk_ADD_SAT64(a,b) silk_ADD_SAT64_((a), (b), __FILE__, __LINE__)
-static OPUS_INLINE opus_int64 silk_ADD_SAT64_( opus_int64 a64, opus_int64 b64, char *file, int line) {
+static OPUS_INLINE opus_int64 silk_ADD_SAT64_(opus_int64 a64, opus_int64 b64, char *file, int line) {
     opus_int64 res;
     int        fail = 0;
     res =   ((((a64) + (b64)) & 0x8000000000000000LL) == 0 ?                                 \
             ((((a64) & (b64)) & 0x8000000000000000LL) != 0 ? silk_int64_MIN : (a64)+(b64)) : \
-            ((((a64) | (b64)) & 0x8000000000000000LL) == 0 ? silk_int64_MAX : (a64)+(b64)) );
-    if( res != a64 + b64 ) {
+            ((((a64) | (b64)) & 0x8000000000000000LL) == 0 ? silk_int64_MAX : (a64)+(b64)));
+    if(res != a64 + b64) {
         /* Check that we saturated to the correct extreme value */
-        if ( !(( res == silk_int64_MAX && ( ( a64 >> 1 ) + ( b64 >> 1 ) > ( silk_int64_MAX >> 3 ) ) ) ||
-               ( res == silk_int64_MIN && ( ( a64 >> 1 ) + ( b64 >> 1 ) < ( silk_int64_MIN >> 3 ) ) ) ) )
+        if (!((res == silk_int64_MAX && ((a64 >> 1) + (b64 >> 1) > (silk_int64_MAX >> 3))) ||
+               (res == silk_int64_MIN && ((a64 >> 1) + (b64 >> 1) < (silk_int64_MIN >> 3)))))
         {
             fail = 1;
         }
@@ -181,11 +181,11 @@ static OPUS_INLINE opus_int64 silk_ADD_SAT64_( opus_int64 a64, opus_int64 b64, c
         /* Saturation not necessary */
         fail = res != a64 + b64;
     }
-    if ( fail )
+    if (fail)
     {
         fprintf (stderr, "silk_ADD_SAT64(%lld, %lld) in %s: line %d\n", (long long)a64, (long long)b64, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return res;
@@ -193,14 +193,14 @@ static OPUS_INLINE opus_int64 silk_ADD_SAT64_( opus_int64 a64, opus_int64 b64, c
 
 #undef silk_SUB_SAT16
 #define silk_SUB_SAT16(a,b) silk_SUB_SAT16_((a), (b), __FILE__, __LINE__)
-static OPUS_INLINE opus_int16 silk_SUB_SAT16_( opus_int16 a16, opus_int16 b16, char *file, int line ) {
+static OPUS_INLINE opus_int16 silk_SUB_SAT16_(opus_int16 a16, opus_int16 b16, char *file, int line) {
     opus_int16 res;
-    res = (opus_int16)silk_SAT16( silk_SUB32( (opus_int32)(a16), (b16) ) );
-    if ( res != silk_SAT16( (opus_int32)a16 - (opus_int32)b16 ) )
+    res = (opus_int16)silk_SAT16(silk_SUB32((opus_int32)(a16), (b16)));
+    if (res != silk_SAT16((opus_int32)a16 - (opus_int32)b16))
     {
         fprintf (stderr, "silk_SUB_SAT16(%d, %d) in %s: line %d\n", a16, b16, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return res;
@@ -208,16 +208,16 @@ static OPUS_INLINE opus_int16 silk_SUB_SAT16_( opus_int16 a16, opus_int16 b16, c
 
 #undef silk_SUB_SAT32
 #define silk_SUB_SAT32(a,b) silk_SUB_SAT32_((a), (b), __FILE__, __LINE__)
-static OPUS_INLINE opus_int32 silk_SUB_SAT32_( opus_int32 a32, opus_int32 b32, char *file, int line ) {
+static OPUS_INLINE opus_int32 silk_SUB_SAT32_(opus_int32 a32, opus_int32 b32, char *file, int line) {
     opus_int32 res;
     res =   ((((opus_uint32)(a32)-(opus_uint32)(b32)) & 0x80000000) == 0 ?                \
-            (( (a32) & ((b32)^0x80000000) & 0x80000000) ? silk_int32_MIN : (a32)-(b32)) : \
-            ((((a32)^0x80000000) & (b32)  & 0x80000000) ? silk_int32_MAX : (a32)-(b32)) );
-    if ( res != silk_SAT32( (opus_int64)a32 - (opus_int64)b32 ) )
+            (((a32) & ((b32)^0x80000000) & 0x80000000) ? silk_int32_MIN : (a32)-(b32)) : \
+            ((((a32)^0x80000000) & (b32)  & 0x80000000) ? silk_int32_MAX : (a32)-(b32)));
+    if (res != silk_SAT32((opus_int64)a32 - (opus_int64)b32))
     {
         fprintf (stderr, "silk_SUB_SAT32(%d, %d) in %s: line %d\n", a32, b32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return res;
@@ -225,16 +225,16 @@ static OPUS_INLINE opus_int32 silk_SUB_SAT32_( opus_int32 a32, opus_int32 b32, c
 
 #undef silk_SUB_SAT64
 #define silk_SUB_SAT64(a,b) silk_SUB_SAT64_((a), (b), __FILE__, __LINE__)
-static OPUS_INLINE opus_int64 silk_SUB_SAT64_( opus_int64 a64, opus_int64 b64, char *file, int line ) {
+static OPUS_INLINE opus_int64 silk_SUB_SAT64_(opus_int64 a64, opus_int64 b64, char *file, int line) {
     opus_int64 res;
     int        fail = 0;
     res =   ((((a64)-(b64)) & 0x8000000000000000LL) == 0 ?                                                    \
-            (( (a64) & ((b64)^0x8000000000000000LL) & 0x8000000000000000LL) ? silk_int64_MIN : (a64)-(b64)) : \
-            ((((a64)^0x8000000000000000LL) & (b64)  & 0x8000000000000000LL) ? silk_int64_MAX : (a64)-(b64)) );
-    if( res != a64 - b64 ) {
+            (((a64) & ((b64)^0x8000000000000000LL) & 0x8000000000000000LL) ? silk_int64_MIN : (a64)-(b64)) : \
+            ((((a64)^0x8000000000000000LL) & (b64)  & 0x8000000000000000LL) ? silk_int64_MAX : (a64)-(b64)));
+    if(res != a64 - b64) {
         /* Check that we saturated to the correct extreme value */
-        if( !(( res == silk_int64_MAX && ( ( a64 >> 1 ) + ( b64 >> 1 ) > ( silk_int64_MAX >> 3 ) ) ) ||
-              ( res == silk_int64_MIN && ( ( a64 >> 1 ) + ( b64 >> 1 ) < ( silk_int64_MIN >> 3 ) ) ) ))
+        if(!((res == silk_int64_MAX && ((a64 >> 1) + (b64 >> 1) > (silk_int64_MAX >> 3))) ||
+              (res == silk_int64_MIN && ((a64 >> 1) + (b64 >> 1) < (silk_int64_MIN >> 3)))))
         {
             fail = 1;
         }
@@ -242,11 +242,11 @@ static OPUS_INLINE opus_int64 silk_SUB_SAT64_( opus_int64 a64, opus_int64 b64, c
         /* Saturation not necessary */
         fail = res != a64 - b64;
     }
-    if ( fail )
+    if (fail)
     {
         fprintf (stderr, "silk_SUB_SAT64(%lld, %lld) in %s: line %d\n", (long long)a64, (long long)b64, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return res;
@@ -259,11 +259,11 @@ static OPUS_INLINE opus_int32 silk_MUL_(opus_int32 a32, opus_int32 b32, char *fi
     opus_int64 ret64;
     ret = a32 * b32;
     ret64 = (opus_int64)a32 * (opus_int64)b32;
-    if ( (opus_int64)ret != ret64 )
+    if ((opus_int64)ret != ret64)
     {
         fprintf (stderr, "silk_MUL(%d, %d) in %s: line %d\n", a32, b32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -274,11 +274,11 @@ static OPUS_INLINE opus_int32 silk_MUL_(opus_int32 a32, opus_int32 b32, char *fi
 static OPUS_INLINE opus_uint32 silk_MUL_uint_(opus_uint32 a32, opus_uint32 b32, char *file, int line){
     opus_uint32 ret;
     ret = a32 * b32;
-    if ( (opus_uint64)ret != (opus_uint64)a32 * (opus_uint64)b32 )
+    if ((opus_uint64)ret != (opus_uint64)a32 * (opus_uint64)b32)
     {
         fprintf (stderr, "silk_MUL_uint(%u, %u) in %s: line %d\n", a32, b32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -289,11 +289,11 @@ static OPUS_INLINE opus_uint32 silk_MUL_uint_(opus_uint32 a32, opus_uint32 b32, 
 static OPUS_INLINE opus_int32 silk_MLA_(opus_int32 a32, opus_int32 b32, opus_int32 c32, char *file, int line){
     opus_int32 ret;
     ret = a32 + b32 * c32;
-    if ( (opus_int64)ret != (opus_int64)a32 + (opus_int64)b32 * (opus_int64)c32 )
+    if ((opus_int64)ret != (opus_int64)a32 + (opus_int64)b32 * (opus_int64)c32)
     {
         fprintf (stderr, "silk_MLA(%d, %d, %d) in %s: line %d\n", a32, b32, c32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -304,11 +304,11 @@ static OPUS_INLINE opus_int32 silk_MLA_(opus_int32 a32, opus_int32 b32, opus_int
 static OPUS_INLINE opus_int32 silk_MLA_uint_(opus_uint32 a32, opus_uint32 b32, opus_uint32 c32, char *file, int line){
     opus_uint32 ret;
     ret = a32 + b32 * c32;
-    if ( (opus_int64)ret != (opus_int64)a32 + (opus_int64)b32 * (opus_int64)c32 )
+    if ((opus_int64)ret != (opus_int64)a32 + (opus_int64)b32 * (opus_int64)c32)
     {
         fprintf (stderr, "silk_MLA_uint(%d, %d, %d) in %s: line %d\n", a32, b32, c32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -319,11 +319,11 @@ static OPUS_INLINE opus_int32 silk_MLA_uint_(opus_uint32 a32, opus_uint32 b32, o
 static OPUS_INLINE opus_int32 silk_SMULWB_(opus_int32 a32, opus_int32 b32, char *file, int line){
     opus_int32 ret;
     ret = (a32 >> 16) * (opus_int32)((opus_int16)b32) + (((a32 & 0x0000FFFF) * (opus_int32)((opus_int16)b32)) >> 16);
-    if ( (opus_int64)ret != ((opus_int64)a32 * (opus_int16)b32) >> 16 )
+    if ((opus_int64)ret != ((opus_int64)a32 * (opus_int16)b32) >> 16)
     {
         fprintf (stderr, "silk_SMULWB(%d, %d) in %s: line %d\n", a32, b32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -333,12 +333,12 @@ static OPUS_INLINE opus_int32 silk_SMULWB_(opus_int32 a32, opus_int32 b32, char 
 #define silk_SMLAWB(a,b,c) silk_SMLAWB_((a), (b), (c), __FILE__, __LINE__)
 static OPUS_INLINE opus_int32 silk_SMLAWB_(opus_int32 a32, opus_int32 b32, opus_int32 c32, char *file, int line){
     opus_int32 ret;
-    ret = silk_ADD32( a32, silk_SMULWB( b32, c32 ) );
-    if ( silk_ADD32( a32, silk_SMULWB( b32, c32 ) ) != silk_ADD_SAT32( a32, silk_SMULWB( b32, c32 ) ) )
+    ret = silk_ADD32(a32, silk_SMULWB(b32, c32));
+    if (silk_ADD32(a32, silk_SMULWB(b32, c32)) != silk_ADD_SAT32(a32, silk_SMULWB(b32, c32)))
     {
         fprintf (stderr, "silk_SMLAWB(%d, %d, %d) in %s: line %d\n", a32, b32, c32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -349,11 +349,11 @@ static OPUS_INLINE opus_int32 silk_SMLAWB_(opus_int32 a32, opus_int32 b32, opus_
 static OPUS_INLINE opus_int32 silk_SMULWT_(opus_int32 a32, opus_int32 b32, char *file, int line){
     opus_int32 ret;
     ret = (a32 >> 16) * (b32 >> 16) + (((a32 & 0x0000FFFF) * (b32 >> 16)) >> 16);
-    if ( (opus_int64)ret != ((opus_int64)a32 * (b32 >> 16)) >> 16 )
+    if ((opus_int64)ret != ((opus_int64)a32 * (b32 >> 16)) >> 16)
     {
         fprintf (stderr, "silk_SMULWT(%d, %d) in %s: line %d\n", a32, b32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -364,11 +364,11 @@ static OPUS_INLINE opus_int32 silk_SMULWT_(opus_int32 a32, opus_int32 b32, char 
 static OPUS_INLINE opus_int32 silk_SMLAWT_(opus_int32 a32, opus_int32 b32, opus_int32 c32, char *file, int line){
     opus_int32 ret;
     ret = a32 + ((b32 >> 16) * (c32 >> 16)) + (((b32 & 0x0000FFFF) * ((c32 >> 16)) >> 16));
-    if ( (opus_int64)ret != (opus_int64)a32 + (((opus_int64)b32 * (c32 >> 16)) >> 16) )
+    if ((opus_int64)ret != (opus_int64)a32 + (((opus_int64)b32 * (c32 >> 16)) >> 16))
     {
         fprintf (stderr, "silk_SMLAWT(%d, %d, %d) in %s: line %d\n", a32, b32, c32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -380,16 +380,16 @@ static OPUS_INLINE opus_int64 silk_SMULL_(opus_int64 a64, opus_int64 b64, char *
     opus_int64 ret64;
     int        fail = 0;
     ret64 = a64 * b64;
-    if( b64 != 0 ) {
+    if(b64 != 0) {
         fail = a64 != (ret64 / b64);
-    } else if( a64 != 0 ) {
+    } else if(a64 != 0) {
         fail = b64 != (ret64 / a64);
     }
-    if ( fail )
+    if (fail)
     {
         fprintf (stderr, "silk_SMULL(%lld, %lld) in %s: line %d\n", (long long)a64, (long long)b64, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret64;
@@ -401,11 +401,11 @@ static OPUS_INLINE opus_int64 silk_SMULL_(opus_int64 a64, opus_int64 b64, char *
 static OPUS_INLINE opus_int32 silk_SMLABB_(opus_int32 a32, opus_int32 b32, opus_int32 c32, char *file, int line){
     opus_int32 ret;
     ret = a32 + (opus_int32)((opus_int16)b32) * (opus_int32)((opus_int16)c32);
-    if ( (opus_int64)ret != (opus_int64)a32 + (opus_int64)b32 * (opus_int16)c32 )
+    if ((opus_int64)ret != (opus_int64)a32 + (opus_int64)b32 * (opus_int16)c32)
     {
         fprintf (stderr, "silk_SMLABB(%d, %d, %d) in %s: line %d\n", a32, b32, c32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -417,11 +417,11 @@ static OPUS_INLINE opus_int32 silk_SMLABB_(opus_int32 a32, opus_int32 b32, opus_
 static OPUS_INLINE opus_int32 silk_SMLABT_(opus_int32 a32, opus_int32 b32, opus_int32 c32, char *file, int line){
     opus_int32 ret;
     ret = a32 + ((opus_int32)((opus_int16)b32)) * (c32 >> 16);
-    if ( (opus_int64)ret != (opus_int64)a32 + (opus_int64)b32 * (c32 >> 16) )
+    if ((opus_int64)ret != (opus_int64)a32 + (opus_int64)b32 * (c32 >> 16))
     {
         fprintf (stderr, "silk_SMLABT(%d, %d, %d) in %s: line %d\n", a32, b32, c32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -433,11 +433,11 @@ static OPUS_INLINE opus_int32 silk_SMLABT_(opus_int32 a32, opus_int32 b32, opus_
 static OPUS_INLINE opus_int32 silk_SMLATT_(opus_int32 a32, opus_int32 b32, opus_int32 c32, char *file, int line){
     opus_int32 ret;
     ret = a32 + (b32 >> 16) * (c32 >> 16);
-    if ( (opus_int64)ret != (opus_int64)a32 + (b32 >> 16) * (c32 >> 16) )
+    if ((opus_int64)ret != (opus_int64)a32 + (b32 >> 16) * (c32 >> 16))
     {
         fprintf (stderr, "silk_SMLATT(%d, %d, %d) in %s: line %d\n", a32, b32, c32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -450,24 +450,24 @@ static OPUS_INLINE opus_int32 silk_SMULWW_(opus_int32 a32, opus_int32 b32, char 
     opus_int64 ret64;
     int        fail = 0;
 
-    ret  = silk_SMULWB( a32, b32 );
-    tmp1 = silk_RSHIFT_ROUND( b32, 16 );
-    tmp2 = silk_MUL( a32, tmp1 );
+    ret  = silk_SMULWB(a32, b32);
+    tmp1 = silk_RSHIFT_ROUND(b32, 16);
+    tmp2 = silk_MUL(a32, tmp1);
 
     fail |= (opus_int64)tmp2 != (opus_int64) a32 * (opus_int64) tmp1;
 
     tmp1 = ret;
-    ret  = silk_ADD32( tmp1, tmp2 );
-    fail |= silk_ADD32( tmp1, tmp2 ) != silk_ADD_SAT32( tmp1, tmp2 );
+    ret  = silk_ADD32(tmp1, tmp2);
+    fail |= silk_ADD32(tmp1, tmp2) != silk_ADD_SAT32(tmp1, tmp2);
 
-    ret64 = silk_RSHIFT64( silk_SMULL( a32, b32 ), 16 );
+    ret64 = silk_RSHIFT64(silk_SMULL(a32, b32), 16);
     fail |= (opus_int64)ret != ret64;
 
-    if ( fail )
+    if (fail)
     {
         fprintf (stderr, "silk_SMULWT(%d, %d) in %s: line %d\n", a32, b32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
 
@@ -479,13 +479,13 @@ static OPUS_INLINE opus_int32 silk_SMULWW_(opus_int32 a32, opus_int32 b32, char 
 static OPUS_INLINE opus_int32 silk_SMLAWW_(opus_int32 a32, opus_int32 b32, opus_int32 c32, char *file, int line){
     opus_int32 ret, tmp;
 
-    tmp = silk_SMULWW( b32, c32 );
-    ret = silk_ADD32( a32, tmp );
-    if ( ret != silk_ADD_SAT32( a32, tmp ) )
+    tmp = silk_SMULWW(b32, c32);
+    ret = silk_ADD32(a32, tmp);
+    if (ret != silk_ADD_SAT32(a32, tmp))
     {
         fprintf (stderr, "silk_SMLAWW(%d, %d, %d) in %s: line %d\n", a32, b32, c32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -506,11 +506,11 @@ static OPUS_INLINE opus_int32 silk_SMLAWW_(opus_int32 a32, opus_int32 b32, opus_
 #undef silk_DIV32
 #define silk_DIV32(a,b) silk_DIV32_((a), (b), __FILE__, __LINE__)
 static OPUS_INLINE opus_int32 silk_DIV32_(opus_int32 a32, opus_int32 b32, char *file, int line){
-    if ( b32 == 0 )
+    if (b32 == 0)
     {
         fprintf (stderr, "silk_DIV32(%d, %d) in %s: line %d\n", a32, b32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return a32 / b32;
@@ -523,11 +523,11 @@ static OPUS_INLINE opus_int32 silk_DIV32_16_(opus_int32 a32, opus_int32 b32, cha
     fail |= b32 == 0;
     fail |= b32 > silk_int16_MAX;
     fail |= b32 < silk_int16_MIN;
-    if ( fail )
+    if (fail)
     {
         fprintf (stderr, "silk_DIV32_16(%d, %d) in %s: line %d\n", a32, b32, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return a32 / b32;
@@ -551,11 +551,11 @@ static OPUS_INLINE opus_int8 silk_LSHIFT8_(opus_int8 a, opus_int32 shift, char *
     fail |= shift < 0;
     fail |= shift >= 8;
     fail |= (opus_int64)ret != ((opus_int64)a) << shift;
-    if ( fail )
+    if (fail)
     {
         fprintf (stderr, "silk_LSHIFT8(%d, %d) in %s: line %d\n", a, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -570,11 +570,11 @@ static OPUS_INLINE opus_int16 silk_LSHIFT16_(opus_int16 a, opus_int32 shift, cha
     fail |= shift < 0;
     fail |= shift >= 16;
     fail |= (opus_int64)ret != ((opus_int64)a) << shift;
-    if ( fail )
+    if (fail)
     {
         fprintf (stderr, "silk_LSHIFT16(%d, %d) in %s: line %d\n", a, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -589,11 +589,11 @@ static OPUS_INLINE opus_int32 silk_LSHIFT32_(opus_int32 a, opus_int32 shift, cha
     fail |= shift < 0;
     fail |= shift >= 32;
     fail |= (opus_int64)ret != ((opus_int64)a) << shift;
-    if ( fail )
+    if (fail)
     {
         fprintf (stderr, "silk_LSHIFT32(%d, %d) in %s: line %d\n", a, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -608,11 +608,11 @@ static OPUS_INLINE opus_int64 silk_LSHIFT64_(opus_int64 a, opus_int shift, char 
     fail |= shift < 0;
     fail |= shift >= 64;
     fail |= (ret>>shift) != ((opus_int64)a);
-    if ( fail )
+    if (fail)
     {
         fprintf (stderr, "silk_LSHIFT64(%lld, %d) in %s: line %d\n", (long long)a, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -621,11 +621,11 @@ static OPUS_INLINE opus_int64 silk_LSHIFT64_(opus_int64 a, opus_int shift, char 
 #undef silk_LSHIFT_ovflw
 #define silk_LSHIFT_ovflw(a,b) silk_LSHIFT_ovflw_((a), (b), __FILE__, __LINE__)
 static OPUS_INLINE opus_int32 silk_LSHIFT_ovflw_(opus_int32 a, opus_int32 shift, char *file, int line){
-    if ( (shift < 0) || (shift >= 32) ) /* no check for overflow */
+    if ((shift < 0) || (shift >= 32)) /* no check for overflow */
     {
         fprintf (stderr, "silk_LSHIFT_ovflw(%d, %d) in %s: line %d\n", a, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return a << shift;
@@ -636,11 +636,11 @@ static OPUS_INLINE opus_int32 silk_LSHIFT_ovflw_(opus_int32 a, opus_int32 shift,
 static OPUS_INLINE opus_uint32 silk_LSHIFT_uint_(opus_uint32 a, opus_int32 shift, char *file, int line){
     opus_uint32 ret;
     ret = a << shift;
-    if ( (shift < 0) || ((opus_int64)ret != ((opus_int64)a) << shift))
+    if ((shift < 0) || ((opus_int64)ret != ((opus_int64)a) << shift))
     {
         fprintf (stderr, "silk_LSHIFT_uint(%u, %d) in %s: line %d\n", a, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -649,11 +649,11 @@ static OPUS_INLINE opus_uint32 silk_LSHIFT_uint_(opus_uint32 a, opus_int32 shift
 #undef silk_RSHIFT8
 #define silk_RSHITF8(a,b) silk_RSHIFT8_((a), (b), __FILE__, __LINE__)
 static OPUS_INLINE opus_int8 silk_RSHIFT8_(opus_int8 a, opus_int32 shift, char *file, int line){
-    if ( (shift < 0) || (shift>=8) )
+    if ((shift < 0) || (shift>=8))
     {
         fprintf (stderr, "silk_RSHITF8(%d, %d) in %s: line %d\n", a, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return a >> shift;
@@ -662,11 +662,11 @@ static OPUS_INLINE opus_int8 silk_RSHIFT8_(opus_int8 a, opus_int32 shift, char *
 #undef silk_RSHIFT16
 #define silk_RSHITF16(a,b) silk_RSHIFT16_((a), (b), __FILE__, __LINE__)
 static OPUS_INLINE opus_int16 silk_RSHIFT16_(opus_int16 a, opus_int32 shift, char *file, int line){
-    if ( (shift < 0) || (shift>=16) )
+    if ((shift < 0) || (shift>=16))
     {
         fprintf (stderr, "silk_RSHITF16(%d, %d) in %s: line %d\n", a, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return a >> shift;
@@ -675,11 +675,11 @@ static OPUS_INLINE opus_int16 silk_RSHIFT16_(opus_int16 a, opus_int32 shift, cha
 #undef silk_RSHIFT32
 #define silk_RSHIFT32(a,b) silk_RSHIFT32_((a), (b), __FILE__, __LINE__)
 static OPUS_INLINE opus_int32 silk_RSHIFT32_(opus_int32 a, opus_int32 shift, char *file, int line){
-    if ( (shift < 0) || (shift>=32) )
+    if ((shift < 0) || (shift>=32))
     {
         fprintf (stderr, "silk_RSHITF32(%d, %d) in %s: line %d\n", a, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return a >> shift;
@@ -688,11 +688,11 @@ static OPUS_INLINE opus_int32 silk_RSHIFT32_(opus_int32 a, opus_int32 shift, cha
 #undef silk_RSHIFT64
 #define silk_RSHIFT64(a,b) silk_RSHIFT64_((a), (b), __FILE__, __LINE__)
 static OPUS_INLINE opus_int64 silk_RSHIFT64_(opus_int64 a, opus_int64 shift, char *file, int line){
-    if ( (shift < 0) || (shift>=64) )
+    if ((shift < 0) || (shift>=64))
     {
         fprintf (stderr, "silk_RSHITF64(%lld, %lld) in %s: line %d\n", (long long)a, (long long)shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return a >> shift;
@@ -701,11 +701,11 @@ static OPUS_INLINE opus_int64 silk_RSHIFT64_(opus_int64 a, opus_int64 shift, cha
 #undef silk_RSHIFT_uint
 #define silk_RSHIFT_uint(a,b) silk_RSHIFT_uint_((a), (b), __FILE__, __LINE__)
 static OPUS_INLINE opus_uint32 silk_RSHIFT_uint_(opus_uint32 a, opus_int32 shift, char *file, int line){
-    if ( (shift < 0) || (shift>32) )
+    if ((shift < 0) || (shift>32))
     {
         fprintf (stderr, "silk_RSHIFT_uint(%u, %d) in %s: line %d\n", a, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return a >> shift;
@@ -716,11 +716,11 @@ static OPUS_INLINE opus_uint32 silk_RSHIFT_uint_(opus_uint32 a, opus_int32 shift
 static OPUS_INLINE int silk_ADD_LSHIFT_(int a, int b, int shift, char *file, int line){
     opus_int16 ret;
     ret = a + (b << shift);
-    if ( (shift < 0) || (shift>15) || ((opus_int64)ret != (opus_int64)a + (((opus_int64)b) << shift)) )
+    if ((shift < 0) || (shift>15) || ((opus_int64)ret != (opus_int64)a + (((opus_int64)b) << shift)))
     {
         fprintf (stderr, "silk_ADD_LSHIFT(%d, %d, %d) in %s: line %d\n", a, b, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;                /* shift >= 0 */
@@ -731,11 +731,11 @@ static OPUS_INLINE int silk_ADD_LSHIFT_(int a, int b, int shift, char *file, int
 static OPUS_INLINE opus_int32 silk_ADD_LSHIFT32_(opus_int32 a, opus_int32 b, opus_int32 shift, char *file, int line){
     opus_int32 ret;
     ret = a + (b << shift);
-    if ( (shift < 0) || (shift>31) || ((opus_int64)ret != (opus_int64)a + (((opus_int64)b) << shift)) )
+    if ((shift < 0) || (shift>31) || ((opus_int64)ret != (opus_int64)a + (((opus_int64)b) << shift)))
     {
         fprintf (stderr, "silk_ADD_LSHIFT32(%d, %d, %d) in %s: line %d\n", a, b, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;                /* shift >= 0 */
@@ -746,11 +746,11 @@ static OPUS_INLINE opus_int32 silk_ADD_LSHIFT32_(opus_int32 a, opus_int32 b, opu
 static OPUS_INLINE opus_uint32 silk_ADD_LSHIFT_uint_(opus_uint32 a, opus_uint32 b, opus_int32 shift, char *file, int line){
     opus_uint32 ret;
     ret = a + (b << shift);
-    if ( (shift < 0) || (shift>32) || ((opus_int64)ret != (opus_int64)a + (((opus_int64)b) << shift)) )
+    if ((shift < 0) || (shift>32) || ((opus_int64)ret != (opus_int64)a + (((opus_int64)b) << shift)))
     {
         fprintf (stderr, "silk_ADD_LSHIFT_uint(%u, %u, %d) in %s: line %d\n", a, b, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;                /* shift >= 0 */
@@ -761,11 +761,11 @@ static OPUS_INLINE opus_uint32 silk_ADD_LSHIFT_uint_(opus_uint32 a, opus_uint32 
 static OPUS_INLINE int silk_ADD_RSHIFT_(int a, int b, int shift, char *file, int line){
     opus_int16 ret;
     ret = a + (b >> shift);
-    if ( (shift < 0) || (shift>15) || ((opus_int64)ret != (opus_int64)a + (((opus_int64)b) >> shift)) )
+    if ((shift < 0) || (shift>15) || ((opus_int64)ret != (opus_int64)a + (((opus_int64)b) >> shift)))
     {
         fprintf (stderr, "silk_ADD_RSHIFT(%d, %d, %d) in %s: line %d\n", a, b, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;                /* shift  > 0 */
@@ -776,11 +776,11 @@ static OPUS_INLINE int silk_ADD_RSHIFT_(int a, int b, int shift, char *file, int
 static OPUS_INLINE opus_int32 silk_ADD_RSHIFT32_(opus_int32 a, opus_int32 b, opus_int32 shift, char *file, int line){
     opus_int32 ret;
     ret = a + (b >> shift);
-    if ( (shift < 0) || (shift>31) || ((opus_int64)ret != (opus_int64)a + (((opus_int64)b) >> shift)) )
+    if ((shift < 0) || (shift>31) || ((opus_int64)ret != (opus_int64)a + (((opus_int64)b) >> shift)))
     {
         fprintf (stderr, "silk_ADD_RSHIFT32(%d, %d, %d) in %s: line %d\n", a, b, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;                /* shift  > 0 */
@@ -791,11 +791,11 @@ static OPUS_INLINE opus_int32 silk_ADD_RSHIFT32_(opus_int32 a, opus_int32 b, opu
 static OPUS_INLINE opus_uint32 silk_ADD_RSHIFT_uint_(opus_uint32 a, opus_uint32 b, opus_int32 shift, char *file, int line){
     opus_uint32 ret;
     ret = a + (b >> shift);
-    if ( (shift < 0) || (shift>32) || ((opus_int64)ret != (opus_int64)a + (((opus_int64)b) >> shift)) )
+    if ((shift < 0) || (shift>32) || ((opus_int64)ret != (opus_int64)a + (((opus_int64)b) >> shift)))
     {
         fprintf (stderr, "silk_ADD_RSHIFT_uint(%u, %u, %d) in %s: line %d\n", a, b, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;                /* shift  > 0 */
@@ -806,11 +806,11 @@ static OPUS_INLINE opus_uint32 silk_ADD_RSHIFT_uint_(opus_uint32 a, opus_uint32 
 static OPUS_INLINE opus_int32 silk_SUB_LSHIFT32_(opus_int32 a, opus_int32 b, opus_int32 shift, char *file, int line){
     opus_int32 ret;
     ret = a - (b << shift);
-    if ( (shift < 0) || (shift>31) || ((opus_int64)ret != (opus_int64)a - (((opus_int64)b) << shift)) )
+    if ((shift < 0) || (shift>31) || ((opus_int64)ret != (opus_int64)a - (((opus_int64)b) << shift)))
     {
         fprintf (stderr, "silk_SUB_LSHIFT32(%d, %d, %d) in %s: line %d\n", a, b, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;                /* shift >= 0 */
@@ -821,11 +821,11 @@ static OPUS_INLINE opus_int32 silk_SUB_LSHIFT32_(opus_int32 a, opus_int32 b, opu
 static OPUS_INLINE opus_int32 silk_SUB_RSHIFT32_(opus_int32 a, opus_int32 b, opus_int32 shift, char *file, int line){
     opus_int32 ret;
     ret = a - (b >> shift);
-    if ( (shift < 0) || (shift>31) || ((opus_int64)ret != (opus_int64)a - (((opus_int64)b) >> shift)) )
+    if ((shift < 0) || (shift>31) || ((opus_int64)ret != (opus_int64)a - (((opus_int64)b) >> shift)))
     {
         fprintf (stderr, "silk_SUB_RSHIFT32(%d, %d, %d) in %s: line %d\n", a, b, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;                /* shift  > 0 */
@@ -837,11 +837,11 @@ static OPUS_INLINE opus_int32 silk_RSHIFT_ROUND_(opus_int32 a, opus_int32 shift,
     opus_int32 ret;
     ret = shift == 1 ? (a >> 1) + (a & 1) : ((a >> (shift - 1)) + 1) >> 1;
     /* the marco definition can't handle a shift of zero */
-    if ( (shift <= 0) || (shift>31) || ((opus_int64)ret != ((opus_int64)a + ((opus_int64)1 << (shift - 1))) >> shift) )
+    if ((shift <= 0) || (shift>31) || ((opus_int64)ret != ((opus_int64)a + ((opus_int64)1 << (shift - 1))) >> shift))
     {
         fprintf (stderr, "silk_RSHIFT_ROUND(%d, %d) in %s: line %d\n", a, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return ret;
@@ -852,11 +852,11 @@ static OPUS_INLINE opus_int32 silk_RSHIFT_ROUND_(opus_int32 a, opus_int32 shift,
 static OPUS_INLINE opus_int64 silk_RSHIFT_ROUND64_(opus_int64 a, opus_int32 shift, char *file, int line){
     opus_int64 ret;
     /* the marco definition can't handle a shift of zero */
-    if ( (shift <= 0) || (shift>=64) )
+    if ((shift <= 0) || (shift>=64))
     {
         fprintf (stderr, "silk_RSHIFT_ROUND64(%lld, %d) in %s: line %d\n", (long long)a, shift, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     ret = shift == 1 ? (a >> 1) + (a & 1) : ((a >> (shift - 1)) + 1) >> 1;
@@ -873,11 +873,11 @@ static OPUS_INLINE opus_int32 silk_abs(opus_int32 a){
 #undef silk_abs_int64
 #define silk_abs_int64(a) silk_abs_int64_((a), __FILE__, __LINE__)
 static OPUS_INLINE opus_int64 silk_abs_int64_(opus_int64 a, char *file, int line){
-    if ( a == silk_int64_MIN )
+    if (a == silk_int64_MIN)
     {
         fprintf (stderr, "silk_abs_int64(%lld) in %s: line %d\n", (long long)a, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return (((a) >  0)  ? (a) : -(a));            /* Be careful, silk_abs returns wrong when input equals to silk_intXX_MIN */
@@ -886,11 +886,11 @@ static OPUS_INLINE opus_int64 silk_abs_int64_(opus_int64 a, char *file, int line
 #undef silk_abs_int32
 #define silk_abs_int32(a) silk_abs_int32_((a), __FILE__, __LINE__)
 static OPUS_INLINE opus_int32 silk_abs_int32_(opus_int32 a, char *file, int line){
-    if ( a == silk_int32_MIN )
+    if (a == silk_int32_MIN)
     {
         fprintf (stderr, "silk_abs_int32(%d) in %s: line %d\n", a, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
     return silk_abs(a);
@@ -898,47 +898,47 @@ static OPUS_INLINE opus_int32 silk_abs_int32_(opus_int32 a, char *file, int line
 
 #undef silk_CHECK_FIT8
 #define silk_CHECK_FIT8(a) silk_CHECK_FIT8_((a), __FILE__, __LINE__)
-static OPUS_INLINE opus_int8 silk_CHECK_FIT8_( opus_int64 a, char *file, int line ){
+static OPUS_INLINE opus_int8 silk_CHECK_FIT8_(opus_int64 a, char *file, int line){
     opus_int8 ret;
     ret = (opus_int8)a;
-    if ( (opus_int64)ret != a )
+    if ((opus_int64)ret != a)
     {
         fprintf (stderr, "silk_CHECK_FIT8(%lld) in %s: line %d\n", (long long)a, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
-    return( ret );
+    return(ret);
 }
 
 #undef silk_CHECK_FIT16
 #define silk_CHECK_FIT16(a) silk_CHECK_FIT16_((a), __FILE__, __LINE__)
-static OPUS_INLINE opus_int16 silk_CHECK_FIT16_( opus_int64 a, char *file, int line ){
+static OPUS_INLINE opus_int16 silk_CHECK_FIT16_(opus_int64 a, char *file, int line){
     opus_int16 ret;
     ret = (opus_int16)a;
-    if ( (opus_int64)ret != a )
+    if ((opus_int64)ret != a)
     {
         fprintf (stderr, "silk_CHECK_FIT16(%lld) in %s: line %d\n", (long long)a, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
-    return( ret );
+    return(ret);
 }
 
 #undef silk_CHECK_FIT32
 #define silk_CHECK_FIT32(a) silk_CHECK_FIT32_((a), __FILE__, __LINE__)
-static OPUS_INLINE opus_int32 silk_CHECK_FIT32_( opus_int64 a, char *file, int line ){
+static OPUS_INLINE opus_int32 silk_CHECK_FIT32_(opus_int64 a, char *file, int line){
     opus_int32 ret;
     ret = (opus_int32)a;
-    if ( (opus_int64)ret != a )
+    if ((opus_int64)ret != a)
     {
         fprintf (stderr, "silk_CHECK_FIT32(%lld) in %s: line %d\n", (long long)a, file, line);
 #ifdef FIXED_DEBUG_ASSERT
-        silk_assert( 0 );
+        silk_assert(0);
 #endif
     }
-    return( ret );
+    return(ret);
 }
 
 /* no checking for silk_NSHIFT_MUL_32_32

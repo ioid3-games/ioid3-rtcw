@@ -46,7 +46,7 @@
         int mi__; \
         long long aval__; \
         int bval__; \
-        __asm__( \
+        __asm__(\
             "#C_MUL\n\t" \
             "ldrd %[aval], %H[aval], %[ap]\n\t" \
             "ldr %[bval], %[bp]\n\t" \
@@ -57,7 +57,7 @@
             : [mr1]"=r"(mr1__), [mr2]"=r"(mr2__), [mi]"=r"(mi__), \
               [aval]"=&r"(aval__), [bval]"=r"(bval__) \
             : [ap]LDRD_CONS(a), [bp]"m"(b) \
-        ); \
+       ); \
         (m).r = SHL32(SUB32(mr1__, mr2__), 1); \
         (m).i = SHL32(mi__, 1); \
     } \
@@ -71,7 +71,7 @@
         int mi__; \
         long long aval__; \
         int bval__; \
-        __asm__( \
+        __asm__(\
             "#C_MUL4\n\t" \
             "ldrd %[aval], %H[aval], %[ap]\n\t" \
             "ldr %[bval], %[bp]\n\t" \
@@ -82,7 +82,7 @@
             : [mr1]"=r"(mr1__), [mr2]"=r"(mr2__), [mi]"=r"(mi__), \
               [aval]"=&r"(aval__), [bval]"=r"(bval__) \
             : [ap]LDRD_CONS(a), [bp]"m"(b) \
-        ); \
+       ); \
         (m).r = SHR32(SUB32(mr1__, mr2__), 1); \
         (m).i = SHR32(mi__, 1); \
     } \
@@ -96,7 +96,7 @@
         int mi2__; \
         long long aval__; \
         int bval__; \
-        __asm__( \
+        __asm__(\
             "#C_MULC\n\t" \
             "ldrd %[aval], %H[aval], %[ap]\n\t" \
             "ldr %[bval], %[bp]\n\t" \
@@ -107,7 +107,7 @@
             : [mr]"=r"(mr__), [mi1]"=r"(mi1__), [mi2]"=r"(mi2__), \
               [aval]"=&r"(aval__), [bval]"=r"(bval__) \
             : [ap]LDRD_CONS(a), [bp]"m"(b) \
-        ); \
+       ); \
         (m).r = SHL32(mr__, 1); \
         (m).i = SHL32(SUB32(mi1__, mi2__), 1); \
     } \

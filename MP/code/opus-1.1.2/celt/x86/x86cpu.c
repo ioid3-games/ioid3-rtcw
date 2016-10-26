@@ -69,7 +69,7 @@ static void cpuid(unsigned int CPUInfo[4], unsigned int InfoType)
         "=c" (CPUInfo[2]),
         "=d" (CPUInfo[3]) :
         "0" (InfoType)
-    );
+   );
 #else
     __asm__ __volatile__ (
         "cpuid":
@@ -78,7 +78,7 @@ static void cpuid(unsigned int CPUInfo[4], unsigned int InfoType)
         "=c" (CPUInfo[2]),
         "=d" (CPUInfo[3]) :
         "0" (InfoType)
-    );
+   );
 #endif
 #elif defined(CPU_INFO_BY_C)
     __get_cpuid(InfoType, &(CPUInfo[0]), &(CPUInfo[1]), &(CPUInfo[2]), &(CPUInfo[3]));

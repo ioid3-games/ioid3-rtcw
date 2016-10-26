@@ -82,31 +82,31 @@ void silk_solve_LDL_FLP(
     silk_float T[    MAX_MATRIX_SIZE ];
     silk_float Dinv[ MAX_MATRIX_SIZE ]; /* inverse diagonal elements of D*/
 
-    silk_assert( M <= MAX_MATRIX_SIZE );
+    silk_assert(M <= MAX_MATRIX_SIZE);
 
     /***************************************************
     Factorize A by LDL such that A = L*D*(L^T),
     where L is lower triangular with ones on diagonal
     ****************************************************/
-    silk_LDL_FLP( A, M, &L[ 0 ][ 0 ], Dinv );
+    silk_LDL_FLP(A, M, &L[ 0 ][ 0 ], Dinv);
 
     /****************************************************
     * substitute D*(L^T) = T. ie:
     L*D*(L^T)*x = b => L*T = b <=> T = inv(L)*b
     ******************************************************/
-    silk_SolveWithLowerTriangularWdiagOnes_FLP( &L[ 0 ][ 0 ], M, b, T );
+    silk_SolveWithLowerTriangularWdiagOnes_FLP(&L[ 0 ][ 0 ], M, b, T);
 
     /****************************************************
     D*(L^T)*x = T <=> (L^T)*x = inv(D)*T, because D is
     diagonal just multiply with 1/d_i
     ****************************************************/
-    for( i = 0; i < M; i++ ) {
+    for(i = 0; i < M; i++) {
         T[ i ] = T[ i ] * Dinv[ i ];
     }
     /****************************************************
     x = inv(L') * inv(D) * T
     *****************************************************/
-    silk_SolveWithUpperTriangularFromLowerWdiagOnes_FLP( &L[ 0 ][ 0 ], M, T, x );
+    silk_SolveWithUpperTriangularFromLowerWdiagOnes_FLP(&L[ 0 ][ 0 ], M, T, x);
 }
 
 static OPUS_INLINE void silk_SolveWithUpperTriangularFromLowerWdiagOnes_FLP(
@@ -120,10 +120,10 @@ static OPUS_INLINE void silk_SolveWithUpperTriangularFromLowerWdiagOnes_FLP(
     silk_float temp;
     const silk_float *ptr1;
 
-    for( i = M - 1; i >= 0; i-- ) {
-        ptr1 =  matrix_adr( L, 0, i, M );
+    for(i = M - 1; i >= 0; i--) {
+        ptr1 =  matrix_adr(L, 0, i, M);
         temp = 0;
-        for( j = M - 1; j > i ; j-- ) {
+        for(j = M - 1; j > i ; j--) {
             temp += ptr1[ j * M ] * x[ j ];
         }
         temp = b[ i ] - temp;
@@ -142,10 +142,10 @@ static OPUS_INLINE void silk_SolveWithLowerTriangularWdiagOnes_FLP(
     silk_float temp;
     const silk_float *ptr1;
 
-    for( i = 0; i < M; i++ ) {
-        ptr1 =  matrix_adr( L, i, 0, M );
+    for(i = 0; i < M; i++) {
+        ptr1 =  matrix_adr(L, i, 0, M);
         temp = 0;
-        for( j = 0; j < i; j++ ) {
+        for(j = 0; j < i; j++) {
             temp += ptr1[ j ] * x[ j ];
         }
         temp = b[ i ] - temp;
@@ -165,43 +165,43 @@ static OPUS_INLINE void silk_LDL_FLP(
     double temp, diag_min_value;
     silk_float v[ MAX_MATRIX_SIZE ] = { 0 }, D[ MAX_MATRIX_SIZE ]; /* temp arrays*/
 
-    silk_assert( M <= MAX_MATRIX_SIZE );
+    silk_assert(M <= MAX_MATRIX_SIZE);
 
-    diag_min_value = FIND_LTP_COND_FAC * 0.5f * ( A[ 0 ] + A[ M * M - 1 ] );
-    for( loop_count = 0; loop_count < M && err == 1; loop_count++ ) {
+    diag_min_value = FIND_LTP_COND_FAC * 0.5f * (A[ 0 ] + A[ M * M - 1 ]);
+    for(loop_count = 0; loop_count < M && err == 1; loop_count++) {
         err = 0;
-        for( j = 0; j < M; j++ ) {
-            ptr1 = matrix_adr( L, j, 0, M );
-            temp = matrix_ptr( A, j, j, M ); /* element in row j column j*/
-            for( i = 0; i < j; i++ ) {
+        for(j = 0; j < M; j++) {
+            ptr1 = matrix_adr(L, j, 0, M);
+            temp = matrix_ptr(A, j, j, M); /* element in row j column j*/
+            for(i = 0; i < j; i++) {
                 v[ i ] = ptr1[ i ] * D[ i ];
                 temp  -= ptr1[ i ] * v[ i ];
             }
-            if( temp < diag_min_value ) {
+            if(temp < diag_min_value) {
                 /* Badly conditioned matrix: add white noise and run again */
-                temp = ( loop_count + 1 ) * diag_min_value - temp;
-                for( i = 0; i < M; i++ ) {
-                    matrix_ptr( A, i, i, M ) += ( silk_float )temp;
+                temp = (loop_count + 1) * diag_min_value - temp;
+                for(i = 0; i < M; i++) {
+                    matrix_ptr(A, i, i, M) += (silk_float)temp;
                 }
                 err = 1;
                 break;
             }
-            D[ j ]    = ( silk_float )temp;
-            Dinv[ j ] = ( silk_float )( 1.0f / temp );
-            matrix_ptr( L, j, j, M ) = 1.0f;
+            D[ j ]    = (silk_float)temp;
+            Dinv[ j ] = (silk_float)(1.0f / temp);
+            matrix_ptr(L, j, j, M) = 1.0f;
 
-            ptr1 = matrix_adr( A, j, 0, M );
-            ptr2 = matrix_adr( L, j + 1, 0, M);
-            for( i = j + 1; i < M; i++ ) {
+            ptr1 = matrix_adr(A, j, 0, M);
+            ptr2 = matrix_adr(L, j + 1, 0, M);
+            for(i = j + 1; i < M; i++) {
                 temp = 0.0;
-                for( k = 0; k < j; k++ ) {
+                for(k = 0; k < j; k++) {
                     temp += ptr2[ k ] * v[ k ];
                 }
-                matrix_ptr( L, i, j, M ) = ( silk_float )( ( ptr1[ i ] - temp ) * Dinv[ j ] );
+                matrix_ptr(L, i, j, M) = (silk_float)((ptr1[ i ] - temp) * Dinv[ j ]);
                 ptr2 += M; /* go to next column*/
             }
         }
     }
-    silk_assert( err == 0 );
+    silk_assert(err == 0);
 }
 

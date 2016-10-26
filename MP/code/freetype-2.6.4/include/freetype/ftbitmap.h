@@ -66,13 +66,13 @@ FT_BEGIN_HEADER
   /* <Note>                                                                */
   /*    A deprecated name for the same function is `FT_Bitmap_New'.        */
   /*                                                                       */
-  FT_EXPORT( void )
-  FT_Bitmap_Init( FT_Bitmap  *abitmap );
+  FT_EXPORT(void)
+  FT_Bitmap_Init(FT_Bitmap  *abitmap);
 
 
   /* deprecated */
-  FT_EXPORT( void )
-  FT_Bitmap_New( FT_Bitmap  *abitmap );
+  FT_EXPORT(void)
+  FT_Bitmap_New(FT_Bitmap  *abitmap);
 
 
   /*************************************************************************/
@@ -94,8 +94,8 @@ FT_BEGIN_HEADER
   /* <Return>                                                              */
   /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
-  FT_EXPORT( FT_Error )
-  FT_Bitmap_Copy( FT_Library        library,
+  FT_EXPORT(FT_Error)
+  FT_Bitmap_Copy(FT_Library        library,
                   const FT_Bitmap  *source,
                   FT_Bitmap        *target);
 
@@ -135,11 +135,11 @@ FT_BEGIN_HEADER
   /*    Bitmaps in @FT_PIXEL_MODE_GRAY2 and @FT_PIXEL_MODE_GRAY@ format    */
   /*    are converted to @FT_PIXEL_MODE_GRAY format (i.e., 8bpp).          */
   /*                                                                       */
-  FT_EXPORT( FT_Error )
-  FT_Bitmap_Embolden( FT_Library  library,
+  FT_EXPORT(FT_Error)
+  FT_Bitmap_Embolden(FT_Library  library,
                       FT_Bitmap*  bitmap,
                       FT_Pos      xStrength,
-                      FT_Pos      yStrength );
+                      FT_Pos      yStrength);
 
 
   /*************************************************************************/
@@ -175,11 +175,11 @@ FT_BEGIN_HEADER
   /*    The `library' argument is taken to have access to FreeType's       */
   /*    memory handling functions.                                         */
   /*                                                                       */
-  FT_EXPORT( FT_Error )
-  FT_Bitmap_Convert( FT_Library        library,
+  FT_EXPORT(FT_Error)
+  FT_Bitmap_Convert(FT_Library        library,
                      const FT_Bitmap  *source,
                      FT_Bitmap        *target,
-                     FT_Int            alignment );
+                     FT_Int            alignment);
 
 
   /*************************************************************************/
@@ -200,8 +200,8 @@ FT_BEGIN_HEADER
   /*    This function is to be used in combination with                    */
   /*    @FT_Bitmap_Embolden.                                               */
   /*                                                                       */
-  FT_EXPORT( FT_Error )
-  FT_GlyphSlot_Own_Bitmap( FT_GlyphSlot  slot );
+  FT_EXPORT(FT_Error)
+  FT_GlyphSlot_Own_Bitmap(FT_GlyphSlot  slot);
 
 
   /*************************************************************************/
@@ -224,9 +224,9 @@ FT_BEGIN_HEADER
   /*    The `library' argument is taken to have access to FreeType's       */
   /*    memory handling functions.                                         */
   /*                                                                       */
-  FT_EXPORT( FT_Error )
-  FT_Bitmap_Done( FT_Library  library,
-                  FT_Bitmap  *bitmap );
+  FT_EXPORT(FT_Error)
+  FT_Bitmap_Done(FT_Library  library,
+                  FT_Bitmap  *bitmap);
 
 
   /* */

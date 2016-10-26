@@ -929,7 +929,7 @@ int vorbis_encode_init_vbr(vorbis_info *vi,
                            long rate,
 
                            float base_quality /* 0. to 1. */
-                           ){
+                          ){
   int ret=0;
 
   ret=vorbis_encode_setup_vbr(vi,channels,rate,base_quality);

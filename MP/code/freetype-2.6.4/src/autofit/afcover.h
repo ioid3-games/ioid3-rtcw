@@ -27,73 +27,73 @@
 
 #if 0
   /* XXX: It's not possible to define blue zone characters in advance. */
-  COVERAGE( alternative_fractions, ALTERNATIVE_FRACTIONS,
+  COVERAGE(alternative_fractions, ALTERNATIVE_FRACTIONS,
             "alternative fractions",
-            'a', 'f', 'r', 'c' )
+            'a', 'f', 'r', 'c')
 #endif
 
-  COVERAGE( petite_capitals_from_capitals, PETITE_CAPITALS_FROM_CAPITALS,
+  COVERAGE(petite_capitals_from_capitals, PETITE_CAPITALS_FROM_CAPITALS,
             "petite capitals from capitals",
-            'c', '2', 'c', 'p' )
+            'c', '2', 'c', 'p')
 
-  COVERAGE( small_capitals_from_capitals, SMALL_CAPITALS_FROM_CAPITALS,
+  COVERAGE(small_capitals_from_capitals, SMALL_CAPITALS_FROM_CAPITALS,
             "small capitals from capitals",
-            'c', '2', 's', 'c' )
+            'c', '2', 's', 'c')
 
 #if 0
   /* XXX: Only digits are in this coverage, however, both normal style */
   /*      and oldstyle representation forms are possible.              */
-  COVERAGE( denominators, DENOMINATORS,
+  COVERAGE(denominators, DENOMINATORS,
             "denominators",
-            'd', 'n', 'o', 'm' )
+            'd', 'n', 'o', 'm')
 #endif
 
 #if 0
   /* XXX: It's not possible to define blue zone characters in advance. */
-  COVERAGE( fractions, FRACTIONS,
+  COVERAGE(fractions, FRACTIONS,
             "fractions",
-            'f', 'r', 'a', 'c' )
+            'f', 'r', 'a', 'c')
 #endif
 
 #if 0
   /* XXX: Only digits are in this coverage, however, both normal style */
   /*      and oldstyle representation forms are possible.              */
-  COVERAGE( numerators, NUMERATORS,
+  COVERAGE(numerators, NUMERATORS,
             "numerators",
-            'n', 'u', 'm', 'r' )
+            'n', 'u', 'm', 'r')
 #endif
 
-  COVERAGE( ordinals, ORDINALS,
+  COVERAGE(ordinals, ORDINALS,
             "ordinals",
-            'o', 'r', 'd', 'n' )
+            'o', 'r', 'd', 'n')
 
-  COVERAGE( petite_capitals, PETITE_CAPITALS,
+  COVERAGE(petite_capitals, PETITE_CAPITALS,
             "petite capitals",
-            'p', 'c', 'a', 'p' )
+            'p', 'c', 'a', 'p')
 
-  COVERAGE( ruby, RUBY,
+  COVERAGE(ruby, RUBY,
             "ruby",
-            'r', 'u', 'b', 'y' )
+            'r', 'u', 'b', 'y')
 
-  COVERAGE( scientific_inferiors, SCIENTIFIC_INFERIORS,
+  COVERAGE(scientific_inferiors, SCIENTIFIC_INFERIORS,
             "scientific inferiors",
-            's', 'i', 'n', 'f' )
+            's', 'i', 'n', 'f')
 
-  COVERAGE( small_capitals, SMALL_CAPITALS,
+  COVERAGE(small_capitals, SMALL_CAPITALS,
             "small capitals",
-            's', 'm', 'c', 'p' )
+            's', 'm', 'c', 'p')
 
-  COVERAGE( subscript, SUBSCRIPT,
+  COVERAGE(subscript, SUBSCRIPT,
             "subscript",
-            's', 'u', 'b', 's' )
+            's', 'u', 'b', 's')
 
-  COVERAGE( superscript, SUPERSCRIPT,
+  COVERAGE(superscript, SUPERSCRIPT,
             "superscript",
-            's', 'u', 'p', 's' )
+            's', 'u', 'p', 's')
 
-  COVERAGE( titling, TITLING,
+  COVERAGE(titling, TITLING,
             "titling",
-            't', 'i', 't', 'l' )
+            't', 'i', 't', 'l')
 
 #if 0
   /* to be always excluded */

@@ -66,12 +66,12 @@ FT_BEGIN_HEADER
   /* mono-width fonts!                                                     */
   /*                                                                       */
   /* You can also call @FT_Outline_Get_CBox to get precise values.         */
-  FT_EXPORT( void )
-  FT_GlyphSlot_Embolden( FT_GlyphSlot  slot );
+  FT_EXPORT(void)
+  FT_GlyphSlot_Embolden(FT_GlyphSlot  slot);
 
   /* Slant an outline glyph to the right by about 12 degrees. */
-  FT_EXPORT( void )
-  FT_GlyphSlot_Oblique( FT_GlyphSlot  slot );
+  FT_EXPORT(void)
+  FT_GlyphSlot_Oblique(FT_GlyphSlot  slot);
 
   /* */
 

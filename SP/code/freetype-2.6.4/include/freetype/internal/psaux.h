@@ -64,21 +64,21 @@ FT_BEGIN_HEADER
   typedef struct  PS_Table_FuncsRec_
   {
     FT_Error
-    (*init)( PS_Table   table,
+    (*init)(PS_Table   table,
              FT_Int     count,
-             FT_Memory  memory );
+             FT_Memory  memory);
 
     void
-    (*done)( PS_Table  table );
+    (*done)(PS_Table  table);
 
     FT_Error
-    (*add)( PS_Table  table,
+    (*add)(PS_Table  table,
             FT_Int    idx,
             void*     object,
-            FT_UInt   length );
+            FT_UInt   length);
 
     void
-    (*release)( PS_Table  table );
+    (*release)(PS_Table  table);
 
   } PS_Table_FuncsRec;
 
@@ -217,8 +217,8 @@ FT_BEGIN_HEADER
 
 
   typedef void
-  (*T1_Field_ParseFunc)( FT_Face     face,
-                         FT_Pointer  parser );
+  (*T1_Field_ParseFunc)(FT_Face     face,
+                         FT_Pointer  parser);
 
 
   /* structure type used to model object fields */
@@ -241,22 +241,22 @@ FT_BEGIN_HEADER
     FT_UInt             dict;         /* where we expect it             */
   } T1_FieldRec;
 
-#define T1_FIELD_DICT_FONTDICT ( 1 << 0 ) /* also FontInfo and FDArray */
-#define T1_FIELD_DICT_PRIVATE  ( 1 << 1 )
+#define T1_FIELD_DICT_FONTDICT (1 << 0) /* also FontInfo and FDArray */
+#define T1_FIELD_DICT_PRIVATE  (1 << 1)
 
 
 
-#define T1_NEW_SIMPLE_FIELD( _ident, _type, _fname, _dict ) \
+#define T1_NEW_SIMPLE_FIELD(_ident, _type, _fname, _dict) \
           {                                                 \
             _ident, T1CODE, _type,                          \
             0,                                              \
-            FT_FIELD_OFFSET( _fname ),                      \
-            FT_FIELD_SIZE( _fname ),                        \
+            FT_FIELD_OFFSET(_fname),                      \
+            FT_FIELD_SIZE(_fname),                        \
             0, 0,                                           \
             _dict                                           \
           },
 
-#define T1_NEW_CALLBACK_FIELD( _ident, _reader, _dict ) \
+#define T1_NEW_CALLBACK_FIELD(_ident, _reader, _dict) \
           {                                             \
             _ident, T1CODE, T1_FIELD_TYPE_CALLBACK,     \
             (T1_Field_ParseFunc)_reader,                \
@@ -265,69 +265,69 @@ FT_BEGIN_HEADER
             _dict                                       \
           },
 
-#define T1_NEW_TABLE_FIELD( _ident, _type, _fname, _max, _dict ) \
+#define T1_NEW_TABLE_FIELD(_ident, _type, _fname, _max, _dict) \
           {                                                      \
             _ident, T1CODE, _type,                               \
             0,                                                   \
-            FT_FIELD_OFFSET( _fname ),                           \
-            FT_FIELD_SIZE_DELTA( _fname ),                       \
+            FT_FIELD_OFFSET(_fname),                           \
+            FT_FIELD_SIZE_DELTA(_fname),                       \
             _max,                                                \
-            FT_FIELD_OFFSET( num_ ## _fname ),                   \
+            FT_FIELD_OFFSET(num_ ## _fname),                   \
             _dict                                                \
           },
 
-#define T1_NEW_TABLE_FIELD2( _ident, _type, _fname, _max, _dict ) \
+#define T1_NEW_TABLE_FIELD2(_ident, _type, _fname, _max, _dict) \
           {                                                       \
             _ident, T1CODE, _type,                                \
             0,                                                    \
-            FT_FIELD_OFFSET( _fname ),                            \
-            FT_FIELD_SIZE_DELTA( _fname ),                        \
+            FT_FIELD_OFFSET(_fname),                            \
+            FT_FIELD_SIZE_DELTA(_fname),                        \
             _max, 0,                                              \
             _dict                                                 \
           },
 
 
-#define T1_FIELD_BOOL( _ident, _fname, _dict )                             \
-          T1_NEW_SIMPLE_FIELD( _ident, T1_FIELD_TYPE_BOOL, _fname, _dict )
+#define T1_FIELD_BOOL(_ident, _fname, _dict)                             \
+          T1_NEW_SIMPLE_FIELD(_ident, T1_FIELD_TYPE_BOOL, _fname, _dict)
 
-#define T1_FIELD_NUM( _ident, _fname, _dict )                                 \
-          T1_NEW_SIMPLE_FIELD( _ident, T1_FIELD_TYPE_INTEGER, _fname, _dict )
+#define T1_FIELD_NUM(_ident, _fname, _dict)                                 \
+          T1_NEW_SIMPLE_FIELD(_ident, T1_FIELD_TYPE_INTEGER, _fname, _dict)
 
-#define T1_FIELD_FIXED( _ident, _fname, _dict )                             \
-          T1_NEW_SIMPLE_FIELD( _ident, T1_FIELD_TYPE_FIXED, _fname, _dict )
+#define T1_FIELD_FIXED(_ident, _fname, _dict)                             \
+          T1_NEW_SIMPLE_FIELD(_ident, T1_FIELD_TYPE_FIXED, _fname, _dict)
 
-#define T1_FIELD_FIXED_1000( _ident, _fname, _dict )                     \
-          T1_NEW_SIMPLE_FIELD( _ident, T1_FIELD_TYPE_FIXED_1000, _fname, \
-                               _dict )
+#define T1_FIELD_FIXED_1000(_ident, _fname, _dict)                     \
+          T1_NEW_SIMPLE_FIELD(_ident, T1_FIELD_TYPE_FIXED_1000, _fname, \
+                               _dict)
 
-#define T1_FIELD_STRING( _ident, _fname, _dict )                             \
-          T1_NEW_SIMPLE_FIELD( _ident, T1_FIELD_TYPE_STRING, _fname, _dict )
+#define T1_FIELD_STRING(_ident, _fname, _dict)                             \
+          T1_NEW_SIMPLE_FIELD(_ident, T1_FIELD_TYPE_STRING, _fname, _dict)
 
-#define T1_FIELD_KEY( _ident, _fname, _dict )                             \
-          T1_NEW_SIMPLE_FIELD( _ident, T1_FIELD_TYPE_KEY, _fname, _dict )
+#define T1_FIELD_KEY(_ident, _fname, _dict)                             \
+          T1_NEW_SIMPLE_FIELD(_ident, T1_FIELD_TYPE_KEY, _fname, _dict)
 
-#define T1_FIELD_BBOX( _ident, _fname, _dict )                             \
-          T1_NEW_SIMPLE_FIELD( _ident, T1_FIELD_TYPE_BBOX, _fname, _dict )
+#define T1_FIELD_BBOX(_ident, _fname, _dict)                             \
+          T1_NEW_SIMPLE_FIELD(_ident, T1_FIELD_TYPE_BBOX, _fname, _dict)
 
 
-#define T1_FIELD_NUM_TABLE( _ident, _fname, _fmax, _dict )         \
-          T1_NEW_TABLE_FIELD( _ident, T1_FIELD_TYPE_INTEGER_ARRAY, \
-                              _fname, _fmax, _dict )
+#define T1_FIELD_NUM_TABLE(_ident, _fname, _fmax, _dict)         \
+          T1_NEW_TABLE_FIELD(_ident, T1_FIELD_TYPE_INTEGER_ARRAY, \
+                              _fname, _fmax, _dict)
 
-#define T1_FIELD_FIXED_TABLE( _ident, _fname, _fmax, _dict )     \
-          T1_NEW_TABLE_FIELD( _ident, T1_FIELD_TYPE_FIXED_ARRAY, \
-                              _fname, _fmax, _dict )
+#define T1_FIELD_FIXED_TABLE(_ident, _fname, _fmax, _dict)     \
+          T1_NEW_TABLE_FIELD(_ident, T1_FIELD_TYPE_FIXED_ARRAY, \
+                              _fname, _fmax, _dict)
 
-#define T1_FIELD_NUM_TABLE2( _ident, _fname, _fmax, _dict )         \
-          T1_NEW_TABLE_FIELD2( _ident, T1_FIELD_TYPE_INTEGER_ARRAY, \
-                               _fname, _fmax, _dict )
+#define T1_FIELD_NUM_TABLE2(_ident, _fname, _fmax, _dict)         \
+          T1_NEW_TABLE_FIELD2(_ident, T1_FIELD_TYPE_INTEGER_ARRAY, \
+                               _fname, _fmax, _dict)
 
-#define T1_FIELD_FIXED_TABLE2( _ident, _fname, _fmax, _dict )     \
-          T1_NEW_TABLE_FIELD2( _ident, T1_FIELD_TYPE_FIXED_ARRAY, \
-                               _fname, _fmax, _dict )
+#define T1_FIELD_FIXED_TABLE2(_ident, _fname, _fmax, _dict)     \
+          T1_NEW_TABLE_FIELD2(_ident, T1_FIELD_TYPE_FIXED_ARRAY, \
+                               _fname, _fmax, _dict)
 
-#define T1_FIELD_CALLBACK( _ident, _name, _dict )       \
-          T1_NEW_CALLBACK_FIELD( _ident, _name, _dict )
+#define T1_FIELD_CALLBACK(_ident, _name, _dict)       \
+          T1_NEW_CALLBACK_FIELD(_ident, _name, _dict)
 
 
   /*************************************************************************/
@@ -343,64 +343,64 @@ FT_BEGIN_HEADER
   typedef struct  PS_Parser_FuncsRec_
   {
     void
-    (*init)( PS_Parser  parser,
+    (*init)(PS_Parser  parser,
              FT_Byte*   base,
              FT_Byte*   limit,
-             FT_Memory  memory );
+             FT_Memory  memory);
 
     void
-    (*done)( PS_Parser  parser );
+    (*done)(PS_Parser  parser);
 
     void
-    (*skip_spaces)( PS_Parser  parser );
+    (*skip_spaces)(PS_Parser  parser);
     void
-    (*skip_PS_token)( PS_Parser  parser );
+    (*skip_PS_token)(PS_Parser  parser);
 
     FT_Long
-    (*to_int)( PS_Parser  parser );
+    (*to_int)(PS_Parser  parser);
     FT_Fixed
-    (*to_fixed)( PS_Parser  parser,
-                 FT_Int     power_ten );
+    (*to_fixed)(PS_Parser  parser,
+                 FT_Int     power_ten);
 
     FT_Error
-    (*to_bytes)( PS_Parser  parser,
+    (*to_bytes)(PS_Parser  parser,
                  FT_Byte*   bytes,
                  FT_Offset  max_bytes,
                  FT_ULong*  pnum_bytes,
-                 FT_Bool    delimiters );
+                 FT_Bool    delimiters);
 
     FT_Int
-    (*to_coord_array)( PS_Parser  parser,
+    (*to_coord_array)(PS_Parser  parser,
                        FT_Int     max_coords,
-                       FT_Short*  coords );
+                       FT_Short*  coords);
     FT_Int
-    (*to_fixed_array)( PS_Parser  parser,
+    (*to_fixed_array)(PS_Parser  parser,
                        FT_Int     max_values,
                        FT_Fixed*  values,
-                       FT_Int     power_ten );
+                       FT_Int     power_ten);
 
     void
-    (*to_token)( PS_Parser  parser,
-                 T1_Token   token );
+    (*to_token)(PS_Parser  parser,
+                 T1_Token   token);
     void
-    (*to_token_array)( PS_Parser  parser,
+    (*to_token_array)(PS_Parser  parser,
                        T1_Token   tokens,
                        FT_UInt    max_tokens,
-                       FT_Int*    pnum_tokens );
+                       FT_Int*    pnum_tokens);
 
     FT_Error
-    (*load_field)( PS_Parser       parser,
+    (*load_field)(PS_Parser       parser,
                    const T1_Field  field,
                    void**          objects,
                    FT_UInt         max_objects,
-                   FT_ULong*       pflags );
+                   FT_ULong*       pflags);
 
     FT_Error
-    (*load_field_table)( PS_Parser       parser,
+    (*load_field_table)(PS_Parser       parser,
                          const T1_Field  field,
                          void**          objects,
                          FT_UInt         max_objects,
-                         FT_ULong*       pflags );
+                         FT_ULong*       pflags);
 
   } PS_Parser_FuncsRec;
 
@@ -452,30 +452,30 @@ FT_BEGIN_HEADER
 
 
   typedef FT_Error
-  (*T1_Builder_Check_Points_Func)( T1_Builder  builder,
-                                   FT_Int      count );
+  (*T1_Builder_Check_Points_Func)(T1_Builder  builder,
+                                   FT_Int      count);
 
   typedef void
-  (*T1_Builder_Add_Point_Func)( T1_Builder  builder,
+  (*T1_Builder_Add_Point_Func)(T1_Builder  builder,
                                 FT_Pos      x,
                                 FT_Pos      y,
-                                FT_Byte     flag );
+                                FT_Byte     flag);
 
   typedef FT_Error
-  (*T1_Builder_Add_Point1_Func)( T1_Builder  builder,
+  (*T1_Builder_Add_Point1_Func)(T1_Builder  builder,
                                  FT_Pos      x,
-                                 FT_Pos      y );
+                                 FT_Pos      y);
 
   typedef FT_Error
-  (*T1_Builder_Add_Contour_Func)( T1_Builder  builder );
+  (*T1_Builder_Add_Contour_Func)(T1_Builder  builder);
 
   typedef FT_Error
-  (*T1_Builder_Start_Point_Func)( T1_Builder  builder,
+  (*T1_Builder_Start_Point_Func)(T1_Builder  builder,
                                   FT_Pos      x,
-                                  FT_Pos      y );
+                                  FT_Pos      y);
 
   typedef void
-  (*T1_Builder_Close_Contour_Func)( T1_Builder  builder );
+  (*T1_Builder_Close_Contour_Func)(T1_Builder  builder);
 
 
   typedef const struct T1_Builder_FuncsRec_*  T1_Builder_Funcs;
@@ -483,14 +483,14 @@ FT_BEGIN_HEADER
   typedef struct  T1_Builder_FuncsRec_
   {
     void
-    (*init)( T1_Builder    builder,
+    (*init)(T1_Builder    builder,
              FT_Face       face,
              FT_Size       size,
              FT_GlyphSlot  slot,
-             FT_Bool       hinting );
+             FT_Bool       hinting);
 
     void
-    (*done)( T1_Builder   builder );
+    (*done)(T1_Builder   builder);
 
     T1_Builder_Check_Points_Func   check_points;
     T1_Builder_Add_Point_Func      add_point;
@@ -633,14 +633,14 @@ FT_BEGIN_HEADER
 
 
   typedef FT_Error
-  (*T1_Decoder_Callback)( T1_Decoder  decoder,
-                          FT_UInt     glyph_index );
+  (*T1_Decoder_Callback)(T1_Decoder  decoder,
+                          FT_UInt     glyph_index);
 
 
   typedef struct  T1_Decoder_FuncsRec_
   {
     FT_Error
-    (*init)( T1_Decoder           decoder,
+    (*init)(T1_Decoder           decoder,
              FT_Face              face,
              FT_Size              size,
              FT_GlyphSlot         slot,
@@ -648,15 +648,15 @@ FT_BEGIN_HEADER
              PS_Blend             blend,
              FT_Bool              hinting,
              FT_Render_Mode       hint_mode,
-             T1_Decoder_Callback  callback );
+             T1_Decoder_Callback  callback);
 
     void
-    (*done)( T1_Decoder  decoder );
+    (*done)(T1_Decoder  decoder);
 
     FT_Error
-    (*parse_charstrings)( T1_Decoder  decoder,
+    (*parse_charstrings)(T1_Decoder  decoder,
                           FT_Byte*    base,
-                          FT_UInt     len );
+                          FT_UInt     len);
 
   } T1_Decoder_FuncsRec;
 
@@ -716,16 +716,16 @@ FT_BEGIN_HEADER
   typedef struct  AFM_Parser_FuncsRec_
   {
     FT_Error
-    (*init)( AFM_Parser  parser,
+    (*init)(AFM_Parser  parser,
              FT_Memory   memory,
              FT_Byte*    base,
-             FT_Byte*    limit );
+             FT_Byte*    limit);
 
     void
-    (*done)( AFM_Parser  parser );
+    (*done)(AFM_Parser  parser);
 
     FT_Error
-    (*parse)( AFM_Parser  parser );
+    (*parse)(AFM_Parser  parser);
 
   } AFM_Parser_FuncsRec;
 
@@ -760,9 +760,9 @@ FT_BEGIN_HEADER
     AFM_FontInfo  FontInfo;
 
     FT_Int
-    (*get_index)( const char*  name,
+    (*get_index)(const char*  name,
                   FT_Offset    len,
-                  void*        user_data );
+                  void*        user_data);
 
     void*         user_data;
 
@@ -806,9 +806,9 @@ FT_BEGIN_HEADER
     const T1_Decoder_FuncsRec*  t1_decoder_funcs;
 
     void
-    (*t1_decrypt)( FT_Byte*   buffer,
+    (*t1_decrypt)(FT_Byte*   buffer,
                    FT_Offset  length,
-                   FT_UShort  seed );
+                   FT_UShort  seed);
 
     T1_CMap_Classes  t1_cmap_classes;
 
@@ -829,46 +829,46 @@ FT_BEGIN_HEADER
   /*************************************************************************/
   /*************************************************************************/
 
-#define IS_PS_NEWLINE( ch ) \
-  ( (ch) == '\r' ||         \
-    (ch) == '\n' )
+#define IS_PS_NEWLINE(ch) \
+  ((ch) == '\r' ||         \
+    (ch) == '\n')
 
-#define IS_PS_SPACE( ch )  \
-  ( (ch) == ' '         || \
-    IS_PS_NEWLINE( ch ) || \
+#define IS_PS_SPACE(ch)  \
+  ((ch) == ' '         || \
+    IS_PS_NEWLINE(ch) || \
     (ch) == '\t'        || \
     (ch) == '\f'        || \
-    (ch) == '\0' )
+    (ch) == '\0')
 
-#define IS_PS_SPECIAL( ch )       \
-  ( (ch) == '/'                || \
+#define IS_PS_SPECIAL(ch)       \
+  ((ch) == '/'                || \
     (ch) == '(' || (ch) == ')' || \
     (ch) == '<' || (ch) == '>' || \
     (ch) == '[' || (ch) == ']' || \
     (ch) == '{' || (ch) == '}' || \
-    (ch) == '%'                )
+    (ch) == '%'               )
 
-#define IS_PS_DELIM( ch )  \
-  ( IS_PS_SPACE( ch )   || \
-    IS_PS_SPECIAL( ch ) )
+#define IS_PS_DELIM(ch)  \
+  (IS_PS_SPACE(ch)   || \
+    IS_PS_SPECIAL(ch))
 
-#define IS_PS_DIGIT( ch )        \
-  ( (ch) >= '0' && (ch) <= '9' )
+#define IS_PS_DIGIT(ch)        \
+  ((ch) >= '0' && (ch) <= '9')
 
-#define IS_PS_XDIGIT( ch )            \
-  ( IS_PS_DIGIT( ch )              || \
-    ( (ch) >= 'A' && (ch) <= 'F' ) || \
-    ( (ch) >= 'a' && (ch) <= 'f' ) )
+#define IS_PS_XDIGIT(ch)            \
+  (IS_PS_DIGIT(ch)              || \
+    ((ch) >= 'A' && (ch) <= 'F') || \
+    ((ch) >= 'a' && (ch) <= 'f'))
 
-#define IS_PS_BASE85( ch )       \
-  ( (ch) >= '!' && (ch) <= 'u' )
+#define IS_PS_BASE85(ch)       \
+  ((ch) >= '!' && (ch) <= 'u')
 
-#define IS_PS_TOKEN( cur, limit, token )                                \
-  ( (char)(cur)[0] == (token)[0]                                     && \
-    ( (cur) + sizeof ( (token) ) == (limit) ||                          \
-      ( (cur) + sizeof( (token) ) < (limit)          &&                 \
-        IS_PS_DELIM( (cur)[sizeof ( (token) ) - 1] ) ) )             && \
-    ft_strncmp( (char*)(cur), (token), sizeof ( (token) ) - 1 ) == 0 )
+#define IS_PS_TOKEN(cur, limit, token)                                \
+  ((char)(cur)[0] == (token)[0]                                     && \
+    ((cur) + sizeof ((token)) == (limit) ||                          \
+      ((cur) + sizeof((token)) < (limit)          &&                 \
+        IS_PS_DELIM((cur)[sizeof ((token)) - 1])))             && \
+    ft_strncmp((char*)(cur), (token), sizeof ((token)) - 1) == 0)
 
 
 FT_END_HEADER

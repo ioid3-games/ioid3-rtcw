@@ -39,25 +39,25 @@
 
 
   static FT_Error
-  otv_load_table( FT_Face             face,
+  otv_load_table(FT_Face             face,
                   FT_Tag              tag,
                   FT_Byte* volatile*  table,
-                  FT_ULong*           table_len )
+                  FT_ULong*           table_len)
   {
     FT_Error   error;
-    FT_Memory  memory = FT_FACE_MEMORY( face );
+    FT_Memory  memory = FT_FACE_MEMORY(face);
 
 
-    error = FT_Load_Sfnt_Table( face, tag, 0, NULL, table_len );
-    if ( FT_ERR_EQ( error, Table_Missing ) )
+    error = FT_Load_Sfnt_Table(face, tag, 0, NULL, table_len);
+    if (FT_ERR_EQ(error, Table_Missing))
       return FT_Err_Ok;
-    if ( error )
+    if (error)
       goto Exit;
 
-    if ( FT_ALLOC( *table, *table_len ) )
+    if (FT_ALLOC(*table, *table_len))
       goto Exit;
 
-    error = FT_Load_Sfnt_Table( face, tag, 0, *table, table_len );
+    error = FT_Load_Sfnt_Table(face, tag, 0, *table, table_len);
 
   Exit:
     return error;
@@ -65,13 +65,13 @@
 
 
   static FT_Error
-  otv_validate( FT_Face volatile   face,
+  otv_validate(FT_Face volatile   face,
                 FT_UInt            ot_flags,
                 FT_Bytes          *ot_base,
                 FT_Bytes          *ot_gdef,
                 FT_Bytes          *ot_gpos,
                 FT_Bytes          *ot_gsub,
-                FT_Bytes          *ot_jstf )
+                FT_Bytes          *ot_jstf)
   {
     FT_Error                  error = FT_Err_Ok;
     FT_Byte* volatile         base;
@@ -93,117 +93,117 @@
      * XXX: OpenType tables cannot handle 32-bit glyph index,
      *      although broken TrueType can have 32-bit glyph index.
      */
-    if ( face->num_glyphs > 0xFFFFL )
+    if (face->num_glyphs > 0xFFFFL)
     {
-      FT_TRACE1(( "otv_validate: Invalid glyphs index (0x0000FFFF - 0x%08x) ",
-                  face->num_glyphs ));
-      FT_TRACE1(( "are not handled by OpenType tables\n" ));
+      FT_TRACE1(("otv_validate: Invalid glyphs index (0x0000FFFF - 0x%08x) ",
+                  face->num_glyphs));
+      FT_TRACE1(("are not handled by OpenType tables\n"));
       num_glyphs = 0xFFFF;
     }
 
     /* load tables */
 
-    if ( ot_flags & FT_VALIDATE_BASE )
+    if (ot_flags & FT_VALIDATE_BASE)
     {
-      error = otv_load_table( face, TTAG_BASE, &base, &len_base );
-      if ( error )
+      error = otv_load_table(face, TTAG_BASE, &base, &len_base);
+      if (error)
         goto Exit;
     }
 
-    if ( ot_flags & FT_VALIDATE_GDEF )
+    if (ot_flags & FT_VALIDATE_GDEF)
     {
-      error = otv_load_table( face, TTAG_GDEF, &gdef, &len_gdef );
-      if ( error )
+      error = otv_load_table(face, TTAG_GDEF, &gdef, &len_gdef);
+      if (error)
         goto Exit;
     }
 
-    if ( ot_flags & FT_VALIDATE_GPOS )
+    if (ot_flags & FT_VALIDATE_GPOS)
     {
-      error = otv_load_table( face, TTAG_GPOS, &gpos, &len_gpos );
-      if ( error )
+      error = otv_load_table(face, TTAG_GPOS, &gpos, &len_gpos);
+      if (error)
         goto Exit;
     }
 
-    if ( ot_flags & FT_VALIDATE_GSUB )
+    if (ot_flags & FT_VALIDATE_GSUB)
     {
-      error = otv_load_table( face, TTAG_GSUB, &gsub, &len_gsub );
-      if ( error )
+      error = otv_load_table(face, TTAG_GSUB, &gsub, &len_gsub);
+      if (error)
         goto Exit;
     }
 
-    if ( ot_flags & FT_VALIDATE_JSTF )
+    if (ot_flags & FT_VALIDATE_JSTF)
     {
-      error = otv_load_table( face, TTAG_JSTF, &jstf, &len_jstf );
-      if ( error )
+      error = otv_load_table(face, TTAG_JSTF, &jstf, &len_jstf);
+      if (error)
         goto Exit;
     }
 
-    if ( ot_flags & FT_VALIDATE_MATH )
+    if (ot_flags & FT_VALIDATE_MATH)
     {
-      error = otv_load_table( face, TTAG_MATH, &math, &len_math );
-      if ( error )
+      error = otv_load_table(face, TTAG_MATH, &math, &len_math);
+      if (error)
         goto Exit;
     }
 
     /* validate tables */
 
-    if ( base )
+    if (base)
     {
-      ft_validator_init( &valid, base, base + len_base, FT_VALIDATE_DEFAULT );
-      if ( ft_setjmp( valid.jump_buffer ) == 0 )
-        otv_BASE_validate( base, &valid );
+      ft_validator_init(&valid, base, base + len_base, FT_VALIDATE_DEFAULT);
+      if (ft_setjmp(valid.jump_buffer) == 0)
+        otv_BASE_validate(base, &valid);
       error = valid.error;
-      if ( error )
+      if (error)
         goto Exit;
     }
 
-    if ( gpos )
+    if (gpos)
     {
-      ft_validator_init( &valid, gpos, gpos + len_gpos, FT_VALIDATE_DEFAULT );
-      if ( ft_setjmp( valid.jump_buffer ) == 0 )
-        otv_GPOS_validate( gpos, num_glyphs, &valid );
+      ft_validator_init(&valid, gpos, gpos + len_gpos, FT_VALIDATE_DEFAULT);
+      if (ft_setjmp(valid.jump_buffer) == 0)
+        otv_GPOS_validate(gpos, num_glyphs, &valid);
       error = valid.error;
-      if ( error )
+      if (error)
         goto Exit;
     }
 
-    if ( gsub )
+    if (gsub)
     {
-      ft_validator_init( &valid, gsub, gsub + len_gsub, FT_VALIDATE_DEFAULT );
-      if ( ft_setjmp( valid.jump_buffer ) == 0 )
-        otv_GSUB_validate( gsub, num_glyphs, &valid );
+      ft_validator_init(&valid, gsub, gsub + len_gsub, FT_VALIDATE_DEFAULT);
+      if (ft_setjmp(valid.jump_buffer) == 0)
+        otv_GSUB_validate(gsub, num_glyphs, &valid);
       error = valid.error;
-      if ( error )
+      if (error)
         goto Exit;
     }
 
-    if ( gdef )
+    if (gdef)
     {
-      ft_validator_init( &valid, gdef, gdef + len_gdef, FT_VALIDATE_DEFAULT );
-      if ( ft_setjmp( valid.jump_buffer ) == 0 )
-        otv_GDEF_validate( gdef, gsub, gpos, num_glyphs, &valid );
+      ft_validator_init(&valid, gdef, gdef + len_gdef, FT_VALIDATE_DEFAULT);
+      if (ft_setjmp(valid.jump_buffer) == 0)
+        otv_GDEF_validate(gdef, gsub, gpos, num_glyphs, &valid);
       error = valid.error;
-      if ( error )
+      if (error)
         goto Exit;
     }
 
-    if ( jstf )
+    if (jstf)
     {
-      ft_validator_init( &valid, jstf, jstf + len_jstf, FT_VALIDATE_DEFAULT );
-      if ( ft_setjmp( valid.jump_buffer ) == 0 )
-        otv_JSTF_validate( jstf, gsub, gpos, num_glyphs, &valid );
+      ft_validator_init(&valid, jstf, jstf + len_jstf, FT_VALIDATE_DEFAULT);
+      if (ft_setjmp(valid.jump_buffer) == 0)
+        otv_JSTF_validate(jstf, gsub, gpos, num_glyphs, &valid);
       error = valid.error;
-      if ( error )
+      if (error)
         goto Exit;
     }
 
-    if ( math )
+    if (math)
     {
-      ft_validator_init( &valid, math, math + len_math, FT_VALIDATE_DEFAULT );
-      if ( ft_setjmp( valid.jump_buffer ) == 0 )
-        otv_MATH_validate( math, num_glyphs, &valid );
+      ft_validator_init(&valid, math, math + len_math, FT_VALIDATE_DEFAULT);
+      if (ft_setjmp(valid.jump_buffer) == 0)
+        otv_MATH_validate(math, num_glyphs, &valid);
       error = valid.error;
-      if ( error )
+      if (error)
         goto Exit;
     }
 
@@ -214,23 +214,23 @@
     *ot_jstf = (FT_Bytes)jstf;
 
   Exit:
-    if ( error )
+    if (error)
     {
-      FT_Memory  memory = FT_FACE_MEMORY( face );
+      FT_Memory  memory = FT_FACE_MEMORY(face);
 
 
-      FT_FREE( base );
-      FT_FREE( gdef );
-      FT_FREE( gpos );
-      FT_FREE( gsub );
-      FT_FREE( jstf );
+      FT_FREE(base);
+      FT_FREE(gdef);
+      FT_FREE(gpos);
+      FT_FREE(gsub);
+      FT_FREE(jstf);
     }
 
     {
-      FT_Memory  memory = FT_FACE_MEMORY( face );
+      FT_Memory  memory = FT_FACE_MEMORY(face);
 
 
-      FT_FREE( math );                 /* Can't return this as API is frozen */
+      FT_FREE(math);                 /* Can't return this as API is frozen */
     }
 
     return error;
@@ -253,12 +253,12 @@
 
 
   static FT_Pointer
-  otvalid_get_service( FT_Module    module,
-                       const char*  service_id )
+  otvalid_get_service(FT_Module    module,
+                       const char*  service_id)
   {
-    FT_UNUSED( module );
+    FT_UNUSED(module);
 
-    return ft_service_list_lookup( otvalid_services, service_id );
+    return ft_service_list_lookup(otvalid_services, service_id);
   }
 
 
@@ -266,7 +266,7 @@
   const FT_Module_Class  otv_module_class =
   {
     0,
-    sizeof ( FT_ModuleRec ),
+    sizeof (FT_ModuleRec),
     "otvalid",
     0x10000L,
     0x20000L,

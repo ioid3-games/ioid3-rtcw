@@ -79,7 +79,7 @@ opus_int64     silk_Timer_depth[silk_NUM_TIMERS_MAX];
 #ifdef WIN32
 void silk_TimerSave(char *file_name)
 {
-    if( silk_Timer_nTimers > 0 )
+    if(silk_Timer_nTimers > 0)
     {
         int k;
         FILE *fp;
@@ -88,24 +88,24 @@ void silk_TimerSave(char *file_name)
         int del = 0x7FFFFFFF;
         double avg, sum_avg;
         /* estimate overhead of calling performance counters */
-        for( k = 0; k < 1000; k++ ) {
+        for(k = 0; k < 1000; k++) {
             QueryPerformanceCounter(&lpPerformanceCount1);
             QueryPerformanceCounter(&lpPerformanceCount2);
             lpPerformanceCount2.QuadPart -= lpPerformanceCount1.QuadPart;
-            if( (int)lpPerformanceCount2.LowPart < del )
+            if((int)lpPerformanceCount2.LowPart < del)
                 del = lpPerformanceCount2.LowPart;
         }
         QueryPerformanceFrequency(&lpFrequency);
         /* print results to file */
         sum_avg = 0.0f;
-        for( k = 0; k < silk_Timer_nTimers; k++ ) {
+        for(k = 0; k < silk_Timer_nTimers; k++) {
             if (silk_Timer_depth[k] == 0) {
                 sum_avg += (1e6 * silk_Timer_sum[k] / silk_Timer_cnt[k] - del) / lpFrequency.QuadPart * silk_Timer_cnt[k];
             }
         }
         fp = fopen(file_name, "w");
         fprintf(fp, "                                min         avg     %%         max      count\n");
-        for( k = 0; k < silk_Timer_nTimers; k++ ) {
+        for(k = 0; k < silk_Timer_nTimers; k++) {
             if (silk_Timer_depth[k] == 0) {
                 fprintf(fp, "%-28s", silk_Timer_tags[k]);
             } else if (silk_Timer_depth[k] == 1) {
@@ -130,14 +130,14 @@ void silk_TimerSave(char *file_name)
 #else
 void silk_TimerSave(char *file_name)
 {
-    if( silk_Timer_nTimers > 0 )
+    if(silk_Timer_nTimers > 0)
     {
         int k;
         FILE *fp;
         /* print results to file */
         fp = fopen(file_name, "w");
         fprintf(fp, "                                min         avg         max      count\n");
-        for( k = 0; k < silk_Timer_nTimers; k++ )
+        for(k = 0; k < silk_Timer_nTimers; k++)
         {
             if (silk_Timer_depth[k] == 0) {
                 fprintf(fp, "%-28s", silk_Timer_tags[k]);

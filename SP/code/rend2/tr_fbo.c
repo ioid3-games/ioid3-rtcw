@@ -236,7 +236,7 @@ void FBO_Bind(FBO_t * fbo)
 	if (r_logFile->integer)
 	{
 		// don't just call LogComment, or we will get a call to va() every frame!
-		GLimp_LogComment(va("--- FBO_Bind( %s ) ---\n", fbo ? fbo->name : "NULL"));
+		GLimp_LogComment(va("--- FBO_Bind(%s) ---\n", fbo ? fbo->name : "NULL"));
 	}
 
 	GL_BindFramebuffer(GL_FRAMEBUFFER_EXT, fbo ? fbo->frameBuffer : 0);
@@ -307,7 +307,7 @@ void FBO_Init(void)
 	if (tr.renderFbo)
 	{
 		GL_BindFramebuffer(GL_FRAMEBUFFER_EXT, tr.renderFbo->frameBuffer);
-		qglClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+		qglClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	if (tr.screenScratchImage)
@@ -329,7 +329,7 @@ void FBO_Init(void)
 	// FIXME: Don't use separate color/depth buffers for a shadow buffer
 	if (MAX_DRAWN_PSHADOWS && tr.pshadowMaps[0])
 	{
-		for( i = 0; i < MAX_DRAWN_PSHADOWS; i++)
+		for(i = 0; i < MAX_DRAWN_PSHADOWS; i++)
 		{
 			tr.pshadowFbos[i] = FBO_Create(va("_shadowmap%d", i), tr.pshadowMaps[i]->width, tr.pshadowMaps[i]->height);
 			FBO_AttachImage(tr.pshadowFbos[i], tr.pshadowMaps[i], GL_COLOR_ATTACHMENT0_EXT, 0);
@@ -560,12 +560,12 @@ void FBO_BlitFromTexture(struct image_s *src, vec4_t inSrcTexCorners, vec2_t inS
 
 	FBO_Bind(dst);
 
-	qglViewport( 0, 0, width, height );
-	qglScissor( 0, 0, width, height );
+	qglViewport(0, 0, width, height);
+	qglScissor(0, 0, width, height);
 
 	Mat4Ortho(0, width, height, 0, 0, 1, projection);
 
-	GL_Cull( CT_TWO_SIDED );
+	GL_Cull(CT_TWO_SIDED);
 
 	GL_BindToTMU(src, TB_COLORMAP);
 
@@ -577,7 +577,7 @@ void FBO_BlitFromTexture(struct image_s *src, vec4_t inSrcTexCorners, vec2_t inS
 	invTexRes[0] /= src->width;
 	invTexRes[1] /= src->height;
 
-	GL_State( blend );
+	GL_State(blend);
 
 	GLSL_BindProgram(shaderProgram);
 	

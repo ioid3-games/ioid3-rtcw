@@ -41,19 +41,19 @@ FT_BEGIN_HEADER
   typedef struct PSH_GlobalsRec_*  PSH_Globals;
 
   typedef FT_Error
-  (*PSH_Globals_NewFunc)( FT_Memory     memory,
+  (*PSH_Globals_NewFunc)(FT_Memory     memory,
                           T1_Private*   private_dict,
-                          PSH_Globals*  aglobals );
+                          PSH_Globals*  aglobals);
 
   typedef void
-  (*PSH_Globals_SetScaleFunc)( PSH_Globals  globals,
+  (*PSH_Globals_SetScaleFunc)(PSH_Globals  globals,
                                FT_Fixed     x_scale,
                                FT_Fixed     y_scale,
                                FT_Fixed     x_delta,
-                               FT_Fixed     y_delta );
+                               FT_Fixed     y_delta);
 
   typedef void
-  (*PSH_Globals_DestroyFunc)( PSH_Globals  globals );
+  (*PSH_Globals_DestroyFunc)(PSH_Globals  globals);
 
 
   typedef struct  PSH_Globals_FuncsRec_
@@ -136,7 +136,7 @@ FT_BEGIN_HEADER
    *
    */
   typedef void
-  (*T1_Hints_OpenFunc)( T1_Hints  hints );
+  (*T1_Hints_OpenFunc)(T1_Hints  hints);
 
 
   /*************************************************************************
@@ -176,9 +176,9 @@ FT_BEGIN_HEADER
    *
    */
   typedef void
-  (*T1_Hints_SetStemFunc)( T1_Hints   hints,
+  (*T1_Hints_SetStemFunc)(T1_Hints   hints,
                            FT_UInt    dimension,
-                           FT_Fixed*  coords );
+                           FT_Fixed*  coords);
 
 
   /*************************************************************************
@@ -210,9 +210,9 @@ FT_BEGIN_HEADER
    *
    */
   typedef void
-  (*T1_Hints_SetStem3Func)( T1_Hints   hints,
+  (*T1_Hints_SetStem3Func)(T1_Hints   hints,
                             FT_UInt    dimension,
-                            FT_Fixed*  coords );
+                            FT_Fixed*  coords);
 
 
   /*************************************************************************
@@ -234,8 +234,8 @@ FT_BEGIN_HEADER
    *
    */
   typedef void
-  (*T1_Hints_ResetFunc)( T1_Hints  hints,
-                         FT_UInt   end_point );
+  (*T1_Hints_ResetFunc)(T1_Hints  hints,
+                         FT_UInt   end_point);
 
 
   /*************************************************************************
@@ -263,8 +263,8 @@ FT_BEGIN_HEADER
    *
    */
   typedef FT_Error
-  (*T1_Hints_CloseFunc)( T1_Hints  hints,
-                         FT_UInt   end_point );
+  (*T1_Hints_CloseFunc)(T1_Hints  hints,
+                         FT_UInt   end_point);
 
 
   /*************************************************************************
@@ -302,10 +302,10 @@ FT_BEGIN_HEADER
    *
    */
   typedef FT_Error
-  (*T1_Hints_ApplyFunc)( T1_Hints        hints,
+  (*T1_Hints_ApplyFunc)(T1_Hints        hints,
                          FT_Outline*     outline,
                          PSH_Globals     globals,
-                         FT_Render_Mode  hint_mode );
+                         FT_Render_Mode  hint_mode);
 
 
   /*************************************************************************
@@ -423,7 +423,7 @@ FT_BEGIN_HEADER
    *
    */
   typedef void
-  (*T2_Hints_OpenFunc)( T2_Hints  hints );
+  (*T2_Hints_OpenFunc)(T2_Hints  hints);
 
 
   /*************************************************************************
@@ -463,10 +463,10 @@ FT_BEGIN_HEADER
    *
    */
   typedef void
-  (*T2_Hints_StemsFunc)( T2_Hints   hints,
+  (*T2_Hints_StemsFunc)(T2_Hints   hints,
                          FT_UInt    dimension,
                          FT_Int     count,
-                         FT_Fixed*  coordinates );
+                         FT_Fixed*  coordinates);
 
 
   /*************************************************************************
@@ -505,10 +505,10 @@ FT_BEGIN_HEADER
    *
    */
   typedef void
-  (*T2_Hints_MaskFunc)( T2_Hints        hints,
+  (*T2_Hints_MaskFunc)(T2_Hints        hints,
                         FT_UInt         end_point,
                         FT_UInt         bit_count,
-                        const FT_Byte*  bytes );
+                        const FT_Byte*  bytes);
 
 
   /*************************************************************************
@@ -547,9 +547,9 @@ FT_BEGIN_HEADER
    *
    */
   typedef void
-  (*T2_Hints_CounterFunc)( T2_Hints        hints,
+  (*T2_Hints_CounterFunc)(T2_Hints        hints,
                            FT_UInt         bit_count,
-                           const FT_Byte*  bytes );
+                           const FT_Byte*  bytes);
 
 
   /*************************************************************************
@@ -577,8 +577,8 @@ FT_BEGIN_HEADER
    *
    */
   typedef FT_Error
-  (*T2_Hints_CloseFunc)( T2_Hints  hints,
-                         FT_UInt   end_point );
+  (*T2_Hints_CloseFunc)(T2_Hints  hints,
+                         FT_UInt   end_point);
 
 
   /*************************************************************************
@@ -616,10 +616,10 @@ FT_BEGIN_HEADER
    *
    */
   typedef FT_Error
-  (*T2_Hints_ApplyFunc)( T2_Hints        hints,
+  (*T2_Hints_ApplyFunc)(T2_Hints        hints,
                          FT_Outline*     outline,
                          PSH_Globals     globals,
-                         FT_Render_Mode  hint_mode );
+                         FT_Render_Mode  hint_mode);
 
 
   /*************************************************************************
@@ -671,9 +671,9 @@ FT_BEGIN_HEADER
 
   typedef struct  PSHinter_Interface_
   {
-    PSH_Globals_Funcs  (*get_globals_funcs)( FT_Module  module );
-    T1_Hints_Funcs     (*get_t1_funcs)     ( FT_Module  module );
-    T2_Hints_Funcs     (*get_t2_funcs)     ( FT_Module  module );
+    PSH_Globals_Funcs  (*get_globals_funcs)(FT_Module  module);
+    T1_Hints_Funcs     (*get_t1_funcs)     (FT_Module  module);
+    T2_Hints_Funcs     (*get_t2_funcs)     (FT_Module  module);
 
   } PSHinter_Interface;
 
@@ -682,11 +682,11 @@ FT_BEGIN_HEADER
 
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DEFINE_PSHINTER_INTERFACE(        \
+#define FT_DEFINE_PSHINTER_INTERFACE(       \
           class_,                            \
           get_globals_funcs_,                \
           get_t1_funcs_,                     \
-          get_t2_funcs_ )                    \
+          get_t2_funcs_)                    \
   static const PSHinter_Interface  class_ =  \
   {                                          \
     get_globals_funcs_,                      \
@@ -696,16 +696,16 @@ FT_BEGIN_HEADER
 
 #else /* FT_CONFIG_OPTION_PIC */
 
-#define FT_DEFINE_PSHINTER_INTERFACE(                      \
+#define FT_DEFINE_PSHINTER_INTERFACE(                     \
           class_,                                          \
           get_globals_funcs_,                              \
           get_t1_funcs_,                                   \
-          get_t2_funcs_ )                                  \
+          get_t2_funcs_)                                  \
   void                                                     \
-  FT_Init_Class_ ## class_( FT_Library           library,  \
-                            PSHinter_Interface*  clazz )   \
+  FT_Init_Class_ ## class_(FT_Library           library,  \
+                            PSHinter_Interface*  clazz)   \
   {                                                        \
-    FT_UNUSED( library );                                  \
+    FT_UNUSED(library);                                  \
                                                            \
     clazz->get_globals_funcs = get_globals_funcs_;         \
     clazz->get_t1_funcs      = get_t1_funcs_;              \

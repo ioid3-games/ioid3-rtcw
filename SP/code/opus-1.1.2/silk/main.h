@@ -68,7 +68,7 @@ void silk_stereo_MS_to_LR(
 );
 
 /* Find least-squares prediction gain for one signal based on another and quantize it */
-opus_int32 silk_stereo_find_predictor(                          /* O    Returns predictor in Q13                    */
+opus_int32 silk_stereo_find_predictor(                         /* O    Returns predictor in Q13                    */
     opus_int32                  *ratio_Q14,                     /* O    Ratio of residual and mid energies          */
     const opus_int16            x[],                            /* I    Basis signal                                */
     const opus_int16            y[],                            /* I    Target signal                               */
@@ -189,7 +189,7 @@ void silk_gains_dequant(
 );
 
 /* Compute unique identifier of gain indices vector */
-opus_int32 silk_gains_ID(                                       /* O    returns unique identifier of gains          */
+opus_int32 silk_gains_ID(                                      /* O    returns unique identifier of gains          */
     const opus_int8             ind[ MAX_NB_SUBFR ],            /* I    gain indices                                */
     const opus_int              nb_subfr                        /* I    number of subframes                         */
 );
@@ -297,12 +297,12 @@ void silk_NSQ_del_dec_c(
 /* Silk VAD */
 /************/
 /* Initialize the Silk VAD */
-opus_int silk_VAD_Init(                                         /* O    Return value, 0 if success                  */
+opus_int silk_VAD_Init(                                        /* O    Return value, 0 if success                  */
     silk_VAD_state              *psSilk_VAD                     /* I/O  Pointer to Silk VAD state                   */
 );
 
 /* Get speech activity level in Q8 */
-opus_int silk_VAD_GetSA_Q8_c(                                   /* O    Return value, 0 if success                  */
+opus_int silk_VAD_GetSA_Q8_c(                                  /* O    Return value, 0 if success                  */
     silk_encoder_state          *psEncC,                        /* I/O  Encoder state                               */
     const opus_int16            pIn[]                           /* I    PCM input                                   */
 );
@@ -331,7 +331,7 @@ void silk_process_NLSFs(
     const opus_int16            prev_NLSFq_Q15[    MAX_LPC_ORDER ]  /* I    Previous Normalized LSFs (0 - (2^15-1))     */
 );
 
-opus_int32 silk_NLSF_encode(                                    /* O    Returns RD value in Q25                     */
+opus_int32 silk_NLSF_encode(                                   /* O    Returns RD value in Q25                     */
           opus_int8             *NLSFIndices,                   /* I    Codebook path vector [ LPC_ORDER + 1 ]      */
           opus_int16            *pNLSF_Q15,                     /* I/O  Quantized NLSF vector [ LPC_ORDER ]         */
     const silk_NLSF_CB_struct   *psNLSF_CB,                     /* I    Codebook object                             */
@@ -351,7 +351,7 @@ void silk_NLSF_VQ(
 );
 
 /* Delayed-decision quantizer for NLSF residuals */
-opus_int32 silk_NLSF_del_dec_quant(                             /* O    Returns RD value in Q25                     */
+opus_int32 silk_NLSF_del_dec_quant(                            /* O    Returns RD value in Q25                     */
     opus_int8                   indices[],                      /* O    Quantization indices [ order ]              */
     const opus_int16            x_Q10[],                        /* I    Input [ order ]                             */
     const opus_int16            w_Q5[],                         /* I    Weights [ order ]                           */

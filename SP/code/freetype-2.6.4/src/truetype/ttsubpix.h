@@ -72,25 +72,25 @@ FT_BEGIN_HEADER
 #define SPH_TWEAK_SKIP_NONPIXEL_Y_MOVES_DELTAP    0x0080000UL
 
 
-  FT_LOCAL( FT_Bool )
-  sph_test_tweak( TT_Face               face,
+  FT_LOCAL(FT_Bool)
+  sph_test_tweak(TT_Face               face,
                   const FT_String*      family,
                   FT_UInt               ppem,
                   const FT_String*      style,
                   FT_UInt               glyph_index,
                   const SPH_TweakRule*  rule,
-                  FT_UInt               num_rules );
+                  FT_UInt               num_rules);
 
-  FT_LOCAL( FT_UInt )
-  sph_test_tweak_x_scaling( TT_Face           face,
+  FT_LOCAL(FT_UInt)
+  sph_test_tweak_x_scaling(TT_Face           face,
                             const FT_String*  family,
                             FT_UInt           ppem,
                             const FT_String*  style,
-                            FT_UInt           glyph_index );
+                            FT_UInt           glyph_index);
 
-  FT_LOCAL( void )
-  sph_set_tweaks( TT_Loader  loader,
-                  FT_UInt    glyph_index );
+  FT_LOCAL(void)
+  sph_set_tweaks(TT_Loader  loader,
+                  FT_UInt    glyph_index);
 
 
   /* These macros are defined absent a method for setting them */

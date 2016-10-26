@@ -65,36 +65,36 @@ FT_BEGIN_HEADER
   } CffModulePIC;
 
 
-#define GET_PIC( lib )                                    \
-          ( (CffModulePIC*)( (lib)->pic_container.cff ) )
+#define GET_PIC(lib)                                    \
+          ((CffModulePIC*)((lib)->pic_container.cff))
 
 #define CFF_SERVICE_PS_INFO_GET                       \
-          ( GET_PIC( library )->cff_service_ps_info )
+          (GET_PIC(library)->cff_service_ps_info)
 #define CFF_SERVICE_GLYPH_DICT_GET                       \
-          ( GET_PIC( library )->cff_service_glyph_dict )
+          (GET_PIC(library)->cff_service_glyph_dict)
 #define CFF_SERVICE_PS_NAME_GET                       \
-          ( GET_PIC( library )->cff_service_ps_name )
+          (GET_PIC(library)->cff_service_ps_name)
 #define CFF_SERVICE_GET_CMAP_INFO_GET                       \
-          ( GET_PIC( library )->cff_service_get_cmap_info )
+          (GET_PIC(library)->cff_service_get_cmap_info)
 #define CFF_SERVICE_CID_INFO_GET                       \
-          ( GET_PIC( library )->cff_service_cid_info )
+          (GET_PIC(library)->cff_service_cid_info)
 #define CFF_SERVICE_PROPERTIES_GET                       \
-          ( GET_PIC( library )->cff_service_properties )
+          (GET_PIC(library)->cff_service_properties)
 #define CFF_SERVICES_GET                       \
-          ( GET_PIC( library )->cff_services )
+          (GET_PIC(library)->cff_services)
 #define CFF_CMAP_ENCODING_CLASS_REC_GET                       \
-          ( GET_PIC( library )->cff_cmap_encoding_class_rec )
+          (GET_PIC(library)->cff_cmap_encoding_class_rec)
 #define CFF_CMAP_UNICODE_CLASS_REC_GET                       \
-          ( GET_PIC( library )->cff_cmap_unicode_class_rec )
+          (GET_PIC(library)->cff_cmap_unicode_class_rec)
 #define CFF_FIELD_HANDLERS_GET                       \
-          ( GET_PIC( library )->cff_field_handlers )
+          (GET_PIC(library)->cff_field_handlers)
 
   /* see cffpic.c for the implementation */
   void
-  cff_driver_class_pic_free( FT_Library  library );
+  cff_driver_class_pic_free(FT_Library  library);
 
   FT_Error
-  cff_driver_class_pic_init( FT_Library  library );
+  cff_driver_class_pic_init(FT_Library  library);
 
 FT_END_HEADER
 

@@ -47,7 +47,7 @@ FT_BEGIN_HEADER
   } AF_ModuleRec, *AF_Module;
 
 
-FT_DECLARE_MODULE( autofit_module_class )
+FT_DECLARE_MODULE(autofit_module_class)
 
 
 FT_END_HEADER

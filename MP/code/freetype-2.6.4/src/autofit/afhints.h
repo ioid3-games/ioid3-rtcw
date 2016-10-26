@@ -210,27 +210,27 @@ FT_BEGIN_HEADER
 #define AF_FLAG_NONE  0
 
   /* point type flags */
-#define AF_FLAG_CONIC    ( 1U << 0 )
-#define AF_FLAG_CUBIC    ( 1U << 1 )
-#define AF_FLAG_CONTROL  ( AF_FLAG_CONIC | AF_FLAG_CUBIC )
+#define AF_FLAG_CONIC    (1U << 0)
+#define AF_FLAG_CUBIC    (1U << 1)
+#define AF_FLAG_CONTROL  (AF_FLAG_CONIC | AF_FLAG_CUBIC)
 
   /* point touch flags */
-#define AF_FLAG_TOUCH_X  ( 1U << 2 )
-#define AF_FLAG_TOUCH_Y  ( 1U << 3 )
+#define AF_FLAG_TOUCH_X  (1U << 2)
+#define AF_FLAG_TOUCH_Y  (1U << 3)
 
   /* candidates for weak interpolation have this flag set */
-#define AF_FLAG_WEAK_INTERPOLATION  ( 1U << 4 )
+#define AF_FLAG_WEAK_INTERPOLATION  (1U << 4)
 
   /* the distance to the next point is very small */
-#define AF_FLAG_NEAR  ( 1U << 5 )
+#define AF_FLAG_NEAR  (1U << 5)
 
 
   /* edge hint flags */
 #define AF_EDGE_NORMAL  0
-#define AF_EDGE_ROUND    ( 1U << 0 )
-#define AF_EDGE_SERIF    ( 1U << 1 )
-#define AF_EDGE_DONE     ( 1U << 2 )
-#define AF_EDGE_NEUTRAL  ( 1U << 3 ) /* edge aligns to a neutral blue zone */
+#define AF_EDGE_ROUND    (1U << 0)
+#define AF_EDGE_SERIF    (1U << 1)
+#define AF_EDGE_DONE     (1U << 2)
+#define AF_EDGE_NEUTRAL  (1U << 3) /* edge aligns to a neutral blue zone */
 
 
   typedef struct AF_PointRec_*    AF_Point;
@@ -369,107 +369,107 @@ FT_BEGIN_HEADER
   } AF_GlyphHintsRec;
 
 
-#define AF_HINTS_TEST_SCALER( h, f )  ( (h)->scaler_flags & (f) )
-#define AF_HINTS_TEST_OTHER( h, f )   ( (h)->other_flags  & (f) )
+#define AF_HINTS_TEST_SCALER(h, f)  ((h)->scaler_flags & (f))
+#define AF_HINTS_TEST_OTHER(h, f)   ((h)->other_flags  & (f))
 
 
 #ifdef FT_DEBUG_AUTOFIT
 
-#define AF_HINTS_DO_HORIZONTAL( h )                                     \
-          ( !_af_debug_disable_horz_hints                            && \
-            !AF_HINTS_TEST_SCALER( h, AF_SCALER_FLAG_NO_HORIZONTAL ) )
+#define AF_HINTS_DO_HORIZONTAL(h)                                     \
+          (!_af_debug_disable_horz_hints                            && \
+            !AF_HINTS_TEST_SCALER(h, AF_SCALER_FLAG_NO_HORIZONTAL))
 
-#define AF_HINTS_DO_VERTICAL( h )                                     \
-          ( !_af_debug_disable_vert_hints                          && \
-            !AF_HINTS_TEST_SCALER( h, AF_SCALER_FLAG_NO_VERTICAL ) )
+#define AF_HINTS_DO_VERTICAL(h)                                     \
+          (!_af_debug_disable_vert_hints                          && \
+            !AF_HINTS_TEST_SCALER(h, AF_SCALER_FLAG_NO_VERTICAL))
 
-#define AF_HINTS_DO_BLUES( h )  ( !_af_debug_disable_blue_hints )
+#define AF_HINTS_DO_BLUES(h)  (!_af_debug_disable_blue_hints)
 
 #else /* !FT_DEBUG_AUTOFIT */
 
-#define AF_HINTS_DO_HORIZONTAL( h )                                \
-          !AF_HINTS_TEST_SCALER( h, AF_SCALER_FLAG_NO_HORIZONTAL )
+#define AF_HINTS_DO_HORIZONTAL(h)                                \
+          !AF_HINTS_TEST_SCALER(h, AF_SCALER_FLAG_NO_HORIZONTAL)
 
-#define AF_HINTS_DO_VERTICAL( h )                                \
-          !AF_HINTS_TEST_SCALER( h, AF_SCALER_FLAG_NO_VERTICAL )
+#define AF_HINTS_DO_VERTICAL(h)                                \
+          !AF_HINTS_TEST_SCALER(h, AF_SCALER_FLAG_NO_VERTICAL)
 
-#define AF_HINTS_DO_BLUES( h )  1
+#define AF_HINTS_DO_BLUES(h)  1
 
 #endif /* !FT_DEBUG_AUTOFIT */
 
 
-#define AF_HINTS_DO_ADVANCE( h )                                \
-          !AF_HINTS_TEST_SCALER( h, AF_SCALER_FLAG_NO_ADVANCE )
+#define AF_HINTS_DO_ADVANCE(h)                                \
+          !AF_HINTS_TEST_SCALER(h, AF_SCALER_FLAG_NO_ADVANCE)
 
-#define AF_HINTS_DO_WARP( h )                                  \
-          !AF_HINTS_TEST_SCALER( h, AF_SCALER_FLAG_NO_WARPER )
-
-
-
-  FT_LOCAL( AF_Direction )
-  af_direction_compute( FT_Pos  dx,
-                        FT_Pos  dy );
+#define AF_HINTS_DO_WARP(h)                                  \
+          !AF_HINTS_TEST_SCALER(h, AF_SCALER_FLAG_NO_WARPER)
 
 
-  FT_LOCAL( FT_Error )
-  af_axis_hints_new_segment( AF_AxisHints  axis,
+
+  FT_LOCAL(AF_Direction)
+  af_direction_compute(FT_Pos  dx,
+                        FT_Pos  dy);
+
+
+  FT_LOCAL(FT_Error)
+  af_axis_hints_new_segment(AF_AxisHints  axis,
                              FT_Memory     memory,
-                             AF_Segment   *asegment );
+                             AF_Segment   *asegment);
 
-  FT_LOCAL( FT_Error)
-  af_axis_hints_new_edge( AF_AxisHints  axis,
+  FT_LOCAL(FT_Error)
+  af_axis_hints_new_edge(AF_AxisHints  axis,
                           FT_Int        fpos,
                           AF_Direction  dir,
                           FT_Bool       top_to_bottom_hinting,
                           FT_Memory     memory,
-                          AF_Edge      *edge );
+                          AF_Edge      *edge);
 
-  FT_LOCAL( void )
-  af_glyph_hints_init( AF_GlyphHints  hints,
-                       FT_Memory      memory );
+  FT_LOCAL(void)
+  af_glyph_hints_init(AF_GlyphHints  hints,
+                       FT_Memory      memory);
 
-  FT_LOCAL( void )
-  af_glyph_hints_rescale( AF_GlyphHints    hints,
-                          AF_StyleMetrics  metrics );
+  FT_LOCAL(void)
+  af_glyph_hints_rescale(AF_GlyphHints    hints,
+                          AF_StyleMetrics  metrics);
 
-  FT_LOCAL( FT_Error )
-  af_glyph_hints_reload( AF_GlyphHints  hints,
-                         FT_Outline*    outline );
+  FT_LOCAL(FT_Error)
+  af_glyph_hints_reload(AF_GlyphHints  hints,
+                         FT_Outline*    outline);
 
-  FT_LOCAL( void )
-  af_glyph_hints_save( AF_GlyphHints  hints,
-                       FT_Outline*    outline );
+  FT_LOCAL(void)
+  af_glyph_hints_save(AF_GlyphHints  hints,
+                       FT_Outline*    outline);
 
-  FT_LOCAL( void )
-  af_glyph_hints_align_edge_points( AF_GlyphHints  hints,
-                                    AF_Dimension   dim );
+  FT_LOCAL(void)
+  af_glyph_hints_align_edge_points(AF_GlyphHints  hints,
+                                    AF_Dimension   dim);
 
-  FT_LOCAL( void )
-  af_glyph_hints_align_strong_points( AF_GlyphHints  hints,
-                                      AF_Dimension   dim );
+  FT_LOCAL(void)
+  af_glyph_hints_align_strong_points(AF_GlyphHints  hints,
+                                      AF_Dimension   dim);
 
-  FT_LOCAL( void )
-  af_glyph_hints_align_weak_points( AF_GlyphHints  hints,
-                                    AF_Dimension   dim );
+  FT_LOCAL(void)
+  af_glyph_hints_align_weak_points(AF_GlyphHints  hints,
+                                    AF_Dimension   dim);
 
 #ifdef AF_CONFIG_OPTION_USE_WARPER
-  FT_LOCAL( void )
-  af_glyph_hints_scale_dim( AF_GlyphHints  hints,
+  FT_LOCAL(void)
+  af_glyph_hints_scale_dim(AF_GlyphHints  hints,
                             AF_Dimension   dim,
                             FT_Fixed       scale,
-                            FT_Pos         delta );
+                            FT_Pos         delta);
 #endif
 
-  FT_LOCAL( void )
-  af_glyph_hints_done( AF_GlyphHints  hints );
+  FT_LOCAL(void)
+  af_glyph_hints_done(AF_GlyphHints  hints);
 
 /* */
 
-#define AF_SEGMENT_LEN( seg )          ( (seg)->max_coord - (seg)->min_coord )
+#define AF_SEGMENT_LEN(seg)          ((seg)->max_coord - (seg)->min_coord)
 
-#define AF_SEGMENT_DIST( seg1, seg2 )  ( ( (seg1)->pos > (seg2)->pos )   \
+#define AF_SEGMENT_DIST(seg1, seg2)  (((seg1)->pos > (seg2)->pos)   \
                                            ? (seg1)->pos - (seg2)->pos   \
-                                           : (seg2)->pos - (seg1)->pos )
+                                           : (seg2)->pos - (seg1)->pos)
 
 
 FT_END_HEADER

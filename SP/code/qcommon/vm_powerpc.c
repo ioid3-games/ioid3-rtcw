@@ -364,7 +364,7 @@ static dest_instruction_t **di_pointers = NULL;
  */
 static void PPC_Append(
 		dest_instruction_t *di_now, unsigned long int i_count
-  ) {
+ ) {
 	di_now->count = di_count++;
 	di_now->i_count = i_count;
 	di_now->next = NULL;

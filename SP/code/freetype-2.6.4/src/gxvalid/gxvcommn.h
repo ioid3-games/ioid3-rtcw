@@ -62,8 +62,8 @@ FT_BEGIN_HEADER
 
 #undef GXV_LOAD_UNUSED_VARS /* debug purpose */
 
-#define IS_PARANOID_VALIDATION          ( gxvalid->root->level >= FT_VALIDATE_PARANOID )
-#define GXV_SET_ERR_IF_PARANOID( err )  { if ( IS_PARANOID_VALIDATION ) ( err ); }
+#define IS_PARANOID_VALIDATION          (gxvalid->root->level >= FT_VALIDATE_PARANOID)
+#define GXV_SET_ERR_IF_PARANOID(err)  { if (IS_PARANOID_VALIDATION) (err); }
 
   /*************************************************************************/
   /*************************************************************************/
@@ -79,9 +79,9 @@ FT_BEGIN_HEADER
 #define DUMMY_LIMIT 0
 
   typedef void
-  (*GXV_Validate_Func)( FT_Bytes       table,
+  (*GXV_Validate_Func)(FT_Bytes       table,
                         FT_Bytes       limit,
-                        GXV_Validator  gxvalid );
+                        GXV_Validator  gxvalid);
 
 
   /* ====================== LookupTable Validator ======================== */
@@ -104,15 +104,15 @@ FT_BEGIN_HEADER
 
 
   typedef void
-  (*GXV_Lookup_Value_Validate_Func)( FT_UShort            glyph,
+  (*GXV_Lookup_Value_Validate_Func)(FT_UShort            glyph,
                                      GXV_LookupValueCPtr  value_p,
-                                     GXV_Validator        gxvalid );
+                                     GXV_Validator        gxvalid);
 
   typedef GXV_LookupValueDesc
-  (*GXV_Lookup_Fmt4_Transit_Func)( FT_UShort            relative_gindex,
+  (*GXV_Lookup_Fmt4_Transit_Func)(FT_UShort            relative_gindex,
                                    GXV_LookupValueCPtr  base_value_p,
                                    FT_Bytes             lookuptbl_limit,
-                                   GXV_Validator        gxvalid );
+                                   GXV_Validator        gxvalid);
 
 
   /* ====================== StateTable Validator ========================= */
@@ -130,11 +130,11 @@ FT_BEGIN_HEADER
   } GXV_GlyphOffset_Format;
 
 
-#define GXV_GLYPHOFFSET_FMT( table )           \
-        ( gxvalid->table.entry_glyphoffset_fmt )
+#define GXV_GLYPHOFFSET_FMT(table)           \
+        (gxvalid->table.entry_glyphoffset_fmt)
 
-#define GXV_GLYPHOFFSET_SIZE( table )              \
-        ( gxvalid->table.entry_glyphoffset_fmt / 2 )
+#define GXV_GLYPHOFFSET_SIZE(table)              \
+        (gxvalid->table.entry_glyphoffset_fmt / 2)
 
 
   /* ----------------------- 16bit StateTable ---------------------------- */
@@ -153,14 +153,14 @@ FT_BEGIN_HEADER
   typedef const GXV_StateTable_GlyphOffsetDesc* GXV_StateTable_GlyphOffsetCPtr;
 
   typedef void
-  (*GXV_StateTable_Subtable_Setup_Func)( FT_UShort      table_size,
+  (*GXV_StateTable_Subtable_Setup_Func)(FT_UShort      table_size,
                                          FT_UShort      classTable,
                                          FT_UShort      stateArray,
                                          FT_UShort      entryTable,
                                          FT_UShort*     classTable_length_p,
                                          FT_UShort*     stateArray_length_p,
                                          FT_UShort*     entryTable_length_p,
-                                         GXV_Validator  gxvalid );
+                                         GXV_Validator  gxvalid);
 
   typedef void
   (*GXV_StateTable_Entry_Validate_Func)(
@@ -169,12 +169,12 @@ FT_BEGIN_HEADER
      GXV_StateTable_GlyphOffsetCPtr  glyphOffset_p,
      FT_Bytes                        statetable_table,
      FT_Bytes                        statetable_limit,
-     GXV_Validator                   gxvalid );
+     GXV_Validator                   gxvalid);
 
   typedef void
-  (*GXV_StateTable_OptData_Load_Func)( FT_Bytes       table,
+  (*GXV_StateTable_OptData_Load_Func)(FT_Bytes       table,
                                        FT_Bytes       limit,
-                                       GXV_Validator  gxvalid );
+                                       GXV_Validator  gxvalid);
 
   typedef struct  GXV_StateTable_ValidatorRec_
   {
@@ -195,14 +195,14 @@ FT_BEGIN_HEADER
   typedef const GXV_XStateTable_GlyphOffsetDesc* GXV_XStateTable_GlyphOffsetCPtr;
 
   typedef void
-  (*GXV_XStateTable_Subtable_Setup_Func)( FT_ULong       table_size,
+  (*GXV_XStateTable_Subtable_Setup_Func)(FT_ULong       table_size,
                                           FT_ULong       classTable,
                                           FT_ULong       stateArray,
                                           FT_ULong       entryTable,
                                           FT_ULong*      classTable_length_p,
                                           FT_ULong*      stateArray_length_p,
                                           FT_ULong*      entryTable_length_p,
-                                          GXV_Validator  gxvalid );
+                                          GXV_Validator  gxvalid);
 
   typedef void
   (*GXV_XStateTable_Entry_Validate_Func)(
@@ -211,7 +211,7 @@ FT_BEGIN_HEADER
      GXV_StateTable_GlyphOffsetCPtr  glyphOffset_p,
      FT_Bytes                        xstatetable_table,
      FT_Bytes                        xstatetable_limit,
-     GXV_Validator                   gxvalid );
+     GXV_Validator                   gxvalid);
 
 
   typedef GXV_StateTable_OptData_Load_Func  GXV_XStateTable_OptData_Load_Func;
@@ -262,16 +262,16 @@ FT_BEGIN_HEADER
   } GXV_ValidatorRec;
 
 
-#define GXV_TABLE_DATA( tag, field )                           \
-        ( ( (GXV_ ## tag ## _Data)gxvalid->table_data )->field )
+#define GXV_TABLE_DATA(tag, field)                           \
+        (((GXV_ ## tag ## _Data)gxvalid->table_data)->field)
 
 #undef  FT_INVALID_
-#define FT_INVALID_( _error ) \
-          ft_validator_error( gxvalid->root, FT_THROW( _error ) )
+#define FT_INVALID_(_error) \
+          ft_validator_error(gxvalid->root, FT_THROW(_error))
 
-#define GXV_LIMIT_CHECK( _count )                                     \
+#define GXV_LIMIT_CHECK(_count)                                     \
           FT_BEGIN_STMNT                                              \
-            if ( p + _count > ( limit? limit : gxvalid->root->limit ) ) \
+            if (p + _count > (limit? limit : gxvalid->root->limit)) \
               FT_INVALID_TOO_SHORT;                                   \
           FT_END_STMNT
 
@@ -280,28 +280,28 @@ FT_BEGIN_HEADER
 
 #define GXV_INIT  gxvalid->debug_indent = 0
 
-#define GXV_NAME_ENTER( name )                             \
+#define GXV_NAME_ENTER(name)                             \
           FT_BEGIN_STMNT                                   \
             gxvalid->debug_indent += 2;                      \
-            FT_TRACE4(( "%*.s", gxvalid->debug_indent, 0 )); \
-            FT_TRACE4(( "%s table\n", name ));             \
+            FT_TRACE4(("%*.s", gxvalid->debug_indent, 0)); \
+            FT_TRACE4(("%s table\n", name));             \
           FT_END_STMNT
 
 #define GXV_EXIT  gxvalid->debug_indent -= 2
 
-#define GXV_TRACE( s )                                     \
+#define GXV_TRACE(s)                                     \
           FT_BEGIN_STMNT                                   \
-            FT_TRACE4(( "%*.s", gxvalid->debug_indent, 0 )); \
-            FT_TRACE4( s );                                \
+            FT_TRACE4(("%*.s", gxvalid->debug_indent, 0)); \
+            FT_TRACE4(s);                                \
           FT_END_STMNT
 
 #else /* !FT_DEBUG_LEVEL_TRACE */
 
-#define GXV_INIT                do { } while ( 0 )
-#define GXV_NAME_ENTER( name )  do { } while ( 0 )
-#define GXV_EXIT                do { } while ( 0 )
+#define GXV_INIT                do { } while (0)
+#define GXV_NAME_ENTER(name)  do { } while (0)
+#define GXV_EXIT                do { } while (0)
 
-#define GXV_TRACE( s )          do { } while ( 0 )
+#define GXV_TRACE(s)          do { } while (0)
 
 #endif  /* !FT_DEBUG_LEVEL_TRACE */
 
@@ -314,10 +314,10 @@ FT_BEGIN_HEADER
   /*************************************************************************/
   /*************************************************************************/
 
-#define GXV_32BIT_ALIGNMENT_VALIDATE( a ) \
+#define GXV_32BIT_ALIGNMENT_VALIDATE(a) \
           FT_BEGIN_STMNT                  \
             {                             \
-              if ( (a) & 3 )              \
+              if ((a) & 3)              \
                 FT_INVALID_OFFSET;        \
             }                             \
           FT_END_STMNT
@@ -331,33 +331,33 @@ FT_BEGIN_HEADER
   /*************************************************************************/
   /*************************************************************************/
 
-#define GXV_TRACE_HEXDUMP( p, len )                     \
+#define GXV_TRACE_HEXDUMP(p, len)                     \
           FT_BEGIN_STMNT                                \
             {                                           \
               FT_Bytes  b;                              \
                                                         \
                                                         \
-              for ( b = p; b < (FT_Bytes)p + len; b++ ) \
+              for (b = p; b < (FT_Bytes)p + len; b++) \
                 FT_TRACE1(("\\x%02x", *b));             \
             }                                           \
           FT_END_STMNT
 
-#define GXV_TRACE_HEXDUMP_C( p, len )                   \
+#define GXV_TRACE_HEXDUMP_C(p, len)                   \
           FT_BEGIN_STMNT                                \
             {                                           \
               FT_Bytes  b;                              \
                                                         \
                                                         \
-              for ( b = p; b < (FT_Bytes)p + len; b++ ) \
-                if ( 0x40 < *b && *b < 0x7E )           \
+              for (b = p; b < (FT_Bytes)p + len; b++) \
+                if (0x40 < *b && *b < 0x7E)           \
                   FT_TRACE1(("%c", *b));                \
                 else                                    \
                   FT_TRACE1(("\\x%02x", *b));           \
             }                                           \
           FT_END_STMNT
 
-#define GXV_TRACE_HEXDUMP_SFNTNAME( n )               \
-          GXV_TRACE_HEXDUMP( n.string, n.string_len )
+#define GXV_TRACE_HEXDUMP_SFNTNAME(n)               \
+          GXV_TRACE_HEXDUMP(n.string, n.string_len)
 
 
   /*************************************************************************/
@@ -368,17 +368,17 @@ FT_BEGIN_HEADER
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL( void )
-  gxv_BinSrchHeader_validate( FT_Bytes       p,
+  FT_LOCAL(void)
+  gxv_BinSrchHeader_validate(FT_Bytes       p,
                               FT_Bytes       limit,
                               FT_UShort*     unitSize_p,
                               FT_UShort*     nUnits_p,
-                              GXV_Validator  gxvalid );
+                              GXV_Validator  gxvalid);
 
-  FT_LOCAL( void )
-  gxv_LookupTable_validate( FT_Bytes       table,
+  FT_LOCAL(void)
+  gxv_LookupTable_validate(FT_Bytes       table,
                             FT_Bytes       limit,
-                            GXV_Validator  gxvalid );
+                            GXV_Validator  gxvalid);
 
 
   /*************************************************************************/
@@ -389,9 +389,9 @@ FT_BEGIN_HEADER
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL( FT_Int )
-  gxv_glyphid_validate( FT_UShort      gid,
-                        GXV_Validator  gxvalid );
+  FT_LOCAL(FT_Int)
+  gxv_glyphid_validate(FT_UShort      gid,
+                        GXV_Validator  gxvalid);
 
 
   /*************************************************************************/
@@ -402,10 +402,10 @@ FT_BEGIN_HEADER
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL( void )
-  gxv_ctlPoint_validate( FT_UShort      gid,
+  FT_LOCAL(void)
+  gxv_ctlPoint_validate(FT_UShort      gid,
                          FT_UShort      ctl_point,
-                         GXV_Validator  gxvalid );
+                         GXV_Validator  gxvalid);
 
 
   /*************************************************************************/
@@ -416,11 +416,11 @@ FT_BEGIN_HEADER
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL( void )
-  gxv_sfntName_validate( FT_UShort      name_index,
+  FT_LOCAL(void)
+  gxv_sfntName_validate(FT_UShort      name_index,
                          FT_UShort      min_index,
                          FT_UShort      max_index,
-                         GXV_Validator  gxvalid );
+                         GXV_Validator  gxvalid);
 
 
   /*************************************************************************/
@@ -431,35 +431,35 @@ FT_BEGIN_HEADER
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL( void )
-  gxv_StateTable_subtable_setup( FT_UShort      table_size,
+  FT_LOCAL(void)
+  gxv_StateTable_subtable_setup(FT_UShort      table_size,
                                  FT_UShort      classTable,
                                  FT_UShort      stateArray,
                                  FT_UShort      entryTable,
                                  FT_UShort*     classTable_length_p,
                                  FT_UShort*     stateArray_length_p,
                                  FT_UShort*     entryTable_length_p,
-                                 GXV_Validator  gxvalid );
+                                 GXV_Validator  gxvalid);
 
-  FT_LOCAL( void )
-  gxv_XStateTable_subtable_setup( FT_ULong       table_size,
+  FT_LOCAL(void)
+  gxv_XStateTable_subtable_setup(FT_ULong       table_size,
                                   FT_ULong       classTable,
                                   FT_ULong       stateArray,
                                   FT_ULong       entryTable,
                                   FT_ULong*      classTable_length_p,
                                   FT_ULong*      stateArray_length_p,
                                   FT_ULong*      entryTable_length_p,
-                                  GXV_Validator  gxvalid );
+                                  GXV_Validator  gxvalid);
 
-  FT_LOCAL( void )
-  gxv_StateTable_validate( FT_Bytes       table,
+  FT_LOCAL(void)
+  gxv_StateTable_validate(FT_Bytes       table,
                            FT_Bytes       limit,
-                           GXV_Validator  gxvalid );
+                           GXV_Validator  gxvalid);
 
-  FT_LOCAL( void )
-  gxv_XStateTable_validate( FT_Bytes       table,
+  FT_LOCAL(void)
+  gxv_XStateTable_validate(FT_Bytes       table,
                             FT_Bytes       limit,
-                            GXV_Validator  gxvalid );
+                            GXV_Validator  gxvalid);
 
 
   /*************************************************************************/
@@ -470,30 +470,30 @@ FT_BEGIN_HEADER
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL( void )
-  gxv_array_getlimits_byte( FT_Bytes       table,
+  FT_LOCAL(void)
+  gxv_array_getlimits_byte(FT_Bytes       table,
                             FT_Bytes       limit,
                             FT_Byte*       min,
                             FT_Byte*       max,
-                            GXV_Validator  gxvalid );
+                            GXV_Validator  gxvalid);
 
-  FT_LOCAL( void )
-  gxv_array_getlimits_ushort( FT_Bytes       table,
+  FT_LOCAL(void)
+  gxv_array_getlimits_ushort(FT_Bytes       table,
                               FT_Bytes       limit,
                               FT_UShort*     min,
                               FT_UShort*     max,
-                              GXV_Validator  gxvalid );
+                              GXV_Validator  gxvalid);
 
-  FT_LOCAL( void )
-  gxv_set_length_by_ushort_offset( FT_UShort*     offset,
+  FT_LOCAL(void)
+  gxv_set_length_by_ushort_offset(FT_UShort*     offset,
                                    FT_UShort**    length,
                                    FT_UShort*     buff,
                                    FT_UInt        nmemb,
                                    FT_UShort      limit,
-                                   GXV_Validator  gxvalid );
+                                   GXV_Validator  gxvalid);
 
-  FT_LOCAL( void )
-  gxv_set_length_by_ulong_offset( FT_ULong*      offset,
+  FT_LOCAL(void)
+  gxv_set_length_by_ulong_offset(FT_ULong*      offset,
                                   FT_ULong**     length,
                                   FT_ULong*      buff,
                                   FT_UInt        nmemb,
@@ -501,26 +501,26 @@ FT_BEGIN_HEADER
                                   GXV_Validator  gxvalid);
 
 
-#define GXV_SUBTABLE_OFFSET_CHECK( _offset )          \
+#define GXV_SUBTABLE_OFFSET_CHECK(_offset)          \
           FT_BEGIN_STMNT                              \
-            if ( (_offset) > gxvalid->subtable_length ) \
+            if ((_offset) > gxvalid->subtable_length) \
               FT_INVALID_OFFSET;                      \
           FT_END_STMNT
 
-#define GXV_SUBTABLE_LIMIT_CHECK( _count )                  \
+#define GXV_SUBTABLE_LIMIT_CHECK(_count)                  \
           FT_BEGIN_STMNT                                    \
-            if ( ( p + (_count) - gxvalid->subtable_start ) > \
-                   gxvalid->subtable_length )                 \
+            if ((p + (_count) - gxvalid->subtable_start) > \
+                   gxvalid->subtable_length)                 \
               FT_INVALID_TOO_SHORT;                         \
           FT_END_STMNT
 
-#define GXV_USHORT_TO_SHORT( _us )                                    \
-          ( ( 0x8000U < ( _us ) ) ? ( ( _us ) - 0x8000U ) : ( _us ) )
+#define GXV_USHORT_TO_SHORT(_us)                                    \
+          ((0x8000U < (_us)) ? ((_us) - 0x8000U) : (_us))
 
-#define GXV_STATETABLE_HEADER_SIZE  ( 2 + 2 + 2 + 2 )
+#define GXV_STATETABLE_HEADER_SIZE  (2 + 2 + 2 + 2)
 #define GXV_STATEHEADER_SIZE        GXV_STATETABLE_HEADER_SIZE
 
-#define GXV_XSTATETABLE_HEADER_SIZE  ( 4 + 4 + 4 + 4 )
+#define GXV_XSTATETABLE_HEADER_SIZE  (4 + 4 + 4 + 4)
 #define GXV_XSTATEHEADER_SIZE        GXV_XSTATETABLE_HEADER_SIZE
 
 
@@ -548,23 +548,23 @@ FT_BEGIN_HEADER
   } GXV_odtect_RangeRec, *GXV_odtect_Range;
 
 
-  FT_LOCAL( void )
-  gxv_odtect_add_range( FT_Bytes          start,
+  FT_LOCAL(void)
+  gxv_odtect_add_range(FT_Bytes          start,
                         FT_ULong          length,
                         const FT_String*  name,
-                        GXV_odtect_Range  odtect );
+                        GXV_odtect_Range  odtect);
 
-  FT_LOCAL( void )
-  gxv_odtect_validate( GXV_odtect_Range  odtect,
-                       GXV_Validator     gxvalid );
+  FT_LOCAL(void)
+  gxv_odtect_validate(GXV_odtect_Range  odtect,
+                       GXV_Validator     gxvalid);
 
 
-#define GXV_ODTECT( n, odtect )                              \
+#define GXV_ODTECT(n, odtect)                              \
           GXV_odtect_DataRec   odtect ## _range[n];          \
           GXV_odtect_RangeRec  odtect ## _rec = { 0, NULL }; \
           GXV_odtect_Range     odtect = NULL
 
-#define GXV_ODTECT_INIT( odtect )                      \
+#define GXV_ODTECT_INIT(odtect)                      \
           FT_BEGIN_STMNT                               \
             odtect ## _rec.nRanges = 0;                \
             odtect ## _rec.range   = odtect ## _range; \

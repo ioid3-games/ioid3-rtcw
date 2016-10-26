@@ -50,38 +50,38 @@ FT_BEGIN_HEADER
 
   /* Rounding function */
   typedef FT_F26Dot6
-  (*TT_Round_Func)( TT_ExecContext  exc,
+  (*TT_Round_Func)(TT_ExecContext  exc,
                     FT_F26Dot6      distance,
-                    FT_F26Dot6      compensation );
+                    FT_F26Dot6      compensation);
 
   /* Point displacement along the freedom vector routine */
   typedef void
-  (*TT_Move_Func)( TT_ExecContext  exc,
+  (*TT_Move_Func)(TT_ExecContext  exc,
                    TT_GlyphZone    zone,
                    FT_UShort       point,
-                   FT_F26Dot6      distance );
+                   FT_F26Dot6      distance);
 
   /* Distance projection along one of the projection vectors */
   typedef FT_F26Dot6
-  (*TT_Project_Func)( TT_ExecContext  exc,
+  (*TT_Project_Func)(TT_ExecContext  exc,
                       FT_Pos          dx,
-                      FT_Pos          dy );
+                      FT_Pos          dy);
 
   /* getting current ppem.  Take care of non-square pixels if necessary */
   typedef FT_Long
-  (*TT_Cur_Ppem_Func)( TT_ExecContext  exc );
+  (*TT_Cur_Ppem_Func)(TT_ExecContext  exc);
 
   /* reading a cvt value.  Take care of non-square pixels if necessary */
   typedef FT_F26Dot6
-  (*TT_Get_CVT_Func)( TT_ExecContext  exc,
-                      FT_ULong        idx );
+  (*TT_Get_CVT_Func)(TT_ExecContext  exc,
+                      FT_ULong        idx);
 
   /* setting or moving a cvt value.  Take care of non-square pixels  */
   /* if necessary                                                    */
   typedef void
-  (*TT_Set_CVT_Func)( TT_ExecContext  exc,
+  (*TT_Set_CVT_Func)(TT_ExecContext  exc,
                       FT_ULong        idx,
-                      FT_F26Dot6      value );
+                      FT_F26Dot6      value);
 
 
   /*************************************************************************/
@@ -414,28 +414,28 @@ FT_BEGIN_HEADER
 
 
 #ifdef TT_USE_BYTECODE_INTERPRETER
-  FT_LOCAL( void )
-  TT_Goto_CodeRange( TT_ExecContext  exec,
+  FT_LOCAL(void)
+  TT_Goto_CodeRange(TT_ExecContext  exec,
                      FT_Int          range,
-                     FT_Long         IP );
+                     FT_Long         IP);
 
-  FT_LOCAL( void )
-  TT_Set_CodeRange( TT_ExecContext  exec,
+  FT_LOCAL(void)
+  TT_Set_CodeRange(TT_ExecContext  exec,
                     FT_Int          range,
                     void*           base,
-                    FT_Long         length );
+                    FT_Long         length);
 
-  FT_LOCAL( void )
-  TT_Clear_CodeRange( TT_ExecContext  exec,
-                      FT_Int          range );
+  FT_LOCAL(void)
+  TT_Clear_CodeRange(TT_ExecContext  exec,
+                      FT_Int          range);
 
 
-  FT_LOCAL( FT_Error )
-  Update_Max( FT_Memory  memory,
+  FT_LOCAL(FT_Error)
+  Update_Max(FT_Memory  memory,
               FT_ULong*  size,
               FT_ULong   multiplier,
               void*      _pbuff,
-              FT_ULong   new_max );
+              FT_ULong   new_max);
 #endif /* TT_USE_BYTECODE_INTERPRETER */
 
 
@@ -459,25 +459,25 @@ FT_BEGIN_HEADER
   /*    Only the glyph loader and debugger should call this function.      */
   /*    (And right now only the glyph loader uses it.)                     */
   /*                                                                       */
-  FT_EXPORT( TT_ExecContext )
-  TT_New_Context( TT_Driver  driver );
+  FT_EXPORT(TT_ExecContext)
+  TT_New_Context(TT_Driver  driver);
 
 
 #ifdef TT_USE_BYTECODE_INTERPRETER
-  FT_LOCAL( void )
-  TT_Done_Context( TT_ExecContext  exec );
+  FT_LOCAL(void)
+  TT_Done_Context(TT_ExecContext  exec);
 
-  FT_LOCAL( FT_Error )
-  TT_Load_Context( TT_ExecContext  exec,
+  FT_LOCAL(FT_Error)
+  TT_Load_Context(TT_ExecContext  exec,
                    TT_Face         face,
-                   TT_Size         size );
+                   TT_Size         size);
 
-  FT_LOCAL( void )
-  TT_Save_Context( TT_ExecContext  exec,
-                   TT_Size         ins );
+  FT_LOCAL(void)
+  TT_Save_Context(TT_ExecContext  exec,
+                   TT_Size         ins);
 
-  FT_LOCAL( FT_Error )
-  TT_Run_Context( TT_ExecContext  exec );
+  FT_LOCAL(FT_Error)
+  TT_Run_Context(TT_ExecContext  exec);
 #endif /* TT_USE_BYTECODE_INTERPRETER */
 
 
@@ -502,8 +502,8 @@ FT_BEGIN_HEADER
   /*    This function is publicly exported because it is directly          */
   /*    invoked by the TrueType debugger.                                  */
   /*                                                                       */
-  FT_EXPORT( FT_Error )
-  TT_RunIns( TT_ExecContext  exec );
+  FT_EXPORT(FT_Error)
+  TT_RunIns(TT_ExecContext  exec);
 
 
 FT_END_HEADER

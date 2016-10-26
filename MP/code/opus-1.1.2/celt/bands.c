@@ -1016,7 +1016,7 @@ static unsigned quant_partition(struct band_ctx *ctx, celt_norm *X,
 #ifdef RESYNTH
                  , gain
 #endif
-                 );
+                );
          } else {
             cm = alg_unquant(X, N, K, spread, B, ec, gain);
          }

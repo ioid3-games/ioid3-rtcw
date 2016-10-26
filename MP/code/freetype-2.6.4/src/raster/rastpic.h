@@ -39,17 +39,17 @@ FT_BEGIN_HEADER
   } RasterPIC;
 
 
-#define GET_PIC( lib )                                    \
-          ( (RasterPIC*)( (lib)->pic_container.raster ) )
-#define FT_STANDARD_RASTER_GET  ( GET_PIC( library )->ft_standard_raster )
+#define GET_PIC(lib)                                    \
+          ((RasterPIC*)((lib)->pic_container.raster))
+#define FT_STANDARD_RASTER_GET  (GET_PIC(library)->ft_standard_raster)
 
 
   /* see rastpic.c for the implementation */
   void
-  ft_raster1_renderer_class_pic_free( FT_Library  library );
+  ft_raster1_renderer_class_pic_free(FT_Library  library);
 
   FT_Error
-  ft_raster1_renderer_class_pic_init( FT_Library  library );
+  ft_raster1_renderer_class_pic_init(FT_Library  library);
 
 #endif /* FT_CONFIG_OPTION_PIC */
 

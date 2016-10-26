@@ -69,13 +69,13 @@ static OPUS_INLINE void opus_free (void *ptr)
 
 /** Copy n elements from src to dst. The 0* term provides compile-time type checking  */
 #ifndef OVERRIDE_OPUS_COPY
-#define OPUS_COPY(dst, src, n) (memcpy((dst), (src), (n)*sizeof(*(dst)) + 0*((dst)-(src)) ))
+#define OPUS_COPY(dst, src, n) (memcpy((dst), (src), (n)*sizeof(*(dst)) + 0*((dst)-(src))))
 #endif
 
 /** Copy n elements from src to dst, allowing overlapping regions. The 0* term
     provides compile-time type checking */
 #ifndef OVERRIDE_OPUS_MOVE
-#define OPUS_MOVE(dst, src, n) (memmove((dst), (src), (n)*sizeof(*(dst)) + 0*((dst)-(src)) ))
+#define OPUS_MOVE(dst, src, n) (memmove((dst), (src), (n)*sizeof(*(dst)) + 0*((dst)-(src))))
 #endif
 
 /** Set n elements of dst to zero */

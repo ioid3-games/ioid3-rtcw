@@ -38,7 +38,7 @@
        int br__; \
        int bi__; \
        int tt__; \
-        __asm__ __volatile__( \
+        __asm__ __volatile__(\
             "#C_MUL\n\t" \
             "ldrsh %[br], [%[bp], #0]\n\t" \
             "ldm %[ap], {r0,r1}\n\t" \
@@ -56,7 +56,7 @@
               [br]"=&r"(br__), [bi]"=r"(bi__), [tt]"=r"(tt__) \
             : [ap]"r"(&(a)), [bp]"r"(&(b)) \
             : "r0", "r1" \
-        ); \
+       ); \
     } \
     while(0)
 
@@ -66,7 +66,7 @@
        int br__; \
        int bi__; \
        int tt__; \
-        __asm__ __volatile__( \
+        __asm__ __volatile__(\
             "#C_MUL4\n\t" \
             "ldrsh %[br], [%[bp], #0]\n\t" \
             "ldm %[ap], {r0,r1}\n\t" \
@@ -84,7 +84,7 @@
               [br]"=&r"(br__), [bi]"=r"(bi__), [tt]"=r"(tt__) \
             : [ap]"r"(&(a)), [bp]"r"(&(b)) \
             : "r0", "r1" \
-        ); \
+       ); \
     } \
     while(0)
 
@@ -94,7 +94,7 @@
        int br__; \
        int bi__; \
        int tt__; \
-        __asm__ __volatile__( \
+        __asm__ __volatile__(\
             "#C_MULC\n\t" \
             "ldrsh %[br], [%[bp], #0]\n\t" \
             "ldm %[ap], {r0,r1}\n\t" \
@@ -112,7 +112,7 @@
               [br]"=&r"(br__), [bi]"=r"(bi__), [tt]"=r"(tt__) \
             : [ap]"r"(&(a)), [bp]"r"(&(b)) \
             : "r0", "r1" \
-        ); \
+       ); \
     } \
     while(0)
 

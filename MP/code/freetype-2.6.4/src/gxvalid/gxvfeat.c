@@ -57,7 +57,7 @@
   } GXV_feat_DataRec, *GXV_feat_Data;
 
 
-#define GXV_FEAT_DATA( field )  GXV_TABLE_DATA( feat, field )
+#define GXV_FEAT_DATA(field)  GXV_TABLE_DATA(feat, field)
 
 
   typedef enum  GXV_FeatureFlagsMask_
@@ -79,53 +79,53 @@
   /*************************************************************************/
 
   static void
-  gxv_feat_registry_validate( FT_UShort      feature,
+  gxv_feat_registry_validate(FT_UShort      feature,
                               FT_UShort      nSettings,
                               FT_Bool        exclusive,
-                              GXV_Validator  gxvalid )
+                              GXV_Validator  gxvalid)
   {
-    GXV_NAME_ENTER( "feature in registry" );
+    GXV_NAME_ENTER("feature in registry");
 
-    GXV_TRACE(( " (feature = %u)\n", feature ));
+    GXV_TRACE((" (feature = %u)\n", feature));
 
-    if ( feature >= gxv_feat_registry_length )
+    if (feature >= gxv_feat_registry_length)
     {
-      GXV_TRACE(( "feature number %d is out of range %d\n",
-                  feature, gxv_feat_registry_length ));
-      GXV_SET_ERR_IF_PARANOID( FT_INVALID_DATA );
+      GXV_TRACE(("feature number %d is out of range %d\n",
+                  feature, gxv_feat_registry_length));
+      GXV_SET_ERR_IF_PARANOID(FT_INVALID_DATA);
       goto Exit;
     }
 
-    if ( gxv_feat_registry[feature].existence == 0 )
+    if (gxv_feat_registry[feature].existence == 0)
     {
-      GXV_TRACE(( "feature number %d is in defined range but doesn't exist\n",
-                  feature ));
-      GXV_SET_ERR_IF_PARANOID( FT_INVALID_DATA );
+      GXV_TRACE(("feature number %d is in defined range but doesn't exist\n",
+                  feature));
+      GXV_SET_ERR_IF_PARANOID(FT_INVALID_DATA);
       goto Exit;
     }
 
-    if ( gxv_feat_registry[feature].apple_reserved )
+    if (gxv_feat_registry[feature].apple_reserved)
     {
       /* Don't use here. Apple is reserved. */
-      GXV_TRACE(( "feature number %d is reserved by Apple\n", feature ));
-      if ( gxvalid->root->level >= FT_VALIDATE_TIGHT )
+      GXV_TRACE(("feature number %d is reserved by Apple\n", feature));
+      if (gxvalid->root->level >= FT_VALIDATE_TIGHT)
         FT_INVALID_DATA;
     }
 
-    if ( nSettings != gxv_feat_registry[feature].nSettings )
+    if (nSettings != gxv_feat_registry[feature].nSettings)
     {
-      GXV_TRACE(( "feature %d: nSettings %d != defined nSettings %d\n",
+      GXV_TRACE(("feature %d: nSettings %d != defined nSettings %d\n",
                   feature, nSettings,
-                  gxv_feat_registry[feature].nSettings ));
-      if ( gxvalid->root->level >= FT_VALIDATE_TIGHT )
+                  gxv_feat_registry[feature].nSettings));
+      if (gxvalid->root->level >= FT_VALIDATE_TIGHT)
         FT_INVALID_DATA;
     }
 
-    if ( exclusive != gxv_feat_registry[feature].exclusive )
+    if (exclusive != gxv_feat_registry[feature].exclusive)
     {
-      GXV_TRACE(( "exclusive flag %d differs from predefined value\n",
-                  exclusive ));
-      if ( gxvalid->root->level >= FT_VALIDATE_TIGHT )
+      GXV_TRACE(("exclusive flag %d differs from predefined value\n",
+                  exclusive));
+      if (gxvalid->root->level >= FT_VALIDATE_TIGHT)
         FT_INVALID_DATA;
     }
 
@@ -135,65 +135,65 @@
 
 
   static void
-  gxv_feat_name_index_validate( FT_Bytes       table,
+  gxv_feat_name_index_validate(FT_Bytes       table,
                                 FT_Bytes       limit,
-                                GXV_Validator  gxvalid )
+                                GXV_Validator  gxvalid)
   {
     FT_Bytes  p = table;
 
     FT_Short  nameIndex;
 
 
-    GXV_NAME_ENTER( "nameIndex" );
+    GXV_NAME_ENTER("nameIndex");
 
-    GXV_LIMIT_CHECK( 2 );
-    nameIndex = FT_NEXT_SHORT ( p );
-    GXV_TRACE(( " (nameIndex = %d)\n", nameIndex ));
+    GXV_LIMIT_CHECK(2);
+    nameIndex = FT_NEXT_SHORT (p);
+    GXV_TRACE((" (nameIndex = %d)\n", nameIndex));
 
-    gxv_sfntName_validate( (FT_UShort)nameIndex,
+    gxv_sfntName_validate((FT_UShort)nameIndex,
                            255,
                            32768U,
-                           gxvalid );
+                           gxvalid);
 
     GXV_EXIT;
   }
 
 
   static void
-  gxv_feat_setting_validate( FT_Bytes       table,
+  gxv_feat_setting_validate(FT_Bytes       table,
                              FT_Bytes       limit,
                              FT_Bool        exclusive,
-                             GXV_Validator  gxvalid )
+                             GXV_Validator  gxvalid)
   {
     FT_Bytes   p = table;
     FT_UShort  setting;
 
 
-    GXV_NAME_ENTER( "setting" );
+    GXV_NAME_ENTER("setting");
 
-    GXV_LIMIT_CHECK( 2 );
+    GXV_LIMIT_CHECK(2);
 
-    setting = FT_NEXT_USHORT( p );
+    setting = FT_NEXT_USHORT(p);
 
     /* If we have exclusive setting, the setting should be odd. */
-    if ( exclusive && ( setting & 1 ) == 0 )
+    if (exclusive && (setting & 1) == 0)
       FT_INVALID_DATA;
 
-    gxv_feat_name_index_validate( p, limit, gxvalid );
+    gxv_feat_name_index_validate(p, limit, gxvalid);
 
-    GXV_FEAT_DATA( setting ) = setting;
+    GXV_FEAT_DATA(setting) = setting;
 
     GXV_EXIT;
   }
 
 
   static void
-  gxv_feat_name_validate( FT_Bytes       table,
+  gxv_feat_name_validate(FT_Bytes       table,
                           FT_Bytes       limit,
-                          GXV_Validator  gxvalid )
+                          GXV_Validator  gxvalid)
   {
     FT_Bytes   p             = table;
-    FT_UInt    reserved_size = GXV_FEAT_DATA( reserved_size );
+    FT_UInt    reserved_size = GXV_FEAT_DATA(reserved_size);
 
     FT_UShort  feature;
     FT_UShort  nSettings;
@@ -205,56 +205,56 @@
     FT_UInt    i;
 
 
-    GXV_NAME_ENTER( "name" );
+    GXV_NAME_ENTER("name");
 
     /* feature + nSettings + settingTable + featureFlags */
-    GXV_LIMIT_CHECK( 2 + 2 + 4 + 2 );
+    GXV_LIMIT_CHECK(2 + 2 + 4 + 2);
 
-    feature = FT_NEXT_USHORT( p );
-    GXV_FEAT_DATA( feature ) = feature;
+    feature = FT_NEXT_USHORT(p);
+    GXV_FEAT_DATA(feature) = feature;
 
-    nSettings    = FT_NEXT_USHORT( p );
-    settingTable = FT_NEXT_ULONG ( p );
-    featureFlags = FT_NEXT_USHORT( p );
+    nSettings    = FT_NEXT_USHORT(p);
+    settingTable = FT_NEXT_ULONG (p);
+    featureFlags = FT_NEXT_USHORT(p);
 
-    if ( settingTable < reserved_size )
+    if (settingTable < reserved_size)
       FT_INVALID_OFFSET;
 
-    if ( ( featureFlags & GXV_FEAT_MASK_UNUSED ) == 0 )
-      GXV_SET_ERR_IF_PARANOID( FT_INVALID_DATA );
+    if ((featureFlags & GXV_FEAT_MASK_UNUSED) == 0)
+      GXV_SET_ERR_IF_PARANOID(FT_INVALID_DATA);
 
-    exclusive = FT_BOOL( featureFlags & GXV_FEAT_MASK_EXCLUSIVE_SETTINGS );
-    if ( exclusive )
+    exclusive = FT_BOOL(featureFlags & GXV_FEAT_MASK_EXCLUSIVE_SETTINGS);
+    if (exclusive)
     {
       FT_Byte  dynamic_default;
 
 
-      if ( featureFlags & GXV_FEAT_MASK_DYNAMIC_DEFAULT )
-        dynamic_default = (FT_Byte)( featureFlags &
-                                     GXV_FEAT_MASK_DEFAULT_SETTING );
+      if (featureFlags & GXV_FEAT_MASK_DYNAMIC_DEFAULT)
+        dynamic_default = (FT_Byte)(featureFlags &
+                                     GXV_FEAT_MASK_DEFAULT_SETTING);
       else
         dynamic_default = 0;
 
       /* If exclusive, check whether default setting is in the range. */
-      if ( !( dynamic_default < nSettings ) )
+      if (!(dynamic_default < nSettings))
         FT_INVALID_FORMAT;
     }
 
-    gxv_feat_registry_validate( feature, nSettings, exclusive, gxvalid );
+    gxv_feat_registry_validate(feature, nSettings, exclusive, gxvalid);
 
-    gxv_feat_name_index_validate( p, limit, gxvalid );
+    gxv_feat_name_index_validate(p, limit, gxvalid);
 
     p = gxvalid->root->base + settingTable;
-    for ( last_setting = -1, i = 0; i < nSettings; i++ )
+    for (last_setting = -1, i = 0; i < nSettings; i++)
     {
-      gxv_feat_setting_validate( p, limit, exclusive, gxvalid );
+      gxv_feat_setting_validate(p, limit, exclusive, gxvalid);
 
-      if ( (FT_Int)GXV_FEAT_DATA( setting ) <= last_setting )
-        GXV_SET_ERR_IF_PARANOID( FT_INVALID_FORMAT );
+      if ((FT_Int)GXV_FEAT_DATA(setting) <= last_setting)
+        GXV_SET_ERR_IF_PARANOID(FT_INVALID_FORMAT);
 
-      last_setting = (FT_Int)GXV_FEAT_DATA( setting );
+      last_setting = (FT_Int)GXV_FEAT_DATA(setting);
       /* setting + nameIndex */
-      p += ( 2 + 2 );
+      p += (2 + 2);
     }
 
     GXV_EXIT;
@@ -269,10 +269,10 @@
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL_DEF( void )
-  gxv_feat_validate( FT_Bytes      table,
+  FT_LOCAL_DEF(void)
+  gxv_feat_validate(FT_Bytes      table,
                      FT_Face       face,
-                     FT_Validator  ftvalid )
+                     FT_Validator  ftvalid)
   {
     GXV_ValidatorRec  gxvalidrec;
     GXV_Validator     gxvalid = &gxvalidrec;
@@ -293,46 +293,46 @@
     gxvalid->table_data = feat;
     gxvalid->face       = face;
 
-    FT_TRACE3(( "validating `feat' table\n" ));
+    FT_TRACE3(("validating `feat' table\n"));
     GXV_INIT;
 
     feat->reserved_size = 0;
 
     /* version + featureNameCount + none_0 + none_1  */
-    GXV_LIMIT_CHECK( 4 + 2 + 2 + 4 );
+    GXV_LIMIT_CHECK(4 + 2 + 2 + 4);
     feat->reserved_size += 4 + 2 + 2 + 4;
 
-    if ( FT_NEXT_ULONG( p ) != 0x00010000UL ) /* Version */
+    if (FT_NEXT_ULONG(p) != 0x00010000UL) /* Version */
       FT_INVALID_FORMAT;
 
-    featureNameCount = FT_NEXT_USHORT( p );
-    GXV_TRACE(( " (featureNameCount = %d)\n", featureNameCount ));
+    featureNameCount = FT_NEXT_USHORT(p);
+    GXV_TRACE((" (featureNameCount = %d)\n", featureNameCount));
 
-    if ( !( IS_PARANOID_VALIDATION ) )
+    if (!(IS_PARANOID_VALIDATION))
       p += 6; /* skip (none) and (none) */
     else
     {
-      if ( FT_NEXT_USHORT( p ) != 0 )
+      if (FT_NEXT_USHORT(p) != 0)
         FT_INVALID_DATA;
 
-      if ( FT_NEXT_ULONG( p )  != 0 )
+      if (FT_NEXT_ULONG(p)  != 0)
         FT_INVALID_DATA;
     }
 
-    feat->reserved_size += featureNameCount * ( 2 + 2 + 4 + 2 + 2 );
+    feat->reserved_size += featureNameCount * (2 + 2 + 4 + 2 + 2);
 
-    for ( last_feature = -1, i = 0; i < featureNameCount; i++ )
+    for (last_feature = -1, i = 0; i < featureNameCount; i++)
     {
-      gxv_feat_name_validate( p, limit, gxvalid );
+      gxv_feat_name_validate(p, limit, gxvalid);
 
-      if ( (FT_Int)GXV_FEAT_DATA( feature ) <= last_feature )
-        GXV_SET_ERR_IF_PARANOID( FT_INVALID_FORMAT );
+      if ((FT_Int)GXV_FEAT_DATA(feature) <= last_feature)
+        GXV_SET_ERR_IF_PARANOID(FT_INVALID_FORMAT);
 
-      last_feature = GXV_FEAT_DATA( feature );
+      last_feature = GXV_FEAT_DATA(feature);
       p += 2 + 2 + 4 + 2 + 2;
     }
 
-    FT_TRACE4(( "\n" ));
+    FT_TRACE4(("\n"));
   }
 
 

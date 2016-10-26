@@ -75,13 +75,13 @@ FT_BEGIN_HEADER
   /*   A deprecated name for the same function is                          */
   /*   `FT_Get_X11_Font_Format'.                                           */
   /*                                                                       */
-  FT_EXPORT( const char* )
-  FT_Get_Font_Format( FT_Face  face );
+  FT_EXPORT(const char*)
+  FT_Get_Font_Format(FT_Face  face);
 
 
   /* deprecated */
-  FT_EXPORT( const char* )
-  FT_Get_X11_Font_Format( FT_Face  face );
+  FT_EXPORT(const char*)
+  FT_Get_X11_Font_Format(FT_Face  face);
 
 
   /* */

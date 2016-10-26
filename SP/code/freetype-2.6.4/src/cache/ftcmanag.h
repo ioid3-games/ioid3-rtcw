@@ -131,39 +131,39 @@ FT_BEGIN_HEADER
   /*    The reason this function is exported is to allow client-specific   */
   /*    cache classes.                                                     */
   /*                                                                       */
-  FT_LOCAL( void )
-  FTC_Manager_Compress( FTC_Manager  manager );
+  FT_LOCAL(void)
+  FTC_Manager_Compress(FTC_Manager  manager);
 
 
   /* try to flush `count' old nodes from the cache; return the number
    * of really flushed nodes
    */
-  FT_LOCAL( FT_UInt )
-  FTC_Manager_FlushN( FTC_Manager  manager,
-                      FT_UInt      count );
+  FT_LOCAL(FT_UInt)
+  FTC_Manager_FlushN(FTC_Manager  manager,
+                      FT_UInt      count);
 
 
   /* this must be used internally for the moment */
-  FT_LOCAL( FT_Error )
-  FTC_Manager_RegisterCache( FTC_Manager      manager,
+  FT_LOCAL(FT_Error)
+  FTC_Manager_RegisterCache(FTC_Manager      manager,
                              FTC_CacheClass   clazz,
-                             FTC_Cache       *acache );
+                             FTC_Cache       *acache);
 
  /* */
 
-#define FTC_SCALER_COMPARE( a, b )                \
-    ( (a)->face_id      == (b)->face_id      &&   \
+#define FTC_SCALER_COMPARE(a, b)                \
+    ((a)->face_id      == (b)->face_id      &&   \
       (a)->width        == (b)->width        &&   \
       (a)->height       == (b)->height       &&   \
       ((a)->pixel != 0) == ((b)->pixel != 0) &&   \
-      ( (a)->pixel ||                             \
-        ( (a)->x_res == (b)->x_res &&             \
-          (a)->y_res == (b)->y_res ) ) )
+      ((a)->pixel ||                             \
+        ((a)->x_res == (b)->x_res &&             \
+          (a)->y_res == (b)->y_res)))
 
-#define FTC_SCALER_HASH( q )                                 \
-    ( FTC_FACE_ID_HASH( (q)->face_id ) +                     \
+#define FTC_SCALER_HASH(q)                                 \
+    (FTC_FACE_ID_HASH((q)->face_id) +                     \
       (q)->width + (q)->height*7 +                           \
-      ( (q)->pixel ? 0 : ( (q)->x_res*33 ^ (q)->y_res*61 ) ) )
+      ((q)->pixel ? 0 : ((q)->x_res*33 ^ (q)->y_res*61)))
 
  /* */
 

@@ -111,39 +111,39 @@ FT_BEGIN_HEADER
   } CID_GlyphSlotRec;
 
 
-  FT_LOCAL( void )
-  cid_slot_done( FT_GlyphSlot  slot );
+  FT_LOCAL(void)
+  cid_slot_done(FT_GlyphSlot  slot);
 
-  FT_LOCAL( FT_Error )
-  cid_slot_init( FT_GlyphSlot  slot );
+  FT_LOCAL(FT_Error)
+  cid_slot_init(FT_GlyphSlot  slot);
 
 
-  FT_LOCAL( void )
-  cid_size_done( FT_Size  size );       /* CID_Size */
+  FT_LOCAL(void)
+  cid_size_done(FT_Size  size);       /* CID_Size */
 
-  FT_LOCAL( FT_Error )
-  cid_size_init( FT_Size  size );       /* CID_Size */
+  FT_LOCAL(FT_Error)
+  cid_size_init(FT_Size  size);       /* CID_Size */
 
-  FT_LOCAL( FT_Error )
-  cid_size_request( FT_Size          size,      /* CID_Size */
-                    FT_Size_Request  req );
+  FT_LOCAL(FT_Error)
+  cid_size_request(FT_Size          size,      /* CID_Size */
+                    FT_Size_Request  req);
 
-  FT_LOCAL( FT_Error )
-  cid_face_init( FT_Stream      stream,
+  FT_LOCAL(FT_Error)
+  cid_face_init(FT_Stream      stream,
                  FT_Face        face,           /* CID_Face */
                  FT_Int         face_index,
                  FT_Int         num_params,
-                 FT_Parameter*  params );
+                 FT_Parameter*  params);
 
-  FT_LOCAL( void )
-  cid_face_done( FT_Face  face );               /* CID_Face */
+  FT_LOCAL(void)
+  cid_face_done(FT_Face  face);               /* CID_Face */
 
 
-  FT_LOCAL( FT_Error )
-  cid_driver_init( FT_Module  driver );
+  FT_LOCAL(FT_Error)
+  cid_driver_init(FT_Module  driver);
 
-  FT_LOCAL( void )
-  cid_driver_done( FT_Module  driver );
+  FT_LOCAL(void)
+  cid_driver_done(FT_Module  driver);
 
 
 FT_END_HEADER

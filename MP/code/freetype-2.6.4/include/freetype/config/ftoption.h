@@ -252,20 +252,20 @@ FT_BEGIN_HEADER
   /*   Two macros are used within the FreeType source code to define       */
   /*   exported library functions: FT_EXPORT and FT_EXPORT_DEF.            */
   /*                                                                       */
-  /*     FT_EXPORT( return_type )                                          */
+  /*     FT_EXPORT(return_type)                                          */
   /*                                                                       */
   /*       is used in a function declaration, as in                        */
   /*                                                                       */
-  /*         FT_EXPORT( FT_Error )                                         */
-  /*         FT_Init_FreeType( FT_Library*  alibrary );                    */
+  /*         FT_EXPORT(FT_Error)                                         */
+  /*         FT_Init_FreeType(FT_Library*  alibrary);                    */
   /*                                                                       */
   /*                                                                       */
-  /*     FT_EXPORT_DEF( return_type )                                      */
+  /*     FT_EXPORT_DEF(return_type)                                      */
   /*                                                                       */
   /*       is used in a function definition, as in                         */
   /*                                                                       */
-  /*         FT_EXPORT_DEF( FT_Error )                                     */
-  /*         FT_Init_FreeType( FT_Library*  alibrary )                     */
+  /*         FT_EXPORT_DEF(FT_Error)                                     */
+  /*         FT_Init_FreeType(FT_Library*  alibrary)                     */
   /*         {                                                             */
   /*           ... some code ...                                           */
   /*           return FT_Err_Ok;                                           */
@@ -632,7 +632,7 @@ FT_BEGIN_HEADER
   /*                                                                       */
 /* #define TT_CONFIG_OPTION_SUBPIXEL_HINTING  1     */
 #define TT_CONFIG_OPTION_SUBPIXEL_HINTING     2
-/* #define TT_CONFIG_OPTION_SUBPIXEL_HINTING  ( 1 | 2 ) */
+/* #define TT_CONFIG_OPTION_SUBPIXEL_HINTING  (1 | 2) */
 
 
   /*************************************************************************/

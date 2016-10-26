@@ -68,30 +68,30 @@ FT_BEGIN_HEADER
   } AFModulePIC;
 
 
-#define GET_PIC( lib )  \
-          ( (AFModulePIC*)((lib)->pic_container.autofit) )
+#define GET_PIC(lib)  \
+          ((AFModulePIC*)((lib)->pic_container.autofit))
 
 #define AF_SERVICES_GET  \
-          ( GET_PIC( library )->af_services )
+          (GET_PIC(library)->af_services)
 #define AF_SERVICE_PROPERTIES_GET  \
-          ( GET_PIC( library )->af_service_properties )
+          (GET_PIC(library)->af_service_properties)
 
 #define AF_WRITING_SYSTEM_CLASSES_GET  \
-          ( GET_PIC( FT_FACE_LIBRARY( globals->face ) )->af_writing_system_classes )
+          (GET_PIC(FT_FACE_LIBRARY(globals->face))->af_writing_system_classes)
 #define AF_SCRIPT_CLASSES_GET  \
-          ( GET_PIC( FT_FACE_LIBRARY( globals->face ) )->af_script_classes )
+          (GET_PIC(FT_FACE_LIBRARY(globals->face))->af_script_classes)
 #define AF_STYLE_CLASSES_GET  \
-          ( GET_PIC( FT_FACE_LIBRARY( globals->face ) )->af_style_classes )
+          (GET_PIC(FT_FACE_LIBRARY(globals->face))->af_style_classes)
 #define AF_INTERFACE_GET  \
-          ( GET_PIC( library )->af_autofitter_interface )
+          (GET_PIC(library)->af_autofitter_interface)
 
 
   /* see afpic.c for the implementation */
   void
-  autofit_module_class_pic_free( FT_Library  library );
+  autofit_module_class_pic_free(FT_Library  library);
 
   FT_Error
-  autofit_module_class_pic_init( FT_Library  library );
+  autofit_module_class_pic_init(FT_Library  library);
 
 FT_END_HEADER
 

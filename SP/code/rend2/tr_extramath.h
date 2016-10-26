@@ -29,17 +29,17 @@ typedef int ivec2_t[2];
 typedef int ivec3_t[3];
 typedef int ivec4_t[4];
 
-void Mat4Zero( mat4_t out );
-void Mat4Identity( mat4_t out );
-void Mat4Copy( const mat4_t in, mat4_t out );
-void Mat4Multiply( const mat4_t in1, const mat4_t in2, mat4_t out );
-void Mat4Transform( const mat4_t in1, const vec4_t in2, vec4_t out );
+void Mat4Zero(mat4_t out);
+void Mat4Identity(mat4_t out);
+void Mat4Copy(const mat4_t in, mat4_t out);
+void Mat4Multiply(const mat4_t in1, const mat4_t in2, mat4_t out);
+void Mat4Transform(const mat4_t in1, const vec4_t in2, vec4_t out);
 qboolean Mat4Compare(const mat4_t a, const mat4_t b);
-void Mat4Dump( const mat4_t in );
-void Mat4Translation( vec3_t vec, mat4_t out );
-void Mat4Ortho( float left, float right, float bottom, float top, float znear, float zfar, mat4_t out );
+void Mat4Dump(const mat4_t in);
+void Mat4Translation(vec3_t vec, mat4_t out);
+void Mat4Ortho(float left, float right, float bottom, float top, float znear, float zfar, mat4_t out);
 void Mat4View(vec3_t axes[3], vec3_t origin, mat4_t out);
-void Mat4SimpleInverse( const mat4_t in, mat4_t out);
+void Mat4SimpleInverse(const mat4_t in, mat4_t out);
 
 #define VectorCopy2(a,b)		((b)[0]=(a)[0],(b)[1]=(a)[1])
 #define VectorSet2(v,x,y)       ((v)[0]=(x),(v)[1]=(y));
@@ -74,7 +74,7 @@ static ID_INLINE int VectorCompare5(const vec5_t v1, const vec5_t v2)
 	return 1;
 }
 
-void VectorLerp( vec3_t a, vec3_t b, float lerp, vec3_t c);
+void VectorLerp(vec3_t a, vec3_t b, float lerp, vec3_t c);
 
 
 qboolean SpheresIntersect(vec3_t origin1, float radius1, vec3_t origin2, float radius2);
@@ -98,5 +98,6 @@ void BoundingSphereOfSpheres(vec3_t origin1, float radius1, vec3_t origin2, floa
 
 int NextPowerOfTwo(int in);
 unsigned short FloatToHalf(float in);
+float HalfToFloat(unsigned short in);
 
 #endif

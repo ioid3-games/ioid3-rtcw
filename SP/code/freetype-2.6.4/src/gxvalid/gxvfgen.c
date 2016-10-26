@@ -441,40 +441,40 @@
   /*************************************************************************/
 
   int
-  main( void )
+  main(void)
   {
     int  i;
 
 
-    printf( "  {\n" );
-    printf( "   /* Generated from %s */\n", __FILE__ );
+    printf("  {\n");
+    printf("   /* Generated from %s */\n", __FILE__);
 
-    for ( i = 0;
-          i < sizeof ( featreg_table ) / sizeof ( GX_Feature_RegistryRec );
-          i++ )
+    for (i = 0;
+          i < sizeof (featreg_table) / sizeof (GX_Feature_RegistryRec);
+          i++)
     {
       const char*  feat_name;
       int          nSettings;
 
 
       feat_name = featreg_table[i].feat_name;
-      for ( nSettings = 0;
+      for (nSettings = 0;
             featreg_table[i].setting_name[nSettings];
             nSettings++)
         ;                                   /* Do nothing */
 
-      printf( "    {%1d, %1d, %1d, %2d},   /* %s */\n",
+      printf("    {%1d, %1d, %1d, %2d},   /* %s */\n",
               feat_name ? 1 : 0,
-              ( feat_name                                                  &&
-                ( ft_strncmp( feat_name,
-                              APPLE_RESERVED, APPLE_RESERVED_LENGTH ) == 0 )
-              ) ? 1 : 0,
+              (feat_name                                                  &&
+                (ft_strncmp(feat_name,
+                              APPLE_RESERVED, APPLE_RESERVED_LENGTH) == 0)
+             ) ? 1 : 0,
               featreg_table[i].exclusive ? 1 : 0,
               nSettings,
-              feat_name ? feat_name : "__EMPTY__" );
+              feat_name ? feat_name : "__EMPTY__");
     }
 
-    printf( "  };\n" );
+    printf("  };\n");
 
     return 0;
   }

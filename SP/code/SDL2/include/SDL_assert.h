@@ -52,7 +52,7 @@ assert can have unique static variables associated with it.
     extern void __cdecl __debugbreak(void);
     #define SDL_TriggerBreakpoint() __debugbreak()
 #elif (!defined(__NACL__) && defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__)))
-    #define SDL_TriggerBreakpoint() __asm__ __volatile__ ( "int $3\n\t" )
+    #define SDL_TriggerBreakpoint() __asm__ __volatile__ ("int $3\n\t")
 #elif defined(HAVE_SIGNAL_H)
     #include <signal.h>
     #define SDL_TriggerBreakpoint() raise(SIGTRAP)
@@ -142,7 +142,7 @@ extern DECLSPEC SDL_AssertState SDLCALL SDL_ReportAssertion(SDL_AssertData *,
 */
 #define SDL_enabled_assert(condition) \
     do { \
-        while ( !(condition) ) { \
+        while (!(condition)) { \
             static struct SDL_AssertData sdl_assert_data = { \
                 0, 0, #condition, 0, 0, 0, 0 \
             }; \

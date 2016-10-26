@@ -87,8 +87,8 @@ typedef struct SDL_GameControllerButtonBind
  *  To count the number of game controllers in the system for the following:
  *  int nJoysticks = SDL_NumJoysticks();
  *  int nGameControllers = 0;
- *  for ( int i = 0; i < nJoysticks; i++ ) {
- *      if ( SDL_IsGameController(i) ) {
+ *  for (int i = 0; i < nJoysticks; i++) {
+ *      if (SDL_IsGameController(i)) {
  *          nGameControllers++;
  *      }
  *  }
@@ -117,7 +117,7 @@ typedef struct SDL_GameControllerButtonBind
  * 
  * \return number of mappings added, -1 on error
  */
-extern DECLSPEC int SDLCALL SDL_GameControllerAddMappingsFromRW( SDL_RWops * rw, int freerw );
+extern DECLSPEC int SDLCALL SDL_GameControllerAddMappingsFromRW(SDL_RWops * rw, int freerw);
 
 /**
  *  Load a set of mappings from a file, filtered by the current SDL_GetPlatform()
@@ -131,21 +131,21 @@ extern DECLSPEC int SDLCALL SDL_GameControllerAddMappingsFromRW( SDL_RWops * rw,
  *
  * \return 1 if mapping is added, 0 if updated, -1 on error
  */
-extern DECLSPEC int SDLCALL SDL_GameControllerAddMapping( const char* mappingString );
+extern DECLSPEC int SDLCALL SDL_GameControllerAddMapping(const char* mappingString);
 
 /**
  *  Get a mapping string for a GUID
  *
  *  \return the mapping string.  Must be freed with SDL_free.  Returns NULL if no mapping is available
  */
-extern DECLSPEC char * SDLCALL SDL_GameControllerMappingForGUID( SDL_JoystickGUID guid );
+extern DECLSPEC char * SDLCALL SDL_GameControllerMappingForGUID(SDL_JoystickGUID guid);
 
 /**
  *  Get a mapping string for an open GameController
  *
  *  \return the mapping string.  Must be freed with SDL_free.  Returns NULL if no mapping is available
  */
-extern DECLSPEC char * SDLCALL SDL_GameControllerMapping( SDL_GameController * gamecontroller );
+extern DECLSPEC char * SDLCALL SDL_GameControllerMapping(SDL_GameController * gamecontroller);
 
 /**
  *  Is the joystick on this index supported by the game controller interface?

@@ -116,7 +116,7 @@ void R_LoadJPG(const char *filename, unsigned char **pic, int *width, int *heigh
    * requires it in order to read binary files.
    */
 
-  len = ri.FS_ReadFile ( ( char * ) filename, &fbuffer.v);
+  len = ri.FS_ReadFile ((char *) filename, &fbuffer.v);
   if (!fbuffer.b || len < 0) {
 	return;
   }
@@ -190,7 +190,7 @@ void R_LoadJPG(const char *filename, unsigned char **pic, int *width, int *heigh
   if(!cinfo.output_width || !cinfo.output_height
       || ((pixelcount * 4) / cinfo.output_width) / 4 != cinfo.output_height
       || pixelcount > 0x1FFFFFFF || cinfo.output_components != 3
-    )
+   )
   {
     // Free the memory to make sure we don't leak memory
     ri.FS_FreeFile (fbuffer.v);

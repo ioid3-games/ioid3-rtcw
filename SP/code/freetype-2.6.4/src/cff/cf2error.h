@@ -87,16 +87,16 @@ FT_BEGIN_HEADER
    *
    *
    *   ...
-   *   e = FT_THROW( Out_Of_Memory );
+   *   e = FT_THROW(Out_Of_Memory);
    * }
    *
    */
 
 
   /* Set error code to a particular value. */
-  FT_LOCAL( void )
-  cf2_setError( FT_Error*  error,
-                FT_Error   value );
+  FT_LOCAL(void)
+  cf2_setError(FT_Error*  error,
+                FT_Error   value);
 
 
   /*
@@ -106,8 +106,8 @@ FT_BEGIN_HEADER
    * if not, it will set it to `e'.
    *
   */
-#define CF2_SET_ERROR( error, e )              \
-          cf2_setError( error, FT_THROW( e ) )
+#define CF2_SET_ERROR(error, e)              \
+          cf2_setError(error, FT_THROW(e))
 
 
 FT_END_HEADER

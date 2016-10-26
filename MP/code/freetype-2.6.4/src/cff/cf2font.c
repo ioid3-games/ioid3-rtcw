@@ -49,13 +49,13 @@
 
   /* Compute a stem darkening amount in character space. */
   static void
-  cf2_computeDarkening( CF2_Fixed   emRatio,
+  cf2_computeDarkening(CF2_Fixed   emRatio,
                         CF2_Fixed   ppem,
                         CF2_Fixed   stemWidth,
                         CF2_Fixed*  darkenAmount,
                         CF2_Fixed   boldenAmount,
                         FT_Bool     stemDarkened,
-                        FT_Int*     darkenParams )
+                        FT_Int*     darkenParams)
   {
     /*
      * Total darkening amount is computed in 1000 unit character space
@@ -113,14 +113,14 @@
 
     *darkenAmount = 0;
 
-    if ( boldenAmount == 0 && !stemDarkened )
+    if (boldenAmount == 0 && !stemDarkened)
       return;
 
     /* protect against range problems and divide by zero */
-    if ( emRatio < cf2_floatToFixed( .01 ) )
+    if (emRatio < cf2_floatToFixed(.01))
       return;
 
-    if ( stemDarkened )
+    if (stemDarkened)
     {
       FT_Int  x1 = darkenParams[0];
       FT_Int  y1 = darkenParams[1];
@@ -137,7 +137,7 @@
 
       /* `stemWidthPer1000' will not overflow for a legitimate font      */
 
-      stemWidthPer1000 = FT_MulFix( stemWidth + boldenAmount, emRatio );
+      stemWidthPer1000 = FT_MulFix(stemWidth + boldenAmount, emRatio);
 
       /* `scaledStem' can easily overflow, so we must clamp its maximum  */
       /* value; the test doesn't need to be precise, but must be         */
@@ -153,80 +153,80 @@
       /* is flagged as possible overflow because 0xFF.FFFF * 0xFF.FFFF = */
       /* 0xFFFF.FE00 is also 23+23.                                      */
 
-      logBase2 = FT_MSB( (FT_UInt32)stemWidthPer1000 ) +
-                   FT_MSB( (FT_UInt32)ppem );
+      logBase2 = FT_MSB((FT_UInt32)stemWidthPer1000) +
+                   FT_MSB((FT_UInt32)ppem);
 
-      if ( logBase2 >= 46 )
+      if (logBase2 >= 46)
         /* possible overflow */
-        scaledStem = cf2_intToFixed( x4 );
+        scaledStem = cf2_intToFixed(x4);
       else
-        scaledStem = FT_MulFix( stemWidthPer1000, ppem );
+        scaledStem = FT_MulFix(stemWidthPer1000, ppem);
 
       /* now apply the darkening parameters */
 
-      if ( scaledStem < cf2_intToFixed( x1 ) )
-        *darkenAmount = FT_DivFix( cf2_intToFixed( y1 ), ppem );
+      if (scaledStem < cf2_intToFixed(x1))
+        *darkenAmount = FT_DivFix(cf2_intToFixed(y1), ppem);
 
-      else if ( scaledStem < cf2_intToFixed( x2 ) )
+      else if (scaledStem < cf2_intToFixed(x2))
       {
         FT_Int  xdelta = x2 - x1;
         FT_Int  ydelta = y2 - y1;
         FT_Int  x      = stemWidthPer1000 -
-                           FT_DivFix( cf2_intToFixed( x1 ), ppem );
+                           FT_DivFix(cf2_intToFixed(x1), ppem);
 
 
-        if ( !xdelta )
+        if (!xdelta)
           goto Try_x3;
 
-        *darkenAmount = FT_MulDiv( x, ydelta, xdelta ) +
-                          FT_DivFix( cf2_intToFixed( y1 ), ppem );
+        *darkenAmount = FT_MulDiv(x, ydelta, xdelta) +
+                          FT_DivFix(cf2_intToFixed(y1), ppem);
       }
 
-      else if ( scaledStem < cf2_intToFixed( x3 ) )
+      else if (scaledStem < cf2_intToFixed(x3))
       {
       Try_x3:
         {
           FT_Int  xdelta = x3 - x2;
           FT_Int  ydelta = y3 - y2;
           FT_Int  x      = stemWidthPer1000 -
-                             FT_DivFix( cf2_intToFixed( x2 ), ppem );
+                             FT_DivFix(cf2_intToFixed(x2), ppem);
 
 
-          if ( !xdelta )
+          if (!xdelta)
             goto Try_x4;
 
-          *darkenAmount = FT_MulDiv( x, ydelta, xdelta ) +
-                            FT_DivFix( cf2_intToFixed( y2 ), ppem );
+          *darkenAmount = FT_MulDiv(x, ydelta, xdelta) +
+                            FT_DivFix(cf2_intToFixed(y2), ppem);
         }
       }
 
-      else if ( scaledStem < cf2_intToFixed( x4 ) )
+      else if (scaledStem < cf2_intToFixed(x4))
       {
       Try_x4:
         {
           FT_Int  xdelta = x4 - x3;
           FT_Int  ydelta = y4 - y3;
           FT_Int  x      = stemWidthPer1000 -
-                             FT_DivFix( cf2_intToFixed( x3 ), ppem );
+                             FT_DivFix(cf2_intToFixed(x3), ppem);
 
 
-          if ( !xdelta )
+          if (!xdelta)
             goto Use_y4;
 
-          *darkenAmount = FT_MulDiv( x, ydelta, xdelta ) +
-                            FT_DivFix( cf2_intToFixed( y3 ), ppem );
+          *darkenAmount = FT_MulDiv(x, ydelta, xdelta) +
+                            FT_DivFix(cf2_intToFixed(y3), ppem);
         }
       }
 
       else
       {
       Use_y4:
-        *darkenAmount = FT_DivFix( cf2_intToFixed( y4 ), ppem );
+        *darkenAmount = FT_DivFix(cf2_intToFixed(y4), ppem);
       }
 
       /* use half the amount on each side and convert back to true */
       /* character space                                           */
-      *darkenAmount = FT_DivFix( *darkenAmount, 2 * emRatio );
+      *darkenAmount = FT_DivFix(*darkenAmount, 2 * emRatio);
     }
 
     /* add synthetic emboldening effect in character space */
@@ -238,8 +238,8 @@
 
   /* caller's transform is adjusted for subpixel positioning */
   static void
-  cf2_font_setup( CF2_Font           font,
-                  const CF2_Matrix*  transform )
+  cf2_font_setup(CF2_Font           font,
+                  const CF2_Matrix*  transform)
   {
     /* pointer to parsed font object */
     CFF_Decoder*  decoder = font->decoder;
@@ -259,8 +259,8 @@
 
     /* if a CID fontDict has changed, we need to recompute some cached */
     /* data                                                            */
-    subFont = cf2_getSubfont( decoder );
-    if ( font->lastSubfont != subFont )
+    subFont = cf2_getSubfont(decoder);
+    if (font->lastSubfont != subFont)
     {
       font->lastSubfont = subFont;
       needExtraSetup    = TRUE;
@@ -269,35 +269,35 @@
     /* if ppem has changed, we need to recompute some cached data         */
     /* note: because of CID font matrix concatenation, ppem and transform */
     /*       do not necessarily track.                                    */
-    ppem = cf2_getPpemY( decoder );
-    if ( font->ppem != ppem )
+    ppem = cf2_getPpemY(decoder);
+    if (font->ppem != ppem)
     {
       font->ppem     = ppem;
       needExtraSetup = TRUE;
     }
 
     /* copy hinted flag on each call */
-    font->hinted = (FT_Bool)( font->renderingFlags & CF2_FlagsHinted );
+    font->hinted = (FT_Bool)(font->renderingFlags & CF2_FlagsHinted);
 
     /* determine if transform has changed;       */
     /* include Fontmatrix but ignore translation */
-    if ( ft_memcmp( transform,
+    if (ft_memcmp(transform,
                     &font->currentTransform,
-                    4 * sizeof ( CF2_Fixed ) ) != 0 )
+                    4 * sizeof (CF2_Fixed)) != 0)
     {
       /* save `key' information for `cache of one' matrix data; */
       /* save client transform, without the translation         */
       font->currentTransform    = *transform;
       font->currentTransform.tx =
-      font->currentTransform.ty = cf2_intToFixed( 0 );
+      font->currentTransform.ty = cf2_intToFixed(0);
 
       /* TODO: FreeType transform is simple scalar; for now, use identity */
       /*       for outer                                                  */
       font->innerTransform   = *transform;
       font->outerTransform.a =
-      font->outerTransform.d = cf2_intToFixed( 1 );
+      font->outerTransform.d = cf2_intToFixed(1);
       font->outerTransform.b =
-      font->outerTransform.c = cf2_intToFixed( 0 );
+      font->outerTransform.c = cf2_intToFixed(0);
 
       needExtraSetup = TRUE;
     }
@@ -309,10 +309,10 @@
      * and hinting.
      *
      */
-    if ( font->stemDarkened != ( font->renderingFlags & CF2_FlagsDarkened ) )
+    if (font->stemDarkened != (font->renderingFlags & CF2_FlagsDarkened))
     {
       font->stemDarkened =
-        (FT_Bool)( font->renderingFlags & CF2_FlagsDarkened );
+        (FT_Bool)(font->renderingFlags & CF2_FlagsDarkened);
 
       /* blue zones depend on darkened flag */
       needExtraSetup = TRUE;
@@ -320,7 +320,7 @@
 
     /* recompute variables that are dependent on transform or FontDict or */
     /* darken flag                                                        */
-    if ( needExtraSetup )
+    if (needExtraSetup)
     {
       /* StdVW is found in the private dictionary;                       */
       /* recompute darkening amounts whenever private dictionary or      */
@@ -336,85 +336,85 @@
       CF2_Int    unitsPerEm = font->unitsPerEm;
 
 
-      if ( unitsPerEm == 0 )
+      if (unitsPerEm == 0)
         unitsPerEm = 1000;
 
-      ppem = FT_MAX( cf2_intToFixed( 4 ),
-                     font->ppem ); /* use minimum ppem of 4 */
+      ppem = FT_MAX(cf2_intToFixed(4),
+                     font->ppem); /* use minimum ppem of 4 */
 
 #if 0
       /* since vstem is measured in the x-direction, we use the `a' member */
       /* of the fontMatrix                                                 */
-      emRatio = cf2_fixedFracMul( cf2_intToFixed( 1000 ), fontMatrix->a );
+      emRatio = cf2_fixedFracMul(cf2_intToFixed(1000), fontMatrix->a);
 #endif
 
       /* Freetype does not preserve the fontMatrix when parsing; use */
       /* unitsPerEm instead.                                         */
       /* TODO: check precision of this                               */
-      emRatio     = cf2_intToFixed( 1000 ) / unitsPerEm;
-      font->stdVW = cf2_getStdVW( decoder );
+      emRatio     = cf2_intToFixed(1000) / unitsPerEm;
+      font->stdVW = cf2_getStdVW(decoder);
 
-      if ( font->stdVW <= 0 )
-        font->stdVW = FT_DivFix( cf2_intToFixed( 75 ), emRatio );
+      if (font->stdVW <= 0)
+        font->stdVW = FT_DivFix(cf2_intToFixed(75), emRatio);
 
-      if ( boldenX > 0 )
+      if (boldenX > 0)
       {
         /* Ensure that boldenX is at least 1 pixel for synthetic bold font */
         /* (similar to what Avalon does)                                   */
-        boldenX = FT_MAX( boldenX,
-                          FT_DivFix( cf2_intToFixed( unitsPerEm ), ppem ) );
+        boldenX = FT_MAX(boldenX,
+                          FT_DivFix(cf2_intToFixed(unitsPerEm), ppem));
 
         /* Synthetic emboldening adds at least 1 pixel to darkenX, while */
         /* stem darkening adds at most half pixel.  Since the purpose of */
         /* stem darkening (readability at small sizes) is met with       */
         /* synthetic emboldening, no need to add stem darkening for a    */
         /* synthetic bold font.                                          */
-        cf2_computeDarkening( emRatio,
+        cf2_computeDarkening(emRatio,
                               ppem,
                               font->stdVW,
                               &font->darkenX,
                               boldenX,
                               FALSE,
-                              font->darkenParams );
+                              font->darkenParams);
       }
       else
-        cf2_computeDarkening( emRatio,
+        cf2_computeDarkening(emRatio,
                               ppem,
                               font->stdVW,
                               &font->darkenX,
                               0,
                               font->stemDarkened,
-                              font->darkenParams );
+                              font->darkenParams);
 
 #if 0
       /* since hstem is measured in the y-direction, we use the `d' member */
       /* of the fontMatrix                                                 */
       /* TODO: use the same units per em as above; check this              */
-      emRatio = cf2_fixedFracMul( cf2_intToFixed( 1000 ), fontMatrix->d );
+      emRatio = cf2_fixedFracMul(cf2_intToFixed(1000), fontMatrix->d);
 #endif
 
       /* set the default stem width, because it must be the same for all */
       /* family members;                                                 */
       /* choose a constant for StdHW that depends on font contrast       */
-      stdHW = cf2_getStdHW( decoder );
+      stdHW = cf2_getStdHW(decoder);
 
-      if ( stdHW > 0 && font->stdVW > 2 * stdHW )
-        font->stdHW = FT_DivFix( cf2_intToFixed( 75 ), emRatio );
+      if (stdHW > 0 && font->stdVW > 2 * stdHW)
+        font->stdHW = FT_DivFix(cf2_intToFixed(75), emRatio);
       else
       {
         /* low contrast font gets less hstem darkening */
-        font->stdHW = FT_DivFix( cf2_intToFixed( 110 ), emRatio );
+        font->stdHW = FT_DivFix(cf2_intToFixed(110), emRatio);
       }
 
-      cf2_computeDarkening( emRatio,
+      cf2_computeDarkening(emRatio,
                             ppem,
                             font->stdHW,
                             &font->darkenY,
                             boldenY,
                             font->stemDarkened,
-                            font->darkenParams );
+                            font->darkenParams);
 
-      if ( font->darkenX != 0 || font->darkenY != 0 )
+      if (font->darkenX != 0 || font->darkenY != 0)
         font->darkened = TRUE;
       else
         font->darkened = FALSE;
@@ -422,17 +422,17 @@
       font->reverseWinding = FALSE; /* initial expectation is CCW */
 
       /* compute blue zones for this instance */
-      cf2_blues_init( &font->blues, font );
+      cf2_blues_init(&font->blues, font);
     }
   }
 
 
   /* equivalent to AdobeGetOutline */
-  FT_LOCAL_DEF( FT_Error )
-  cf2_getGlyphOutline( CF2_Font           font,
+  FT_LOCAL_DEF(FT_Error)
+  cf2_getGlyphOutline(CF2_Font           font,
                        CF2_Buffer         charstring,
                        const CF2_Matrix*  transform,
-                       CF2_F16Dot16*      glyphWidth )
+                       CF2_F16Dot16*      glyphWidth)
   {
     FT_Error  lastError = FT_Err_Ok;
 
@@ -453,8 +453,8 @@
     translation.y = transform->ty;
 
     /* set up values based on transform */
-    cf2_font_setup( font, transform );
-    if ( font->error )
+    cf2_font_setup(font, transform);
+    if (font->error)
       goto exit;                      /* setup encountered an error */
 
     /* reset darken direction */
@@ -463,29 +463,29 @@
     /* winding order only affects darkening */
     needWinding = font->darkened;
 
-    while ( 1 )
+    while (1)
     {
       /* reset output buffer */
-      cf2_outline_reset( &font->outline );
+      cf2_outline_reset(&font->outline);
 
       /* build the outline, passing the full translation */
-      cf2_interpT2CharString( font,
+      cf2_interpT2CharString(font,
                               charstring,
                               (CF2_OutlineCallbacks)&font->outline,
                               &translation,
                               FALSE,
                               0,
                               0,
-                              &advWidth );
+                              &advWidth);
 
-      if ( font->error )
+      if (font->error)
         goto exit;
 
-      if ( !needWinding )
+      if (!needWinding)
         break;
 
       /* check winding order */
-      if ( font->outline.root.windingMomentum >= 0 ) /* CFF is CCW */
+      if (font->outline.root.windingMomentum >= 0) /* CFF is CCW */
         break;
 
       /* invert darkening and render again                            */
@@ -496,14 +496,14 @@
     }
 
     /* finish storing client outline */
-    cf2_outline_close( &font->outline );
+    cf2_outline_close(&font->outline);
 
   exit:
     /* FreeType just wants the advance width; there is no translation */
     *glyphWidth = advWidth;
 
     /* free resources and collect errors from objects we've used */
-    cf2_setError( &font->error, lastError );
+    cf2_setError(&font->error, lastError);
 
     return font->error;
   }

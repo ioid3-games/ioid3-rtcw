@@ -58,12 +58,12 @@
 
   /* multiply a given value by the CORDIC shrink factor */
   static FT_Fixed
-  ft_trig_downscale( FT_Fixed  val )
+  ft_trig_downscale(FT_Fixed  val)
   {
     FT_Int  s = 1;
 
 
-    if ( val < 0 )
+    if (val < 0)
     {
        val = -val;
        s = -1;
@@ -72,7 +72,7 @@
     /* 0x40000000 comes from regression analysis between true */
     /* and CORDIC hypotenuse, so it minimizes the error       */
     val = (FT_Fixed)(
-            ( (FT_UInt64)val * FT_TRIG_SCALE + 0x40000000UL ) >> 32 );
+            ((FT_UInt64)val * FT_TRIG_SCALE + 0x40000000UL) >> 32);
 
     return s < 0 ? -val : val;
   }
@@ -81,13 +81,13 @@
 
   /* multiply a given value by the CORDIC shrink factor */
   static FT_Fixed
-  ft_trig_downscale( FT_Fixed  val )
+  ft_trig_downscale(FT_Fixed  val)
   {
     FT_Int     s = 1;
     FT_UInt32  lo1, hi1, lo2, hi2, lo, hi, i1, i2;
 
 
-    if ( val < 0 )
+    if (val < 0)
     {
        val = -val;
        s = -1;
@@ -105,21 +105,21 @@
 
     /* Check carry overflow of i1 + i2 */
     i1 += i2;
-    hi += (FT_UInt32)( i1 < i2 ) << 16;
+    hi += (FT_UInt32)(i1 < i2) << 16;
 
     hi += i1 >> 16;
     i1  = i1 << 16;
 
     /* Check carry overflow of i1 + lo */
     lo += i1;
-    hi += ( lo < i1 );
+    hi += (lo < i1);
 
     /* 0x40000000 comes from regression analysis between true */
     /* and CORDIC hypotenuse, so it minimizes the error       */
 
     /* Check carry overflow of lo + 0x40000000 */
     lo += 0x40000000UL;
-    hi += ( lo < 0x40000000UL );
+    hi += (lo < 0x40000000UL);
 
     val = (FT_Fixed)hi;
 
@@ -131,7 +131,7 @@
 
   /* undefined and never called for zero vector */
   static FT_Int
-  ft_trig_prenorm( FT_Vector*  vec )
+  ft_trig_prenorm(FT_Vector*  vec)
   {
     FT_Pos  x, y;
     FT_Int  shift;
@@ -140,13 +140,13 @@
     x = vec->x;
     y = vec->y;
 
-    shift = FT_MSB( (FT_UInt32)( FT_ABS( x ) | FT_ABS( y ) ) );
+    shift = FT_MSB((FT_UInt32)(FT_ABS(x) | FT_ABS(y)));
 
-    if ( shift <= FT_TRIG_SAFE_MSB )
+    if (shift <= FT_TRIG_SAFE_MSB)
     {
       shift  = FT_TRIG_SAFE_MSB - shift;
-      vec->x = (FT_Pos)( (FT_ULong)x << shift );
-      vec->y = (FT_Pos)( (FT_ULong)y << shift );
+      vec->x = (FT_Pos)((FT_ULong)x << shift);
+      vec->y = (FT_Pos)((FT_ULong)y << shift);
     }
     else
     {
@@ -161,8 +161,8 @@
 
 
   static void
-  ft_trig_pseudo_rotate( FT_Vector*  vec,
-                         FT_Angle    theta )
+  ft_trig_pseudo_rotate(FT_Vector*  vec,
+                         FT_Angle    theta)
   {
     FT_Int           i;
     FT_Fixed         x, y, xtemp, b;
@@ -173,7 +173,7 @@
     y = vec->y;
 
     /* Rotate inside [-PI/4,PI/4] sector */
-    while ( theta < -FT_ANGLE_PI4 )
+    while (theta < -FT_ANGLE_PI4)
     {
       xtemp  =  y;
       y      = -x;
@@ -181,7 +181,7 @@
       theta +=  FT_ANGLE_PI2;
     }
 
-    while ( theta > FT_ANGLE_PI4 )
+    while (theta > FT_ANGLE_PI4)
     {
       xtemp  = -y;
       y      =  x;
@@ -192,19 +192,19 @@
     arctanptr = ft_trig_arctan_table;
 
     /* Pseudorotations, with right shifts */
-    for ( i = 1, b = 1; i < FT_TRIG_MAX_ITERS; b <<= 1, i++ )
+    for (i = 1, b = 1; i < FT_TRIG_MAX_ITERS; b <<= 1, i++)
     {
-      if ( theta < 0 )
+      if (theta < 0)
       {
-        xtemp  = x + ( ( y + b ) >> i );
-        y      = y - ( ( x + b ) >> i );
+        xtemp  = x + ((y + b) >> i);
+        y      = y - ((x + b) >> i);
         x      = xtemp;
         theta += *arctanptr++;
       }
       else
       {
-        xtemp  = x - ( ( y + b ) >> i );
-        y      = y + ( ( x + b ) >> i );
+        xtemp  = x - ((y + b) >> i);
+        y      = y + ((x + b) >> i);
         x      = xtemp;
         theta -= *arctanptr++;
       }
@@ -216,7 +216,7 @@
 
 
   static void
-  ft_trig_pseudo_polarize( FT_Vector*  vec )
+  ft_trig_pseudo_polarize(FT_Vector*  vec)
   {
     FT_Angle         theta;
     FT_Int           i;
@@ -228,9 +228,9 @@
     y = vec->y;
 
     /* Get the vector into [-PI/4,PI/4] sector */
-    if ( y > x )
+    if (y > x)
     {
-      if ( y > -x )
+      if (y > -x)
       {
         theta =  FT_ANGLE_PI2;
         xtemp =  y;
@@ -246,7 +246,7 @@
     }
     else
     {
-      if ( y < -x )
+      if (y < -x)
       {
         theta = -FT_ANGLE_PI2;
         xtemp = -y;
@@ -262,19 +262,19 @@
     arctanptr = ft_trig_arctan_table;
 
     /* Pseudorotations, with right shifts */
-    for ( i = 1, b = 1; i < FT_TRIG_MAX_ITERS; b <<= 1, i++ )
+    for (i = 1, b = 1; i < FT_TRIG_MAX_ITERS; b <<= 1, i++)
     {
-      if ( y > 0 )
+      if (y > 0)
       {
-        xtemp  = x + ( ( y + b ) >> i );
-        y      = y - ( ( x + b ) >> i );
+        xtemp  = x + ((y + b) >> i);
+        y      = y - ((x + b) >> i);
         x      = xtemp;
         theta += *arctanptr++;
       }
       else
       {
-        xtemp  = x - ( ( y + b ) >> i );
-        y      = y + ( ( x + b ) >> i );
+        xtemp  = x - ((y + b) >> i);
+        y      = y + ((x + b) >> i);
         x      = xtemp;
         theta -= *arctanptr++;
       }
@@ -282,10 +282,10 @@
 
     /* round theta to acknowledge its error that mostly comes */
     /* from accumulated rounding errors in the arctan table   */
-    if ( theta >= 0 )
-      theta = FT_PAD_ROUND( theta, 16 );
+    if (theta >= 0)
+      theta = FT_PAD_ROUND(theta, 16);
     else
-      theta = -FT_PAD_ROUND( -theta, 16 );
+      theta = -FT_PAD_ROUND(-theta, 16);
 
     vec->x = x;
     vec->y = theta;
@@ -294,13 +294,13 @@
 
   /* documentation is in fttrigon.h */
 
-  FT_EXPORT_DEF( FT_Fixed )
-  FT_Cos( FT_Angle  angle )
+  FT_EXPORT_DEF(FT_Fixed)
+  FT_Cos(FT_Angle  angle)
   {
     FT_Vector  v;
 
 
-    FT_Vector_Unit( &v, angle );
+    FT_Vector_Unit(&v, angle);
 
     return v.x;
   }
@@ -308,13 +308,13 @@
 
   /* documentation is in fttrigon.h */
 
-  FT_EXPORT_DEF( FT_Fixed )
-  FT_Sin( FT_Angle  angle )
+  FT_EXPORT_DEF(FT_Fixed)
+  FT_Sin(FT_Angle  angle)
   {
     FT_Vector  v;
 
 
-    FT_Vector_Unit( &v, angle );
+    FT_Vector_Unit(&v, angle);
 
     return v.y;
   }
@@ -322,34 +322,34 @@
 
   /* documentation is in fttrigon.h */
 
-  FT_EXPORT_DEF( FT_Fixed )
-  FT_Tan( FT_Angle  angle )
+  FT_EXPORT_DEF(FT_Fixed)
+  FT_Tan(FT_Angle  angle)
   {
     FT_Vector  v;
 
 
-    FT_Vector_Unit( &v, angle );
+    FT_Vector_Unit(&v, angle);
 
-    return FT_DivFix( v.y, v.x );
+    return FT_DivFix(v.y, v.x);
   }
 
 
   /* documentation is in fttrigon.h */
 
-  FT_EXPORT_DEF( FT_Angle )
-  FT_Atan2( FT_Fixed  dx,
-            FT_Fixed  dy )
+  FT_EXPORT_DEF(FT_Angle)
+  FT_Atan2(FT_Fixed  dx,
+            FT_Fixed  dy)
   {
     FT_Vector  v;
 
 
-    if ( dx == 0 && dy == 0 )
+    if (dx == 0 && dy == 0)
       return 0;
 
     v.x = dx;
     v.y = dy;
-    ft_trig_prenorm( &v );
-    ft_trig_pseudo_polarize( &v );
+    ft_trig_prenorm(&v);
+    ft_trig_pseudo_polarize(&v);
 
     return v.y;
   }
@@ -357,166 +357,166 @@
 
   /* documentation is in fttrigon.h */
 
-  FT_EXPORT_DEF( void )
-  FT_Vector_Unit( FT_Vector*  vec,
-                  FT_Angle    angle )
+  FT_EXPORT_DEF(void)
+  FT_Vector_Unit(FT_Vector*  vec,
+                  FT_Angle    angle)
   {
-    if ( !vec )
+    if (!vec)
       return;
 
     vec->x = FT_TRIG_SCALE >> 8;
     vec->y = 0;
-    ft_trig_pseudo_rotate( vec, angle );
-    vec->x = ( vec->x + 0x80L ) >> 8;
-    vec->y = ( vec->y + 0x80L ) >> 8;
+    ft_trig_pseudo_rotate(vec, angle);
+    vec->x = (vec->x + 0x80L) >> 8;
+    vec->y = (vec->y + 0x80L) >> 8;
   }
 
 
   /* these macros return 0 for positive numbers,
      and -1 for negative ones */
-#define FT_SIGN_LONG( x )   ( (x) >> ( FT_SIZEOF_LONG * 8 - 1 ) )
-#define FT_SIGN_INT( x )    ( (x) >> ( FT_SIZEOF_INT * 8 - 1 ) )
-#define FT_SIGN_INT32( x )  ( (x) >> 31 )
-#define FT_SIGN_INT16( x )  ( (x) >> 15 )
+#define FT_SIGN_LONG(x)   ((x) >> (FT_SIZEOF_LONG * 8 - 1))
+#define FT_SIGN_INT(x)    ((x) >> (FT_SIZEOF_INT * 8 - 1))
+#define FT_SIGN_INT32(x)  ((x) >> 31)
+#define FT_SIGN_INT16(x)  ((x) >> 15)
 
 
   /* documentation is in fttrigon.h */
 
-  FT_EXPORT_DEF( void )
-  FT_Vector_Rotate( FT_Vector*  vec,
-                    FT_Angle    angle )
+  FT_EXPORT_DEF(void)
+  FT_Vector_Rotate(FT_Vector*  vec,
+                    FT_Angle    angle)
   {
     FT_Int     shift;
     FT_Vector  v;
 
 
-    if ( !vec || !angle )
+    if (!vec || !angle)
       return;
 
     v = *vec;
 
-    if ( v.x == 0 && v.y == 0 )
+    if (v.x == 0 && v.y == 0)
       return;
 
-    shift = ft_trig_prenorm( &v );
-    ft_trig_pseudo_rotate( &v, angle );
-    v.x = ft_trig_downscale( v.x );
-    v.y = ft_trig_downscale( v.y );
+    shift = ft_trig_prenorm(&v);
+    ft_trig_pseudo_rotate(&v, angle);
+    v.x = ft_trig_downscale(v.x);
+    v.y = ft_trig_downscale(v.y);
 
-    if ( shift > 0 )
+    if (shift > 0)
     {
-      FT_Int32  half = (FT_Int32)1L << ( shift - 1 );
+      FT_Int32  half = (FT_Int32)1L << (shift - 1);
 
 
-      vec->x = ( v.x + half + FT_SIGN_LONG( v.x ) ) >> shift;
-      vec->y = ( v.y + half + FT_SIGN_LONG( v.y ) ) >> shift;
+      vec->x = (v.x + half + FT_SIGN_LONG(v.x)) >> shift;
+      vec->y = (v.y + half + FT_SIGN_LONG(v.y)) >> shift;
     }
     else
     {
       shift  = -shift;
-      vec->x = (FT_Pos)( (FT_ULong)v.x << shift );
-      vec->y = (FT_Pos)( (FT_ULong)v.y << shift );
+      vec->x = (FT_Pos)((FT_ULong)v.x << shift);
+      vec->y = (FT_Pos)((FT_ULong)v.y << shift);
     }
   }
 
 
   /* documentation is in fttrigon.h */
 
-  FT_EXPORT_DEF( FT_Fixed )
-  FT_Vector_Length( FT_Vector*  vec )
+  FT_EXPORT_DEF(FT_Fixed)
+  FT_Vector_Length(FT_Vector*  vec)
   {
     FT_Int     shift;
     FT_Vector  v;
 
 
-    if ( !vec )
+    if (!vec)
       return 0;
 
     v = *vec;
 
     /* handle trivial cases */
-    if ( v.x == 0 )
+    if (v.x == 0)
     {
-      return FT_ABS( v.y );
+      return FT_ABS(v.y);
     }
-    else if ( v.y == 0 )
+    else if (v.y == 0)
     {
-      return FT_ABS( v.x );
+      return FT_ABS(v.x);
     }
 
     /* general case */
-    shift = ft_trig_prenorm( &v );
-    ft_trig_pseudo_polarize( &v );
+    shift = ft_trig_prenorm(&v);
+    ft_trig_pseudo_polarize(&v);
 
-    v.x = ft_trig_downscale( v.x );
+    v.x = ft_trig_downscale(v.x);
 
-    if ( shift > 0 )
-      return ( v.x + ( 1L << ( shift - 1 ) ) ) >> shift;
+    if (shift > 0)
+      return (v.x + (1L << (shift - 1))) >> shift;
 
-    return (FT_Fixed)( (FT_UInt32)v.x << -shift );
+    return (FT_Fixed)((FT_UInt32)v.x << -shift);
   }
 
 
   /* documentation is in fttrigon.h */
 
-  FT_EXPORT_DEF( void )
-  FT_Vector_Polarize( FT_Vector*  vec,
+  FT_EXPORT_DEF(void)
+  FT_Vector_Polarize(FT_Vector*  vec,
                       FT_Fixed   *length,
-                      FT_Angle   *angle )
+                      FT_Angle   *angle)
   {
     FT_Int     shift;
     FT_Vector  v;
 
 
-    if ( !vec || !length || !angle )
+    if (!vec || !length || !angle)
       return;
 
     v = *vec;
 
-    if ( v.x == 0 && v.y == 0 )
+    if (v.x == 0 && v.y == 0)
       return;
 
-    shift = ft_trig_prenorm( &v );
-    ft_trig_pseudo_polarize( &v );
+    shift = ft_trig_prenorm(&v);
+    ft_trig_pseudo_polarize(&v);
 
-    v.x = ft_trig_downscale( v.x );
+    v.x = ft_trig_downscale(v.x);
 
-    *length = shift >= 0 ?                      ( v.x >>  shift )
-                         : (FT_Fixed)( (FT_UInt32)v.x << -shift );
+    *length = shift >= 0 ?                      (v.x >>  shift)
+                         : (FT_Fixed)((FT_UInt32)v.x << -shift);
     *angle  = v.y;
   }
 
 
   /* documentation is in fttrigon.h */
 
-  FT_EXPORT_DEF( void )
-  FT_Vector_From_Polar( FT_Vector*  vec,
+  FT_EXPORT_DEF(void)
+  FT_Vector_From_Polar(FT_Vector*  vec,
                         FT_Fixed    length,
-                        FT_Angle    angle )
+                        FT_Angle    angle)
   {
-    if ( !vec )
+    if (!vec)
       return;
 
     vec->x = length;
     vec->y = 0;
 
-    FT_Vector_Rotate( vec, angle );
+    FT_Vector_Rotate(vec, angle);
   }
 
 
   /* documentation is in fttrigon.h */
 
-  FT_EXPORT_DEF( FT_Angle )
-  FT_Angle_Diff( FT_Angle  angle1,
-                 FT_Angle  angle2 )
+  FT_EXPORT_DEF(FT_Angle)
+  FT_Angle_Diff(FT_Angle  angle1,
+                 FT_Angle  angle2)
   {
     FT_Angle  delta = angle2 - angle1;
 
 
-    while ( delta <= -FT_ANGLE_PI )
+    while (delta <= -FT_ANGLE_PI)
       delta += FT_ANGLE_2PI;
 
-    while ( delta > FT_ANGLE_PI )
+    while (delta > FT_ANGLE_PI)
       delta -= FT_ANGLE_2PI;
 
     return delta;

@@ -40,8 +40,8 @@ opus_int32 silk_inner_prod_aligned_scale(
 {
     opus_int   i;
     opus_int32 sum = 0;
-    for( i = 0; i < len; i++ ) {
-        sum = silk_ADD_RSHIFT32( sum, silk_SMULBB( inVec1[ i ], inVec2[ i ] ), scale );
+    for(i = 0; i < len; i++) {
+        sum = silk_ADD_RSHIFT32(sum, silk_SMULBB(inVec1[ i ], inVec2[ i ]), scale);
     }
     return sum;
 }

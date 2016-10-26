@@ -33,10 +33,10 @@
 
   struct FT_Global {
     FT_Global() {
-      InitResult = FT_Init_FreeType( &library );
+      InitResult = FT_Init_FreeType(&library);
     }
     ~FT_Global() {
-      FT_Done_FreeType( library );
+      FT_Done_FreeType(library);
     }
   };
 
@@ -44,8 +44,8 @@
 
 
   extern "C" int
-  LLVMFuzzerTestOneInput( const uint8_t*  data,
-                          size_t          size_ )
+  LLVMFuzzerTestOneInput(const uint8_t*  data,
+                          size_t          size_)
   {
     unsigned char  pixels[4];
 
@@ -71,39 +71,39 @@
       NULL                // palette
     };
 
-    const size_t vsize = sizeof ( FT_Vector );
-    const size_t tsize = sizeof ( char );
+    const size_t vsize = sizeof (FT_Vector);
+    const size_t tsize = sizeof (char);
 
     // we use the input data for both points and tags
-    short  n_points = short( size_ / ( vsize + tsize ) );
-    if ( n_points <= 2 )
+    short  n_points = short(size_ / (vsize + tsize));
+    if (n_points <= 2)
       return 0;
 
     FT_Vector*  points = reinterpret_cast<FT_Vector*>(
                            const_cast<uint8_t*>(
-                             data ) );
+                             data));
     char*       tags   = reinterpret_cast<char*>(
                            const_cast<uint8_t*>(
-                             data + size_t( n_points ) * vsize ) );
+                             data + size_t(n_points) * vsize));
 
     // to reduce the number of invalid outlines that are immediately
     // rejected in `FT_Outline_Render', limit values to 2^18 pixels
     // (i.e., 2^24 bits)
-    for ( short  i = 0; i < n_points; i++ )
+    for (short  i = 0; i < n_points; i++)
     {
-      if ( points[i].x == LONG_MIN )
+      if (points[i].x == LONG_MIN)
         points[i].x = 0;
-      else if ( points[i].x < 0 )
-        points[i].x = -( -points[i].x & 0xFFFFFF ) - 1;
+      else if (points[i].x < 0)
+        points[i].x = -(-points[i].x & 0xFFFFFF) - 1;
       else
-        points[i].x = ( points[i].x & 0xFFFFFF ) + 1;
+        points[i].x = (points[i].x & 0xFFFFFF) + 1;
 
-      if ( points[i].y == LONG_MIN )
+      if (points[i].y == LONG_MIN)
         points[i].y = 0;
-      else if ( points[i].y < 0 )
-        points[i].y = -( -points[i].y & 0xFFFFFF ) - 1;
+      else if (points[i].y < 0)
+        points[i].y = -(-points[i].y & 0xFFFFFF) - 1;
       else
-        points[i].y = ( points[i].y & 0xFFFFFF ) + 1;
+        points[i].y = (points[i].y & 0xFFFFFF) + 1;
     }
 
     short  contours[1];
@@ -119,8 +119,8 @@
       FT_OUTLINE_NONE  // flags
     };
 
-    FT_Outline_Get_Bitmap( library, &outline, &bitmap_mono );
-    FT_Outline_Get_Bitmap( library, &outline, &bitmap_gray );
+    FT_Outline_Get_Bitmap(library, &outline, &bitmap_mono);
+    FT_Outline_Get_Bitmap(library, &outline, &bitmap_gray);
 
     return 0;
   }

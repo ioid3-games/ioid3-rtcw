@@ -57,31 +57,31 @@
    */
 
   static FT_Error
-  t42_get_glyph_name( T42_Face    face,
+  t42_get_glyph_name(T42_Face    face,
                       FT_UInt     glyph_index,
                       FT_Pointer  buffer,
-                      FT_UInt     buffer_max )
+                      FT_UInt     buffer_max)
   {
-    FT_STRCPYN( buffer, face->type1.glyph_names[glyph_index], buffer_max );
+    FT_STRCPYN(buffer, face->type1.glyph_names[glyph_index], buffer_max);
 
     return FT_Err_Ok;
   }
 
 
   static FT_UInt
-  t42_get_name_index( T42_Face    face,
-                      FT_String*  glyph_name )
+  t42_get_name_index(T42_Face    face,
+                      FT_String*  glyph_name)
   {
     FT_Int  i;
 
 
-    for ( i = 0; i < face->type1.num_glyphs; i++ )
+    for (i = 0; i < face->type1.num_glyphs; i++)
     {
       FT_String*  gname = face->type1.glyph_names[i];
 
 
-      if ( glyph_name[0] == gname[0] && !ft_strcmp( glyph_name, gname ) )
-        return (FT_UInt)ft_atol( (const char *)face->type1.charstrings[i] );
+      if (glyph_name[0] == gname[0] && !ft_strcmp(glyph_name, gname))
+        return (FT_UInt)ft_atol((const char *)face->type1.charstrings[i]);
     }
 
     return 0;
@@ -102,7 +102,7 @@
    */
 
   static const char*
-  t42_get_ps_font_name( T42_Face  face )
+  t42_get_ps_font_name(T42_Face  face)
   {
     return (const char*)face->type1.font_name;
   }
@@ -121,8 +121,8 @@
    */
 
   static FT_Error
-  t42_ps_get_font_info( FT_Face          face,
-                        PS_FontInfoRec*  afont_info )
+  t42_ps_get_font_info(FT_Face          face,
+                        PS_FontInfoRec*  afont_info)
   {
     *afont_info = ((T42_Face)face)->type1.font_info;
 
@@ -131,8 +131,8 @@
 
 
   static FT_Error
-  t42_ps_get_font_extra( FT_Face           face,
-                         PS_FontExtraRec*  afont_extra )
+  t42_ps_get_font_extra(FT_Face           face,
+                         PS_FontExtraRec*  afont_extra)
   {
     *afont_extra = ((T42_Face)face)->type1.font_extra;
 
@@ -141,17 +141,17 @@
 
 
   static FT_Int
-  t42_ps_has_glyph_names( FT_Face  face )
+  t42_ps_has_glyph_names(FT_Face  face)
   {
-    FT_UNUSED( face );
+    FT_UNUSED(face);
 
     return 1;
   }
 
 
   static FT_Error
-  t42_ps_get_font_private( FT_Face         face,
-                           PS_PrivateRec*  afont_private )
+  t42_ps_get_font_private(FT_Face         face,
+                           PS_PrivateRec*  afont_private)
   {
     *afont_private = ((T42_Face)face)->type1.private_dict;
 
@@ -186,13 +186,13 @@
   };
 
 
-  FT_CALLBACK_DEF( FT_Module_Interface )
-  T42_Get_Interface( FT_Module         module,
-                     const FT_String*  t42_interface )
+  FT_CALLBACK_DEF(FT_Module_Interface)
+  T42_Get_Interface(FT_Module         module,
+                     const FT_String*  t42_interface)
   {
-    FT_UNUSED( module );
+    FT_UNUSED(module);
 
-    return ft_service_list_lookup( t42_services, t42_interface );
+    return ft_service_list_lookup(t42_services, t42_interface);
   }
 
 
@@ -207,7 +207,7 @@
       0,
 #endif
 
-      sizeof ( T42_DriverRec ),
+      sizeof (T42_DriverRec),
 
       "type42",
       0x10000L,
@@ -220,9 +220,9 @@
       T42_Get_Interface,        /* FT_Module_Requester    get_interface */
     },
 
-    sizeof ( T42_FaceRec ),
-    sizeof ( T42_SizeRec ),
-    sizeof ( T42_GlyphSlotRec ),
+    sizeof (T42_FaceRec),
+    sizeof (T42_SizeRec),
+    sizeof (T42_GlyphSlotRec),
 
     T42_Face_Init,              /* FT_Face_InitFunc  init_face */
     T42_Face_Done,              /* FT_Face_DoneFunc  done_face */

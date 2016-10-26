@@ -31,9 +31,9 @@
 
   /* FIR filter used by the default and light filters */
   static void
-  _ft_lcd_filter_fir( FT_Bitmap*      bitmap,
+  _ft_lcd_filter_fir(FT_Bitmap*      bitmap,
                       FT_Render_Mode  mode,
-                      FT_Library      library )
+                      FT_Library      library)
   {
     FT_Byte*  weights = library->lcd_weights;
     FT_UInt   width   = (FT_UInt)bitmap->width;
@@ -41,19 +41,19 @@
 
 
     /* horizontal in-place FIR filter */
-    if ( mode == FT_RENDER_MODE_LCD && width >= 4 )
+    if (mode == FT_RENDER_MODE_LCD && width >= 4)
     {
       FT_Byte*  line = bitmap->buffer;
 
 
       /* take care of bitmap flow */
-      if ( bitmap->pitch < 0 )
-        line -= bitmap->pitch * (FT_Int)( bitmap->rows - 1 );
+      if (bitmap->pitch < 0)
+        line -= bitmap->pitch * (FT_Int)(bitmap->rows - 1);
 
       /* `fir' and `pix' must be at least 32 bit wide, since the sum of */
       /* the values in `weights' can exceed 0xFF                        */
 
-      for ( ; height > 0; height--, line += bitmap->pitch )
+      for (; height > 0; height--, line += bitmap->pitch)
       {
         FT_UInt  fir[4];        /* below, `pix' is used as the 5th element */
         FT_UInt  val1, xx;
@@ -71,7 +71,7 @@
         fir[2] += weights[3] * val1;
         fir[3] += weights[4] * val1;
 
-        for ( xx = 2; xx < width; xx++ )
+        for (xx = 2; xx < width; xx++)
         {
           FT_UInt  val, pix;
 
@@ -84,7 +84,7 @@
           fir[3] =          weights[4] * val;
 
           pix        >>= 8;
-          pix         |= (FT_UInt)-(FT_Int)( pix >> 8 );
+          pix         |= (FT_UInt)-(FT_Int)(pix >> 8);
           line[xx - 2] = (FT_Byte)pix;
         }
 
@@ -93,28 +93,28 @@
 
 
           pix          = fir[0] >> 8;
-          pix         |= (FT_UInt)-(FT_Int)( pix >> 8 );
+          pix         |= (FT_UInt)-(FT_Int)(pix >> 8);
           line[xx - 2] = (FT_Byte)pix;
 
           pix          = fir[1] >> 8;
-          pix         |= (FT_UInt)-(FT_Int)( pix >> 8 );
+          pix         |= (FT_UInt)-(FT_Int)(pix >> 8);
           line[xx - 1] = (FT_Byte)pix;
         }
       }
     }
 
     /* vertical in-place FIR filter */
-    else if ( mode == FT_RENDER_MODE_LCD_V && height >= 4 )
+    else if (mode == FT_RENDER_MODE_LCD_V && height >= 4)
     {
       FT_Byte*  column = bitmap->buffer;
       FT_Int    pitch  = bitmap->pitch;
 
 
       /* take care of bitmap flow */
-      if ( bitmap->pitch < 0 )
-        column -= bitmap->pitch * (FT_Int)( bitmap->rows - 1 );
+      if (bitmap->pitch < 0)
+        column -= bitmap->pitch * (FT_Int)(bitmap->rows - 1);
 
-      for ( ; width > 0; width--, column++ )
+      for (; width > 0; width--, column++)
       {
         FT_Byte*  col = column;
         FT_UInt   fir[4];       /* below, `pix' is used as the 5th element */
@@ -135,7 +135,7 @@
         fir[3] += weights[4] * val1;
         col    += pitch;
 
-        for ( yy = 2; yy < height; yy++ )
+        for (yy = 2; yy < height; yy++)
         {
           FT_UInt  val, pix;
 
@@ -148,7 +148,7 @@
           fir[3] =          weights[4] * val;
 
           pix           >>= 8;
-          pix            |= (FT_UInt)-(FT_Int)( pix >> 8 );
+          pix            |= (FT_UInt)-(FT_Int)(pix >> 8);
           col[-2 * pitch] = (FT_Byte)pix;
           col            += pitch;
         }
@@ -158,11 +158,11 @@
 
 
           pix             = fir[0] >> 8;
-          pix            |= (FT_UInt)-(FT_Int)( pix >> 8 );
+          pix            |= (FT_UInt)-(FT_Int)(pix >> 8);
           col[-2 * pitch] = (FT_Byte)pix;
 
           pix         = fir[1] >> 8;
-          pix        |= (FT_UInt)-(FT_Int)( pix >> 8 );
+          pix        |= (FT_UInt)-(FT_Int)(pix >> 8);
           col[-pitch] = (FT_Byte)pix;
         }
       }
@@ -174,9 +174,9 @@
 
   /* intra-pixel filter used by the legacy filter */
   static void
-  _ft_lcd_filter_legacy( FT_Bitmap*      bitmap,
+  _ft_lcd_filter_legacy(FT_Bitmap*      bitmap,
                          FT_Render_Mode  mode,
-                         FT_Library      library )
+                         FT_Library      library)
   {
     FT_UInt  width  = (FT_UInt)bitmap->width;
     FT_UInt  height = (FT_UInt)bitmap->rows;
@@ -189,25 +189,25 @@
       { 65538 * 1/13, 65538 * 1/6, 65538 * 9/13 }
     };
 
-    FT_UNUSED( library );
+    FT_UNUSED(library);
 
 
     /* horizontal in-place intra-pixel filter */
-    if ( mode == FT_RENDER_MODE_LCD && width >= 3 )
+    if (mode == FT_RENDER_MODE_LCD && width >= 3)
     {
       FT_Byte*  line = bitmap->buffer;
 
 
       /* take care of bitmap flow */
-      if ( bitmap->pitch < 0 )
-        line -= bitmap->pitch * (FT_Int)( bitmap->rows - 1 );
+      if (bitmap->pitch < 0)
+        line -= bitmap->pitch * (FT_Int)(bitmap->rows - 1);
 
-      for ( ; height > 0; height--, line += pitch )
+      for (; height > 0; height--, line += pitch)
       {
         FT_UInt  xx;
 
 
-        for ( xx = 0; xx < width; xx += 3 )
+        for (xx = 0; xx < width; xx += 3)
         {
           FT_UInt  r = 0;
           FT_UInt  g = 0;
@@ -230,28 +230,28 @@
           g += filters[2][1] * p;
           b += filters[2][2] * p;
 
-          line[xx]     = (FT_Byte)( r / 65536 );
-          line[xx + 1] = (FT_Byte)( g / 65536 );
-          line[xx + 2] = (FT_Byte)( b / 65536 );
+          line[xx]     = (FT_Byte)(r / 65536);
+          line[xx + 1] = (FT_Byte)(g / 65536);
+          line[xx + 2] = (FT_Byte)(b / 65536);
         }
       }
     }
-    else if ( mode == FT_RENDER_MODE_LCD_V && height >= 3 )
+    else if (mode == FT_RENDER_MODE_LCD_V && height >= 3)
     {
       FT_Byte*  column = bitmap->buffer;
 
 
       /* take care of bitmap flow */
-      if ( bitmap->pitch < 0 )
-        column -= bitmap->pitch * (FT_Int)( bitmap->rows - 1 );
+      if (bitmap->pitch < 0)
+        column -= bitmap->pitch * (FT_Int)(bitmap->rows - 1);
 
-      for ( ; width > 0; width--, column++ )
+      for (; width > 0; width--, column++)
       {
         FT_Byte*  col     = column;
         FT_Byte*  col_end = col + (FT_Int)height * pitch;
 
 
-        for ( ; col < col_end; col += 3 * pitch )
+        for (; col < col_end; col += 3 * pitch)
         {
           FT_UInt  r = 0;
           FT_UInt  g = 0;
@@ -274,9 +274,9 @@
           g += filters[2][1] * p;
           b += filters[2][2] * p;
 
-          col[0]         = (FT_Byte)( r / 65536 );
-          col[pitch]     = (FT_Byte)( g / 65536 );
-          col[2 * pitch] = (FT_Byte)( b / 65536 );
+          col[0]         = (FT_Byte)(r / 65536);
+          col[pitch]     = (FT_Byte)(g / 65536);
+          col[2 * pitch] = (FT_Byte)(b / 65536);
         }
       }
     }
@@ -285,17 +285,17 @@
 #endif /* USE_LEGACY */
 
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Library_SetLcdFilterWeights( FT_Library      library,
-                                  unsigned char  *weights )
+  FT_EXPORT_DEF(FT_Error)
+  FT_Library_SetLcdFilterWeights(FT_Library      library,
+                                  unsigned char  *weights)
   {
-    if ( !library )
-      return FT_THROW( Invalid_Library_Handle );
+    if (!library)
+      return FT_THROW(Invalid_Library_Handle);
 
-    if ( !weights )
-      return FT_THROW( Invalid_Argument );
+    if (!weights)
+      return FT_THROW(Invalid_Argument);
 
-    ft_memcpy( library->lcd_weights, weights, 5 );
+    ft_memcpy(library->lcd_weights, weights, 5);
     library->lcd_filter_func = _ft_lcd_filter_fir;
     library->lcd_extra       = 2;
 
@@ -303,9 +303,9 @@
   }
 
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Library_SetLcdFilter( FT_Library    library,
-                           FT_LcdFilter  filter )
+  FT_EXPORT_DEF(FT_Error)
+  FT_Library_SetLcdFilter(FT_Library    library,
+                           FT_LcdFilter  filter)
   {
     static const FT_Byte  default_filter[5] =
                             { 0x08, 0x4d, 0x56, 0x4d, 0x08 };
@@ -313,10 +313,10 @@
                             { 0x00, 0x55, 0x56, 0x55, 0x00 };
 
 
-    if ( !library )
-      return FT_THROW( Invalid_Library_Handle );
+    if (!library)
+      return FT_THROW(Invalid_Library_Handle);
 
-    switch ( filter )
+    switch (filter)
     {
     case FT_LCD_FILTER_NONE:
       library->lcd_filter_func = NULL;
@@ -324,13 +324,13 @@
       break;
 
     case FT_LCD_FILTER_DEFAULT:
-      ft_memcpy( library->lcd_weights, default_filter, 5 );
+      ft_memcpy(library->lcd_weights, default_filter, 5);
       library->lcd_filter_func = _ft_lcd_filter_fir;
       library->lcd_extra       = 2;
       break;
 
     case FT_LCD_FILTER_LIGHT:
-      ft_memcpy( library->lcd_weights, light_filter, 5 );
+      ft_memcpy(library->lcd_weights, light_filter, 5);
       library->lcd_filter_func = _ft_lcd_filter_fir;
       library->lcd_extra       = 2;
       break;
@@ -346,7 +346,7 @@
 #endif
 
     default:
-      return FT_THROW( Invalid_Argument );
+      return FT_THROW(Invalid_Argument);
     }
 
     library->lcd_filter = filter;
@@ -356,25 +356,25 @@
 
 #else /* !FT_CONFIG_OPTION_SUBPIXEL_RENDERING */
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Library_SetLcdFilterWeights( FT_Library      library,
-                                  unsigned char  *weights )
+  FT_EXPORT_DEF(FT_Error)
+  FT_Library_SetLcdFilterWeights(FT_Library      library,
+                                  unsigned char  *weights)
   {
-    FT_UNUSED( library );
-    FT_UNUSED( weights );
+    FT_UNUSED(library);
+    FT_UNUSED(weights);
 
-    return FT_THROW( Unimplemented_Feature );
+    return FT_THROW(Unimplemented_Feature);
   }
 
 
-  FT_EXPORT_DEF( FT_Error )
-  FT_Library_SetLcdFilter( FT_Library    library,
-                           FT_LcdFilter  filter )
+  FT_EXPORT_DEF(FT_Error)
+  FT_Library_SetLcdFilter(FT_Library    library,
+                           FT_LcdFilter  filter)
   {
-    FT_UNUSED( library );
-    FT_UNUSED( filter );
+    FT_UNUSED(library);
+    FT_UNUSED(filter);
 
-    return FT_THROW( Unimplemented_Feature );
+    return FT_THROW(Unimplemented_Feature);
   }
 
 #endif /* !FT_CONFIG_OPTION_SUBPIXEL_RENDERING */

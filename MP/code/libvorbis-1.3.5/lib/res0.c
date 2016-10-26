@@ -781,7 +781,7 @@ int res2_forward(oggpack_buffer *opb,
 
   /* don't duplicate the code; use a working vector hack for now and
      reshape ourselves into a single channel res1 */
-  /* ugly; reallocs for each coupling pass :-( */
+  /* ugly; reallocs for each coupling pass :-(*/
   int *work=_vorbis_block_alloc(vb,ch*n*sizeof(*work));
   for(i=0;i<ch;i++){
     int *pcm=in[i];

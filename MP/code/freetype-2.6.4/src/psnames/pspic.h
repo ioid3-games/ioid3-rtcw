@@ -43,18 +43,18 @@ FT_BEGIN_HEADER
   } PSModulePIC;
 
 
-#define GET_PIC( lib )                                     \
-          ( (PSModulePIC*)((lib)->pic_container.psnames) )
-#define PSCMAPS_SERVICES_GET   ( GET_PIC( library )->pscmaps_services )
-#define PSCMAPS_INTERFACE_GET  ( GET_PIC( library )->pscmaps_interface )
+#define GET_PIC(lib)                                     \
+          ((PSModulePIC*)((lib)->pic_container.psnames))
+#define PSCMAPS_SERVICES_GET   (GET_PIC(library)->pscmaps_services)
+#define PSCMAPS_INTERFACE_GET  (GET_PIC(library)->pscmaps_interface)
 
 
   /* see pspic.c for the implementation */
   void
-  psnames_module_class_pic_free( FT_Library  library );
+  psnames_module_class_pic_free(FT_Library  library);
 
   FT_Error
-  psnames_module_class_pic_init( FT_Library  library );
+  psnames_module_class_pic_init(FT_Library  library);
 
 FT_END_HEADER
 

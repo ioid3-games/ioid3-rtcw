@@ -50,11 +50,11 @@ FT_BEGIN_HEADER
 
 #ifdef FT_CONFIG_OPTION_GUESSING_EMBEDDED_RFORK
   typedef FT_Error
-  (*ft_raccess_guess_func)( FT_Library  library,
+  (*ft_raccess_guess_func)(FT_Library  library,
                             FT_Stream   stream,
                             char       *base_file_name,
                             char      **result_file_name,
-                            FT_Long    *result_offset );
+                            FT_Long    *result_offset);
 
   typedef enum  FT_RFork_Rule_ {
     FT_RFork_Rule_invalid = -2,
@@ -82,9 +82,9 @@ FT_BEGIN_HEADER
 #ifndef FT_CONFIG_OPTION_PIC
 
   /* this array is a storage in non-PIC mode, so ; is needed in END */
-#define CONST_FT_RFORK_RULE_ARRAY_BEGIN( name, type )  \
+#define CONST_FT_RFORK_RULE_ARRAY_BEGIN(name, type)  \
           static const type name[] = {
-#define CONST_FT_RFORK_RULE_ARRAY_ENTRY( func_suffix, type_suffix )  \
+#define CONST_FT_RFORK_RULE_ARRAY_ENTRY(func_suffix, type_suffix)  \
           { raccess_guess_ ## func_suffix,                           \
             FT_RFork_Rule_ ## type_suffix },
 #define CONST_FT_RFORK_RULE_ARRAY_END  };
@@ -92,15 +92,15 @@ FT_BEGIN_HEADER
 #else /* FT_CONFIG_OPTION_PIC */
 
   /* this array is a function in PIC mode, so no ; is needed in END */
-#define CONST_FT_RFORK_RULE_ARRAY_BEGIN( name, type )  \
+#define CONST_FT_RFORK_RULE_ARRAY_BEGIN(name, type)  \
           void                                         \
-          FT_Init_Table_ ## name( type*  storage )     \
+          FT_Init_Table_ ## name(type*  storage)     \
           {                                            \
             type*  local = storage;                    \
                                                        \
                                                        \
             int  i = 0;
-#define CONST_FT_RFORK_RULE_ARRAY_ENTRY( func_suffix, type_suffix )  \
+#define CONST_FT_RFORK_RULE_ARRAY_ENTRY(func_suffix, type_suffix)  \
           local[i].func = raccess_guess_ ## func_suffix;             \
           local[i].type = FT_RFork_Rule_ ## type_suffix;             \
           i++;
@@ -150,13 +150,13 @@ FT_BEGIN_HEADER
   /*      code of Nth guessing rule function.  If `errors[N]' is not       */
   /*      FT_Err_Ok, `new_names[N]' and `offsets[N]' are meaningless.      */
   /*                                                                       */
-  FT_BASE( void )
-  FT_Raccess_Guess( FT_Library  library,
+  FT_BASE(void)
+  FT_Raccess_Guess(FT_Library  library,
                     FT_Stream   stream,
                     char*       base_name,
                     char**      new_names,
                     FT_Long*    offsets,
-                    FT_Error*   errors );
+                    FT_Error*   errors);
 
 
   /*************************************************************************/
@@ -190,12 +190,12 @@ FT_BEGIN_HEADER
   /* <Return>                                                              */
   /*    FreeType error code.  FT_Err_Ok means success.                     */
   /*                                                                       */
-  FT_BASE( FT_Error )
-  FT_Raccess_Get_HeaderInfo( FT_Library  library,
+  FT_BASE(FT_Error)
+  FT_Raccess_Get_HeaderInfo(FT_Library  library,
                              FT_Stream   stream,
                              FT_Long     rfork_offset,
                              FT_Long    *map_offset,
-                             FT_Long    *rdata_pos );
+                             FT_Long    *rdata_pos);
 
 
   /*************************************************************************/
@@ -247,15 +247,15 @@ FT_BEGIN_HEADER
   /*    Normally you should use `FT_Raccess_Get_HeaderInfo' to get the     */
   /*    value for `map_offset' and `rdata_pos'.                            */
   /*                                                                       */
-  FT_BASE( FT_Error )
-  FT_Raccess_Get_DataOffsets( FT_Library  library,
+  FT_BASE(FT_Error)
+  FT_Raccess_Get_DataOffsets(FT_Library  library,
                               FT_Stream   stream,
                               FT_Long     map_offset,
                               FT_Long     rdata_pos,
                               FT_Long     tag,
                               FT_Bool     sort_by_res_id,
                               FT_Long   **offsets,
-                              FT_Long    *count );
+                              FT_Long    *count);
 
 
 FT_END_HEADER

@@ -40,16 +40,16 @@ FT_BEGIN_HEADER
   } PSHinterPIC;
 
 
-#define GET_PIC( lib )  ( (PSHinterPIC*)( (lib)->pic_container.pshinter ) )
+#define GET_PIC(lib)  ((PSHinterPIC*)((lib)->pic_container.pshinter))
 
-#define PSHINTER_INTERFACE_GET  ( GET_PIC( library )->pshinter_interface )
+#define PSHINTER_INTERFACE_GET  (GET_PIC(library)->pshinter_interface)
 
   /* see pshpic.c for the implementation */
   void
-  pshinter_module_class_pic_free( FT_Library  library );
+  pshinter_module_class_pic_free(FT_Library  library);
 
   FT_Error
-  pshinter_module_class_pic_init( FT_Library  library );
+  pshinter_module_class_pic_init(FT_Library  library);
 
 FT_END_HEADER
 

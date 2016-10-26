@@ -173,7 +173,7 @@ typedef struct SDL_cond SDL_cond;
  *
  *  Thread A:
  *    SDL_LockMutex(lock);
- *    while ( ! condition ) {
+ *    while (! condition) {
  *        SDL_CondWait(cond, lock);
  *    }
  *    SDL_UnlockMutex(lock);

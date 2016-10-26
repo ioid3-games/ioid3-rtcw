@@ -19,10 +19,10 @@ local const uInt inflate_mask[17] = {
 
 
 /* copy as much as possible from the sliding window to the output area */
-local int inflate_flush( /* s, z, r) */
+local int inflate_flush(/* s, z, r) */
 inflate_blocks_statef *s,
 z_streamp z,
-int r )
+int r)
 {
   uInt n;
   Bytef *p;

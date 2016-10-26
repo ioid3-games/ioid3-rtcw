@@ -153,7 +153,7 @@ int opus_encoder_get_size(int channels)
     int ret;
     if (channels<1 || channels > 2)
         return 0;
-    ret = silk_Get_Encoder_Size( &silkEncSizeBytes );
+    ret = silk_Get_Encoder_Size(&silkEncSizeBytes);
     if (ret)
         return 0;
     silkEncSizeBytes = align(silkEncSizeBytes);
@@ -175,7 +175,7 @@ int opus_encoder_init(OpusEncoder* st, opus_int32 Fs, int channels, int applicat
 
     OPUS_CLEAR((char*)st, opus_encoder_get_size(channels));
     /* Create SILK encoder */
-    ret = silk_Get_Encoder_Size( &silkEncSizeBytes );
+    ret = silk_Get_Encoder_Size(&silkEncSizeBytes);
     if (ret)
         return OPUS_BAD_ARG;
     silkEncSizeBytes = align(silkEncSizeBytes);
@@ -190,7 +190,7 @@ int opus_encoder_init(OpusEncoder* st, opus_int32 Fs, int channels, int applicat
 
     st->arch = opus_select_arch();
 
-    ret = silk_InitEncoder( silk_enc, st->arch, &st->silk_mode );
+    ret = silk_InitEncoder(silk_enc, st->arch, &st->silk_mode);
     if(ret)return OPUS_INTERNAL_ERROR;
 
     /* default SILK parameters */
@@ -239,7 +239,7 @@ int opus_encoder_init(OpusEncoder* st, opus_int32 Fs, int channels, int applicat
 
     st->hybrid_stereo_width_Q14 = 1 << 14;
     st->prev_HB_gain = Q15ONE;
-    st->variable_HP_smth2_Q15 = silk_LSHIFT( silk_lin2log( VARIABLE_HP_MIN_CUTOFF_HZ ), 8 );
+    st->variable_HP_smth2_Q15 = silk_LSHIFT(silk_lin2log(VARIABLE_HP_MIN_CUTOFF_HZ), 8);
     st->first = 1;
     st->mode = MODE_HYBRID;
     st->bandwidth = OPUS_BANDWIDTH_FULLBAND;
@@ -308,7 +308,7 @@ static void silk_biquad_float(
 
     /* Negate A_Q28 values and split in two parts */
 
-    for( k = 0; k < len; k++ ) {
+    for(k = 0; k < len; k++) {
         /* S[ 0 ], S[ 1 ]: Q12 */
         inval = in[ k*stride ];
         vout = S[ 0 ] + B[0]*inval;
@@ -328,32 +328,32 @@ static void hp_cutoff(const opus_val16 *in, opus_int32 cutoff_Hz, opus_val16 *ou
    opus_int32 B_Q28[ 3 ], A_Q28[ 2 ];
    opus_int32 Fc_Q19, r_Q28, r_Q22;
 
-   silk_assert( cutoff_Hz <= silk_int32_MAX / SILK_FIX_CONST( 1.5 * 3.14159 / 1000, 19 ) );
-   Fc_Q19 = silk_DIV32_16( silk_SMULBB( SILK_FIX_CONST( 1.5 * 3.14159 / 1000, 19 ), cutoff_Hz ), Fs/1000 );
-   silk_assert( Fc_Q19 > 0 && Fc_Q19 < 32768 );
+   silk_assert(cutoff_Hz <= silk_int32_MAX / SILK_FIX_CONST(1.5 * 3.14159 / 1000, 19));
+   Fc_Q19 = silk_DIV32_16(silk_SMULBB(SILK_FIX_CONST(1.5 * 3.14159 / 1000, 19), cutoff_Hz), Fs/1000);
+   silk_assert(Fc_Q19 > 0 && Fc_Q19 < 32768);
 
-   r_Q28 = SILK_FIX_CONST( 1.0, 28 ) - silk_MUL( SILK_FIX_CONST( 0.92, 9 ), Fc_Q19 );
+   r_Q28 = SILK_FIX_CONST(1.0, 28) - silk_MUL(SILK_FIX_CONST(0.92, 9), Fc_Q19);
 
    /* b = r * [ 1; -2; 1 ]; */
-   /* a = [ 1; -2 * r * ( 1 - 0.5 * Fc^2 ); r^2 ]; */
+   /* a = [ 1; -2 * r * (1 - 0.5 * Fc^2); r^2 ]; */
    B_Q28[ 0 ] = r_Q28;
-   B_Q28[ 1 ] = silk_LSHIFT( -r_Q28, 1 );
+   B_Q28[ 1 ] = silk_LSHIFT(-r_Q28, 1);
    B_Q28[ 2 ] = r_Q28;
 
-   /* -r * ( 2 - Fc * Fc ); */
-   r_Q22  = silk_RSHIFT( r_Q28, 6 );
-   A_Q28[ 0 ] = silk_SMULWW( r_Q22, silk_SMULWW( Fc_Q19, Fc_Q19 ) - SILK_FIX_CONST( 2.0,  22 ) );
-   A_Q28[ 1 ] = silk_SMULWW( r_Q22, r_Q22 );
+   /* -r * (2 - Fc * Fc); */
+   r_Q22  = silk_RSHIFT(r_Q28, 6);
+   A_Q28[ 0 ] = silk_SMULWW(r_Q22, silk_SMULWW(Fc_Q19, Fc_Q19) - SILK_FIX_CONST(2.0,  22));
+   A_Q28[ 1 ] = silk_SMULWW(r_Q22, r_Q22);
 
 #ifdef FIXED_POINT
-   silk_biquad_alt( in, B_Q28, A_Q28, hp_mem, out, len, channels );
-   if( channels == 2 ) {
-       silk_biquad_alt( in+1, B_Q28, A_Q28, hp_mem+2, out+1, len, channels );
+   silk_biquad_alt(in, B_Q28, A_Q28, hp_mem, out, len, channels);
+   if(channels == 2) {
+       silk_biquad_alt(in+1, B_Q28, A_Q28, hp_mem+2, out+1, len, channels);
    }
 #else
-   silk_biquad_float( in, B_Q28, A_Q28, hp_mem, out, len, channels );
-   if( channels == 2 ) {
-       silk_biquad_float( in+1, B_Q28, A_Q28, hp_mem+2, out+1, len, channels );
+   silk_biquad_float(in, B_Q28, A_Q28, hp_mem, out, len, channels);
+   if(channels == 2) {
+       silk_biquad_float(in+1, B_Q28, A_Q28, hp_mem+2, out+1, len, channels);
    }
 #endif
 }
@@ -831,7 +831,7 @@ opus_int32 compute_frame_size(const void *analysis_pcm, int frame_size,
 #ifndef DISABLE_FLOAT_API
       , float *subframe_mem
 #endif
-      )
+     )
 {
 #ifndef DISABLE_FLOAT_API
    if (variable_duration == OPUS_FRAMESIZE_VARIABLE && frame_size >= Fs/200)
@@ -984,7 +984,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
          50*frame_size != st->Fs &&  25*frame_size != st->Fs &&  50*frame_size != 3*st->Fs)
          || (400*frame_size < st->Fs)
          || max_data_bytes<=0
-         )
+        )
     {
        RESTORE_STACK;
        return OPUS_BAD_ARG;
@@ -1075,7 +1075,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
     if (!st->use_vbr)
     {
        int cbrBytes;
-       cbrBytes = IMIN( (st->bitrate_bps + 4*frame_rate)/(8*frame_rate) , max_data_bytes);
+       cbrBytes = IMIN((st->bitrate_bps + 4*frame_rate)/(8*frame_rate) , max_data_bytes);
        st->bitrate_bps = cbrBytes * (8*frame_rate);
        max_data_bytes = cbrBytes;
     }
@@ -1238,7 +1238,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
     if (st->mode != MODE_CELT_ONLY && st->prev_mode == MODE_CELT_ONLY)
     {
         silk_EncControlStruct dummy;
-        silk_InitEncoder( silk_enc, st->arch, &dummy);
+        silk_InitEncoder(silk_enc, st->arch, &dummy);
         prefill=1;
     }
 
@@ -1446,15 +1446,15 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
     OPUS_COPY(pcm_buf, &st->delay_buffer[(st->encoder_buffer-total_buffer)*st->channels], total_buffer*st->channels);
 
     if (st->mode == MODE_CELT_ONLY)
-       hp_freq_smth1 = silk_LSHIFT( silk_lin2log( VARIABLE_HP_MIN_CUTOFF_HZ ), 8 );
+       hp_freq_smth1 = silk_LSHIFT(silk_lin2log(VARIABLE_HP_MIN_CUTOFF_HZ), 8);
     else
        hp_freq_smth1 = ((silk_encoder*)silk_enc)->state_Fxx[0].sCmn.variable_HP_smth1_Q15;
 
-    st->variable_HP_smth2_Q15 = silk_SMLAWB( st->variable_HP_smth2_Q15,
-          hp_freq_smth1 - st->variable_HP_smth2_Q15, SILK_FIX_CONST( VARIABLE_HP_SMTH_COEF2, 16 ) );
+    st->variable_HP_smth2_Q15 = silk_SMLAWB(st->variable_HP_smth2_Q15,
+          hp_freq_smth1 - st->variable_HP_smth2_Q15, SILK_FIX_CONST(VARIABLE_HP_SMTH_COEF2, 16));
 
     /* convert from log scale to Hertz */
-    cutoff_Hz = silk_log2lin( silk_RSHIFT( st->variable_HP_smth2_Q15, 8 ) );
+    cutoff_Hz = silk_log2lin(silk_RSHIFT(st->variable_HP_smth2_Q15, 8));
 
     if (st->application == OPUS_APPLICATION_VOIP)
     {
@@ -1492,19 +1492,19 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
 
         /* Distribute bits between SILK and CELT */
         total_bitRate = 8 * bytes_target * frame_rate;
-        if( st->mode == MODE_HYBRID ) {
+        if(st->mode == MODE_HYBRID) {
             int HB_gain_ref;
             /* Base rate for SILK */
-            st->silk_mode.bitRate = st->stream_channels * ( 5000 + 1000 * ( st->Fs == 100 * frame_size ) );
-            if( curr_bandwidth == OPUS_BANDWIDTH_SUPERWIDEBAND ) {
+            st->silk_mode.bitRate = st->stream_channels * (5000 + 1000 * (st->Fs == 100 * frame_size));
+            if(curr_bandwidth == OPUS_BANDWIDTH_SUPERWIDEBAND) {
                 /* SILK gets 2/3 of the remaining bits */
-                st->silk_mode.bitRate += ( total_bitRate - st->silk_mode.bitRate ) * 2 / 3;
+                st->silk_mode.bitRate += (total_bitRate - st->silk_mode.bitRate) * 2 / 3;
             } else { /* FULLBAND */
                 /* SILK gets 3/5 of the remaining bits */
-                st->silk_mode.bitRate += ( total_bitRate - st->silk_mode.bitRate ) * 3 / 5;
+                st->silk_mode.bitRate += (total_bitRate - st->silk_mode.bitRate) * 3 / 5;
             }
             /* Don't let SILK use more than 80% */
-            if( st->silk_mode.bitRate > total_bitRate * 4/5 ) {
+            if(st->silk_mode.bitRate > total_bitRate * 4/5) {
                 st->silk_mode.bitRate = total_bitRate * 4/5;
             }
             if (!st->energy_masking)
@@ -1571,10 +1571,10 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
         } else if (curr_bandwidth == OPUS_BANDWIDTH_MEDIUMBAND) {
             st->silk_mode.desiredInternalSampleRate = 12000;
         } else {
-            silk_assert( st->mode == MODE_HYBRID || curr_bandwidth == OPUS_BANDWIDTH_WIDEBAND );
+            silk_assert(st->mode == MODE_HYBRID || curr_bandwidth == OPUS_BANDWIDTH_WIDEBAND);
             st->silk_mode.desiredInternalSampleRate = 16000;
         }
-        if( st->mode == MODE_HYBRID ) {
+        if(st->mode == MODE_HYBRID) {
             /* Don't allow bandwidth reduction at lowest bitrates in hybrid mode */
             st->silk_mode.minInternalSampleRate = 16000;
         } else {
@@ -1637,7 +1637,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
             for (i=0;i<st->encoder_buffer*st->channels;i++)
                 pcm_silk[i] = FLOAT2INT16(st->delay_buffer[i]);
 #endif
-            silk_Encode( silk_enc, &st->silk_mode, pcm_silk, st->encoder_buffer, NULL, &zero, 1 );
+            silk_Encode(silk_enc, &st->silk_mode, pcm_silk, st->encoder_buffer, NULL, &zero, 1);
         }
 
 #ifdef FIXED_POINT
@@ -1646,8 +1646,8 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
         for (i=0;i<frame_size*st->channels;i++)
             pcm_silk[i] = FLOAT2INT16(pcm_buf[total_buffer*st->channels + i]);
 #endif
-        ret = silk_Encode( silk_enc, &st->silk_mode, pcm_silk, frame_size, &enc, &nBytes, 0 );
-        if( ret ) {
+        ret = silk_Encode(silk_enc, &st->silk_mode, pcm_silk, frame_size, &enc, &nBytes, 0);
+        if(ret) {
             /*fprintf (stderr, "SILK encode error: %d\n", ret);*/
             /* Handle error */
            RESTORE_STACK;
@@ -1661,16 +1661,16 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
            return 1;
         }
         /* Extract SILK internal bandwidth for signaling in first byte */
-        if( st->mode == MODE_SILK_ONLY ) {
-            if( st->silk_mode.internalSampleRate == 8000 ) {
+        if(st->mode == MODE_SILK_ONLY) {
+            if(st->silk_mode.internalSampleRate == 8000) {
                curr_bandwidth = OPUS_BANDWIDTH_NARROWBAND;
-            } else if( st->silk_mode.internalSampleRate == 12000 ) {
+            } else if(st->silk_mode.internalSampleRate == 12000) {
                curr_bandwidth = OPUS_BANDWIDTH_MEDIUMBAND;
-            } else if( st->silk_mode.internalSampleRate == 16000 ) {
+            } else if(st->silk_mode.internalSampleRate == 16000) {
                curr_bandwidth = OPUS_BANDWIDTH_WIDEBAND;
             }
         } else {
-            silk_assert( st->silk_mode.internalSampleRate == 16000 );
+            silk_assert(st->silk_mode.internalSampleRate == 16000);
         }
 
         st->silk_mode.opusCanSwitch = st->silk_mode.switchReady;
@@ -1723,7 +1723,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
             len = (ec_tell(&enc)+7)>>3;
             if (redundancy)
                len += st->mode == MODE_HYBRID ? 3 : 1;
-            if( st->use_vbr ) {
+            if(st->use_vbr) {
                 nb_compr_bytes = len + bytes_target - (st->silk_mode.bitRate * frame_size) / (8 * st->Fs);
             } else {
                 /* check if SILK used up too much */
@@ -1771,16 +1771,16 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
     }
     /* gain_fade() and stereo_fade() need to be after the buffer copying
        because we don't want any of this to affect the SILK part */
-    if( st->prev_HB_gain < Q15ONE || HB_gain < Q15ONE ) {
+    if(st->prev_HB_gain < Q15ONE || HB_gain < Q15ONE) {
        gain_fade(pcm_buf, pcm_buf,
              st->prev_HB_gain, HB_gain, celt_mode->overlap, frame_size, st->channels, celt_mode->window, st->Fs);
     }
     st->prev_HB_gain = HB_gain;
     if (st->mode != MODE_HYBRID || st->stream_channels==1)
        st->silk_mode.stereoWidth_Q14 = IMIN((1<<14),2*IMAX(0,equiv_rate-30000));
-    if( !st->energy_masking && st->channels == 2 ) {
+    if(!st->energy_masking && st->channels == 2) {
         /* Apply stereo width reduction (at low bitrates) */
-        if( st->hybrid_stereo_width_Q14 < (1 << 14) || st->silk_mode.stereoWidth_Q14 < (1 << 14) ) {
+        if(st->hybrid_stereo_width_Q14 < (1 << 14) || st->silk_mode.stereoWidth_Q14 < (1 << 14)) {
             opus_val16 g1, g2;
             g1 = st->hybrid_stereo_width_Q14;
             g2 = (opus_val16)(st->silk_mode.stereoWidth_Q14);
@@ -1797,7 +1797,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
         }
     }
 
-    if ( st->mode != MODE_CELT_ONLY && ec_tell(&enc)+17+20*(st->mode == MODE_HYBRID) <= 8*(max_data_bytes-1))
+    if (st->mode != MODE_CELT_ONLY && ec_tell(&enc)+17+20*(st->mode == MODE_HYBRID) <= 8*(max_data_bytes-1))
     {
         /* For SILK mode, the redundancy is inferred from the length */
         if (st->mode == MODE_HYBRID && (redundancy || ec_tell(&enc)+37 <= 8*nb_compr_bytes))
@@ -2010,7 +2010,7 @@ opus_int32 opus_encode(OpusEncoder *st, const opus_int16 *pcm, int analysis_fram
 #ifndef DISABLE_FLOAT_API
          , st->analysis.subframe_mem
 #endif
-         );
+        );
    return opus_encode_native(st, pcm, frame_size, data, out_data_bytes, 16,
                              pcm, analysis_frame_size, 0, -2, st->channels, downmix_int, 0);
 }
@@ -2076,7 +2076,7 @@ int opus_encoder_ctl(OpusEncoder *st, int request, ...)
         case OPUS_SET_APPLICATION_REQUEST:
         {
             opus_int32 value = va_arg(ap, opus_int32);
-            if (   (value != OPUS_APPLICATION_VOIP && value != OPUS_APPLICATION_AUDIO
+            if (  (value != OPUS_APPLICATION_VOIP && value != OPUS_APPLICATION_AUDIO
                  && value != OPUS_APPLICATION_RESTRICTED_LOWDELAY)
                || (!st->first && st->application != value))
             {
@@ -2464,14 +2464,14 @@ int opus_encoder_ctl(OpusEncoder *st, int request, ...)
            OPUS_CLEAR(start, sizeof(OpusEncoder) - (start - (char*)st));
 
            celt_encoder_ctl(celt_enc, OPUS_RESET_STATE);
-           silk_InitEncoder( silk_enc, st->arch, &dummy );
+           silk_InitEncoder(silk_enc, st->arch, &dummy);
            st->stream_channels = st->channels;
            st->hybrid_stereo_width_Q14 = 1 << 14;
            st->prev_HB_gain = Q15ONE;
            st->first = 1;
            st->mode = MODE_HYBRID;
            st->bandwidth = OPUS_BANDWIDTH_FULLBAND;
-           st->variable_HP_smth2_Q15 = silk_LSHIFT( silk_lin2log( VARIABLE_HP_MIN_CUTOFF_HZ ), 8 );
+           st->variable_HP_smth2_Q15 = silk_LSHIFT(silk_lin2log(VARIABLE_HP_MIN_CUTOFF_HZ), 8);
         }
         break;
         case OPUS_SET_FORCE_MODE_REQUEST:

@@ -110,12 +110,12 @@ extern opus_int64    silk_Timer_depth[silk_NUM_TIMERS_MAX];
 #define TIC(TAG_NAME) {                                     \
     static int init = 0;                                    \
     static int ID = -1;                                     \
-    if( init == 0 )                                         \
+    if(init == 0)                                         \
     {                                                       \
         int k;                                              \
         init = 1;                                           \
-        for( k = 0; k < silk_Timer_nTimers; k++ ) {         \
-            if( strcmp(silk_Timer_tags[k], #TAG_NAME) == 0 ) { \
+        for(k = 0; k < silk_Timer_nTimers; k++) {         \
+            if(strcmp(silk_Timer_tags[k], #TAG_NAME) == 0) { \
                 ID = k;                                     \
                 break;                                      \
             }                                               \
@@ -138,12 +138,12 @@ extern opus_int64    silk_Timer_depth[silk_NUM_TIMERS_MAX];
 #define TIC(TAG_NAME) {                                     \
     static int init = 0;                                    \
     static int ID = -1;                                     \
-    if( init == 0 )                                         \
+    if(init == 0)                                         \
     {                                                       \
         int k;                                              \
         init = 1;                                           \
-        for( k = 0; k < silk_Timer_nTimers; k++ ) {         \
-        if( strcmp(silk_Timer_tags[k], #TAG_NAME) == 0 ) {  \
+        for(k = 0; k < silk_Timer_nTimers; k++) {         \
+        if(strcmp(silk_Timer_tags[k], #TAG_NAME) == 0) {  \
                 ID = k;                                     \
                 break;                                      \
             }                                               \
@@ -169,12 +169,12 @@ extern opus_int64    silk_Timer_depth[silk_NUM_TIMERS_MAX];
     LARGE_INTEGER lpPerformanceCount;                               \
     static int init = 0;                                            \
     static int ID = 0;                                              \
-    if( init == 0 )                                                 \
+    if(init == 0)                                                 \
     {                                                               \
         int k;                                                      \
         init = 1;                                                   \
-        for( k = 0; k < silk_Timer_nTimers; k++ ) {                 \
-            if( strcmp(silk_Timer_tags[k], #TAG_NAME) == 0 ) {      \
+        for(k = 0; k < silk_Timer_nTimers; k++) {                 \
+            if(strcmp(silk_Timer_tags[k], #TAG_NAME) == 0) {      \
                 ID = k;                                             \
                 break;                                              \
             }                                                       \
@@ -186,9 +186,9 @@ extern opus_int64    silk_Timer_depth[silk_NUM_TIMERS_MAX];
         (lpPerformanceCount.QuadPart >= 0)) {                       \
         silk_Timer_cnt[ID]++;                                       \
         silk_Timer_sum[ID] += lpPerformanceCount.QuadPart;          \
-        if( lpPerformanceCount.QuadPart > silk_Timer_max[ID] )      \
+        if(lpPerformanceCount.QuadPart > silk_Timer_max[ID])      \
             silk_Timer_max[ID] = lpPerformanceCount.QuadPart;       \
-        if( lpPerformanceCount.QuadPart < silk_Timer_min[ID] )      \
+        if(lpPerformanceCount.QuadPart < silk_Timer_min[ID])      \
             silk_Timer_min[ID] = lpPerformanceCount.QuadPart;       \
     }                                                               \
     silk_Timer_depth_ctr--;                                         \
@@ -198,12 +198,12 @@ extern opus_int64    silk_Timer_depth[silk_NUM_TIMERS_MAX];
     unsigned long endTime;                                          \
     static int init = 0;                                            \
     static int ID = 0;                                              \
-    if( init == 0 )                                                 \
+    if(init == 0)                                                 \
     {                                                               \
         int k;                                                      \
         init = 1;                                                   \
-        for( k = 0; k < silk_Timer_nTimers; k++ ) {                 \
-            if( strcmp(silk_Timer_tags[k], #TAG_NAME) == 0 ) {      \
+        for(k = 0; k < silk_Timer_nTimers; k++) {                 \
+            if(strcmp(silk_Timer_tags[k], #TAG_NAME) == 0) {      \
                 ID = k;                                             \
                 break;                                              \
             }                                                       \
@@ -215,9 +215,9 @@ extern opus_int64    silk_Timer_depth[silk_NUM_TIMERS_MAX];
         (endTime >= 0)) {                                           \
         silk_Timer_cnt[ID]++;                                       \
         silk_Timer_sum[ID] += endTime;                              \
-        if( endTime > silk_Timer_max[ID] )                          \
+        if(endTime > silk_Timer_max[ID])                          \
             silk_Timer_max[ID] = endTime;                           \
-        if( endTime < silk_Timer_min[ID] )                          \
+        if(endTime < silk_Timer_min[ID])                          \
             silk_Timer_min[ID] = endTime;                           \
     }                                                               \
         silk_Timer_depth_ctr--;                                     \
@@ -245,7 +245,7 @@ extern FILE *silk_debug_store_fp[ silk_NUM_STORES_MAX ];
 extern int silk_debug_store_count;
 
 /* Faster way of storing the data */
-#define DEBUG_STORE_DATA( FILE_NAME, DATA_PTR, N_BYTES ) {          \
+#define DEBUG_STORE_DATA(FILE_NAME, DATA_PTR, N_BYTES) {          \
     static opus_int init = 0, cnt = 0;                              \
     static FILE **fp;                                               \
     if (init == 0) {                                                \
@@ -259,8 +259,8 @@ extern int silk_debug_store_count;
 /* Call this at the end of main() */
 #define SILK_DEBUG_STORE_CLOSE_FILES {                              \
     opus_int i;                                                     \
-    for( i = 0; i < silk_debug_store_count; i++ ) {                 \
-        fclose( silk_debug_store_fp[ i ] );                         \
+    for(i = 0; i < silk_debug_store_count; i++) {                 \
+        fclose(silk_debug_store_fp[ i ]);                         \
     }                                                               \
 }
 

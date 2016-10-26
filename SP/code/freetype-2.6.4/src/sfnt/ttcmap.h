@@ -43,8 +43,8 @@ FT_BEGIN_HEADER
 
 
   typedef FT_Error
-  (*TT_CMap_ValidateFunc)( FT_Byte*      data,
-                           FT_Validator  valid );
+  (*TT_CMap_ValidateFunc)(FT_Byte*      data,
+                           FT_Validator  valid);
 
   typedef struct  TT_CMap_ClassRec_
   {
@@ -58,7 +58,7 @@ FT_BEGIN_HEADER
 
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DEFINE_TT_CMAP( class_,             \
+#define FT_DEFINE_TT_CMAP(class_,             \
                            size_,              \
                            init_,              \
                            done_,              \
@@ -71,7 +71,7 @@ FT_BEGIN_HEADER
                            variantchar_list_,  \
                            format_,            \
                            validate_,          \
-                           get_cmap_info_ )    \
+                           get_cmap_info_)    \
   FT_CALLBACK_TABLE_DEF                        \
   const TT_CMap_ClassRec  class_ =             \
   {                                            \
@@ -94,7 +94,7 @@ FT_BEGIN_HEADER
 
 #else /* FT_CONFIG_OPTION_PIC */
 
-#define FT_DEFINE_TT_CMAP( class_,                      \
+#define FT_DEFINE_TT_CMAP(class_,                      \
                            size_,                       \
                            init_,                       \
                            done_,                       \
@@ -107,9 +107,9 @@ FT_BEGIN_HEADER
                            variantchar_list_,           \
                            format_,                     \
                            validate_,                   \
-                           get_cmap_info_ )             \
+                           get_cmap_info_)             \
   void                                                  \
-  FT_Init_Class_ ## class_( TT_CMap_ClassRec*  clazz )  \
+  FT_Init_Class_ ## class_(TT_CMap_ClassRec*  clazz)  \
   {                                                     \
     clazz->clazz.size             = size_;              \
     clazz->clazz.init             = init_;              \
@@ -137,17 +137,17 @@ FT_BEGIN_HEADER
   } TT_ValidatorRec, *TT_Validator;
 
 
-#define TT_VALIDATOR( x )          ( (TT_Validator)( x ) )
-#define TT_VALID_GLYPH_COUNT( x )  TT_VALIDATOR( x )->num_glyphs
+#define TT_VALIDATOR(x)          ((TT_Validator)(x))
+#define TT_VALID_GLYPH_COUNT(x)  TT_VALIDATOR(x)->num_glyphs
 
 
-  FT_LOCAL( FT_Error )
-  tt_face_build_cmaps( TT_Face  face );
+  FT_LOCAL(FT_Error)
+  tt_face_build_cmaps(TT_Face  face);
 
   /* used in tt-cmaps service */
-  FT_LOCAL( FT_Error )
-  tt_get_cmap_info( FT_CharMap    charmap,
-                    TT_CMapInfo  *cmap_info );
+  FT_LOCAL(FT_Error)
+  tt_get_cmap_info(FT_CharMap    charmap,
+                    TT_CMapInfo  *cmap_info);
 
 
 FT_END_HEADER

@@ -55,29 +55,29 @@ FT_BEGIN_HEADER
   } T42_LoaderRec, *T42_Loader;
 
 
-  FT_LOCAL( FT_Error )
-  t42_parser_init( T42_Parser     parser,
+  FT_LOCAL(FT_Error)
+  t42_parser_init(T42_Parser     parser,
                    FT_Stream      stream,
                    FT_Memory      memory,
-                   PSAux_Service  psaux );
+                   PSAux_Service  psaux);
 
-  FT_LOCAL( void )
-  t42_parser_done( T42_Parser  parser );
+  FT_LOCAL(void)
+  t42_parser_done(T42_Parser  parser);
 
 
-  FT_LOCAL( FT_Error )
-  t42_parse_dict( T42_Face    face,
+  FT_LOCAL(FT_Error)
+  t42_parse_dict(T42_Face    face,
                   T42_Loader  loader,
                   FT_Byte*    base,
-                  FT_Long     size );
+                  FT_Long     size);
 
 
-  FT_LOCAL( void )
-  t42_loader_init( T42_Loader  loader,
-                   T42_Face    face );
+  FT_LOCAL(void)
+  t42_loader_init(T42_Loader  loader,
+                   T42_Face    face);
 
-  FT_LOCAL( void )
-  t42_loader_done( T42_Loader  loader );
+  FT_LOCAL(void)
+  t42_loader_done(T42_Loader  loader);
 
 
  /* */

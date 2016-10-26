@@ -48,9 +48,9 @@ void silk_corrVector_FLP(
     const silk_float *ptr1;
 
     ptr1 = &x[ Order - 1 ];                     /* Points to first sample of column 0 of X: X[:,0] */
-    for( lag = 0; lag < Order; lag++ ) {
+    for(lag = 0; lag < Order; lag++) {
         /* Calculate X[:,lag]'*t */
-        Xt[ lag ] = (silk_float)silk_inner_product_FLP( ptr1, t, L );
+        Xt[ lag ] = (silk_float)silk_inner_product_FLP(ptr1, t, L);
         ptr1--;                                 /* Next column of X */
     }
 }
@@ -68,25 +68,25 @@ void silk_corrMatrix_FLP(
     const silk_float *ptr1, *ptr2;
 
     ptr1 = &x[ Order - 1 ];                     /* First sample of column 0 of X */
-    energy = silk_energy_FLP( ptr1, L );  /* X[:,0]'*X[:,0] */
-    matrix_ptr( XX, 0, 0, Order ) = ( silk_float )energy;
-    for( j = 1; j < Order; j++ ) {
+    energy = silk_energy_FLP(ptr1, L);  /* X[:,0]'*X[:,0] */
+    matrix_ptr(XX, 0, 0, Order) = (silk_float)energy;
+    for(j = 1; j < Order; j++) {
         /* Calculate X[:,j]'*X[:,j] */
         energy += ptr1[ -j ] * ptr1[ -j ] - ptr1[ L - j ] * ptr1[ L - j ];
-        matrix_ptr( XX, j, j, Order ) = ( silk_float )energy;
+        matrix_ptr(XX, j, j, Order) = (silk_float)energy;
     }
 
     ptr2 = &x[ Order - 2 ];                     /* First sample of column 1 of X */
-    for( lag = 1; lag < Order; lag++ ) {
+    for(lag = 1; lag < Order; lag++) {
         /* Calculate X[:,0]'*X[:,lag] */
-        energy = silk_inner_product_FLP( ptr1, ptr2, L );
-        matrix_ptr( XX, lag, 0, Order ) = ( silk_float )energy;
-        matrix_ptr( XX, 0, lag, Order ) = ( silk_float )energy;
+        energy = silk_inner_product_FLP(ptr1, ptr2, L);
+        matrix_ptr(XX, lag, 0, Order) = (silk_float)energy;
+        matrix_ptr(XX, 0, lag, Order) = (silk_float)energy;
         /* Calculate X[:,j]'*X[:,j + lag] */
-        for( j = 1; j < ( Order - lag ); j++ ) {
+        for(j = 1; j < (Order - lag); j++) {
             energy += ptr1[ -j ] * ptr2[ -j ] - ptr1[ L - j ] * ptr2[ L - j ];
-            matrix_ptr( XX, lag + j, j, Order ) = ( silk_float )energy;
-            matrix_ptr( XX, j, lag + j, Order ) = ( silk_float )energy;
+            matrix_ptr(XX, lag + j, j, Order) = (silk_float)energy;
+            matrix_ptr(XX, j, lag + j, Order) = (silk_float)energy;
         }
         ptr2--;                                 /* Next column of X */
     }

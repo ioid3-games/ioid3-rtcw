@@ -241,9 +241,9 @@ FT_BEGIN_HEADER
   /* <Return>                                                              */
   /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
-  FT_EXPORT( FT_Error )
-  FT_Get_Multi_Master( FT_Face           face,
-                       FT_Multi_Master  *amaster );
+  FT_EXPORT(FT_Error)
+  FT_Get_Multi_Master(FT_Face           face,
+                       FT_Multi_Master  *amaster);
 
 
   /*************************************************************************/
@@ -265,9 +265,9 @@ FT_BEGIN_HEADER
   /* <Return>                                                              */
   /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
-  FT_EXPORT( FT_Error )
-  FT_Get_MM_Var( FT_Face      face,
-                 FT_MM_Var*  *amaster );
+  FT_EXPORT(FT_Error)
+  FT_Get_MM_Var(FT_Face      face,
+                 FT_MM_Var*  *amaster);
 
 
   /*************************************************************************/
@@ -295,10 +295,10 @@ FT_BEGIN_HEADER
   /* <Return>                                                              */
   /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
-  FT_EXPORT( FT_Error )
-  FT_Set_MM_Design_Coordinates( FT_Face   face,
+  FT_EXPORT(FT_Error)
+  FT_Set_MM_Design_Coordinates(FT_Face   face,
                                 FT_UInt   num_coords,
-                                FT_Long*  coords );
+                                FT_Long*  coords);
 
 
   /*************************************************************************/
@@ -324,10 +324,10 @@ FT_BEGIN_HEADER
   /* <Return>                                                              */
   /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
-  FT_EXPORT( FT_Error )
-  FT_Set_Var_Design_Coordinates( FT_Face    face,
+  FT_EXPORT(FT_Error)
+  FT_Set_Var_Design_Coordinates(FT_Face    face,
                                  FT_UInt    num_coords,
-                                 FT_Fixed*  coords );
+                                 FT_Fixed*  coords);
 
 
   /*************************************************************************/
@@ -354,10 +354,10 @@ FT_BEGIN_HEADER
   /* <Return>                                                              */
   /*    FreeType error code.  0~means success.                             */
   /*                                                                       */
-  FT_EXPORT( FT_Error )
-  FT_Set_MM_Blend_Coordinates( FT_Face    face,
+  FT_EXPORT(FT_Error)
+  FT_Set_MM_Blend_Coordinates(FT_Face    face,
                                FT_UInt    num_coords,
-                               FT_Fixed*  coords );
+                               FT_Fixed*  coords);
 
 
   /*************************************************************************/
@@ -368,10 +368,10 @@ FT_BEGIN_HEADER
   /* <Description>                                                         */
   /*    This is another name of @FT_Set_MM_Blend_Coordinates.              */
   /*                                                                       */
-  FT_EXPORT( FT_Error )
-  FT_Set_Var_Blend_Coordinates( FT_Face    face,
+  FT_EXPORT(FT_Error)
+  FT_Set_Var_Blend_Coordinates(FT_Face    face,
                                 FT_UInt    num_coords,
-                                FT_Fixed*  coords );
+                                FT_Fixed*  coords);
 
   /* */
 

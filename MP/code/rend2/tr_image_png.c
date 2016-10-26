@@ -131,10 +131,10 @@ struct PNG_Chunk_IHDR
  *  different BitDepths are specified.
  */
 
-#define PNG_BitDepth_1  ( 1)
-#define PNG_BitDepth_2  ( 2)
-#define PNG_BitDepth_4  ( 4)
-#define PNG_BitDepth_8  ( 8)
+#define PNG_BitDepth_1  (1)
+#define PNG_BitDepth_2  (2)
+#define PNG_BitDepth_4  (4)
+#define PNG_BitDepth_8  (8)
 #define PNG_BitDepth_16 (16)
 
 /*
@@ -2062,7 +2062,7 @@ void R_LoadPNG(const char *name, byte **pic, int *width, int *height)
 	{
 		CloseBufferedFile(ThePNG);
 
-		ri.Printf( PRINT_WARNING, "%s: invalid image size\n", name );
+		ri.Printf(PRINT_WARNING, "%s: invalid image size\n", name);
 
 		return; 
 	}

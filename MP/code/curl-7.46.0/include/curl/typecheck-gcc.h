@@ -152,7 +152,7 @@ _CURL_WARNING(_curl_easy_setopt_err_curl_off_t,
 _CURL_WARNING(_curl_easy_setopt_err_string,
               "curl_easy_setopt expects a "
               "string (char* or char[]) argument for this option"
-  )
+ )
 _CURL_WARNING(_curl_easy_setopt_err_write_callback,
   "curl_easy_setopt expects a curl_write_callback argument for this option")
 _CURL_WARNING(_curl_easy_setopt_err_read_cb,
@@ -164,7 +164,7 @@ _CURL_WARNING(_curl_easy_setopt_err_sockopt_cb,
 _CURL_WARNING(_curl_easy_setopt_err_opensocket_cb,
               "curl_easy_setopt expects a "
               "curl_opensocket_callback argument for this option"
-  )
+ )
 _CURL_WARNING(_curl_easy_setopt_err_progress_cb,
   "curl_easy_setopt expects a curl_progress_callback argument for this option")
 _CURL_WARNING(_curl_easy_setopt_err_debug_cb,

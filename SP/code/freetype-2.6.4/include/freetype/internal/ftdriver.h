@@ -28,72 +28,72 @@ FT_BEGIN_HEADER
 
 
   typedef FT_Error
-  (*FT_Face_InitFunc)( FT_Stream      stream,
+  (*FT_Face_InitFunc)(FT_Stream      stream,
                        FT_Face        face,
                        FT_Int         typeface_index,
                        FT_Int         num_params,
-                       FT_Parameter*  parameters );
+                       FT_Parameter*  parameters);
 
   typedef void
-  (*FT_Face_DoneFunc)( FT_Face  face );
+  (*FT_Face_DoneFunc)(FT_Face  face);
 
 
   typedef FT_Error
-  (*FT_Size_InitFunc)( FT_Size  size );
+  (*FT_Size_InitFunc)(FT_Size  size);
 
   typedef void
-  (*FT_Size_DoneFunc)( FT_Size  size );
+  (*FT_Size_DoneFunc)(FT_Size  size);
 
 
   typedef FT_Error
-  (*FT_Slot_InitFunc)( FT_GlyphSlot  slot );
+  (*FT_Slot_InitFunc)(FT_GlyphSlot  slot);
 
   typedef void
-  (*FT_Slot_DoneFunc)( FT_GlyphSlot  slot );
+  (*FT_Slot_DoneFunc)(FT_GlyphSlot  slot);
 
 
   typedef FT_Error
-  (*FT_Size_RequestFunc)( FT_Size          size,
-                          FT_Size_Request  req );
+  (*FT_Size_RequestFunc)(FT_Size          size,
+                          FT_Size_Request  req);
 
   typedef FT_Error
-  (*FT_Size_SelectFunc)( FT_Size   size,
-                         FT_ULong  size_index );
+  (*FT_Size_SelectFunc)(FT_Size   size,
+                         FT_ULong  size_index);
 
   typedef FT_Error
-  (*FT_Slot_LoadFunc)( FT_GlyphSlot  slot,
+  (*FT_Slot_LoadFunc)(FT_GlyphSlot  slot,
                        FT_Size       size,
                        FT_UInt       glyph_index,
-                       FT_Int32      load_flags );
+                       FT_Int32      load_flags);
 
 
   typedef FT_UInt
-  (*FT_CharMap_CharIndexFunc)( FT_CharMap  charmap,
-                               FT_Long     charcode );
+  (*FT_CharMap_CharIndexFunc)(FT_CharMap  charmap,
+                               FT_Long     charcode);
 
   typedef FT_Long
-  (*FT_CharMap_CharNextFunc)( FT_CharMap  charmap,
-                              FT_Long     charcode );
+  (*FT_CharMap_CharNextFunc)(FT_CharMap  charmap,
+                              FT_Long     charcode);
 
 
   typedef FT_Error
-  (*FT_Face_GetKerningFunc)( FT_Face     face,
+  (*FT_Face_GetKerningFunc)(FT_Face     face,
                              FT_UInt     left_glyph,
                              FT_UInt     right_glyph,
-                             FT_Vector*  kerning );
+                             FT_Vector*  kerning);
 
 
   typedef FT_Error
-  (*FT_Face_AttachFunc)( FT_Face    face,
-                         FT_Stream  stream );
+  (*FT_Face_AttachFunc)(FT_Face    face,
+                         FT_Stream  stream);
 
 
   typedef FT_Error
-  (*FT_Face_GetAdvancesFunc)( FT_Face    face,
+  (*FT_Face_GetAdvancesFunc)(FT_Face    face,
                               FT_UInt    first,
                               FT_UInt    count,
                               FT_Int32   flags,
-                              FT_Fixed*  advances );
+                              FT_Fixed*  advances);
 
 
   /*************************************************************************/
@@ -232,11 +232,11 @@ FT_BEGIN_HEADER
   /*                                                                       */
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DECLARE_DRIVER( class_ )  \
+#define FT_DECLARE_DRIVER(class_)  \
   FT_CALLBACK_TABLE                  \
   const FT_Driver_ClassRec  class_;
 
-#define FT_DEFINE_DRIVER(                    \
+#define FT_DEFINE_DRIVER(                   \
           class_,                            \
           flags_,                            \
           size_,                             \
@@ -261,11 +261,11 @@ FT_BEGIN_HEADER
           attach_file_,                      \
           get_advances_,                     \
           request_size_,                     \
-          select_size_ )                     \
+          select_size_)                     \
   FT_CALLBACK_TABLE_DEF                      \
   const FT_Driver_ClassRec  class_ =         \
   {                                          \
-    FT_DEFINE_ROOT_MODULE( flags_,           \
+    FT_DEFINE_ROOT_MODULE(flags_,           \
                            size_,            \
                            name_,            \
                            version_,         \
@@ -273,7 +273,7 @@ FT_BEGIN_HEADER
                            interface_,       \
                            init_,            \
                            done_,            \
-                           get_interface_ )  \
+                           get_interface_)  \
                                              \
     face_object_size_,                       \
     size_object_size_,                       \
@@ -300,9 +300,9 @@ FT_BEGIN_HEADER
 
 #else /* FT_CONFIG_OPTION_PIC */
 
-#define FT_DECLARE_DRIVER( class_ )  FT_DECLARE_MODULE( class_ )
+#define FT_DECLARE_DRIVER(class_)  FT_DECLARE_MODULE(class_)
 
-#define FT_DEFINE_DRIVER(                                        \
+#define FT_DEFINE_DRIVER(                                       \
           class_,                                                \
           flags_,                                                \
           size_,                                                 \
@@ -327,41 +327,41 @@ FT_BEGIN_HEADER
           attach_file_,                                          \
           get_advances_,                                         \
           request_size_,                                         \
-          select_size_ )                                         \
+          select_size_)                                         \
   void                                                           \
-  FT_Destroy_Class_ ## class_( FT_Library        library,        \
-                               FT_Module_Class*  clazz )         \
+  FT_Destroy_Class_ ## class_(FT_Library        library,        \
+                               FT_Module_Class*  clazz)         \
   {                                                              \
     FT_Memory        memory = library->memory;                   \
     FT_Driver_Class  dclazz = (FT_Driver_Class)clazz;            \
                                                                  \
                                                                  \
-    class_ ## _pic_free( library );                              \
-    if ( dclazz )                                                \
-      FT_FREE( dclazz );                                         \
+    class_ ## _pic_free(library);                              \
+    if (dclazz)                                                \
+      FT_FREE(dclazz);                                         \
   }                                                              \
                                                                  \
                                                                  \
   FT_Error                                                       \
-  FT_Create_Class_ ## class_( FT_Library         library,        \
-                              FT_Module_Class**  output_class )  \
+  FT_Create_Class_ ## class_(FT_Library         library,        \
+                              FT_Module_Class**  output_class)  \
   {                                                              \
     FT_Driver_Class  clazz  = NULL;                              \
     FT_Error         error;                                      \
     FT_Memory        memory = library->memory;                   \
                                                                  \
                                                                  \
-    if ( FT_ALLOC( clazz, sizeof ( *clazz ) ) )                  \
+    if (FT_ALLOC(clazz, sizeof (*clazz)))                  \
       return error;                                              \
                                                                  \
-    error = class_ ## _pic_init( library );                      \
-    if ( error )                                                 \
+    error = class_ ## _pic_init(library);                      \
+    if (error)                                                 \
     {                                                            \
-      FT_FREE( clazz );                                          \
+      FT_FREE(clazz);                                          \
       return error;                                              \
     }                                                            \
                                                                  \
-    FT_DEFINE_ROOT_MODULE( flags_,                               \
+    FT_DEFINE_ROOT_MODULE(flags_,                               \
                            size_,                                \
                            name_,                                \
                            version_,                             \
@@ -369,7 +369,7 @@ FT_BEGIN_HEADER
                            interface_,                           \
                            init_,                                \
                            done_,                                \
-                           get_interface_ )                      \
+                           get_interface_)                      \
                                                                  \
     clazz->face_object_size = face_object_size_;                 \
     clazz->size_object_size = size_object_size_;                 \

@@ -145,7 +145,7 @@ static OPUS_INLINE opus_val16 _celt_cos_pi_2(opus_val16 x)
 
    x2 = MULT16_16_P15(x,x);
    return ADD16(1,MIN16(32766,ADD32(SUB16(L1,x2), MULT16_16_P15(x2, ADD32(L2, MULT16_16_P15(x2, ADD32(L3, MULT16_16_P15(L4, x2
-                                                                                ))))))));
+                                                                               ))))))));
 }
 
 #undef L1

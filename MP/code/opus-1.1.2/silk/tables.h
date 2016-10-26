@@ -40,7 +40,7 @@ extern "C"
 extern const opus_uint8  silk_gain_iCDF[ 3 ][ N_LEVELS_QGAIN / 8 ];                                 /* 24 */
 extern const opus_uint8  silk_delta_gain_iCDF[ MAX_DELTA_GAIN_QUANT - MIN_DELTA_GAIN_QUANT + 1 ];   /* 41 */
 
-extern const opus_uint8  silk_pitch_lag_iCDF[ 2 * ( PITCH_EST_MAX_LAG_MS - PITCH_EST_MIN_LAG_MS ) ];/* 32 */
+extern const opus_uint8  silk_pitch_lag_iCDF[ 2 * (PITCH_EST_MAX_LAG_MS - PITCH_EST_MIN_LAG_MS) ];/* 32 */
 extern const opus_uint8  silk_pitch_delta_iCDF[ 21 ];                                               /*  21 */
 extern const opus_uint8  silk_pitch_contour_iCDF[ 34 ];                                             /*  34 */
 extern const opus_uint8  silk_pitch_contour_NB_iCDF[ 11 ];                                          /*  11 */

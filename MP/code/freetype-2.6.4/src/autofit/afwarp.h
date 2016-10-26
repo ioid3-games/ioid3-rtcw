@@ -25,8 +25,8 @@ FT_BEGIN_HEADER
 
 #define AF_WARPER_SCALE
 
-#define AF_WARPER_FLOOR( x )  ( (x) & ~FT_TYPEOF( x )63 )
-#define AF_WARPER_CEIL( x )   AF_WARPER_FLOOR( (x) + 63 )
+#define AF_WARPER_FLOOR(x)  ((x) & ~FT_TYPEOF(x)63)
+#define AF_WARPER_CEIL(x)   AF_WARPER_FLOOR((x) + 63)
 
 
   typedef FT_Int32  AF_WarpScore;
@@ -47,12 +47,12 @@ FT_BEGIN_HEADER
   } AF_WarperRec, *AF_Warper;
 
 
-  FT_LOCAL( void )
-  af_warper_compute( AF_Warper      warper,
+  FT_LOCAL(void)
+  af_warper_compute(AF_Warper      warper,
                      AF_GlyphHints  hints,
                      AF_Dimension   dim,
                      FT_Fixed      *a_scale,
-                     FT_Fixed      *a_delta );
+                     FT_Fixed      *a_delta);
 
 
 FT_END_HEADER

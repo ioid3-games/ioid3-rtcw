@@ -38,7 +38,7 @@ typedef struct _TargaHeader {
 	unsigned char	pixel_size, attributes;
 } TargaHeader;
 
-void R_LoadTGA ( const char *name, byte **pic, int *width, int *height)
+void R_LoadTGA (const char *name, byte **pic, int *width, int *height)
 {
 	unsigned	columns, rows, numPixels;
 	byte	*pixbuf;
@@ -63,14 +63,14 @@ void R_LoadTGA ( const char *name, byte **pic, int *width, int *height)
 	//
 	// load the file
 	//
-	length = ri.FS_ReadFile ( ( char * ) name, &buffer.v);
+	length = ri.FS_ReadFile ((char *) name, &buffer.v);
 	if (!buffer.b || length < 0) {
 		return;
 	}
 
 	if(length < 18)
 	{
-		ri.Error( ERR_DROP, "LoadTGA: header too short (%s)", name );
+		ri.Error(ERR_DROP, "LoadTGA: header too short (%s)", name);
 	}
 
 	buf_p = buffer.b;
@@ -101,17 +101,17 @@ void R_LoadTGA ( const char *name, byte **pic, int *width, int *height)
 
 	if (targa_header.image_type!=2 
 		&& targa_header.image_type!=10
-		&& targa_header.image_type != 3 ) 
+		&& targa_header.image_type != 3) 
 	{
 		ri.Error (ERR_DROP, "LoadTGA: Only type 2 (RGB), 3 (gray), and 10 (RGB) TGA images supported");
 	}
 
-	if ( targa_header.colormap_type != 0 )
+	if (targa_header.colormap_type != 0)
 	{
-		ri.Error( ERR_DROP, "LoadTGA: colormaps not supported" );
+		ri.Error(ERR_DROP, "LoadTGA: colormaps not supported");
 	}
 
-	if ( ( targa_header.pixel_size != 32 && targa_header.pixel_size != 24 ) && targa_header.image_type != 3 )
+	if ((targa_header.pixel_size != 32 && targa_header.pixel_size != 24) && targa_header.image_type != 3)
 	{
 		ri.Error (ERR_DROP, "LoadTGA: Only 32 or 24 bit images supported (no colormaps)");
 	}
@@ -131,12 +131,12 @@ void R_LoadTGA ( const char *name, byte **pic, int *width, int *height)
 	if (targa_header.id_length != 0)
 	{
 		if (buf_p + targa_header.id_length > end)
-			ri.Error( ERR_DROP, "LoadTGA: header too short (%s)", name );
+			ri.Error(ERR_DROP, "LoadTGA: header too short (%s)", name);
 
 		buf_p += targa_header.id_length;  // skip TARGA image comment
 	}
 	
-	if ( targa_header.image_type==2 || targa_header.image_type == 3 )
+	if (targa_header.image_type==2 || targa_header.image_type == 3)
 	{ 
 		if(buf_p + columns*rows*targa_header.pixel_size/8 > end)
 		{
@@ -183,7 +183,7 @@ void R_LoadTGA ( const char *name, byte **pic, int *width, int *height)
 					*pixbuf++ = alphabyte;
 					break;
 				default:
-					ri.Error( ERR_DROP, "LoadTGA: illegal pixel_size '%d' in file '%s'", targa_header.pixel_size, name );
+					ri.Error(ERR_DROP, "LoadTGA: illegal pixel_size '%d' in file '%s'", targa_header.pixel_size, name);
 					break;
 				}
 			}
@@ -194,7 +194,7 @@ void R_LoadTGA ( const char *name, byte **pic, int *width, int *height)
 
 		for(row=rows-1; row>=0; row--) {
 			pixbuf = targa_rgba + row*columns*4;
-			for(column=0; column<columns; ) {
+			for(column=0; column<columns;) {
 				if(buf_p + 1 > end)
 					ri.Error (ERR_DROP, "LoadTGA: file truncated (%s)", name);
 				packetHeader= *buf_p++;
@@ -216,7 +216,7 @@ void R_LoadTGA ( const char *name, byte **pic, int *width, int *height)
 								alphabyte = *buf_p++;
 								break;
 						default:
-							ri.Error( ERR_DROP, "LoadTGA: illegal pixel_size '%d' in file '%s'", targa_header.pixel_size, name );
+							ri.Error(ERR_DROP, "LoadTGA: illegal pixel_size '%d' in file '%s'", targa_header.pixel_size, name);
 							break;
 					}
 	
@@ -262,7 +262,7 @@ void R_LoadTGA ( const char *name, byte **pic, int *width, int *height)
 									*pixbuf++ = alphabyte;
 									break;
 							default:
-								ri.Error( ERR_DROP, "LoadTGA: illegal pixel_size '%d' in file '%s'", targa_header.pixel_size, name );
+								ri.Error(ERR_DROP, "LoadTGA: illegal pixel_size '%d' in file '%s'", targa_header.pixel_size, name);
 								break;
 						}
 						column++;
@@ -301,7 +301,7 @@ void R_LoadTGA ( const char *name, byte **pic, int *width, int *height)
 #endif
   // instead we just print a warning
   if (targa_header.attributes & 0x20) {
-    ri.Printf( PRINT_DEVELOPER, "WARNING: '%s' TGA file header declares top-down image, ignoring\n", name);
+    ri.Printf(PRINT_DEVELOPER, "WARNING: '%s' TGA file header declares top-down image, ignoring\n", name);
   }
 
   if (width)

@@ -69,7 +69,7 @@ opus_val32 celt_inner_prod_sse2(const opus_val16 *x, const opus_val16 *y,
         acc2 = _mm_add_epi32(acc2, inVec1_FEDCBA98);
     }
 
-    acc1 = _mm_add_epi32( acc1, acc2 );
+    acc1 = _mm_add_epi32(acc1, acc2);
 
     if (N - i >= 8)
     {
@@ -82,8 +82,8 @@ opus_val32 celt_inner_prod_sse2(const opus_val16 *x, const opus_val16 *y,
         i += 8;
     }
 
-    acc1 = _mm_add_epi32(acc1, _mm_unpackhi_epi64( acc1, acc1));
-    acc1 = _mm_add_epi32(acc1, _mm_shufflelo_epi16( acc1, 0x0E));
+    acc1 = _mm_add_epi32(acc1, _mm_unpackhi_epi64(acc1, acc1));
+    acc1 = _mm_add_epi32(acc1, _mm_shufflelo_epi16(acc1, 0x0E));
     sum += _mm_cvtsi128_si32(acc1);
 
     for (;i<N;i++) {

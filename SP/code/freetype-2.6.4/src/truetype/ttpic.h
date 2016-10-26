@@ -52,24 +52,24 @@ FT_BEGIN_HEADER
   } TTModulePIC;
 
 
-#define GET_PIC( lib )                                      \
-          ( (TTModulePIC*)((lib)->pic_container.truetype) )
+#define GET_PIC(lib)                                      \
+          ((TTModulePIC*)((lib)->pic_container.truetype))
 #define TT_SERVICES_GET                       \
-          ( GET_PIC( library )->tt_services )
+          (GET_PIC(library)->tt_services)
 #define TT_SERVICE_GX_MULTI_MASTERS_GET                       \
-          ( GET_PIC( library )->tt_service_gx_multi_masters )
+          (GET_PIC(library)->tt_service_gx_multi_masters)
 #define TT_SERVICE_TRUETYPE_GLYF_GET                       \
-          ( GET_PIC( library )->tt_service_truetype_glyf )
+          (GET_PIC(library)->tt_service_truetype_glyf)
 #define TT_SERVICE_PROPERTIES_GET                       \
-          ( GET_PIC( library )->tt_service_properties )
+          (GET_PIC(library)->tt_service_properties)
 
 
   /* see ttpic.c for the implementation */
   void
-  tt_driver_class_pic_free( FT_Library  library );
+  tt_driver_class_pic_free(FT_Library  library);
 
   FT_Error
-  tt_driver_class_pic_init( FT_Library  library );
+  tt_driver_class_pic_init(FT_Library  library);
 
 FT_END_HEADER
 

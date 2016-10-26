@@ -117,8 +117,8 @@ FT_BEGIN_HEADER
 
   /* callback function pointers */
   typedef void
-  (*CF2_Callback_Type)( CF2_OutlineCallbacks      callbacks,
-                        const CF2_CallbackParams  params );
+  (*CF2_Callback_Type)(CF2_OutlineCallbacks      callbacks,
+                        const CF2_CallbackParams  params);
 
 
   struct  CF2_OutlineCallbacksRec_

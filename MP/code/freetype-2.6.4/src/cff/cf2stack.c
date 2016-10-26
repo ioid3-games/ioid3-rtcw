@@ -49,16 +49,16 @@
   /* Allocate and initialize an instance of CF2_Stack.       */
   /* Note: This function returns NULL on error (does not set */
   /* `error').                                               */
-  FT_LOCAL_DEF( CF2_Stack )
-  cf2_stack_init( FT_Memory  memory,
-                  FT_Error*  e )
+  FT_LOCAL_DEF(CF2_Stack)
+  cf2_stack_init(FT_Memory  memory,
+                  FT_Error*  e)
   {
     FT_Error  error = FT_Err_Ok;     /* for FT_QNEW */
 
     CF2_Stack  stack = NULL;
 
 
-    if ( !FT_QNEW( stack ) )
+    if (!FT_QNEW(stack))
     {
       /* initialize the structure; FT_QNEW zeroes it */
       stack->memory = memory;
@@ -70,34 +70,34 @@
   }
 
 
-  FT_LOCAL_DEF( void )
-  cf2_stack_free( CF2_Stack  stack )
+  FT_LOCAL_DEF(void)
+  cf2_stack_free(CF2_Stack  stack)
   {
-    if ( stack )
+    if (stack)
     {
       FT_Memory  memory = stack->memory;
 
 
       /* free the main structure */
-      FT_FREE( stack );
+      FT_FREE(stack);
     }
   }
 
 
-  FT_LOCAL_DEF( CF2_UInt )
-  cf2_stack_count( CF2_Stack  stack )
+  FT_LOCAL_DEF(CF2_UInt)
+  cf2_stack_count(CF2_Stack  stack)
   {
-    return (CF2_UInt)( stack->top - &stack->buffer[0] );
+    return (CF2_UInt)(stack->top - &stack->buffer[0]);
   }
 
 
-  FT_LOCAL_DEF( void )
-  cf2_stack_pushInt( CF2_Stack  stack,
-                     CF2_Int    val )
+  FT_LOCAL_DEF(void)
+  cf2_stack_pushInt(CF2_Stack  stack,
+                     CF2_Int    val)
   {
-    if ( stack->top == &stack->buffer[CF2_OPERAND_STACK_SIZE] )
+    if (stack->top == &stack->buffer[CF2_OPERAND_STACK_SIZE])
     {
-      CF2_SET_ERROR( stack->error, Stack_Overflow );
+      CF2_SET_ERROR(stack->error, Stack_Overflow);
       return;     /* stack overflow */
     }
 
@@ -107,13 +107,13 @@
   }
 
 
-  FT_LOCAL_DEF( void )
-  cf2_stack_pushFixed( CF2_Stack  stack,
-                       CF2_Fixed  val )
+  FT_LOCAL_DEF(void)
+  cf2_stack_pushFixed(CF2_Stack  stack,
+                       CF2_Fixed  val)
   {
-    if ( stack->top == &stack->buffer[CF2_OPERAND_STACK_SIZE] )
+    if (stack->top == &stack->buffer[CF2_OPERAND_STACK_SIZE])
     {
-      CF2_SET_ERROR( stack->error, Stack_Overflow );
+      CF2_SET_ERROR(stack->error, Stack_Overflow);
       return;     /* stack overflow */
     }
 
@@ -124,17 +124,17 @@
 
 
   /* this function is only allowed to pop an integer type */
-  FT_LOCAL_DEF( CF2_Int )
-  cf2_stack_popInt( CF2_Stack  stack )
+  FT_LOCAL_DEF(CF2_Int)
+  cf2_stack_popInt(CF2_Stack  stack)
   {
-    if ( stack->top == &stack->buffer[0] )
+    if (stack->top == &stack->buffer[0])
     {
-      CF2_SET_ERROR( stack->error, Stack_Underflow );
+      CF2_SET_ERROR(stack->error, Stack_Underflow);
       return 0;   /* underflow */
     }
-    if ( stack->top[-1].type != CF2_NumberInt )
+    if (stack->top[-1].type != CF2_NumberInt)
     {
-      CF2_SET_ERROR( stack->error, Syntax_Error );
+      CF2_SET_ERROR(stack->error, Syntax_Error);
       return 0;   /* type mismatch */
     }
 
@@ -146,23 +146,23 @@
 
   /* Note: type mismatch is silently cast */
   /* TODO: check this                     */
-  FT_LOCAL_DEF( CF2_Fixed )
-  cf2_stack_popFixed( CF2_Stack  stack )
+  FT_LOCAL_DEF(CF2_Fixed)
+  cf2_stack_popFixed(CF2_Stack  stack)
   {
-    if ( stack->top == &stack->buffer[0] )
+    if (stack->top == &stack->buffer[0])
     {
-      CF2_SET_ERROR( stack->error, Stack_Underflow );
-      return cf2_intToFixed( 0 );    /* underflow */
+      CF2_SET_ERROR(stack->error, Stack_Underflow);
+      return cf2_intToFixed(0);    /* underflow */
     }
 
     --stack->top;
 
-    switch ( stack->top->type )
+    switch (stack->top->type)
     {
     case CF2_NumberInt:
-      return cf2_intToFixed( stack->top->u.i );
+      return cf2_intToFixed(stack->top->u.i);
     case CF2_NumberFrac:
-      return cf2_fracToFixed( stack->top->u.f );
+      return cf2_fracToFixed(stack->top->u.f);
     default:
       return stack->top->u.r;
     }
@@ -171,34 +171,34 @@
 
   /* Note: type mismatch is silently cast */
   /* TODO: check this                     */
-  FT_LOCAL_DEF( CF2_Fixed )
-  cf2_stack_getReal( CF2_Stack  stack,
-                     CF2_UInt   idx )
+  FT_LOCAL_DEF(CF2_Fixed)
+  cf2_stack_getReal(CF2_Stack  stack,
+                     CF2_UInt   idx)
   {
-    FT_ASSERT( cf2_stack_count( stack ) <= CF2_OPERAND_STACK_SIZE );
+    FT_ASSERT(cf2_stack_count(stack) <= CF2_OPERAND_STACK_SIZE);
 
-    if ( idx >= cf2_stack_count( stack ) )
+    if (idx >= cf2_stack_count(stack))
     {
-      CF2_SET_ERROR( stack->error, Stack_Overflow );
-      return cf2_intToFixed( 0 );    /* bounds error */
+      CF2_SET_ERROR(stack->error, Stack_Overflow);
+      return cf2_intToFixed(0);    /* bounds error */
     }
 
-    switch ( stack->buffer[idx].type )
+    switch (stack->buffer[idx].type)
     {
     case CF2_NumberInt:
-      return cf2_intToFixed( stack->buffer[idx].u.i );
+      return cf2_intToFixed(stack->buffer[idx].u.i);
     case CF2_NumberFrac:
-      return cf2_fracToFixed( stack->buffer[idx].u.f );
+      return cf2_fracToFixed(stack->buffer[idx].u.f);
     default:
       return stack->buffer[idx].u.r;
     }
   }
 
 
-  FT_LOCAL( void )
-  cf2_stack_roll( CF2_Stack  stack,
+  FT_LOCAL(void)
+  cf2_stack_roll(CF2_Stack  stack,
                   CF2_Int    count,
-                  CF2_Int    shift )
+                  CF2_Int    shift)
   {
     /* we initialize this variable to avoid compiler warnings */
     CF2_StackNumber  last = { { 0 }, CF2_NumberInt };
@@ -206,21 +206,21 @@
     CF2_Int  start_idx, idx, i;
 
 
-    if ( count < 2 )
+    if (count < 2)
       return; /* nothing to do (values 0 and 1), or undefined value */
 
-    if ( (CF2_UInt)count > cf2_stack_count( stack ) )
+    if ((CF2_UInt)count > cf2_stack_count(stack))
     {
-      CF2_SET_ERROR( stack->error, Stack_Overflow );
+      CF2_SET_ERROR(stack->error, Stack_Overflow);
       return;
     }
 
-    if ( shift < 0 )
-      shift = -( ( -shift ) % count );
+    if (shift < 0)
+      shift = -((-shift) % count);
     else
       shift %= count;
 
-    if ( shift == 0 )
+    if (shift == 0)
       return; /* nothing to do */
 
     /* We use the following algorithm to do the rolling, */
@@ -250,12 +250,12 @@
 
     start_idx = -1;
     idx       = -1;
-    for ( i = 0; i < count; i++ )
+    for (i = 0; i < count; i++)
     {
       CF2_StackNumber  tmp;
 
 
-      if ( start_idx == idx )
+      if (start_idx == idx)
       {
         start_idx++;
         idx  = start_idx;
@@ -263,9 +263,9 @@
       }
 
       idx += shift;
-      if ( idx >= count )
+      if (idx >= count)
         idx -= count;
-      else if ( idx < 0 )
+      else if (idx < 0)
         idx += count;
 
       tmp                = stack->buffer[idx];
@@ -275,8 +275,8 @@
   }
 
 
-  FT_LOCAL_DEF( void )
-  cf2_stack_clear( CF2_Stack  stack )
+  FT_LOCAL_DEF(void)
+  cf2_stack_clear(CF2_Stack  stack)
   {
     stack->top = &stack->buffer[0];
   }

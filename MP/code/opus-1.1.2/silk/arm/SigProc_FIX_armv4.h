@@ -39,7 +39,7 @@ static OPUS_INLINE opus_int32 silk_MLA_armv4(opus_int32 a, opus_int32 b,
       "mla %0, %1, %2, %3\n\t"
       : "=&r"(res)
       : "r"(b), "r"(c), "r"(a)
-  );
+ );
   return res;
 }
 #define silk_MLA(a, b, c) (silk_MLA_armv4(a, b, c))

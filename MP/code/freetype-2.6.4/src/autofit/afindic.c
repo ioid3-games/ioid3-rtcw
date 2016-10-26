@@ -33,8 +33,8 @@
 
 
   static FT_Error
-  af_indic_metrics_init( AF_CJKMetrics  metrics,
-                         FT_Face        face )
+  af_indic_metrics_init(AF_CJKMetrics  metrics,
+                         FT_Face        face)
   {
     /* skip blue zone init in CJK routines */
     FT_CharMap  oldmap = face->charmap;
@@ -42,50 +42,50 @@
 
     metrics->units_per_em = face->units_per_EM;
 
-    if ( FT_Select_Charmap( face, FT_ENCODING_UNICODE ) )
+    if (FT_Select_Charmap(face, FT_ENCODING_UNICODE))
       face->charmap = NULL;
     else
     {
-      af_cjk_metrics_init_widths( metrics, face );
+      af_cjk_metrics_init_widths(metrics, face);
 #if 0
       /* either need indic specific blue_chars[] or just skip blue zones */
-      af_cjk_metrics_init_blues( metrics, face, af_cjk_blue_chars );
+      af_cjk_metrics_init_blues(metrics, face, af_cjk_blue_chars);
 #endif
-      af_cjk_metrics_check_digits( metrics, face );
+      af_cjk_metrics_check_digits(metrics, face);
     }
 
-    FT_Set_Charmap( face, oldmap );
+    FT_Set_Charmap(face, oldmap);
 
     return FT_Err_Ok;
   }
 
 
   static void
-  af_indic_metrics_scale( AF_CJKMetrics  metrics,
-                          AF_Scaler      scaler )
+  af_indic_metrics_scale(AF_CJKMetrics  metrics,
+                          AF_Scaler      scaler)
   {
     /* use CJK routines */
-    af_cjk_metrics_scale( metrics, scaler );
+    af_cjk_metrics_scale(metrics, scaler);
   }
 
 
   static FT_Error
-  af_indic_hints_init( AF_GlyphHints  hints,
-                       AF_CJKMetrics  metrics )
+  af_indic_hints_init(AF_GlyphHints  hints,
+                       AF_CJKMetrics  metrics)
   {
     /* use CJK routines */
-    return af_cjk_hints_init( hints, metrics );
+    return af_cjk_hints_init(hints, metrics);
   }
 
 
   static FT_Error
-  af_indic_hints_apply( FT_UInt        glyph_index,
+  af_indic_hints_apply(FT_UInt        glyph_index,
                         AF_GlyphHints  hints,
                         FT_Outline*    outline,
-                        AF_CJKMetrics  metrics )
+                        AF_CJKMetrics  metrics)
   {
     /* use CJK routines */
-    return af_cjk_hints_apply( glyph_index, hints, outline, metrics );
+    return af_cjk_hints_apply(glyph_index, hints, outline, metrics);
   }
 
 
@@ -93,14 +93,14 @@
   /* metrics class.                                             */
 
   static void
-  af_indic_get_standard_widths( AF_CJKMetrics  metrics,
+  af_indic_get_standard_widths(AF_CJKMetrics  metrics,
                                 FT_Pos*        stdHW,
-                                FT_Pos*        stdVW )
+                                FT_Pos*        stdVW)
   {
-    if ( stdHW )
+    if (stdHW)
       *stdHW = metrics->axis[AF_DIMENSION_VERT].standard_width;
 
-    if ( stdVW )
+    if (stdVW)
       *stdVW = metrics->axis[AF_DIMENSION_HORZ].standard_width;
   }
 
@@ -119,7 +119,7 @@
 
     AF_WRITING_SYSTEM_INDIC,
 
-    sizeof ( AF_CJKMetricsRec ),
+    sizeof (AF_CJKMetricsRec),
 
     (AF_WritingSystem_InitMetricsFunc) af_indic_metrics_init,
     (AF_WritingSystem_ScaleMetricsFunc)af_indic_metrics_scale,
@@ -128,7 +128,7 @@
 
     (AF_WritingSystem_InitHintsFunc)   af_indic_hints_init,
     (AF_WritingSystem_ApplyHintsFunc)  af_indic_hints_apply
-  )
+ )
 
 
 #else /* !AF_CONFIG_OPTION_INDIC */
@@ -139,7 +139,7 @@
 
     AF_WRITING_SYSTEM_INDIC,
 
-    sizeof ( AF_CJKMetricsRec ),
+    sizeof (AF_CJKMetricsRec),
 
     (AF_WritingSystem_InitMetricsFunc) NULL,
     (AF_WritingSystem_ScaleMetricsFunc)NULL,
@@ -148,7 +148,7 @@
 
     (AF_WritingSystem_InitHintsFunc)   NULL,
     (AF_WritingSystem_ApplyHintsFunc)  NULL
-  )
+ )
 
 
 #endif /* !AF_CONFIG_OPTION_INDIC */

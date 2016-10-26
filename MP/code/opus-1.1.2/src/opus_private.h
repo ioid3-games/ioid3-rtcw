@@ -98,7 +98,7 @@ opus_int32 compute_frame_size(const void *analysis_pcm, int frame_size,
 #ifndef DISABLE_FLOAT_API
       , float *subframe_mem
 #endif
-      );
+     );
 
 opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_size,
       unsigned char *data, opus_int32 out_data_bytes, int lsb_depth,

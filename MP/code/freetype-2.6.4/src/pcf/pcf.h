@@ -168,9 +168,9 @@ FT_BEGIN_HEADER
 #define LSBFirst  0
 #define MSBFirst  1
 
-#define PCF_FILE_VERSION        ( ( 'p' << 24 ) | \
-                                  ( 'c' << 16 ) | \
-                                  ( 'f' <<  8 ) | 1 )
+#define PCF_FILE_VERSION        (('p' << 24) | \
+                                  ('c' << 16) | \
+                                  ('f' <<  8) | 1)
 #define PCF_FORMAT_MASK         0xFFFFFF00UL
 
 #define PCF_DEFAULT_FORMAT      0x00000000UL
@@ -178,57 +178,57 @@ FT_BEGIN_HEADER
 #define PCF_ACCEL_W_INKBOUNDS   0x00000100UL
 #define PCF_COMPRESSED_METRICS  0x00000100UL
 
-#define PCF_FORMAT_MATCH( a, b ) \
-          ( ( (a) & PCF_FORMAT_MASK ) == ( (b) & PCF_FORMAT_MASK ) )
+#define PCF_FORMAT_MATCH(a, b) \
+          (((a) & PCF_FORMAT_MASK) == ((b) & PCF_FORMAT_MASK))
 
-#define PCF_GLYPH_PAD_MASK  ( 3 << 0 )
-#define PCF_BYTE_MASK       ( 1 << 2 )
-#define PCF_BIT_MASK        ( 1 << 3 )
-#define PCF_SCAN_UNIT_MASK  ( 3 << 4 )
+#define PCF_GLYPH_PAD_MASK  (3 << 0)
+#define PCF_BYTE_MASK       (1 << 2)
+#define PCF_BIT_MASK        (1 << 3)
+#define PCF_SCAN_UNIT_MASK  (3 << 4)
 
-#define PCF_BYTE_ORDER( f ) \
-          ( ( (f) & PCF_BYTE_MASK ) ? MSBFirst : LSBFirst )
-#define PCF_BIT_ORDER( f ) \
-          ( ( (f) & PCF_BIT_MASK ) ? MSBFirst : LSBFirst )
-#define PCF_GLYPH_PAD_INDEX( f ) \
-          ( (f) & PCF_GLYPH_PAD_MASK )
-#define PCF_GLYPH_PAD( f ) \
-          ( 1 << PCF_GLYPH_PAD_INDEX( f ) )
-#define PCF_SCAN_UNIT_INDEX( f ) \
-          ( ( (f) & PCF_SCAN_UNIT_MASK ) >> 4 )
-#define PCF_SCAN_UNIT( f ) \
-          ( 1 << PCF_SCAN_UNIT_INDEX( f ) )
-#define PCF_FORMAT_BITS( f )             \
-          ( (f) & ( PCF_GLYPH_PAD_MASK | \
+#define PCF_BYTE_ORDER(f) \
+          (((f) & PCF_BYTE_MASK) ? MSBFirst : LSBFirst)
+#define PCF_BIT_ORDER(f) \
+          (((f) & PCF_BIT_MASK) ? MSBFirst : LSBFirst)
+#define PCF_GLYPH_PAD_INDEX(f) \
+          ((f) & PCF_GLYPH_PAD_MASK)
+#define PCF_GLYPH_PAD(f) \
+          (1 << PCF_GLYPH_PAD_INDEX(f))
+#define PCF_SCAN_UNIT_INDEX(f) \
+          (((f) & PCF_SCAN_UNIT_MASK) >> 4)
+#define PCF_SCAN_UNIT(f) \
+          (1 << PCF_SCAN_UNIT_INDEX(f))
+#define PCF_FORMAT_BITS(f)             \
+          ((f) & (PCF_GLYPH_PAD_MASK | \
                     PCF_BYTE_MASK      | \
                     PCF_BIT_MASK       | \
-                    PCF_SCAN_UNIT_MASK ) )
+                    PCF_SCAN_UNIT_MASK))
 
-#define PCF_SIZE_TO_INDEX( s )  ( (s) == 4 ? 2 : (s) == 2 ? 1 : 0 )
-#define PCF_INDEX_TO_SIZE( b )  ( 1 << b )
+#define PCF_SIZE_TO_INDEX(s)  ((s) == 4 ? 2 : (s) == 2 ? 1 : 0)
+#define PCF_INDEX_TO_SIZE(b)  (1 << b)
 
-#define PCF_FORMAT( bit, byte, glyph, scan )          \
-          ( ( PCF_SIZE_TO_INDEX( scan )      << 4 ) | \
-            ( ( (bit)  == MSBFirst ? 1 : 0 ) << 3 ) | \
-            ( ( (byte) == MSBFirst ? 1 : 0 ) << 2 ) | \
-            ( PCF_SIZE_TO_INDEX( glyph )     << 0 ) )
+#define PCF_FORMAT(bit, byte, glyph, scan)          \
+          ((PCF_SIZE_TO_INDEX(scan)      << 4) | \
+            (((bit)  == MSBFirst ? 1 : 0) << 3) | \
+            (((byte) == MSBFirst ? 1 : 0) << 2) | \
+            (PCF_SIZE_TO_INDEX(glyph)     << 0))
 
-#define PCF_PROPERTIES        ( 1 << 0 )
-#define PCF_ACCELERATORS      ( 1 << 1 )
-#define PCF_METRICS           ( 1 << 2 )
-#define PCF_BITMAPS           ( 1 << 3 )
-#define PCF_INK_METRICS       ( 1 << 4 )
-#define PCF_BDF_ENCODINGS     ( 1 << 5 )
-#define PCF_SWIDTHS           ( 1 << 6 )
-#define PCF_GLYPH_NAMES       ( 1 << 7 )
-#define PCF_BDF_ACCELERATORS  ( 1 << 8 )
+#define PCF_PROPERTIES        (1 << 0)
+#define PCF_ACCELERATORS      (1 << 1)
+#define PCF_METRICS           (1 << 2)
+#define PCF_BITMAPS           (1 << 3)
+#define PCF_INK_METRICS       (1 << 4)
+#define PCF_BDF_ENCODINGS     (1 << 5)
+#define PCF_SWIDTHS           (1 << 6)
+#define PCF_GLYPH_NAMES       (1 << 7)
+#define PCF_BDF_ACCELERATORS  (1 << 8)
 
 #define GLYPHPADOPTIONS  4 /* I'm not sure about this */
 
-  FT_LOCAL( FT_Error )
-  pcf_load_font( FT_Stream  stream,
+  FT_LOCAL(FT_Error)
+  pcf_load_font(FT_Stream  stream,
                  PCF_Face   face,
-                 FT_Long    face_index );
+                 FT_Long    face_index);
 
 FT_END_HEADER
 

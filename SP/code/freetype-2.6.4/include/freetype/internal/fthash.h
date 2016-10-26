@@ -69,11 +69,11 @@ FT_BEGIN_HEADER
 
 
   typedef FT_ULong
-  (*FT_Hash_LookupFunc)( FT_Hashkey*  key );
+  (*FT_Hash_LookupFunc)(FT_Hashkey*  key);
 
   typedef FT_Bool
-  (*FT_Hash_CompareFunc)( FT_Hashkey*  a,
-                          FT_Hashkey*  b );
+  (*FT_Hash_CompareFunc)(FT_Hashkey*  a,
+                          FT_Hashkey*  b);
 
 
   typedef struct  FT_HashRec_
@@ -93,38 +93,38 @@ FT_BEGIN_HEADER
 
 
   FT_Error
-  ft_hash_str_init( FT_Hash    hash,
-                    FT_Memory  memory );
+  ft_hash_str_init(FT_Hash    hash,
+                    FT_Memory  memory);
 
   FT_Error
-  ft_hash_num_init( FT_Hash    hash,
-                    FT_Memory  memory );
+  ft_hash_num_init(FT_Hash    hash,
+                    FT_Memory  memory);
 
   void
-  ft_hash_str_free( FT_Hash    hash,
-                    FT_Memory  memory );
+  ft_hash_str_free(FT_Hash    hash,
+                    FT_Memory  memory);
 
 #define ft_hash_num_free  ft_hash_str_free
 
   FT_Error
-  ft_hash_str_insert( const char*  key,
+  ft_hash_str_insert(const char*  key,
                       size_t       data,
                       FT_Hash      hash,
-                      FT_Memory    memory );
+                      FT_Memory    memory);
 
   FT_Error
-  ft_hash_num_insert( FT_Int     num,
+  ft_hash_num_insert(FT_Int     num,
                       size_t     data,
                       FT_Hash    hash,
-                      FT_Memory  memory );
+                      FT_Memory  memory);
 
   size_t*
-  ft_hash_str_lookup( const char*  key,
-                      FT_Hash      hash );
+  ft_hash_str_lookup(const char*  key,
+                      FT_Hash      hash);
 
   size_t*
-  ft_hash_num_lookup( FT_Int   num,
-                      FT_Hash  hash );
+  ft_hash_num_lookup(FT_Int   num,
+                      FT_Hash  hash);
 
 
 FT_END_HEADER

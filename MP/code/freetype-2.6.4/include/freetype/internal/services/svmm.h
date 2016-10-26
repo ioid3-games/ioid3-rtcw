@@ -36,30 +36,30 @@ FT_BEGIN_HEADER
 
 
   typedef FT_Error
-  (*FT_Get_MM_Func)( FT_Face           face,
-                     FT_Multi_Master*  master );
+  (*FT_Get_MM_Func)(FT_Face           face,
+                     FT_Multi_Master*  master);
 
   typedef FT_Error
-  (*FT_Get_MM_Var_Func)( FT_Face      face,
-                         FT_MM_Var*  *master );
+  (*FT_Get_MM_Var_Func)(FT_Face      face,
+                         FT_MM_Var*  *master);
 
   typedef FT_Error
-  (*FT_Set_MM_Design_Func)( FT_Face   face,
+  (*FT_Set_MM_Design_Func)(FT_Face   face,
                             FT_UInt   num_coords,
-                            FT_Long*  coords );
+                            FT_Long*  coords);
 
   typedef FT_Error
-  (*FT_Set_Var_Design_Func)( FT_Face    face,
+  (*FT_Set_Var_Design_Func)(FT_Face    face,
                              FT_UInt    num_coords,
-                             FT_Fixed*  coords );
+                             FT_Fixed*  coords);
 
   typedef FT_Error
-  (*FT_Set_MM_Blend_Func)( FT_Face   face,
+  (*FT_Set_MM_Blend_Func)(FT_Face   face,
                            FT_UInt   num_coords,
-                           FT_Long*  coords );
+                           FT_Long*  coords);
 
 
-  FT_DEFINE_SERVICE( MultiMasters )
+  FT_DEFINE_SERVICE(MultiMasters)
   {
     FT_Get_MM_Func          get_mm;
     FT_Set_MM_Design_Func   set_mm_design;
@@ -71,12 +71,12 @@ FT_BEGIN_HEADER
 
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DEFINE_SERVICE_MULTIMASTERSREC( class_,                          \
+#define FT_DEFINE_SERVICE_MULTIMASTERSREC(class_,                          \
                                            get_mm_,                         \
                                            set_mm_design_,                  \
                                            set_mm_blend_,                   \
                                            get_mm_var_,                     \
-                                           set_var_design_ )                \
+                                           set_var_design_)                \
   static const FT_Service_MultiMastersRec  class_ =                         \
   {                                                                         \
     get_mm_, set_mm_design_, set_mm_blend_, get_mm_var_, set_var_design_    \
@@ -84,14 +84,14 @@ FT_BEGIN_HEADER
 
 #else /* FT_CONFIG_OPTION_PIC */
 
-#define FT_DEFINE_SERVICE_MULTIMASTERSREC( class_,                          \
+#define FT_DEFINE_SERVICE_MULTIMASTERSREC(class_,                          \
                                            get_mm_,                         \
                                            set_mm_design_,                  \
                                            set_mm_blend_,                   \
                                            get_mm_var_,                     \
-                                           set_var_design_ )                \
+                                           set_var_design_)                \
   void                                                                      \
-  FT_Init_Class_ ## class_( FT_Service_MultiMastersRec*  clazz )            \
+  FT_Init_Class_ ## class_(FT_Service_MultiMastersRec*  clazz)            \
   {                                                                         \
     clazz->get_mm         = get_mm_;                                        \
     clazz->set_mm_design  = set_mm_design_;                                 \

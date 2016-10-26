@@ -127,7 +127,7 @@ static OPUS_INLINE opus_int32 silk_SMLABB(opus_int32 a32, opus_int32 b32, opus_i
 }
 
 #undef silk_SMULBT
-static OPUS_INLINE opus_int32 silk_SMULBT(opus_int32 a32, opus_int32 b32 ){
+static OPUS_INLINE opus_int32 silk_SMULBT(opus_int32 a32, opus_int32 b32){
     opus_int32 ret;
     ops_count += 4;
     ret = ((opus_int32)((opus_int16)a32)) * (b32 >> 16);
@@ -206,19 +206,19 @@ static OPUS_INLINE opus_int32 SigProcFIX_CLZ16(opus_int16 in16)
 {
     opus_int32 out32 = 0;
     ops_count += 10;
-    if( in16 == 0 ) {
+    if(in16 == 0) {
         return 16;
     }
     /* test nibbles */
-    if( in16 & 0xFF00 ) {
-        if( in16 & 0xF000 ) {
+    if(in16 & 0xFF00) {
+        if(in16 & 0xF000) {
             in16 >>= 12;
         } else {
             out32 += 4;
             in16 >>= 8;
         }
     } else {
-        if( in16 & 0xFFF0 ) {
+        if(in16 & 0xFFF0) {
             out32 += 8;
             in16 >>= 4;
         } else {
@@ -226,13 +226,13 @@ static OPUS_INLINE opus_int32 SigProcFIX_CLZ16(opus_int16 in16)
         }
     }
     /* test bits and return */
-    if( in16 & 0xC ) {
-        if( in16 & 0x8 )
+    if(in16 & 0xC) {
+        if(in16 & 0x8)
             return out32 + 0;
         else
             return out32 + 1;
     } else {
-        if( in16 & 0xE )
+        if(in16 & 0xE)
             return out32 + 2;
         else
             return out32 + 3;
@@ -244,7 +244,7 @@ static OPUS_INLINE opus_int32 SigProcFIX_CLZ32(opus_int32 in32)
 {
     /* test highest 16 bits and convert to opus_int16 */
     ops_count += 2;
-    if( in32 & 0xFFFF0000 ) {
+    if(in32 & 0xFFFF0000) {
         return SigProcFIX_CLZ16((opus_int16)(in32 >> 16));
     } else {
         return SigProcFIX_CLZ16((opus_int16)in32) + 16;
@@ -494,7 +494,7 @@ static silk_max(a, b){
 #undef silk_sign
 static silk_sign(a){
     ops_count += 1;
-    return ((a) > 0 ? 1 : ( (a) < 0 ? -1 : 0 ));
+    return ((a) > 0 ? 1 : ((a) < 0 ? -1 : 0));
 }
 
 #undef    silk_ADD16
@@ -546,10 +546,10 @@ static OPUS_INLINE opus_int64 silk_SUB64(opus_int64 a, opus_int64 b){
 }
 
 #undef silk_ADD_SAT16
-static OPUS_INLINE opus_int16 silk_ADD_SAT16( opus_int16 a16, opus_int16 b16 ) {
+static OPUS_INLINE opus_int16 silk_ADD_SAT16(opus_int16 a16, opus_int16 b16) {
     opus_int16 res;
     /* Nb will be counted in AKP_add32 and silk_SAT16*/
-    res = (opus_int16)silk_SAT16( silk_ADD32( (opus_int32)(a16), (b16) ) );
+    res = (opus_int16)silk_SAT16(silk_ADD32((opus_int32)(a16), (b16)));
     return res;
 }
 
@@ -559,46 +559,46 @@ static OPUS_INLINE opus_int32 silk_ADD_SAT32(opus_int32 a32, opus_int32 b32){
     ops_count += 1;
     res =    ((((a32) + (b32)) & 0x80000000) == 0 ?                                    \
             ((((a32) & (b32)) & 0x80000000) != 0 ? silk_int32_MIN : (a32)+(b32)) :    \
-            ((((a32) | (b32)) & 0x80000000) == 0 ? silk_int32_MAX : (a32)+(b32)) );
+            ((((a32) | (b32)) & 0x80000000) == 0 ? silk_int32_MAX : (a32)+(b32)));
     return res;
 }
 
 #undef silk_ADD_SAT64
-static OPUS_INLINE opus_int64 silk_ADD_SAT64( opus_int64 a64, opus_int64 b64 ) {
+static OPUS_INLINE opus_int64 silk_ADD_SAT64(opus_int64 a64, opus_int64 b64) {
     opus_int64 res;
     ops_count += 1;
     res =    ((((a64) + (b64)) & 0x8000000000000000LL) == 0 ?                                \
             ((((a64) & (b64)) & 0x8000000000000000LL) != 0 ? silk_int64_MIN : (a64)+(b64)) :    \
-            ((((a64) | (b64)) & 0x8000000000000000LL) == 0 ? silk_int64_MAX : (a64)+(b64)) );
+            ((((a64) | (b64)) & 0x8000000000000000LL) == 0 ? silk_int64_MAX : (a64)+(b64)));
     return res;
 }
 
 #undef silk_SUB_SAT16
-static OPUS_INLINE opus_int16 silk_SUB_SAT16( opus_int16 a16, opus_int16 b16 ) {
+static OPUS_INLINE opus_int16 silk_SUB_SAT16(opus_int16 a16, opus_int16 b16) {
     opus_int16 res;
     silk_assert(0);
     /* Nb will be counted in sub-macros*/
-    res = (opus_int16)silk_SAT16( silk_SUB32( (opus_int32)(a16), (b16) ) );
+    res = (opus_int16)silk_SAT16(silk_SUB32((opus_int32)(a16), (b16)));
     return res;
 }
 
 #undef silk_SUB_SAT32
-static OPUS_INLINE opus_int32 silk_SUB_SAT32( opus_int32 a32, opus_int32 b32 ) {
+static OPUS_INLINE opus_int32 silk_SUB_SAT32(opus_int32 a32, opus_int32 b32) {
     opus_int32 res;
     ops_count += 1;
     res =     ((((a32)-(b32)) & 0x80000000) == 0 ?                                            \
-            (( (a32) & ((b32)^0x80000000) & 0x80000000) ? silk_int32_MIN : (a32)-(b32)) :    \
-            ((((a32)^0x80000000) & (b32)  & 0x80000000) ? silk_int32_MAX : (a32)-(b32)) );
+            (((a32) & ((b32)^0x80000000) & 0x80000000) ? silk_int32_MIN : (a32)-(b32)) :    \
+            ((((a32)^0x80000000) & (b32)  & 0x80000000) ? silk_int32_MAX : (a32)-(b32)));
     return res;
 }
 
 #undef silk_SUB_SAT64
-static OPUS_INLINE opus_int64 silk_SUB_SAT64( opus_int64 a64, opus_int64 b64 ) {
+static OPUS_INLINE opus_int64 silk_SUB_SAT64(opus_int64 a64, opus_int64 b64) {
     opus_int64 res;
     ops_count += 1;
     res =    ((((a64)-(b64)) & 0x8000000000000000LL) == 0 ?                                                        \
-            (( (a64) & ((b64)^0x8000000000000000LL) & 0x8000000000000000LL) ? silk_int64_MIN : (a64)-(b64)) :    \
-            ((((a64)^0x8000000000000000LL) & (b64)  & 0x8000000000000000LL) ? silk_int64_MAX : (a64)-(b64)) );
+            (((a64) & ((b64)^0x8000000000000000LL) & 0x8000000000000000LL) ? silk_int64_MIN : (a64)-(b64)) :    \
+            ((((a64)^0x8000000000000000LL) & (b64)  & 0x8000000000000000LL) ? silk_int64_MAX : (a64)-(b64)));
 
     return res;
 }

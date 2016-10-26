@@ -98,7 +98,7 @@ FT_BEGIN_HEADER
   /* FT_UNUSED is a macro used to indicate that a given parameter is not  */
   /* used -- this is only used to get rid of unpleasant compiler warnings */
 #ifndef FT_UNUSED
-#define FT_UNUSED( arg )  ( (arg) = (arg) )
+#define FT_UNUSED(arg)  ((arg) = (arg))
 #endif
 
 
@@ -120,7 +120,7 @@ FT_BEGIN_HEADER
   /*   This is the only necessary change, so it is defined here instead    */
   /*   providing a new configuration file.                                 */
   /*                                                                       */
-#if defined( __APPLE__ ) || ( defined( __MWERKS__ ) && defined( macintosh ) )
+#if defined(__APPLE__) || (defined(__MWERKS__) && defined(macintosh))
   /* no Carbon frameworks for 64bit 10.4.x */
   /* AvailabilityMacros.h is available since Mac OS X 10.2,        */
   /* so guess the system version by maximum errno before inclusion */
@@ -128,12 +128,12 @@ FT_BEGIN_HEADER
 #ifdef ECANCELED /* defined since 10.2 */
 #include "AvailabilityMacros.h"
 #endif
-#if defined( __LP64__ ) && \
-    ( MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_4 )
+#if defined(__LP64__) && \
+    (MAC_OS_X_VERSION_MIN_REQUIRED <= MAC_OS_X_VERSION_10_4)
 #undef FT_MACINTOSH
 #endif
 
-#elif defined( __SC__ ) || defined( __MRC__ )
+#elif defined(__SC__) || defined(__MRC__)
   /* Classic MacOS compilers */
 #include "ConditionalMacros.h"
 #if TARGET_OS_MAC
@@ -273,22 +273,22 @@ FT_BEGIN_HEADER
   /* types if __STDC__ is defined.  You can however ignore this rule       */
   /* by defining the FT_CONFIG_OPTION_FORCE_INT64 configuration macro.     */
   /*                                                                       */
-#elif !defined( __STDC__ ) || defined( FT_CONFIG_OPTION_FORCE_INT64 )
+#elif !defined(__STDC__) || defined(FT_CONFIG_OPTION_FORCE_INT64)
 
-#if defined( __STDC_VERSION__ ) && __STDC_VERSION__ >= 199901L
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
 
 #define FT_LONG64
 #define FT_INT64   long long int
 #define FT_UINT64  unsigned long long int
 
-#elif defined( _MSC_VER ) && _MSC_VER >= 900  /* Visual C++ (and Intel C++) */
+#elif defined(_MSC_VER) && _MSC_VER >= 900  /* Visual C++ (and Intel C++) */
 
   /* this compiler provides the __int64 type */
 #define FT_LONG64
 #define FT_INT64   __int64
 #define FT_UINT64  unsigned __int64
 
-#elif defined( __BORLANDC__ )  /* Borland C++ */
+#elif defined(__BORLANDC__)  /* Borland C++ */
 
   /* XXXX: We should probably check the value of __BORLANDC__ in order */
   /*       to test the compiler version.                               */
@@ -298,17 +298,17 @@ FT_BEGIN_HEADER
 #define FT_INT64   __int64
 #define FT_UINT64  unsigned __int64
 
-#elif defined( __WATCOMC__ )   /* Watcom C++ */
+#elif defined(__WATCOMC__)   /* Watcom C++ */
 
   /* Watcom doesn't provide 64-bit data types */
 
-#elif defined( __MWERKS__ )    /* Metrowerks CodeWarrior */
+#elif defined(__MWERKS__)    /* Metrowerks CodeWarrior */
 
 #define FT_LONG64
 #define FT_INT64   long long int
 #define FT_UINT64  unsigned long long int
 
-#elif defined( __GNUC__ )
+#elif defined(__GNUC__)
 
   /* GCC provides the `long long' type */
 #define FT_LONG64
@@ -333,47 +333,47 @@ FT_BEGIN_HEADER
 
 
 #define FT_BEGIN_STMNT  do {
-#define FT_END_STMNT    } while ( 0 )
+#define FT_END_STMNT    } while (0)
 #define FT_DUMMY_STMNT  FT_BEGIN_STMNT FT_END_STMNT
 
 
   /* typeof condition taken from gnulib's `intprops.h' header file */
-#if ( __GNUC__ >= 2                         || \
-      defined( __IBM__TYPEOF__ )            || \
-      ( __SUNPRO_C >= 0x5110 && !__STDC__ ) )
-#define FT_TYPEOF( type )  (__typeof__ (type))
+#if (__GNUC__ >= 2                         || \
+      defined(__IBM__TYPEOF__)            || \
+      (__SUNPRO_C >= 0x5110 && !__STDC__))
+#define FT_TYPEOF(type)  (__typeof__ (type))
 #else
-#define FT_TYPEOF( type )  /* empty */
+#define FT_TYPEOF(type)  /* empty */
 #endif
 
 
 #ifdef FT_MAKE_OPTION_SINGLE_OBJECT
 
-#define FT_LOCAL( x )      static  x
-#define FT_LOCAL_DEF( x )  static  x
+#define FT_LOCAL(x)      static  x
+#define FT_LOCAL_DEF(x)  static  x
 
 #else
 
 #ifdef __cplusplus
-#define FT_LOCAL( x )      extern "C"  x
-#define FT_LOCAL_DEF( x )  extern "C"  x
+#define FT_LOCAL(x)      extern "C"  x
+#define FT_LOCAL_DEF(x)  extern "C"  x
 #else
-#define FT_LOCAL( x )      extern  x
-#define FT_LOCAL_DEF( x )  x
+#define FT_LOCAL(x)      extern  x
+#define FT_LOCAL_DEF(x)  x
 #endif
 
 #endif /* FT_MAKE_OPTION_SINGLE_OBJECT */
 
-#define FT_LOCAL_ARRAY( x )      extern const  x
-#define FT_LOCAL_ARRAY_DEF( x )  const  x
+#define FT_LOCAL_ARRAY(x)      extern const  x
+#define FT_LOCAL_ARRAY_DEF(x)  const  x
 
 
 #ifndef FT_BASE
 
 #ifdef __cplusplus
-#define FT_BASE( x )  extern "C"  x
+#define FT_BASE(x)  extern "C"  x
 #else
-#define FT_BASE( x )  extern  x
+#define FT_BASE(x)  extern  x
 #endif
 
 #endif /* !FT_BASE */
@@ -382,9 +382,9 @@ FT_BEGIN_HEADER
 #ifndef FT_BASE_DEF
 
 #ifdef __cplusplus
-#define FT_BASE_DEF( x )  x
+#define FT_BASE_DEF(x)  x
 #else
-#define FT_BASE_DEF( x )  x
+#define FT_BASE_DEF(x)  x
 #endif
 
 #endif /* !FT_BASE_DEF */
@@ -393,9 +393,9 @@ FT_BEGIN_HEADER
 #ifndef FT_EXPORT
 
 #ifdef __cplusplus
-#define FT_EXPORT( x )  extern "C"  x
+#define FT_EXPORT(x)  extern "C"  x
 #else
-#define FT_EXPORT( x )  extern  x
+#define FT_EXPORT(x)  extern  x
 #endif
 
 #endif /* !FT_EXPORT */
@@ -404,9 +404,9 @@ FT_BEGIN_HEADER
 #ifndef FT_EXPORT_DEF
 
 #ifdef __cplusplus
-#define FT_EXPORT_DEF( x )  extern "C"  x
+#define FT_EXPORT_DEF(x)  extern "C"  x
 #else
-#define FT_EXPORT_DEF( x )  extern  x
+#define FT_EXPORT_DEF(x)  extern  x
 #endif
 
 #endif /* !FT_EXPORT_DEF */
@@ -415,9 +415,9 @@ FT_BEGIN_HEADER
 #ifndef FT_EXPORT_VAR
 
 #ifdef __cplusplus
-#define FT_EXPORT_VAR( x )  extern "C"  x
+#define FT_EXPORT_VAR(x)  extern "C"  x
 #else
-#define FT_EXPORT_VAR( x )  extern  x
+#define FT_EXPORT_VAR(x)  extern  x
 #endif
 
 #endif /* !FT_EXPORT_VAR */
@@ -447,9 +447,9 @@ FT_BEGIN_HEADER
   /*                                                                 */
 #ifndef FT_CALLBACK_DEF
 #ifdef __cplusplus
-#define FT_CALLBACK_DEF( x )  extern "C"  x
+#define FT_CALLBACK_DEF(x)  extern "C"  x
 #else
-#define FT_CALLBACK_DEF( x )  static  x
+#define FT_CALLBACK_DEF(x)  static  x
 #endif
 #endif /* FT_CALLBACK_DEF */
 

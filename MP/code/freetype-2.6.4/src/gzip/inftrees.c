@@ -37,7 +37,7 @@ local int huft_build OF((
     uIntf *,            /* maximum lookup bits (returns actual) */
     inflate_huft *,     /* space for trees */
     uInt *,             /* hufts used in space */
-    uIntf * ));         /* space for values */
+    uIntf *));         /* space for values */
 
 /* Tables for deflate from PKZIP's appnote.txt. */
 local const uInt cplens[31] = { /* Copy lengths for literal codes 257..285 */
@@ -92,7 +92,7 @@ local const uInt cpdext[30] = { /* Extra bits for distance codes */
 /* If BMAX needs to be larger than 16, then h and x[] should be uLong. */
 #define BMAX 15         /* maximum bit length of any code */
 
-local int huft_build( /* b, n, s, d, e, t, m, hp, hn, v) */
+local int huft_build(/* b, n, s, d, e, t, m, hp, hn, v) */
 uIntf *b,               /* code lengths in bits (all assumed <= BMAX) */
 uInt n,                 /* number of codes (assumed <= 288) */
 uInt s,                 /* number of simple-valued codes (0..s-1) */
@@ -296,7 +296,7 @@ uIntf *v                /* working area: values in order of bit length */
 }
 
 
-local int inflate_trees_bits( /* c, bb, tb, hp, z) */
+local int inflate_trees_bits(/* c, bb, tb, hp, z) */
 uIntf *c,               /* 19 code lengths */
 uIntf *bb,              /* bits tree desired/actual depth */
 inflate_huft * FAR *tb, /* bits tree result */
@@ -324,7 +324,7 @@ z_streamp z             /* for messages */
 }
 
 
-local int inflate_trees_dynamic( /* nl, nd, c, bl, bd, tl, td, hp, z) */
+local int inflate_trees_dynamic(/* nl, nd, c, bl, bd, tl, td, hp, z) */
 uInt nl,                /* number of literal/length codes */
 uInt nd,                /* number of distance codes */
 uIntf *c,               /* that many (total) code lengths */
@@ -406,7 +406,7 @@ local inflate_huft *fixed_td;
 #endif
 
 
-local int inflate_trees_fixed( /* bl, bd, tl, td, z) */
+local int inflate_trees_fixed(/* bl, bd, tl, td, z) */
 uIntf *bl,                      /* literal desired/actual bit depth */
 uIntf *bd,                      /* distance desired/actual bit depth */
 const inflate_huft * FAR *tl,   /* literal/length tree result */

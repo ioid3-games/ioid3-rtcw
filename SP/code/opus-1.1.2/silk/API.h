@@ -55,14 +55,14 @@ typedef struct {
 /***********************************************/
 /* Get size in bytes of the Silk encoder state */
 /***********************************************/
-opus_int silk_Get_Encoder_Size(                         /* O    Returns error code                              */
+opus_int silk_Get_Encoder_Size(                        /* O    Returns error code                              */
     opus_int                        *encSizeBytes       /* O    Number of bytes in SILK encoder state           */
 );
 
 /*************************/
 /* Init or reset encoder */
 /*************************/
-opus_int silk_InitEncoder(                              /* O    Returns error code                              */
+opus_int silk_InitEncoder(                             /* O    Returns error code                              */
     void                            *encState,          /* I/O  State                                           */
     int                              arch,              /* I    Run-time architecture                           */
     silk_EncControlStruct           *encStatus          /* O    Encoder Status                                  */
@@ -73,7 +73,7 @@ opus_int silk_InitEncoder(                              /* O    Returns error co
 /**************************/
 /* Note: if prefillFlag is set, the input must contain 10 ms of audio, irrespective of what                     */
 /* encControl->payloadSize_ms is set to                                                                         */
-opus_int silk_Encode(                                   /* O    Returns error code                              */
+opus_int silk_Encode(                                  /* O    Returns error code                              */
     void                            *encState,          /* I/O  State                                           */
     silk_EncControlStruct           *encControl,        /* I    Control status                                  */
     const opus_int16                *samplesIn,         /* I    Speech sample input vector                      */
@@ -90,21 +90,21 @@ opus_int silk_Encode(                                   /* O    Returns error co
 /***********************************************/
 /* Get size in bytes of the Silk decoder state */
 /***********************************************/
-opus_int silk_Get_Decoder_Size(                         /* O    Returns error code                              */
+opus_int silk_Get_Decoder_Size(                        /* O    Returns error code                              */
     opus_int                        *decSizeBytes       /* O    Number of bytes in SILK decoder state           */
 );
 
 /*************************/
 /* Init or Reset decoder */
 /*************************/
-opus_int silk_InitDecoder(                              /* O    Returns error code                              */
+opus_int silk_InitDecoder(                             /* O    Returns error code                              */
     void                            *decState           /* I/O  State                                           */
 );
 
 /******************/
 /* Decode a frame */
 /******************/
-opus_int silk_Decode(                                   /* O    Returns error code                              */
+opus_int silk_Decode(                                  /* O    Returns error code                              */
     void*                           decState,           /* I/O  State                                           */
     silk_DecControlStruct*          decControl,         /* I/O  Control Structure                               */
     opus_int                        lostFlag,           /* I    0: no loss, 1 loss, 2 decode fec                */

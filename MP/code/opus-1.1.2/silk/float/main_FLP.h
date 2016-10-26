@@ -210,7 +210,7 @@ void silk_quant_LTP_gains_FLP(
 );
 
 /* Residual energy: nrg = wxx - 2 * wXx * c + c' * wXX * c */
-silk_float silk_residual_energy_covar_FLP(                              /* O    Weighted residual energy                    */
+silk_float silk_residual_energy_covar_FLP(                             /* O    Weighted residual energy                    */
     const silk_float                *c,                                 /* I    Filter coefficients                         */
     silk_float                      *wXX,                               /* I/O  Weighted correlation matrix, reg. out       */
     const silk_float                *wXx,                               /* I    Weighted correlation vector                 */

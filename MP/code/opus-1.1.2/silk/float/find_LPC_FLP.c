@@ -56,37 +56,37 @@ void silk_find_LPC_FLP(
     psEncC->indices.NLSFInterpCoef_Q2 = 4;
 
     /* Burg AR analysis for the full frame */
-    res_nrg = silk_burg_modified_FLP( a, x, minInvGain, subfr_length, psEncC->nb_subfr, psEncC->predictLPCOrder );
+    res_nrg = silk_burg_modified_FLP(a, x, minInvGain, subfr_length, psEncC->nb_subfr, psEncC->predictLPCOrder);
 
-    if( psEncC->useInterpolatedNLSFs && !psEncC->first_frame_after_reset && psEncC->nb_subfr == MAX_NB_SUBFR ) {
+    if(psEncC->useInterpolatedNLSFs && !psEncC->first_frame_after_reset && psEncC->nb_subfr == MAX_NB_SUBFR) {
         /* Optimal solution for last 10 ms; subtract residual energy here, as that's easier than        */
         /* adding it to the residual energy of the first 10 ms in each iteration of the search below    */
-        res_nrg -= silk_burg_modified_FLP( a_tmp, x + ( MAX_NB_SUBFR / 2 ) * subfr_length, minInvGain, subfr_length, MAX_NB_SUBFR / 2, psEncC->predictLPCOrder );
+        res_nrg -= silk_burg_modified_FLP(a_tmp, x + (MAX_NB_SUBFR / 2) * subfr_length, minInvGain, subfr_length, MAX_NB_SUBFR / 2, psEncC->predictLPCOrder);
 
         /* Convert to NLSFs */
-        silk_A2NLSF_FLP( NLSF_Q15, a_tmp, psEncC->predictLPCOrder );
+        silk_A2NLSF_FLP(NLSF_Q15, a_tmp, psEncC->predictLPCOrder);
 
         /* Search over interpolation indices to find the one with lowest residual energy */
         res_nrg_2nd = silk_float_MAX;
-        for( k = 3; k >= 0; k-- ) {
+        for(k = 3; k >= 0; k--) {
             /* Interpolate NLSFs for first half */
-            silk_interpolate( NLSF0_Q15, psEncC->prev_NLSFq_Q15, NLSF_Q15, k, psEncC->predictLPCOrder );
+            silk_interpolate(NLSF0_Q15, psEncC->prev_NLSFq_Q15, NLSF_Q15, k, psEncC->predictLPCOrder);
 
             /* Convert to LPC for residual energy evaluation */
-            silk_NLSF2A_FLP( a_tmp, NLSF0_Q15, psEncC->predictLPCOrder );
+            silk_NLSF2A_FLP(a_tmp, NLSF0_Q15, psEncC->predictLPCOrder);
 
             /* Calculate residual energy with LSF interpolation */
-            silk_LPC_analysis_filter_FLP( LPC_res, a_tmp, x, 2 * subfr_length, psEncC->predictLPCOrder );
+            silk_LPC_analysis_filter_FLP(LPC_res, a_tmp, x, 2 * subfr_length, psEncC->predictLPCOrder);
             res_nrg_interp = (silk_float)(
-                silk_energy_FLP( LPC_res + psEncC->predictLPCOrder,                subfr_length - psEncC->predictLPCOrder ) +
-                silk_energy_FLP( LPC_res + psEncC->predictLPCOrder + subfr_length, subfr_length - psEncC->predictLPCOrder ) );
+                silk_energy_FLP(LPC_res + psEncC->predictLPCOrder,                subfr_length - psEncC->predictLPCOrder) +
+                silk_energy_FLP(LPC_res + psEncC->predictLPCOrder + subfr_length, subfr_length - psEncC->predictLPCOrder));
 
             /* Determine whether current interpolated NLSFs are best so far */
-            if( res_nrg_interp < res_nrg ) {
+            if(res_nrg_interp < res_nrg) {
                 /* Interpolation has lower residual energy */
                 res_nrg = res_nrg_interp;
                 psEncC->indices.NLSFInterpCoef_Q2 = (opus_int8)k;
-            } else if( res_nrg_interp > res_nrg_2nd ) {
+            } else if(res_nrg_interp > res_nrg_2nd) {
                 /* No reason to continue iterating - residual energies will continue to climb */
                 break;
             }
@@ -94,11 +94,11 @@ void silk_find_LPC_FLP(
         }
     }
 
-    if( psEncC->indices.NLSFInterpCoef_Q2 == 4 ) {
+    if(psEncC->indices.NLSFInterpCoef_Q2 == 4) {
         /* NLSF interpolation is currently inactive, calculate NLSFs from full frame AR coefficients */
-        silk_A2NLSF_FLP( NLSF_Q15, a, psEncC->predictLPCOrder );
+        silk_A2NLSF_FLP(NLSF_Q15, a, psEncC->predictLPCOrder);
     }
 
-    silk_assert( psEncC->indices.NLSFInterpCoef_Q2 == 4 ||
-        ( psEncC->useInterpolatedNLSFs && !psEncC->first_frame_after_reset && psEncC->nb_subfr == MAX_NB_SUBFR ) );
+    silk_assert(psEncC->indices.NLSFInterpCoef_Q2 == 4 ||
+        (psEncC->useInterpolatedNLSFs && !psEncC->first_frame_after_reset && psEncC->nb_subfr == MAX_NB_SUBFR));
 }

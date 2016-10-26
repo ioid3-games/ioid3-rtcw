@@ -45,18 +45,18 @@ extern "C"
 void silk_bwexpander_FLP(
     silk_float          *ar,                /* I/O  AR filter to be expanded (without leading 1)                */
     const opus_int      d,                  /* I    length of ar                                                */
-    const silk_float    chirp               /* I    chirp factor (typically in range (0..1) )                   */
+    const silk_float    chirp               /* I    chirp factor (typically in range (0..1))                   */
 );
 
 /* compute inverse of LPC prediction gain, and                          */
 /* test if LPC coefficients are stable (all poles within unit circle)   */
 /* this code is based on silk_FLP_a2k()                                 */
-silk_float silk_LPC_inverse_pred_gain_FLP(  /* O    return inverse prediction gain, energy domain               */
+silk_float silk_LPC_inverse_pred_gain_FLP( /* O    return inverse prediction gain, energy domain               */
     const silk_float    *A,                 /* I    prediction coefficients [order]                             */
     opus_int32          order               /* I    prediction order                                            */
 );
 
-silk_float silk_schur_FLP(                  /* O    returns residual energy                                     */
+silk_float silk_schur_FLP(                 /* O    returns residual energy                                     */
     silk_float          refl_coef[],        /* O    reflection coefficients (length order)                      */
     const silk_float    auto_corr[],        /* I    autocorrelation sequence (length order+1)                   */
     opus_int            order               /* I    order                                                       */
@@ -69,7 +69,7 @@ void silk_k2a_FLP(
 );
 
 /* Solve the normal equations using the Levinson-Durbin recursion */
-silk_float silk_levinsondurbin_FLP(         /* O    prediction error energy                                     */
+silk_float silk_levinsondurbin_FLP(        /* O    prediction error energy                                     */
     silk_float          A[],                /* O    prediction coefficients [order]                             */
     const silk_float    corr[],             /* I    input auto-correlations [order + 1]                         */
     const opus_int      order               /* I    prediction order                                            */
@@ -83,7 +83,7 @@ void silk_autocorrelation_FLP(
     opus_int            correlationCount    /* I    number of correlation taps to compute                       */
 );
 
-opus_int silk_pitch_analysis_core_FLP(      /* O    Voicing estimate: 0 voiced, 1 unvoiced                      */
+opus_int silk_pitch_analysis_core_FLP(     /* O    Voicing estimate: 0 voiced, 1 unvoiced                      */
     const silk_float    *frame,             /* I    Signal of length PE_FRAME_LENGTH_MS*Fs_kHz                  */
     opus_int            *pitch_out,         /* O    Pitch lag values [nb_subfr]                                 */
     opus_int16          *lagIndex,          /* O    Lag Index                                                   */
@@ -106,7 +106,7 @@ void silk_insertion_sort_decreasing_FLP(
 );
 
 /* Compute reflection coefficients from input signal */
-silk_float silk_burg_modified_FLP(          /* O    returns residual energy                                     */
+silk_float silk_burg_modified_FLP(         /* O    returns residual energy                                     */
     silk_float          A[],                /* O    prediction coefficients (length order)                      */
     const silk_float    x[],                /* I    input signal, length: nb_subfr*(D+L_sub)                    */
     const silk_float    minInvGain,         /* I    minimum inverse prediction gain                             */
@@ -149,20 +149,20 @@ double silk_energy_FLP(
 
 #define PI              (3.1415926536f)
 
-#define silk_min_float( a, b )                  (((a) < (b)) ? (a) :  (b))
-#define silk_max_float( a, b )                  (((a) > (b)) ? (a) :  (b))
-#define silk_abs_float( a )                     ((silk_float)fabs(a))
+#define silk_min_float(a, b)                  (((a) < (b)) ? (a) :  (b))
+#define silk_max_float(a, b)                  (((a) > (b)) ? (a) :  (b))
+#define silk_abs_float(a)                     ((silk_float)fabs(a))
 
 /* sigmoid function */
-static OPUS_INLINE silk_float silk_sigmoid( silk_float x )
+static OPUS_INLINE silk_float silk_sigmoid(silk_float x)
 {
     return (silk_float)(1.0 / (1.0 + exp(-x)));
 }
 
 /* floating-point to integer conversion (rounding) */
-static OPUS_INLINE opus_int32 silk_float2int( silk_float x )
+static OPUS_INLINE opus_int32 silk_float2int(silk_float x)
 {
-    return (opus_int32)float2int( x );
+    return (opus_int32)float2int(x);
 }
 
 /* floating-point to integer conversion (rounding) */
@@ -173,8 +173,8 @@ static OPUS_INLINE void silk_float2short_array(
 )
 {
     opus_int32 k;
-    for( k = length - 1; k >= 0; k-- ) {
-        out[k] = silk_SAT16( (opus_int32)float2int( in[k] ) );
+    for(k = length - 1; k >= 0; k--) {
+        out[k] = silk_SAT16((opus_int32)float2int(in[k]));
     }
 }
 
@@ -186,15 +186,15 @@ static OPUS_INLINE void silk_short2float_array(
 )
 {
     opus_int32 k;
-    for( k = length - 1; k >= 0; k-- ) {
+    for(k = length - 1; k >= 0; k--) {
         out[k] = (silk_float)in[k];
     }
 }
 
 /* using log2() helps the fixed-point conversion */
-static OPUS_INLINE silk_float silk_log2( double x )
+static OPUS_INLINE silk_float silk_log2(double x)
 {
-    return ( silk_float )( 3.32192809488736 * log10( x ) );
+    return (silk_float)(3.32192809488736 * log10(x));
 }
 
 #ifdef  __cplusplus

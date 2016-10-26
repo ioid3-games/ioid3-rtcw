@@ -30,14 +30,14 @@
   extern "C" {
 #endif
   extern void
-  af_glyph_hints_dump_segments( AF_GlyphHints  hints,
-                                FT_Bool        to_stdout );
+  af_glyph_hints_dump_segments(AF_GlyphHints  hints,
+                                FT_Bool        to_stdout);
   extern void
-  af_glyph_hints_dump_points( AF_GlyphHints  hints,
-                              FT_Bool        to_stdout );
+  af_glyph_hints_dump_points(AF_GlyphHints  hints,
+                              FT_Bool        to_stdout);
   extern void
-  af_glyph_hints_dump_edges( AF_GlyphHints  hints,
-                             FT_Bool        to_stdout );
+  af_glyph_hints_dump_edges(AF_GlyphHints  hints,
+                             FT_Bool        to_stdout);
 #ifdef __cplusplus
   }
 #endif
@@ -71,24 +71,24 @@
 
 
   static FT_Error
-  af_property_get_face_globals( FT_Face          face,
+  af_property_get_face_globals(FT_Face          face,
                                 AF_FaceGlobals*  aglobals,
-                                AF_Module        module )
+                                AF_Module        module)
   {
     FT_Error        error = FT_Err_Ok;
     AF_FaceGlobals  globals;
 
 
-    if ( !face )
-      return FT_THROW( Invalid_Face_Handle );
+    if (!face)
+      return FT_THROW(Invalid_Face_Handle);
 
     globals = (AF_FaceGlobals)face->autohint.data;
-    if ( !globals )
+    if (!globals)
     {
       /* trigger computation of the global style data */
       /* in case it hasn't been done yet              */
-      error = af_face_globals_new( face, &globals, module );
-      if ( !error )
+      error = af_face_globals_new(face, &globals, module);
+      if (!error)
       {
         face->autohint.data =
           (FT_Pointer)globals;
@@ -97,7 +97,7 @@
       }
     }
 
-    if ( !error )
+    if (!error)
       *aglobals = globals;
 
     return error;
@@ -105,15 +105,15 @@
 
 
   static FT_Error
-  af_property_set( FT_Module    ft_module,
+  af_property_set(FT_Module    ft_module,
                    const char*  property_name,
-                   const void*  value )
+                   const void*  value)
   {
     FT_Error   error  = FT_Err_Ok;
     AF_Module  module = (AF_Module)ft_module;
 
 
-    if ( !ft_strcmp( property_name, "fallback-script" ) )
+    if (!ft_strcmp(property_name, "fallback-script"))
     {
       FT_UInt*  fallback_script = (FT_UInt*)value;
 
@@ -123,29 +123,29 @@
       /* We translate the fallback script to a fallback style that uses */
       /* `fallback-script' as its script and `AF_COVERAGE_NONE' as its  */
       /* coverage value.                                                */
-      for ( ss = 0; AF_STYLE_CLASSES_GET[ss]; ss++ )
+      for (ss = 0; AF_STYLE_CLASSES_GET[ss]; ss++)
       {
         AF_StyleClass  style_class = AF_STYLE_CLASSES_GET[ss];
 
 
-        if ( (FT_UInt)style_class->script == *fallback_script &&
-             style_class->coverage == AF_COVERAGE_DEFAULT     )
+        if ((FT_UInt)style_class->script == *fallback_script &&
+             style_class->coverage == AF_COVERAGE_DEFAULT    )
         {
           module->fallback_style = ss;
           break;
         }
       }
 
-      if ( !AF_STYLE_CLASSES_GET[ss] )
+      if (!AF_STYLE_CLASSES_GET[ss])
       {
-        FT_TRACE0(( "af_property_set: Invalid value %d for property `%s'\n",
-                    fallback_script, property_name ));
-        return FT_THROW( Invalid_Argument );
+        FT_TRACE0(("af_property_set: Invalid value %d for property `%s'\n",
+                    fallback_script, property_name));
+        return FT_THROW(Invalid_Argument);
       }
 
       return error;
     }
-    else if ( !ft_strcmp( property_name, "default-script" ) )
+    else if (!ft_strcmp(property_name, "default-script"))
     {
       FT_UInt*  default_script = (FT_UInt*)value;
 
@@ -154,20 +154,20 @@
 
       return error;
     }
-    else if ( !ft_strcmp( property_name, "increase-x-height" ) )
+    else if (!ft_strcmp(property_name, "increase-x-height"))
     {
       FT_Prop_IncreaseXHeight*  prop = (FT_Prop_IncreaseXHeight*)value;
       AF_FaceGlobals            globals;
 
 
-      error = af_property_get_face_globals( prop->face, &globals, module );
-      if ( !error )
+      error = af_property_get_face_globals(prop->face, &globals, module);
+      if (!error)
         globals->increase_x_height = prop->limit;
 
       return error;
     }
 #ifdef AF_CONFIG_OPTION_USE_WARPER
-    else if ( !ft_strcmp( property_name, "warping" ) )
+    else if (!ft_strcmp(property_name, "warping"))
     {
       FT_Bool*  warping = (FT_Bool*)value;
 
@@ -177,7 +177,7 @@
       return error;
     }
 #endif /* AF_CONFIG_OPTION_USE_WARPER */
-    else if ( !ft_strcmp( property_name, "darkening-parameters" ) )
+    else if (!ft_strcmp(property_name, "darkening-parameters"))
     {
       FT_Int*  darken_params = (FT_Int*)value;
 
@@ -191,11 +191,11 @@
       FT_Int  y4 = darken_params[7];
 
 
-      if ( x1 < 0   || x2 < 0   || x3 < 0   || x4 < 0   ||
+      if (x1 < 0   || x2 < 0   || x3 < 0   || x4 < 0   ||
            y1 < 0   || y2 < 0   || y3 < 0   || y4 < 0   ||
            x1 > x2  || x2 > x3  || x3 > x4              ||
-           y1 > 500 || y2 > 500 || y3 > 500 || y4 > 500 )
-        return FT_THROW( Invalid_Argument );
+           y1 > 500 || y2 > 500 || y3 > 500 || y4 > 500)
+        return FT_THROW(Invalid_Argument);
 
       module->darken_params[0] = x1;
       module->darken_params[1] = y1;
@@ -208,7 +208,7 @@
 
       return error;
     }
-    else if ( !ft_strcmp( property_name, "no-stem-darkening" ) )
+    else if (!ft_strcmp(property_name, "no-stem-darkening"))
     {
       FT_Bool*  no_stem_darkening = (FT_Bool*)value;
 
@@ -218,16 +218,16 @@
       return error;
     }
 
-    FT_TRACE0(( "af_property_set: missing property `%s'\n",
-                property_name ));
-    return FT_THROW( Missing_Property );
+    FT_TRACE0(("af_property_set: missing property `%s'\n",
+                property_name));
+    return FT_THROW(Missing_Property);
   }
 
 
   static FT_Error
-  af_property_get( FT_Module    ft_module,
+  af_property_get(FT_Module    ft_module,
                    const char*  property_name,
-                   void*        value )
+                   void*        value)
   {
     FT_Error   error          = FT_Err_Ok;
     AF_Module  module         = (AF_Module)ft_module;
@@ -238,19 +238,19 @@
 #endif
 
 
-    if ( !ft_strcmp( property_name, "glyph-to-script-map" ) )
+    if (!ft_strcmp(property_name, "glyph-to-script-map"))
     {
       FT_Prop_GlyphToScriptMap*  prop = (FT_Prop_GlyphToScriptMap*)value;
       AF_FaceGlobals             globals;
 
 
-      error = af_property_get_face_globals( prop->face, &globals, module );
-      if ( !error )
+      error = af_property_get_face_globals(prop->face, &globals, module);
+      if (!error)
         prop->map = globals->glyph_styles;
 
       return error;
     }
-    else if ( !ft_strcmp( property_name, "fallback-script" ) )
+    else if (!ft_strcmp(property_name, "fallback-script"))
     {
       FT_UInt*  val = (FT_UInt*)value;
 
@@ -261,7 +261,7 @@
 
       return error;
     }
-    else if ( !ft_strcmp( property_name, "default-script" ) )
+    else if (!ft_strcmp(property_name, "default-script"))
     {
       FT_UInt*  val = (FT_UInt*)value;
 
@@ -270,20 +270,20 @@
 
       return error;
     }
-    else if ( !ft_strcmp( property_name, "increase-x-height" ) )
+    else if (!ft_strcmp(property_name, "increase-x-height"))
     {
       FT_Prop_IncreaseXHeight*  prop = (FT_Prop_IncreaseXHeight*)value;
       AF_FaceGlobals            globals;
 
 
-      error = af_property_get_face_globals( prop->face, &globals, module );
-      if ( !error )
+      error = af_property_get_face_globals(prop->face, &globals, module);
+      if (!error)
         prop->limit = globals->increase_x_height;
 
       return error;
     }
 #ifdef AF_CONFIG_OPTION_USE_WARPER
-    else if ( !ft_strcmp( property_name, "warping" ) )
+    else if (!ft_strcmp(property_name, "warping"))
     {
       FT_Bool*  val = (FT_Bool*)value;
 
@@ -293,7 +293,7 @@
       return error;
     }
 #endif /* AF_CONFIG_OPTION_USE_WARPER */
-    else if ( !ft_strcmp( property_name, "darkening-parameters" ) )
+    else if (!ft_strcmp(property_name, "darkening-parameters"))
     {
       FT_Int*  darken_params = module->darken_params;
       FT_Int*  val           = (FT_Int*)value;
@@ -310,7 +310,7 @@
 
       return error;
     }
-    else if ( !ft_strcmp( property_name, "no-stem-darkening" ) )
+    else if (!ft_strcmp(property_name, "no-stem-darkening"))
     {
       FT_Bool   no_stem_darkening = module->no_stem_darkening;
       FT_Bool*  val               = (FT_Bool*)value;
@@ -321,47 +321,47 @@
       return error;
     }
 
-    FT_TRACE0(( "af_property_get: missing property `%s'\n",
-                property_name ));
-    return FT_THROW( Missing_Property );
+    FT_TRACE0(("af_property_get: missing property `%s'\n",
+                property_name));
+    return FT_THROW(Missing_Property);
   }
 
 
   FT_DEFINE_SERVICE_PROPERTIESREC(
     af_service_properties,
     (FT_Properties_SetFunc)af_property_set,        /* set_property */
-    (FT_Properties_GetFunc)af_property_get )       /* get_property */
+    (FT_Properties_GetFunc)af_property_get)       /* get_property */
 
 
   FT_DEFINE_SERVICEDESCREC1(
     af_services,
-    FT_SERVICE_ID_PROPERTIES, &AF_SERVICE_PROPERTIES_GET )
+    FT_SERVICE_ID_PROPERTIES, &AF_SERVICE_PROPERTIES_GET)
 
 
-  FT_CALLBACK_DEF( FT_Module_Interface )
-  af_get_interface( FT_Module    module,
-                    const char*  module_interface )
+  FT_CALLBACK_DEF(FT_Module_Interface)
+  af_get_interface(FT_Module    module,
+                    const char*  module_interface)
   {
     /* AF_SERVICES_GET dereferences `library' in PIC mode */
 #ifdef FT_CONFIG_OPTION_PIC
     FT_Library  library;
 
 
-    if ( !module )
+    if (!module)
       return NULL;
     library = module->library;
-    if ( !library )
+    if (!library)
       return NULL;
 #else
-    FT_UNUSED( module );
+    FT_UNUSED(module);
 #endif
 
-    return ft_service_list_lookup( AF_SERVICES_GET, module_interface );
+    return ft_service_list_lookup(AF_SERVICES_GET, module_interface);
   }
 
 
-  FT_CALLBACK_DEF( FT_Error )
-  af_autofitter_init( FT_Module  ft_module )      /* AF_Module */
+  FT_CALLBACK_DEF(FT_Error)
+  af_autofitter_init(FT_Module  ft_module)      /* AF_Module */
   {
     AF_Module  module = (AF_Module)ft_module;
 
@@ -386,24 +386,24 @@
   }
 
 
-  FT_CALLBACK_DEF( void )
-  af_autofitter_done( FT_Module  ft_module )      /* AF_Module */
+  FT_CALLBACK_DEF(void)
+  af_autofitter_done(FT_Module  ft_module)      /* AF_Module */
   {
-    FT_UNUSED( ft_module );
+    FT_UNUSED(ft_module);
 
 #ifdef FT_DEBUG_AUTOFIT
-    if ( _af_debug_hints_rec->memory )
-      af_glyph_hints_done( _af_debug_hints_rec );
+    if (_af_debug_hints_rec->memory)
+      af_glyph_hints_done(_af_debug_hints_rec);
 #endif
   }
 
 
-  FT_CALLBACK_DEF( FT_Error )
-  af_autofitter_load_glyph( AF_Module     module,
+  FT_CALLBACK_DEF(FT_Error)
+  af_autofitter_load_glyph(AF_Module     module,
                             FT_GlyphSlot  slot,
                             FT_Size       size,
                             FT_UInt       glyph_index,
-                            FT_Int32      load_flags )
+                            FT_Int32      load_flags)
   {
     FT_Error   error  = FT_Err_Ok;
     FT_Memory  memory = module->root.library->memory;
@@ -415,23 +415,23 @@
     AF_GlyphHints  hints = _af_debug_hints_rec;
     AF_LoaderRec   loader[1];
 
-    FT_UNUSED( size );
+    FT_UNUSED(size);
 
 
-    if ( hints->memory )
-      af_glyph_hints_done( hints );
+    if (hints->memory)
+      af_glyph_hints_done(hints);
 
-    af_glyph_hints_init( hints, memory );
-    af_loader_init( loader, hints );
+    af_glyph_hints_init(hints, memory);
+    af_loader_init(loader, hints);
 
-    error = af_loader_load_glyph( loader, module, slot->face,
-                                  glyph_index, load_flags );
+    error = af_loader_load_glyph(loader, module, slot->face,
+                                  glyph_index, load_flags);
 
-    af_glyph_hints_dump_points( hints, 0 );
-    af_glyph_hints_dump_segments( hints, 0 );
-    af_glyph_hints_dump_edges( hints, 0 );
+    af_glyph_hints_dump_points(hints, 0);
+    af_glyph_hints_dump_segments(hints, 0);
+    af_glyph_hints_dump_edges(hints, 0);
 
-    af_loader_done( loader );
+    af_loader_done(loader);
 
     return error;
 
@@ -440,17 +440,17 @@
     AF_GlyphHintsRec  hints[1];
     AF_LoaderRec      loader[1];
 
-    FT_UNUSED( size );
+    FT_UNUSED(size);
 
 
-    af_glyph_hints_init( hints, memory );
-    af_loader_init( loader, hints );
+    af_glyph_hints_init(hints, memory);
+    af_loader_init(loader, hints);
 
-    error = af_loader_load_glyph( loader, module, slot->face,
-                                  glyph_index, load_flags );
+    error = af_loader_load_glyph(loader, module, slot->face,
+                                  glyph_index, load_flags);
 
-    af_loader_done( loader );
-    af_glyph_hints_done( hints );
+    af_loader_done(loader);
+    af_glyph_hints_done(hints);
 
     return error;
 
@@ -463,14 +463,14 @@
     NULL,                                                    /* reset_face */
     NULL,                                              /* get_global_hints */
     NULL,                                             /* done_global_hints */
-    (FT_AutoHinter_GlyphLoadFunc)af_autofitter_load_glyph )  /* load_glyph */
+    (FT_AutoHinter_GlyphLoadFunc)af_autofitter_load_glyph)  /* load_glyph */
 
 
   FT_DEFINE_MODULE(
     autofit_module_class,
 
     FT_MODULE_HINTER,
-    sizeof ( AF_ModuleRec ),
+    sizeof (AF_ModuleRec),
 
     "autofitter",
     0x10000L,   /* version 1.0 of the autofitter  */
@@ -480,7 +480,7 @@
 
     (FT_Module_Constructor)af_autofitter_init,
     (FT_Module_Destructor) af_autofitter_done,
-    (FT_Module_Requester)  af_get_interface )
+    (FT_Module_Requester)  af_get_interface)
 
 
 /* END */

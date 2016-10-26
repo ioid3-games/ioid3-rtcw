@@ -171,11 +171,11 @@ FT_BEGIN_HEADER
    *     FT_UInt     interpreter_version = TT_INTERPRETER_VERSION_35;
    *
    *
-   *     FT_Init_FreeType( &library );
+   *     FT_Init_FreeType(&library);
    *
-   *     FT_Property_Set( library, "truetype",
+   *     FT_Property_Set(library, "truetype",
    *                               "interpreter-version",
-   *                               &interpreter_version );
+   *                               &interpreter_version);
    *   }
    *
    * @note:

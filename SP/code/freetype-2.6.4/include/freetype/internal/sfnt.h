@@ -66,11 +66,11 @@ FT_BEGIN_HEADER
   /*    of the SFNT tables in the object.                                  */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Init_Face_Func)( FT_Stream      stream,
+  (*TT_Init_Face_Func)(FT_Stream      stream,
                         TT_Face        face,
                         FT_Int         face_index,
                         FT_Int         num_params,
-                        FT_Parameter*  params );
+                        FT_Parameter*  params);
 
 
   /*************************************************************************/
@@ -104,11 +104,11 @@ FT_BEGIN_HEADER
   /*    This function must be called after TT_Init_Face_Func().            */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Load_Face_Func)( FT_Stream      stream,
+  (*TT_Load_Face_Func)(FT_Stream      stream,
                         TT_Face        face,
                         FT_Int         face_index,
                         FT_Int         num_params,
-                        FT_Parameter*  params );
+                        FT_Parameter*  params);
 
 
   /*************************************************************************/
@@ -126,7 +126,7 @@ FT_BEGIN_HEADER
   /*    This function does NOT destroy the face object.                    */
   /*                                                                       */
   typedef void
-  (*TT_Done_Face_Func)( TT_Face  face );
+  (*TT_Done_Face_Func)(TT_Face  face);
 
 
   /*************************************************************************/
@@ -170,11 +170,11 @@ FT_BEGIN_HEADER
   /*    TrueType error code.  0 means success.                             */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Load_Any_Func)( TT_Face    face,
+  (*TT_Load_Any_Func)(TT_Face    face,
                        FT_ULong   tag,
                        FT_Long    offset,
                        FT_Byte   *buffer,
-                       FT_ULong*  length );
+                       FT_ULong*  length);
 
 
   /*************************************************************************/
@@ -206,12 +206,12 @@ FT_BEGIN_HEADER
   /*    glyph.                                                             */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Find_SBit_Image_Func)( TT_Face          face,
+  (*TT_Find_SBit_Image_Func)(TT_Face          face,
                               FT_UInt          glyph_index,
                               FT_ULong         strike_index,
                               TT_SBit_Range   *arange,
                               TT_SBit_Strike  *astrike,
-                              FT_ULong        *aglyph_offset );
+                              FT_ULong        *aglyph_offset);
 
 
   /*************************************************************************/
@@ -242,9 +242,9 @@ FT_BEGIN_HEADER
   /*    function exit.                                                     */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Load_SBit_Metrics_Func)( FT_Stream        stream,
+  (*TT_Load_SBit_Metrics_Func)(FT_Stream        stream,
                                 TT_SBit_Range    range,
-                                TT_SBit_Metrics  metrics );
+                                TT_SBit_Metrics  metrics);
 
 
   /*************************************************************************/
@@ -287,13 +287,13 @@ FT_BEGIN_HEADER
   /*    The `map.buffer' field is always freed before the glyph is loaded. */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Load_SBit_Image_Func)( TT_Face              face,
+  (*TT_Load_SBit_Image_Func)(TT_Face              face,
                               FT_ULong             strike_index,
                               FT_UInt              glyph_index,
                               FT_UInt              load_flags,
                               FT_Stream            stream,
                               FT_Bitmap           *amap,
-                              TT_SBit_MetricsRec  *ametrics );
+                              TT_SBit_MetricsRec  *ametrics);
 
 
   /*************************************************************************/
@@ -317,9 +317,9 @@ FT_BEGIN_HEADER
   /*    sbit strike exists for the selected ppem values.                   */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Set_SBit_Strike_Func)( TT_Face          face,
+  (*TT_Set_SBit_Strike_Func)(TT_Face          face,
                               FT_Size_Request  req,
-                              FT_ULong*        astrike_index );
+                              FT_ULong*        astrike_index);
 
 
   /*************************************************************************/
@@ -343,9 +343,9 @@ FT_BEGIN_HEADER
   /*    such sbit strike exists.                                           */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Load_Strike_Metrics_Func)( TT_Face           face,
+  (*TT_Load_Strike_Metrics_Func)(TT_Face           face,
                                   FT_ULong          strike_index,
-                                  FT_Size_Metrics*  metrics );
+                                  FT_Size_Metrics*  metrics);
 
 
   /*************************************************************************/
@@ -368,9 +368,9 @@ FT_BEGIN_HEADER
   /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Get_PS_Name_Func)( TT_Face      face,
+  (*TT_Get_PS_Name_Func)(TT_Face      face,
                           FT_UInt      idx,
-                          FT_String**  PSname );
+                          FT_String**  PSname);
 
 
   /*************************************************************************/
@@ -393,9 +393,9 @@ FT_BEGIN_HEADER
   /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Load_Metrics_Func)( TT_Face    face,
+  (*TT_Load_Metrics_Func)(TT_Face    face,
                            FT_Stream  stream,
-                           FT_Bool    vertical );
+                           FT_Bool    vertical);
 
 
   /*************************************************************************/
@@ -421,11 +421,11 @@ FT_BEGIN_HEADER
   /*                case of error.                                         */
   /*                                                                       */
   typedef void
-  (*TT_Get_Metrics_Func)( TT_Face     face,
+  (*TT_Get_Metrics_Func)(TT_Face     face,
                           FT_Bool     vertical,
                           FT_UInt     gindex,
                           FT_Short*   abearing,
-                          FT_UShort*  aadvance );
+                          FT_UShort*  aadvance);
 
 
   /*************************************************************************/
@@ -450,9 +450,9 @@ FT_BEGIN_HEADER
   /*    FreeType error code.  0 means success.                             */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Get_Name_Func)( TT_Face      face,
+  (*TT_Get_Name_Func)(TT_Face      face,
                        FT_UShort    nameid,
-                       FT_String**  name );
+                       FT_String**  name);
 
 
   /*************************************************************************/
@@ -476,8 +476,8 @@ FT_BEGIN_HEADER
   /*    start of the table, except while loading the font directory.       */
   /*                                                                       */
   typedef FT_Error
-  (*TT_Load_Table_Func)( TT_Face    face,
-                         FT_Stream  stream );
+  (*TT_Load_Table_Func)(TT_Face    face,
+                         FT_Stream  stream);
 
 
   /*************************************************************************/
@@ -492,7 +492,7 @@ FT_BEGIN_HEADER
   /*    face :: A handle to the target face object.                        */
   /*                                                                       */
   typedef void
-  (*TT_Free_Table_Func)( TT_Face  face );
+  (*TT_Free_Table_Func)(TT_Face  face);
 
 
   /*
@@ -511,9 +511,9 @@ FT_BEGIN_HEADER
    *    The kerning value in font units.
    */
   typedef FT_Int
-  (*TT_Face_GetKerningFunc)( TT_Face  face,
+  (*TT_Face_GetKerningFunc)(TT_Face  face,
                              FT_UInt  left_glyph,
-                             FT_UInt  right_glyph );
+                             FT_UInt  right_glyph);
 
 
   /*************************************************************************/
@@ -597,7 +597,7 @@ FT_BEGIN_HEADER
 
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DEFINE_SFNT_INTERFACE(        \
+#define FT_DEFINE_SFNT_INTERFACE(       \
           class_,                        \
           goto_table_,                   \
           init_face_,                    \
@@ -628,7 +628,7 @@ FT_BEGIN_HEADER
           set_sbit_strike_,              \
           load_strike_metrics_,          \
           get_metrics_,                  \
-          get_name_ )                    \
+          get_name_)                    \
   static const SFNT_Interface  class_ =  \
   {                                      \
     goto_table_,                         \
@@ -665,10 +665,10 @@ FT_BEGIN_HEADER
 
 #else /* FT_CONFIG_OPTION_PIC */
 
-#define FT_INTERNAL( a, a_ )  \
+#define FT_INTERNAL(a, a_)  \
           clazz->a = a_;
 
-#define FT_DEFINE_SFNT_INTERFACE(                       \
+#define FT_DEFINE_SFNT_INTERFACE(                      \
           class_,                                       \
           goto_table_,                                  \
           init_face_,                                   \
@@ -699,12 +699,12 @@ FT_BEGIN_HEADER
           set_sbit_strike_,                             \
           load_strike_metrics_,                         \
           get_metrics_,                                 \
-          get_name_ )                                   \
+          get_name_)                                   \
   void                                                  \
-  FT_Init_Class_ ## class_( FT_Library       library,   \
-                            SFNT_Interface*  clazz )    \
+  FT_Init_Class_ ## class_(FT_Library       library,   \
+                            SFNT_Interface*  clazz)    \
   {                                                     \
-    FT_UNUSED( library );                               \
+    FT_UNUSED(library);                               \
                                                         \
     clazz->goto_table          = goto_table_;           \
     clazz->init_face           = init_face_;            \

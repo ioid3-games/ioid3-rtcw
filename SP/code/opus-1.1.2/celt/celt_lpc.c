@@ -234,7 +234,7 @@ int _celt_autocorr(
                    int          lag,
                    int          n,
                    int          arch
-                  )
+                 )
 {
    opus_val32 d;
    int i, k;

@@ -76,12 +76,12 @@ FT_BEGIN_HEADER
   } FT_ValidationLevel;
 
 
-#if defined( _MSC_VER )      /* Visual C++ (and Intel C++) */
+#if defined(_MSC_VER)      /* Visual C++ (and Intel C++) */
   /* We disable the warning `structure was padded due to   */
   /* __declspec(align())' in order to compile cleanly with */
   /* the maximum level of warnings.                        */
-#pragma warning( push )
-#pragma warning( disable : 4324 )
+#pragma warning(push)
+#pragma warning(disable : 4324)
 #endif /* _MSC_VER */
 
   /* validator structure */
@@ -96,59 +96,59 @@ FT_BEGIN_HEADER
 
   } FT_ValidatorRec;
 
-#if defined( _MSC_VER )
-#pragma warning( pop )
+#if defined(_MSC_VER)
+#pragma warning(pop)
 #endif
 
-#define FT_VALIDATOR( x )  ( (FT_Validator)( x ) )
+#define FT_VALIDATOR(x)  ((FT_Validator)(x))
 
 
-  FT_BASE( void )
-  ft_validator_init( FT_Validator        valid,
+  FT_BASE(void)
+  ft_validator_init(FT_Validator        valid,
                      const FT_Byte*      base,
                      const FT_Byte*      limit,
-                     FT_ValidationLevel  level );
+                     FT_ValidationLevel  level);
 
   /* Do not use this. It's broken and will cause your validator to crash */
   /* if you run it on an invalid font.                                   */
-  FT_BASE( FT_Int )
-  ft_validator_run( FT_Validator  valid );
+  FT_BASE(FT_Int)
+  ft_validator_run(FT_Validator  valid);
 
   /* Sets the error field in a validator, then calls `longjmp' to return */
   /* to high-level caller.  Using `setjmp/longjmp' avoids many stupid    */
   /* error checks within the validation routines.                        */
   /*                                                                     */
-  FT_BASE( void )
-  ft_validator_error( FT_Validator  valid,
-                      FT_Error      error );
+  FT_BASE(void)
+  ft_validator_error(FT_Validator  valid,
+                      FT_Error      error);
 
 
   /* Calls ft_validate_error.  Assumes that the `valid' local variable */
   /* holds a pointer to the current validator object.                  */
   /*                                                                   */
-#define FT_INVALID( _error )  FT_INVALID_( _error )
-#define FT_INVALID_( _error ) \
-          ft_validator_error( valid, FT_THROW( _error ) )
+#define FT_INVALID(_error)  FT_INVALID_(_error)
+#define FT_INVALID_(_error) \
+          ft_validator_error(valid, FT_THROW(_error))
 
   /* called when a broken table is detected */
 #define FT_INVALID_TOO_SHORT \
-          FT_INVALID( Invalid_Table )
+          FT_INVALID(Invalid_Table)
 
   /* called when an invalid offset is detected */
 #define FT_INVALID_OFFSET \
-          FT_INVALID( Invalid_Offset )
+          FT_INVALID(Invalid_Offset)
 
   /* called when an invalid format/value is detected */
 #define FT_INVALID_FORMAT \
-          FT_INVALID( Invalid_Table )
+          FT_INVALID(Invalid_Table)
 
   /* called when an invalid glyph index is detected */
 #define FT_INVALID_GLYPH_ID \
-          FT_INVALID( Invalid_Glyph_Index )
+          FT_INVALID(Invalid_Glyph_Index)
 
   /* called when an invalid field value is detected */
 #define FT_INVALID_DATA \
-          FT_INVALID( Invalid_Table )
+          FT_INVALID(Invalid_Table)
 
 
 FT_END_HEADER

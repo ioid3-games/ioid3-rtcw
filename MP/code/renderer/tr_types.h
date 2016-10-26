@@ -60,8 +60,8 @@ If you have questions concerning this license or the applicable additional terms
 #define RF_WRAP_FRAMES      0x0200     // mod the model frames by the maxframes to allow continuous
 									// animation without needing to know the frame count
 
-#define RF_HILIGHT          ( 1 << 8 )  // more than RF_MINLIGHT.  For when an object is "Highlighted" (looked at/training identification/etc)
-#define RF_BLINK            ( 1 << 9 )  // eyes in 'blink' state
+#define RF_HILIGHT          (1 << 8)  // more than RF_MINLIGHT.  For when an object is "Highlighted" (looked at/training identification/etc)
+#define RF_BLINK            (1 << 9)  // eyes in 'blink' state
 
 // refdef flags
 #define RDF_NOWORLDMODEL    0x0001       // used for player configuration screen
@@ -71,9 +71,9 @@ If you have questions concerning this license or the applicable additional terms
 #define RDF_SKYBOXPORTAL    0x0008
 
 //----(SA)
-#define RDF_UNDERWATER      ( 1 << 4 )  // so the renderer knows to use underwater fog when the player is underwater
-#define RDF_DRAWINGSKY      ( 1 << 5 )
-#define RDF_SNOOPERVIEW     ( 1 << 6 )  //----(SA)	added
+#define RDF_UNDERWATER      (1 << 4)  // so the renderer knows to use underwater fog when the player is underwater
+#define RDF_DRAWINGSKY      (1 << 5)
+#define RDF_SNOOPERVIEW     (1 << 6)  //----(SA)	added
 
 
 typedef struct {

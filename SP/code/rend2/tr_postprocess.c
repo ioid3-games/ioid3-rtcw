@@ -257,7 +257,7 @@ static void RB_RadialBlur(FBO_t *srcFbo, FBO_t *dstFbo, int passes, float stretc
 		srcBox[2] = iscale * srcWidth;
 		srcBox[3] = iscale * srcHeight;
 			
-		FBO_Blit(srcFbo, srcBox, NULL, dstFbo, dstBox, NULL, color, GLS_SRCBLEND_ONE | GLS_DSTBLEND_ONE );
+		FBO_Blit(srcFbo, srcBox, NULL, dstFbo, dstBox, NULL, color, GLS_SRCBLEND_ONE | GLS_DSTBLEND_ONE);
 
 		scale *= mul;
 		--passes;
@@ -317,13 +317,13 @@ void RB_SunRays(FBO_t *srcFbo, ivec4_t srcBox, FBO_t *dstFbo, ivec4_t dstBox)
 		float dist;
 		mat4_t trans, model;
 
-		Mat4Translation( backEnd.viewParms.or.origin, trans );
-		Mat4Multiply( backEnd.viewParms.world.modelMatrix, trans, model );
+		Mat4Translation(backEnd.viewParms.or.origin, trans);
+		Mat4Multiply(backEnd.viewParms.world.modelMatrix, trans, model);
 		Mat4Multiply(backEnd.viewParms.projectionMatrix, model, mvp);
 
 		dist = backEnd.viewParms.zFar / 1.75;		// div sqrt(3)
 
-		VectorScale( tr.sunDirection, dist, pos );
+		VectorScale(tr.sunDirection, dist, pos);
 	}
 
 	// project sun point

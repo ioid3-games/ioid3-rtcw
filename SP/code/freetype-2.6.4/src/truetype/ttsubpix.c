@@ -745,31 +745,31 @@
 
 
   static FT_Bool
-  is_member_of_family_class( const FT_String*  detected_font_name,
-                             const FT_String*  rule_font_name )
+  is_member_of_family_class(const FT_String*  detected_font_name,
+                             const FT_String*  rule_font_name)
   {
     FT_UInt  i, j;
 
 
     /* Does font name match rule family? */
-    if ( strcmp( detected_font_name, rule_font_name ) == 0 )
+    if (strcmp(detected_font_name, rule_font_name) == 0)
       return TRUE;
 
     /* Is font name a wildcard ""? */
-    if ( strcmp( rule_font_name, "" ) == 0 )
+    if (strcmp(rule_font_name, "") == 0)
       return TRUE;
 
     /* Is font name contained in a class list? */
-    for ( i = 0; i < FAMILY_CLASS_RULES_SIZE; i++ )
+    for (i = 0; i < FAMILY_CLASS_RULES_SIZE; i++)
     {
-      if ( strcmp( FAMILY_CLASS_Rules[i].name, rule_font_name ) == 0 )
+      if (strcmp(FAMILY_CLASS_Rules[i].name, rule_font_name) == 0)
       {
-        for ( j = 0; j < SPH_MAX_CLASS_MEMBERS; j++ )
+        for (j = 0; j < SPH_MAX_CLASS_MEMBERS; j++)
         {
-          if ( strcmp( FAMILY_CLASS_Rules[i].member[j], "" ) == 0 )
+          if (strcmp(FAMILY_CLASS_Rules[i].member[j], "") == 0)
             continue;
-          if ( strcmp( FAMILY_CLASS_Rules[i].member[j],
-                       detected_font_name ) == 0 )
+          if (strcmp(FAMILY_CLASS_Rules[i].member[j],
+                       detected_font_name) == 0)
             return TRUE;
         }
       }
@@ -780,31 +780,31 @@
 
 
   static FT_Bool
-  is_member_of_style_class( const FT_String*  detected_font_style,
-                            const FT_String*  rule_font_style )
+  is_member_of_style_class(const FT_String*  detected_font_style,
+                            const FT_String*  rule_font_style)
   {
     FT_UInt  i, j;
 
 
     /* Does font style match rule style? */
-    if ( strcmp( detected_font_style, rule_font_style ) == 0 )
+    if (strcmp(detected_font_style, rule_font_style) == 0)
       return TRUE;
 
     /* Is font style a wildcard ""? */
-    if ( strcmp( rule_font_style, "" ) == 0 )
+    if (strcmp(rule_font_style, "") == 0)
       return TRUE;
 
     /* Is font style contained in a class list? */
-    for ( i = 0; i < STYLE_CLASS_RULES_SIZE; i++ )
+    for (i = 0; i < STYLE_CLASS_RULES_SIZE; i++)
     {
-      if ( strcmp( STYLE_CLASS_Rules[i].name, rule_font_style ) == 0 )
+      if (strcmp(STYLE_CLASS_Rules[i].name, rule_font_style) == 0)
       {
-        for ( j = 0; j < SPH_MAX_CLASS_MEMBERS; j++ )
+        for (j = 0; j < SPH_MAX_CLASS_MEMBERS; j++)
         {
-          if ( strcmp( STYLE_CLASS_Rules[i].member[j], "" ) == 0 )
+          if (strcmp(STYLE_CLASS_Rules[i].member[j], "") == 0)
             continue;
-          if ( strcmp( STYLE_CLASS_Rules[i].member[j],
-                       detected_font_style ) == 0 )
+          if (strcmp(STYLE_CLASS_Rules[i].member[j],
+                       detected_font_style) == 0)
             return TRUE;
         }
       }
@@ -814,30 +814,30 @@
   }
 
 
-  FT_LOCAL_DEF( FT_Bool )
-  sph_test_tweak( TT_Face               face,
+  FT_LOCAL_DEF(FT_Bool)
+  sph_test_tweak(TT_Face               face,
                   const FT_String*      family,
                   FT_UInt               ppem,
                   const FT_String*      style,
                   FT_UInt               glyph_index,
                   const SPH_TweakRule*  rule,
-                  FT_UInt               num_rules )
+                  FT_UInt               num_rules)
   {
     FT_UInt  i;
 
 
     /* rule checks may be able to be optimized further */
-    for ( i = 0; i < num_rules; i++ )
+    for (i = 0; i < num_rules; i++)
     {
-      if ( family                                                   &&
-           ( is_member_of_family_class ( family, rule[i].family ) ) )
-        if ( rule[i].ppem == 0    ||
-             rule[i].ppem == ppem )
-          if ( style                                             &&
-               is_member_of_style_class ( style, rule[i].style ) )
-            if ( rule[i].glyph == 0                                ||
-                 FT_Get_Char_Index( (FT_Face)face,
-                                    rule[i].glyph ) == glyph_index )
+      if (family                                                   &&
+           (is_member_of_family_class (family, rule[i].family)))
+        if (rule[i].ppem == 0    ||
+             rule[i].ppem == ppem)
+          if (style                                             &&
+               is_member_of_style_class (style, rule[i].style))
+            if (rule[i].glyph == 0                                ||
+                 FT_Get_Char_Index((FT_Face)face,
+                                    rule[i].glyph) == glyph_index)
         return TRUE;
     }
 
@@ -846,29 +846,29 @@
 
 
   static FT_UInt
-  scale_test_tweak( TT_Face               face,
+  scale_test_tweak(TT_Face               face,
                     const FT_String*      family,
                     FT_UInt               ppem,
                     const FT_String*      style,
                     FT_UInt               glyph_index,
                     const SPH_ScaleRule*  rule,
-                    FT_UInt               num_rules )
+                    FT_UInt               num_rules)
   {
     FT_UInt  i;
 
 
     /* rule checks may be able to be optimized further */
-    for ( i = 0; i < num_rules; i++ )
+    for (i = 0; i < num_rules; i++)
     {
-      if ( family                                                   &&
-           ( is_member_of_family_class ( family, rule[i].family ) ) )
-        if ( rule[i].ppem == 0    ||
-             rule[i].ppem == ppem )
-          if ( style                                            &&
-               is_member_of_style_class( style, rule[i].style ) )
-            if ( rule[i].glyph == 0                                ||
-                 FT_Get_Char_Index( (FT_Face)face,
-                                    rule[i].glyph ) == glyph_index )
+      if (family                                                   &&
+           (is_member_of_family_class (family, rule[i].family)))
+        if (rule[i].ppem == 0    ||
+             rule[i].ppem == ppem)
+          if (style                                            &&
+               is_member_of_style_class(style, rule[i].style))
+            if (rule[i].glyph == 0                                ||
+                 FT_Get_Char_Index((FT_Face)face,
+                                    rule[i].glyph) == glyph_index)
         return rule[i].scale;
     }
 
@@ -876,32 +876,32 @@
   }
 
 
-  FT_LOCAL_DEF( FT_UInt )
-  sph_test_tweak_x_scaling( TT_Face           face,
+  FT_LOCAL_DEF(FT_UInt)
+  sph_test_tweak_x_scaling(TT_Face           face,
                             const FT_String*  family,
                             FT_UInt           ppem,
                             const FT_String*  style,
-                            FT_UInt           glyph_index )
+                            FT_UInt           glyph_index)
   {
-    return scale_test_tweak( face, family, ppem, style, glyph_index,
-                             X_SCALING_Rules, X_SCALING_RULES_SIZE );
+    return scale_test_tweak(face, family, ppem, style, glyph_index,
+                             X_SCALING_Rules, X_SCALING_RULES_SIZE);
   }
 
 
-#define TWEAK_RULES( x )                                       \
-  if ( sph_test_tweak( face, family, ppem, style, glyph_index, \
-                       x##_Rules, x##_RULES_SIZE ) )           \
+#define TWEAK_RULES(x)                                       \
+  if (sph_test_tweak(face, family, ppem, style, glyph_index, \
+                       x##_Rules, x##_RULES_SIZE))           \
     loader->exec->sph_tweak_flags |= SPH_TWEAK_##x;
 
-#define TWEAK_RULES_EXCEPTIONS( x )                                        \
-  if ( sph_test_tweak( face, family, ppem, style, glyph_index,             \
-                       x##_Rules_Exceptions, x##_RULES_EXCEPTIONS_SIZE ) ) \
+#define TWEAK_RULES_EXCEPTIONS(x)                                        \
+  if (sph_test_tweak(face, family, ppem, style, glyph_index,             \
+                       x##_Rules_Exceptions, x##_RULES_EXCEPTIONS_SIZE)) \
     loader->exec->sph_tweak_flags &= ~SPH_TWEAK_##x;
 
 
-  FT_LOCAL_DEF( void )
-  sph_set_tweaks( TT_Loader  loader,
-                  FT_UInt    glyph_index )
+  FT_LOCAL_DEF(void)
+  sph_set_tweaks(TT_Loader  loader,
+                  FT_UInt    glyph_index)
   {
     TT_Face     face   = loader->face;
     FT_String*  family = face->root.family_name;
@@ -910,92 +910,92 @@
 
 
     /* don't apply rules if style isn't set */
-    if ( !face->root.style_name )
+    if (!face->root.style_name)
       return;
 
 #ifdef SPH_DEBUG_MORE_VERBOSE
-    printf( "%s,%d,%s,%c=%d ",
-            family, ppem, style, glyph_index, glyph_index );
+    printf("%s,%d,%s,%c=%d ",
+            family, ppem, style, glyph_index, glyph_index);
 #endif
 
-    TWEAK_RULES( PIXEL_HINTING );
+    TWEAK_RULES(PIXEL_HINTING);
 
-    if ( loader->exec->sph_tweak_flags & SPH_TWEAK_PIXEL_HINTING )
+    if (loader->exec->sph_tweak_flags & SPH_TWEAK_PIXEL_HINTING)
     {
       loader->exec->ignore_x_mode = FALSE;
       return;
     }
 
-    TWEAK_RULES( ALLOW_X_DMOVE );
-    TWEAK_RULES( ALWAYS_DO_DELTAP );
-    TWEAK_RULES( ALWAYS_SKIP_DELTAP );
-    TWEAK_RULES( DEEMBOLDEN );
-    TWEAK_RULES( DO_SHPIX );
-    TWEAK_RULES( EMBOLDEN );
-    TWEAK_RULES( MIAP_HACK );
-    TWEAK_RULES( NORMAL_ROUND );
-    TWEAK_RULES( NO_ALIGNRP_AFTER_IUP );
-    TWEAK_RULES( NO_CALL_AFTER_IUP );
-    TWEAK_RULES( NO_DELTAP_AFTER_IUP );
-    TWEAK_RULES( RASTERIZER_35 );
-    TWEAK_RULES( SKIP_IUP );
+    TWEAK_RULES(ALLOW_X_DMOVE);
+    TWEAK_RULES(ALWAYS_DO_DELTAP);
+    TWEAK_RULES(ALWAYS_SKIP_DELTAP);
+    TWEAK_RULES(DEEMBOLDEN);
+    TWEAK_RULES(DO_SHPIX);
+    TWEAK_RULES(EMBOLDEN);
+    TWEAK_RULES(MIAP_HACK);
+    TWEAK_RULES(NORMAL_ROUND);
+    TWEAK_RULES(NO_ALIGNRP_AFTER_IUP);
+    TWEAK_RULES(NO_CALL_AFTER_IUP);
+    TWEAK_RULES(NO_DELTAP_AFTER_IUP);
+    TWEAK_RULES(RASTERIZER_35);
+    TWEAK_RULES(SKIP_IUP);
 
-    TWEAK_RULES( SKIP_OFFPIXEL_Y_MOVES );
-    TWEAK_RULES_EXCEPTIONS( SKIP_OFFPIXEL_Y_MOVES );
+    TWEAK_RULES(SKIP_OFFPIXEL_Y_MOVES);
+    TWEAK_RULES_EXCEPTIONS(SKIP_OFFPIXEL_Y_MOVES);
 
-    TWEAK_RULES( SKIP_NONPIXEL_Y_MOVES_DELTAP );
+    TWEAK_RULES(SKIP_NONPIXEL_Y_MOVES_DELTAP);
 
-    TWEAK_RULES( SKIP_NONPIXEL_Y_MOVES );
-    TWEAK_RULES_EXCEPTIONS( SKIP_NONPIXEL_Y_MOVES );
+    TWEAK_RULES(SKIP_NONPIXEL_Y_MOVES);
+    TWEAK_RULES_EXCEPTIONS(SKIP_NONPIXEL_Y_MOVES);
 
-    TWEAK_RULES( ROUND_NONPIXEL_Y_MOVES );
-    TWEAK_RULES_EXCEPTIONS( ROUND_NONPIXEL_Y_MOVES );
+    TWEAK_RULES(ROUND_NONPIXEL_Y_MOVES);
+    TWEAK_RULES_EXCEPTIONS(ROUND_NONPIXEL_Y_MOVES);
 
-    if ( loader->exec->sph_tweak_flags & SPH_TWEAK_RASTERIZER_35 )
+    if (loader->exec->sph_tweak_flags & SPH_TWEAK_RASTERIZER_35)
     {
-      if ( loader->exec->rasterizer_version != TT_INTERPRETER_VERSION_35 )
+      if (loader->exec->rasterizer_version != TT_INTERPRETER_VERSION_35)
       {
         loader->exec->rasterizer_version = TT_INTERPRETER_VERSION_35;
         loader->exec->size->cvt_ready    = -1;
 
         tt_size_ready_bytecode(
           loader->exec->size,
-          FT_BOOL( loader->load_flags & FT_LOAD_PEDANTIC ) );
+          FT_BOOL(loader->load_flags & FT_LOAD_PEDANTIC));
       }
       else
         loader->exec->rasterizer_version = TT_INTERPRETER_VERSION_35;
     }
     else
     {
-      if ( loader->exec->rasterizer_version  !=
-           SPH_OPTION_SET_RASTERIZER_VERSION )
+      if (loader->exec->rasterizer_version  !=
+           SPH_OPTION_SET_RASTERIZER_VERSION)
       {
         loader->exec->rasterizer_version = SPH_OPTION_SET_RASTERIZER_VERSION;
         loader->exec->size->cvt_ready    = -1;
 
         tt_size_ready_bytecode(
           loader->exec->size,
-          FT_BOOL( loader->load_flags & FT_LOAD_PEDANTIC ) );
+          FT_BOOL(loader->load_flags & FT_LOAD_PEDANTIC));
       }
       else
         loader->exec->rasterizer_version = SPH_OPTION_SET_RASTERIZER_VERSION;
     }
 
-    if ( IS_HINTED( loader->load_flags ) )
+    if (IS_HINTED(loader->load_flags))
     {
-      TWEAK_RULES( TIMES_NEW_ROMAN_HACK );
-      TWEAK_RULES( COURIER_NEW_2_HACK );
+      TWEAK_RULES(TIMES_NEW_ROMAN_HACK);
+      TWEAK_RULES(COURIER_NEW_2_HACK);
     }
 
-    if ( sph_test_tweak( face, family, ppem, style, glyph_index,
-           COMPATIBILITY_MODE_Rules, COMPATIBILITY_MODE_RULES_SIZE ) )
+    if (sph_test_tweak(face, family, ppem, style, glyph_index,
+           COMPATIBILITY_MODE_Rules, COMPATIBILITY_MODE_RULES_SIZE))
       loader->exec->face->sph_compatibility_mode = TRUE;
 
 
-    if ( IS_HINTED( loader->load_flags ) )
+    if (IS_HINTED(loader->load_flags))
     {
-      if ( sph_test_tweak( face, family, ppem, style, glyph_index,
-             COMPATIBLE_WIDTHS_Rules, COMPATIBLE_WIDTHS_RULES_SIZE ) )
+      if (sph_test_tweak(face, family, ppem, style, glyph_index,
+             COMPATIBLE_WIDTHS_Rules, COMPATIBLE_WIDTHS_RULES_SIZE))
         loader->exec->compatible_widths |= TRUE;
     }
   }

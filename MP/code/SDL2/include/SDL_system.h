@@ -55,7 +55,7 @@ extern DECLSPEC void SDLCALL SDL_SetWindowsMessageHook(SDL_WindowsMessageHook ca
    This adapter index can be passed to IDirect3D9::CreateDevice and controls
    on which monitor a full screen application will appear.
 */
-extern DECLSPEC int SDLCALL SDL_Direct3D9GetAdapterIndex( int displayIndex );
+extern DECLSPEC int SDLCALL SDL_Direct3D9GetAdapterIndex(int displayIndex);
 
 typedef struct IDirect3DDevice9 IDirect3DDevice9;
 /**
@@ -71,7 +71,7 @@ extern DECLSPEC IDirect3DDevice9* SDLCALL SDL_RenderGetD3D9Device(SDL_Renderer *
    These can be passed to EnumAdapters and EnumOutputs respectively to get the objects
    required to create a DX10 or DX11 device and swap chain.
  */
-extern DECLSPEC SDL_bool SDLCALL SDL_DXGIGetOutputInfo( int displayIndex, int *adapterIndex, int *outputIndex );
+extern DECLSPEC SDL_bool SDLCALL SDL_DXGIGetOutputInfo(int displayIndex, int *adapterIndex, int *outputIndex);
 
 #endif /* __WIN32__ */
 

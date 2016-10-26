@@ -32,8 +32,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "main_FIX.h"
 
 void silk_LTP_analysis_filter_FIX(
-    opus_int16                      *LTP_res,                               /* O    LTP residual signal of length MAX_NB_SUBFR * ( pre_length + subfr_length )  */
-    const opus_int16                *x,                                     /* I    Pointer to input signal with at least max( pitchL ) preceding samples       */
+    opus_int16                      *LTP_res,                               /* O    LTP residual signal of length MAX_NB_SUBFR * (pre_length + subfr_length)  */
+    const opus_int16                *x,                                     /* I    Pointer to input signal with at least max(pitchL) preceding samples       */
     const opus_int16                LTPCoef_Q14[ LTP_ORDER * MAX_NB_SUBFR ],/* I    LTP_ORDER LTP coefficients for each MAX_NB_SUBFR subframe                   */
     const opus_int                  pitchL[ MAX_NB_SUBFR ],                 /* I    Pitch lag, one for each subframe                                            */
     const opus_int32                invGains_Q16[ MAX_NB_SUBFR ],           /* I    Inverse quantization gains, one for each subframe                           */
@@ -50,7 +50,7 @@ void silk_LTP_analysis_filter_FIX(
 
     x_ptr = x;
     LTP_res_ptr = LTP_res;
-    for( k = 0; k < nb_subfr; k++ ) {
+    for(k = 0; k < nb_subfr; k++) {
 
         x_lag_ptr = x_ptr - pitchL[ k ];
 
@@ -61,23 +61,23 @@ void silk_LTP_analysis_filter_FIX(
         Btmp_Q14[ 4 ] = LTPCoef_Q14[ k * LTP_ORDER + 4 ];
 
         /* LTP analysis FIR filter */
-        for( i = 0; i < subfr_length + pre_length; i++ ) {
+        for(i = 0; i < subfr_length + pre_length; i++) {
             LTP_res_ptr[ i ] = x_ptr[ i ];
 
             /* Long-term prediction */
-            LTP_est = silk_SMULBB( x_lag_ptr[ LTP_ORDER / 2 ], Btmp_Q14[ 0 ] );
-            LTP_est = silk_SMLABB_ovflw( LTP_est, x_lag_ptr[ 1 ], Btmp_Q14[ 1 ] );
-            LTP_est = silk_SMLABB_ovflw( LTP_est, x_lag_ptr[ 0 ], Btmp_Q14[ 2 ] );
-            LTP_est = silk_SMLABB_ovflw( LTP_est, x_lag_ptr[ -1 ], Btmp_Q14[ 3 ] );
-            LTP_est = silk_SMLABB_ovflw( LTP_est, x_lag_ptr[ -2 ], Btmp_Q14[ 4 ] );
+            LTP_est = silk_SMULBB(x_lag_ptr[ LTP_ORDER / 2 ], Btmp_Q14[ 0 ]);
+            LTP_est = silk_SMLABB_ovflw(LTP_est, x_lag_ptr[ 1 ], Btmp_Q14[ 1 ]);
+            LTP_est = silk_SMLABB_ovflw(LTP_est, x_lag_ptr[ 0 ], Btmp_Q14[ 2 ]);
+            LTP_est = silk_SMLABB_ovflw(LTP_est, x_lag_ptr[ -1 ], Btmp_Q14[ 3 ]);
+            LTP_est = silk_SMLABB_ovflw(LTP_est, x_lag_ptr[ -2 ], Btmp_Q14[ 4 ]);
 
-            LTP_est = silk_RSHIFT_ROUND( LTP_est, 14 ); /* round and -> Q0*/
+            LTP_est = silk_RSHIFT_ROUND(LTP_est, 14); /* round and -> Q0*/
 
             /* Subtract long-term prediction */
-            LTP_res_ptr[ i ] = (opus_int16)silk_SAT16( (opus_int32)x_ptr[ i ] - LTP_est );
+            LTP_res_ptr[ i ] = (opus_int16)silk_SAT16((opus_int32)x_ptr[ i ] - LTP_est);
 
             /* Scale residual */
-            LTP_res_ptr[ i ] = silk_SMULWB( invGains_Q16[ k ], LTP_res_ptr[ i ] );
+            LTP_res_ptr[ i ] = silk_SMULWB(invGains_Q16[ k ], LTP_res_ptr[ i ]);
 
             x_lag_ptr++;
         }

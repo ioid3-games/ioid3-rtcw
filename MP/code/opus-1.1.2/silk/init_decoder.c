@@ -39,17 +39,17 @@ opus_int silk_init_decoder(
 )
 {
     /* Clear the entire encoder state, except anything copied */
-    silk_memset( psDec, 0, sizeof( silk_decoder_state ) );
+    silk_memset(psDec, 0, sizeof(silk_decoder_state));
 
     /* Used to deactivate LSF interpolation */
     psDec->first_frame_after_reset = 1;
     psDec->prev_gain_Q16 = 65536;
 
     /* Reset CNG state */
-    silk_CNG_Reset( psDec );
+    silk_CNG_Reset(psDec);
 
     /* Reset PLC state */
-    silk_PLC_Reset( psDec );
+    silk_PLC_Reset(psDec);
 
     return(0);
 }

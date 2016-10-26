@@ -31,7 +31,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "tables.h"
 
-const opus_uint8 silk_pitch_lag_iCDF[ 2 * ( PITCH_EST_MAX_LAG_MS - PITCH_EST_MIN_LAG_MS ) ] = {
+const opus_uint8 silk_pitch_lag_iCDF[ 2 * (PITCH_EST_MAX_LAG_MS - PITCH_EST_MIN_LAG_MS) ] = {
        253,    250,    244,    233,    212,    182,    150,    131,
        120,    110,     98,     85,     72,     60,     49,     40,
         32,     25,     19,     15,     13,     11,      9,      8,

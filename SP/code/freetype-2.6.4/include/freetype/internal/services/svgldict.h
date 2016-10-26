@@ -35,17 +35,17 @@ FT_BEGIN_HEADER
 
 
   typedef FT_Error
-  (*FT_GlyphDict_GetNameFunc)( FT_Face     face,
+  (*FT_GlyphDict_GetNameFunc)(FT_Face     face,
                                FT_UInt     glyph_index,
                                FT_Pointer  buffer,
-                               FT_UInt     buffer_max );
+                               FT_UInt     buffer_max);
 
   typedef FT_UInt
-  (*FT_GlyphDict_NameIndexFunc)( FT_Face     face,
-                                 FT_String*  glyph_name );
+  (*FT_GlyphDict_NameIndexFunc)(FT_Face     face,
+                                 FT_String*  glyph_name);
 
 
-  FT_DEFINE_SERVICE( GlyphDict )
+  FT_DEFINE_SERVICE(GlyphDict)
   {
     FT_GlyphDict_GetNameFunc    get_name;
     FT_GlyphDict_NameIndexFunc  name_index;  /* optional */
@@ -54,7 +54,7 @@ FT_BEGIN_HEADER
 
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DEFINE_SERVICE_GLYPHDICTREC( class_,                        \
+#define FT_DEFINE_SERVICE_GLYPHDICTREC(class_,                        \
                                         get_name_,                     \
                                         name_index_)                   \
   static const FT_Service_GlyphDictRec  class_ =                       \
@@ -64,14 +64,14 @@ FT_BEGIN_HEADER
 
 #else /* FT_CONFIG_OPTION_PIC */
 
-#define FT_DEFINE_SERVICE_GLYPHDICTREC( class_,                        \
+#define FT_DEFINE_SERVICE_GLYPHDICTREC(class_,                        \
                                         get_name_,                     \
                                         name_index_)                   \
   void                                                                 \
-  FT_Init_Class_ ## class_( FT_Library                library,         \
-                            FT_Service_GlyphDictRec*  clazz )          \
+  FT_Init_Class_ ## class_(FT_Library                library,         \
+                            FT_Service_GlyphDictRec*  clazz)          \
   {                                                                    \
-    FT_UNUSED( library );                                              \
+    FT_UNUSED(library);                                              \
                                                                        \
     clazz->get_name   = get_name_;                                     \
     clazz->name_index = name_index_;                                   \

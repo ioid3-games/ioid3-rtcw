@@ -37,24 +37,24 @@
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL_DEF( void )
-  otv_Coverage_validate( FT_Bytes       table,
+  FT_LOCAL_DEF(void)
+  otv_Coverage_validate(FT_Bytes       table,
                          OTV_Validator  otvalid,
-                         FT_Int         expected_count )
+                         FT_Int         expected_count)
   {
     FT_Bytes  p = table;
     FT_UInt   CoverageFormat;
     FT_UInt   total = 0;
 
 
-    OTV_NAME_ENTER( "Coverage" );
+    OTV_NAME_ENTER("Coverage");
 
-    OTV_LIMIT_CHECK( 4 );
-    CoverageFormat = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(4);
+    CoverageFormat = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (format %d)\n", CoverageFormat ));
+    OTV_TRACE((" (format %d)\n", CoverageFormat));
 
-    switch ( CoverageFormat )
+    switch (CoverageFormat)
     {
     case 1:     /* CoverageFormat1 */
       {
@@ -62,19 +62,19 @@
         FT_UInt  i;
 
 
-        GlyphCount = FT_NEXT_USHORT( p );
+        GlyphCount = FT_NEXT_USHORT(p);
 
-        OTV_TRACE(( " (GlyphCount = %d)\n", GlyphCount ));
+        OTV_TRACE((" (GlyphCount = %d)\n", GlyphCount));
 
-        OTV_LIMIT_CHECK( GlyphCount * 2 );        /* GlyphArray */
+        OTV_LIMIT_CHECK(GlyphCount * 2);        /* GlyphArray */
 
-        for ( i = 0; i < GlyphCount; ++i )
+        for (i = 0; i < GlyphCount; ++i)
         {
           FT_UInt  gid;
 
 
-          gid = FT_NEXT_USHORT( p );
-          if ( gid >= otvalid->glyph_count )
+          gid = FT_NEXT_USHORT(p);
+          if (gid >= otvalid->glyph_count)
             FT_INVALID_GLYPH_ID;
         }
 
@@ -88,26 +88,26 @@
         FT_UInt  Start, End, StartCoverageIndex, last = 0;
 
 
-        RangeCount = FT_NEXT_USHORT( p );
+        RangeCount = FT_NEXT_USHORT(p);
 
-        OTV_TRACE(( " (RangeCount = %d)\n", RangeCount ));
+        OTV_TRACE((" (RangeCount = %d)\n", RangeCount));
 
-        OTV_LIMIT_CHECK( RangeCount * 6 );
+        OTV_LIMIT_CHECK(RangeCount * 6);
 
         /* RangeRecord */
-        for ( n = 0; n < RangeCount; n++ )
+        for (n = 0; n < RangeCount; n++)
         {
-          Start              = FT_NEXT_USHORT( p );
-          End                = FT_NEXT_USHORT( p );
-          StartCoverageIndex = FT_NEXT_USHORT( p );
+          Start              = FT_NEXT_USHORT(p);
+          End                = FT_NEXT_USHORT(p);
+          StartCoverageIndex = FT_NEXT_USHORT(p);
 
-          if ( Start > End || StartCoverageIndex != total )
+          if (Start > End || StartCoverageIndex != total)
             FT_INVALID_DATA;
 
-          if ( End >= otvalid->glyph_count )
+          if (End >= otvalid->glyph_count)
             FT_INVALID_GLYPH_ID;
 
-          if ( n > 0 && Start <= last )
+          if (n > 0 && Start <= last)
             FT_INVALID_DATA;
 
           total += End - Start + 1;
@@ -123,44 +123,44 @@
     /* Generally, a coverage table offset has an associated count field.  */
     /* The number of glyphs in the table should match this field.  If     */
     /* there is no associated count, a value of -1 tells us not to check. */
-    if ( expected_count != -1 && (FT_UInt)expected_count != total )
+    if (expected_count != -1 && (FT_UInt)expected_count != total)
       FT_INVALID_DATA;
 
     OTV_EXIT;
   }
 
 
-  FT_LOCAL_DEF( FT_UInt )
-  otv_Coverage_get_first( FT_Bytes  table )
+  FT_LOCAL_DEF(FT_UInt)
+  otv_Coverage_get_first(FT_Bytes  table)
   {
     FT_Bytes  p = table;
 
 
     p += 4;     /* skip CoverageFormat and Glyph/RangeCount */
 
-    return FT_NEXT_USHORT( p );
+    return FT_NEXT_USHORT(p);
   }
 
 
-  FT_LOCAL_DEF( FT_UInt )
-  otv_Coverage_get_last( FT_Bytes  table )
+  FT_LOCAL_DEF(FT_UInt)
+  otv_Coverage_get_last(FT_Bytes  table)
   {
     FT_Bytes  p = table;
-    FT_UInt   CoverageFormat = FT_NEXT_USHORT( p );
-    FT_UInt   count          = FT_NEXT_USHORT( p );     /* Glyph/RangeCount */
+    FT_UInt   CoverageFormat = FT_NEXT_USHORT(p);
+    FT_UInt   count          = FT_NEXT_USHORT(p);     /* Glyph/RangeCount */
     FT_UInt   result = 0;
 
 
-    switch ( CoverageFormat )
+    switch (CoverageFormat)
     {
     case 1:
-      p += ( count - 1 ) * 2;
-      result = FT_NEXT_USHORT( p );
+      p += (count - 1) * 2;
+      result = FT_NEXT_USHORT(p);
       break;
 
     case 2:
-      p += ( count - 1 ) * 6 + 2;
-      result = FT_NEXT_USHORT( p );
+      p += (count - 1) * 6 + 2;
+      result = FT_NEXT_USHORT(p);
       break;
 
     default:
@@ -171,16 +171,16 @@
   }
 
 
-  FT_LOCAL_DEF( FT_UInt )
-  otv_Coverage_get_count( FT_Bytes  table )
+  FT_LOCAL_DEF(FT_UInt)
+  otv_Coverage_get_count(FT_Bytes  table)
   {
     FT_Bytes  p              = table;
-    FT_UInt   CoverageFormat = FT_NEXT_USHORT( p );
-    FT_UInt   count          = FT_NEXT_USHORT( p );     /* Glyph/RangeCount */
+    FT_UInt   CoverageFormat = FT_NEXT_USHORT(p);
+    FT_UInt   count          = FT_NEXT_USHORT(p);     /* Glyph/RangeCount */
     FT_UInt   result         = 0;
 
 
-    switch ( CoverageFormat )
+    switch (CoverageFormat)
     {
     case 1:
       return count;
@@ -190,10 +190,10 @@
         FT_UInt  Start, End;
 
 
-        for ( ; count > 0; count-- )
+        for (; count > 0; count--)
         {
-          Start = FT_NEXT_USHORT( p );
-          End   = FT_NEXT_USHORT( p );
+          Start = FT_NEXT_USHORT(p);
+          End   = FT_NEXT_USHORT(p);
           p    += 2;                    /* skip StartCoverageIndex */
 
           result += End - Start + 1;
@@ -217,22 +217,22 @@
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL_DEF( void )
-  otv_ClassDef_validate( FT_Bytes       table,
-                         OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_ClassDef_validate(FT_Bytes       table,
+                         OTV_Validator  otvalid)
   {
     FT_Bytes  p = table;
     FT_UInt   ClassFormat;
 
 
-    OTV_NAME_ENTER( "ClassDef" );
+    OTV_NAME_ENTER("ClassDef");
 
-    OTV_LIMIT_CHECK( 4 );
-    ClassFormat = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(4);
+    ClassFormat = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (format %d)\n", ClassFormat ));
+    OTV_TRACE((" (format %d)\n", ClassFormat));
 
-    switch ( ClassFormat )
+    switch (ClassFormat)
     {
     case 1:     /* ClassDefFormat1 */
       {
@@ -240,16 +240,16 @@
         FT_UInt  GlyphCount;
 
 
-        OTV_LIMIT_CHECK( 4 );
+        OTV_LIMIT_CHECK(4);
 
-        StartGlyph = FT_NEXT_USHORT( p );
-        GlyphCount = FT_NEXT_USHORT( p );
+        StartGlyph = FT_NEXT_USHORT(p);
+        GlyphCount = FT_NEXT_USHORT(p);
 
-        OTV_TRACE(( " (GlyphCount = %d)\n", GlyphCount ));
+        OTV_TRACE((" (GlyphCount = %d)\n", GlyphCount));
 
-        OTV_LIMIT_CHECK( GlyphCount * 2 );    /* ClassValueArray */
+        OTV_LIMIT_CHECK(GlyphCount * 2);    /* ClassValueArray */
 
-        if ( StartGlyph + GlyphCount - 1 >= otvalid->glyph_count )
+        if (StartGlyph + GlyphCount - 1 >= otvalid->glyph_count)
           FT_INVALID_GLYPH_ID;
       }
       break;
@@ -260,23 +260,23 @@
         FT_UInt  Start, End, last = 0;
 
 
-        ClassRangeCount = FT_NEXT_USHORT( p );
+        ClassRangeCount = FT_NEXT_USHORT(p);
 
-        OTV_TRACE(( " (ClassRangeCount = %d)\n", ClassRangeCount ));
+        OTV_TRACE((" (ClassRangeCount = %d)\n", ClassRangeCount));
 
-        OTV_LIMIT_CHECK( ClassRangeCount * 6 );
+        OTV_LIMIT_CHECK(ClassRangeCount * 6);
 
         /* ClassRangeRecord */
-        for ( n = 0; n < ClassRangeCount; n++ )
+        for (n = 0; n < ClassRangeCount; n++)
         {
-          Start = FT_NEXT_USHORT( p );
-          End   = FT_NEXT_USHORT( p );
+          Start = FT_NEXT_USHORT(p);
+          End   = FT_NEXT_USHORT(p);
           p    += 2;                        /* skip Class */
 
-          if ( Start > End || ( n > 0 && Start <= last ) )
+          if (Start > End || (n > 0 && Start <= last))
             FT_INVALID_DATA;
 
-          if ( End >= otvalid->glyph_count )
+          if (End >= otvalid->glyph_count)
             FT_INVALID_GLYPH_ID;
 
           last = End;
@@ -303,29 +303,29 @@
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL_DEF( void )
-  otv_Device_validate( FT_Bytes       table,
-                       OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_Device_validate(FT_Bytes       table,
+                       OTV_Validator  otvalid)
   {
     FT_Bytes  p = table;
     FT_UInt   StartSize, EndSize, DeltaFormat, count;
 
 
-    OTV_NAME_ENTER( "Device" );
+    OTV_NAME_ENTER("Device");
 
-    OTV_LIMIT_CHECK( 8 );
-    StartSize   = FT_NEXT_USHORT( p );
-    EndSize     = FT_NEXT_USHORT( p );
-    DeltaFormat = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(8);
+    StartSize   = FT_NEXT_USHORT(p);
+    EndSize     = FT_NEXT_USHORT(p);
+    DeltaFormat = FT_NEXT_USHORT(p);
 
-    if ( DeltaFormat < 1 || DeltaFormat > 3 )
+    if (DeltaFormat < 1 || DeltaFormat > 3)
       FT_INVALID_FORMAT;
 
-    if ( EndSize < StartSize )
+    if (EndSize < StartSize)
       FT_INVALID_DATA;
 
     count = EndSize - StartSize + 1;
-    OTV_LIMIT_CHECK( ( 1 << DeltaFormat ) * count / 8 );  /* DeltaValue */
+    OTV_LIMIT_CHECK((1 << DeltaFormat) * count / 8);  /* DeltaValue */
 
     OTV_EXIT;
   }
@@ -342,36 +342,36 @@
   /* uses otvalid->type_count */
   /* uses otvalid->type_funcs */
 
-  FT_LOCAL_DEF( void )
-  otv_Lookup_validate( FT_Bytes       table,
-                       OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_Lookup_validate(FT_Bytes       table,
+                       OTV_Validator  otvalid)
   {
     FT_Bytes           p = table;
     FT_UInt            LookupType, SubTableCount;
     OTV_Validate_Func  validate;
 
 
-    OTV_NAME_ENTER( "Lookup" );
+    OTV_NAME_ENTER("Lookup");
 
-    OTV_LIMIT_CHECK( 6 );
-    LookupType    = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(6);
+    LookupType    = FT_NEXT_USHORT(p);
     p            += 2;                      /* skip LookupFlag */
-    SubTableCount = FT_NEXT_USHORT( p );
+    SubTableCount = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (type %d)\n", LookupType ));
+    OTV_TRACE((" (type %d)\n", LookupType));
 
-    if ( LookupType == 0 || LookupType > otvalid->type_count )
+    if (LookupType == 0 || LookupType > otvalid->type_count)
       FT_INVALID_DATA;
 
     validate = otvalid->type_funcs[LookupType - 1];
 
-    OTV_TRACE(( " (SubTableCount = %d)\n", SubTableCount ));
+    OTV_TRACE((" (SubTableCount = %d)\n", SubTableCount));
 
-    OTV_LIMIT_CHECK( SubTableCount * 2 );
+    OTV_LIMIT_CHECK(SubTableCount * 2);
 
     /* SubTable */
-    for ( ; SubTableCount > 0; SubTableCount-- )
-      validate( table + FT_NEXT_USHORT( p ), otvalid );
+    for (; SubTableCount > 0; SubTableCount--)
+      validate(table + FT_NEXT_USHORT(p), otvalid);
 
     OTV_EXIT;
   }
@@ -379,37 +379,37 @@
 
   /* uses valid->lookup_count */
 
-  FT_LOCAL_DEF( void )
-  otv_LookupList_validate( FT_Bytes       table,
-                           OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_LookupList_validate(FT_Bytes       table,
+                           OTV_Validator  otvalid)
   {
     FT_Bytes  p = table;
     FT_UInt   LookupCount;
 
 
-    OTV_NAME_ENTER( "LookupList" );
+    OTV_NAME_ENTER("LookupList");
 
-    OTV_LIMIT_CHECK( 2 );
-    LookupCount = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(2);
+    LookupCount = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (LookupCount = %d)\n", LookupCount ));
+    OTV_TRACE((" (LookupCount = %d)\n", LookupCount));
 
-    OTV_LIMIT_CHECK( LookupCount * 2 );
+    OTV_LIMIT_CHECK(LookupCount * 2);
 
     otvalid->lookup_count = LookupCount;
 
     /* Lookup */
-    for ( ; LookupCount > 0; LookupCount-- )
-      otv_Lookup_validate( table + FT_NEXT_USHORT( p ), otvalid );
+    for (; LookupCount > 0; LookupCount--)
+      otv_Lookup_validate(table + FT_NEXT_USHORT(p), otvalid);
 
     OTV_EXIT;
   }
 
 
   static FT_UInt
-  otv_LookupList_get_count( FT_Bytes  table )
+  otv_LookupList_get_count(FT_Bytes  table)
   {
-    return FT_NEXT_USHORT( table );
+    return FT_NEXT_USHORT(table);
   }
 
 
@@ -423,27 +423,27 @@
 
   /* uses otvalid->lookup_count */
 
-  FT_LOCAL_DEF( void )
-  otv_Feature_validate( FT_Bytes       table,
-                        OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_Feature_validate(FT_Bytes       table,
+                        OTV_Validator  otvalid)
   {
     FT_Bytes  p = table;
     FT_UInt   LookupCount;
 
 
-    OTV_NAME_ENTER( "Feature" );
+    OTV_NAME_ENTER("Feature");
 
-    OTV_LIMIT_CHECK( 4 );
+    OTV_LIMIT_CHECK(4);
     p           += 2;                   /* skip FeatureParams (unused) */
-    LookupCount  = FT_NEXT_USHORT( p );
+    LookupCount  = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (LookupCount = %d)\n", LookupCount ));
+    OTV_TRACE((" (LookupCount = %d)\n", LookupCount));
 
-    OTV_LIMIT_CHECK( LookupCount * 2 );
+    OTV_LIMIT_CHECK(LookupCount * 2);
 
     /* LookupListIndex */
-    for ( ; LookupCount > 0; LookupCount-- )
-      if ( FT_NEXT_USHORT( p ) >= otvalid->lookup_count )
+    for (; LookupCount > 0; LookupCount--)
+      if (FT_NEXT_USHORT(p) >= otvalid->lookup_count)
         FT_INVALID_DATA;
 
     OTV_EXIT;
@@ -451,41 +451,41 @@
 
 
   static FT_UInt
-  otv_Feature_get_count( FT_Bytes  table )
+  otv_Feature_get_count(FT_Bytes  table)
   {
-    return FT_NEXT_USHORT( table );
+    return FT_NEXT_USHORT(table);
   }
 
 
   /* sets otvalid->lookup_count */
 
-  FT_LOCAL_DEF( void )
-  otv_FeatureList_validate( FT_Bytes       table,
+  FT_LOCAL_DEF(void)
+  otv_FeatureList_validate(FT_Bytes       table,
                             FT_Bytes       lookups,
-                            OTV_Validator  otvalid )
+                            OTV_Validator  otvalid)
   {
     FT_Bytes  p = table;
     FT_UInt   FeatureCount;
 
 
-    OTV_NAME_ENTER( "FeatureList" );
+    OTV_NAME_ENTER("FeatureList");
 
-    OTV_LIMIT_CHECK( 2 );
-    FeatureCount = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(2);
+    FeatureCount = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (FeatureCount = %d)\n", FeatureCount ));
+    OTV_TRACE((" (FeatureCount = %d)\n", FeatureCount));
 
-    OTV_LIMIT_CHECK( FeatureCount * 2 );
+    OTV_LIMIT_CHECK(FeatureCount * 2);
 
-    otvalid->lookup_count = otv_LookupList_get_count( lookups );
+    otvalid->lookup_count = otv_LookupList_get_count(lookups);
 
     /* FeatureRecord */
-    for ( ; FeatureCount > 0; FeatureCount-- )
+    for (; FeatureCount > 0; FeatureCount--)
     {
       p += 4;       /* skip FeatureTag */
 
       /* Feature */
-      otv_Feature_validate( table + FT_NEXT_USHORT( p ), otvalid );
+      otv_Feature_validate(table + FT_NEXT_USHORT(p), otvalid);
     }
 
     OTV_EXIT;
@@ -503,33 +503,33 @@
 
   /* uses otvalid->extra1 (number of features) */
 
-  FT_LOCAL_DEF( void )
-  otv_LangSys_validate( FT_Bytes       table,
-                        OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_LangSys_validate(FT_Bytes       table,
+                        OTV_Validator  otvalid)
   {
     FT_Bytes  p = table;
     FT_UInt   ReqFeatureIndex;
     FT_UInt   FeatureCount;
 
 
-    OTV_NAME_ENTER( "LangSys" );
+    OTV_NAME_ENTER("LangSys");
 
-    OTV_LIMIT_CHECK( 6 );
+    OTV_LIMIT_CHECK(6);
     p              += 2;                    /* skip LookupOrder (unused) */
-    ReqFeatureIndex = FT_NEXT_USHORT( p );
-    FeatureCount    = FT_NEXT_USHORT( p );
+    ReqFeatureIndex = FT_NEXT_USHORT(p);
+    FeatureCount    = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (ReqFeatureIndex = %d)\n", ReqFeatureIndex ));
-    OTV_TRACE(( " (FeatureCount = %d)\n",    FeatureCount    ));
+    OTV_TRACE((" (ReqFeatureIndex = %d)\n", ReqFeatureIndex));
+    OTV_TRACE((" (FeatureCount = %d)\n",    FeatureCount   ));
 
-    if ( ReqFeatureIndex != 0xFFFFU && ReqFeatureIndex >= otvalid->extra1 )
+    if (ReqFeatureIndex != 0xFFFFU && ReqFeatureIndex >= otvalid->extra1)
       FT_INVALID_DATA;
 
-    OTV_LIMIT_CHECK( FeatureCount * 2 );
+    OTV_LIMIT_CHECK(FeatureCount * 2);
 
     /* FeatureIndex */
-    for ( ; FeatureCount > 0; FeatureCount-- )
-      if ( FT_NEXT_USHORT( p ) >= otvalid->extra1 )
+    for (; FeatureCount > 0; FeatureCount--)
+      if (FT_NEXT_USHORT(p) >= otvalid->extra1)
         FT_INVALID_DATA;
 
     OTV_EXIT;
@@ -544,34 +544,34 @@
   /*************************************************************************/
   /*************************************************************************/
 
-  FT_LOCAL_DEF( void )
-  otv_Script_validate( FT_Bytes       table,
-                       OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_Script_validate(FT_Bytes       table,
+                       OTV_Validator  otvalid)
   {
     FT_UInt   DefaultLangSys, LangSysCount;
     FT_Bytes  p = table;
 
 
-    OTV_NAME_ENTER( "Script" );
+    OTV_NAME_ENTER("Script");
 
-    OTV_LIMIT_CHECK( 4 );
-    DefaultLangSys = FT_NEXT_USHORT( p );
-    LangSysCount   = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(4);
+    DefaultLangSys = FT_NEXT_USHORT(p);
+    LangSysCount   = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (LangSysCount = %d)\n", LangSysCount ));
+    OTV_TRACE((" (LangSysCount = %d)\n", LangSysCount));
 
-    if ( DefaultLangSys != 0 )
-      otv_LangSys_validate( table + DefaultLangSys, otvalid );
+    if (DefaultLangSys != 0)
+      otv_LangSys_validate(table + DefaultLangSys, otvalid);
 
-    OTV_LIMIT_CHECK( LangSysCount * 6 );
+    OTV_LIMIT_CHECK(LangSysCount * 6);
 
     /* LangSysRecord */
-    for ( ; LangSysCount > 0; LangSysCount-- )
+    for (; LangSysCount > 0; LangSysCount--)
     {
       p += 4;       /* skip LangSysTag */
 
       /* LangSys */
-      otv_LangSys_validate( table + FT_NEXT_USHORT( p ), otvalid );
+      otv_LangSys_validate(table + FT_NEXT_USHORT(p), otvalid);
     }
 
     OTV_EXIT;
@@ -580,32 +580,32 @@
 
   /* sets otvalid->extra1 (number of features) */
 
-  FT_LOCAL_DEF( void )
-  otv_ScriptList_validate( FT_Bytes       table,
+  FT_LOCAL_DEF(void)
+  otv_ScriptList_validate(FT_Bytes       table,
                            FT_Bytes       features,
-                           OTV_Validator  otvalid )
+                           OTV_Validator  otvalid)
   {
     FT_UInt   ScriptCount;
     FT_Bytes  p = table;
 
 
-    OTV_NAME_ENTER( "ScriptList" );
+    OTV_NAME_ENTER("ScriptList");
 
-    OTV_LIMIT_CHECK( 2 );
-    ScriptCount = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(2);
+    ScriptCount = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (ScriptCount = %d)\n", ScriptCount ));
+    OTV_TRACE((" (ScriptCount = %d)\n", ScriptCount));
 
-    OTV_LIMIT_CHECK( ScriptCount * 6 );
+    OTV_LIMIT_CHECK(ScriptCount * 6);
 
-    otvalid->extra1 = otv_Feature_get_count( features );
+    otvalid->extra1 = otv_Feature_get_count(features);
 
     /* ScriptRecord */
-    for ( ; ScriptCount > 0; ScriptCount-- )
+    for (; ScriptCount > 0; ScriptCount--)
     {
       p += 4;       /* skip ScriptTag */
 
-      otv_Script_validate( table + FT_NEXT_USHORT( p ), otvalid ); /* Script */
+      otv_Script_validate(table + FT_NEXT_USHORT(p), otvalid); /* Script */
     }
 
     OTV_EXIT;
@@ -638,9 +638,9 @@
      Onx: Offset (NULL) [x]
   */
 
-  FT_LOCAL_DEF( void )
-  otv_x_Ox( FT_Bytes       table,
-            OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_x_Ox(FT_Bytes       table,
+            OTV_Validator  otvalid)
   {
     FT_Bytes           p = table;
     FT_UInt            Count;
@@ -649,18 +649,18 @@
 
     OTV_ENTER;
 
-    OTV_LIMIT_CHECK( 2 );
-    Count = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(2);
+    Count = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (Count = %d)\n", Count ));
+    OTV_TRACE((" (Count = %d)\n", Count));
 
-    OTV_LIMIT_CHECK( Count * 2 );
+    OTV_LIMIT_CHECK(Count * 2);
 
     otvalid->nesting_level++;
     func = otvalid->func[otvalid->nesting_level];
 
-    for ( ; Count > 0; Count-- )
-      func( table + FT_NEXT_USHORT( p ), otvalid );
+    for (; Count > 0; Count--)
+      func(table + FT_NEXT_USHORT(p), otvalid);
 
     otvalid->nesting_level--;
 
@@ -668,9 +668,9 @@
   }
 
 
-  FT_LOCAL_DEF( void )
-  otv_u_C_x_Ox( FT_Bytes       table,
-                OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_u_C_x_Ox(FT_Bytes       table,
+                OTV_Validator  otvalid)
   {
     FT_Bytes           p = table;
     FT_UInt            Count, Coverage;
@@ -681,21 +681,21 @@
 
     p += 2;     /* skip Format */
 
-    OTV_LIMIT_CHECK( 4 );
-    Coverage = FT_NEXT_USHORT( p );
-    Count    = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(4);
+    Coverage = FT_NEXT_USHORT(p);
+    Count    = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (Count = %d)\n", Count ));
+    OTV_TRACE((" (Count = %d)\n", Count));
 
-    otv_Coverage_validate( table + Coverage, otvalid, (FT_Int)Count );
+    otv_Coverage_validate(table + Coverage, otvalid, (FT_Int)Count);
 
-    OTV_LIMIT_CHECK( Count * 2 );
+    OTV_LIMIT_CHECK(Count * 2);
 
     otvalid->nesting_level++;
     func = otvalid->func[otvalid->nesting_level];
 
-    for ( ; Count > 0; Count-- )
-      func( table + FT_NEXT_USHORT( p ), otvalid );
+    for (; Count > 0; Count--)
+      func(table + FT_NEXT_USHORT(p), otvalid);
 
     otvalid->nesting_level--;
 
@@ -705,9 +705,9 @@
 
   /* uses otvalid->extra1 (if > 0: array value limit) */
 
-  FT_LOCAL_DEF( void )
-  otv_x_ux( FT_Bytes       table,
-            OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_x_ux(FT_Bytes       table,
+            OTV_Validator  otvalid)
   {
     FT_Bytes  p = table;
     FT_UInt   Count;
@@ -715,17 +715,17 @@
 
     OTV_ENTER;
 
-    OTV_LIMIT_CHECK( 2 );
-    Count = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(2);
+    Count = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (Count = %d)\n", Count ));
+    OTV_TRACE((" (Count = %d)\n", Count));
 
-    OTV_LIMIT_CHECK( Count * 2 );
+    OTV_LIMIT_CHECK(Count * 2);
 
-    if ( otvalid->extra1 )
+    if (otvalid->extra1)
     {
-      for ( ; Count > 0; Count-- )
-        if ( FT_NEXT_USHORT( p ) >= otvalid->extra1 )
+      for (; Count > 0; Count--)
+        if (FT_NEXT_USHORT(p) >= otvalid->extra1)
           FT_INVALID_DATA;
     }
 
@@ -738,9 +738,9 @@
 
   /* uses otvalid->extra1 (array value limit) */
 
-  FT_LOCAL_DEF( void )
-  otv_x_y_ux_sy( FT_Bytes       table,
-                 OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_x_y_ux_sy(FT_Bytes       table,
+                 OTV_Validator  otvalid)
   {
     FT_Bytes  p = table;
     FT_UInt   Count1, Count2;
@@ -748,25 +748,25 @@
 
     OTV_ENTER;
 
-    OTV_LIMIT_CHECK( 4 );
-    Count1 = FT_NEXT_USHORT( p );
-    Count2 = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(4);
+    Count1 = FT_NEXT_USHORT(p);
+    Count2 = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (Count1 = %d)\n", Count1 ));
-    OTV_TRACE(( " (Count2 = %d)\n", Count2 ));
+    OTV_TRACE((" (Count1 = %d)\n", Count1));
+    OTV_TRACE((" (Count2 = %d)\n", Count2));
 
-    if ( Count1 == 0 )
+    if (Count1 == 0)
       FT_INVALID_DATA;
 
-    OTV_LIMIT_CHECK( ( Count1 - 1 ) * 2 + Count2 * 4 );
-    p += ( Count1 - 1 ) * 2;
+    OTV_LIMIT_CHECK((Count1 - 1) * 2 + Count2 * 4);
+    p += (Count1 - 1) * 2;
 
-    for ( ; Count2 > 0; Count2-- )
+    for (; Count2 > 0; Count2--)
     {
-      if ( FT_NEXT_USHORT( p ) >= Count1 )
+      if (FT_NEXT_USHORT(p) >= Count1)
         FT_INVALID_DATA;
 
-      if ( FT_NEXT_USHORT( p ) >= otvalid->extra1 )
+      if (FT_NEXT_USHORT(p) >= otvalid->extra1)
         FT_INVALID_DATA;
     }
 
@@ -779,9 +779,9 @@
 
   /* uses otvalid->extra1 (array value limit) */
 
-  FT_LOCAL_DEF( void )
-  otv_x_ux_y_uy_z_uz_p_sp( FT_Bytes       table,
-                           OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_x_ux_y_uy_z_uz_p_sp(FT_Bytes       table,
+                           OTV_Validator  otvalid)
   {
     FT_Bytes  p = table;
     FT_UInt   BacktrackCount, InputCount, LookaheadCount;
@@ -790,42 +790,42 @@
 
     OTV_ENTER;
 
-    OTV_LIMIT_CHECK( 2 );
-    BacktrackCount = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(2);
+    BacktrackCount = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (BacktrackCount = %d)\n", BacktrackCount ));
+    OTV_TRACE((" (BacktrackCount = %d)\n", BacktrackCount));
 
-    OTV_LIMIT_CHECK( BacktrackCount * 2 + 2 );
+    OTV_LIMIT_CHECK(BacktrackCount * 2 + 2);
     p += BacktrackCount * 2;
 
-    InputCount = FT_NEXT_USHORT( p );
-    if ( InputCount == 0 )
+    InputCount = FT_NEXT_USHORT(p);
+    if (InputCount == 0)
       FT_INVALID_DATA;
 
-    OTV_TRACE(( " (InputCount = %d)\n", InputCount ));
+    OTV_TRACE((" (InputCount = %d)\n", InputCount));
 
-    OTV_LIMIT_CHECK( InputCount * 2 );
-    p += ( InputCount - 1 ) * 2;
+    OTV_LIMIT_CHECK(InputCount * 2);
+    p += (InputCount - 1) * 2;
 
-    LookaheadCount = FT_NEXT_USHORT( p );
+    LookaheadCount = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (LookaheadCount = %d)\n", LookaheadCount ));
+    OTV_TRACE((" (LookaheadCount = %d)\n", LookaheadCount));
 
-    OTV_LIMIT_CHECK( LookaheadCount * 2 + 2 );
+    OTV_LIMIT_CHECK(LookaheadCount * 2 + 2);
     p += LookaheadCount * 2;
 
-    Count = FT_NEXT_USHORT( p );
+    Count = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (Count = %d)\n", Count ));
+    OTV_TRACE((" (Count = %d)\n", Count));
 
-    OTV_LIMIT_CHECK( Count * 4 );
+    OTV_LIMIT_CHECK(Count * 4);
 
-    for ( ; Count > 0; Count-- )
+    for (; Count > 0; Count--)
     {
-      if ( FT_NEXT_USHORT( p ) >= InputCount )
+      if (FT_NEXT_USHORT(p) >= InputCount)
         FT_INVALID_DATA;
 
-      if ( FT_NEXT_USHORT( p ) >= otvalid->extra1 )
+      if (FT_NEXT_USHORT(p) >= otvalid->extra1)
         FT_INVALID_DATA;
     }
 
@@ -835,9 +835,9 @@
 
   /* sets otvalid->extra1 (valid->lookup_count) */
 
-  FT_LOCAL_DEF( void )
-  otv_u_O_O_x_Onx( FT_Bytes       table,
-                   OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_u_O_O_x_Onx(FT_Bytes       table,
+                   OTV_Validator  otvalid)
   {
     FT_Bytes           p = table;
     FT_UInt            Coverage, ClassDef, ClassSetCount;
@@ -848,29 +848,29 @@
 
     p += 2;     /* skip Format */
 
-    OTV_LIMIT_CHECK( 6 );
-    Coverage      = FT_NEXT_USHORT( p );
-    ClassDef      = FT_NEXT_USHORT( p );
-    ClassSetCount = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(6);
+    Coverage      = FT_NEXT_USHORT(p);
+    ClassDef      = FT_NEXT_USHORT(p);
+    ClassSetCount = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (ClassSetCount = %d)\n", ClassSetCount ));
+    OTV_TRACE((" (ClassSetCount = %d)\n", ClassSetCount));
 
-    otv_Coverage_validate( table + Coverage, otvalid, -1 );
-    otv_ClassDef_validate( table + ClassDef, otvalid );
+    otv_Coverage_validate(table + Coverage, otvalid, -1);
+    otv_ClassDef_validate(table + ClassDef, otvalid);
 
-    OTV_LIMIT_CHECK( ClassSetCount * 2 );
+    OTV_LIMIT_CHECK(ClassSetCount * 2);
 
     otvalid->nesting_level++;
     func          = otvalid->func[otvalid->nesting_level];
     otvalid->extra1 = otvalid->lookup_count;
 
-    for ( ; ClassSetCount > 0; ClassSetCount-- )
+    for (; ClassSetCount > 0; ClassSetCount--)
     {
-      FT_UInt  offset = FT_NEXT_USHORT( p );
+      FT_UInt  offset = FT_NEXT_USHORT(p);
 
 
-      if ( offset )
-        func( table + offset, otvalid );
+      if (offset)
+        func(table + offset, otvalid);
     }
 
     otvalid->nesting_level--;
@@ -881,9 +881,9 @@
 
   /* uses otvalid->lookup_count */
 
-  FT_LOCAL_DEF( void )
-  otv_u_x_y_Ox_sy( FT_Bytes       table,
-                   OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_u_x_y_Ox_sy(FT_Bytes       table,
+                   OTV_Validator  otvalid)
   {
     FT_Bytes  p = table;
     FT_UInt   GlyphCount, Count, count1;
@@ -893,24 +893,24 @@
 
     p += 2;     /* skip Format */
 
-    OTV_LIMIT_CHECK( 4 );
-    GlyphCount = FT_NEXT_USHORT( p );
-    Count      = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(4);
+    GlyphCount = FT_NEXT_USHORT(p);
+    Count      = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (GlyphCount = %d)\n", GlyphCount ));
-    OTV_TRACE(( " (Count = %d)\n",      Count      ));
+    OTV_TRACE((" (GlyphCount = %d)\n", GlyphCount));
+    OTV_TRACE((" (Count = %d)\n",      Count     ));
 
-    OTV_LIMIT_CHECK( GlyphCount * 2 + Count * 4 );
+    OTV_LIMIT_CHECK(GlyphCount * 2 + Count * 4);
 
-    for ( count1 = GlyphCount; count1 > 0; count1-- )
-      otv_Coverage_validate( table + FT_NEXT_USHORT( p ), otvalid, -1 );
+    for (count1 = GlyphCount; count1 > 0; count1--)
+      otv_Coverage_validate(table + FT_NEXT_USHORT(p), otvalid, -1);
 
-    for ( ; Count > 0; Count-- )
+    for (; Count > 0; Count--)
     {
-      if ( FT_NEXT_USHORT( p ) >= GlyphCount )
+      if (FT_NEXT_USHORT(p) >= GlyphCount)
         FT_INVALID_DATA;
 
-      if ( FT_NEXT_USHORT( p ) >= otvalid->lookup_count )
+      if (FT_NEXT_USHORT(p) >= otvalid->lookup_count)
         FT_INVALID_DATA;
     }
 
@@ -920,9 +920,9 @@
 
   /* sets otvalid->extra1 (valid->lookup_count)    */
 
-  FT_LOCAL_DEF( void )
-  otv_u_O_O_O_O_x_Onx( FT_Bytes       table,
-                       OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_u_O_O_O_O_x_Onx(FT_Bytes       table,
+                       OTV_Validator  otvalid)
   {
     FT_Bytes           p = table;
     FT_UInt            Coverage;
@@ -935,34 +935,34 @@
 
     p += 2;     /* skip Format */
 
-    OTV_LIMIT_CHECK( 10 );
-    Coverage           = FT_NEXT_USHORT( p );
-    BacktrackClassDef  = FT_NEXT_USHORT( p );
-    InputClassDef      = FT_NEXT_USHORT( p );
-    LookaheadClassDef  = FT_NEXT_USHORT( p );
-    ChainClassSetCount = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(10);
+    Coverage           = FT_NEXT_USHORT(p);
+    BacktrackClassDef  = FT_NEXT_USHORT(p);
+    InputClassDef      = FT_NEXT_USHORT(p);
+    LookaheadClassDef  = FT_NEXT_USHORT(p);
+    ChainClassSetCount = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (ChainClassSetCount = %d)\n", ChainClassSetCount ));
+    OTV_TRACE((" (ChainClassSetCount = %d)\n", ChainClassSetCount));
 
-    otv_Coverage_validate( table + Coverage, otvalid, -1 );
+    otv_Coverage_validate(table + Coverage, otvalid, -1);
 
-    otv_ClassDef_validate( table + BacktrackClassDef,  otvalid );
-    otv_ClassDef_validate( table + InputClassDef, otvalid );
-    otv_ClassDef_validate( table + LookaheadClassDef, otvalid );
+    otv_ClassDef_validate(table + BacktrackClassDef,  otvalid);
+    otv_ClassDef_validate(table + InputClassDef, otvalid);
+    otv_ClassDef_validate(table + LookaheadClassDef, otvalid);
 
-    OTV_LIMIT_CHECK( ChainClassSetCount * 2 );
+    OTV_LIMIT_CHECK(ChainClassSetCount * 2);
 
     otvalid->nesting_level++;
     func          = otvalid->func[otvalid->nesting_level];
     otvalid->extra1 = otvalid->lookup_count;
 
-    for ( ; ChainClassSetCount > 0; ChainClassSetCount-- )
+    for (; ChainClassSetCount > 0; ChainClassSetCount--)
     {
-      FT_UInt  offset = FT_NEXT_USHORT( p );
+      FT_UInt  offset = FT_NEXT_USHORT(p);
 
 
-      if ( offset )
-        func( table + offset, otvalid );
+      if (offset)
+        func(table + offset, otvalid);
     }
 
     otvalid->nesting_level--;
@@ -973,9 +973,9 @@
 
   /* uses otvalid->lookup_count */
 
-  FT_LOCAL_DEF( void )
-  otv_u_x_Ox_y_Oy_z_Oz_p_sp( FT_Bytes       table,
-                             OTV_Validator  otvalid )
+  FT_LOCAL_DEF(void)
+  otv_u_x_Ox_y_Oy_z_Oz_p_sp(FT_Bytes       table,
+                             OTV_Validator  otvalid)
   {
     FT_Bytes  p = table;
     FT_UInt   BacktrackGlyphCount, InputGlyphCount, LookaheadGlyphCount;
@@ -986,46 +986,46 @@
 
     p += 2;     /* skip Format */
 
-    OTV_LIMIT_CHECK( 2 );
-    BacktrackGlyphCount = FT_NEXT_USHORT( p );
+    OTV_LIMIT_CHECK(2);
+    BacktrackGlyphCount = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (BacktrackGlyphCount = %d)\n", BacktrackGlyphCount ));
+    OTV_TRACE((" (BacktrackGlyphCount = %d)\n", BacktrackGlyphCount));
 
-    OTV_LIMIT_CHECK( BacktrackGlyphCount * 2 + 2 );
+    OTV_LIMIT_CHECK(BacktrackGlyphCount * 2 + 2);
 
-    for ( ; BacktrackGlyphCount > 0; BacktrackGlyphCount-- )
-      otv_Coverage_validate( table + FT_NEXT_USHORT( p ), otvalid, -1 );
+    for (; BacktrackGlyphCount > 0; BacktrackGlyphCount--)
+      otv_Coverage_validate(table + FT_NEXT_USHORT(p), otvalid, -1);
 
-    InputGlyphCount = FT_NEXT_USHORT( p );
+    InputGlyphCount = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (InputGlyphCount = %d)\n", InputGlyphCount ));
+    OTV_TRACE((" (InputGlyphCount = %d)\n", InputGlyphCount));
 
-    OTV_LIMIT_CHECK( InputGlyphCount * 2 + 2 );
+    OTV_LIMIT_CHECK(InputGlyphCount * 2 + 2);
 
-    for ( count1 = InputGlyphCount; count1 > 0; count1-- )
-      otv_Coverage_validate( table + FT_NEXT_USHORT( p ), otvalid, -1 );
+    for (count1 = InputGlyphCount; count1 > 0; count1--)
+      otv_Coverage_validate(table + FT_NEXT_USHORT(p), otvalid, -1);
 
-    LookaheadGlyphCount = FT_NEXT_USHORT( p );
+    LookaheadGlyphCount = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (LookaheadGlyphCount = %d)\n", LookaheadGlyphCount ));
+    OTV_TRACE((" (LookaheadGlyphCount = %d)\n", LookaheadGlyphCount));
 
-    OTV_LIMIT_CHECK( LookaheadGlyphCount * 2 + 2 );
+    OTV_LIMIT_CHECK(LookaheadGlyphCount * 2 + 2);
 
-    for ( ; LookaheadGlyphCount > 0; LookaheadGlyphCount-- )
-      otv_Coverage_validate( table + FT_NEXT_USHORT( p ), otvalid, -1 );
+    for (; LookaheadGlyphCount > 0; LookaheadGlyphCount--)
+      otv_Coverage_validate(table + FT_NEXT_USHORT(p), otvalid, -1);
 
-    count2 = FT_NEXT_USHORT( p );
+    count2 = FT_NEXT_USHORT(p);
 
-    OTV_TRACE(( " (Count = %d)\n", count2 ));
+    OTV_TRACE((" (Count = %d)\n", count2));
 
-    OTV_LIMIT_CHECK( count2 * 4 );
+    OTV_LIMIT_CHECK(count2 * 4);
 
-    for ( ; count2 > 0; count2-- )
+    for (; count2 > 0; count2--)
     {
-      if ( FT_NEXT_USHORT( p ) >= InputGlyphCount )
+      if (FT_NEXT_USHORT(p) >= InputGlyphCount)
         FT_INVALID_DATA;
 
-      if ( FT_NEXT_USHORT( p ) >= otvalid->lookup_count )
+      if (FT_NEXT_USHORT(p) >= otvalid->lookup_count)
         FT_INVALID_DATA;
     }
 
@@ -1033,47 +1033,47 @@
   }
 
 
-  FT_LOCAL_DEF( FT_UInt )
-  otv_GSUBGPOS_get_Lookup_count( FT_Bytes  table )
+  FT_LOCAL_DEF(FT_UInt)
+  otv_GSUBGPOS_get_Lookup_count(FT_Bytes  table)
   {
     FT_Bytes  p = table + 8;
 
 
-    return otv_LookupList_get_count( table + FT_NEXT_USHORT( p ) );
+    return otv_LookupList_get_count(table + FT_NEXT_USHORT(p));
   }
 
 
-  FT_LOCAL_DEF( FT_UInt )
-  otv_GSUBGPOS_have_MarkAttachmentType_flag( FT_Bytes  table )
+  FT_LOCAL_DEF(FT_UInt)
+  otv_GSUBGPOS_have_MarkAttachmentType_flag(FT_Bytes  table)
   {
     FT_Bytes  p, lookup;
     FT_UInt   count;
 
 
-    if ( !table )
+    if (!table)
       return 0;
 
     /* LookupList */
     p      = table + 8;
-    table += FT_NEXT_USHORT( p );
+    table += FT_NEXT_USHORT(p);
 
     /* LookupCount */
     p     = table;
-    count = FT_NEXT_USHORT( p );
+    count = FT_NEXT_USHORT(p);
 
-    for ( ; count > 0; count-- )
+    for (; count > 0; count--)
     {
       FT_Bytes  oldp;
 
 
       /* Lookup */
-      lookup = table + FT_NEXT_USHORT( p );
+      lookup = table + FT_NEXT_USHORT(p);
 
       oldp = p;
 
       /* LookupFlag */
       p = lookup + 2;
-      if ( FT_NEXT_USHORT( p ) & 0xFF00U )
+      if (FT_NEXT_USHORT(p) & 0xFF00U)
         return 1;
 
       p = oldp;

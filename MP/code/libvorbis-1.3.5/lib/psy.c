@@ -603,7 +603,7 @@ static void bark_noise_hybridmp(int n,const long *b,
   for (i = 0, x = 0.f;; i++, x += 1.f) {
 
     lo = b[i] >> 16;
-    if( lo>=0 ) break;
+    if(lo>=0) break;
     hi = b[i] & 0xffff;
 
     tN = N[hi] + N[-lo];
@@ -622,7 +622,7 @@ static void bark_noise_hybridmp(int n,const long *b,
     noise[i] = R - offset;
   }
 
-  for ( ;; i++, x += 1.f) {
+  for (;; i++, x += 1.f) {
 
     lo = b[i] >> 16;
     hi = b[i] & 0xffff;
@@ -642,7 +642,7 @@ static void bark_noise_hybridmp(int n,const long *b,
 
     noise[i] = R - offset;
   }
-  for ( ; i < n; i++, x += 1.f) {
+  for (; i < n; i++, x += 1.f) {
 
     R = (A + x * B) / D;
     if (R < 0.f) R = 0.f;
@@ -671,7 +671,7 @@ static void bark_noise_hybridmp(int n,const long *b,
 
     if (R - offset < noise[i]) noise[i] = R - offset;
   }
-  for ( ;; i++, x += 1.f) {
+  for (;; i++, x += 1.f) {
 
     hi = i + fixed / 2;
     lo = hi - fixed;
@@ -690,7 +690,7 @@ static void bark_noise_hybridmp(int n,const long *b,
 
     if (R - offset < noise[i]) noise[i] = R - offset;
   }
-  for ( ; i < n; i++, x += 1.f) {
+  for (; i < n; i++, x += 1.f) {
     R = (A + x * B) / D;
     if (R - offset < noise[i]) noise[i] = R - offset;
   }

@@ -27,7 +27,7 @@ FT_BEGIN_HEADER
 
   /* A dummy writing system used when no hinting should be performed. */
 
-  AF_DECLARE_WRITING_SYSTEM_CLASS( af_dummy_writing_system_class )
+  AF_DECLARE_WRITING_SYSTEM_CLASS(af_dummy_writing_system_class)
 
 /* */
 

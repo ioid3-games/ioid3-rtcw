@@ -42,11 +42,11 @@ void silk_autocorrelation_FLP(
 {
     opus_int i;
 
-    if( correlationCount > inputDataSize ) {
+    if(correlationCount > inputDataSize) {
         correlationCount = inputDataSize;
     }
 
-    for( i = 0; i < correlationCount; i++ ) {
-        results[ i ] =  (silk_float)silk_inner_product_FLP( inputData, inputData + i, inputDataSize - i );
+    for(i = 0; i < correlationCount; i++) {
+        results[ i ] =  (silk_float)silk_inner_product_FLP(inputData, inputData + i, inputDataSize - i);
     }
 }

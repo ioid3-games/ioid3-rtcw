@@ -622,7 +622,7 @@ static opus_int32 surround_rate_allocation(
       OpusMSEncoder *st,
       opus_int32 *rate,
       int frame_size
-      )
+     )
 {
    int i;
    opus_int32 channel_rate;
@@ -754,7 +754,7 @@ static int opus_multistream_encode_native
 #ifndef DISABLE_FLOAT_API
             , st->subframe_mem
 #endif
-            );
+           );
    }
 
    if (400*frame_size < Fs)

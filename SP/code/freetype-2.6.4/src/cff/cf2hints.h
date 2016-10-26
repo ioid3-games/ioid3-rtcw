@@ -78,7 +78,7 @@ FT_BEGIN_HEADER
     size_t  bitCount;
     size_t  byteCount;
 
-    FT_Byte  mask[( CF2_MAX_HINTS + 7 ) / 8];
+    FT_Byte  mask[(CF2_MAX_HINTS + 7) / 8];
 
   } CF2_HintMaskRec, *CF2_HintMask;
 
@@ -148,29 +148,29 @@ FT_BEGIN_HEADER
   } CF2_HintMapRec, *CF2_HintMap;
 
 
-  FT_LOCAL( FT_Bool )
-  cf2_hint_isValid( const CF2_Hint  hint );
-  FT_LOCAL( FT_Bool )
-  cf2_hint_isTop( const CF2_Hint  hint );
-  FT_LOCAL( FT_Bool )
-  cf2_hint_isBottom( const CF2_Hint  hint );
-  FT_LOCAL( void )
-  cf2_hint_lock( CF2_Hint  hint );
+  FT_LOCAL(FT_Bool)
+  cf2_hint_isValid(const CF2_Hint  hint);
+  FT_LOCAL(FT_Bool)
+  cf2_hint_isTop(const CF2_Hint  hint);
+  FT_LOCAL(FT_Bool)
+  cf2_hint_isBottom(const CF2_Hint  hint);
+  FT_LOCAL(void)
+  cf2_hint_lock(CF2_Hint  hint);
 
 
-  FT_LOCAL( void )
-  cf2_hintmap_init( CF2_HintMap   hintmap,
+  FT_LOCAL(void)
+  cf2_hintmap_init(CF2_HintMap   hintmap,
                     CF2_Font      font,
                     CF2_HintMap   initialMap,
                     CF2_ArrStack  hintMoves,
-                    CF2_Fixed     scale );
-  FT_LOCAL( void )
-  cf2_hintmap_build( CF2_HintMap   hintmap,
+                    CF2_Fixed     scale);
+  FT_LOCAL(void)
+  cf2_hintmap_build(CF2_HintMap   hintmap,
                      CF2_ArrStack  hStemHintArray,
                      CF2_ArrStack  vStemHintArray,
                      CF2_HintMask  hintMask,
                      CF2_Fixed     hintOrigin,
-                     FT_Bool       initialMap );
+                     FT_Bool       initialMap);
 
 
   /*
@@ -245,8 +245,8 @@ FT_BEGIN_HEADER
   } CF2_GlyphPathRec, *CF2_GlyphPath;
 
 
-  FT_LOCAL( void )
-  cf2_glyphpath_init( CF2_GlyphPath         glyphpath,
+  FT_LOCAL(void)
+  cf2_glyphpath_init(CF2_GlyphPath         glyphpath,
                       CF2_Font              font,
                       CF2_OutlineCallbacks  callbacks,
                       CF2_Fixed             scaleY,
@@ -256,28 +256,28 @@ FT_BEGIN_HEADER
                       CF2_HintMask          hintMask,
                       CF2_Fixed             hintOrigin,
                       const CF2_Blues       blues,
-                      const FT_Vector*      fractionalTranslation );
-  FT_LOCAL( void )
-  cf2_glyphpath_finalize( CF2_GlyphPath  glyphpath );
+                      const FT_Vector*      fractionalTranslation);
+  FT_LOCAL(void)
+  cf2_glyphpath_finalize(CF2_GlyphPath  glyphpath);
 
-  FT_LOCAL( void )
-  cf2_glyphpath_moveTo( CF2_GlyphPath  glyphpath,
+  FT_LOCAL(void)
+  cf2_glyphpath_moveTo(CF2_GlyphPath  glyphpath,
                         CF2_Fixed      x,
-                        CF2_Fixed      y );
-  FT_LOCAL( void )
-  cf2_glyphpath_lineTo( CF2_GlyphPath  glyphpath,
+                        CF2_Fixed      y);
+  FT_LOCAL(void)
+  cf2_glyphpath_lineTo(CF2_GlyphPath  glyphpath,
                         CF2_Fixed      x,
-                        CF2_Fixed      y );
-  FT_LOCAL( void )
-  cf2_glyphpath_curveTo( CF2_GlyphPath  glyphpath,
+                        CF2_Fixed      y);
+  FT_LOCAL(void)
+  cf2_glyphpath_curveTo(CF2_GlyphPath  glyphpath,
                          CF2_Fixed      x1,
                          CF2_Fixed      y1,
                          CF2_Fixed      x2,
                          CF2_Fixed      y2,
                          CF2_Fixed      x3,
-                         CF2_Fixed      y3 );
-  FT_LOCAL( void )
-  cf2_glyphpath_closeOpenPath( CF2_GlyphPath  glyphpath );
+                         CF2_Fixed      y3);
+  FT_LOCAL(void)
+  cf2_glyphpath_closeOpenPath(CF2_GlyphPath  glyphpath);
 
 
 FT_END_HEADER

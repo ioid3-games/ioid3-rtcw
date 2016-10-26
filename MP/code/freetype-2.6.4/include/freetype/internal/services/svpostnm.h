@@ -38,10 +38,10 @@ FT_BEGIN_HEADER
 
 
   typedef const char*
-  (*FT_PsName_GetFunc)( FT_Face  face );
+  (*FT_PsName_GetFunc)(FT_Face  face);
 
 
-  FT_DEFINE_SERVICE( PsFontName )
+  FT_DEFINE_SERVICE(PsFontName)
   {
     FT_PsName_GetFunc  get_ps_font_name;
   };
@@ -49,7 +49,7 @@ FT_BEGIN_HEADER
 
 #ifndef FT_CONFIG_OPTION_PIC
 
-#define FT_DEFINE_SERVICE_PSFONTNAMEREC( class_, get_ps_font_name_ ) \
+#define FT_DEFINE_SERVICE_PSFONTNAMEREC(class_, get_ps_font_name_) \
   static const FT_Service_PsFontNameRec  class_ =                    \
   {                                                                  \
     get_ps_font_name_                                                \
@@ -57,12 +57,12 @@ FT_BEGIN_HEADER
 
 #else /* FT_CONFIG_OPTION_PIC */
 
-#define FT_DEFINE_SERVICE_PSFONTNAMEREC( class_, get_ps_font_name_ ) \
+#define FT_DEFINE_SERVICE_PSFONTNAMEREC(class_, get_ps_font_name_) \
   void                                                               \
-  FT_Init_Class_ ## class_( FT_Library                 library,      \
-                            FT_Service_PsFontNameRec*  clazz )       \
+  FT_Init_Class_ ## class_(FT_Library                 library,      \
+                            FT_Service_PsFontNameRec*  clazz)       \
   {                                                                  \
-    FT_UNUSED( library );                                            \
+    FT_UNUSED(library);                                            \
                                                                      \
     clazz->get_ps_font_name = get_ps_font_name_;                     \
   }
