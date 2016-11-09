@@ -502,7 +502,6 @@ void BotUpdateInventory(bot_state_t *bs) {
 	bs->inventory[INVENTORY_FLIGHT] = bs->cur_ps.powerups[PW_FLIGHT] != 0;
 	bs->inventory[INVENTORY_REDFLAG] = bs->cur_ps.powerups[PW_REDFLAG] != 0;
 	bs->inventory[INVENTORY_BLUEFLAG] = bs->cur_ps.powerups[PW_BLUEFLAG] != 0;
-	// 
 }
 
 /*
@@ -1131,7 +1130,7 @@ void BotRoamGoal(bot_state_t *bs, vec3_t goal) {
 				trace.endpos[2]++;
 				pc = trap_PointContents(trace.endpos, bs->entitynum);
 
-				if (!(pc & CONTENTS_LAVA)) { // ---- (SA)	modified since slime is no longer deadly
+				if (!(pc & CONTENTS_LAVA)) { // modified since slime is no longer deadly
 // 			if (!(pc & (CONTENTS_LAVA|CONTENTS_SLIME))) {
 					VectorCopy(bestorg, goal);
 					return;
@@ -1682,8 +1681,7 @@ void BotAimAtEnemy(bot_state_t *bs) {
 	VectorScale(enemyvelocity, 1 / entinfo.update_time, enemyvelocity);
 	// enemy origin and velocity is remembered every 0.5 seconds
 	if (bs->enemyposition_time < trap_AAS_Time()) {
-		// 
-		bs->enemyposition_time = trap_AAS_Time() + 0.5;
+			bs->enemyposition_time = trap_AAS_Time() + 0.5;
 		VectorCopy(enemyvelocity, bs->enemyvelocity);
 		VectorCopy(entinfo.origin, bs->enemyorigin);
 	}
@@ -1703,8 +1701,7 @@ void BotAimAtEnemy(bot_state_t *bs) {
 	enemyvisible = BotEntityVisible(bs->entitynum, bs->eye, bs->viewangles, 360, bs->enemy);
 	// if the enemy is visible
 	if (enemyvisible) {
-		// 
-		VectorCopy(entinfo.origin, bestorigin);
+			VectorCopy(entinfo.origin, bestorigin);
 		bestorigin[2] += 8;
 		// get the start point shooting from
 		// NOTE: the x and y projectile start offsets are ignored
@@ -1719,8 +1716,7 @@ void BotAimAtEnemy(bot_state_t *bs) {
 		}
 		// if it is not an instant hit weapon the bot might want to predict the enemy
 		if (wi.speed) {
-			// 
-			VectorSubtract(bestorigin, bs->origin, dir);
+					VectorSubtract(bestorigin, bs->origin, dir);
 			dist = VectorLength(dir);
 			VectorSubtract(entinfo.origin, bs->enemyorigin, dir);
 			// if the enemy is NOT pretty far away and strafing just small steps left and right
@@ -1804,13 +1800,12 @@ void BotAimAtEnemy(bot_state_t *bs) {
 		bestorigin[1] += 20 * crandom() * (1 - aim_accuracy);
 		bestorigin[2] += 10 * crandom() * (1 - aim_accuracy);
 	} else {
-		// 
-		VectorCopy(bs->lastenemyorigin, bestorigin);
+			VectorCopy(bs->lastenemyorigin, bestorigin);
 		bestorigin[2] += 8;
 		// if the bot is skilled enough
 		if (aim_skill > 0.5) {
 			// do prediction shots around corners
-// 		if (wi.number == WP_BFG ||	// ---- (SA)	removing old weapon references
+// 		if (wi.number == WP_BFG ||	// removing old weapon references
 			if (wi.number == WP_ROCKET_LAUNCHER || wi.number == WP_GRENADE_LAUNCHER) {
 				// create the chase goal
 				goal.entitynum = bs->client;
@@ -1839,7 +1834,7 @@ void BotAimAtEnemy(bot_state_t *bs) {
 	VectorSubtract(bestorigin, bs->eye, dir);
 
 	if (wi.number == WP_FLAMETHROWER) {
-// if (wi.number == WP_MACHINEGUN ||	// ---- (SA)	removing old weapon references
+// if (wi.number == WP_MACHINEGUN ||	// removing old weapon references
 // 	wi.number == WP_SHOTGUN ||
 // 	wi.number == WP_RAILGUN) {
 		// distance towards the enemy
@@ -2451,16 +2446,14 @@ void BotAIBlocked(bot_state_t *bs, bot_moveresult_t *moveresult, int activate) {
 				}
 
 				if (i < numareas) {
-					// 
-#ifdef OBSTACLEDEBUG
+				#ifdef OBSTACLEDEBUG
 					if (bs->activatemessage_time < trap_AAS_Time()) {
 						Com_sprintf(buf, sizeof(buf), "I have to activate a button at %1.1f %1.1f %1.1f in area %d\n", goalorigin[0], goalorigin[1], goalorigin[2], areas[i]);
 						trap_EA_Say(bs->client, buf);
 						bs->activatemessage_time = trap_AAS_Time() + 5;
 					}
 #endif // OBSTACLEDEBUG
-					// 
-					// VectorMA(origin, -dist, movedir, goalorigin);
+									// VectorMA(origin, -dist, movedir, goalorigin);
 
 					VectorCopy(origin, bs->activategoal.origin);
 					bs->activategoal.areanum = areas[i];
@@ -2516,8 +2509,7 @@ void BotAIBlocked(bot_state_t *bs, bot_moveresult_t *moveresult, int activate) {
 				  bs->activatemessage_time = AAS_Time() + 5;
 			} // end if *  / 
   #endif // OBSTACLEDEBUG
-			// 
-			  VectorCopy(mid, bs->activategoal.origin);
+					  VectorCopy(mid, bs->activategoal.origin);
 			  bs->activategoal.areanum = AAS_PointAreaNum(goalorigin);
 			  VectorSubtract(mins, mid, bs->activategoal.mins);
 			  VectorSubtract(maxs, mid, bs->activategoal.maxs);
@@ -2549,7 +2541,6 @@ void BotAIBlocked(bot_state_t *bs, bot_moveresult_t *moveresult, int activate) {
 		VectorSet(angles, 0, 360 * random(), 0);
 		AngleVectors(angles, hordir, NULL, NULL);
 	}
-	// 
 // if (moveresult->flags & MOVERESULT_ONTOPOFOBSTACLE) movetype = MOVE_JUMP;
 // else
 	movetype = MOVE_WALK;
@@ -2560,7 +2551,6 @@ void BotAIBlocked(bot_state_t *bs, bot_moveresult_t *moveresult, int activate) {
 	// VectorMA(start, 5, hordir, end);
 	// VectorSet(mins, -16, -16, -24);
 	// VectorSet(maxs, 16, 16, 4);
-	// 
 // bsptrace = AAS_Trace(start, mins, maxs, end, bs->entitynum, MASK_PLAYERSOLID);
 // if (bsptrace.fraction >= 1) movetype = MOVE_CROUCH;
 	// get the sideward vector
@@ -2626,8 +2616,7 @@ void BotCheckConsoleMessages(bot_state_t *bs) {
 		if (!BotMatchMessage(bs, m.message)) {
 			// if it is a chat message
 			if (m.type == CMS_CHAT && !bot_nochat.integer) {
-				// 
-				if (!trap_BotFindMatch(m.message, &match, MTCONTEXT_REPLYCHAT)) {
+							if (!trap_BotFindMatch(m.message, &match, MTCONTEXT_REPLYCHAT)) {
 					trap_BotRemoveConsoleMessage(bs->cs, handle);
 					continue;
 				}
@@ -2649,8 +2638,7 @@ void BotCheckConsoleMessages(bot_state_t *bs) {
 				trap_Cvar_Update(&bot_testrchat);
 
 				if (bot_testrchat.integer) {
-					// 
-					trap_BotLibVarSet("bot_testrchat", "1");
+									trap_BotLibVarSet("bot_testrchat", "1");
 					// if bot replies with a chat message
 					if (trap_BotReplyChat(bs->cs, message, context, CONTEXT_REPLY, NULL, NULL, NULL, NULL, NULL, NULL, botname, netname)) {
 						BotAI_Print(PRT_MESSAGE, "------------------------\n");

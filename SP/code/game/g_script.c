@@ -86,7 +86,7 @@ qboolean G_ScriptAction_MusicPlay(gentity_t *ent, char *params);
 qboolean G_ScriptAction_MusicStop(gentity_t *ent, char *params);
 qboolean G_ScriptAction_MusicFade(gentity_t *ent, char *params);
 qboolean G_ScriptAction_MusicQueue(gentity_t *ent, char *params);
-// ---- (SA)	end
+// end
 
 // these are the actions that each event can call
 g_script_stack_action_t gScriptActions[] = {
@@ -288,7 +288,6 @@ void G_Script_ScriptParse(gentity_t *ent) {
 	int bracketLevel;
 	qboolean buildScript;
 
-
 	if (!ent->scriptName) {
 		return;
 	}
@@ -405,7 +404,7 @@ void G_Script_ScriptParse(gentity_t *ent) {
 							G_SoundIndex(token);
 						}
 
-// ---- (SA)	added a bit more
+// added a bit more
 						if (buildScript && (
 									!Q_stricmp(action->actionString, "mu_start") || !Q_stricmp(action->actionString, "mu_play") || !Q_stricmp(action->actionString, "mu_queue") || !Q_stricmp(action->actionString, "startcam") || !Q_stricmp(action->actionString, "startcamblack"))
 							) {

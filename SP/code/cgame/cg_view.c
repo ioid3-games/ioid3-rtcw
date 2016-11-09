@@ -252,7 +252,7 @@ static void CG_CalcVrect(void) {
 		}
 	}
 
-// ---- (SA)	added transition to / from letterbox
+// added transition to / from letterbox
 // normal aspect is xx:xx
 // letterbox is yy:yy (85% of 'normal' height)
 
@@ -261,7 +261,7 @@ static void CG_CalcVrect(void) {
 	if (cg_letterbox.integer) {
 		ysize = lbheight;
 	}
-// ---- (SA)	end
+// end
 
 
 	cg.refdef.width = cgs.glconfig.vidWidth * xsize / 100;
@@ -463,7 +463,7 @@ void CG_KickAngles(void) {
 		}
 	}
 	// encode the kick angles into a 24bit number, for sending to the client exe
-// ---- (SA)	commented out since it doesn't appear to be used, and it spams the console when in "developer 1"
+// commented out since it doesn't appear to be used, and it spams the console when in "developer 1"
 // trap_Cvar_Set("cg_recoilPitch", va("%f", cg.recoilPitchAngle));
 }
 
@@ -478,13 +478,10 @@ void CG_Concussive(centity_t *cent) {
 	float pitchRecoilAdd, pitchAdd;
 	float yawRandom;
 	vec3_t recoil;
-	// 
 
 	if (!cg.renderingThirdPerson && cent->currentState.density == cg.snap->ps.clientNum) {
-		// 
-		pitchRecoilAdd = 0;
-		// 
-
+			pitchRecoilAdd = 0;
+	
 		VectorSubtract(cg.snap->ps.origin, cent->currentState.origin, vec);
 		length = VectorLength(vec);
 
@@ -934,14 +931,14 @@ static int CG_CalcFov(void) {
 	cg.refdef.fov_y = fov_y;
 
 	if (!cg.zoomedBinoc) {
-		// NERVE - SMF - fix for zoomed in / out movement bug
+		// fix for zoomed in / out movement bug
 		if (cg.zoomval) {
 			if (cg.snap->ps.weapon == WP_SNOOPERSCOPE) {
-				cg.zoomSensitivity = 0.3f * (cg.zoomval / 90.f); // NERVE - SMF - changed to get less sensitive as you zoom in;
+				cg.zoomSensitivity = 0.3f * (cg.zoomval / 90.f); // changed to get less sensitive as you zoom in;
 			}
 // 			cg.zoomSensitivity = 0.2;
 			else {
-				cg.zoomSensitivity = 0.6 * (cg.zoomval / 90.f);  // NERVE - SMF - changed to get less sensitive as you zoom in
+				cg.zoomSensitivity = 0.6 * (cg.zoomval / 90.f);  // changed to get less sensitive as you zoom in
 			}
 // 			cg.zoomSensitivity = 0.1;
 		} else {
@@ -1335,7 +1332,7 @@ void CG_DrawSkyBoxPortal(void) {
 				}
 			}
 		}
-		// ---- (SA)	end
+		// end
 
 
 		if (cg.predictedPlayerState.pm_type == PM_INTERMISSION) {
@@ -1461,7 +1458,7 @@ Generates and draws a game scene and status information at the given time.
 void CG_DrawActiveFrame(int serverTime, stereoFrame_t stereoView, qboolean demoPlayback) {
 	int inwater;
 
-	cg.cld = 0;        // NERVE - SMF - reset clientDamage
+	cg.cld = 0;        // reset clientDamage
 
 #ifdef DEBUGTIME_ENABLED
 	int dbgTime = trap_Milliseconds(), elapsed;

@@ -563,8 +563,7 @@ char *AIFunc_LoperAttack3(cast_state_t *cs) {
 	}
 	// ready to inflict damage?
 	if (cs->thinkFuncChangeTime < level.time - 900) {
-		// 
-		// draw the client - side lightning effect
+			// draw the client - side lightning effect
 		ent->client->ps.eFlags |= EF_MONSTER_EFFECT3;
 		// ent->s.effect3Time = level.time + 500; // cs->thinkFuncChangeTime + LOPER_GROUND_DELAY - 200;
 		// are we waiting to inflict damage?
@@ -641,8 +640,7 @@ char *AIFunc_StimSoldierAttack1(cast_state_t *cs) {
 				ent->client->ps.legsAnim = 
 					((ent->client->ps.legsAnim & ANIM_TOGGLEBIT) ^ ANIM_TOGGLEBIT)|STIMSOLDIER_FLYLAND_ANIM;
 				ent->client->ps.legsTimer = STIMSOLDIER_FLYLAND_DURATION;  // stay down until attack is finished
-				// 
-				cs->noAttackTime = level.time + STIMSOLDIER_FLYLAND_DURATION;
+							cs->noAttackTime = level.time + STIMSOLDIER_FLYLAND_DURATION;
 				cs->aiFlags |= AIFL_LAND_ANIM_PLAYED;
 			} else {
 				if (!ent->client->ps.legsTimer) { // animation has finished, resume AI
@@ -677,8 +675,7 @@ char *AIFunc_StimSoldierAttack1(cast_state_t *cs) {
 			VectorCopy(cs->bs->origin, cs->stimFlyAttackPos);
 		} else {
 			// attack them
-			// 
-			// if we can't attack, abort
+					// if we can't attack, abort
 			if (AICast_CheckAttack(cs, cs->enemyNum, qfalse)) {
 				// apply weapons..
 				trap_EA_Attack(cs->entityNum);

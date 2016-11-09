@@ -1396,7 +1396,6 @@ void Props_Chair_Die(gentity_t *ent, gentity_t *inflictor, gentity_t *attacker, 
 			player->active = qfalse;
 			player->client->ps.eFlags &= ~EF_MELEE_ACTIVE;
 
-
 		} else {
 	 (player && player->s.number == ent->r.ownerNum) {
 			player->active = qfalse;
@@ -1606,7 +1605,7 @@ void SP_Props_ChairSide(gentity_t *ent) {
 	snd_chairhitground = G_SoundIndex("sound / props / chair / chairthud.wav");
 }
 
-// ---- (SA)	modified
+// modified
 
 // can be one of two types, but they have the same animations / etc, so re - use what you can
 /*
@@ -1685,7 +1684,7 @@ void SP_Props_ChairChatArm(gentity_t *ent) {
 	SP_Props_ChateauChair(ent);
 }
 
-// ---- (SA)	end
+// end
 
 
 void Use_DamageInflictor(gentity_t *ent, gentity_t *other, gentity_t *activator) {
@@ -3390,13 +3389,13 @@ void SP_skyportal(gentity_t *ent) {
 	G_SpawnString("fov", "90", &fov);
 	fov_x = atof(fov);
 
-// ---- (SA)	modified
+// modified
 	isfog += G_SpawnVector("fogcolor", "0 0 0", fogv);
 	isfog += G_SpawnInt("fognear", "0", &fogn);
 	isfog += G_SpawnInt("fogfar", "300", &fogf);
 
 	trap_SetConfigstring(CS_SKYBOXORG, va("%.2f %.2f %.2f %.1f %i %.2f %.2f %.2f %i %i", ent->s.origin[0], ent->s.origin[1], ent->s.origin[2], fov_x, (int)isfog, fogv[0], fogv[1], fogv[2], fogn, fogf));
-// ---- (SA)	end
+// end
 }
 
 /*QUAKED props_statue(.6 .3 .2)(-8 - 8 0)(8 8 128) HURT DEBRIS ANIMATE KEEPBLOCK
@@ -3836,7 +3835,7 @@ void props_locker_mass(gentity_t *ent) {
 
 	tent->s.dl_intensity = 0;
 
-	trap_SetConfigstring(CS_TARGETEFFECT, ent->dl_shader);   // ---- (SA)	allow shader to be set from entity
+	trap_SetConfigstring(CS_TARGETEFFECT, ent->dl_shader);   // allow shader to be set from entity
 
 	tent->s.frame = ent->key;
 

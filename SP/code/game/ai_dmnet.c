@@ -157,8 +157,7 @@ int BotGoForAir(bot_state_t *bs, int tfl, bot_goal_t *ltg, float range) {
 	bot_goal_t goal;
 	// if the bot needs air
 	if (bs->lastair_time < trap_AAS_Time() - 6) {
-		// 
-#ifdef DEBUG
+	#ifdef DEBUG
 		// BotAI_Print(PRT_MESSAGE, "going for air\n");
 #endif // DEBUG
 	  // if we can find an air goal
@@ -289,8 +288,7 @@ int BotGetItemLongTermGoal(bot_state_t *bs, int tfl, bot_goal_t *goal) {
 			*/
 			bs->ltg_time = trap_AAS_Time() + 20;
 		} else { // the bot gets sorta stuck with all the avoid timings, shouldn't happen though
-				// 
-#ifdef DEBUG
+			#ifdef DEBUG
 			char netname[128];
 
 			BotAI_Print(PRT_MESSAGE, "%s: no valid ltg (probably stuck)\n", ClientName(bs->client, netname, sizeof(netname)));
@@ -635,8 +633,7 @@ int BotGetLongTermGoal(bot_state_t *bs, int tfl, int retreat, bot_goal_t *goal) 
 				bs->ltgtype = 0;
 			}
 			// FIXME: move around a bit
-			// 
-			trap_BotResetAvoidReach(bs->ms);
+					trap_BotResetAvoidReach(bs->ms);
 			return qfalse;
 		}
 
@@ -1409,8 +1406,7 @@ int AINode_Seek_LTG(bot_state_t *bs) {
 		if (bs->ltgtype == LTG_DEFENDKEYAREA) {
 			range = 400;
 		} else {range = 150;}
-		// 
-#ifdef CTF
+	#ifdef CTF
 		// if carrying a flag the bot shouldn't be distracted too much
 		if (BotCTFCarryingFlag(bs)) {
 			range = 50;
@@ -1884,7 +1880,6 @@ int AINode_Battle_Retreat(bot_state_t *bs) {
 			return qfalse;
 		}
 	}
-	// 
 #ifdef CTF
 	if (gametype == GT_CTF) {
 		BotCTFRetreatGoals(bs);

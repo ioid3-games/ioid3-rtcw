@@ -1531,7 +1531,7 @@ void Console_Key(int key) {
 	}
 	// command history (ctrl-p ctrl-n for unix style)
 
-	// ---- (SA)	added some mousewheel functionality to the console
+	// added some mousewheel functionality to the console
 	if ((key == K_MWHEELUP && keys[K_SHIFT].down) || (key == K_UPARROW) || (key == K_KP_UPARROW) || ((tolower(key) == 'p') && keys[K_CTRL].down)) {
 		if (nextHistoryLine - historyLine < COMMAND_HISTORY
 			 && historyLine > 0) {
@@ -1541,7 +1541,7 @@ void Console_Key(int key) {
 		g_consoleField = historyEditLines[historyLine % COMMAND_HISTORY];
 		return;
 	}
-	// ---- (SA)	added some mousewheel functionality to the console
+	// added some mousewheel functionality to the console
 	if ((key == K_MWHEELDOWN && keys[K_SHIFT].down) || (key == K_DOWNARROW) || (key == K_KP_DOWNARROW) || ((tolower(key) == 'n') && keys[K_CTRL].down)) {
 		historyLine++;
 
@@ -1566,7 +1566,7 @@ void Console_Key(int key) {
 		return;
 	}
 
-	if (key == K_MWHEELUP) { // ---- (SA)	added some mousewheel functionality to the console
+	if (key == K_MWHEELUP) { // added some mousewheel functionality to the console
 		Con_PageUp();
 
 		if (keys[K_CTRL].down) { // hold < ctrl > to accelerate scrolling
@@ -1577,7 +1577,7 @@ void Console_Key(int key) {
 		return;
 	}
 
-	if (key == K_MWHEELDOWN) { // ---- (SA)	added some mousewheel functionality to the console
+	if (key == K_MWHEELDOWN) { // added some mousewheel functionality to the console
 		Con_PageDown();
 
 		if (keys[K_CTRL].down) { // hold < ctrl > to accelerate scrolling
@@ -2195,7 +2195,7 @@ void CL_KeyDownEvent(int key, unsigned time) {
 		VM_Call(uivm, UI_KEY_EVENT, key, qtrue);
 		return;
 	}
-	// NERVE - SMF - if we just want to pass it along to game
+	// if we just want to pass it along to game
 	if (cl_bypassMouseInput && cl_bypassMouseInput->integer && !(Key_GetCatcher() & KEYCATCH_CONSOLE)) { // DAJ BUG in dedicated cl_missionStats don't exist
 		if ((key == K_MOUSE1 || key == K_MOUSE2 || key == K_MOUSE3)) {
 			if (cl_bypassMouseInput->integer == 1) {

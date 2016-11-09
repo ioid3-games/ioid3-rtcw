@@ -61,7 +61,7 @@ extern pml_t pml;
 extern float pm_stopspeed;
 // extern float pm_duckScale;
 
-// ---- (SA)	modified
+// modified
 extern float pm_waterSwimScale;
 extern float pm_waterWadeScale;
 extern float pm_slagSwimScale;
@@ -75,7 +75,7 @@ extern float pm_waterfriction;
 extern float pm_slagfriction;
 extern float pm_flightfriction;
 
-// ---- (SA)	end
+// end
 
 extern int c_pmove;
 

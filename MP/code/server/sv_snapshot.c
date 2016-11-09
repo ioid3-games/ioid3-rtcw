@@ -617,7 +617,7 @@ static void SV_BuildClientSnapshot(client_t *client) {
 	VectorCopy(ps->origin, org);
 	org[2] += ps->viewheight;
 
-// ---- (SA)	added for 'lean'
+// added for 'lean'
 	// need to account for lean, so areaportal doors draw properly
 	if (frame->ps.leanf != 0) {
 		vec3_t right, v3ViewAngles;
@@ -750,8 +750,8 @@ void SV_SendClientSnapshot(client_t *client) {
 
 	SV_SendMessageToClient(&msg, client);
 
-	sv.bpsTotalBytes += msg.cursize;           // NERVE - SMF - net debugging
-	sv.ubpsTotalBytes += msg.uncompsize / 8;   // NERVE - SMF - net debugging
+	sv.bpsTotalBytes += msg.cursize;           // net debugging
+	sv.ubpsTotalBytes += msg.uncompsize / 8;   // net debugging
 }
 
 /*
@@ -762,10 +762,10 @@ SV_SendClientMessages
 void SV_SendClientMessages(void) {
 	int i;
 	client_t *c;
-	int numclients = 0;        // NERVE - SMF - net debugging
+	int numclients = 0;        // net debugging
 
-	sv.bpsTotalBytes = 0;      // NERVE - SMF - net debugging
-	sv.ubpsTotalBytes = 0;     // NERVE - SMF - net debugging
+	sv.bpsTotalBytes = 0;      // net debugging
+	sv.ubpsTotalBytes = 0;     // net debugging
 
 	// send a message to each connected client
 	for (i = 0; i < sv_maxclients->integer; i++) {
@@ -777,7 +777,7 @@ void SV_SendClientMessages(void) {
 		if (*c->downloadName)
 			continue;		// Client is downloading, don't send snapshots
 
-		numclients++;      // NERVE - SMF - net debugging
+		numclients++;      // net debugging
 
 		if (c->netchan.unsentFragments || c->netchan_start_queue) {
 			c->rateDelayed = qtrue;
@@ -801,7 +801,7 @@ void SV_SendClientMessages(void) {
 		c->lastSnapshotTime = svs.time;
 		c->rateDelayed = qfalse;
 	}
-	// NERVE - SMF - net debugging
+	// net debugging
 	if (sv_showAverageBPS->integer && numclients > 0) {
 		float ave = 0, uave = 0;
 

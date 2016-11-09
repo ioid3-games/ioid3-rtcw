@@ -200,7 +200,7 @@ void AICast_InputToUserCommand(cast_state_t *cs, bot_input_t *bi, usercmd_t *ucm
 	}
 
 
-// ---- (SA)	modified slightly for DM / DK
+// modified slightly for DM / DK
 	ucmd->weapon = bi->weapon;
 	// relaxed mode show no weapons
 	if (cs->aiState <= AISTATE_QUERY) {
@@ -621,7 +621,6 @@ void AICast_Think(int client, float thinktime) {
 	if (cs->leaderNum >= 0 && g_entities[cs->leaderNum].health <= 0) {
 		cs->leaderNum = -1;
 	}
-	// 
 #if 0
 	// HACK for village2, if they are stuck, find a good position(there is a friendly guy placed inside a table) {
 		trace_t tr;
@@ -831,8 +830,7 @@ void AICast_StartFrame(int time) {
 		// is this a cast AI?
 		if (cs->bs) {
 			if (ent->aiInactive == qfalse) {
-				// 
-				elapsed = time - cs->lastThink;
+							elapsed = time - cs->lastThink;
 				// if they're moving / firing think every frame
 				if ((elapsed && cs->scriptAnimTime && cs->scriptAnimTime >= (level.time - 1000)) || ((elapsed >= 50) && ((((!VectorCompare(ent->client->ps.velocity, vec3_origin)) || (cs->enemyNum >= 0) || (cs->aiState >= AISTATE_COMBAT) || (cs->vislist[0].visible_timestamp && cs->vislist[0].visible_timestamp > level.time - 4000) || (ent->client->buttons) || (elapsed >= aicast_thinktime)) /*&&
 								(count <= aicast_maxthink)*/) || (elapsed >= aicast_thinktime * 2)))) {
@@ -844,8 +842,7 @@ void AICast_StartFrame(int time) {
 					}
 
 					cs->lastThink = time + rand() % 20;  // randomize this slightly to spread out thinks during high framerates
-					// 
-					// only count live guys
+									// only count live guys
 					if (ent->health > 0) {
 						count++;
 					}
@@ -951,8 +948,7 @@ void AICast_StartServerFrame(int time) {
 		// is this a cast AI?
 		if (cs->bs) {
 			if (ent->aiInactive == qfalse && ent->inuse) {
-				// 
-				elapsed = level.time - cs->lastMoveThink;
+							elapsed = level.time - cs->lastMoveThink;
 
 				if (cs->lastThink && elapsed > 0) {
 					highPriority = qfalse;
@@ -977,17 +973,13 @@ void AICast_StartServerFrame(int time) {
 							// !!NOTE: always allow thinking if in PVS, otherwise bosses won't gib, and dead guys might not push away from clipped walls
 							|| (trap_InPVS(cs->bs->origin, g_entities[0].s.pos.trBase))) { // do pvs check last, since it's the most expensive to call
 						oldLegsTimer = ent->client->ps.legsTimer;
-						// 
-						// send it's movement commands
-						// 
-						serverTime = time;
+											// send it's movement commands
+											serverTime = time;
 						AICast_UpdateInput(cs, elapsed);
 						trap_BotUserCommand(cs->bs->client, & (cs->lastucmd));
 						cs->lastMoveThink = level.time;
-						// 
-						// check for anim changes that may require us to stay still
-						// 
-						if (oldLegsTimer < ent->client->ps.legsTimer && ent->client->ps.groundEntityNum == ENTITYNUM_WORLD) {
+											// check for anim changes that may require us to stay still
+											if (oldLegsTimer < ent->client->ps.legsTimer && ent->client->ps.groundEntityNum == ENTITYNUM_WORLD) {
 							// dont move until they are finished
 							if (cs->castScriptStatus.scriptNoMoveTime < level.time + ent->client->ps.legsTimer) {
 								cs->castScriptStatus.scriptNoMoveTime = level.time + ent->client->ps.legsTimer;

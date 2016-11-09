@@ -129,7 +129,6 @@ void RB_AddQuadStampExt(vec3_t origin, vec3_t left, vec3_t up, float color[4], f
 	tess.xyz[ndx + 3][1] = origin[1] + left[1] - up[1];
 	tess.xyz[ndx + 3][2] = origin[2] + left[2] - up[2];
 
-
 	// constant normal all the way around
 	VectorSubtract(vec3_origin, backEnd.viewParms.or.axis[0], normal);
 
@@ -1098,7 +1097,6 @@ static void RB_SurfaceGrid(srfBspSurface_t *srf) {
 	heightTable[lodHeight] = srf->height-1;
 	lodHeight++;
 
-
 	// very large grids may have more points or indexes than can be fit
 	// in the tess structure, so we may have to issue it in multiple passes
 
@@ -1389,7 +1387,6 @@ void RB_SurfaceVaoMdvMesh(srfVaoMdvMesh_t * surface)
 		attribIndex = ATTR_INDEX_TANGENT2;
 		vAtb = &surface->vao->attribs[attribIndex];
 		qglVertexAttribPointer(attribIndex, vAtb->count, vAtb->type, vAtb->normalized, vAtb->stride, BUFFER_OFFSET(vAtb->offset + frameOffset));
-
 
 		if (!glRefConfig.vertexArrayObject)
 		{

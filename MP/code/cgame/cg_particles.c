@@ -84,7 +84,7 @@ static int shaderAnimCounts[MAX_SHADER_ANIMS] = {
 };
 
 static float shaderAnimSTRatio[MAX_SHADER_ANIMS] = {
-	1, // NERVE - SMF - changed from 1.405 to 1
+	1, // changed from 1.405 to 1
 	1, 1, 1, 1, 1,
 };
 

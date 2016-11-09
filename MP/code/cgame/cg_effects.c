@@ -102,7 +102,7 @@ Adds a smoke puff or blood trail localEntity.
 =======================================================================================================================================
 */
 
-// ---- (SA)	modified
+// modified
 localEntity_t *CG_SmokePuff(const vec3_t p, const vec3_t vel, float radius, float r, float g, float b, float a, float duration, int startTime, int fadeInTime, int leFlags, qhandle_t hShader) {
 	static int seed = 0x92;
 	localEntity_t *le;

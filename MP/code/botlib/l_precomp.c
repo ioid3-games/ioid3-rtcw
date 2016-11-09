@@ -405,8 +405,7 @@ int PC_ReadDefineParms(source_t *source, define_t *define, token_t **parms, int 
 				SourceError(source, "define %s incomplete", define->name);
 				return qfalse;
 			}
-			// 
-			if (!strcmp(token.string, ", ")) {
+					if (!strcmp(token.string, ", ")) {
 				if (indent <= 0) {
 					if (lastcomma) {
 						SourceWarning(source, "too many comma's");
@@ -431,10 +430,8 @@ int PC_ReadDefineParms(source_t *source, define_t *define, token_t **parms, int 
 					break;
 				}
 			}
-			// 
-			if (numparms < define->numparms) {
-				// 
-				t = PC_CopyToken(&token);
+					if (numparms < define->numparms) {
+							t = PC_CopyToken(&token);
 				t->next = NULL;
 
 				if (last) {
@@ -2208,7 +2205,6 @@ int PC_Evaluate(source_t *source, signed long int *intvalue, float *floatvalue, 
 	if (!PC_EvaluateTokens(source, firsttoken, intvalue, floatvalue, integer)) {
 		return qfalse;
 	}
-	// 
 #ifdef DEBUG_EVAL
 	Log_Write("eval:");
 #endif // DEBUG_EVAL
@@ -2334,7 +2330,6 @@ int PC_DollarEvaluate(source_t *source, signed long int *intvalue, float *floatv
 	if (!PC_EvaluateTokens(source, firsttoken, intvalue, floatvalue, integer)) {
 		return qfalse;
 	}
-	// 
 #ifdef DEBUG_EVAL
 	Log_Write("$eval:");
 #endif // DEBUG_EVAL

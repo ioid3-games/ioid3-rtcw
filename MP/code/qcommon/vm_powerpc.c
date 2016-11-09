@@ -1708,8 +1708,7 @@ static void PPC_ComputeCode(vm_t *vm) {
 			continue;
 		}
 		// jump isn't short so write it as two instructions
-		// 
-		// the letter one is a non - conditional branch instruction which
+			// the letter one is a non - conditional branch instruction which
 		// accepts immediate values big enough(26 bits)
 		*jumpFrom = IN((sj_now->ext & branchExtLink ? iBL : iB), jumpLength * 4);
 

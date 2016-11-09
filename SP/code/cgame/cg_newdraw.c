@@ -1037,8 +1037,8 @@ void flubfoo(void) {
 				value = 3; // 3 stages to icon, just draw full if beyond 'full'
 
 			}
-			// ---- (SA)	trying smaller text
-			// ---- (SA)	and off to the right side of the HUD
+			// trying smaller text
+			// and off to the right side of the HUD
 // 			CG_DrawPic(100, (SCREEN_HEIGHT - ICON_SIZE) - 8, ICON_SIZE / 2, ICON_SIZE, cg_items[item - bg_itemlist].icons[2 - (value - 1)]);
 			CG_DrawPic(606, 366, 24, 48, cg_items[item - bg_itemlist].icons[2 - (value - 1)]);
 
@@ -1905,7 +1905,7 @@ qboolean CG_OwnerDrawVisible(int flags) {
 		}
 	}
 
-// ---- (SA)	end
+// end
 
 
 	return qfalse;
@@ -2581,7 +2581,7 @@ void CG_OwnerDraw(float x, float y, float w, float h, float text_x, float text_y
 	case CG_NEWMESSAGE:
 		CG_DrawMessageIcon(&rect);
 		break;
-// ---- (SA)	end
+// end
 	case CG_PLAYER_AMMOCLIP_VALUE:
 		CG_DrawPlayerAmmoValue(&rect, font, scale, color, shader, textStyle, 1);
 		break;

@@ -100,7 +100,7 @@ If you have questions concerning this license or the applicable additional terms
 #define FEEDER_FINDPLAYER           0x0e    // find player
 #define FEEDER_CINEMATICS           0x0f    // cinematics
 #define FEEDER_SAVEGAMES            0x10    // savegames
-#define FEEDER_PICKSPAWN            0x11    // NERVE - SMF - wolf mp pick spawn point
+#define FEEDER_PICKSPAWN            0x11    // wolf mp pick spawn point
 
 // display flags
 #define CG_SHOW_BLUE_TEAM_HAS_REDFLAG       0x00000001
@@ -358,7 +358,7 @@ If you have questions concerning this license or the applicable additional terms
 #define VOICECHAT_KILLGAUNTLET      "kill_gauntlet"      // I just killed you with the gauntlet
 #define VOICECHAT_PRAISE            "praise"             // you did something good
 
-// NERVE - SMF - wolf multiplayer class/item selection mechanism
+// wolf multiplayer class/item selection mechanism
 #define WM_START_SELECT         0
 
 #define WM_SELECT_TEAM          1

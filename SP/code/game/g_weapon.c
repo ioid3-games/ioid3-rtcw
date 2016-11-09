@@ -131,7 +131,7 @@ void Weapon_Knife(gentity_t *ent) {
 // 		} else {
 // 			damage *= 10;
 // 		}
-// ---- (SA)	end
+// end
 		}
 	}
 
@@ -761,7 +761,7 @@ void RubbleFlagCheck(gentity_t *ent, trace_t tr) {
 		is_valid = qtrue;
 		type = 4;
 	} else if (tr.surfaceFlags & SURF_METAL) {
-// ---- (SA)	removed
+// removed
 // 	is_valid = qtrue;
 // 	type = 2;
 	} else if (tr.surfaceFlags & SURF_WOOD) {
@@ -1029,7 +1029,7 @@ void Bullet_Fire_Extended(gentity_t *source, gentity_t *attacker, vec3_t start, 
 			G_AddEvent(traceEnt, EV_GENERAL_SOUND, level.bulletRicochetSound);
 			CalcMuzzlePoints(traceEnt, traceEnt->s.weapon);
 
-// ---- (SA)	modified to use extended version so attacker would pass through
+// modified to use extended version so attacker would pass through
 // 		Bullet_Fire(traceEnt, 1000, damage);
 			Bullet_Endpos(traceEnt, 2800, &reflect_end);   // make it inaccurate
 			Bullet_Fire_Extended(traceEnt, attacker, muzzleTrace, reflect_end, spread, damage, recursion + 1);
@@ -1127,8 +1127,8 @@ gentity_t *weapon_grenadelauncher_fire(gentity_t *ent, int grenType) {
 	}
 	/*
 	if (ent->aiCharacter) {
-		VectorScale(forward, 700, forward);				// ---- (SA)	700 is the default grenade throw they are already used to
-		m = fire_grenade(ent, muzzleTrace, forward);	// ---- (SA)	temp to make AI's throw grenades at their actual target
+		VectorScale(forward, 700, forward);				// 700 is the default grenade throw they are already used to
+		m = fire_grenade(ent, muzzleTrace, forward);	// temp to make AI's throw grenades at their actual target
 	} else {
 	*/
 
@@ -1187,7 +1187,7 @@ gentity_t *weapon_grenadelauncher_fire(gentity_t *ent, int grenType) {
 // 	te->r.svFlags |= SVF_BROADCAST|SVF_USE_CURRENT_ORIGIN;
 	}
 
-	// ---- (SA)	adjust for movement of character. TODO: Probably comment in later, but only for forward / back not strafing
+	// adjust for movement of character. TODO: Probably comment in later, but only for forward / back not strafing
 // VectorAdd(m->s.pos.trDelta, ent->client->ps.velocity, m->s.pos.trDelta);	// "real" physics
 
 	// let the AI know which grenade it has fired
@@ -1233,7 +1233,7 @@ void weapon_zombiespirit(gentity_t *ent, gentity_t *missile) {
 	}
 }
 
-// ---- (SA)	modified this entire "venom" section
+// modified this entire "venom" section
 /*
 =======================================================================================================================================
 
@@ -1528,12 +1528,12 @@ void CalcMuzzlePoint(gentity_t *ent, int weapon, vec3_t forward, vec3_t right, v
 	switch (weapon) // changed this so I can predict weapons
 	{
 	case WP_PANZERFAUST:
-// 		VectorMA(muzzlePoint, 14, right, muzzlePoint);	// ---- (SA)	new first person rl position
-		VectorMA(muzzlePoint, 10, right, muzzlePoint);       // ---- (SA)	new first person rl position
+// 		VectorMA(muzzlePoint, 14, right, muzzlePoint);	// new first person rl position
+		VectorMA(muzzlePoint, 10, right, muzzlePoint);       // new first person rl position
 		VectorMA(muzzlePoint, -10, up, muzzlePoint);
 		break;
 // 	case WP_ROCKET_LAUNCHER:
-// 		VectorMA(muzzlePoint, 14, right, muzzlePoint);	// ---- (SA)	new first person rl position
+// 		VectorMA(muzzlePoint, 14, right, muzzlePoint);	// new first person rl position
 // 		break;
 	case WP_DYNAMITE:
 	case WP_GRENADE_PINEAPPLE:
@@ -1593,7 +1593,7 @@ void CalcMuzzlePoints(gentity_t *ent, int weapon) {
 	// set aiming directions
 	AngleVectors(viewang, forward, right, up);
 
-// ---- (SA)	modified the muzzle stuff so that weapons that need to fire down a perfect trace
+// modified the muzzle stuff so that weapons that need to fire down a perfect trace
 // 		straight out of the camera(SP5, Mauser right now) can have that accuracy, but
 // 		weapons that need an offset effect(bazooka / grenade/etc.) can still look like
 // 		they came out of the weap.
@@ -1624,7 +1624,7 @@ void FireWeapon(gentity_t *ent) {
 		s_quadFactor = 1;
 	}
 	// track shots taken for accuracy tracking. Grapple is not a weapon and gauntet is just not tracked
-// ---- (SA)	removing old weapon references
+// removing old weapon references
 // if (ent->s.weapon != WP_GRAPPLING_HOOK && ent->s.weapon != WP_GAUNTLET) {
 // 	ent->client->ps.persistant[PERS_ACCURACY_SHOTS]++;
 //}
@@ -1737,7 +1737,7 @@ void FireWeapon(gentity_t *ent) {
 	case WP_FG42:
 		Bullet_Fire(ent, FG42_SPREAD * aimSpreadScale, FG42_DAMAGE);
 		break;
-// ---- (SA)	end
+// end
 	case WP_STEN:
 		Bullet_Fire(ent, STEN_SPREAD * aimSpreadScale, STEN_DAMAGE);
 		break;

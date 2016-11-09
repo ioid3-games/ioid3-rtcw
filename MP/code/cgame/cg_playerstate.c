@@ -244,14 +244,14 @@ void CG_Respawn(void) {
 	cg.holdableSelectTime = 0; // ---- (SA) reset holdable timer
 
 	if (cgs.gametype == GT_SINGLE_PLAYER) {
-		cg.centerPrintTime = 0;    // ---- (SA)	reset centerprint counter so previous messages don't re - appear
+		cg.centerPrintTime = 0;    // reset centerprint counter so previous messages don't re - appear
 
 	}
 
 	cg.cursorHintIcon = 0;
 	cg.cursorHintTime = 0;
 
-	cg.cameraMode = 0; // ---- (SA)	get out of camera for sure
+	cg.cameraMode = 0; // get out of camera for sure
 
 	// select the weapon the server says we are using
 	cg.weaponSelect = cg.snap->ps.weapon;
@@ -404,7 +404,7 @@ void CG_CheckLocalSounds(playerState_t *ps, playerState_t *ops) {
 		}
 	}
 
-/*	// NERVE - SMF - don't do this in wolfMP
+/*	// don't do this in wolfMP
 	// if we are going into the intermission, don't start any voices
 	if (cg.intermissionStarted) {
 		return;

@@ -200,7 +200,7 @@ static void CG_spLose_f(void) {
 }
 */
 
-// ---- (SA)	item(key / pickup) drawing
+// item(key / pickup) drawing
 static void CG_InventoryDown_f(void) {
 	cg.showItems = qtrue;
 }
@@ -210,7 +210,7 @@ static void CG_InventoryUp_f(void) {
 	cg.itemFadeTime = cg.time;
 }
 
-// ---- (SA)	end
+// end
 
 static void CG_TellTarget_f(void) {
 	int clientNum;
@@ -311,7 +311,7 @@ void CG_StartCamera(const char *name, qboolean startBlack) {
 		trap_SendClientCommand("startCamera");  // camera on in game
 		trap_startCamera(CAM_PRIMARY, cg.time); // camera on in client
 	} else {
-// ---- (SA)	removed check for cams in main dir
+// removed check for cams in main dir
 		cg.cameraMode = qfalse;                // camera off in cgame
 		trap_SendClientCommand("stopCamera");   // camera off in game
 		trap_stopCamera(CAM_PRIMARY);          // camera off in client

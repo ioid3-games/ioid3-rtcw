@@ -490,7 +490,7 @@ void limbo(gentity_t *ent, qboolean makeCorpse) {
 			ent->client->sess.spectatorState = SPECTATOR_FOLLOW;
 		}
 
-// 	ClientUserinfoChanged(ent->client - level.clients);		// NERVE - SMF - don't do this
+// 	ClientUserinfoChanged(ent->client - level.clients);		// don't do this
 		if (ent->client->sess.sessionTeam == TEAM_RED) {
 			ent->client->deployQueueNumber = level.redNumWaiting;
 			level.redNumWaiting++;
@@ -584,7 +584,7 @@ void ClientRespawn(gentity_t *ent) {
 	// tent->s.clientNum = ent->s.clientNum;
 }
 
-// NERVE - SMF - merge from team arena
+// merge from team arena
 /*
 =======================================================================================================================================
 TeamCount
@@ -1991,7 +1991,7 @@ void ClientDisconnect(int clientNum) {
 			Cmd_FollowCycle_f(&g_entities[i], 1);
 		}
 	}
-	// NERVE - SMF - remove complaint client
+	// remove complaint client
 	for (i = 0; i < level.maxclients; i++) {
 		if (level.clients[i].pers.complaintClient == clientNum) {
 			level.clients[i].pers.complaintClient = -1;

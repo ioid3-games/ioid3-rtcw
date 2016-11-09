@@ -224,7 +224,7 @@ void UI_RoQDone(void) {
 		Item_RunScript(&it, menu->onROQDone);
 	}
 }
-// ---- (SA)	end
+// end
 
 
 /*
@@ -1725,7 +1725,7 @@ commandDef_t commandList[] = {
 	{"play", &Script_Play},   // group / name
 	{"playlooped", &Script_playLooped}, // group / name
 	{"orbit", &Script_Orbit}, // group / name
-	{"addlistitem", &Script_AddListItem}    // NERVE - SMF - special command to add text items to list box
+	{"addlistitem", &Script_AddListItem}    // special command to add text items to list box
 };
 
 int scriptCommandCount = ARRAY_LEN(commandList);
@@ -3221,7 +3221,7 @@ void Menus_HandleOOBClick(menuDef_t *menu, int key, qboolean down) {
 
 		for (i = 0; i < menuCount; i++) {
 			if (Menu_OverActiveItem(&Menus[i], DC->cursorx, DC->cursory)) {
-// 				Menu_RunCloseScript(menu);			// NERVE - SMF - why do we close the calling menu instead of just removing the focus?
+// 				Menu_RunCloseScript(menu);			// why do we close the calling menu instead of just removing the focus?
 // 				menu->window.flags &= ~(WINDOW_HASFOCUS|WINDOW_VISIBLE);
 				menu->window.flags &= ~(WINDOW_HASFOCUS);
 				Menus_Activate(&Menus[i]);
@@ -3899,9 +3899,9 @@ static bind_t g_bindings[] = {
 	{"weapprev", K_MWHEELDOWN, -1, -1, -1},
 	{"weapnext", K_MWHEELUP, -1, -1, -1},
 	{"weapalt", -1, - 1, -1, -1},
-	{"weaplastused", -1, - 1, -1, -1}, 
-	{"weapnextinbank", -1, - 1, -1, -1}, 
-	{"weapprevinbank", -1, - 1, -1, -1}, 
+	{"weaplastused", -1, - 1, -1, -1},
+	{"weapnextinbank", -1, - 1, -1, -1},
+	{"weapprevinbank", -1, - 1, -1, -1},
 	{"+useitem", K_ENTER, -1, -1, -1},
 	{"itemprev", '[', -1, -1, -1},
 	{"itemnext", ']', -1, -1, -1},
@@ -3931,7 +3931,7 @@ static bind_t g_bindings[] = {
 	{"messagemode2", -1, - 1, -1, -1},
 	{"messagemode3", -1, - 1, -1, -1},
 	{"messagemode4", -1, - 1, -1, -1},
-	{"savegame quicksave", -1, -1, -1, -1}, 
+	{"savegame quicksave", -1, -1, -1, -1},
 	{"loadgame quicksave", -1, -1, -1, -1},
 
 	{"+activate", -1, - 1, -1, -1},
@@ -4473,8 +4473,7 @@ void Item_ListBox_Paint(itemDef_t *item) {
 				// fit++;
 			}
 		} else {
-			// 
-		}
+				}
 	} else {
 		// draw scrollbar to right side of the window
 		x = item->window.rect.x + item->window.rect.w - SCROLLBAR_SIZE - 1;
@@ -5241,7 +5240,7 @@ qboolean ItemParse_textsavegame(itemDef_t *item, int handle) {
 	item->textSavegameInfo = qtrue;
 	return qtrue;
 }
-// ---- (SA)	end
+// end
 
 
 
@@ -5648,7 +5647,7 @@ qboolean ItemParse_textstyle(itemDef_t *item, int handle) {
 	return qtrue;
 }
 
-// ---- (SA)	added for forcing a font for a given item
+// added for forcing a font for a given item
 qboolean ItemParse_textfont(itemDef_t *item, int handle) {
 
 	if (!PC_Int_Parse(handle, &item->font)) {
@@ -5657,7 +5656,7 @@ qboolean ItemParse_textfont(itemDef_t *item, int handle) {
 
 	return qtrue;
 }
-// ---- (SA)	end
+// end
 
 qboolean ItemParse_backcolor(itemDef_t *item, int handle) {
 	int i;
@@ -6122,8 +6121,8 @@ qboolean ItemParse_hideCvar(itemDef_t *item, int handle) {
 keywordHash_t itemParseKeywords[] = {
 	{"name", ItemParse_name, NULL},
 	{"text", ItemParse_text, NULL},
-	{"textfile", ItemParse_textfile, NULL}, 
-	{"textsavegame", ItemParse_textsavegame, NULL}, 
+	{"textfile", ItemParse_textfile, NULL},
+	{"textsavegame", ItemParse_textsavegame, NULL},
 	{"group", ItemParse_group, NULL},
 	{"asset_model", ItemParse_asset_model, NULL},
 	{"asset_shader", ItemParse_asset_shader, NULL},
@@ -6412,7 +6411,7 @@ qboolean MenuParse_onROQDone(itemDef_t *item, int handle) {
 	return qtrue;
 }
 
-// ---- (SA)	end
+// end
 
 
 
@@ -6698,7 +6697,7 @@ keywordHash_t menuParseKeywords[] = {
 	{"onOpen", MenuParse_onOpen, NULL},
 	{"onClose", MenuParse_onClose, NULL},
 	{"onESC", MenuParse_onESC, NULL},
-	{"onROQDone", MenuParse_onROQDone, NULL}, 
+	{"onROQDone", MenuParse_onROQDone, NULL},
 	{"border", MenuParse_border, NULL},
 	{"borderSize", MenuParse_borderSize, NULL},
 	{"backcolor", MenuParse_backcolor, NULL},
@@ -6919,7 +6918,7 @@ static void Window_CacheContents(windowDef_t *window) {
 		}
 		// (SA) added for cachinig in music
 // 		if (window->
-// ---- (SA)	end
+// end
 	}
 }
 

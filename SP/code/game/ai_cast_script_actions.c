@@ -171,8 +171,7 @@ qboolean AICast_ScriptAction_GotoMarker(cast_state_t *cs, char *params) {
 									cs->noReloadTime = level.time + 1000;
 									// force fire
 									trap_EA_Attack(cs->bs->client);
-									// 
-									cs->bFlags |= BFL_ATTACKED;
+																	cs->bFlags |= BFL_ATTACKED;
 									// dont reload prematurely
 									cs->noReloadTime = level.time + 200;
 								}
@@ -359,8 +358,7 @@ qboolean AICast_ScriptAction_GotoCast(cast_state_t *cs, char *params) {
 									cs->noReloadTime = level.time + 1000;
 									// force fire
 									trap_EA_Attack(cs->bs->client);
-									// 
-									cs->bFlags |= BFL_ATTACKED;
+																	cs->bFlags |= BFL_ATTACKED;
 									// dont reload prematurely
 									cs->noReloadTime = level.time + 200;
 								}
@@ -1056,7 +1054,7 @@ qboolean AICast_ScriptAction_SetAmmo(cast_state_t *cs, char *params) {
 	weapon = WP_NONE;
 
 	for (i = 1; bg_itemlist[i].classname; i++) {
-		// ---- (SA)	first try the name they see in the editor, then the pickup name
+		// first try the name they see in the editor, then the pickup name
 		if (!Q_strcasecmp(token, bg_itemlist[i].classname)) {
 			weapon = bg_itemlist[i].giTag;
 			break;
@@ -1126,7 +1124,7 @@ qboolean AICast_ScriptAction_SetClip(cast_state_t *cs, char *params) {
 	weapon = WP_NONE;
 
 	for (i = 1; bg_itemlist[i].classname; i++) {
-		// ---- (SA)	first try the name they see in the editor, then the pickup name
+		// first try the name they see in the editor, then the pickup name
 		if (!Q_strcasecmp(token, bg_itemlist[i].classname)) {
 			weapon = bg_itemlist[i].giTag;
 			break;
@@ -1178,7 +1176,7 @@ qboolean AICast_ScriptAction_SuggestWeapon(cast_state_t *cs, char *params) {
 	weapon = WP_NONE;
 
 	for (i = 1; bg_itemlist[i].classname; i++) {
-		// ---- (SA)	first try the name they see in the editor, then the pickup name
+		// first try the name they see in the editor, then the pickup name
 		if (!Q_strcasecmp(params, bg_itemlist[i].classname)) {
 			weapon = bg_itemlist[i].giTag;
 			break;
@@ -1213,7 +1211,7 @@ qboolean AICast_ScriptAction_SelectWeapon(cast_state_t *cs, char *params) {
 	weapon = WP_NONE;
 
 	for (i = 1; bg_itemlist[i].classname; i++) {
-		// ---- (SA)	first try the name they see in the editor, then the pickup name
+		// first try the name they see in the editor, then the pickup name
 		if (!Q_strcasecmp(params, bg_itemlist[i].classname)) {
 			weapon = bg_itemlist[i].giTag;
 			break;
@@ -1286,7 +1284,7 @@ qboolean AICast_ScriptAction_GiveArmor(cast_state_t *cs, char *params) {
 	gitem_t *item = 0;
 
 	for (i = 1; bg_itemlist[i].classname; i++) {
-		// ---- (SA)	first try the name they see in the editor, then the pickup name
+		// first try the name they see in the editor, then the pickup name
 		if (!Q_strcasecmp(params, bg_itemlist[i].classname)) {
 			item = &bg_itemlist[i];
 		}
@@ -1310,7 +1308,7 @@ qboolean AICast_ScriptAction_GiveArmor(cast_state_t *cs, char *params) {
 
 	return qtrue;
 }
-// ---- (SA)	end
+// end
 
 
 
@@ -1329,7 +1327,7 @@ qboolean AICast_ScriptAction_GiveWeapon(cast_state_t *cs, char *params) {
 	weapon = WP_NONE;
 
 	for (i = 1; bg_itemlist[i].classname; i++) {
-		// ---- (SA)	first try the name they see in the editor, then the pickup name
+		// first try the name they see in the editor, then the pickup name
 		if (!Q_strcasecmp(params, bg_itemlist[i].classname)) {
 			weapon = bg_itemlist[i].giTag;
 			break;
@@ -1350,7 +1348,7 @@ qboolean AICast_ScriptAction_GiveWeapon(cast_state_t *cs, char *params) {
 	if (weapon != WP_NONE) {
 		COM_BitSet(g_entities[cs->entityNum].client->ps.weapons, weapon);
 
-// ---- (SA)	some weapons always go together(and they share a clip, so this is okay)
+// some weapons always go together(and they share a clip, so this is okay)
 		if (weapon == WP_GARAND) {
 			COM_BitSet(g_entities[cs->entityNum].client->ps.weapons, WP_SNOOPERSCOPE);
 		}
@@ -1408,7 +1406,7 @@ qboolean AICast_ScriptAction_TakeWeapon(cast_state_t *cs, char *params) {
 		cs->weaponNum = WP_NONE;
 	} else {
 		for (i = 1; bg_itemlist[i].classname; i++) {
-			// ---- (SA)	first try the name they see in the editor, then the pickup name
+			// first try the name they see in the editor, then the pickup name
 			if (!Q_strcasecmp(params, bg_itemlist[i].classname)) {
 				weapon = bg_itemlist[i].giTag;
 				break;
@@ -1482,7 +1480,7 @@ qboolean AICast_ScriptAction_GiveInventory(cast_state_t *cs, char *params) {
 	gitem_t *item = 0;
 
 	for (i = 1; bg_itemlist[i].classname; i++) {
-		// ---- (SA)	first try the name they see in the editor, then the pickup name
+		// first try the name they see in the editor, then the pickup name
 		if (!Q_strcasecmp(params, bg_itemlist[i].classname)) {
 			item = &bg_itemlist[i];
 		}
@@ -1506,7 +1504,7 @@ qboolean AICast_ScriptAction_GiveInventory(cast_state_t *cs, char *params) {
 }
 
 
-// ---- (SA)	end
+// end
 
 
 
@@ -1606,7 +1604,7 @@ qboolean AICast_ScriptAction_SaveGame(cast_state_t *cs, char *params) {
 		G_Error("AI Scripting: savegame attempted on a non - player");
 	}
 
-// ---- (SA)	check for parameter
+// check for parameter
 	saveName = COM_ParseExt(&pString, qfalse);
 
 	if (!saveName[0]) {
@@ -2739,7 +2737,7 @@ qboolean AICast_ScriptAction_StopCam(cast_state_t *cs, char *params) {
 	trap_SendServerCommand(cs->entityNum, "stopCam");
 	return qtrue;
 }
-// ---- (SA)	end
+// end
 
 
 
@@ -2765,7 +2763,7 @@ qboolean AICast_ScriptAction_Cigarette(cast_state_t *cs, char *params) {
 
 	return qtrue;
 }
-// ---- (SA)	end
+// end
 
 /*
 =======================================================================================================================================
@@ -2900,7 +2898,7 @@ qboolean AICast_ScriptAction_Cvar(cast_state_t *cs, char *params) {
 
 
 
-// ---- (SA)	added some music interface
+// added some music interface
 
 /*
 =======================================================================================================================================

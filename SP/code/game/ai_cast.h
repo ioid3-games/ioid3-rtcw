@@ -60,7 +60,7 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 // use this for returning the length of an anim
 #define ANIMLENGTH(frames, fps) ((frames * 1000) / fps)
 
-#define AICAST_TFL_DEFAULT  TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA) // ---- (SA)	modified since slime is no longer deadly
+#define AICAST_TFL_DEFAULT  TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA) // modified since slime is no longer deadly
 //#define AICAST_TFL_DEFAULT	TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_SLIME|TFL_LAVA)
 
 // AI flags
@@ -133,8 +133,8 @@ typedef enum {
 
 } castAttributes_t;
 typedef enum {
-	SIGHTSOUNDSCRIPT, ATTACKSOUNDSCRIPT, ORDERSSOUNDSCRIPT, DEATHSOUNDSCRIPT, QUIETDEATHSOUNDSCRIPT, // ---- (SA)	ADDED FOR SILENT DEATHS(SNIPER / KNIFE)
-	FLAMEDEATHSOUNDSCRIPT, // ---- (SA)	ADDED FOR FLAMING
+	SIGHTSOUNDSCRIPT, ATTACKSOUNDSCRIPT, ORDERSSOUNDSCRIPT, DEATHSOUNDSCRIPT, QUIETDEATHSOUNDSCRIPT, // ADDED FOR SILENT DEATHS(SNIPER / KNIFE)
+	FLAMEDEATHSOUNDSCRIPT, // ADDED FOR FLAMING
 	PAINSOUNDSCRIPT,
 
 	STAYSOUNDSCRIPT, FOLLOWSOUNDSCRIPT, ORDERSDENYSOUNDSCRIPT, MISC1SOUNDSCRIPT,
@@ -318,7 +318,7 @@ typedef struct cast_state_s {
 	char *(*aifuncAttack3)(struct cast_state_s *cs);    // use this battle aifunc for monster_attack2
 
 	void (*painfunc)(gentity_t *ent, gentity_t *attacker, int damage, vec3_t point);
-	void (*deathfunc)(gentity_t *ent, gentity_t *attacker, int damage, int mod); // ---- (SA)	added mod
+	void (*deathfunc)(gentity_t *ent, gentity_t *attacker, int damage, int mod); // added mod
 	void (*sightfunc)(gentity_t *ent, gentity_t *other, int lastSight);
 	// int (*getDeathAnim)(gentity_t *ent, gentity_t *attacker, int damage);
 	void (*sightEnemy)(gentity_t *ent, gentity_t *other);
@@ -328,7 +328,6 @@ typedef struct cast_state_s {
 	// !!!NOTE: make sure any entityNum type variables get initialized
 	// 	to - 1 in AICast_CreateCharacter(), or they'll be defaulting to
 	// 	the player(index 0)
-	// 
 
 	// goal / AI stuff
 	int followEntity;

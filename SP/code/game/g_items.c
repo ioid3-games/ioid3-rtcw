@@ -214,7 +214,7 @@ void UseHoldableItem(gentity_t *ent, int item) {
 
 		break;
 	case HI_STAMINA:       // restores fatigue bar and sets "nofatigue" for a time period(currently forced to 60 sec)
-		// ---- (SA)	NOTE:	currently only gives free nofatigue time, doesn't reset fatigue bar.
+		// NOTE:	currently only gives free nofatigue time, doesn't reset fatigue bar.
 		// 					(this is because I'd like the restore to be visually gradual(on the HUD item representing
 		// 					current status of your fatigue) rather than snapping back to 'full')
 		ent->client->ps.powerups[PW_NOFATIGUE] = 60000;
@@ -372,7 +372,7 @@ int Pickup_Ammo(gentity_t *ent, gentity_t *other) {
 		}
 	}
 
-	Add_Ammo(other, ent->item->giTag, quantity, qfalse);  // ---- (SA)	modified
+	Add_Ammo(other, ent->item->giTag, quantity, qfalse);  // modified
 
 	// single player has no respawns	(SA)
 	if (g_gametype.integer == GT_SINGLE_PLAYER) {
@@ -428,7 +428,6 @@ int Pickup_Weapon(gentity_t *ent, gentity_t *other) {
 	alreadyHave = COM_BitCheck(other->client->ps.weapons, weapon);
 	// add the weapon
 	COM_BitSet(other->client->ps.weapons, weapon);
-
 
 	// snooper / garand
 	if (weapon == WP_SNOOPERSCOPE) {
@@ -807,15 +806,15 @@ gentity_t *LaunchItem(gitem_t *item, vec3_t origin, vec3_t velocity) {
 
 	dropped->s.eType = ET_ITEM;
 	dropped->s.modelindex = item - bg_itemlist; // store item number in modelindex
-// 	dropped->s.modelindex2 = 1; // This is non-zero is it's a dropped item	// ---- (SA)	commented out since I'm using modelindex2 for model indexing now
+// 	dropped->s.modelindex2 = 1; // This is non-zero is it's a dropped item	// commented out since I'm using modelindex2 for model indexing now
 	dropped->s.otherEntityNum2 = 1;    // this is taking modelindex2's place for signaling a dropped item
 
 	dropped->classname = item->classname;
 	dropped->item = item;
 // 	VectorSet(dropped->r.mins, -ITEM_RADIUS, -ITEM_RADIUS, -ITEM_RADIUS);
 // 	VectorSet(dropped->r.maxs, ITEM_RADIUS, ITEM_RADIUS, ITEM_RADIUS);
-	VectorSet(dropped->r.mins, -ITEM_RADIUS, -ITEM_RADIUS, 0);           // ---- (SA)	so items sit on the ground
-	VectorSet(dropped->r.maxs, ITEM_RADIUS, ITEM_RADIUS, 2 * ITEM_RADIUS); // ---- (SA)	so items sit on the ground
+	VectorSet(dropped->r.mins, -ITEM_RADIUS, -ITEM_RADIUS, 0);           // so items sit on the ground
+	VectorSet(dropped->r.maxs, ITEM_RADIUS, ITEM_RADIUS, 2 * ITEM_RADIUS); // so items sit on the ground
 	dropped->r.contents = CONTENTS_TRIGGER|CONTENTS_ITEM;
 
 	dropped->touch = Touch_Item_Auto;
@@ -915,7 +914,7 @@ void FinishSpawningItem(gentity_t *ent) {
 	ent->s.modelindex = ent->item - bg_itemlist;       // store item number in modelindex
 
 	ent->s.otherEntityNum2 = 0;    // takes modelindex2's place in signaling a dropped item
-// ---- (SA)	we don't use this(yet, anyway) so I'm taking it so you can specify a model for treasure items and clipboards
+// we don't use this(yet, anyway) so I'm taking it so you can specify a model for treasure items and clipboards
 // 	ent->s.modelindex2 = 0; // zero indicates this isn't a dropped item
 	if (ent->model) {
 		ent->s.modelindex2 = G_ModelIndex(ent->model);
@@ -1051,10 +1050,10 @@ void ClearRegisteredItems(void) {
 	// players always start with the base weapon
 	// (SA) Nope, not any more...
 
-// ---- (SA)	this will be determined by the level or starting position, or the savegame
+// this will be determined by the level or starting position, or the savegame
 // 			but for now, re-register the MP40 automatically
 // 	RegisterItem(BG_FindItemForWeapon(WP_MP40));
-	RegisterItem(BG_FindItem("Med Health"));          // NERVE - SMF - this is so med packs properly display
+	RegisterItem(BG_FindItem("Med Health"));          // this is so med packs properly display
 }
 
 /*

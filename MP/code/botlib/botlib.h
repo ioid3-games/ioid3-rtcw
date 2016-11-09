@@ -173,7 +173,7 @@ typedef struct bot_entitystate_s {
 	int legsAnim;          // mask off ANIM_TOGGLEBIT
 	int torsoAnim;         // mask off ANIM_TOGGLEBIT
 // int weapAnim;		// mask off ANIM_TOGGLEBIT	
-// ---- (SA)	didn't want to comment in as I wasn't sure of any implications of changing this structure.
+// didn't want to comment in as I wasn't sure of any implications of changing this structure.
 } bot_entitystate_t;
 
 // bot AI library exported functions

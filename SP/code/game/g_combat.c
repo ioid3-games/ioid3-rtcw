@@ -87,7 +87,7 @@ void TossClientItems(gentity_t *self) {
 	case AICHAR_ZOMBIE:
 	case AICHAR_WARZOMBIE:
 	case AICHAR_LOPER:
-		return;        // ---- (SA)	removed DK's special case
+		return;        // removed DK's special case
 	default:
 		break;
 	}
@@ -125,7 +125,7 @@ void TossClientItems(gentity_t *self) {
 	if (weapon == WP_AKIMBO) { 
 		weapon = WP_COLT;
 	}
-// ---- (SA)	end
+// end
 
 
 	if (weapon > WP_NONE && weapon < WP_MONSTER_ATTACK1 && self->client->ps.ammo[BG_FindAmmoForWeapon(weapon)]) {
@@ -815,7 +815,7 @@ void G_Damage(gentity_t *targ, gentity_t *inflictor, gentity_t *attacker, vec3_t
 		// get out of damage in sp if in cutscene.
 		return;
 	}
-// ---- (SA)	end
+// end
 
 // 	if (reloading || saveGamePending) {	// map transition is happening, don't do anything
 	if (g_reloading.integer || saveGamePending) {
@@ -1230,7 +1230,7 @@ void G_Damage(gentity_t *targ, gentity_t *inflictor, gentity_t *attacker, vec3_t
 			targ->pain(targ, attacker, take, point);
 		}
 
-		G_ArmorDamage(targ);   // ---- (SA)	moved out to separate routine
+		G_ArmorDamage(targ);   // moved out to separate routine
 
 		// this needs to be done last, incase the health is altered in one of the event calls
 		if (targ->client) {
@@ -1371,7 +1371,6 @@ qboolean G_RadiusDamage(vec3_t origin, gentity_t *attacker, float damage, float 
 	vec3_t dest;
 	trace_t tr;
 	vec3_t midpoint;
-
 
 	if (radius < 1) {
 		radius = 1;

@@ -452,7 +452,7 @@ void RB_BeginDrawingView(void) {
 	} else {                                              // world scene with no portal sky
 		clearBits |= GL_DEPTH_BUFFER_BIT;
 
-		// NERVE - SMF - we don't want to clear the buffer when no world model is specified
+		// we don't want to clear the buffer when no world model is specified
 		if (backEnd.refdef.rdflags & RDF_NOWORLDMODEL) {
 			clearBits &= ~GL_COLOR_BUFFER_BIT;
 		}
@@ -1396,7 +1396,6 @@ const void  *RB_DrawSurfs(const void *data) {
 
 			RB_InstantQuad2(quadVerts, texCoords); //, color, shaderProgram, invTexRes);
 
-
 			viewInfo[2] = 1.0f / (float)(tr.quarterImage[0]->width);
 			viewInfo[3] = 1.0f / (float)(tr.quarterImage[0]->height);
 
@@ -1414,7 +1413,6 @@ const void  *RB_DrawSurfs(const void *data) {
 
 			RB_InstantQuad2(quadVerts, texCoords); //, color, shaderProgram, invTexRes);
 
-
 			FBO_Bind(tr.screenSsaoFbo);
 
 			qglViewport(0, 0, tr.screenSsaoFbo->width, tr.screenSsaoFbo->height);
@@ -1426,7 +1424,6 @@ const void  *RB_DrawSurfs(const void *data) {
 			GL_BindToTMU(tr.hdrDepthImage, TB_LIGHTMAP);
 
 			GLSL_SetUniformVec4(&tr.depthBlurShader[1], UNIFORM_VIEWINFO, viewInfo);
-
 
 			RB_InstantQuad2(quadVerts, texCoords); //, color, shaderProgram, invTexRes);
 		}
@@ -1544,7 +1541,6 @@ void RB_ShowImages(void) {
 	qglClear(GL_COLOR_BUFFER_BIT);
 
 	qglFinish();
-
 
 	start = ri.Milliseconds();
 
@@ -1890,7 +1886,6 @@ const void *RB_PostProcess(const void *data)
 		VectorSet4(quadVerts[3], box[0], box[1], 0, 1);
 
 		GL_State(GLS_DEPTHTEST_DISABLE);
-
 
 		VectorSet4(viewInfo, backEnd.viewParms.zFar / r_znear->value, backEnd.viewParms.zFar, 0.0, 0.0);
 

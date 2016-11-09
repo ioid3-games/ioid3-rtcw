@@ -242,7 +242,6 @@ int Export_BotLibShutdown(void) {
 	recursive = 0;
 	// print any files still open
 	PC_CheckOpenSourceHandles();
-	// 
 #ifdef _DEBUG
 	Log_AlwaysOpen("memory.log");
 	PrintMemoryLabels();
@@ -378,7 +377,6 @@ int BotExportTest(int parm0, char *parm1, vec3_t parm2, vec3_t parm3) {
 // clock_t start_time, end_time;
 	vec3_t mins = {-16, -16, -24};
 	vec3_t maxs = {16, 16, 32};
-	// 
 // int areas[10], numareas;
 	// return 0;
 
@@ -543,7 +541,6 @@ int BotExportTest(int parm0, char *parm1, vec3_t parm2, vec3_t parm3) {
 	AAS_ClearShownDebugLines();
 	AAS_ShowArea(newarea, parm0 & BUTTON_USE);
 	AAS_ShowReachableAreas(area);
-	// 
   */
 	AAS_ClearShownPolygons();
 	AAS_ClearShownDebugLines();

@@ -848,8 +848,7 @@ qboolean AAS_InsideFace(aas_face_t *face, vec3_t pnormal, vec3_t point, float ep
 		VectorCopy((*aasworld).vertexes[edge->v[firstvertex]], v0);
 		// edge vector
 		VectorSubtract((*aasworld).vertexes[edge->v[!firstvertex]], v0, edgevec);
-		// 
-#ifdef AAS_SAMPLE_DEBUG
+	#ifdef AAS_SAMPLE_DEBUG
 		if (lastvertex && lastvertex != edge->v[firstvertex]) {
 			botimport.Print(PRT_MESSAGE, "winding not counter clockwise\n");
 		}

@@ -523,7 +523,7 @@ qboolean IsHeadShotWeapon(int mod, qboolean aicharacter) {
 			mod == MOD_GARAND || // JPW NERVE this was left out
 			mod == MOD_SNIPERRIFLE ||
 			mod == MOD_SNOOPERSCOPE ||
-			mod == MOD_SILENCER || // ---- (SA)	modified
+			mod == MOD_SILENCER || // modified
 			mod == MOD_SNIPERRIFLE) {
 		return qtrue;
 	}
@@ -566,7 +566,7 @@ qboolean IsHeadShot(gentity_t *targ, qboolean isAICharacter, vec3_t dir, vec3_t 
 			} else {
 				height = targ->client->ps.viewheight;
 			}
-			// NERVE - SMF - this matches more closely with WolfMP models
+			// this matches more closely with WolfMP models
 			VectorCopy(targ->client->ps.viewangles, angles);
 
 			if (angles[PITCH] > 180) {
@@ -656,7 +656,7 @@ gentity_t *G_BuildHead(gentity_t *ent) {
 		} else {
 			height = ent->client->ps.viewheight;
 		}
-		// NERVE - SMF - this matches more closely with WolfMP models
+		// this matches more closely with WolfMP models
 		VectorCopy(ent->client->ps.viewangles, angles);
 
 		if (angles[PITCH] > 180) {
@@ -1092,7 +1092,7 @@ void G_Damage(gentity_t *targ, gentity_t *inflictor, gentity_t *attacker, vec3_t
 				G_Script_ScriptEvent(targ, "pain", va("%d %d", targ->health, targ->health + take));
 			}
 		}
-		// G_ArmorDamage(targ);	// ---- (SA)	moved out to separate routine
+		// G_ArmorDamage(targ);	// moved out to separate routine
 
 		// this needs to be done last, incase the health is altered in one of the event calls
 		if (targ->client) {
@@ -1125,7 +1125,7 @@ qboolean CanDamage(gentity_t *targ, vec3_t origin) {
 
 	if (tr.fraction == 1.0 || tr.entityNum == targ->s.number)
 		return qtrue;
-	// this should probably check in the plane of projection, 
+	// this should probably check in the plane of projection,
 	// rather than in world coordinate
 	VectorCopy(midpoint, dest);
 	dest[0] += offsetmaxs[0];
@@ -1223,7 +1223,6 @@ qboolean G_RadiusDamage(vec3_t origin, gentity_t *attacker, float damage, float 
 	vec3_t dest;
 	trace_t tr;
 	vec3_t midpoint;
-
 
 	if (radius < 1) {
 		radius = 1;

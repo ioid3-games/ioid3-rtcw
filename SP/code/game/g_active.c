@@ -118,7 +118,7 @@ void P_WorldEffects(gentity_t *ent) {
 		if (envirosuit) {
 			ent->client->airOutTime = level.time + 10000;
 		}
-		// ---- (SA)	both these will end up being by virtue of having the 'breather' powerup
+		// both these will end up being by virtue of having the 'breather' powerup
 		if (ent->client->ps.aiChar == AICHAR_FROGMAN) { // let frogmen breathe forever
 			ent->client->airOutTime = level.time + 10000;
 		}
@@ -152,7 +152,7 @@ void P_WorldEffects(gentity_t *ent) {
 		ent->damage = 2;
 	}
 	// check for sizzle damage(move to pmove?)
-	if (waterlevel && (ent->watertype & CONTENTS_LAVA)) { // ---- (SA)	modified since slime is no longer deadly
+	if (waterlevel && (ent->watertype & CONTENTS_LAVA)) { // modified since slime is no longer deadly
 // 		(ent->watertype& (CONTENTS_LAVA|CONTENTS_SLIME))) {
 		if (ent->health > 0
 			 && ent->pain_debounce_time <= level.time) {
@@ -210,7 +210,7 @@ void G_SetClientSound(gentity_t *ent) {
 		return;
 	}
 
-	if (ent->waterlevel && (ent->watertype & CONTENTS_LAVA)) { // ---- (SA)	modified since slime is no longer deadly
+	if (ent->waterlevel && (ent->watertype & CONTENTS_LAVA)) { // modified since slime is no longer deadly
 // 	if (ent->waterlevel && (ent->watertype& (CONTENTS_LAVA|CONTENTS_SLIME)))
 		ent->s.loopSound = level.snd_fry;
 	} else {
@@ -380,7 +380,6 @@ void SpectatorThink(gentity_t *ent, usercmd_t *ucmd) {
 	client->oldbuttons = client->buttons;
 	client->buttons = ucmd->buttons;
 
-
 	client->oldwbuttons = client->wbuttons;
 	client->wbuttons = ucmd->wbuttons;
 	// attack button cycles through spectators
@@ -506,7 +505,6 @@ void ClientIntermissionThink(gclient_t *client) {
 	client->oldbuttons = client->buttons;
 	client->buttons = client->pers.cmd.buttons;
 
-
 	client->oldwbuttons = client->wbuttons;
 	client->wbuttons = client->pers.cmd.wbuttons;
 
@@ -562,7 +560,7 @@ void ClientEvents(gentity_t *ent, int oldEventSequence) {
 
 			stunTime = 0;  
 
-// ---- (SA)	FIXME: TODO:  hmm, going through here adding surfaceparms it seems that the value for ent->client->ps.pm_time was weird. (1000 for all but dmg_25 which has 250?)
+// FIXME: TODO:  hmm, going through here adding surfaceparms it seems that the value for ent->client->ps.pm_time was weird. (1000 for all but dmg_25 which has 250?)
 			if (event == EV_FALL_NDIE) {
 				damage = 9999;
 			} else if (event == EV_FALL_DMG_50) {
@@ -597,7 +595,7 @@ void ClientEvents(gentity_t *ent, int oldEventSequence) {
 			G_Damage(ent, NULL, NULL, NULL, NULL, damage, 0, MOD_FALLING);
 			// falls through to FALL_SHORT
 
-// ---- (SA)	added the audible events for jumping / falling
+// added the audible events for jumping / falling
 
 // (SA) right now just do a short range event on all surfaces until surface - specific stuff is working
 			AICast_AudibleEvent(ent->s.number, ent->s.pos.trBase, g_footstepAudibleRange.value);
@@ -625,7 +623,7 @@ void ClientEvents(gentity_t *ent, int oldEventSequence) {
 			player_die(ent, ent, ent, 100000, MOD_SUICIDE);
 			break;
 
-// ---- (SA)	added(testing)
+// added(testing)
 		case EV_FIRE_QUICKGREN:
 #if 0 // quickgren gone
 			{
@@ -639,9 +637,9 @@ void ClientEvents(gentity_t *ent, int oldEventSequence) {
 			}
 #endif
 			break;
-// ---- (SA)	end
+// end
 
-// ---- (SA)	modified
+// modified
 		case EV_USE_ITEM1:     // (HI_MEDKIT)	medkit
 		case EV_USE_ITEM2:     // (HI_WINE)		wine
 		case EV_USE_ITEM3:     // (HI_SKULL)		skull of invulnerable
@@ -757,7 +755,7 @@ void ClientThink_real(gentity_t *ent) {
 	}
 	// mark the time, so the connection sprite can be removed
 	ucmd = &ent->client->pers.cmd;
-	// NERVE - SMF - parse client damage command
+	// parse client damage command
 	if (ucmd->cld) {
 		int id, enemynum;
 		// NOTE: MAX_CLIENTS currently only needs 7 bits, the rest is for id tag

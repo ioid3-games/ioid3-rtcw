@@ -657,8 +657,7 @@ bot_synonymlist_t *BotLoadSynonyms(char *filename) {
 		contextlevel = 0;
 		synlist = NULL; // list synonyms
 		lastsyn = NULL; // last synonym in the list
-		// 
-		while (PC_ReadToken(source, &token)) {
+			while (PC_ReadToken(source, &token)) {
 			if (token.type == TT_NUMBER) {
 				context |= token.intvalue;
 				contextstack[contextlevel] = token.intvalue;
@@ -730,8 +729,7 @@ bot_synonymlist_t *BotLoadSynonyms(char *filename) {
 							synonym->string = ptr;
 							ptr += len;
 							strcpy(synonym->string, token.string);
-							// 
-							if (lastsynonym) {
+													if (lastsynonym) {
 								lastsynonym->next = synonym;
 							} else {syn->firstsynonym = synonym;}
 
@@ -1035,8 +1033,7 @@ bot_randomlist_t *BotLoadRandomStrings(char *filename) {
 
 		randomlist = NULL; // list
 		lastrandom = NULL; // last
-		// 
-		while (PC_ReadToken(source, &token)) {
+			while (PC_ReadToken(source, &token)) {
 			size_t len;
 
 			if (token.type != TT_NAME) {
@@ -1098,7 +1095,6 @@ bot_randomlist_t *BotLoadRandomStrings(char *filename) {
 	}
 
 	botimport.Print(PRT_MESSAGE, "loaded %s\n", filename);
-	// 
 #ifdef DEBUG
 	botimport.Print(PRT_MESSAGE, "random strings %d msec\n", Sys_MilliSeconds() - starttime);
 	// BotDumpRandomStringList(randomlist);
@@ -1243,8 +1239,7 @@ bot_matchpiece_t *BotLoadMatchPieces(source_t *source, char *endtoken) {
 
 			lastpiece = matchpiece;
 		} else if (token.type == TT_STRING) {
-			// 
-			matchpiece = (bot_matchpiece_t *)GetClearedHunkMemory(sizeof(bot_matchpiece_t));
+					matchpiece = (bot_matchpiece_t *)GetClearedHunkMemory(sizeof(bot_matchpiece_t));
 			matchpiece->firststring = NULL;
 			matchpiece->type = MT_STRING;
 			matchpiece->variable = 0;
@@ -2080,8 +2075,7 @@ bot_chat_t *BotLoadInitialChat(char *chatfile, char *chatname) {
 							// add the chat type to the chat
 							chattype->next = chat->types;
 							chat->types = chattype;
-							// 
-							ptr += sizeof(bot_chattype_t);
+													ptr += sizeof(bot_chattype_t);
 						}
 
 						size += sizeof(bot_chattype_t);
@@ -2298,8 +2292,7 @@ int BotExpandChatMessage(char *outmessage, char *message, unsigned long mcontext
 						// replace synonyms in the variable context
 						BotReplaceSynonyms(temp, vcontext);
 					}    // end else
-						// 
-					if (len + strlen(temp) >= MAX_MESSAGE_SIZE) {
+										if (len + strlen(temp) >= MAX_MESSAGE_SIZE) {
 						botimport.Print(PRT_ERROR, "BotConstructChat: message %s too long\n", message);
 						return qfalse;
 					}    // end if

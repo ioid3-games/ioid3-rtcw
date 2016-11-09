@@ -39,7 +39,7 @@ void CG_LoadingString(const char *s) {
 	Q_strncpyz(cg.infoScreenText, s, sizeof(cg.infoScreenText));
 
 	if (s && s[0] != 0) {
-		CG_Printf("LOADING... %s\n", s);  // ---- (SA)	added so you can see from the console what's going on
+		CG_Printf("LOADING... %s\n", s);  // added so you can see from the console what's going on
 
 	}
 
@@ -52,7 +52,7 @@ CG_LoadingItem
 =======================================================================================================================================
 */
 void CG_LoadingItem(int itemNum) {
-#if 0 // ---- (SA)	Max Kaufman request that we don't show any pacifier stuff for items
+#if 0 // Max Kaufman request that we don't show any pacifier stuff for items
 	gitem_t *item;
 
 	item = &bg_itemlist[itemNum];
@@ -67,7 +67,7 @@ void CG_LoadingItem(int itemNum) {
 	}
 
 	CG_LoadingString(cgs.itemPrintNames[item - bg_itemlist]);
-#endif // ---- (SA)	end
+#endif // end
 }
 
 /*
@@ -270,7 +270,7 @@ void CG_DrawExitStats(void) {
 	color2[0] = color2[1] = color2[2] = 1;
 	color2[3] = color[3];
 // CG_Text_Paint(280, 120, 2, 0.25f, color2, va("%s", CG_translateString("end_title")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
-	// ---- (SA)	scale change per MK
+	// scale change per MK
 	CG_Text_Paint(270, 120, 2, 0.313f, color2, va("%s", CG_translateString("end_title")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
 
 	color2[0] = color2[1] = color2[2] = 1;
@@ -278,12 +278,12 @@ void CG_DrawExitStats(void) {
 	if (cg.cursorHintIcon == HINT_NOEXIT) {
 		// "exit not available"
 // 	CG_Text_Paint(250, 320, 2, 0.3f, color2, va("%s", CG_translateString("end_noexit")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
-		// ---- (SA)	scale change per MK
+		// scale change per MK
 		CG_Text_Paint(260, 320, 2, 0.225f, color2, va("%s", CG_translateString("end_noexit")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
 	} else {
 		// "forward to proceed"
 // 	CG_Text_Paint(230, 320, 2, 0.3f, color2, va("%s", CG_translateString("end_exit")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
-		// ---- (SA)	scale change per MK
+		// scale change per MK
 		CG_Text_Paint(250, 320, 2, 0.225f, color2, va("%s", CG_translateString("end_exit")), 0, 0, ITEM_TEXTSTYLE_SHADOWEDMORE);
 	}
 
@@ -386,7 +386,7 @@ void CG_DrawInformation(void) {
 
 	trap_Cvar_VariableStringBuffer("com_expectedhunkusage", hunkBuf, MAX_QPATH);
 	expectedHunk = atoi(hunkBuf);
-	// ---- (SA)	just the briefing now
+	// just the briefing now
 
 	trap_R_SetColor(NULL);
 	// show the loading progress

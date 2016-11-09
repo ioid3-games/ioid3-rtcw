@@ -1519,7 +1519,6 @@ static void ParseSkyParms(char **text) {
 	}
 	R_InitSkyTexCoords(shader.sky.cloudHeight);
 
-
 	// innerbox
 	token = COM_ParseExt(text, qfalse);
 	if (token[0] == 0) {
@@ -2285,8 +2284,8 @@ static void ComputeVertexAttribs(void)
 }
 
 
-static void CollapseStagesToLightall(shaderStage_t *diffuse, 
-	shaderStage_t *normal, shaderStage_t *specular, shaderStage_t *lightmap, 
+static void CollapseStagesToLightall(shaderStage_t *diffuse,
+	shaderStage_t *normal, shaderStage_t *specular, shaderStage_t *lightmap,
 	qboolean useLightVector, qboolean useLightVertex, qboolean parallax, qboolean tcgen)
 {
 	int defs = 0;
@@ -2334,10 +2333,22 @@ static void CollapseStagesToLightall(shaderStage_t *diffuse,
 			image_t *normalImg;
 			imgFlags_t normalFlags = (diffuseImg->flags & ~(IMGFLAG_GENNORMALMAP | IMGFLAG_SRGB)) | IMGFLAG_NOLIGHTSCALE;
 
+			// try a normalheight image first
 			COM_StripExtension(diffuseImg->imgName, normalName, MAX_QPATH);
-			Q_strcat(normalName, MAX_QPATH, "_n");
+			Q_strcat(normalName, MAX_QPATH, "_nh");
 
-			normalImg = R_FindImageFile(normalName, IMGTYPE_NORMAL, normalFlags);
+			normalImg = R_FindImageFile(normalName, IMGTYPE_NORMALHEIGHT, normalFlags);
+
+			if (normalImg)
+			{
+				parallax = qtrue;
+			}
+			else
+			{
+				// try a normal image ("_n" suffix)
+				normalName[strlen(normalName) - 1] = '\0';
+				normalImg = R_FindImageFile(normalName, IMGTYPE_NORMAL, normalFlags);
+			}
 
 			if (normalImg)
 			{
@@ -3983,7 +3994,6 @@ static void CreateExternalShaders(void) {
 			image = tr.flareShader->stages[0]->bundle[0].image[0];
 		else
 			image = tr.dlightImage;
-
 
 		InitShader("sunflare1", LIGHTMAP_NONE);
 		stages[0].bundle[0].image[0] = image;

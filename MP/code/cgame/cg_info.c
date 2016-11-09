@@ -44,7 +44,7 @@ void CG_LoadingString(const char *s) {
 	Q_strncpyz(cg.infoScreenText, s, sizeof(cg.infoScreenText));
 
 	if (s && s[0] != 0) {
-		CG_Printf("%s", va("LOADING... %s\n", s));  // ---- (SA)	added so you can see from the console what's going on
+		CG_Printf("%s", va("LOADING... %s\n", s));  // added so you can see from the console what's going on
 
 	}
 
@@ -57,7 +57,7 @@ CG_LoadingItem
 =======================================================================================================================================
 */
 void CG_LoadingItem(int itemNum) {
-#if 0 // ---- (SA)	Max Kaufman request that we don't show any pacifier stuff for items
+#if 0 // Max Kaufman request that we don't show any pacifier stuff for items
 	gitem_t *item;
 
 	item = &bg_itemlist[itemNum];
@@ -72,7 +72,7 @@ void CG_LoadingItem(int itemNum) {
 	}
 
 	CG_LoadingString(item->pickup_name);
-#endif // ---- (SA)	end
+#endif // end
 }
 
 /*

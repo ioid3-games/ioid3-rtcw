@@ -227,8 +227,7 @@ static void SV_CreateBaseline(void) {
 
 		svent->s.number = entnum;
 		// take current state as baseline
-		// 
-		sv.svEntities[entnum].baseline = svent->s;
+			sv.svEntities[entnum].baseline = svent->s;
 	}
 }
 
@@ -965,7 +964,7 @@ void SV_Init(void) {
 	Cvar_Get("nextmap", "", CVAR_TEMP);
 
 	sv_allowDownload = Cvar_Get("sv_allowDownload", "1", 0);
-// ---- (SA)	heh, whoops. we've been talking to id masters since we got a connection...
+// heh, whoops. we've been talking to id masters since we got a connection...
 	Cvar_Get("sv_dlURL", "", CVAR_SERVERINFO|CVAR_ARCHIVE);
 	
 // 	sv_master[0] = Cvar_Get("sv_master1", MASTER_SERVER_NAME, 0);

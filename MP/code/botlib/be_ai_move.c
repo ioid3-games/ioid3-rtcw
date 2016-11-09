@@ -855,8 +855,7 @@ int BotPredictVisiblePosition(vec3_t origin, int areanum, bot_goal_t *goal, int 
 	VectorCopy(origin, end);
 	// only do 20 hops
 	for (i = 0; i < 20 && (areanum != goal->areanum); i++) {
-		// 
-		reachnum = BotGetReachabilityToGoal(end, areanum, -1, lastgoalareanum, lastareanum, avoidreach, avoidreachtimes, avoidreachtries, goal, travelflags, travelflags);
+			reachnum = BotGetReachabilityToGoal(end, areanum, -1, lastgoalareanum, lastareanum, avoidreach, avoidreachtimes, avoidreachtries, goal, travelflags, travelflags);
 
 		if (!reachnum) {
 			return qfalse;
@@ -882,8 +881,7 @@ int BotPredictVisiblePosition(vec3_t origin, int areanum, bot_goal_t *goal, int 
 		lastareanum = areanum;
 		areanum = reach.areanum;
 		VectorCopy(reach.end, end);
-		// 
-	}
+		}
 
 	return qfalse;
 } // end of the function BotPredictVisiblePosition
@@ -951,7 +949,7 @@ float BotGapDistance(vec3_t origin, vec3_t hordir, int entnum) {
 				end[2] -= 20;
 
 				if (AAS_PointContents(end) & (CONTENTS_WATER|CONTENTS_SLIME)) {
-					break;                                                             // ---- (SA)	modified since slime is no longer deadly
+					break;                                                             // modified since slime is no longer deadly
 				}
 // 			if (AAS_PointContents(end) & CONTENTS_WATER) {
 					break;
@@ -1095,8 +1093,7 @@ int BotWalkInDirection(bot_movestate_t *ms, vec3_t dir, float speed, int type) {
 						SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA;
 		} // end else
 		 //AAS_ClearShownDebugLines();
-		// 
-		VectorCopy(ms->origin, origin);
+			VectorCopy(ms->origin, origin);
 		origin[2] += 0.5;
 		AAS_PredictClientMovement(&move, ms->entitynum, origin, presencetype, qtrue, velocity, cmdmove, cmdframes, maxframes, 0.1, stopevent, 0, qfalse); // qtrue);
 		// if prediction time wasn't enough to fully predict the movement
@@ -1105,7 +1102,7 @@ int BotWalkInDirection(bot_movestate_t *ms, vec3_t dir, float speed, int type) {
 			return qfalse;
 		}
 		// don't enter slime or lava and don't fall from too high
-		if (move.stopevent & (SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) { // ---- (SA)	modified since slime is no longer deadly
+		if (move.stopevent & (SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) { // modified since slime is no longer deadly
 // 	if (move.stopevent & (SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE))
 			// botimport.Print(PRT_MESSAGE, "client %d: would be hurt ", ms->client);
 			// if (move.stopevent & SE_ENTERSLIME) botimport.Print(PRT_MESSAGE, "slime\n");
@@ -1596,7 +1593,6 @@ bot_moveresult_t BotTravel_WalkOffLedge(bot_movestate_t *ms, aas_reachability_t 
 			}
 		}
 	}
-	// 
 	BotCheckBlocked(ms, hordir, qtrue, &result);
 	// elemantary action
 	EA_Move(ms->client, hordir, speed);
@@ -2154,8 +2150,7 @@ bot_moveresult_t BotTravel_Elevator(bot_movestate_t *ms, aas_reachability_t *rea
 			dist = dist1;
 			VectorCopy(dir1, dir);
 		}
-		// 
-		BotCheckBlocked(ms, dir, qfalse, &result);
+			BotCheckBlocked(ms, dir, qfalse, &result);
 
 		if (dist > 60) {
 			dist = 60;
@@ -2415,8 +2410,7 @@ bot_moveresult_t BotTravel_FuncBobbing(bot_movestate_t *ms, aas_reachability_t *
 			dist = dist1;
 			VectorCopy(dir1, dir);
 		}
-		// 
-		BotCheckBlocked(ms, dir, qfalse, &result);
+			BotCheckBlocked(ms, dir, qfalse, &result);
 
 		if (dist > 60) {
 			dist = 60;
@@ -2755,7 +2749,6 @@ bot_moveresult_t BotTravel_RocketJump(bot_movestate_t *ms, aas_reachability_t *r
 		speed = 400 - (400 - 5 * dist);
 		EA_Move(ms->client, hordir, speed);
 	}
-	// 
 /*
 	vec3_t hordir, dir1, dir2, start, end, runstart;
 	float dist1, dist2, speed;
@@ -2964,7 +2957,6 @@ bot_moveresult_t BotMoveInGoalArea(bot_movestate_t *ms, bot_goal_t *goal) {
 		dir[2] = 0;
 		result.traveltype = TRAVEL_WALK;
 	} // endif
-	// 
 	dist = VectorNormalize(dir);
 
 	if (dist > 100 || (goal->flags & GFL_NOSLOWAPPROACH)) {
@@ -2988,7 +2980,6 @@ bot_moveresult_t BotMoveInGoalArea(bot_movestate_t *ms, bot_goal_t *goal) {
 	}
 	// if (!debugline) debugline = botimport.DebugLineCreate();
 	// botimport.DebugLineShow(debugline, ms->origin, goal->origin, LINECOLOR_BLUE);
-	// 
 	ms->lastreachnum = 0;
 	ms->lastareanum = 0;
 	ms->lastgoalareanum = goal->areanum;
@@ -3043,7 +3034,6 @@ void BotMoveToGoal(bot_moveresult_t *result, int movestate, bot_goal_t *goal, in
 	if (AAS_OnGround(ms->origin, ms->presencetype, ms->entitynum)) {
 		ms->moveflags |= MFL_ONGROUND;
 	}
-	// 
 
 	if (ms->moveflags & MFL_ONGROUND) {
 		int modeltype, modelnum;
@@ -3215,8 +3205,7 @@ void BotMoveToGoal(bot_moveresult_t *result, int movestate, bot_goal_t *goal, in
 				AAS_ReachabilityFromNum(reachnum, &reach);
 				// set a timeout for this reachability
 				ms->reachability_time = AAS_Time() + BotReachabilityTime(&reach);
-				// 
-#ifdef AVOIDREACH
+			#ifdef AVOIDREACH
 				// add the reachability to the reachabilities to avoid for a while
 				BotAddToAvoidReach(ms, reachnum, AVOIDREACH_TIME);
 #endif // AVOIDREACH
@@ -3237,8 +3226,7 @@ void BotMoveToGoal(bot_moveresult_t *result, int movestate, bot_goal_t *goal, in
 			}
 #endif // DEBUG
 		}
-		// 
-		ms->lastreachnum = reachnum;
+			ms->lastreachnum = reachnum;
 		ms->lastgoalareanum = goal->areanum;
 		ms->lastareanum = ms->areanum;
 		// if the bot has a reachability
@@ -3251,8 +3239,7 @@ void BotMoveToGoal(bot_moveresult_t *result, int movestate, bot_goal_t *goal, in
 			AAS_PrintTravelType(reach.traveltype);
 			AAS_ShowReachability(&reach);
 #endif // DEBUG_AI_MOVE
-			// 
-#ifdef DEBUG
+		#ifdef DEBUG
 			// botimport.Print(PRT_MESSAGE, "client %d: ", ms->client);
 			//AAS_PrintTravelType(reach.traveltype);
 			// botimport.Print(PRT_MESSAGE, "\n");
@@ -3347,8 +3334,7 @@ void BotMoveToGoal(bot_moveresult_t *result, int movestate, bot_goal_t *goal, in
 			//AAS_PrintTravelType(reach.traveltype);
 			// botimport.Print(PRT_MESSAGE, "\n");
 #endif // DEBUG
-			// 
-			switch (reach.traveltype) {
+					switch (reach.traveltype) {
 			case TRAVEL_WALK: *result = BotTravel_Walk(ms, &reach); break; // BotFinishTravel_Walk(ms, &reach); break;
 			case TRAVEL_CROUCH: /*do nothing*/ break;
 			case TRAVEL_BARRIERJUMP: *result = BotFinishTravel_BarrierJump(ms, &reach); break;

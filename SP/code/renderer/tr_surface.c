@@ -111,7 +111,6 @@ void RB_AddQuadStampExt(vec3_t origin, vec3_t left, vec3_t up, byte *color, floa
 	tess.xyz[ndx + 3][1] = origin[1] + left[1] - up[1];
 	tess.xyz[ndx + 3][2] = origin[2] + left[2] - up[2];
 
-
 	// constant normal all the way around
 	VectorSubtract(vec3_origin, backEnd.viewParms.or.axis[0], normal);
 
@@ -139,7 +138,6 @@ void RB_AddQuadStampExt(vec3_t origin, vec3_t left, vec3_t up, byte *color, floa
 			*(unsigned int *) &tess.vertexColors[ndx + 2] =
 				*(unsigned int *) &tess.vertexColors[ndx + 3] =
 					*(unsigned int *)color;
-
 
 	tess.numVertexes += 4;
 	tess.numIndexes += 6;
@@ -1304,7 +1302,6 @@ static void RB_SurfaceGrid(srfGridMesh_t *cv) {
 	}
 	heightTable[lodHeight] = cv->height - 1;
 	lodHeight++;
-
 
 	// very large grids may have more points or indexes than can be fit
 	// in the tess structure, so we may have to issue it in multiple passes

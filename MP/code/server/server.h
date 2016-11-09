@@ -36,7 +36,7 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 
 #define MAX_ENT_CLUSTERS    16
 
-#define MAX_BPS_WINDOW      20         // NERVE - SMF - net debugging
+#define MAX_BPS_WINDOW      20         // net debugging
 
 #ifdef USE_VOIP
 #define VOIP_QUEUE_LENGTH 64
@@ -96,7 +96,7 @@ typedef struct {
 	int gameClientSize;                // will be > sizeof(playerState_t) due to game private data
 	int restartTime;
 	int time;
-	// NERVE - SMF - net debugging
+	// net debugging
 	int bpsWindow[MAX_BPS_WINDOW];
 	int bpsWindowSteps;
 	int bpsTotalBytes;
@@ -329,7 +329,7 @@ extern cvar_t *awh_bbox_horz;
 extern cvar_t *awh_bbox_vert;
 #endif
 
-extern cvar_t *sv_showAverageBPS;         // NERVE - SMF - net debugging
+extern cvar_t *sv_showAverageBPS;         // net debugging
 
 // Rafael gameskill
 extern cvar_t *sv_gameskill;

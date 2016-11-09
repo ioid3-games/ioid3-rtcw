@@ -39,7 +39,7 @@ typedef struct {
 gentity_t g_entities[MAX_GENTITIES];
 gclient_t g_clients[MAX_CLIENTS];
 
-gentity_t *g_camEnt = NULL;  // ---- (SA)	script camera
+gentity_t *g_camEnt = NULL;  // script camera
 
 // Rafael gameskill
 extern int bg_pmove_gameskill_integer;
@@ -159,7 +159,7 @@ cvarTable_t gameCvarTable[] = {
 	{&g_LTChargeTime, "g_LTChargeTime", "40000", CVAR_SERVERINFO|CVAR_LATCH, 0, qfalse},
 	{&g_soldierChargeTime, "g_soldierChargeTime", "20000", CVAR_SERVERINFO|CVAR_LATCH, 0, qfalse},
 
-	{&g_maxclients, "sv_maxclients", "20", CVAR_SERVERINFO|CVAR_LATCH|CVAR_ARCHIVE, 0, qfalse}, // NERVE - SMF - made 20 from 8
+	{&g_maxclients, "sv_maxclients", "20", CVAR_SERVERINFO|CVAR_LATCH|CVAR_ARCHIVE, 0, qfalse}, // made 20 from 8
 	{&g_maxGameClients, "g_maxGameClients", "0", CVAR_SERVERINFO|CVAR_LATCH|CVAR_ARCHIVE, 0, qfalse},
 	{&g_minGameClients, "g_minGameClients", "8", CVAR_SERVERINFO, 0, qfalse},      // NERVE - SMF
 
@@ -170,7 +170,7 @@ cvarTable_t gameCvarTable[] = {
 	{&g_capturelimit, "capturelimit", "8", /*CVAR_SERVERINFO |*/ CVAR_ARCHIVE|CVAR_NORESTART, 0, qtrue},
 	{&g_synchronousClients, "g_synchronousClients", "0", CVAR_SYSTEMINFO, 0, qfalse},
 	{&g_friendlyFire, "g_friendlyFire", "1", CVAR_SERVERINFO|CVAR_ARCHIVE, 0, qtrue},
-	{&g_teamForceBalance, "g_teamForceBalance", "0", CVAR_ARCHIVE},    // NERVE - SMF - merge from team arena
+	{&g_teamForceBalance, "g_teamForceBalance", "0", CVAR_ARCHIVE},    // merge from team arena
 
 	{&g_warmup, "g_warmup", "20", CVAR_ARCHIVE, 0, qtrue},
 	{&g_doWarmup, "g_doWarmup", "1", CVAR_ARCHIVE, 0, qtrue},
@@ -204,7 +204,7 @@ cvarTable_t gameCvarTable[] = {
 	{&g_debugMove, "g_debugMove", "0", 0, 0, qfalse},
 	{&g_debugDamage, "g_debugDamage", "0", CVAR_CHEAT, 0, qfalse},
 	{&g_debugAlloc, "g_debugAlloc", "0", 0, 0, qfalse},
-	{&g_debugBullets, "g_debugBullets", "0", CVAR_CHEAT, 0, qfalse}, 
+	{&g_debugBullets, "g_debugBullets", "0", CVAR_CHEAT, 0, qfalse},
 	{&g_motd, "g_motd", "", CVAR_ARCHIVE, 0, qfalse},
 	{&g_podiumDist, "g_podiumDist", "80", 0, 0, qfalse},
 	{&g_podiumDrop, "g_podiumDrop", "70", 0, 0, qfalse},
@@ -525,12 +525,10 @@ void G_CheckForCursorHints(gentity_t *ent) {
 		if (checkEnt) {
 			if (checkEnt->s.eType == ET_GENERAL || checkEnt->s.eType == ET_MG42_BARREL) {
 				// this is effectively an 'exit' brush. they should be created with:
-				// 
-				// classname = 'ai_trigger'
+							// classname = 'ai_trigger'
 				// ainame = 'player'
 				// target = 'endmap'
-				// 
-				if (!Q_stricmp(traceEnt->classname, "ai_trigger")) {
+							if (!Q_stricmp(traceEnt->classname, "ai_trigger")) {
 					if ((!Q_stricmp(traceEnt->aiName, "player")) && (!Q_stricmp(traceEnt->target, "endmap"))) {
 						hintDist = CH_EXIT_DIST;
 						hintType = HINT_EXIT;
@@ -1034,7 +1032,7 @@ void G_InitGame(int levelTime, int randomSeed, int restart) {
 	G_ProcessIPBans();
 
 	G_InitMemory();
-	// NERVE - SMF - intialize gamestate
+	// intialize gamestate
 	if (g_gamestate.integer == GS_INITIALIZE) {
 		if (g_noTeamSwitching.integer) {
 			trap_Cvar_Set("gamestate", va("%i", GS_WAITING_FOR_PLAYERS));
@@ -1618,7 +1616,7 @@ void FindIntermissionPoint(void) {
 
 	if (g_gametype.integer >= GT_WOLF) {
 		ent = NULL;
-		// NERVE - SMF - if the match hasn't ended yet, and we're just a spectator
+		// if the match hasn't ended yet, and we're just a spectator
 		if (!level.intermissiontime) {
 			// try to find the intermission spawnpoint with no team flags set
 			ent = G_Find(NULL, FOFS(classname), "info_player_intermission");
@@ -1815,7 +1813,7 @@ Append information about this game to the log file
 void LogExit(const char *string) {
 	int i, numSorted;
 	gclient_t *cl;
-	// NERVE - SMF - do not allow LogExit to be called in non - playing gamestate
+	// do not allow LogExit to be called in non - playing gamestate
 	if (g_gamestate.integer != GS_PLAYING) {
 		return;
 	}
@@ -2079,7 +2077,7 @@ void CheckExitRules(void) {
 					G_Script_ScriptEvent(gm, "trigger", "timelimit_hit");
 				}
 			}
-			// NERVE - SMF - do not allow LogExit to be called in non - playing gamestate
+			// do not allow LogExit to be called in non - playing gamestate
 			// - This already happens in LogExit, but we need it for the print command
 			if (g_gamestate.integer != GS_PLAYING) {
 				return;
@@ -2301,7 +2299,7 @@ void CheckWolfMP(void) {
 	if (g_gametype.integer < GT_WOLF) {
 		return;
 	}
-	// NERVE - SMF - check game state
+	// check game state
 	CheckGameState();
 
 	if (level.warmupTime == 0) {
@@ -2449,7 +2447,7 @@ void G_RunThink(gentity_t *ent) {
 	float thinktime;
 	// run scripting
 	if (ent->s.number >= MAX_CLIENTS) {
-// ---- (SA)	this causes trouble in various maps
+// this causes trouble in various maps
 		// escape1 - first radio room nazi is not there
 		// basein - truck you start in is rotated 90 deg off
 		// will explain more if necessary when awake :)
@@ -2457,7 +2455,7 @@ void G_RunThink(gentity_t *ent) {
 // 		if (!(saveGamePending || (g_missionStats.string[0] || g_missionStats.string[1]))) {
 		G_Script_ScriptRun(ent);
 // 		}
-// ---- (SA)	end
+// end
 	}
 
 	thinktime = ent->nextthink;

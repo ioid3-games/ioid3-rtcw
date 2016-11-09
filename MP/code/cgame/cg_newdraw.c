@@ -243,7 +243,7 @@ static void CG_DrawPlayerArmorValue(rectDef_t *rect, float scale, vec4_t color, 
 	playerState_t *ps;
 
 	ps = &cg.snap->ps;
-	// NERVE - SMF - don't draw armor in wolfMP
+	// don't draw armor in wolfMP
 	if (cgs.gametype >= GT_WOLF) {
 		return;
 	}
@@ -321,7 +321,6 @@ static void CG_DrawPlayerWeaponIcon(rectDef_t *rect, qboolean drawHighlighted, i
 
 	VectorSet(hcolor, 1.f, 1.f, 1.f);
 	hcolor[3] = cg_hudAlpha.value;
-
 
 	if (!cg_drawIcons.integer) {
 		return;
@@ -1173,7 +1172,6 @@ static void CG_DrawSelectedPlayerHead(rectDef_t *rect, qboolean draw2D, qboolean
 
 			CG_Draw3DModel(rect->x, rect->y, rect->w, rect->h, ci->headModel, ci->headSkin, origin, angles);
 
-
 		} else {
 	 (cg_drawIcons.integer) {
 			CG_DrawPic(rect->x, rect->y, rect->w, rect->h, ci->modelIcon);
@@ -1980,7 +1978,7 @@ qboolean CG_OwnerDrawVisible(int flags) {
 		}
 	}
 
-// ---- (SA)	end
+// end
 
 
 	return qfalse;

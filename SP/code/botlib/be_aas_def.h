@@ -40,7 +40,7 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 //#define MAX_MODELS			256		// these are sent over the net as 8 bits
 //#define MAX_SOUNDS			256		// so they cannot be blindly increased
 //#define MAX_CONFIGSTRINGS	1024
-#define MAX_CONFIGSTRINGS   2048   // ---- (SA)	upped
+#define MAX_CONFIGSTRINGS   2048   // upped
 
 //#define CS_SCORES			32
 //#define CS_MODELS			(CS_SCORES + MAX_CLIENTS)

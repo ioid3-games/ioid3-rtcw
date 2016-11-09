@@ -147,7 +147,7 @@ void MSG_WriteBits(msg_t *msg, int value, int bits) {
 
 	oldsize += bits;
 
-	msg->uncompsize += bits;           // NERVE - SMF - net debugging
+	msg->uncompsize += bits;           // net debugging
 
 	// this isn't an exact overflow check, but close enough
 	if (msg->maxsize - msg->cursize < 4) {
@@ -183,7 +183,6 @@ void MSG_WriteBits(msg_t *msg, int value, int bits) {
 		}
 	} else {
 		value &= (0xffffffff >> (32 - bits));
-
 
 		if (bits & 7) {
 			int nbits;
@@ -1011,9 +1010,9 @@ typedef struct {
 #define NETF(x) #x, (size_t)& ((entityState_t *)0)->x
 
 netField_t entityStateFields[] = {
-	{NETF(eType), 8}, {NETF(eFlags), 24}, {NETF(pos.trType), 8}, {NETF(pos.trTime), 32}, {NETF(pos.trDuration), 32}, {NETF(pos.trBase[0]), 0}, {NETF(pos.trBase[1]), 0}, {NETF(pos.trBase[2]), 0}, {NETF(pos.trDelta[0]), 0}, {NETF(pos.trDelta[1]), 0}, {NETF(pos.trDelta[2]), 0}, {NETF(apos.trType), 8}, {NETF(apos.trTime), 32}, {NETF(apos.trDuration), 32}, {NETF(apos.trBase[0]), 0}, {NETF(apos.trBase[1]), 0}, {NETF(apos.trBase[2]), 0}, {NETF(apos.trDelta[0]), 0}, {NETF(apos.trDelta[1]), 0}, {NETF(apos.trDelta[2]), 0}, {NETF(time), 32}, {NETF(time2), 32}, {NETF(origin[0]), 0}, {NETF(origin[1]), 0}, {NETF(origin[2]), 0}, {NETF(origin2[0]), 0}, {NETF(origin2[1]), 0}, {NETF(origin2[2]), 0}, {NETF(angles[0]), 0}, {NETF(angles[1]), 0}, {NETF(angles[2]), 0}, {NETF(angles2[0]), 0}, {NETF(angles2[1]), 0}, {NETF(angles2[2]), 0}, {NETF(otherEntityNum), GENTITYNUM_BITS}, {NETF(otherEntityNum2), GENTITYNUM_BITS}, {NETF(groundEntityNum), GENTITYNUM_BITS}, {NETF(loopSound), 8}, {NETF(constantLight), 32}, {NETF(dl_intensity), 32}, // ---- (SA)	longer now to carry the corona colors
+	{NETF(eType), 8}, {NETF(eFlags), 24}, {NETF(pos.trType), 8}, {NETF(pos.trTime), 32}, {NETF(pos.trDuration), 32}, {NETF(pos.trBase[0]), 0}, {NETF(pos.trBase[1]), 0}, {NETF(pos.trBase[2]), 0}, {NETF(pos.trDelta[0]), 0}, {NETF(pos.trDelta[1]), 0}, {NETF(pos.trDelta[2]), 0}, {NETF(apos.trType), 8}, {NETF(apos.trTime), 32}, {NETF(apos.trDuration), 32}, {NETF(apos.trBase[0]), 0}, {NETF(apos.trBase[1]), 0}, {NETF(apos.trBase[2]), 0}, {NETF(apos.trDelta[0]), 0}, {NETF(apos.trDelta[1]), 0}, {NETF(apos.trDelta[2]), 0}, {NETF(time), 32}, {NETF(time2), 32}, {NETF(origin[0]), 0}, {NETF(origin[1]), 0}, {NETF(origin[2]), 0}, {NETF(origin2[0]), 0}, {NETF(origin2[1]), 0}, {NETF(origin2[2]), 0}, {NETF(angles[0]), 0}, {NETF(angles[1]), 0}, {NETF(angles[2]), 0}, {NETF(angles2[0]), 0}, {NETF(angles2[1]), 0}, {NETF(angles2[2]), 0}, {NETF(otherEntityNum), GENTITYNUM_BITS}, {NETF(otherEntityNum2), GENTITYNUM_BITS}, {NETF(groundEntityNum), GENTITYNUM_BITS}, {NETF(loopSound), 8}, {NETF(constantLight), 32}, {NETF(dl_intensity), 32}, // longer now to carry the corona colors
 	{NETF(modelindex), 9}, {NETF(modelindex2), 9}, {NETF(frame), 16}, {NETF(clientNum), 8}, {NETF(solid), 24}, {NETF(event), 10}, {NETF(eventParm), 8}, {NETF(eventSequence), 8}, // warning: need to modify cg_event.c at "// check the sequencial list" if you change this
-	{NETF(events[0]), 8}, {NETF(events[1]), 8}, {NETF(events[2]), 8}, {NETF(events[3]), 8}, {NETF(eventParms[0]), 8}, {NETF(eventParms[1]), 8}, {NETF(eventParms[2]), 8}, {NETF(eventParms[3]), 8}, {NETF(powerups), MAX_POWERUPS}, {NETF(weapon), 8}, {NETF(legsAnim), ANIM_BITS}, {NETF(torsoAnim), ANIM_BITS}, {NETF(density), 10}, {NETF(dmgFlags), 32}, // ---- (SA)	additional info flags for damage
+	{NETF(events[0]), 8}, {NETF(events[1]), 8}, {NETF(events[2]), 8}, {NETF(events[3]), 8}, {NETF(eventParms[0]), 8}, {NETF(eventParms[1]), 8}, {NETF(eventParms[2]), 8}, {NETF(eventParms[3]), 8}, {NETF(powerups), MAX_POWERUPS}, {NETF(weapon), 8}, {NETF(legsAnim), ANIM_BITS}, {NETF(torsoAnim), ANIM_BITS}, {NETF(density), 10}, {NETF(dmgFlags), 32}, // additional info flags for damage
 	{NETF(onFireStart), 32}, {NETF(onFireEnd), 32}, {NETF(aiChar), 8}, {NETF(teamNum), 8}, {NETF(effect1Time), 32}, {NETF(effect2Time), 32}, {NETF(effect3Time), 32}, {NETF(aiState), 2}, {NETF(animMovetype), 4},
 };
 
@@ -1305,8 +1304,8 @@ player_state_t communication
 netField_t playerStateFields[] = {
 	{PSF(commandTime), 32}, {PSF(pm_type), 8}, {PSF(bobCycle), 8}, {PSF(pm_flags), 16}, {PSF(pm_time), -16}, {PSF(origin[0]), 0}, {PSF(origin[1]), 0}, {PSF(origin[2]), 0}, {PSF(velocity[0]), 0}, {PSF(velocity[1]), 0}, {PSF(velocity[2]), 0}, {PSF(weaponTime), -16}, {PSF(weaponDelay), -16}, {PSF(grenadeTimeLeft), -16}, {PSF(gravity), 16}, {PSF(leanf), 0}, {PSF(speed), 16}, {PSF(delta_angles[0]), 16}, {PSF(delta_angles[1]), 16}, {PSF(delta_angles[2]), 16}, {PSF(groundEntityNum), GENTITYNUM_BITS}, {PSF(legsTimer), 16}, {PSF(torsoTimer), 16}, {PSF(legsAnim), ANIM_BITS}, {PSF(torsoAnim), ANIM_BITS}, {PSF(movementDir), 8}, {PSF(eFlags), 24}, {PSF(eventSequence), 8}, {PSF(events[0]), 8}, {PSF(events[1]), 8}, {PSF(events[2]), 8}, {PSF(events[3]), 8}, {PSF(eventParms[0]), 8}, {PSF(eventParms[1]), 8}, {PSF(eventParms[2]), 8}, {PSF(eventParms[3]), 8}, {PSF(clientNum), 8}, {PSF(weapons[0]), 32}, {PSF(weapons[1]), 32}, {PSF(weapon), 7}, // (SA) yup, even more
 	{PSF(weaponstate), 4}, {PSF(weapAnim), 10}, {PSF(viewangles[0]), 0}, {PSF(viewangles[1]), 0}, {PSF(viewangles[2]), 0}, {PSF(viewheight), -8}, {PSF(damageEvent), 8}, {PSF(damageYaw), 8}, {PSF(damagePitch), 8}, {PSF(damageCount), 8}, {PSF(mins[0]), 0}, {PSF(mins[1]), 0}, {PSF(mins[2]), 0}, {PSF(maxs[0]), 0}, {PSF(maxs[1]), 0}, {PSF(maxs[2]), 0}, {PSF(crouchMaxZ), 0}, {PSF(crouchViewHeight), 0}, {PSF(standViewHeight), 0}, {PSF(deadViewHeight), 0}, {PSF(runSpeedScale), 0}, {PSF(sprintSpeedScale), 0}, {PSF(crouchSpeedScale), 0}, {PSF(friction), 0}, {PSF(viewlocked), 8}, {PSF(viewlocked_entNum), 16}, {PSF(aiChar), 8}, {PSF(teamNum), 8}, {PSF(gunfx), 8}, {PSF(onFireStart), 32}, {PSF(curWeapHeat), 8}, {PSF(sprintTime), 16}, // FIXME: to be removed
-	{PSF(aimSpreadScale), 8}, {PSF(aiState), 2}, {PSF(serverCursorHint), 8}, 
-	{PSF(serverCursorHintVal), 8}, 
+	{PSF(aimSpreadScale), 8}, {PSF(aiState), 2}, {PSF(serverCursorHint), 8},
+	{PSF(serverCursorHintVal), 8},
 	{PSF(classWeaponTime), 32}, // JPW NERVE
 };
 
@@ -1320,7 +1319,7 @@ void MSG_WriteDeltaPlayerstate(msg_t *msg, struct playerState_s *from, struct pl
 	playerState_t dummy;
 	int statsbits;
 	int persistantbits;
-	int ammobits[4];               // ---- (SA)	modified
+	int ammobits[4];               // modified
 	int clipbits;                  
 	int powerupbits;
 	int holdablebits;
@@ -1455,7 +1454,7 @@ void MSG_WriteDeltaPlayerstate(msg_t *msg, struct playerState_s *from, struct pl
 				if (statsbits & (1 << i)) {
 					// changed to long to allow more flexibility
 // 					MSG_WriteLong(msg, to->stats[i]);
-					MSG_WriteShort(msg, to->stats[i]); // ---- (SA)	back to short since weapon bits are handled elsewhere now
+					MSG_WriteShort(msg, to->stats[i]); // back to short since weapon bits are handled elsewhere now
 				}
 		} else {
 			MSG_WriteBits(msg, 0, 1); // no change to stats
@@ -1576,18 +1575,18 @@ void MSG_WriteDeltaPlayerstate(msg_t *msg, struct playerState_s *from, struct pl
 	}
 
 #else
-// ---- (SA)	I split this into two groups using shorts so it wouldn't have
+// I split this into two groups using shorts so it wouldn't have
 // 			to use a long every time ammo changed for any weap.
 // 			this seemed like a much friendlier option than making it
 // 			read / write a long for any ammo change.
 
 	// j == 0 : weaps 0 - 15
 	// j == 1 : weaps 16 - 31
-	// j == 2 : weaps 32 - 47	// ---- (SA)	now up to 64(but still pretty net - friendly)
+	// j == 2 : weaps 32 - 47	// now up to 64(but still pretty net - friendly)
 	// j == 3 : weaps 48 - 63
 
 	// ammo stored
-	for (j = 0; j < 4; j++) { // ---- (SA)	modified for 64 weaps
+	for (j = 0; j < 4; j++) { // modified for 64 weaps
 		ammobits[j] = 0;
 
 		for (i = 0; i < 16; i++) {
@@ -1597,7 +1596,7 @@ void MSG_WriteDeltaPlayerstate(msg_t *msg, struct playerState_s *from, struct pl
 		}
 	}
 
-// ---- (SA)	also encapsulated ammo changes into one check. clip values will change frequently, // but ammo will not. (only when you get ammo / reload rather than each shot)
+// also encapsulated ammo changes into one check. clip values will change frequently, // but ammo will not. (only when you get ammo / reload rather than each shot)
 	if (ammobits[0] || ammobits[1] || ammobits[2] || ammobits[3]) { // if any were set...
 		MSG_WriteBits(msg, 1, 1); // changed
 		for (j = 0; j < 4; j++) {
@@ -1617,7 +1616,7 @@ void MSG_WriteDeltaPlayerstate(msg_t *msg, struct playerState_s *from, struct pl
 		MSG_WriteBits(msg, 0, 1); // no change
 	}
 	// ammo in clip
-	for (j = 0; j < 4; j++) { // ---- (SA)	modified for 64 weaps
+	for (j = 0; j < 4; j++) { // modified for 64 weaps
 		clipbits = 0;
 
 		for (i = 0; i < 16; i++) {
@@ -1750,7 +1749,7 @@ void MSG_ReadDeltaPlayerstate(msg_t *msg, playerState_t *from, playerState_t *to
 				if (bits & (1 << i)) {
 					// changed to long to allow more flexibility
 // 					to->stats[i] = MSG_ReadLong(msg);
-					to->stats[i] = MSG_ReadShort(msg); // ---- (SA)	back to short since weapon bits are handled elsewhere now
+					to->stats[i] = MSG_ReadShort(msg); // back to short since weapon bits are handled elsewhere now
 
 				}
 			}
@@ -1805,7 +1804,7 @@ void MSG_ReadDeltaPlayerstate(msg_t *msg, playerState_t *from, playerState_t *to
 	}
 
 #else
-// ---- (SA)	I split this into two groups using shorts so it wouldn't have
+// I split this into two groups using shorts so it wouldn't have
 // 			to use a long every time ammo changed for any weap.
 // 			this seemed like a much friendlier option than making it
 // 			read / write a long for any ammo change.
@@ -1814,7 +1813,7 @@ void MSG_ReadDeltaPlayerstate(msg_t *msg, playerState_t *from, playerState_t *to
 
 	// j == 0 : weaps 0 - 15
 	// j == 1 : weaps 16 - 31
-	// j == 2 : weaps 32 - 47	// ---- (SA)	now up to 64(but still pretty net - friendly)
+	// j == 2 : weaps 32 - 47	// now up to 64(but still pretty net - friendly)
 	// j == 3 : weaps 48 - 63
 
 	// ammo stored

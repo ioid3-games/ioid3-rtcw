@@ -469,7 +469,7 @@ static qboolean CG_RegisterAcc(clientInfo_t *ci, const char *modelName, const ch
 	return qfalse;
 }
 
-// ---- (SA)	end
+// end
 
 
 static char text[100000];                  // < -was causing callstacks > 64k
@@ -651,7 +651,7 @@ static qboolean CG_RegisterClientModelname(clientInfo_t *ci, const char *modelNa
 		}
 	}
 
-// ---- (SA)	testing
+// testing
 	{
 		char scaleString[MAX_QPATH];
 		char *string_p;
@@ -692,7 +692,7 @@ static qboolean CG_RegisterClientModelname(clientInfo_t *ci, const char *modelNa
 					ci->playermodelScale[2] = 0.0f;
 		}
 	}
-// ---- (SA)	end
+// end
 
 
 	// try all the accessories
@@ -1059,7 +1059,7 @@ nodam_lftshin           attached to tag_calfleft
 nodam_rtshin            attached to tag_calfright
 */
 		}
-// ---- (SA)	end
+// end
 
 // end special AI model loading
 
@@ -1258,7 +1258,6 @@ void CG_LoadClientInfo(int clientNum, clientInfo_t *ci) {
 
 	// load the head first(since if the head loads but there is a problem with something in the lower
 	// body, you will want to default the model back to a default and want the head to match)
-	// 
 
 	if (!CG_RegisterClientHeadname(ci, ci->modelName, ci->hSkinName)) {
 		if (cg_buildScript.integer) {
@@ -1700,7 +1699,7 @@ void CG_RunLerpFrame(clientInfo_t *ci, lerpFrame_t *lf, int newAnimation, float 
 		return;
 	}
 	// see if the animation sequence is switching
-	if (ci && (newAnimation != lf->animationNumber || !lf->animation)) { // ---- (SA)	modified
+	if (ci && (newAnimation != lf->animationNumber || !lf->animation)) { // modified
 		CG_SetLerpFrameAnimation(ci, lf, newAnimation);
 	}
 	// if we have passed the current frame, move it to
@@ -2621,7 +2620,7 @@ static void CG_HasteTrail(centity_t *cent) {
 }
 
 
-// ---- (SA)	added and modified from missionpack
+// added and modified from missionpack
 /*
 =======================================================================================================================================
 CG_BreathPuffs
@@ -2681,7 +2680,7 @@ static void CG_BreathPuffs(centity_t *cent, refEntity_t *head) {
 	ci->breathPuffTime = cg.time + 3000 + random() * 1000;
 }
 
-// ---- (SA)	end
+// end
 
 /*
 =======================================================================================================================================
@@ -2725,7 +2724,7 @@ static void CG_PlayerPowerups(centity_t *cent) {
 		return;
 	}
 
-// ---- (SA)	test stuff leave in, but comment out
+// test stuff leave in, but comment out
 // 	if (cg_forceModel.integer) {
 // 		vec3_t orig, forward, li;
 // 		trace_t trace;
@@ -2827,7 +2826,7 @@ static void CG_PlayerSprites(centity_t *cent) {
 		 && cg.snap->ps.stats[STAT_PLAYER_CLASS] == PC_MEDIC
 		 && cg.snap->ps.persistant[PERS_TEAM] == team) {
 
-// 		CG_PlayerFloatSprite(cent, cgs.media.medicReviveShader, 8);	// ---- (SA)	commented out from MP
+// 		CG_PlayerFloatSprite(cent, cgs.media.medicReviveShader, 8);	// commented out from MP
 		return;
 	}
 	// not using, gives away position if chatting to coordinate attack
@@ -4129,7 +4128,7 @@ void CG_AddRefEntityWithPowerups(refEntity_t *ent, int powerups, int team, entit
 		ent->reFlags |= REFLAG_FULL_LOD;
 	}
 
-// ---- (SA)	testing
+// testing
 	// (SA) disabling
 // 	if (cent->currentState.eFlags & EF_DEAD) {
 // 		ent->reFlags |= REFLAG_DEAD_LOD;
@@ -4142,8 +4141,7 @@ void CG_AddRefEntityWithPowerups(refEntity_t *ent, int powerups, int team, entit
 #if 0
 		// ------------------------------ - 
 		// Zombie effects
-		// 
-	} else if (es->aiChar == AICHAR_ZOMBIE) {
+		} else if (es->aiChar == AICHAR_ZOMBIE) {
 		// Zombie needs special processing, to remove the bits of flesh that have been torn away
 
 		if (ent->hModel == cent->pe.torsoRefEnt.hModel) {
@@ -4558,7 +4556,7 @@ void CG_Player(centity_t *cent) {
 
 	ci = &cgs.clientinfo[clientNum];
 
-// ---- (SA)	we need to not see the player in the camera
+// we need to not see the player in the camera
 // 	if (cg.cameraMode && clientNum == cg.snap->ps.clientNum) {
 // 		return;
 // 	}
@@ -4580,7 +4578,6 @@ void CG_Player(centity_t *cent) {
 	memset(&acc, 0, sizeof(acc));
 	// get the rotation information
 	CG_PlayerAngles(cent, legs.axis, torso.axis, head.axis);
-
 
 	// setting the legs axis should pass the scale down through the other parts / tags / etc.
 	// and will need to be 'undone' for the weapon
@@ -4675,7 +4672,7 @@ void CG_Player(centity_t *cent) {
 
 	VectorCopy(lightorigin, torso.lightingOrigin);
 	// ---- (SA) check for ladder and if you're on it, don't allow torso model rotation(so the body climbs aligned with the ladder)
-	// ---- (SA)	also taking care of the Loper's interesting heirarchy(his upper body is effectively the same as a weapon_hand.md3. it keeps things connected, but has no geometry)
+	// also taking care of the Loper's interesting heirarchy(his upper body is effectively the same as a weapon_hand.md3. it keeps things connected, but has no geometry)
 
 	if (!ci->isSkeletal) {
 		if ((cgsnap == cent && (cg.snap->ps.pm_flags & PMF_LADDER))
@@ -4887,7 +4884,6 @@ void CG_Player(centity_t *cent) {
 
 
 	// add player specific models
-	// 
 
 	if (cent->currentState.aiChar == AICHAR_LOPER) {
 		if (ci->partModels[8]) {
@@ -4901,7 +4897,7 @@ void CG_Player(centity_t *cent) {
 			CG_AddRefEntityWithPowerups(&acc, cent->currentState.powerups, ci->team, &cent->currentState, cent->fireRiseDir);
 		}
 	}
-// ---- (SA)	modified
+// modified
 	} else if (cent->currentState.aiChar == AICHAR_PROTOSOLDIER || cent->currentState.aiChar == AICHAR_SUPERSOLDIER || cent->currentState.aiChar == AICHAR_HEINRICH) {
 		char *protoTags[] = {  "tag_chest", "tag_calfleft", "tag_armleft", "tag_back", "tag_legleft", "tag_calfright", "tag_armright", "tag_back", "tag_legright"};
 
@@ -5042,7 +5038,6 @@ int parts[] = {34, 38, 0, 19, 0, 14, 21, 15, 16, 0, 0, 32, 0, 33, 0, 45
 	}
 #endif
 	// add accessories
-	// 
 
 	for (i = ACC_BELT_LEFT; i < ACC_MAX; i++) {
 		if (!(ci->accModels[i])) {

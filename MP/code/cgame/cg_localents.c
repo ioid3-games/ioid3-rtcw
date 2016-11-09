@@ -287,7 +287,7 @@ void CG_ReflectVelocity(localEntity_t *le, trace_t *trace) {
 		// le->pos.trType = TR_STATIONARY;
 	} else if (trace->allsolid || (trace->plane.normal[2] > 0 && (le->pos.trDelta[2] < 40 || le->pos.trDelta[2] < -cg.frametime * le->pos.trDelta[2]))) {
 
-// ---- (SA)	if it's a fragment and it's not resting on the world...
+// if it's a fragment and it's not resting on the world...
 // 		if (le->leType == LE_DEBRIS && trace->entityNum < (MAX_ENTITIES - 1))
 		if (le->leType == LE_FRAGMENT && trace->entityNum < (MAX_REFENTITIES - 1)) {
 			le->pos.trType = TR_GRAVITY_PAUSED;
@@ -325,7 +325,7 @@ void CG_AddEmitter(localEntity_t *le) {
 	le->breakCount = cg.time + 50;
 }
 
-// ---- (SA)	end
+// end
 
 
 /*
@@ -875,8 +875,7 @@ void CG_AddClientCritter(localEntity_t *le) {
 						VectorCopy(le->refEntity.origin, le->pos.trBase);
 						VectorNormalize(le->pos.trDelta);
 						VectorScale(le->pos.trDelta, oldSpeed, le->pos.trDelta);
-						// 
-						// double check end velocity
+											// double check end velocity
 						VectorNormalize2(le->pos.trDelta, v2);
 
 						if (DotProduct(v, v2) <= 0.2) {

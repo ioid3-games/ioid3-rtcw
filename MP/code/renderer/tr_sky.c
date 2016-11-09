@@ -364,7 +364,6 @@ static void MakeSkyVec(float s, float t, int axis, float outSt[2], vec3_t outXYZ
 
 	t = 1.0 - t;
 
-
 	if (outSt) {
 		outSt[0] = s;
 		outSt[1] = t;
@@ -998,7 +997,6 @@ void RB_StageIteratorSky(void) {
 
 
 	backEnd.refdef.rdflags |= RDF_DRAWINGSKY;
-
 
 	// go through all the polygons and project them onto
 	// the sky box to see which blocks on each side need

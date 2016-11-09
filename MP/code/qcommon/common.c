@@ -2558,7 +2558,6 @@ static void Com_WriteCDKey(const char *filename, const char *ikey) {
 
 	Com_sprintf(fbuffer, sizeof(fbuffer), "%s/rtcwkey", filename);
 
-
 	Q_strncpyz(key, ikey, 17);
 
 	if (!CL_CDKeyValidate(key, NULL)) {
@@ -2897,7 +2896,7 @@ void Com_Init(char *commandLine) {
 
 	CL_StartHunkUsers(qfalse);
 
-	// NERVE - SMF - force recommendedSet and don't do vid_restart if in safe mode
+	// force recommendedSet and don't do vid_restart if in safe mode
 	if (!com_recommendedSet->integer && !safeMode) {
 		Com_SetRecommended();
 		Cbuf_ExecuteText(EXEC_APPEND, "vid_restart\n");
@@ -3148,7 +3147,6 @@ void Com_Frame(void) {
 	int timeBeforeClient;
 	int timeAfter;
 
-
 	if (setjmp(abortframe)) {
 		return;         // an ERR_DROP was thrown
 	}
@@ -3158,7 +3156,6 @@ void Com_Frame(void) {
 	timeBeforeEvents = 0;
 	timeBeforeClient = 0;
 	timeAfter = 0;
-
 
 	// DHM - Nerve :: Don't write config on Update Server
 #ifndef UPDATE_SERVER
@@ -3274,7 +3271,6 @@ void Com_Frame(void) {
 	}
 	Com_EventLoop();
 	Cbuf_Execute ();
-
 
 	//
 	// client side

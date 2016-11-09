@@ -1354,7 +1354,7 @@ void BG_AnimParseAnimScript(animModelInfo_t *modelInfo, animScriptData_t *script
 
 					currentScript = &modelInfo->scriptStateChange[oldState][indexes[indentLevel]];
 
-// ---- (SA)		// RF mod
+// 	// RF mod
 					// check for the open bracket
 					token = COM_ParseExt(&text_p, qtrue);
 
@@ -1363,7 +1363,7 @@ void BG_AnimParseAnimScript(animModelInfo_t *modelInfo, animScriptData_t *script
 					}
 
 					indentLevel++;
-// ---- (SA)		// RF mod
+// 	// RF mod
 				} else {
 					// read in the event type
 					indexes[indentLevel] = BG_IndexForString(token, animEventTypesStr, qfalse);

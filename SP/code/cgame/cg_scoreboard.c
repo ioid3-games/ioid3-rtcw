@@ -468,7 +468,7 @@ qboolean CG_DrawScoreboard(void) {
 	// current rank
 
 	// ---- (SA) enclosed this so it doesn't draw for SP
-	if (cgs.gametype != GT_SINGLE_PLAYER && cgs.gametype != GT_WOLF) { // NERVE - SMF - added wolf multiplayer check
+	if (cgs.gametype != GT_SINGLE_PLAYER && cgs.gametype != GT_WOLF) { // added wolf multiplayer check
 		if (cg.snap->ps.persistant[PERS_TEAM] != TEAM_SPECTATOR) {
 			if (cgs.gametype < GT_TEAM) {
 				s = va("%s place with %i", CG_PlaceString(cg.snap->ps.persistant[PERS_RANK] + 1), cg.snap->ps.persistant[PERS_SCORE]);
@@ -508,10 +508,8 @@ qboolean CG_DrawScoreboard(void) {
 	}
 	// NERVE - SMF
 	if (cgs.gametype == GT_WOLF) {
-		// 
-		// teamplay scoreboard
-		// 
-		x = 320 - SCOREBOARD_WIDTH / 2 + 20 + 20;
+			// teamplay scoreboard
+			x = 320 - SCOREBOARD_WIDTH / 2 + 20 + 20;
 		y = 40;
 
 		y = WM_ScoreboardOverlay(x, y, fade);
@@ -528,10 +526,8 @@ qboolean CG_DrawScoreboard(void) {
 	}
 	// - NERVE - SMF
 	} else if (cgs.gametype >= GT_TEAM) {
-		// 
-		// teamplay scoreboard
-		// 
-		if (cg.teamScores[0] >= cg.teamScores[1]) {
+			// teamplay scoreboard
+			if (cg.teamScores[0] >= cg.teamScores[1]) {
 			y = CG_TeamScoreboard(x, y, TEAM_RED, fade);
 			y = CG_TeamScoreboard(x, y, TEAM_BLUE, fade);
 		} else {
@@ -541,10 +537,8 @@ qboolean CG_DrawScoreboard(void) {
 
 		CG_TeamScoreboard(x, y, TEAM_SPECTATOR, fade);
 	} else if (cgs.gametype != GT_SINGLE_PLAYER) { // ---- (SA) modified
-		// 
-		// free for all scoreboard
-		// 
-		y = CG_TeamScoreboard(x, y, TEAM_FREE, fade);
+			// free for all scoreboard
+			y = CG_TeamScoreboard(x, y, TEAM_FREE, fade);
 		CG_TeamScoreboard(x, y, TEAM_SPECTATOR, fade);
 	}
 	// load any models that have been deferred
@@ -638,10 +632,8 @@ void CG_DrawTourneyScoreboard(void) {
 	y = 160;
 
 	if (cgs.gametype >= GT_TEAM) {
-		// 
-		// teamplay scoreboard
-		// 
-		CG_DrawStringExt(8, y, "Red Team", color, qtrue, qtrue, GIANT_WIDTH, GIANT_HEIGHT, 0);
+			// teamplay scoreboard
+			CG_DrawStringExt(8, y, "Red Team", color, qtrue, qtrue, GIANT_WIDTH, GIANT_HEIGHT, 0);
 		s = va("%i", cg.teamScores[0]);
 		CG_DrawStringExt(632 - GIANT_WIDTH * strlen(s), y, s, color, qtrue, qtrue, GIANT_WIDTH, GIANT_HEIGHT, 0);
 
@@ -651,10 +643,8 @@ void CG_DrawTourneyScoreboard(void) {
 		s = va("%i", cg.teamScores[1]);
 		CG_DrawStringExt(632 - GIANT_WIDTH * strlen(s), y, s, color, qtrue, qtrue, GIANT_WIDTH, GIANT_HEIGHT, 0);
 	} else {
-		// 
-		// free for all scoreboard
-		// 
-		for (i = 0; i < MAX_CLIENTS; i++) {
+			// free for all scoreboard
+			for (i = 0; i < MAX_CLIENTS; i++) {
 			ci = &cgs.clientinfo[i];
 
 			if (!ci->infoValid) {

@@ -50,7 +50,7 @@ void R_DrawElementsVao(int numIndexes, glIndex_t firstIndex, glIndex_t minIndex,
 }
 
 
-static void R_DrawMultiElementsVao(int multiDrawPrimitives, glIndex_t *multiDrawMinIndex, glIndex_t *multiDrawMaxIndex, 
+static void R_DrawMultiElementsVao(int multiDrawPrimitives, glIndex_t *multiDrawMinIndex, glIndex_t *multiDrawMaxIndex,
 	GLsizei *multiDrawNumIndexes, glIndex_t **multiDrawFirstIndex)
 {
 	if (glRefConfig.multiDrawArrays && multiDrawPrimitives > 1)
@@ -269,7 +269,7 @@ static void ComputeTexMods(shaderStage_t *pStage, int bundleNum, float *outMatri
 			break;
 		
 		case TMOD_STRETCH:
-			RB_CalcStretchTexMatrix(&bundle->texMods[tm].wave, 
+			RB_CalcStretchTexMatrix(&bundle->texMods[tm].wave,
 								   matrix);
 			break;
 
@@ -1878,7 +1878,6 @@ void RB_StageIteratorGeneric(void)
 	}
 
 
-	// 
 	// now do any dynamic lighting needed
 	//
 	if (tess.dlightBits && tess.shader->sort <= SS_OPAQUE

@@ -204,8 +204,7 @@ int AAS_AlternativeRouteGoals(vec3_t start, vec3_t goal, int travelflags, aas_al
 		altroutegoals[numaltroutegoals].extratraveltime = (midrangeareas[bestareanum].starttime + midrangeareas[bestareanum].goaltime) - 
 			goaltraveltime;
 		numaltroutegoals++;
-		// 
-#ifdef DEBUG
+	#ifdef DEBUG
 		botimport.Print(PRT_MESSAGE, "alternative route goal area %d, numclusterareas = %d\n", bestareanum, numclusterareas);
 
 		if (color) {

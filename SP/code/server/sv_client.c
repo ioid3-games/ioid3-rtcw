@@ -159,7 +159,7 @@ void SV_GetChallenge(netadr_t from) {
 			}
 
 			fs = Cvar_Get("sv_allowAnonymous", "0", CVAR_SERVERINFO);
-			// NERVE - SMF - fixed parsing on sv_allowAnonymous
+			// fixed parsing on sv_allowAnonymous
 			NET_OutOfBandPrint(NS_SERVER, svs.authorizeAddress, "getIpAuthorize %i %i.%i.%i.%i %s %i", challenge->challenge, from.ip[0], from.ip[1], from.ip[2], from.ip[3], game, fs->integer);
 
 	return;

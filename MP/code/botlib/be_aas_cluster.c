@@ -1331,8 +1331,7 @@ void AAS_AddTeleporterPortals(void) {
 				botimport.Print(PRT_ERROR, "teleporter (%s) without origin\n", target);
 				continue;
 			}
-			// 
-			target = AAS_ValueForBSPEpairKey(ent, "target");
+					target = AAS_ValueForBSPEpairKey(ent, "target");
 
 			if (!target) {
 				botimport.Print(PRT_ERROR, "teleporter (%s) without target\n", target);
@@ -1377,8 +1376,7 @@ void AAS_AddTeleporterPortals(void) {
 			for (j = 0; j < (*aasworld).numareas; j++) {
 				(*aasworld).areasettings[j].cluster = 0;
 			}
-			// 
-			VectorSet(mins, -8, -8, 8);
+					VectorSet(mins, -8, -8, 8);
 			VectorSet(maxs, 8, 8, 24);
 			AAS_PresenceTypeBoundingBox(PRESENCE_CROUCH, bbmins, bbmaxs);
 			VectorAdd(origin, mins, mins);
@@ -1397,8 +1395,7 @@ void AAS_AddTeleporterPortals(void) {
 				(*aasworld).areasettings[link->areanum].contents |= AREACONTENTS_CLUSTERPORTAL |
 																	  AREACONTENTS_TELEPORTAL;
 			}
-			// 
-			for (link = areas; link; link = link->next_area) {
+					for (link = areas; link; link = link->next_area) {
 				if (!AAS_AreaGrounded(link->areanum)) {
 					continue;
 				}

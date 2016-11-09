@@ -505,12 +505,10 @@ void CM_TraceThroughBrush(traceWork_t *tw, cbrush_t *brush) {
 	leadside = NULL;
 
 	if (tw->sphere.use) {
-		// 
-		// compare the trace against all planes of the brush
+			// compare the trace against all planes of the brush
 		// find the latest time the trace crosses a plane towards the interior
 		// and the earliest time the trace crosses a plane towards the exterior
-		// 
-		for (i = 0; i < brush->numsides; i++) {
+			for (i = 0; i < brush->numsides; i++) {
 			side = brush->sides + i;
 			plane = side->plane;
 			// adjust the plane distance appropriately for radius
@@ -570,12 +568,10 @@ void CM_TraceThroughBrush(traceWork_t *tw, cbrush_t *brush) {
 			}
 		}
 	} else {
-		// 
-		// compare the trace against all planes of the brush
+			// compare the trace against all planes of the brush
 		// find the latest time the trace crosses a plane towards the interior
 		// and the earliest time the trace crosses a plane towards the exterior
-		// 
-		for (i = 0; i < brush->numsides; i++) {
+			for (i = 0; i < brush->numsides; i++) {
 			side = brush->sides + i;
 			plane = side->plane;
 			// adjust the plane distance appropriately for mins/maxs
@@ -891,8 +887,7 @@ void CM_TraceThroughVerticalCylinder(traceWork_t *tw, vec3_t origin, float radiu
 			VectorMA(start, fraction, dir, intersection);
 			// if the intersection is between the cylinder lower and upper bound
 			if (intersection[2] <= origin[2] + halfheight && intersection[2] >= origin[2] - halfheight) {
-				// 
-				tw->trace.fraction = fraction;
+							tw->trace.fraction = fraction;
 				VectorSubtract(intersection, origin, dir);
 				dir[2] = 0;
 #ifdef CAPSULE_DEBUG
@@ -1250,10 +1245,8 @@ void CM_Trace(trace_t *results, const vec3_t start, const vec3_t end, const vec3
 			CM_PositionTest(&tw);
 		}
 	} else {
-		// 
-		// check for point special case
-		// 
-		if (tw.size[0][0] == 0 && tw.size[0][1] == 0 && tw.size[0][2] == 0) {
+			// check for point special case
+			if (tw.size[0][0] == 0 && tw.size[0][1] == 0 && tw.size[0][2] == 0) {
 			tw.isPoint = qtrue;
 			VectorClear(tw.extents);
 		} else {
@@ -1263,8 +1256,7 @@ void CM_Trace(trace_t *results, const vec3_t start, const vec3_t end, const vec3
 			tw.extents[2] = tw.size[1][2];
 		}
 		// general sweeping through world
-		// 
-		if (model) {
+			if (model) {
 #ifdef ALWAYS_BBOX_VS_BBOX
 			if (model == BOX_MODEL_HANDLE || model == CAPSULE_MODEL_HANDLE) {
 				tw.sphere.use = qfalse;

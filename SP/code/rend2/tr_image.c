@@ -2338,12 +2338,12 @@ typedef struct
 // when there are multiple images of different formats available
 static imageExtToLoaderMap_t imageLoaders[ ] =
 {
-	{ "tga",  R_LoadTGA},
-	{ "jpg",  R_LoadJPG},
-	{ "jpeg", R_LoadJPG},
-	{ "png",  R_LoadPNG},
-	{ "pcx",  R_LoadPCX},
-	{ "bmp",  R_LoadBMP}
+	{ "png",  R_LoadPNG },
+	{ "tga",  R_LoadTGA },
+	{ "jpg",  R_LoadJPG },
+	{ "jpeg", R_LoadJPG },
+	{ "pcx",  R_LoadPCX },
+	{ "bmp",  R_LoadBMP }
 };
 
 static int numImageLoaders = ARRAY_LEN(imageLoaders);
@@ -2819,7 +2819,6 @@ void R_CreateBuiltinImages(void) {
 
 	tr.identityLightImage = R_CreateImage("*identityLight", (byte *)data, 8, 8, IMGTYPE_COLORALPHA, IMGFLAG_NONE, 0);
 
-
 	for (x = 0; x < 32; x++) {
 		// scratchimage is usually used for cinematic drawing
 		tr.scratchImage[x] = R_CreateImage("*scratch", (byte *)data, DEFAULT_SIZE, DEFAULT_SIZE, IMGTYPE_COLORALPHA, IMGFLAG_PICMIP | IMGFLAG_CLAMPTOEDGE, 0);
@@ -2939,7 +2938,6 @@ void R_SetColorMappings(void) {
 
 	tr.identityLight = 1.0f / (1 << tr.overbrightBits);
 	tr.identityLightByte = 255 * tr.identityLight;
-
 
 	if (r_intensity->value <= 1) {
 		ri.Cvar_Set("r_intensity", "1");
@@ -3359,7 +3357,6 @@ qhandle_t RE_RegisterSkin(const char *name) {
 	}
 
 	ri.FS_FreeFile(text.v);
-
 
 	// never let a skin have 0 shaders
 

@@ -53,7 +53,7 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #define DUCK_TIME           100
 #define PAIN_TWITCH_TIME    200
 #define WEAPON_SELECT_TIME  1400
-#define HOLDABLE_SELECT_TIME 1400  // ---- (SA)	for drawing holdable icons
+#define HOLDABLE_SELECT_TIME 1400  // for drawing holdable icons
 #define ITEM_SCALEUP_TIME   1000
 #define ZOOM_TIME           150
 #define ITEM_BLOB_TIME      200
@@ -97,7 +97,7 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #define TJFL_NOPOLYMERGE   (1 << 5)
 // done.
 
-// NERVE - SMF - limbo mode 3d view position
+// limbo mode 3d view position
 #define LIMBO_3D_X  10
 #define LIMBO_3D_Y  120
 #define LIMBO_3D_W  420
@@ -154,7 +154,7 @@ typedef struct {
 	// talking animations
 	lerpFrame_t head;
 
-	lerpFrame_t weap;      // ---- (SA)	autonomous weapon animations
+	lerpFrame_t weap;      // autonomous weapon animations
 	int lastTime;                  // last time we were processed /  If the time goes backwards, reset.
 	int painTime;
 	int painDuration;
@@ -334,7 +334,7 @@ typedef struct markPoly_s {
 	int duration;          // Ridah
 } markPoly_t;
 
-// ---- (SA)	moved in from cg_view.c
+// moved in from cg_view.c
 typedef enum {
 	ZOOM_NONE, ZOOM_BINOC, ZOOM_SNIPER, ZOOM_SNOOPER, ZOOM_FG42SCOPE, ZOOM_MG42, ZOOM_MAX_ZOOMS
 } EZoom_t;
@@ -345,7 +345,7 @@ typedef enum {
 } EZoomInOut_t;
 extern float zoomTable[ZOOM_MAX_ZOOMS][2];
 
-// ---- (SA)	end
+// end
 
 typedef enum {
 	LE_MARK, LE_EXPLOSION, LE_SPRITE_EXPLOSION, LE_FRAGMENT, LE_MOVE_SCALE_FADE, LE_FALL_SCALE_FADE, LE_FADE_RGB, LE_SCALE_FADE, LE_SPARK, LE_DEBRIS, LE_BLOOD, LE_FUSE_SPARK, LE_ZOMBIE_SPIRIT, LE_HELGA_SPIRIT, LE_ZOMBIE_BAT, LE_MOVING_TRACER, LE_EMITTER, LE_SPIRIT_VIEWFLASH
@@ -495,7 +495,7 @@ typedef struct {
 	qhandle_t accModels[ACC_MAX];      // see def of ACC_MAX for index descriptions
 	qhandle_t accSkins[ACC_MAX];       // FIXME: put the #define for number of accessory models somewhere.(SA)
 
-	// ---- (SA)	additional parts for specialized characters(the loper's spinning trunk for example)
+	// additional parts for specialized characters(the loper's spinning trunk for example)
 	qhandle_t partModels[9];       // [0 - 7] are optionally called in scripts, [8] is reserved for internal use
 	qhandle_t partSkins[9];
 		qhandle_t headModel;
@@ -507,7 +507,7 @@ typedef struct {
 	sfxHandle_t sounds[MAX_CUSTOM_SOUNDS];
 	qhandle_t gibModels[MAX_GIB_MODELS];
 
-	vec3_t playermodelScale;           // ---- (SA)	set in the skin. client - side only
+	vec3_t playermodelScale;           // set in the skin. client - side only
 	int blinkTime;             // ---- (SA)
 } clientInfo_t;
 
@@ -533,7 +533,7 @@ typedef struct weaponInfo_s {
 	qboolean registered;
 	gitem_t *item;
 
-// ---- (SA)	weapon animation sequences loaded from the weapon.cfg
+// weapon animation sequences loaded from the weapon.cfg
 	animation_t weapAnimations[MAX_WP_ANIMATIONS];
 	qhandle_t handsModel;              // the hands don't actually draw, they just position the weapon
 
@@ -556,7 +556,7 @@ typedef struct weaponInfo_s {
 	sfxHandle_t lastShotSound[4];      // sound of the last shot can be different(mauser doesn't have bolt action on last shot for example)
 
 	sfxHandle_t switchSound[4];
-	qhandle_t weaponIcon[2];           // ---- (SA)	[0] is weap icon, [1] is highlight icon
+	qhandle_t weaponIcon[2];           // [0] is weap icon, [1] is highlight icon
 	qhandle_t ammoIcon;
 	qhandle_t ammoModel;
 	qhandle_t missileModel;
@@ -575,7 +575,7 @@ typedef struct weaponInfo_s {
 	sfxHandle_t overheatSound;
 	sfxHandle_t reloadSound;
 
-	sfxHandle_t spinupSound;       // ---- (SA)	added // sound started when fire button goes down, and stepped on when the first fire event happens
+	sfxHandle_t spinupSound;       // added // sound started when fire button goes down, and stepped on when the first fire event happens
 	sfxHandle_t spindownSound;
  // sound called if the above is running but player doesn't follow through and fire
 } weaponInfo_t;
@@ -684,7 +684,7 @@ typedef struct {
 	// zoom key
 	qboolean zoomed;
 	qboolean zoomedBinoc;
-	int zoomedScope;           // ---- (SA)	changed to int
+	int zoomedScope;           // changed to int
 	int zoomTime;
 	float zoomSensitivity;
 	float zoomval;
@@ -724,7 +724,6 @@ typedef struct {
 	vec4_t fadeColor1;
 	vec4_t fadeColor2;
 
-
 	// game stats
 	int exitStatsTime;
 	int exitStatsFade;
@@ -741,7 +740,7 @@ typedef struct {
 	int numTreasureFound;
 	int numArtifacts;
 	int numArtifactsFound;
-// ---- (SA)	end
+// end
 
 
 	// low ammo warning state
@@ -752,7 +751,6 @@ typedef struct {
 	int crosshairClientTime;
 	int crosshairPowerupNum;
 	int crosshairPowerupTime;
-
 
 	// cursorhints
 	int cursorHintIcon;
@@ -779,7 +777,7 @@ typedef struct {
 	int itemPickup;
 	int itemPickupTime;
 	int itemPickupBlendTime;           // the pulse around the crosshair is timed separately
-	int holdableSelectTime;            // ---- (SA)	for holdable item icon drawing
+	int holdableSelectTime;            // for holdable item icon drawing
 	int weaponSelectTime;
 	int weaponAnimation;
 	int weaponAnimationTime;
@@ -835,7 +833,7 @@ typedef struct {
 	unsigned int cld;          // NERVE - SMF
 	qboolean limboMenu;        // NERVE - SMF
 
-	// NERVE - SMF - Objective info display
+	// Objective info display
 	int oidTeam;
 	int oidPrintTime;
 	int oidPrintCharWidth;
@@ -900,7 +898,7 @@ typedef struct {
 	qhandle_t lightningShader;
 	qhandle_t friendShader;
 
-// qhandle_t medicReviveShader;	// ---- (SA)	commented out from MP
+// qhandle_t medicReviveShader;	// commented out from MP
 	qhandle_t balloonShader;
 	qhandle_t connectionShader;
 	qhandle_t aiStateShaders[MAX_AISTATES];
@@ -927,7 +925,7 @@ typedef struct {
 	qhandle_t bloodTrailShader;
 	qhandle_t nailPuffShader;
 
-// ---- (SA)	modified
+// modified
 
 	// cursor hints
 	// would be nice to specify these in the menu scripts instead of permanent handles...
@@ -1226,7 +1224,7 @@ typedef struct {
 
 // sfxHandle_t grenadebounce1;
 // sfxHandle_t grenadebounce2;
-	sfxHandle_t grenadebounce[GRENBOUNCE_TOTAL][2]; // ---- (SA)	modified
+	sfxHandle_t grenadebounce[GRENBOUNCE_TOTAL][2]; // modified
 
 	sfxHandle_t dynamitebounce1;   
 
@@ -1364,7 +1362,7 @@ typedef struct {
 	void *capturedItem;
 	qhandle_t activeCursor;
 	// screen fading
-	// ---- (SA)	modified just in name so global searching is easier to narrow down(added 'scrF')
+	// modified just in name so global searching is easier to narrow down(added 'scrF')
 	float scrFadeAlpha, scrFadeAlphaCurrent;
 	int scrFadeStartTime;
 	int scrFadeDuration;
@@ -1540,7 +1538,7 @@ extern vmCvar_t cg_missionStats;
 extern vmCvar_t cg_waitForFire;
 extern vmCvar_t cg_loadWeaponSelect;
 
-// NERVE - SMF - Wolf multiplayer configuration cvars
+// Wolf multiplayer configuration cvars
 extern vmCvar_t mp_playerType;
 extern vmCvar_t mp_weapon;
 extern vmCvar_t mp_item1;
@@ -1653,7 +1651,7 @@ void CG_DrawFlagModel(float x, float y, float w, float h, int team);
 
 void CG_DrawTeamBackground(int x, int y, int w, int h, float alpha, int team);
 void CG_OwnerDraw(float x, float y, float w, float h, float text_x, float text_y, int ownerDraw, int ownerDrawFlags, int align, float special, int font, float scale, vec4_t color, qhandle_t shader, int textStyle);
-void CG_Text_Paint(float x, float y, int font, float scale, vec4_t color, const char *text, float adjust, int limit, int style);   // ---- (SA)	modified
+void CG_Text_Paint(float x, float y, int font, float scale, vec4_t color, const char *text, float adjust, int limit, int style);   // modified
 int CG_Text_Width(const char *text, int font, float scale, int limit);
 int CG_Text_Height(const char *text, int font, float scale, int limit);
 void CG_SelectPrevPlayer(void);
@@ -1674,7 +1672,7 @@ const char *CG_GameTypeString(void);
 qboolean CG_YourTeamHasFlag(void);
 qboolean CG_OtherTeamHasFlag(void);
 qhandle_t CG_StatusHandle(int task);
-void CG_Fade(int r, int g, int b, int a, int time, int duration); // ---- (SA)	modified
+void CG_Fade(int r, int g, int b, int a, int time, int duration); // modified
 
 void CG_CalcShakeCamera(void);
 void CG_ApplyShakeCamera(void);
@@ -1730,7 +1728,7 @@ void CG_AttachedPartChange(centity_t *cent);
 void CG_NextItem_f(void);
 void CG_PrevItem_f(void);
 void CG_Item_f(void);
-// ---- (SA)	end
+// end
 
 
 
@@ -1751,7 +1749,7 @@ void CG_FinishWeaponChange(int lastweap, int newweap);
 void CG_RegisterWeapon(int weaponNum);
 void CG_RegisterItemVisuals(int itemNum);
 
-void CG_FireWeapon(centity_t *cent);  // ---- (SA)	modified.
+void CG_FireWeapon(centity_t *cent);  // modified.
 // void CG_EndFireWeapon(centity_t *cent, int firemode);	
 void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, int surfaceFlags);  // (SA) modified to send missilehitwall surface parameters
 
@@ -1770,7 +1768,7 @@ void CG_MissileHitPlayer(centity_t *cent, int weapon, vec3_t origin, vec3_t dir,
 void CG_VenomFire(entityState_t *es, qboolean fullmode);
 void CG_Bullet(vec3_t origin, int sourceEntityNum, vec3_t normal, qboolean flesh, int fleshEntityNum, qboolean wolfkick, int otherEntNum2);
 
-void CG_RailTrail(clientInfo_t *ci, vec3_t start, vec3_t end, int type);  // ---- (SA)	added 'type'
+void CG_RailTrail(clientInfo_t *ci, vec3_t start, vec3_t end, int type);  // added 'type'
 void CG_GrappleTrail(centity_t *ent, const weaponInfo_t *wi);
 void CG_AddViewWeapon(playerState_t *ps);
 void CG_AddPlayerWeapon(refEntity_t *parent, playerState_t *ps, centity_t *cent);
@@ -1855,7 +1853,7 @@ void CG_SoundInit(void);
 // done.
 
 // flamethrower
-void CG_FireFlameChunks(centity_t *cent, vec3_t origin, vec3_t angles, float speedScale, qboolean firing, int flags); // ---- (SA)	added 'flags'
+void CG_FireFlameChunks(centity_t *cent, vec3_t origin, vec3_t angles, float speedScale, qboolean firing, int flags); // added 'flags'
 void CG_InitFlameChunks(void);
 void CG_AddFlameChunks(void);
 void CG_UpdateFlamethrowerSounds(void);
@@ -1901,7 +1899,7 @@ void CG_Spotlight(centity_t *cent, float *color, vec3_t start, vec3_t dir, int s
 #define SL_LOCKUV           0x080  // lock the texture coordinates at the 'true' length of the requested beam.
 #define SL_NOCORE           0x100  // don't draw the center 'core' beam
 #define SL_TRACEWORLDONLY   0x200
-// ---- (SA)	done
+// done
 
 void CG_RumbleEfx(float pitch, float yaw);
 
@@ -2071,7 +2069,7 @@ void trap_RB_ZombieFXAddNewHit(int entityNum, const vec3_t hitPos, const vec3_t 
 // done.
 void trap_R_AddLightToScene(const vec3_t org, float intensity, float r, float g, float b, int overdraw);
 void trap_R_AddAdditiveLightToScene(const vec3_t org, float intensity, float r, float g, float b);
-void trap_R_AddCoronaToScene(const vec3_t org, float r, float g, float b, float scale, int id, int flags); // ---- (SA)	modified
+void trap_R_AddCoronaToScene(const vec3_t org, float r, float g, float b, float scale, int id, int flags); // modified
 void trap_R_RenderScene(const refdef_t *fd);
 void trap_R_SetColor(const float *rgba);  // NULL = 1, 1, 1, 1
 void trap_R_DrawStretchPic(float x, float y, float w, float h, float s1, float t1, float s2, float t2, qhandle_t hShader);
@@ -2114,7 +2112,7 @@ int trap_GetCurrentCmdNumber(void);
 qboolean trap_GetUserCmd(int cmdNumber, usercmd_t *ucmd);
 
 // used for the weapon / holdable select and zoom
-void trap_SetUserCmdValue(int stateValue, int holdValue, float sensitivityScale, int cld);    // NERVE - SMF - added cld
+void trap_SetUserCmdValue(int stateValue, int holdValue, float sensitivityScale, int cld);    // added cld
 
 // aids for VM testing
 void testPrintInt(char *string, int i);
@@ -2163,7 +2161,7 @@ void CG_StopCamera(void);
 
 int CG_LoadCamera(const char *name);
 void CG_FreeCamera(int camNum);
-// ---- (SA)	end
+// end
 
 void CG_StartShakeCamera(float p, int duration, vec3_t src, float radius);
 

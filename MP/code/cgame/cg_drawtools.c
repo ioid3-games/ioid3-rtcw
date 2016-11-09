@@ -62,7 +62,7 @@ void CG_AdjustFrom640(float *x, float *y, float *w, float *h) {
 #endif
 	if (cg_fixedAspect.integer) {
 		if (cg_horizontalPlacement == PLACE_STRETCH) {
-			// NERVE - SMF - hack to make images display properly in small view / limbo mode
+			// hack to make images display properly in small view / limbo mode
 			if (cg.limboMenu && cg.refdef.width) {
 				float xscale = ((cg.refdef.width / cgs.screenXScaleStretch) / 640.0);
 
@@ -75,7 +75,7 @@ void CG_AdjustFrom640(float *x, float *y, float *w, float *h) {
 			*w *= cgs.screenXScaleStretch;
 			*x *= cgs.screenXScaleStretch;
 		} else {
-			// NERVE - SMF - hack to make images display properly in small view / limbo mode
+			// hack to make images display properly in small view / limbo mode
 			if (cg.limboMenu && cg.refdef.width) {
 				float limboxscale = (640.0 / 480.0) / ((float)LIMBO_3D_W / (float)LIMBO_3D_H); // Limbo is not quite 4:3
 				float xscale = ((cg.refdef.width / cgs.screenXScale) / (640.0 * limboxscale));
@@ -99,7 +99,7 @@ void CG_AdjustFrom640(float *x, float *y, float *w, float *h) {
 		}
 
 		if (cg_verticalPlacement == PLACE_STRETCH) {
-			// NERVE - SMF - hack to make images display properly in small view / limbo mode
+			// hack to make images display properly in small view / limbo mode
 			if (cg.limboMenu && cg.refdef.width) {
 				float yscale = ((cg.refdef.height / cgs.screenYScaleStretch) / 480.0);
 
@@ -111,7 +111,7 @@ void CG_AdjustFrom640(float *x, float *y, float *w, float *h) {
 			*h *= cgs.screenYScaleStretch;
 			*y *= cgs.screenYScaleStretch;
 		} else {
-			// NERVE - SMF - hack to make images display properly in small view / limbo mode
+			// hack to make images display properly in small view / limbo mode
 			if (cg.limboMenu && cg.refdef.width) {
 				float limboyscale = (480.0 / 640.0) / ((float)LIMBO_3D_H / (float)LIMBO_3D_W); // Limbo is not quite 4:3
 				float yscale = ((cg.refdef.height / cgs.screenYScale) / (480.0 * limboyscale));
@@ -133,7 +133,7 @@ void CG_AdjustFrom640(float *x, float *y, float *w, float *h) {
 			}
 		}
 	} else {
-		// NERVE - SMF - hack to make images display properly in small view / limbo mode
+		// hack to make images display properly in small view / limbo mode
 		if (cg.limboMenu && cg.refdef.width) {
 			float xscale = ((cg.refdef.width / cgs.screenXScale) / 640.f);
 			float yscale = ((cg.refdef.height / cgs.screenYScale) / 480.f);
@@ -900,7 +900,7 @@ float *CG_FadeColor(int startMsec, int totalMsec) {
 
 	color[0] = color[1] = color[2] = 1;
 
-	color[3] *= cg_hudAlpha.value;         // NERVE - SMF - make this work like everything else
+	color[3] *= cg_hudAlpha.value;         // make this work like everything else
 
 	return color;
 }

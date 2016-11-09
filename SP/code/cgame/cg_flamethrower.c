@@ -225,7 +225,6 @@ void CG_FireFlameChunks(centity_t *cent, vec3_t origin, vec3_t angles, float spe
 
 	centInfo = &centFlameInfo[cent->currentState.number];
 
-
 	if (flags & 2) { // silent
 		centInfo->silent = qtrue;
 	}

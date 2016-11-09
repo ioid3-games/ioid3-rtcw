@@ -92,7 +92,7 @@ int AAS_UpdateEntity(int entnum, bot_entitystate_t *state) {
 	ent->i.torsoAnim = state->torsoAnim;
 
 // ent->i.weapAnim = state->weapAnim;	// ---- (SA)
-// ---- (SA)	didn't want to comment in as I wasn't sure of any implications of changing the aas_entityinfo_t and bot_entitystate_t structures.
+// didn't want to comment in as I wasn't sure of any implications of changing the aas_entityinfo_t and bot_entitystate_t structures.
 
 	// number of the entity
 	ent->i.number = entnum;

@@ -462,7 +462,7 @@ void CL_ConsolePrint(char *txt) {
 	qboolean skipnotify = qfalse;      // NERVE - SMF
 	int prev;                          // NERVE - SMF
 
-	// NERVE - SMF - work around for text that shows up in console but not in notify
+	// work around for text that shows up in console but not in notify
 	if (!Q_strncmp(txt, "[skipnotify]", 12)) {
 		skipnotify = qtrue;
 		txt += 12;
@@ -584,7 +584,7 @@ void Con_DrawNotify(void) {
 	int time;
 	int skip;
 	int currentColor;
-	// NERVE - SMF - we dont want draw notify in limbo mode
+	// we dont want draw notify in limbo mode
 	if (Cvar_VariableIntegerValue("ui_limboMode")) {
 		return;
 	}
@@ -691,7 +691,7 @@ void Con_DrawSolidConsole(float frac) {
 		y = 0;
 	} else {
 		SCR_DrawPic(0, 0, SCREEN_WIDTH, y, cls.consoleShader);
-		// NERVE - SMF - merged from WolfSP
+		// merged from WolfSP
 		if (frac >= 0.5f) {
 			color[0] = color[1] = color[2] = frac * 2.0f;
 			color[3] = 1.0f;

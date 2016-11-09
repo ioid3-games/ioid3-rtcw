@@ -62,9 +62,9 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 // Rafael
 #define FL_NOFATIGUE            0x00010000 // cheat flag no fatigue
 
-#define FL_TOGGLE               0x00020000 // ---- (SA)	ent is toggling(doors use this for ex.)
-#define FL_KICKACTIVATE         0x00040000 // ---- (SA)	ent has been activated by a kick(doors use this too for ex.)
-#define FL_SOFTACTIVATE         0x00000040 // ---- (SA)	ent has been activated while 'walking'(doors use this too for ex.)
+#define FL_TOGGLE               0x00020000 // ent is toggling(doors use this for ex.)
+#define FL_KICKACTIVATE         0x00040000 // ent has been activated by a kick(doors use this too for ex.)
+#define FL_SOFTACTIVATE         0x00000040 // ent has been activated while 'walking'(doors use this too for ex.)
 #define FL_DEFENSE_GUARD        0x00080000 // warzombie defense pose
 
 #define FL_PARACHUTE            0x00100000
@@ -611,7 +611,7 @@ typedef struct {
 	int snipersound;
 	
 	int knifeSound[4];
-	// ---- (SA)	end
+	// end
 
 // JPW NERVE
 	int capturetimes[4];        // red, blue, none, spectator for WOLF_MP_CPH
@@ -624,7 +624,7 @@ typedef struct {
 	char *scriptEntity;
 	// player / AI model scripting(server repository)
 	animScriptData_t animScriptData;
-	// NERVE - SMF - debugging / profiling info
+	// debugging / profiling info
 	int totalHeadshots;
 	int missedHeadshots;
 	qboolean lastRestartTime;
@@ -768,10 +768,10 @@ gentity_t *fire_grenade(gentity_t *self, vec3_t start, vec3_t aimdir, int grenad
 gentity_t *fire_rocket(gentity_t *self, vec3_t start, vec3_t dir);
 gentity_t *fire_speargun(gentity_t *self, vec3_t start, vec3_t dir);
 
-// ---- (SA)	added from MP
+// added from MP
 gentity_t *fire_nail(gentity_t *self, vec3_t start, vec3_t forward, vec3_t right, vec3_t up);
 gentity_t *fire_prox(gentity_t *self, vec3_t start, vec3_t aimdir);
-// ---- (SA)	end
+// end
 
 // Rafael sniper
 void fire_lead(gentity_t *self, vec3_t start, vec3_t dir, int damage);
@@ -985,7 +985,7 @@ extern vmCvar_t g_dedicated;
 extern vmCvar_t g_cheats;
 extern vmCvar_t g_maxclients;              // allow this many total, including spectators
 extern vmCvar_t g_maxGameClients;          // allow this many active
-extern vmCvar_t g_minGameClients;          // NERVE - SMF - we need at least this many before match actually starts
+extern vmCvar_t g_minGameClients;          // we need at least this many before match actually starts
 extern vmCvar_t g_restarted;
 extern vmCvar_t g_dmflags;
 extern vmCvar_t g_fraglimit;

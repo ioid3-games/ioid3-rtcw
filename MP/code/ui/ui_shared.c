@@ -1732,7 +1732,7 @@ commandDef_t commandList[] = {
 	{"play", &Script_Play},   // group / name
 	{"playlooped", &Script_playLooped}, // group / name
 	{"orbit", &Script_Orbit}, // group / name
-	{"addlistitem", &Script_AddListItem}, // NERVE - SMF - special command to add text items to list box
+	{"addlistitem", &Script_AddListItem}, // special command to add text items to list box
 	{"checkautoupdate", &Script_CheckAutoUpdate}, // DHM - Nerve
 	{"getautoupdate", &Script_GetAutoUpdate} // DHM - Nerve
 };
@@ -2656,8 +2656,7 @@ qboolean Item_TextField_HandleKey(itemDef_t *item, int key) {
 				DC->setCVar(item->cvar, buff);
 				return qtrue;
 			}
-			// 
-			// ignore any non printable chars
+					// ignore any non printable chars
 			if (key < 32 || !item->cvar) {
 				return qtrue;
 			}
@@ -3225,7 +3224,7 @@ void Menus_HandleOOBClick(menuDef_t *menu, int key, qboolean down) {
 
 		for (i = 0; i < menuCount; i++) {
 			if (Menu_OverActiveItem(&Menus[i], DC->cursorx, DC->cursory)) {
-// 				Menu_RunCloseScript(menu);			// NERVE - SMF - why do we close the calling menu instead of just removing the focus?
+// 				Menu_RunCloseScript(menu);			// why do we close the calling menu instead of just removing the focus?
 // 				menu->window.flags &= ~(WINDOW_HASFOCUS|WINDOW_VISIBLE);
 				menu->window.flags &= ~(WINDOW_HASFOCUS);
 				Menus_Activate(&Menus[i]);
@@ -3287,7 +3286,7 @@ void Menu_HandleKey(menuDef_t *menu, int key, qboolean down) {
 	int i;
 	itemDef_t *item = NULL;
 
-	Menu_HandleMouseMove(menu, DC->cursorx, DC->cursory);    // NERVE - SMF - fix for focus not resetting on unhidden buttons
+	Menu_HandleMouseMove(menu, DC->cursorx, DC->cursory);    // fix for focus not resetting on unhidden buttons
 
 	if (g_waitingForKey && down) {
 		Item_Bind_HandleKey(g_bindItem, key, down);
@@ -3390,7 +3389,7 @@ void Menu_HandleKey(menuDef_t *menu, int key, qboolean down) {
 			} else if (item->type == ITEM_TYPE_EDITFIELD || item->type == ITEM_TYPE_NUMERICFIELD) {
 				if (Rect_ContainsPoint(&item->window.rect, DC->cursorx, DC->cursory)) {
 					editFieldDef_t *editPtr = (editFieldDef_t *)item->typeData;
-					// NERVE - SMF - reset scroll offset so we can see what we're editing
+					// reset scroll offset so we can see what we're editing
 					if (editPtr) {
 						editPtr->paintOffset = 0;
 					}
@@ -3480,7 +3479,7 @@ void Item_SetTextExtents(itemDef_t *item, int *width, int *height, const char *t
 			DC->getCVarString(item->cvar, buff, 256);
 			originalWidth += DC->textWidth(buff, item->textscale, 0);
 		} else if (item->textalignment == ITEM_ALIGN_CENTER2) {
-			// NERVE - SMF - default centering case
+			// default centering case
 			originalWidth += DC->textWidth(text, item->textscale, 0);
 		}
 
@@ -3494,7 +3493,7 @@ void Item_SetTextExtents(itemDef_t *item, int *width, int *height, const char *t
 		if (item->textalignment == ITEM_ALIGN_RIGHT) {
 			item->textRect.x = item->textalignx - originalWidth;
 		} else if (item->textalignment == ITEM_ALIGN_CENTER || item->textalignment == ITEM_ALIGN_CENTER2) {
-			// NERVE - SMF - default centering case
+			// default centering case
 			item->textRect.x = item->textalignx - originalWidth / 2;
 		}
 
@@ -3889,9 +3888,9 @@ static bind_t g_bindings[] = {
 	{"weapprev", K_MWHEELDOWN, -1, -1, -1},
 	{"weapnext", K_MWHEELUP, -1, -1, -1},
 	{"weapalt", -1, - 1, -1, -1},
-	{"weaplastused", -1, - 1, -1, -1}, 
-	{"weapnextinbank", -1, - 1, -1, -1}, 
-	{"weapprevinbank", -1, - 1, -1, -1}, 
+	{"weaplastused", -1, - 1, -1, -1},
+	{"weapnextinbank", -1, - 1, -1, -1},
+	{"weapprevinbank", -1, - 1, -1, -1},
 	{"+useitem", K_ENTER, -1, -1, -1},
 	{"itemprev", '[', -1, -1, -1},
 	{"itemnext", ']', -1, -1, -1},
@@ -4521,8 +4520,7 @@ void Item_ListBox_Paint(itemDef_t *item) {
 				// fit++;
 			}
 		} else {
-			// 
-		}
+				}
 	} else {
 		// draw scrollbar to right side of the window
 		x = item->window.rect.x + item->window.rect.w - SCROLLBAR_SIZE - 1;
@@ -5043,7 +5041,7 @@ void Menu_HandleMouseMove(menuDef_t *menu, float x, float y) {
 
 	if (itemCapture) {
 		if (itemCapture->type == ITEM_TYPE_LISTBOX) {
-			// NERVE - SMF - lose capture if out of client rect
+			// lose capture if out of client rect
 			if (!Rect_ContainsPoint(&itemCapture->window.rect, x, y)) {
 				Item_StopCapture(itemCapture);
 				itemCapture = NULL;
@@ -5720,7 +5718,7 @@ qboolean ItemParse_textstyle(itemDef_t *item, int handle) {
 	return qtrue;
 }
 
-// ---- (SA)	added for forcing a font for a given item
+// added for forcing a font for a given item
 qboolean ItemParse_textfont(itemDef_t *item, int handle) {
 
 	if (!PC_Int_Parse(handle, &item->font)) {
@@ -5729,7 +5727,7 @@ qboolean ItemParse_textfont(itemDef_t *item, int handle) {
 
 	return qtrue;
 }
-// ---- (SA)	end
+// end
 
 qboolean ItemParse_backcolor(itemDef_t *item, int handle) {
 	int i;
@@ -6199,7 +6197,7 @@ qboolean ItemParse_hideCvar(itemDef_t *item, int handle) {
 keywordHash_t itemParseKeywords[] = {
 	{"name", ItemParse_name, NULL},
 	{"text", ItemParse_text, NULL},
-	{"textfile", ItemParse_textfile, NULL}, 
+	{"textfile", ItemParse_textfile, NULL},
 	{"group", ItemParse_group, NULL},
 	{"asset_model", ItemParse_asset_model, NULL},
 	{"asset_shader", ItemParse_asset_shader, NULL},

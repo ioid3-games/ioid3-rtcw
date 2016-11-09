@@ -70,7 +70,6 @@ static float ProjectRadius(float r, vec3_t location) {
 				   p[2] * tr.viewParms.projectionMatrix[11] +
 				   tr.viewParms.projectionMatrix[15];
 
-
 	pr = projected[1] / projected[3];
 
 	if (pr > 1.0f) {

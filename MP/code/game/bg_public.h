@@ -193,8 +193,8 @@ typedef enum {
 	GT_TEAM, // team deathmatch
 	GT_CTF, // capture the flag
 	GT_WOLF, // Wolfenstein Multiplayer
-	GT_WOLF_STOPWATCH, // NERVE - SMF - stopwatch gametype
-	GT_WOLF_CP, // NERVE - SMF - checkpoint gametype
+	GT_WOLF_STOPWATCH, // stopwatch gametype
+	GT_WOLF_CP, // checkpoint gametype
 	GT_WOLF_CPH, // JPW NERVE - Capture & Hold gametype
 	GT_MAX_GAME_TYPE
 } gametype_t;
@@ -410,7 +410,7 @@ typedef enum {
 } powerup_t;
 
 typedef enum {
-	// ---- (SA)	These will probably all change to INV_n to get the word 'key' out of the game.
+	// These will probably all change to INV_n to get the word 'key' out of the game.
 	// 		id and DM don't want references to 'keys' in the game.
 	// 		I'll change to 'INV' as the item becomes 'permanent' and not a test item.
 	KEY_NONE, KEY_1, // skull
@@ -427,9 +427,9 @@ typedef enum {
 
 // HI_TELEPORTER, HI_MEDKIT,
 	// new for Wolf
-	HI_WINE, HI_SKULL, HI_WATER, HI_ELECTRIC, HI_FIRE, HI_STAMINA, HI_BOOK1, 
-	HI_BOOK2, 
-	HI_BOOK3, 
+	HI_WINE, HI_SKULL, HI_WATER, HI_ELECTRIC, HI_FIRE, HI_STAMINA, HI_BOOK1,
+	HI_BOOK2,
+	HI_BOOK3,
 	HI_11, HI_12, HI_13, HI_14, 
 // HI_15, // ?
 
@@ -530,7 +530,7 @@ typedef enum {
 	WP_MORTAR, // 41
 	VERYBIGEXPLOSION, // 42	// explosion effect for airplanes
 
-	// NERVE - SMF - special weapons are here now
+	// special weapons are here now
 	WP_MEDKIT, // 43
 	WP_PLIERS, // 44
 	WP_SMOKE_GRENADE, // 45
@@ -554,7 +554,7 @@ typedef struct ammotable_s {
 
 	int maxHeat;           // max active firing time before weapon 'overheats'(at which point the weapon will fail)
 	int coolRate;          // how fast the weapon cools down.(per second)
-// ---- (SA)	end
+// end
 	int mod;               // means of death
 } ammotable_t;
 extern ammotable_t ammoTable[];    // defined in bg_misc.c
@@ -577,7 +577,7 @@ extern int weapAlts[]; // defined in bg_misc.c
 #define IS_AUTORELOAD_WEAPON(weapon)((weapon) == WP_LUGER || (weapon) == WP_COLT || (weapon) == WP_MP40 \
 										 || (weapon) == WP_THOMPSON || (weapon) == WP_STEN)
 
-// ---- (SA)	end
+// end
 
 typedef enum {
 	WPOS_HIGH, WPOS_LOW, WPOS_KNIFE, WPOS_PISTOL, WPOS_SHOULDER, WPOS_THROW, WPOS_NUM_POSITIONS
@@ -629,9 +629,9 @@ typedef enum {
 // JPW NERVE
 	EV_SPINUP, // JPW NERVE panzerfaust preamble
 	EV_TESTID1, // new particle test
-	EV_TESTID2, EV_ENDTEST, 
-	EV_SNOW_ON, EV_SNOW_OFF, EV_MISSILE_MISS_SMALL, EV_MISSILE_MISS_LARGE, EV_WOLFKICK_HIT_FLESH, EV_WOLFKICK_HIT_WALL, EV_WOLFKICK_MISS, EV_SPIT_HIT, EV_SPIT_MISS, EV_SHARD, EV_JUNK, EV_EMITTER, // ---- (SA)	added // generic particle emitter that uses client - side particle scripts
-	EV_OILPARTICLES, EV_OILSLICK, EV_OILSLICKREMOVE, EV_MG42EFX, EV_FLAMEBARREL_BOUNCE, EV_FLAKGUN1, EV_FLAKGUN2, EV_FLAKGUN3, EV_FLAKGUN4, EV_EXERT1, EV_EXERT2, EV_EXERT3, EV_SNOWFLURRY, EV_CONCUSSIVE, EV_DUST, EV_RUMBLE_EFX, EV_GUNSPARKS, EV_FLAMETHROWER_EFFECT, EV_SNIPER_SOUND, EV_POPUP, EV_POPUPBOOK, EV_GIVEPAGE, 
+	EV_TESTID2, EV_ENDTEST,
+	EV_SNOW_ON, EV_SNOW_OFF, EV_MISSILE_MISS_SMALL, EV_MISSILE_MISS_LARGE, EV_WOLFKICK_HIT_FLESH, EV_WOLFKICK_HIT_WALL, EV_WOLFKICK_MISS, EV_SPIT_HIT, EV_SPIT_MISS, EV_SHARD, EV_JUNK, EV_EMITTER, // added // generic particle emitter that uses client - side particle scripts
+	EV_OILPARTICLES, EV_OILSLICK, EV_OILSLICKREMOVE, EV_MG42EFX, EV_FLAMEBARREL_BOUNCE, EV_FLAKGUN1, EV_FLAKGUN2, EV_FLAKGUN3, EV_FLAKGUN4, EV_EXERT1, EV_EXERT2, EV_EXERT3, EV_SNOWFLURRY, EV_CONCUSSIVE, EV_DUST, EV_RUMBLE_EFX, EV_GUNSPARKS, EV_FLAMETHROWER_EFFECT, EV_SNIPER_SOUND, EV_POPUP, EV_POPUPBOOK, EV_GIVEPAGE,
 	EV_MG42BULLET_HIT_FLESH, // Arnout: these two send the seed as well
 	EV_MG42BULLET_HIT_WALL, EV_MAX_EVENTS  // just added as an 'endcap'
 
@@ -920,7 +920,7 @@ qboolean BG_CanItemBeGrabbed(const entityState_t *ent, const playerState_t *ps);
 #define MASK_DEADSOLID         (CONTENTS_SOLID|CONTENTS_PLAYERCLIP)
 #define MASK_WATER             (CONTENTS_WATER|CONTENTS_LAVA|CONTENTS_SLIME)
 //#define MASK_OPAQUE				(CONTENTS_SOLID|CONTENTS_SLIME|CONTENTS_LAVA)
-#define MASK_OPAQUE            (CONTENTS_SOLID|CONTENTS_LAVA)   // ---- (SA)	modified since slime is no longer deadly
+#define MASK_OPAQUE            (CONTENTS_SOLID|CONTENTS_LAVA)   // modified since slime is no longer deadly
 #define MASK_SHOT              (CONTENTS_SOLID|CONTENTS_BODY|CONTENTS_CORPSE)
 #define MASK_MISSILESHOT       (MASK_SHOT|CONTENTS_MISSILECLIP)
 
@@ -954,7 +954,7 @@ typedef enum {
 	ET_TRAP,
 
 	ET_GAMEMODEL, // misc_gamemodel. similar to misc_model, but it's a dynamic model so we have LOD
-	ET_FOOTLOCKER, 
+	ET_FOOTLOCKER,
 	// ---- end
 
 	ET_FLAMEBARREL,
@@ -1020,7 +1020,7 @@ qboolean BG_WeaponInWolfMP(int weapon);
 qboolean BG_PlayerTouchesItem(playerState_t *ps, entityState_t *item, int atTime);
 qboolean BG_PlayerSeesItem(playerState_t *ps, entityState_t *item, int atTime);
 
-// ---- (SA)	removed PM_ammoNeeded 11 / 27 / 00
+// removed PM_ammoNeeded 11 / 27 / 00
 void PM_ClipVelocity(vec3_t in, vec3_t normal, vec3_t out, float overbounce);
 
 #define ARENAS_PER_TIER     4

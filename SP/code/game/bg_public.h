@@ -225,11 +225,11 @@ typedef enum {
 } pmtype_t;
 
 typedef enum {
-	WEAPON_READY, WEAPON_RAISING, WEAPON_RAISING_TORELOAD, 
-	WEAPON_DROPPING, WEAPON_DROPPING_TORELOAD, // ---- (SA)	added. will reload upon completion of weapon switch
+	WEAPON_READY, WEAPON_RAISING, WEAPON_RAISING_TORELOAD,
+	WEAPON_DROPPING, WEAPON_DROPPING_TORELOAD, // added. will reload upon completion of weapon switch
 	WEAPON_READYING, // getting from 'ready' to 'firing'
 	WEAPON_RELAXING, // weapon is ready, but since not firing, it's on it's way to a "relaxed" stance
-	WEAPON_VENOM_REST, WEAPON_FIRING, WEAPON_FIRINGALT, WEAPON_WAITING, // ---- (SA)	added. player allowed to switch / reload, but not fire
+	WEAPON_VENOM_REST, WEAPON_FIRING, WEAPON_FIRINGALT, WEAPON_WAITING, // added. player allowed to switch / reload, but not fire
 	WEAPON_RELOADING   
 } weaponstate_t;
 
@@ -393,7 +393,7 @@ typedef enum {
 } powerup_t;
 
 typedef enum {
-	// ---- (SA)	These will probably all change to INV_n to get the word 'key' out of the game.
+	// These will probably all change to INV_n to get the word 'key' out of the game.
 	// 		id and DM don't want references to 'keys' in the game.
 	// 		I'll change to 'INV' as the item becomes 'permanent' and not a test item.
 	KEY_NONE, 
@@ -430,9 +430,9 @@ typedef enum {
 // HI_SKULL, 
 // HI_WATER, 
 // HI_ELECTRIC, 
-// HI_FIRE, HI_STAMINA, HI_BOOK1, 
-	HI_BOOK2, 
-	HI_BOOK3, 
+// HI_FIRE, HI_STAMINA, HI_BOOK1,
+	HI_BOOK2,
+	HI_BOOK3,
 	HI_11, HI_12, HI_13, HI_14, 
 // HI_15, // ?
 
@@ -540,7 +540,7 @@ typedef struct ammotable_s {
 
 	int maxHeat;           // max active firing time before weapon 'overheats'(at which point the weapon will fail)
 	int coolRate;          // how fast the weapon cools down.(per second)
-// ---- (SA)	end
+// end
 	int mod;               // means of death
 } ammotable_t;
 extern ammotable_t ammoTable[];    // defined in bg_misc.c
@@ -557,7 +557,7 @@ extern int weapAlts[]; // defined in bg_misc.c
 #define WP_LASTSECONDARY    WP_FG42SCOPE
 
 #define WEAPS_ONE_HANDED   ((1 << WP_KNIFE)|(1 << WP_LUGER)|(1 << WP_COLT)|(1 << WP_SILENCER)|(1 << WP_GRENADE_LAUNCHER)|(1 << WP_GRENADE_PINEAPPLE))
-// ---- (SA)	end
+// end
 
 typedef enum {
 	WPOS_HIGH, WPOS_LOW, WPOS_KNIFE, WPOS_PISTOL, WPOS_SHOULDER, WPOS_THROW, WPOS_NUM_POSITIONS
@@ -612,22 +612,22 @@ typedef enum {
 	EV_ITEM_PICKUP_QUIET, // (SA) same, but don't play the default pickup sound as it was specified in the ent
 	EV_GLOBAL_ITEM_PICKUP, // powerup / team sounds are broadcast to everyone
 	EV_NOITEM, EV_NOAMMO, EV_EMPTYCLIP, EV_FILL_CLIP, EV_WEAP_OVERHEAT, EV_CHANGE_WEAPON, EV_FIRE_WEAPON, EV_FIRE_WEAPONB, EV_FIRE_WEAPON_LASTSHOT, EV_FIRE_QUICKGREN, // "Quickgrenade"
-	EV_NOFIRE_UNDERWATER, EV_FIRE_WEAPON_MG42, EV_SUGGESTWEAP, 
-	EV_GRENADE_SUICIDE, 
+	EV_NOFIRE_UNDERWATER, EV_FIRE_WEAPON_MG42, EV_SUGGESTWEAP,
+	EV_GRENADE_SUICIDE,
 	EV_USE_ITEM0, EV_USE_ITEM1, EV_USE_ITEM2, EV_USE_ITEM3, EV_USE_ITEM4, EV_USE_ITEM5, EV_USE_ITEM6, EV_USE_ITEM7, EV_USE_ITEM8, EV_USE_ITEM9, EV_USE_ITEM10, EV_USE_ITEM11, EV_USE_ITEM12, EV_USE_ITEM13, EV_USE_ITEM14, EV_USE_ITEM15, EV_ITEM_RESPAWN, EV_ITEM_POP, EV_PLAYER_TELEPORT_IN, EV_PLAYER_TELEPORT_OUT, EV_GRENADE_BOUNCE, // eventParm will be the soundindex
 	EV_GENERAL_SOUND, EV_GLOBAL_SOUND, // no attenuation
 	EV_BULLET_HIT_FLESH, EV_BULLET_HIT_WALL, EV_MISSILE_HIT, EV_MISSILE_MISS, EV_RAILTRAIL, EV_VENOM, EV_VENOMFULL, EV_BULLET, // otherEntity is the shooter
 	EV_LOSE_HAT, // ---- (SA)
 	EV_GIB_HEAD, // only blow off the head
-	EV_PAIN, EV_CROUCH_PAIN, EV_DEATH1, EV_DEATH2, EV_DEATH3, EV_ENTDEATH, 
+	EV_PAIN, EV_CROUCH_PAIN, EV_DEATH1, EV_DEATH2, EV_DEATH3, EV_ENTDEATH,
 	EV_OBITUARY, EV_POWERUP_QUAD, EV_POWERUP_BATTLESUIT, EV_POWERUP_REGEN, EV_GIB_PLAYER, // gib a previously living player
 	EV_DEBUG_LINE, EV_STOPLOOPINGSOUND, EV_STOPSTREAMINGSOUND, EV_TAUNT, EV_SMOKE, EV_SPARKS, EV_SPARKS_ELECTRIC, EV_BATS, EV_BATS_UPDATEPOSITION, EV_BATS_DEATH, EV_EXPLODE, // func_explosive
 	EV_EFFECT, // target_effect
 	EV_MORTAREFX, // mortar firing
 	EV_SPINUP, // JPW NERVE panzerfaust preamble
-	EV_SNOW_ON, EV_SNOW_OFF, EV_MISSILE_MISS_SMALL, EV_MISSILE_MISS_LARGE, EV_WOLFKICK_HIT_FLESH, EV_WOLFKICK_HIT_WALL, EV_WOLFKICK_MISS, EV_SPIT_HIT, EV_SPIT_MISS, EV_SHARD, EV_JUNK, EV_EMITTER, // ---- (SA)	added // generic particle emitter that uses client - side particle scripts
-	EV_OILPARTICLES, EV_OILSLICK, EV_OILSLICKREMOVE, EV_MG42EFX, EV_FLAMEBARREL_BOUNCE, EV_FLAKGUN1, EV_FLAKGUN2, EV_FLAKGUN3, EV_FLAKGUN4, EV_EXERT1, EV_EXERT2, EV_EXERT3, EV_SNOWFLURRY, EV_CONCUSSIVE, EV_DUST, EV_RUMBLE_EFX, EV_GUNSPARKS, EV_FLAMETHROWER_EFFECT, EV_SNIPER_SOUND, EV_POPUP, EV_POPUPBOOK, EV_GIVEPAGE, 
-	EV_CLOSEMENU, 
+	EV_SNOW_ON, EV_SNOW_OFF, EV_MISSILE_MISS_SMALL, EV_MISSILE_MISS_LARGE, EV_WOLFKICK_HIT_FLESH, EV_WOLFKICK_HIT_WALL, EV_WOLFKICK_MISS, EV_SPIT_HIT, EV_SPIT_MISS, EV_SHARD, EV_JUNK, EV_EMITTER, // added // generic particle emitter that uses client - side particle scripts
+	EV_OILPARTICLES, EV_OILSLICK, EV_OILSLICKREMOVE, EV_MG42EFX, EV_FLAMEBARREL_BOUNCE, EV_FLAKGUN1, EV_FLAKGUN2, EV_FLAKGUN3, EV_FLAKGUN4, EV_EXERT1, EV_EXERT2, EV_EXERT3, EV_SNOWFLURRY, EV_CONCUSSIVE, EV_DUST, EV_RUMBLE_EFX, EV_GUNSPARKS, EV_FLAMETHROWER_EFFECT, EV_SNIPER_SOUND, EV_POPUP, EV_POPUPBOOK, EV_GIVEPAGE,
+	EV_CLOSEMENU,
 	EV_SPAWN_SPIRIT,
 
 	EV_MAX_EVENTS  // just added as an 'endcap'
@@ -910,7 +910,7 @@ gitem_t *BG_FindItem2(const char *name);
 gitem_t *BG_FindItemForWeapon(weapon_t weapon);
 gitem_t *BG_FindItemForPowerup(powerup_t pw);
 gitem_t *BG_FindItemForHoldable(holdable_t pw);
-gitem_t *BG_FindItemForAmmo(int ammo);       // ---- (SA)	modified
+gitem_t *BG_FindItemForAmmo(int ammo);       // modified
 gitem_t *BG_FindItemForKey(wkey_t k, int *index);
 weapon_t BG_FindAmmoForWeapon(weapon_t weapon);
 weapon_t BG_FindClipForWeapon(weapon_t weapon);
@@ -936,7 +936,7 @@ qboolean BG_CanItemBeGrabbed(const entityState_t *ent, const playerState_t *ps);
 #define MASK_DEADSOLID         (CONTENTS_SOLID|CONTENTS_PLAYERCLIP)
 #define MASK_WATER             (CONTENTS_WATER|CONTENTS_LAVA|CONTENTS_SLIME)
 //#define MASK_OPAQUE				(CONTENTS_SOLID|CONTENTS_SLIME|CONTENTS_LAVA)
-#define MASK_OPAQUE            (CONTENTS_SOLID|CONTENTS_LAVA)   // ---- (SA)	modified since slime is no longer deadly
+#define MASK_OPAQUE            (CONTENTS_SOLID|CONTENTS_LAVA)   // modified since slime is no longer deadly
 #define MASK_SHOT              (CONTENTS_SOLID|CONTENTS_BODY|CONTENTS_CORPSE|CONTENTS_CLIPSHOT)
 #define MASK_MISSILESHOT       (MASK_SHOT|CONTENTS_MISSILECLIP)
 #define MASK_AISIGHT           (CONTENTS_SOLID|CONTENTS_AI_NOSIGHT)
@@ -968,9 +968,9 @@ typedef enum {
 	ET_TRAP,
 
 	ET_GAMEMODEL, // misc_gamemodel. similar to misc_model, but it's a dynamic model so we have LOD
-	ET_FOOTLOCKER, 
-	ET_LEAKY, 
-	ET_MG42, // ---- (SA)	why didn't we do  / this /  earlier...
+	ET_FOOTLOCKER,
+	ET_LEAKY,
+	ET_MG42, // why didn't we do  / this /  earlier...
 	// ---- end
 
 	ET_ZOMBIESPIT,
@@ -1038,7 +1038,7 @@ void BG_PlayerStateToEntityStateExtraPolate(playerState_t *ps, entityState_t *s,
 qboolean BG_PlayerTouchesItem(playerState_t *ps, entityState_t *item, int atTime);
 qboolean BG_PlayerSeesItem(playerState_t *ps, entityState_t *item, int atTime);
 
-// ---- (SA)	removed PM_ammoNeeded 11 / 27 / 00
+// removed PM_ammoNeeded 11 / 27 / 00
 void PM_ClipVelocity(vec3_t in, vec3_t normal, vec3_t out, float overbounce);
 
 #define ARENAS_PER_TIER     4

@@ -104,7 +104,7 @@ Adds a smoke puff or blood trail localEntity.
 =======================================================================================================================================
 */
 
-// ---- (SA)	modified
+// modified
 localEntity_t *CG_SmokePuff(const vec3_t p, const vec3_t vel, float radius, float r, float g, float b, float a, float duration, int startTime, int fadeInTime, int leFlags, qhandle_t hShader) {
 	static int seed = 0x92;
 	localEntity_t *le;
@@ -873,7 +873,7 @@ void CG_GibPlayer(centity_t *cent, vec3_t playerOrigin, vec3_t gdir) {
 	}
 
 
-// ---- (SA)	toss the hat
+// toss the hat
 	if (!(cent->currentState.eFlags & EF_HEADSHOT)) { // (SA) already lost hat while living
 		CG_LoseHat(cent, tv(0, 0, 1));
 	}

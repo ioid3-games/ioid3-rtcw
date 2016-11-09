@@ -1015,8 +1015,7 @@ void CG_AddClientCritter(localEntity_t *le) {
 						VectorCopy(le->refEntity.origin, le->pos.trBase);
 						VectorNormalize(le->pos.trDelta);
 						VectorScale(le->pos.trDelta, oldSpeed, le->pos.trDelta);
-						// 
-						// double check end velocity
+											// double check end velocity
 						VectorNormalize2(le->pos.trDelta, v2);
 
 						if (DotProduct(v, v2) <= 0.2) {
@@ -1116,8 +1115,7 @@ void CG_AddClientCritter(localEntity_t *le) {
 // 	}
 	// Bats, add the flame
 	if (le->leType == LE_ZOMBIE_BAT) {
-		// 
-		le->refEntity.shaderRGBA[3] = 255;
+			le->refEntity.shaderRGBA[3] = 255;
 		VectorNormalize2(le->pos.trDelta, v);
 		VectorInverse(v);
 		v[2] += 1;

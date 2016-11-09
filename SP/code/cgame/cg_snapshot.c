@@ -94,7 +94,7 @@ static void CG_TransitionEntity(centity_t *cent) {
 			VectorCopy(newDir, cent->fireRiseDir);
 		}
 	}
-	// ---- (SA)	the ent lost or gained some part(s), do any necessary effects
+	// the ent lost or gained some part(s), do any necessary effects
 	// TODO: check for ai first
 	if (cent->currentState.dmgFlags != cent->nextState.dmgFlags) {
 		CG_AttachedPartChange(cent);

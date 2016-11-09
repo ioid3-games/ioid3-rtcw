@@ -822,7 +822,6 @@ intptr_t CL_UISystemCalls(intptr_t *args) {
 		FS_Read(VMA(1), args[2], args[3]);
 		return 0;
 
-
 	case UI_FS_SEEK:
 		FS_Seek(args[1], args[2], args[3]);
 		return 0;
@@ -890,7 +889,6 @@ intptr_t CL_UISystemCalls(intptr_t *args) {
 	case UI_S_STARTLOCALSOUND:
 		S_StartLocalSound(args[1], args[2]);
 		return 0;
-
 
 	case UI_S_FADESTREAMINGSOUND:
 		S_FadeStreamingSound(VMF(1), args[2], args[3]);
@@ -1028,7 +1026,7 @@ intptr_t CL_UISystemCalls(intptr_t *args) {
 		S_StopBackgroundTrack();
 		return 0;
 	case UI_S_STARTBACKGROUNDTRACK:
-// 		S_StartBackgroundTrack(VMA(1), VMA(2), args[3]);  // ---- (SA)	added fadeup time
+// 		S_StartBackgroundTrack(VMA(1), VMA(2), args[3]);  // added fadeup time
 		S_StartBackgroundTrack(VMA(1), VMA(2));
 		return 0;
 	case UI_REAL_TIME:
@@ -1101,7 +1099,7 @@ void CL_InitUI(void) {
 			interpret = VMI_COMPILED;
 	}
 
-// ---- (SA)	always dll
+// always dll
 
 #ifdef WOLF_SP_DEMO
 	uivm = VM_Create("ui", CL_UISystemCalls, VMI_NATIVE);

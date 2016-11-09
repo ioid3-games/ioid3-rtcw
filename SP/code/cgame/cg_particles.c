@@ -212,7 +212,7 @@ void CG_AddParticleToScene(cparticle_t *p, vec3_t org, float alpha) {
 			p->alpha = 1;
 		}
 		// had to do this or MAX_POLYS is being exceeded in village1.bsp
-		// ---- (SA)	made the dist a cvar
+		// made the dist a cvar
 
 		// dot product removal (gets you the dist ^ 2, which you needed anyway, also dot lets you adjust lod when zooming)
 		if (1) {

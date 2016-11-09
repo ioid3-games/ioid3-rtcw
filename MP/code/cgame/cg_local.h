@@ -53,7 +53,7 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #define DUCK_TIME           100
 #define PAIN_TWITCH_TIME    200
 #define WEAPON_SELECT_TIME  1400
-#define HOLDABLE_SELECT_TIME 1400  // ---- (SA)	for drawing holdable icons
+#define HOLDABLE_SELECT_TIME 1400  // for drawing holdable icons
 #define ITEM_SCALEUP_TIME   1000
 #define ZOOM_TIME           150
 #define ITEM_BLOB_TIME      200
@@ -100,7 +100,7 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #define TJFL_NOPOLYMERGE   (1 << 5)
 // done.
 
-// NERVE - SMF - limbo mode 3d view position
+// limbo mode 3d view position
 #define LIMBO_3D_X  10
 #define LIMBO_3D_Y  158
 #define LIMBO_3D_W  420
@@ -155,7 +155,7 @@ typedef struct {
 	// talking animations
 	lerpFrame_t head;
 
-	lerpFrame_t weap;      // ---- (SA)	autonomous weapon animations
+	lerpFrame_t weap;      // autonomous weapon animations
 	int painTime;
 	int painDuration;
 	int painDirection;             // flip from 0 to 1
@@ -332,7 +332,7 @@ typedef struct markPoly_s {
 	int duration;          // Ridah
 } markPoly_t;
 
-// ---- (SA)	moved in from cg_view.c
+// moved in from cg_view.c
 typedef enum {
 	ZOOM_NONE, ZOOM_BINOC, ZOOM_SNIPER, ZOOM_SNOOPER, ZOOM_FG42SCOPE, ZOOM_MG42, ZOOM_MAX_ZOOMS
 } EZoom_t;
@@ -343,7 +343,7 @@ typedef enum {
 } EZoomInOut_t;
 extern float zoomTable[ZOOM_MAX_ZOOMS][2];
 
-// ---- (SA)	end
+// end
 
 typedef enum {
 	LE_MARK, LE_EXPLOSION, LE_SPRITE_EXPLOSION, LE_FRAGMENT, LE_MOVE_SCALE_FADE, LE_FALL_SCALE_FADE, LE_FADE_RGB, LE_SCALE_FADE, LE_SPARK, LE_DEBRIS, LE_BLOOD, LE_FUSE_SPARK, LE_ZOMBIE_SPIRIT, LE_ZOMBIE_BAT, LE_MOVING_TRACER, LE_EMITTER
@@ -486,7 +486,7 @@ typedef struct {
 	qhandle_t accModels[ACC_MAX];      // see def of ACC_MAX for index descriptions
 	qhandle_t accSkins[ACC_MAX];       // FIXME: put the #define for number of accessory models somewhere.(SA)
 
-	// ---- (SA)	additional parts for specialized characters(the loper's spinning trunk for example)
+	// additional parts for specialized characters(the loper's spinning trunk for example)
 	qhandle_t partModels[1];       // expand to [2], [3], etc as necessary
 		qhandle_t headModel;
 	qhandle_t headSkin;
@@ -497,7 +497,7 @@ typedef struct {
 	sfxHandle_t sounds[MAX_CUSTOM_SOUNDS];
 	qhandle_t gibModels[MAX_GIB_MODELS];
 
-	vec3_t playermodelScale;           // ---- (SA)	set in the skin. client - side only
+	vec3_t playermodelScale;           // set in the skin. client - side only
 	int blinkTime;             // ---- (SA)
 
 	// NERVE - SMF
@@ -528,7 +528,7 @@ typedef struct weaponInfo_s {
 	qboolean registered;
 	gitem_t *item;
 
-// ---- (SA)	weapon animation sequences loaded from the weapon.cfg
+// weapon animation sequences loaded from the weapon.cfg
 	animation_t weapAnimations[MAX_WP_ANIMATIONS];
 	qhandle_t handsModel;              // the hands don't actually draw, they just position the weapon
 
@@ -550,7 +550,7 @@ typedef struct weaponInfo_s {
  - distant gun firing sound
 	sfxHandle_t lastShotSound[4];      // sound of the last shot can be different(mauser doesn't have bolt action on last shot for example)
 
-	qhandle_t weaponIcon[2];           // ---- (SA)	[0] is weap icon, [1] is highlight icon
+	qhandle_t weaponIcon[2];           // [0] is weap icon, [1] is highlight icon
 	qhandle_t ammoIcon;
 	qhandle_t ammoModel;
 	qhandle_t missileModel;
@@ -569,7 +569,7 @@ typedef struct weaponInfo_s {
 	sfxHandle_t overheatSound;
 	sfxHandle_t reloadSound;
 
-	sfxHandle_t spinupSound;       // ---- (SA)	added // sound started when fire button goes down, and stepped on when the first fire event happens
+	sfxHandle_t spinupSound;       // added // sound started when fire button goes down, and stepped on when the first fire event happens
 	sfxHandle_t spindownSound;
  // sound called if the above is running but player doesn't follow through and fire
 } weaponInfo_t;
@@ -672,7 +672,7 @@ typedef struct {
 	// zoom key
 	qboolean zoomed;
 	qboolean zoomedBinoc;
-	int zoomedScope;           // ---- (SA)	changed to int
+	int zoomedScope;           // changed to int
 	int zoomTime;
 	float zoomSensitivity;
 	float zoomval;
@@ -750,7 +750,7 @@ typedef struct {
 	int itemPickup;
 	int itemPickupTime;
 	int itemPickupBlendTime;           // the pulse around the crosshair is timed separately
-	int holdableSelectTime;            // ---- (SA)	for holdable item icon drawing
+	int holdableSelectTime;            // for holdable item icon drawing
 	int weaponSelectTime;
 	int weaponAnimation;
 	int weaponAnimationTime;
@@ -802,7 +802,7 @@ typedef struct {
 	qboolean cameraMode;       // if rendering from a camera
 	// Duffy end
 
-	// NERVE - SMF - Objective info display
+	// Objective info display
 	qboolean limboMenu;
 	int oidTeam;
 	int oidPrintTime;
@@ -931,7 +931,7 @@ typedef struct {
 	qhandle_t bloodTrailShader;
 	qhandle_t nailPuffShader;
 
-// ---- (SA)	cursor hints
+// cursor hints
 	// would be nice to specify these in the menu scripts instead of permanent handles...
 	qhandle_t usableHintShader;
 	qhandle_t notUsableHintShader;
@@ -1294,7 +1294,7 @@ typedef struct {
 	int teamflags;
 	int fraglimit;
 	int capturelimit;
-	float timelimit;                       // NERVE - SMF - made this a float
+	float timelimit;                       // made this a float
 	int maxclients;
 	char mapname[MAX_QPATH];
 	char redTeam[MAX_QPATH];               // A team
@@ -1517,7 +1517,7 @@ extern vmCvar_t cg_animState;
 extern vmCvar_t cg_missionStats;
 extern vmCvar_t cg_waitForFire;
 
-// NERVE - SMF - Wolf multiplayer configuration cvars
+// Wolf multiplayer configuration cvars
 extern vmCvar_t mp_playerType;
 extern vmCvar_t mp_currentPlayerType;
 extern vmCvar_t mp_team;
@@ -1626,7 +1626,7 @@ void CG_DrawRect(float x, float y, float width, float height, float size, const 
 void CG_DrawSides(float x, float y, float w, float h, float size);
 void CG_DrawTopBottom(float x, float y, float w, float h, float size);
 
-// NERVE - SMF - localization functions
+// localization functions
 void CG_InitTranslation(void);
 char *CG_TranslateString(const char *string);
 void CG_SaveTransTable(void);
@@ -1730,7 +1730,7 @@ void CG_AttachedPartChange(centity_t *cent);
 void CG_NextItem_f(void);
 void CG_PrevItem_f(void);
 void CG_Item_f(void);
-// ---- (SA)	end
+// end
 
 
 
@@ -1750,7 +1750,7 @@ void CG_FinishWeaponChange(int lastweap, int newweap);
 void CG_RegisterWeapon(int weaponNum);
 void CG_RegisterItemVisuals(int itemNum);
 
-void CG_FireWeapon(centity_t *cent);  // ---- (SA)	modified.
+void CG_FireWeapon(centity_t *cent);  // modified.
 // void CG_EndFireWeapon(centity_t *cent, int firemode);	
 void CG_MissileHitWall(int weapon, int clientNum, vec3_t origin, vec3_t dir, int surfaceFlags);  // (SA) modified to send missilehitwall surface parameters
 
@@ -1769,7 +1769,7 @@ void CG_MissileHitPlayer(centity_t *cent, int weapon, vec3_t origin, vec3_t dir,
 void CG_VenomFire(entityState_t *es, qboolean fullmode);
 void CG_Bullet(vec3_t origin, int sourceEntityNum, vec3_t normal, qboolean flesh, int fleshEntityNum, qboolean wolfkick, int otherEntNum2, int seed);
 
-void CG_RailTrail(clientInfo_t *ci, vec3_t start, vec3_t end, int type);  // ---- (SA)	added 'type'
+void CG_RailTrail(clientInfo_t *ci, vec3_t start, vec3_t end, int type);  // added 'type'
 void CG_GrappleTrail(centity_t *ent, const weaponInfo_t *wi);
 void CG_AddViewWeapon(playerState_t *ps);
 void CG_AddPlayerWeapon(refEntity_t *parent, playerState_t *ps, centity_t *cent);
@@ -1899,7 +1899,7 @@ void CG_Spotlight(centity_t *cent, float *color, vec3_t start, vec3_t dir, int s
 #define SL_LOCKUV           0x080  // lock the texture coordinates at the 'true' length of the requested beam.
 #define SL_NOCORE           0x100  // don't draw the center 'core' beam
 #define SL_TRACEWORLDONLY   0x200
-// ---- (SA)	done
+// done
 
 void CG_RumbleEfx(float pitch, float yaw);
 
@@ -2149,7 +2149,7 @@ void trap_UI_LimboChat(const char *arg0);
 void trap_Key_GetBindingBuf(int keynum, char *buf, int buflen);
 void trap_Key_SetBinding(int keynum, const char *binding);
 void trap_Key_KeynumToStringBuf(int keynum, char *buf, int buflen);
-void trap_TranslateString(const char *string, char *buf);      // NERVE - SMF - localization
+void trap_TranslateString(const char *string, char *buf);      // localization
 
 int trap_CIN_PlayCinematic(const char *arg0, int xpos, int ypos, int width, int height, int bits);
 e_status trap_CIN_StopCinematic(int handle);
@@ -2171,4 +2171,4 @@ void CG_StartCamera(const char *name, qboolean startBlack);
 
 int CG_LoadCamera(const char *name);
 void CG_FreeCamera(int camNum);
-// ---- (SA)	end
+// end

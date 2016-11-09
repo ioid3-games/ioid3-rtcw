@@ -181,7 +181,6 @@ void R_LoadBMP(const char *name, byte **pic, int *width, int *height)
 	bmpRGBA = ri.Z_Malloc(numPixels * 4);
 	*pic = bmpRGBA;
 
-
 	for (row = rows-1; row >= 0; row--)
 	{
 		pixbuf = bmpRGBA + row*columns*4;

@@ -551,7 +551,6 @@ int AAS_LoadAASFile(char *filename) {
 	(*aasworld).loaded = qtrue;
 	// close the file
 	botimport.FS_FCloseFile(fp);
-	// 
 #ifdef AASFILEDEBUG
 	AAS_FileInfo();
 #endif // AASFILEDEBUG

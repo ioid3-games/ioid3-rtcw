@@ -52,7 +52,7 @@ void Shaker_think(gentity_t *ent) {
 	gentity_t *hit, *dirtshake; // JPW NERVE
 */
 
-	// NERVE - SMF - we only want to call this once now
+	// we only want to call this once now
 // 	if (level.time > ent->delay)
 	ent->think = G_FreeEntity;
 	ent->nextthink = level.time + FRAMETIME;
@@ -114,7 +114,7 @@ void Shaker_think(gentity_t *ent) {
 		if (len > radius) { // largest bomb blast = 600
 			continue;
 		}
-		// NERVE - SMF - client side camera shake
+		// client side camera shake
 		// DAJ BUGFIX va() not doing %f's correctly
 		bounceamt = min(1.0f, 1.0f - (len / radius));
 		Com_sprintf(cmd, sizeof(cmd), "shake %.4f", bounceamt);  // DAJ
@@ -138,7 +138,7 @@ void Ground_Shaker(vec3_t origin, float range) {
 	concussive->think = Shaker_think;
 	concussive->nextthink = level.time + FRAMETIME;
 	concussive->splashDamage = range;
-	concussive->delay = level.time + 200;      // NERVE - SMF - changed from 1000 to 200
+	concussive->delay = level.time + 200;      // changed from 1000 to 200
 	return;
 }
 
@@ -159,7 +159,7 @@ void G_BounceMissile(gentity_t *ent, trace_t *trace) {
 	if ((ent->splashMethodOfDeath == MOD_GRENADE_SPLASH) && (g_entities[trace->entityNum].flags & FL_AI_GRENADE_KICK) && (trace->endpos[2] > g_entities[trace->entityNum].r.currentOrigin[2])) {
 		g_entities[trace->entityNum].grenadeExplodeTime = ent->nextthink;
 		g_entities[trace->entityNum].flags &= ~FL_AI_GRENADE_KICK;
-		Add_Ammo(&g_entities[trace->entityNum], WP_GRENADE_LAUNCHER, 1, qfalse);	// ---- (SA)	modified
+		Add_Ammo(&g_entities[trace->entityNum], WP_GRENADE_LAUNCHER, 1, qfalse);	// modified
 		G_FreeEntity(ent);
 		return;
 	}
@@ -183,11 +183,11 @@ void G_BounceMissile(gentity_t *ent, trace_t *trace) {
 		}
 		// check for stop
 		if (trace->plane.normal[2] > 0.2 && VectorLength(ent->s.pos.trDelta) < 40) {
-// ---- (SA)	make the world the owner of the dynamite, so the player can shoot it after it stops moving
+// make the world the owner of the dynamite, so the player can shoot it after it stops moving
 			if (ent->s.weapon == WP_DYNAMITE || ent->s.weapon == WP_DYNAMITE2) {
 				ent->r.ownerNum = ENTITYNUM_WORLD;
 			}
-// ---- (SA)	end
+// end
 			G_SetOrigin(ent, trace->endpos);
 			ent->s.time = level.time / 4;
 			return;
@@ -422,7 +422,7 @@ void M_think(gentity_t *ent) {
 	ent->count++;
 
 // 	if (ent->count == 1)
-// 		Concussive_fx(ent);	// ---- (SA)	moved to G_ExplodeMissile()
+// 		Concussive_fx(ent);	// moved to G_ExplodeMissile()
 
 	if (ent->count == ent->health) {
 		ent->think = G_FreeEntity;
@@ -539,7 +539,7 @@ void G_ExplodeMissile(gentity_t *ent) {
 					// static vec3_t range = {18, 18, 18}; // NOTE can use this to massage throw distance outside trigger field // TTimo unused
 					int i, num, touch[MAX_GENTITIES];
 					gentity_t *hit;
-					// NERVE - SMF - made this the actual bounding box of dynamite instead of range
+					// made this the actual bounding box of dynamite instead of range
 					VectorAdd(ent->r.currentOrigin, ent->r.mins, mins);
 					VectorAdd(ent->r.currentOrigin, ent->r.maxs, maxs);
 					num = trap_EntitiesInBox(mins, maxs, touch, MAX_GENTITIES);

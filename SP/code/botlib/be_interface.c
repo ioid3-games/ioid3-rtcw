@@ -252,7 +252,6 @@ int Export_BotLibShutdown(void) {
 	recursive = 0;
 	// print any files still open
 	PC_CheckOpenSourceHandles();
-	// 
 #ifdef _DEBUG
 	Log_AlwaysOpen("memory.log");
 	PrintMemoryLabels();

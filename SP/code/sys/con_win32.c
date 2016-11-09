@@ -119,7 +119,7 @@ static void CON_HistPrev(void) {
 	}
 
 	qconsole_history_pos = pos;
-	Q_strncpyz(qconsole_line, qconsole_history[qconsole_history_pos], 
+	Q_strncpyz(qconsole_line, qconsole_history[qconsole_history_pos],
 		sizeof(qconsole_line));
 	qconsole_linelen = strlen(qconsole_line);
 	qconsole_cursor = qconsole_linelen;
@@ -195,7 +195,7 @@ static void CON_Show(void) {
 	}
 
 	if (qconsole_linelen > binfo.srWindow.Right) {
-		WriteConsoleOutput(qconsole_hout, 
+		WriteConsoleOutput(qconsole_hout,
 			line + (qconsole_linelen - binfo.srWindow.Right), writeSize, writePos, &writeArea);
 	} else {
 		WriteConsoleOutput(qconsole_hout, line, writeSize, writePos, &writeArea);

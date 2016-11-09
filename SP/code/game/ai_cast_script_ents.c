@@ -66,7 +66,7 @@ void SP_ai_marker(gentity_t *ent) {
 		return;
 	}
 
-// ---- (SA)	move the bounding box for the check in 1 unit on each side so they can butt up against a wall and not startsolid
+// move the bounding box for the check in 1 unit on each side so they can butt up against a wall and not startsolid
 	VectorCopy(playerMins, checkMins);
 	checkMins[0] += 1;
 	checkMins[1] += 1;

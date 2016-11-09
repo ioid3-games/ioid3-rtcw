@@ -215,7 +215,7 @@ void NET_LeaveMulticast6(void);
 void NET_Sleep(int msec);
 
 
-// ---- (SA)	increased for larger submodel entity counts
+// increased for larger submodel entity counts
 #define MAX_MSGLEN              32768      // max length of a message, which may
 //#define MAX_MSGLEN				16384		// max length of a message, which may
 // be fragmented into multiple packets
@@ -285,11 +285,11 @@ PROTOCOL
 // NOTE: that stuff only works with two digits protocols
 extern int demo_protocols[];
 
-// ---- (SA)	heh, whoops. we've been talking to id servers since we got a connection...
+// heh, whoops. we've been talking to id servers since we got a connection...
 //#define UPDATE_SERVER_NAME	"update.quake3arena.com"
 //#define MASTER_SERVER_NAME	"master.quake3arena.com"
 //#define AUTHORIZE_SERVER_NAME	"authorize.quake3arena.com"
-// ---- (SA)	yes, these are bogus addresses. I'm guessing these will be set to a machine at Activision or id eventually
+// yes, these are bogus addresses. I'm guessing these will be set to a machine at Activision or id eventually
 #if !defined UPDATE_SERVER_NAME && !defined STANDALONE
 #define UPDATE_SERVER_NAME      "update.gmistudios.com"
 #endif
@@ -1007,7 +1007,7 @@ void CL_CDDialog(void);
 
 void CL_EndgameMenu(void);
 // bring up the "need a cd to play" dialog
-// ---- (SA)	end
+// end
 
 void CL_FlushMemory(void);
 // dump all memory on an error
@@ -1030,7 +1030,7 @@ void Key_KeynameCompletion(void (*callback)(const char *s));
 void Key_WriteBindings(fileHandle_t f);
 // for writing the config files
 
-// void S_ClearSoundBuffer(qboolean killStreaming); // ---- (SA)	modified
+// void S_ClearSoundBuffer(qboolean killStreaming); // modified
 void S_ClearSoundBuffer(void);
 // call before filesystem access
 

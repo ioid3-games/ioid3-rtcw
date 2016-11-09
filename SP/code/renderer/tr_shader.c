@@ -1214,7 +1214,6 @@ static void ParseSkyParms(char **text) {
 	}
 	R_InitSkyTexCoords(shader.sky.cloudHeight);
 
-
 	// innerbox
 	token = COM_ParseExt(text, qfalse);
 	if (token[0] == 0) {

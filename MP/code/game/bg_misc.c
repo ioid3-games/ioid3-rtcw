@@ -150,7 +150,7 @@ ammotable_t ammoTable[] = {
 };
 
 
-// ---- (SA)	moved in here so both games can get to it
+// moved in here so both games can get to it
 int weapAlts[] = {
 	WP_NONE, // 0 WP_NONE
 	WP_NONE, // 1 WP_KNIFE
@@ -166,10 +166,10 @@ int weapAlts[] = {
 	WP_NONE, // 10 WP_TESLA
 	WP_SPEARGUN_CO2, // 11 WP_SPEARGUN
 	WP_NONE, // 12 WP_KNIFE2
-	WP_AKIMBO, // 13 WP_COLT		// ---- (SA)	new
+	WP_AKIMBO, // 13 WP_COLT		// new
 	WP_NONE, // 14 WP_THOMPSON
 	WP_SNOOPERSCOPE, // 15 WP_GARAND
-	WP_BAR2, // 16 WP_BAR		// ---- (SA)	modified
+	WP_BAR2, // 16 WP_BAR		// modified
 	WP_NONE, // 17 WP_GRENADE_PINEAPPLE
 	WP_NONE, // 18 WP_ROCKET_LAUNCHER
 	WP_MAUSER, // 19 WP_SNIPERRIFLE
@@ -177,17 +177,17 @@ int weapAlts[] = {
 	WP_VENOM, // 21 WP_VENOM_FULL
 	WP_SPEARGUN, // 22 WP_SPEARGUN_CO2
 	WP_FG42, // 23 WP_FG42SCOPE
-	WP_BAR, // 24 WP_BAR2		// ---- (SA)	new
+	WP_BAR, // 24 WP_BAR2		// new
 	WP_NONE, // 25 WP_STEN
 	WP_NONE, // 26 WP_MEDIC_SYRINGE	// JPW NERVE
 	WP_NONE, // 27 WP_AMMO		// JPW NERVE
 	WP_NONE, // 28 WP_ARTY		// JPW NERVE
-	WP_LUGER, // 29 WP_SILENCER	// ---- (SA)	was sp5
-	WP_COLT, // 30 WP_AKIMBO		// ---- (SA)	new
+	WP_LUGER, // 29 WP_SILENCER	// was sp5
+	WP_COLT, // 30 WP_AKIMBO		// new
 	WP_NONE, // 31 WP_CROSS
-	WP_NONE, // 32 WP_DYNAMITE	// ---- (SA)	modified(not in rotation yet)
-	WP_NONE, /*WP_DYNAMITE2, */ // 33 WP_DYNAMITE	// ---- (SA)	modified
-	WP_DYNAMITE, // 34 WP_DYNAMITE2	// ---- (SA)	new
+	WP_NONE, // 32 WP_DYNAMITE	// modified(not in rotation yet)
+	WP_NONE, /*WP_DYNAMITE2, */ // 33 WP_DYNAMITE	// modified
+	WP_DYNAMITE, // 34 WP_DYNAMITE2	// new
 
 	// NERVE - SMF
 	WP_NONE, // 34 WP_PROX
@@ -399,7 +399,6 @@ model="models/powerups/treasure / goldbar.md3"
 
 
 	// ARMOR / HEALTH / STAMINA
-	// 
 
 
 /*QUAKED item_health_small(.3 .3 1)(-16 - 16 - 16)(16 16 16) suspended
@@ -466,7 +465,6 @@ model="models/powerups/health/health_w.md3"
 		"Health", 25, IT_HEALTH, 0, 0, 0, "", "", {25, 25, 25, 25, 25}
 	},
 	// STAMINA
-	// 
 
 
 /*QUAKED item_stamina_stein(.3 .3 1)(-16 - 16 - 16)(16 16 16) suspended
@@ -505,7 +503,6 @@ model="models/powerups/instant / stamina_brandy1.md3"
 
 
 	// ARMOR
-	// 
 
 
 /*QUAKED item_armor_body(.3 .3 1)(-16 - 16 - 16)(16 16 16) suspended
@@ -671,7 +668,7 @@ model="models/weapons2/panzerfaust / pf.md3"
 		{0, 0, 0, 0, 0}
 	}, 
 
-// ---- (SA)	removed the quaked for this. we don't actually have a grenade launcher as such. It's given implicitly
+// removed the quaked for this. we don't actually have a grenade launcher as such. It's given implicitly
 // 		by virtue of getting grenade ammo. So we don't need to have them in maps
 /*
 weapon_grenadelauncher
@@ -913,7 +910,6 @@ weapon_binoculars(.3 .3 1)(-16 - 16 - 16)(16 16 16) suspended
 
 
 	// AMMO ITEMS
-	// 
 
 
 
@@ -940,7 +936,7 @@ model="models/powerups/ammo / am9mm_m.md3"
 	{
 		"ammo_9mm", "sound/misc/am_pkup.wav", {"models/powerups/ammo / am9mm_m.md3", 0, 0, 0, 0}, "icons/iconw_luger_1", // icon
 		NULL,  // ammo icon
-		"9mm", // pickup			// ---- (SA)	changed
+		"9mm", // pickup			// changed
 		60, IT_AMMO, WP_LUGER, WP_LUGER, WP_LUGER, "",  // precache
 		"",  // sounds
 		{100, 60, 45, 30, 30}
@@ -984,7 +980,7 @@ model="models/powerups/ammo / am45cal_m.md3"
 	{
 		"ammo_45cal", "sound/misc/am_pkup.wav", {"models/powerups/ammo / am45cal_m.md3", 0, 0, 0, 0}, "icons/iconw_luger_1", // icon
 		NULL,  // ammo icon
-		".45cal", // pickup			// ---- (SA)	changed
+		".45cal", // pickup			// changed
 		60, IT_AMMO, WP_COLT, WP_COLT, WP_COLT, "",  // precache
 		"",  // sounds
 		{100, 60, 45, 30, 30}
@@ -1030,7 +1026,7 @@ model="models/powerups/ammo / am792mm_m.md3"
 	{
 		"ammo_792mm", "sound/misc/am_pkup.wav", {"models/powerups/ammo / am792mm_m.md3", 0, 0, 0, 0}, "icons/icona_machinegun", // icon
 		NULL, // ammo icon
-		"7.92mm",   // pickup			// ---- (SA)	changed
+		"7.92mm",   // pickup			// changed
 		10, IT_AMMO, WP_MAUSER, WP_MAUSER, WP_MAUSER, "",    // precache
 		"",    // sounds
 		{10, 10, 10, 10, 10}
@@ -1076,7 +1072,7 @@ model="models/powerups/ammo / am30cal_m.md3"
 	{
 		"ammo_30cal", "sound/misc/am_pkup.wav", {"models/powerups/ammo / am30cal_m.md3", 0, 0, 0, 0}, "icons/icona_machinegun", // icon
 		NULL, // ammo icon
-		".30cal",   // pickup			// ---- (SA)	changed
+		".30cal",   // pickup			// changed
 		50, IT_AMMO, WP_GARAND, WP_GARAND, WP_GARAND, "",    // precache
 		"",    // sounds
 		{85, 50, 35, 25, 25}
@@ -1225,9 +1221,9 @@ model="models/powerups/ammo / amspear.md3"
 	}, 
 
 
-// ---- (SA)	removed ammo_sniper(_n)
+// removed ammo_sniper(_n)
 
-// ---- (SA)	removed ammo_snooper(_n)
+// removed ammo_snooper(_n)
 
 
 /*QUAKED ammo_panzerfaust(.3 .3 1)(-16 - 16 - 16)(16 16 16) suspended
@@ -1277,7 +1273,7 @@ model="models/powerups/ammo / amcharges.md3"
 		{4, 2, 2, 1, 1}
 	}, 
 
-// ---- (SA)	hopefully it doesn't need to be a quaked thing.
+// hopefully it doesn't need to be a quaked thing.
 // 		apologies if it does and I'll put it back.
 /*
 ammo_monster_attack1(.3 .3 1)(-16 - 16 - 16)(16 16 16) suspended
@@ -1292,9 +1288,8 @@ used by: Monster Attack 1(specific to each monster)
 
 
 	// HOLDABLE ITEMS
-	// 
 
-// ---- (SA)	updated a number of powerup items(11 / 6 / 00)
+// updated a number of powerup items(11 / 6 / 00)
 
 /*QUAKED holdable_medkit(.3 .3 1)(-16 - 16 - 16)(16 16 16) suspended
 
@@ -1581,7 +1576,6 @@ model="models/powerups/holdable / 14.md3"
 
 
 	// POWERUP ITEMS
-	// 
 
 /*QUAKED team_CTF_redflag(1 0 0)(-16 - 16 - 16)(16 16 16)
 Only in CTF games
@@ -2149,7 +2143,7 @@ BG_PlayerSeesItem
 =======================================================================================================================================
 */
 
-// ---- (SA)	not used
+// not used
 /*
 qboolean BG_PlayerSeesItem(playerState_t *ps, entityState_t *item, int atTime) {
    vec3_t vorigin, eorigin, viewa, dir;
@@ -2187,7 +2181,7 @@ qboolean BG_PlayerSeesItem(playerState_t *ps, entityState_t *item, int atTime) {
    return qtrue;
 }
 */
-// ---- (SA)	end
+// end
 
 // returns qtrue if a weapon is indeed used in multiplayer
 qboolean BG_WeaponInWolfMP(int weapon) {
@@ -2425,7 +2419,7 @@ void BG_EvaluateTrajectory(const trajectory_t *tr, int atTime, vec3_t result) {
 		phase = sin(deltaTime * M_PI * 2);
 		VectorMA(tr->trBase, phase, tr->trDelta, result);
 		break;
-// ---- (SA)	removed
+// removed
 	case TR_LINEAR_STOP:
 		if (atTime > tr->trTime + tr->trDuration) {
 			atTime = tr->trTime + tr->trDuration;
@@ -2455,7 +2449,7 @@ void BG_EvaluateTrajectory(const trajectory_t *tr, int atTime, vec3_t result) {
 		VectorMA(tr->trBase, deltaTime, tr->trDelta, result);
 		result[2] -= 0.5 * (DEFAULT_GRAVITY * 0.2) * deltaTime;
 		break;
-// ---- (SA)	end
+// end
 		// acceleration
 	case TR_ACCELERATE:    // trDelta is the ultimate speed
 		if (atTime > tr->trTime + tr->trDuration) {
@@ -2516,7 +2510,7 @@ void BG_EvaluateTrajectoryDelta(const trajectory_t *tr, int atTime, vec3_t resul
 		phase *= 0.5;
 		VectorScale(tr->trDelta, phase, result);
 		break;
-// ---- (SA)	removed
+// removed
 	case TR_LINEAR_STOP:
 		if (atTime > tr->trTime + tr->trDuration) {
 			VectorClear(result);
@@ -2542,7 +2536,7 @@ void BG_EvaluateTrajectoryDelta(const trajectory_t *tr, int atTime, vec3_t resul
 		VectorCopy(tr->trDelta, result);
 		result[2] -= (DEFAULT_GRAVITY * 0.2) * deltaTime;
 		break;
-// ---- (SA)	end
+// end
 		// acceleration
 	case TR_ACCELERATE: // trDelta is eventual speed
 		if (atTime > tr->trTime + tr->trDuration) {
@@ -2625,7 +2619,7 @@ char *eventnames[] = {
 	"EV_EFFECT", // target_effect
 	"EV_MORTAREFX", // mortar firing
 	"EV_SPINUP", // JPW NERVE panzerfaust preamble for MP balance
-	"EV_SNOW_ON", "EV_SNOW_OFF", "EV_MISSILE_MISS_SMALL", "EV_MISSILE_MISS_LARGE", "EV_WOLFKICK_HIT_FLESH", "EV_WOLFKICK_HIT_WALL", "EV_WOLFKICK_MISS", "EV_SPIT_HIT", "EV_SPIT_MISS", "EV_SHARD", "EV_JUNK", "EV_EMITTER", 
+	"EV_SNOW_ON", "EV_SNOW_OFF", "EV_MISSILE_MISS_SMALL", "EV_MISSILE_MISS_LARGE", "EV_WOLFKICK_HIT_FLESH", "EV_WOLFKICK_HIT_WALL", "EV_WOLFKICK_MISS", "EV_SPIT_HIT", "EV_SPIT_MISS", "EV_SHARD", "EV_JUNK", "EV_EMITTER",
 	"EV_OILPARTICLES", "EV_OILSLICK", "EV_OILSLICKREMOVE", "EV_MG42EFX", "EV_FLAMEBARREL_BOUNCE", "EV_FLAKGUN1", "EV_FLAKGUN2", "EV_FLAKGUN3", "EV_FLAKGUN4", "EV_EXERT1", "EV_EXERT2", "EV_EXERT3", "EV_SNOWFLURRY", "EV_CONCUSSIVE", "EV_DUST", "EV_RUMBLE_EFX", "EV_GUNSPARKS", "EV_FLAMETHROWER_EFFECT", "EV_SNIPER_SOUND", "EV_POPUP", "EV_POPUPBOOK", "EV_GIVEPAGE", "EV_MG42BULLET_HIT_FLESH", "EV_MG42BULLET_HIT_WALL",
 
 	"EV_MAX_EVENTS"

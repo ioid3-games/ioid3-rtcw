@@ -177,7 +177,7 @@ void trap_S_StartSound(vec3_t origin, int entityNum, int entchannel, sfxHandle_t
 void trap_S_StartSoundEx(vec3_t origin, int entityNum, int entchannel, sfxHandle_t sfx, int flags) {
 	syscall(CG_S_STARTSOUNDEX, origin, entityNum, entchannel, sfx, flags);
 }
-// ---- (SA)	end
+// end
 
 void trap_S_StartLocalSound(sfxHandle_t sfx, int channelNum) {
 	syscall(CG_S_STARTLOCALSOUND, sfx, channelNum);
@@ -193,7 +193,7 @@ void trap_S_AddLoopingSound(int entityNum, const vec3_t origin, const vec3_t vel
 
 // not in use
 // void trap_S_AddRealLoopingSound(int entityNum, const vec3_t origin, const vec3_t velocity, int range, sfxHandle_t sfx, int volume) {
-// syscall(CG_S_ADDREALLOOPINGSOUND, entityNum, origin, velocity, range, sfx, volume);	// ---- (SA)	modified
+// syscall(CG_S_ADDREALLOOPINGSOUND, entityNum, origin, velocity, range, sfx, volume);	// modified
 //}
 
 void trap_S_StopLoopingSound(int entityNum) {
@@ -204,7 +204,7 @@ void trap_S_StopLoopingSound(int entityNum) {
 void trap_S_StopStreamingSound(int entityNum) {
 	syscall(CG_S_STOPSTREAMINGSOUND, entityNum);
 }
-// ---- (SA)	end
+// end
 
 void trap_S_UpdateEntityPosition(int entityNum, const vec3_t origin) {
 	syscall(CG_S_UPDATEENTITYPOSITION, entityNum, origin);
@@ -237,7 +237,7 @@ void trap_S_FadeAllSound(float targetvol, int time) {
 	syscall(CG_S_FADEALLSOUNDS, PASSFLOAT(targetvol), time);
 }
 
-// ---- (SA)	end
+// end
 
 void trap_S_StartStreamingSound(const char *intro, const char *loop, int entnum, int channel, int attenuation) {
 	syscall(CG_S_STARTSTREAMINGSOUND, intro, loop, entnum, channel, attenuation);
@@ -260,7 +260,7 @@ qboolean trap_R_GetSkinModel(qhandle_t skinid, const char *type, char *name) {
 qhandle_t trap_R_GetShaderFromModel(qhandle_t modelid, int surfnum, int withlightmap) {
 	return syscall(CG_R_GETMODELSHADER, modelid, surfnum, withlightmap);
 }
-// ---- (SA)	end
+// end
 
 qhandle_t trap_R_RegisterSkin(const char *name) {
 	CG_DrawInformation();
@@ -370,7 +370,7 @@ qboolean trap_GetUserCmd(int cmdNumber, usercmd_t *ucmd) {
 	return syscall(CG_GETUSERCMD, cmdNumber, ucmd);
 }
 
-void trap_SetUserCmdValue(int stateValue, int holdableValue, float sensitivityScale, int cld) { // ---- (SA)	// NERVE - SMF - added cld
+void trap_SetUserCmdValue(int stateValue, int holdableValue, float sensitivityScale, int cld) { // // added cld
 	syscall(CG_SETUSERCMDVALUE, stateValue, holdableValue, PASSFLOAT(sensitivityScale), cld);
 }
 
@@ -398,7 +398,7 @@ void trap_startCamera(int camNum, int time) {
 void trap_stopCamera(int camNum) {
 	syscall(CG_STOPCAMERA, camNum);
 }
-// ---- (SA)	end
+// end
 
 qboolean trap_getCameraInfo(int camNum, int time, vec3_t *origin, vec3_t *angles, float *fov) {
 	return syscall(CG_GETCAMERAINFO, camNum, time, origin, angles, fov);

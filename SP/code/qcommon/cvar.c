@@ -390,7 +390,6 @@ cvar_t *Cvar_Get(const char *var_name, const char *var_value, int flags) {
 		return var;
 	}
 	// allocate a new cvar
-	// 
 
 	// find a free cvar
 	for (index = 0; index < MAX_CVARS; index++) {
@@ -766,8 +765,8 @@ void Cvar_Toggle_f(void) {
 	}
 
 	if (c == 2) {
-		Cvar_Set2(Cmd_Argv(1), va("%d", 
-			!Cvar_VariableValue(Cmd_Argv(1))), 
+		Cvar_Set2(Cmd_Argv(1), va("%d",
+			!Cvar_VariableValue(Cmd_Argv(1))),
 			qfalse);
 		return;
 	}

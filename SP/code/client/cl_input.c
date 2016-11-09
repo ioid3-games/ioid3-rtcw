@@ -275,15 +275,15 @@ void IN_SprintUp(void) {IN_KeyUp(&kb[KB_BUTTONS5]);}
 // wbuttons(wolf buttons)
 void IN_Wbutton0Down(void) {IN_KeyDown(&kb[KB_WBUTTONS0]); } // ---- (SA) secondary fire button
 void IN_Wbutton0Up(void) {IN_KeyUp(&kb[KB_WBUTTONS0]);}
-void IN_ZoomDown(void) {IN_KeyDown(&kb[KB_WBUTTONS1]); } // ---- (SA)	zoom key
+void IN_ZoomDown(void) {IN_KeyDown(&kb[KB_WBUTTONS1]); } // zoom key
 void IN_ZoomUp(void) {IN_KeyUp(&kb[KB_WBUTTONS1]);}
-void IN_QuickGrenDown(void) {IN_KeyDown(&kb[KB_WBUTTONS2]); } // ---- (SA)	"Quickgrenade"
+void IN_QuickGrenDown(void) {IN_KeyDown(&kb[KB_WBUTTONS2]); } // "Quickgrenade"
 void IN_QuickGrenUp(void) {IN_KeyUp(&kb[KB_WBUTTONS2]);}
-void IN_ReloadDown(void) {IN_KeyDown(&kb[KB_WBUTTONS3]); } // ---- (SA)	manual weapon re - load
+void IN_ReloadDown(void) {IN_KeyDown(&kb[KB_WBUTTONS3]); } // manual weapon re - load
 void IN_ReloadUp(void) {IN_KeyUp(&kb[KB_WBUTTONS3]);}
-void IN_LeanLeftDown(void) {IN_KeyDown(&kb[KB_WBUTTONS4]); } // ---- (SA)	lean left
+void IN_LeanLeftDown(void) {IN_KeyDown(&kb[KB_WBUTTONS4]); } // lean left
 void IN_LeanLeftUp(void) {IN_KeyUp(&kb[KB_WBUTTONS4]);}
-void IN_LeanRightDown(void) {IN_KeyDown(&kb[KB_WBUTTONS5]); } // ---- (SA)	lean right
+void IN_LeanRightDown(void) {IN_KeyDown(&kb[KB_WBUTTONS5]); } // lean right
 void IN_LeanRightUp(void) {IN_KeyUp(&kb[KB_WBUTTONS5]);}
 
 // unused
@@ -372,7 +372,6 @@ void CL_KeyMove(usercmd_t *cmd) {
 
 	side += movespeed * CL_KeyState(&kb[KB_MOVERIGHT]);
 	side -= movespeed * CL_KeyState(&kb[KB_MOVELEFT]);
-
 
 	if (cmd->buttons & BUTTON_ACTIVATE) {
 		if (side > 0) {
@@ -607,7 +606,7 @@ void CL_FinishMove(usercmd_t *cmd) {
 	// copy the state that the cgame is currently sending
 	cmd->weapon = cl.cgameUserCmdValue;
 
-	cmd->holdable = cl.cgameUserHoldableValue; // ---- (SA)	modified
+	cmd->holdable = cl.cgameUserHoldableValue; // modified
 
 	// send the current server time so the amount of movement can be determined without allowing cheating
 	cmd->serverTime = cl.serverTime;

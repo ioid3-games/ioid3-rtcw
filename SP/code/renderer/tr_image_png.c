@@ -813,9 +813,9 @@ static uint8_t PredictPaeth(uint8_t a, uint8_t b, uint8_t c)
  *  Reverse the filters.
  */
 
-static qboolean UnfilterImage(uint8_t  *DecompressedData, 
+static qboolean UnfilterImage(uint8_t  *DecompressedData,
 		uint32_t  ImageHeight,
-		uint32_t  BytesPerScanline, 
+		uint32_t  BytesPerScanline,
 		uint32_t  BytesPerPixel)
 {
 	uint8_t   *DecompPtr;
@@ -1250,7 +1250,7 @@ static qboolean ConvertPixel(struct PNG_Chunk_IHDR *IHDR,
  */
 
 static qboolean DecodeImageNonInterlaced(struct PNG_Chunk_IHDR *IHDR,
-		byte                 *OutBuffer, 
+		byte                 *OutBuffer,
 		uint8_t               *DecompressedData,
 		uint32_t               DecompressedDataLength,
 		qboolean HasTransparentColour,
@@ -1527,7 +1527,7 @@ static qboolean DecodeImageNonInterlaced(struct PNG_Chunk_IHDR *IHDR,
  */
 
 static qboolean DecodeImageInterlaced(struct PNG_Chunk_IHDR *IHDR,
-		byte                 *OutBuffer, 
+		byte                 *OutBuffer,
 		uint8_t               *DecompressedData,
 		uint32_t               DecompressedDataLength,
 		qboolean HasTransparentColour,

@@ -104,7 +104,6 @@ void R_DlightBmodel(bmodel_t *bmodel) {
 
 	tr.currentEntity->needDlights = mask;
 
-
 	// set the dlight bits in all the surfaces
 	for (i = 0 ; i < bmodel->numSurfaces ; i++) {
 		surf = bmodel->firstSurface + i;

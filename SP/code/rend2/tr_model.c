@@ -81,7 +81,6 @@ qhandle_t R_RegisterMD3(const char *name, model_t *mod)
 		else
 			Com_sprintf(namebuf, sizeof(namebuf), "%s.%s", filename, fext);
 
-
 		if (r_compressModels->integer) {
 			namebuf[strlen(namebuf) - 1] = '3';  // try MD3 first
 		} else {

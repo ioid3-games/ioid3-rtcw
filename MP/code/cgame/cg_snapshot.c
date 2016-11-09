@@ -90,7 +90,7 @@ static void CG_TransitionEntity(centity_t *cent) {
 			VectorCopy(newDir, cent->fireRiseDir);
 		}
 	}
-	// ---- (SA)	the ent lost or gained some part(s), do any necessary effects
+	// the ent lost or gained some part(s), do any necessary effects
 	// TODO: check for ai first
 	if (cent->currentState.dmgFlags != cent->nextState.dmgFlags) {
 		CG_AttachedPartChange(cent);
@@ -152,7 +152,7 @@ void CG_SetInitialSnapshot(snapshot_t *snap) {
 	cg_fxflags = 0;
 
 	// Set cg.clientNum so that it may be used elsewhere
-	// NERVE - SMF - commented out, TA merge, this has been moved to CG_Init
+	// commented out, TA merge, this has been moved to CG_Init
 // cg.clientNum = snap->ps.clientNum;
 	// NERVE - SMF
 	{

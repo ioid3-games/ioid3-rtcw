@@ -353,7 +353,6 @@ gentity_t *AICast_CreateCharacter(gentity_t *ent, float *attributes, cast_weapon
 		return NULL;
 	}
 	// add it to the list(only do this if everything else passed)
-	// 
 
 	newent = AICast_AddCastToGame(ent, castname, model, head, sex, color, handicap);
 
@@ -416,7 +415,7 @@ gentity_t *AICast_CreateCharacter(gentity_t *ent, float *attributes, cast_weapon
 	// update the attack inventory values
 	AICast_UpdateBattleInventory(cs, cs->enemyNum);
 
-// ---- (SA)	make sure all clips are loaded so we don't hear everyone loading up
+// make sure all clips are loaded so we don't hear everyone loading up
 // 			(we don't want to do this inside AICast_UpdateBattleInventory(), only on spawn or giveweapon)
 	for (j = 0; j < WP_NUM_WEAPONS; j++) {
 		Fill_Clip(&client->ps, j);
@@ -632,7 +631,7 @@ void AICast_DelayedSpawnCast(gentity_t *ent, int castType) {
 	// ............................
 
 
-// ---- (SA)	make sure client registers the default weapons for this char
+// make sure client registers the default weapons for this char
 	for (i = 0; aiDefaults[ent->aiCharacter].weapons[i]; i++) {
 		RegisterItem(BG_FindItemForWeapon(aiDefaults[ent->aiCharacter].weapons[i]));
 	}

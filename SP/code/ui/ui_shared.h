@@ -256,7 +256,7 @@ typedef struct itemDef_s {
 	const char *mouseEnter;        // mouse enter script
 	const char *mouseExit;         // mouse exit script
 	const char *action;            // select script
-	const char *onAccept;          // NERVE - SMF - run when the users presses the enter key
+	const char *onAccept;          // run when the users presses the enter key
 	const char *onFocus;           // select script
 	const char *leaveFocus;        // select script
 	const char *cvar;              // associated cvar
@@ -285,9 +285,9 @@ typedef struct {
 	const char *onOpen;            // run when the menu is first opened
 	const char *onClose;           // run when the menu is closed
 	const char *onESC;             // run when the menu is closed
-	const char *onKey[255];        // NERVE - SMF - execs commands when a key is pressed
+	const char *onKey[255];        // execs commands when a key is pressed
 	const char *soundName;         // background loop sound for menu
-	const char *onROQDone;         // ---- (SA)	added. callback for roqs played from menus
+	const char *onROQDone;         // added. callback for roqs played from menus
 
 	vec4_t focusColor;             // focus color for items
 	vec4_t disableColor;           // focus color for items
@@ -427,7 +427,7 @@ typedef struct {
 #define MAX_TRANSLATESTRINGS 64
 extern translateString_t translateStrings[MAX_TRANSLATESTRINGS];
 
-// ---- (SA)	end
+// end
 
 
 const char *String_Alloc(const char *p);

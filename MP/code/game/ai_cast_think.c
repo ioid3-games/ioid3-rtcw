@@ -183,7 +183,7 @@ void AICast_InputToUserCommand(cast_state_t *cs, bot_input_t *bi, usercmd_t *ucm
 	}
 
 
-// ---- (SA)	modified slightly for DM / DK
+// modified slightly for DM / DK
 	ucmd->weapon = bi->weapon;
 	// relaxed mode show no weapons
 	if (cs->aiState <= AISTATE_QUERY) {
@@ -564,7 +564,6 @@ void AICast_Think(int client, float thinktime) {
 	if (cs->leaderNum >= 0 && g_entities[cs->leaderNum].health <= 0) {
 		cs->leaderNum = -1;
 	}
-	// 
 #if 0
 	// HACK for village2, if they are stuck, find a good position(there is a friendly guy placed inside a table) {
 		trace_t tr;
@@ -741,15 +740,13 @@ void AICast_StartFrame(int time) {
 		if (cs->bs) {
 			if (ent->inuse) {
 				if (ent->aiInactive == qfalse) {
-					// 
-					elapsed = time - cs->lastThink;
+									elapsed = time - cs->lastThink;
 					// if they're moving / firing think every frame
 					if ((elapsed >= 50) && ((((!VectorCompare(ent->client->ps.velocity, vec3_origin)) || (ent->client->buttons) || (elapsed >= aicast_thinktime)) && (count <= aicast_maxthink)) || (elapsed >= aicast_thinktime * 2))) {
 						// make it think now
 						AICast_Think(i, (float)elapsed / 1000);
 						cs->lastThink = time;
-						// 
-						count++;
+											count++;
 					}
 					// check for any debug info updates
 					AICast_DebugFrame(cs);
@@ -858,8 +855,7 @@ void AICast_StartServerFrame(int time) {
 		// is this a cast AI?
 		if (cs->bs) {
 			if (ent->aiInactive == qfalse && ent->inuse) {
-				// 
-				elapsed = level.time - cs->lastMoveThink;
+							elapsed = level.time - cs->lastMoveThink;
 				// optimization, if they're not in the player's PVS, and they aren't trying to move, then don't bother thinking
 				if (((ent->health > 0) && (elapsed > 300))
 						|| (g_entities[0].client && g_entities[0].client->cameraPortal)
@@ -870,14 +866,12 @@ void AICast_StartServerFrame(int time) {
 						|| (trap_InPVS(cs->bs->origin, g_entities[0].s.pos.trBase))) { // do pvs check last, since it's the most expensive to call
 // 					oldLegsTimer = ent->client->ps.legsTimer;
 					// send it's movement commands
-					// 
-					serverTime = time;
+									serverTime = time;
 					AICast_UpdateInput(cs, elapsed);
 					trap_BotUserCommand(cs->bs->client, & (cs->bs->lastucmd));
 					cs->lastMoveThink = level.time;
 					// check for anim changes that may require us to stay still
-					// 
-/*			if (oldLegsTimer != ent->client->ps.legsTimer) {
+				/*			if (oldLegsTimer != ent->client->ps.legsTimer) {
 						// dont move until they are finished
 						if (cs->castScriptStatus.scriptNoMoveTime < level.time + ent->client->ps.legsTimer) {
 							cs->castScriptStatus.scriptNoMoveTime = level.time + ent->client->ps.legsTimer;

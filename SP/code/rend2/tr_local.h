@@ -1664,7 +1664,6 @@ typedef struct {
 	shaderProgram_t depthBlurShader[4];
 	shaderProgram_t testcubeShader;
 
-
 	// -----------------------------------------
 
 	viewParms_t viewParms;

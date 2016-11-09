@@ -241,7 +241,7 @@ vmCvar_t cg_missionStats;
 vmCvar_t cg_waitForFire;
 vmCvar_t cg_loadWeaponSelect;
 
-// NERVE - SMF - Wolf multiplayer configuration cvars
+// Wolf multiplayer configuration cvars
 vmCvar_t mp_playerType;
 vmCvar_t mp_team;
 vmCvar_t mp_weapon;
@@ -268,7 +268,7 @@ cvarTable_t cvarTable[] = {
 	{&cg_drawFPGun, "cg_drawFPGun", "1", CVAR_ARCHIVE},
 	{&cg_gun_frame, "cg_gun_frame", "0", CVAR_TEMP},
 	{&cg_cursorHints, "cg_cursorHints", "1", CVAR_ARCHIVE},
-	{&cg_hintFadeTime, "cg_hintFadeTime", "500", CVAR_ARCHIVE}, 
+	{&cg_hintFadeTime, "cg_hintFadeTime", "500", CVAR_ARCHIVE},
 	{&cg_zoomFov, "cg_zoomfov", "22.5", CVAR_ARCHIVE},
 	{&cg_zoomDefaultBinoc, "cg_zoomDefaultBinoc", "22.5", CVAR_ARCHIVE},
 	{&cg_zoomDefaultSniper, "cg_zoomDefaultSniper", "15", CVAR_ARCHIVE},
@@ -277,13 +277,13 @@ cvarTable_t cvarTable[] = {
 	{&cg_zoomStepBinoc, "cg_zoomStepBinoc", "3", CVAR_ARCHIVE},
 	{&cg_zoomStepSniper, "cg_zoomStepSniper", "2", CVAR_ARCHIVE},
 	{&cg_zoomStepSnooper, "cg_zoomStepSnooper", "5", CVAR_ARCHIVE},
-	{&cg_zoomStepFG, "cg_zoomStepFG", "10", CVAR_ARCHIVE}, 
+	{&cg_zoomStepFG, "cg_zoomStepFG", "10", CVAR_ARCHIVE},
 	{&cg_fov, "cg_fov", "90", CVAR_ARCHIVE}, // NOTE: there is already a dmflag(DF_FIXED_FOV) to allow server control of this cheat
 	{&cg_fixedAspect, "cg_fixedAspect", "0", CVAR_ARCHIVE|CVAR_LATCH}, // Essentially the same as setting DF_FIXED_FOV for widescreen aspects
 	{&cg_oldWolfUI, "cg_oldWolfUI", "0", CVAR_ARCHIVE},
 	{&cg_drawStatusHead, "cg_drawStatusHead", "0", CVAR_ARCHIVE},
 	{&cg_viewsize, "cg_viewsize", "100", CVAR_ARCHIVE},
-	{&cg_letterbox, "cg_letterbox", "0", CVAR_TEMP}, 
+	{&cg_letterbox, "cg_letterbox", "0", CVAR_TEMP},
 	{&cg_shadows, "cg_shadows", "1", CVAR_ARCHIVE},
 	{&cg_gibs, "cg_gibs", "1", CVAR_ARCHIVE},
 	{&cg_draw2D, "cg_draw2D", "1", CVAR_ARCHIVE},
@@ -305,11 +305,11 @@ cvarTable_t cvarTable[] = {
 	{&cg_drawRewards, "cg_drawRewards", "1", CVAR_ARCHIVE},
 	{&cg_hudAlpha, "cg_hudAlpha", "0.8", CVAR_ARCHIVE},
 	{&cg_useWeapsForZoom, "cg_useWeapsForZoom", "1", CVAR_ARCHIVE},
-	{&cg_weaponCycleDelay, "cg_weaponCycleDelay", "150", CVAR_ARCHIVE}, 
+	{&cg_weaponCycleDelay, "cg_weaponCycleDelay", "150", CVAR_ARCHIVE},
 	{&cg_cycleAllWeaps, "cg_cycleAllWeaps", "1", CVAR_ARCHIVE},
 	{&cg_drawAllWeaps, "cg_drawAllWeaps", "1", CVAR_ARCHIVE},
 	{&cg_crosshairSize, "cg_crosshairSize", "24", CVAR_ARCHIVE},
-	{&cg_crosshairAlpha, "cg_crosshairAlpha", "0.5", CVAR_ARCHIVE}, 
+	{&cg_crosshairAlpha, "cg_crosshairAlpha", "0.5", CVAR_ARCHIVE},
 	{&cg_crosshairHealth, "cg_crosshairHealth", "1", CVAR_ARCHIVE},
 	{&cg_crosshairX, "cg_crosshairX", "0", CVAR_ARCHIVE},
 	{&cg_crosshairY, "cg_crosshairY", "0", CVAR_ARCHIVE},
@@ -336,7 +336,7 @@ cvarTable_t cvarTable[] = {
 
 	{&cg_particleDist, "cg_particleDist", "1024", CVAR_ARCHIVE},
 	{&cg_particleLOD, "cg_particleLOD", "0", CVAR_ARCHIVE},
-	{&cg_useSuggestedWeapons, "cg_useSuggestedWeapons", "1", CVAR_ARCHIVE}, 
+	{&cg_useSuggestedWeapons, "cg_useSuggestedWeapons", "1", CVAR_ARCHIVE},
 	// more fluid rotations
 	{&cg_swingSpeed, "cg_swingSpeed", "0.1", CVAR_CHEAT}, // was 0.3 for Q3
 	{&cg_bloodTime, "cg_bloodTime", "120", CVAR_ARCHIVE},
@@ -829,7 +829,7 @@ static void CG_LoadTranslateStrings(void) {
 	CG_LoadTranslationStrings();   // right now just centerprint
 }
 
-// ---- (SA)	end
+// end
 
 
 /*
@@ -954,7 +954,7 @@ static void CG_RegisterSounds(void) {
 		}
 		// register sound scripts separately
 		if (!strstr(soundName, ".wav")) {
-			cgs.gameSounds[i] = CG_SoundScriptPrecache(soundName);   // ---- (SA)	shouldn't this be okay?  The cs index is reserved anyway, so it can't hurt, right?
+			cgs.gameSounds[i] = CG_SoundScriptPrecache(soundName);   // shouldn't this be okay?  The cs index is reserved anyway, so it can't hurt, right?
 			cgs.gameSoundTypes[i] = 2;
 		} else {
 			cgs.gameSounds[i] = trap_S_RegisterSound(soundName);
@@ -996,7 +996,7 @@ static void CG_RegisterSounds(void) {
 	cgs.media.elecSound = trap_S_RegisterSound("sound/items/use_elec.wav");
 	cgs.media.fireSound = trap_S_RegisterSound("sound/items/use_fire.wav");
 	cgs.media.waterSound = trap_S_RegisterSound("sound/items/use_water.wav");
-	cgs.media.wineSound = trap_S_RegisterSound("sound / pickup / holdable / use_wine.wav");      // ---- (SA)	modified
+	cgs.media.wineSound = trap_S_RegisterSound("sound / pickup / holdable / use_wine.wav");      // modified
 	cgs.media.bookSound = trap_S_RegisterSound("sound / pickup / holdable / use_book.wav");
 
 	cgs.media.staminaSound = trap_S_RegisterSound("sound / pickup / holdable / use_stamina.wav"); 
@@ -1043,9 +1043,9 @@ static void CG_RegisterSounds(void) {
 	cgs.media.sparkSounds[1] = trap_S_RegisterSound("sound/world/arc2.wav");
 
 
-// ---- (SA)	doors and kick
+// doors and kick
 
-	// ---- (SA)	removed some unnecessary stuff
+	// removed some unnecessary stuff
 
 	trap_S_RegisterSound("sound/weapons/melee / fstatck.wav");
 	trap_S_RegisterSound("sound/weapons/melee / fstmiss.wav");
@@ -1262,7 +1262,7 @@ static void CG_RegisterGraphics(void) {
 	cgs.media.debFabric[2] = trap_R_RegisterModel("models/shards / fabric3.md3");
 	// ---- (SA) end
 
-// 	cgs.media.medicReviveShader = trap_R_RegisterShader("sprites/medic_revive");	// ---- (SA)	commented out from MP
+// 	cgs.media.medicReviveShader = trap_R_RegisterShader("sprites/medic_revive");	// commented out from MP
 	cgs.media.balloonShader = trap_R_RegisterShader("sprites/balloon3");
 
 	for (i = 0; i < MAX_AISTATES; i++) {
@@ -1271,7 +1271,7 @@ static void CG_RegisterGraphics(void) {
 
 	cgs.media.bloodExplosionShader = trap_R_RegisterShader("bloodExplosion");
 	// cgs.media.bleedExplosionShader = trap_R_RegisterShader("bleedExplosion");
-	// ---- (SA)	water splash
+	// water splash
 	// cgs.media.waterSplashModel = trap_R_RegisterModel("models/weaphits/bullet.md3");
 	// cgs.media.waterSplashShader = trap_R_RegisterShader("waterSplash");
 		// cgs.media.spearModel = trap_R_RegisterModel("models/weaphits/spear.md3");	// ---- (SA)
@@ -1292,7 +1292,7 @@ static void CG_RegisterGraphics(void) {
 	cgs.media.smokeTrailShader = trap_R_RegisterShader("smokeTrail");
 // 	cgs.media.fireTrailShader = trap_R_RegisterShader("fireTrail");
 	cgs.media.lightningBoltShader = trap_R_RegisterShader("lightningBolt");
-	// cgs.media.lightningBoltShaderGreen = trap_R_RegisterShader("lightningBoltGreen");	// ---- (SA)	alternate lightning color
+	// cgs.media.lightningBoltShaderGreen = trap_R_RegisterShader("lightningBoltGreen");	// alternate lightning color
 	cgs.media.flamethrowerFireStream = trap_R_RegisterShader("flamethrowerFireStream");
 	cgs.media.flamethrowerBlueStream = trap_R_RegisterShader("flamethrowerBlueStream");
 	// cgs.media.flamethrowerFuelStream = trap_R_RegisterShader("flamethrowerFuelStream");
@@ -1370,12 +1370,12 @@ static void CG_RegisterGraphics(void) {
 	memset(cg_items, 0, sizeof(cg_items));
 	memset(cg_weapons, 0, sizeof(cg_weapons));
 
-	CG_LoadTranslateStrings(); // ---- (SA)	added. for localization, read on - screen print names from text file
+	CG_LoadTranslateStrings(); // added. for localization, read on - screen print names from text file
 
 // TODO: FIXME:  REMOVE REGISTRATION OF EACH MODEL FOR EVERY LEVEL LOAD
 
 
-	// ---- (SA)	okay, new stuff to intialize rather than doing it at level load time(or "give all" time)
+	// okay, new stuff to intialize rather than doing it at level load time(or "give all" time)
 	// 			(I'm certainly not against being efficient here, but I'm tired of the rocket launcher effect only registering
 	// 			sometimes and want it to work for sure for this demo)
 
@@ -1553,7 +1553,7 @@ void CG_QueueMusic(void) {
 	trap_S_StartBackgroundTrack(parm, "", -2); // ' - 2' for 'queue looping track'(QUEUED_PLAY_LOOPED)
 }
 
-// ---- (SA)	end
+// end
 
 
 /*

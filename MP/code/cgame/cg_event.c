@@ -505,7 +505,7 @@ static void CG_ItemPickup(int itemNum) {
 			// 4 - "New or Better"
 
 			// don't ever autoswitch to secondary fire weapons
-			if (itemid != WP_SNIPERRIFLE && itemid != WP_SNOOPERSCOPE && itemid != WP_VENOM_FULL && itemid != WP_FG42SCOPE && itemid != WP_AMMO) { // ---- (SA)	modified
+			if (itemid != WP_SNIPERRIFLE && itemid != WP_SNOOPERSCOPE && itemid != WP_VENOM_FULL && itemid != WP_FG42SCOPE && itemid != WP_AMMO) { // modified
 
 				// no weap currently selected, always just select the new one
 				if (!cg.weaponSelect) {
@@ -1165,7 +1165,7 @@ void CG_Effect(centity_t *cent, vec3_t origin, vec3_t dir) {
 		le->leType = LE_FRAGMENT;
 		le->startTime = cg.time;
 		le->endTime = le->startTime + 5000 + random() * 3000;
-// ---- (SA)	fading out
+// fading out
 		re->fadeStartTime = le->endTime - 4000;
 		re->fadeEndTime = le->endTime;
 		VectorCopy(origin, re->origin);
@@ -1228,7 +1228,7 @@ void CG_Shard(centity_t *cent, vec3_t origin, vec3_t dir) {
 		le->startTime = cg.time;
 		le->endTime = le->startTime + 5000 + random() * 5000;
 
-// ---- (SA)	fading out
+// fading out
 		re->fadeStartTime = le->endTime - 1000;
 		re->fadeEndTime = le->endTime;
 
@@ -1436,10 +1436,8 @@ void CG_EntityEvent(centity_t *cent, vec3_t position) {
 	}
 
 	switch (event) {
-		// 
-		// movement generated events
-		// 
-	case EV_FOOTSTEP:
+			// movement generated events
+		case EV_FOOTSTEP:
 		DEBUGNAME("EV_FOOTSTEP");
 
 		if (cg_footsteps.integer) {
@@ -1565,7 +1563,6 @@ void CG_EntityEvent(centity_t *cent, vec3_t position) {
 
 		break;
 
-
 	case EV_FOOTSTEP_CARPET:
 		DEBUGNAME("EV_FOOTSTEP_CARPET");
 
@@ -1574,7 +1571,6 @@ void CG_EntityEvent(centity_t *cent, vec3_t position) {
 		}
 
 		break;
-
 
 	case EV_FOOTSPLASH:
 		DEBUGNAME("EV_FOOTSPLASH");
@@ -1787,10 +1783,10 @@ void CG_EntityEvent(centity_t *cent, vec3_t position) {
 	case EV_WATER_UNDER:
 		DEBUGNAME("EV_WATER_UNDER");
 		trap_S_StartSound(NULL, es->number, CHAN_AUTO, cgs.media.watrUnSound);
-// ---- (SA)	this fog stuff for underwater is really just a test for feasibility of creating the under - water effect that way.
-// ---- (SA)	the related issues of load / savegames, death underwater, etc. are not handled at all.
-// ---- (SA)	the actual problem, of course, is doing underwater stuff when the water is very turbulant and you can't simply
-// ---- (SA)	do things based on the players head being above / below the water brushes top surface.(since the waves can potentially be  / way /  above / below that)
+// this fog stuff for underwater is really just a test for feasibility of creating the under - water effect that way.
+// the related issues of load / savegames, death underwater, etc. are not handled at all.
+// the actual problem, of course, is doing underwater stuff when the water is very turbulant and you can't simply
+// do things based on the players head being above / below the water brushes top surface.(since the waves can potentially be  / way /  above / below that)
 
 		// causes problems in multiplayer...
 		if (cgs.gametype == GT_SINGLE_PLAYER && clientNum == cg.predictedPlayerState.clientNum) {
@@ -1837,7 +1833,7 @@ void CG_EntityEvent(centity_t *cent, vec3_t position) {
 				CG_ItemPickup(index);
 			}
 
-// ---- (SA)	draw the HUD items for a sec since this is a special item
+// draw the HUD items for a sec since this is a special item
 			if (item->giType == IT_KEY) {
 				cg.itemFadeTime = cg.time + 1000;
 			}
@@ -1867,8 +1863,7 @@ void CG_EntityEvent(centity_t *cent, vec3_t position) {
 
 		break;
 		// weapon events
-		// 
-	case EV_VENOM:
+		case EV_VENOM:
 		DEBUGNAME("EV_VENOM");
 		CG_VenomFire(es, qfalse);
 		break;
@@ -1960,7 +1955,7 @@ void CG_EntityEvent(centity_t *cent, vec3_t position) {
 			break;
 		}
 
-		if ((newweap) && (cgs.gametype < GT_WOLF)) { // NERVE - SMF - we don't want this in multiplayer
+		if ((newweap) && (cgs.gametype < GT_WOLF)) { // we don't want this in multiplayer
 			CG_FinishWeaponChange(es->weapon, newweap);
 		}
 	}
@@ -1995,11 +1990,10 @@ void CG_EntityEvent(centity_t *cent, vec3_t position) {
 		CG_FireWeapon(cent);
 		break;
 
-
 	case EV_FIRE_QUICKGREN:
 		// testing. no client side effect yet
 		break;
-// ---- (SA)	end
+// end
 
 	case EV_NOFIRE_UNDERWATER:
 		DEBUGNAME("EV_NOFIRE_UNDERWATER");
@@ -2009,7 +2003,7 @@ void CG_EntityEvent(centity_t *cent, vec3_t position) {
 		}
 
 		break;
-// ---- (SA)	end
+// end
 	case EV_USE_ITEM0:
 		DEBUGNAME("EV_USE_ITEM0");
 		CG_UseItem(cent);
@@ -2082,10 +2076,8 @@ void CG_EntityEvent(centity_t *cent, vec3_t position) {
 		break;
 		// =================================================================
 
-		// 
-		// other events
-		// 
-	case EV_PLAYER_TELEPORT_IN:
+			// other events
+		case EV_PLAYER_TELEPORT_IN:
 		DEBUGNAME("EV_PLAYER_TELEPORT_IN");
 		trap_S_StartSound(NULL, es->number, CHAN_AUTO, cgs.media.teleInSound);
 		CG_SpawnEffect(position);
@@ -2131,11 +2123,10 @@ void CG_EntityEvent(centity_t *cent, vec3_t position) {
 		break;
 	case EV_RAILTRAIL:
 		// ev_railtrail is now sent standalone rather than by a player entity
-		CG_RailTrail(&cgs.clientinfo[es->otherEntityNum2], es->origin2, es->pos.trBase, es->dmgFlags);  // ---- (SA)	added 'type' field
+		CG_RailTrail(&cgs.clientinfo[es->otherEntityNum2], es->origin2, es->pos.trBase, es->dmgFlags);  // added 'type' field
 		break;
 		// missile impacts
-		// 
-	case EV_MISSILE_HIT:
+		case EV_MISSILE_HIT:
 		DEBUGNAME("EV_MISSILE_HIT");
 		ByteToDir(es->eventParm, dir);
 		CG_MissileHitPlayer(cent, es->weapon, position, dir, es->otherEntityNum);
@@ -2311,10 +2302,8 @@ void CG_EntityEvent(centity_t *cent, vec3_t position) {
 		trap_S_StartSound(NULL, es->number, CHAN_WEAPON, 0); // kill weapon sound(could be reloading)
 		break;
 
-		// 
-		// powerup events
-		// 
-	case EV_POWERUP_QUAD:
+			// powerup events
+		case EV_POWERUP_QUAD:
 		DEBUGNAME("EV_POWERUP_QUAD");
 
 		if (es->number == cg.snap->ps.clientNum) {
@@ -2436,7 +2425,7 @@ void CG_EntityEvent(centity_t *cent, vec3_t position) {
 		CG_Concussive(cent);
 		break;
 
-// ---- (SA)	added	// generic particle emitter that uses client - side particle scripts
+// added	// generic particle emitter that uses client - side particle scripts
 	case EV_EMITTER:
 	{
 		localEntity_t *le;

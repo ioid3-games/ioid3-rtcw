@@ -230,7 +230,7 @@ void CG_Text_Paint(float x, float y, float scale, vec4_t color, const char *text
 	}
 }
 
-// NERVE - SMF - added back in
+// added back in
 int CG_DrawFieldWidth(int x, int y, int width, int value, int charWidth, int charHeight) {
 	char num[16], *ptr;
 	int l;
@@ -607,7 +607,7 @@ static float CG_DrawTimer(float y) {
 	int w;
 	int mins, seconds, tens;
 	int msec;
-	// NERVE - SMF - draw time remaining in multiplayer
+	// draw time remaining in multiplayer
 	if (cgs.gametype >= GT_WOLF) {
 		msec = (cgs.timelimit * 60.f * 1000.f) - (cg.time - cgs.levelStartTime);
 	} else {
@@ -898,7 +898,7 @@ static void CG_DrawUpperRight(stereoFrame_t stereoFrame) {
 // 	if (cg_drawAttacker.integer) {
 // 		y = CG_DrawAttacker(y);
 // 	}
-// ---- (SA)	end
+// end
 }
 
 /*
@@ -988,7 +988,7 @@ static void CG_DrawTeamInfo(void) {
 	}
 }
 
-// ---- (SA)	modified
+// modified
 /*
 =======================================================================================================================================
 CG_DrawPickupItem
@@ -1012,7 +1012,7 @@ static void CG_DrawPickupItem(void) {
 
 		if (fadeColor) {
 			CG_RegisterItemVisuals(value);
-			// ---- (SA)	so we don't pick up all sorts of items and have it print "0 < itemname > "
+			// so we don't pick up all sorts of items and have it print "0 < itemname > "
 			if (bg_itemlist[value].giType == IT_AMMO || bg_itemlist[value].giType == IT_HEALTH || bg_itemlist[value].giType == IT_POWERUP) {
 				if (bg_itemlist[value].world_model[2]) { // this is a multi - stage item
 					// FIXME: print the correct amount for multi - stage
@@ -1038,7 +1038,7 @@ static void CG_DrawPickupItem(void) {
 		}
 	}
 }
-// ---- (SA)	end
+// end
 
 /*
 =======================================================================================================================================
@@ -1351,7 +1351,7 @@ void CG_CenterPrint(const char *str, int y, int charWidth) {
 	int i, len;                        // NERVE - SMF
 	qboolean neednewline = qfalse;     // NERVE - SMF
 	int priority = 0;
-	// NERVE - SMF - don't draw if this print message is less important
+	// don't draw if this print message is less important
 	if (cg.centerPrintTime && priority < cg.centerPrintPriority) {
 		return;
 	}
@@ -1359,7 +1359,7 @@ void CG_CenterPrint(const char *str, int y, int charWidth) {
 	Q_strncpyz(cg.centerPrint, str, sizeof(cg.centerPrint));
 	cg.centerPrintPriority = priority; // NERVE - SMF
 
-	// NERVE - SMF - turn spaces into newlines, if we've run over the linewidth
+	// turn spaces into newlines, if we've run over the linewidth
 	len = strlen(cg.centerPrint);
 
 	for (i = 0; i < len; i++) {
@@ -1405,7 +1405,7 @@ void CG_PriorityCenterPrint(const char *str, int y, int charWidth, int priority)
 	int i, len;                        // NERVE - SMF
 	qboolean neednewline = qfalse;     // NERVE - SMF
 
-	// NERVE - SMF - don't draw if this print message is less important
+	// don't draw if this print message is less important
 	if (cg.centerPrintTime && priority < cg.centerPrintPriority) {
 		return;
 	}
@@ -1413,7 +1413,7 @@ void CG_PriorityCenterPrint(const char *str, int y, int charWidth, int priority)
 	Q_strncpyz(cg.centerPrint, str, sizeof(cg.centerPrint));
 	cg.centerPrintPriority = priority; // NERVE - SMF
 
-	// NERVE - SMF - turn spaces into newlines, if we've run over the linewidth
+	// turn spaces into newlines, if we've run over the linewidth
 	len = strlen(cg.centerPrint);
 
 	for (i = 0; i < len; i++) {
@@ -1482,7 +1482,7 @@ static void CG_DrawCenterString(void) {
 	while (1) {
 		char linebuffer[1024];
 
-		for (l = 0; l < CP_LINEWIDTH; l++) {        // NERVE - SMF - added CP_LINEWIDTH
+		for (l = 0; l < CP_LINEWIDTH; l++) {        // added CP_LINEWIDTH
 			if (!start[l] || start[l] == '\n') {
 				break;
 			}
@@ -1801,7 +1801,7 @@ static void CG_DrawCrosshair(void) {
 		return;
 	}
 
-	if (cg_drawCrosshair.integer < 0) { // ---- (SA)	moved down so it doesn't keep the scoped weaps from drawing reticles
+	if (cg_drawCrosshair.integer < 0) { // moved down so it doesn't keep the scoped weaps from drawing reticles
 		return;
 	}
 
@@ -1834,7 +1834,7 @@ static void CG_DrawCrosshair(void) {
 	}
 
 	hShader = cgs.media.crosshairShader[cg_drawCrosshair.integer % NUM_CROSSHAIRS];
-	// NERVE - SMF - modified, fixes crosshair offset in shifted / scaled 3d views
+	// modified, fixes crosshair offset in shifted / scaled 3d views
 	if (cg.limboMenu) { // JPW NERVE
 		if (cg_fixedAspect.integer) {
 			CG_DrawPic(((SCREEN_WIDTH - w) * 0.5f) + x, ((SCREEN_HEIGHT - h) * 0.5f) + y, w, h, hShader);
@@ -1948,7 +1948,7 @@ static void CG_DrawCrosshair3D(void) {
 		return;
 	}
 
-	if (cg_drawCrosshair.integer < 0) { // ---- (SA)	moved down so it doesn't keep the scoped weaps from drawing reticles
+	if (cg_drawCrosshair.integer < 0) { // moved down so it doesn't keep the scoped weaps from drawing reticles
 		return;
 	}
 
@@ -2019,12 +2019,12 @@ static void CG_ScanForCrosshairEntity(void) {
 	int content;
 	// We want this in multiplayer
 	if (cgs.gametype == GT_SINGLE_PLAYER) {
-		return; // ---- (SA)	don't use any scanning at the moment.
+		return; // don't use any scanning at the moment.
 
 	}
 
 	VectorCopy(cg.refdef.vieworg, start);
-	VectorMA(start, 8192, cg.refdef.viewaxis[0], end);   // ---- (SA)	changed from 8192
+	VectorMA(start, 8192, cg.refdef.viewaxis[0], end);   // changed from 8192
 
 	CG_Trace(&trace, start, vec3_origin, vec3_origin, end, cg.snap->ps.clientNum, CONTENTS_SOLID|CONTENTS_BODY|CONTENTS_ITEM);
 
@@ -2240,7 +2240,7 @@ static void CG_DrawCrosshairNames(void) {
 	if (cg.renderingThirdPerson) {
 		return;
 	}
-	// NERVE - SMF - we don't want to do this in warmup
+	// we don't want to do this in warmup
 	if (cgs.gamestate != GS_PLAYING && cgs.gametype == GT_WOLF_STOPWATCH) {
 		return;
 	}
@@ -2746,7 +2746,7 @@ static void CG_DrawWarmup(void) {
 
 	w = CG_DrawStrlen(s);
 	CG_DrawStringExt(320 - w * 6, 120, s, colorWhite, qfalse, qtrue, 12, 18, 0);
-	// NERVE - SMF - stopwatch stuff
+	// stopwatch stuff
 	s1 = "";
 	s2 = "";
 
@@ -3104,7 +3104,7 @@ void CG_ObjectivePrint(const char *str, int charWidth) {
 	s = CG_TranslateString(str);
 
 	Q_strncpyz(cg.oidPrint, s, sizeof(cg.oidPrint));
-	// NERVE - SMF - turn spaces into newlines, if we've run over the linewidth
+	// turn spaces into newlines, if we've run over the linewidth
 	len = strlen(cg.oidPrint);
 
 	for (i = 0; i < len; i++) {
@@ -3305,7 +3305,6 @@ void CG_DrawObjectiveIcons(void) {
 	}
 
 	CG_DrawSmallString(x, y, s, fade);
-
 
 	x = 5;
 	y = 68;
@@ -3735,7 +3734,7 @@ static void CG_Draw2D(stereoFrame_t stereoFrame) {
 
 	CG_ScreenFade();
 
-	if (cg.cameraMode) { // ---- (SA)	no 2d when in camera view
+	if (cg.cameraMode) { // no 2d when in camera view
 		return;
 	}
 
@@ -3759,7 +3758,7 @@ static void CG_Draw2D(stereoFrame_t stereoFrame) {
 			CG_DrawCrosshair();
 
 		CG_DrawCrosshairNames();
-		// NERVE - SMF - we need to do this for spectators as well
+		// we need to do this for spectators as well
 		if (cgs.gametype >= GT_TEAM) {
 			CG_DrawTeamInfo();
 		}
@@ -3891,7 +3890,7 @@ void CG_DrawActive(stereoFrame_t stereoView) {
 
 	cg.refdef.glfog.registered = 0; // make sure it doesn't use fog from another scene
 
-	// NERVE - SMF - activate limbo menu and draw small 3d window
+	// activate limbo menu and draw small 3d window
 	CG_ActivateLimboMenu();
 
 	if (cg.limboMenu) {

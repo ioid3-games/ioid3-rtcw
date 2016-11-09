@@ -996,7 +996,7 @@ int BotAIStartFrame(int time) {
 			state.legsAnim = ent->s.legsAnim;
 			state.torsoAnim = ent->s.torsoAnim;
 // 			state.weapAnim = ent->s.weapAnim;	// ---- (SA)
-// ---- (SA)	didn't want to comment in as I wasn't sure of any implications of changing the aas_entityinfo_t and bot_entitystate_t structures.
+// didn't want to comment in as I wasn't sure of any implications of changing the aas_entityinfo_t and bot_entitystate_t structures.
 			state.weapon = ent->s.weapon;
 			/*
 			if (!BotAI_GetEntityState(i, &entitystate)) {
@@ -1024,8 +1024,7 @@ int BotAIStartFrame(int time) {
 			state.torsoAnim = entitystate.torsoAnim;
 			state.weapon = entitystate.weapon;
 			*/
-			// 
-			trap_BotLibUpdateEntity(i, &state);
+					trap_BotLibUpdateEntity(i, &state);
 		}
 
 		BotAIRegularUpdate();
@@ -1044,8 +1043,7 @@ int BotAIStartFrame(int time) {
 			continue;
 		}
 		// done.
-		// 
-		botstates[i]->botthink_residual += elapsed_time;
+			botstates[i]->botthink_residual += elapsed_time;
 
 		if (botstates[i]->botthink_residual >= thinktime) {
 			botstates[i]->botthink_residual -= thinktime;

@@ -361,7 +361,6 @@ static void CG_TouchItem(centity_t *cent) {
 
 		COM_BitSet(cg.predictedPlayerState.weapons, weapon);
 
-
 		if (weapon == WP_SNOOPERSCOPE) {
 			COM_BitSet(cg.predictedPlayerState.weapons, WP_GARAND);
 		} else if (weapon == WP_GARAND) {
@@ -380,7 +379,7 @@ static void CG_TouchItem(centity_t *cent) {
 	if (item->giType == IT_HOLDABLE) {
 		cg.predictedPlayerState.stats[STAT_HOLDABLE_ITEM] |= 1 << item->giTag;
 	}
-// ---- (SA)	end
+// end
 }
 
 /*
@@ -539,7 +538,7 @@ void CG_PredictPlayerState(void) {
 	if (cg.predictedPlayerState.aiChar) {
 		cg_pmove.noWeapClips = qtrue;  // ensure AI characters don't use clips
 	}
-// ---- (SA)	end
+// end
 
 
 	// save the state before the pmove so we can detect transitions
@@ -579,7 +578,6 @@ void CG_PredictPlayerState(void) {
 
 	cg_pmove.pmove_fixed = pmove_fixed.integer; // |cg_pmove_fixed.integer;
 	cg_pmove.pmove_msec = pmove_msec.integer;
-
 
 	// restore persistant client - side playerstate variables before doing the pmove
 	// this could be done as suggested in qshared.h ~line 991, but right now I copy each variable individually

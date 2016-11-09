@@ -81,7 +81,6 @@ qhandle_t R_RegisterMD3(const char *name, model_t *mod)
 		else
 			Com_sprintf(namebuf, sizeof(namebuf), "%s.%s", filename, fext);
 
-
 		if (r_compressModels->integer) {
 			namebuf[strlen(namebuf) - 1] = '3';  // try MD3 first
 		} else {
@@ -912,7 +911,6 @@ static qboolean R_LoadMDC(model_t *mod, int lod, void *buffer, const char *mod_n
 	LL(mod->mdc[lod]->ofsEnd);
 	LL(mod->mdc[lod]->flags);
 	LL(mod->mdc[lod]->numSkins);
-
 
 	if (mod->mdc[lod]->numFrames < 1) {
 		ri.Printf(PRINT_WARNING, "R_LoadMDC: %s has no frames\n", mod_name);

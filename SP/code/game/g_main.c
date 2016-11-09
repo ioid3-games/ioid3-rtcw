@@ -42,7 +42,7 @@ typedef struct {
 gentity_t g_entities[MAX_GENTITIES];
 gclient_t g_clients[MAX_CLIENTS];
 
-gentity_t *g_camEnt = NULL;  // ---- (SA)	script camera
+gentity_t *g_camEnt = NULL;  // script camera
 
 // Rafael gameskill
 extern int bg_pmove_gameskill_integer;
@@ -171,7 +171,7 @@ cvarTable_t gameCvarTable[] = {
 	{&g_debugMove, "g_debugMove", "0", 0, 0, qfalse},
 	{&g_debugDamage, "g_debugDamage", "0", 0, 0, qfalse},
 	{&g_debugAlloc, "g_debugAlloc", "0", 0, 0, qfalse},
-	{&g_debugBullets, "g_debugBullets", "0", CVAR_CHEAT, 0, qfalse}, 
+	{&g_debugBullets, "g_debugBullets", "0", CVAR_CHEAT, 0, qfalse},
 	{&g_debugAudibleEvents, "g_debugAudibleEvents", "0", CVAR_CHEAT, 0, qfalse},
 
 	{&g_headshotMaxDist, "g_headshotMaxDist", "1024", CVAR_CHEAT, 0, qfalse}, 
@@ -364,7 +364,7 @@ G_CheckForCursorHints
 */
 static int nextCheckTime = 0;
 
-// ---- (SA)	can't include ai_cast.h that has the 'real' defines for these
+// can't include ai_cast.h that has the 'real' defines for these
 #define AITEAM_NAZI     0
 #define AITEAM_ALLIES   1
 #define AITEAM_MONSTER  2
@@ -407,7 +407,7 @@ void G_CheckForCursorHints(gentity_t *ent) {
 	zooming = (qboolean)(ps->eFlags & EF_ZOOMING);
 
 	AngleVectors(ps->viewangles, forward, right, up);
-	// ---- (SA)	modified to use shared routine for finding start point
+	// modified to use shared routine for finding start point
 	CalcMuzzlePointForActivate(ent, forward, right, up, offset);
 
 	if (zooming) {
@@ -525,12 +525,10 @@ void G_CheckForCursorHints(gentity_t *ent) {
 		if (checkEnt) {
 			if (checkEnt->s.eType == ET_GENERAL) {
 				// this is effectively an 'exit' brush. they should be created with:
-				// 
-				// classname = 'ai_trigger'
+							// classname = 'ai_trigger'
 				// ainame = 'player'
 				// target = 'endmap'
-				// 
-				if (!Q_stricmp(traceEnt->classname, "ai_trigger")) {
+							if (!Q_stricmp(traceEnt->classname, "ai_trigger")) {
 					if ((!Q_stricmp(traceEnt->aiName, "player")) && (!Q_stricmp(traceEnt->target, "endmap"))) {
 						hintDist = CH_EXIT_DIST;
 
@@ -785,7 +783,7 @@ void G_FindTeams(void) {
 			continue;
 		}
 
-// ---- (SA)	this was never setting a master except for tramcar's...
+// this was never setting a master except for tramcar's...
 		if (!Q_stricmp(e->classname, "func_tramcar")) {
 			if (e->spawnflags & 8) { // leader
 				e->teammaster = e;
@@ -1104,7 +1102,7 @@ void G_InitGame(int levelTime, int randomSeed, int restart) {
 	level.bulletRicochetSound = G_SoundIndex("bulletRicochet");
 
 	level.snipersound = G_SoundIndex("sound/weapons/mauser / mauserf1.wav");
-	// ---- (SA)	added sound caching
+	// added sound caching
 	level.knifeSound[0] = G_SoundIndex("sound/weapons/knife / knife_hitwall1.wav");
 		// init the anim scripting
 	level.animScriptData.soundIndex = G_SoundIndex;

@@ -308,7 +308,7 @@ rescan:
 	argc = Cmd_Argc();
 
 	if (!strcmp(cmd, "disconnect")) {
-		// NERVE - SMF - allow server to indicate why they were disconnected
+		// allow server to indicate why they were disconnected
 		if (argc >= 2) {
 			Com_Error(ERR_SERVERDISCONNECT, "Server disconnected - %s", Cmd_Argv(1));
 		} else {
@@ -594,7 +594,7 @@ intptr_t CL_CgameSystemCalls(intptr_t *args) {
 	case CG_S_STARTSOUNDEX:
 		S_StartSoundEx(VMA(1), args[2], args[3], args[4], args[5]);
 		return 0;
-// ---- (SA)	end
+// end
 	case CG_S_STARTLOCALSOUND:
 		S_StartLocalSound(args[1], args[2]);
 		return 0;

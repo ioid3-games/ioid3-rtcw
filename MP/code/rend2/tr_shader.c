@@ -1512,7 +1512,6 @@ static void ParseSkyParms(char **text) {
 	}
 	R_InitSkyTexCoords(shader.sky.cloudHeight);
 
-
 	// innerbox
 	token = COM_ParseExt(text, qfalse);
 	if (token[0] == 0) {
@@ -2257,8 +2256,8 @@ static void ComputeVertexAttribs(void)
 }
 
 
-static void CollapseStagesToLightall(shaderStage_t *diffuse, 
-	shaderStage_t *normal, shaderStage_t *specular, shaderStage_t *lightmap, 
+static void CollapseStagesToLightall(shaderStage_t *diffuse,
+	shaderStage_t *normal, shaderStage_t *specular, shaderStage_t *lightmap,
 	qboolean useLightVector, qboolean useLightVertex, qboolean parallax, qboolean tcgen)
 {
 	int defs = 0;
@@ -2306,10 +2305,22 @@ static void CollapseStagesToLightall(shaderStage_t *diffuse,
 			image_t *normalImg;
 			imgFlags_t normalFlags = (diffuseImg->flags & ~(IMGFLAG_GENNORMALMAP | IMGFLAG_SRGB)) | IMGFLAG_NOLIGHTSCALE;
 
+			// try a normalheight image first
 			COM_StripExtension(diffuseImg->imgName, normalName, MAX_QPATH);
-			Q_strcat(normalName, MAX_QPATH, "_n");
+			Q_strcat(normalName, MAX_QPATH, "_nh");
 
-			normalImg = R_FindImageFile(normalName, IMGTYPE_NORMAL, normalFlags);
+			normalImg = R_FindImageFile(normalName, IMGTYPE_NORMALHEIGHT, normalFlags);
+
+			if (normalImg)
+			{
+				parallax = qtrue;
+			}
+			else
+			{
+				// try a normal image ("_n" suffix)
+				normalName[strlen(normalName) - 1] = '\0';
+				normalImg = R_FindImageFile(normalName, IMGTYPE_NORMAL, normalFlags);
+			}
 
 			if (normalImg)
 			{
@@ -3105,7 +3116,7 @@ static shader_t *FinishShader(void) {
 	//
 	// if we are in r_vertexLight mode, never use a lightmap texture
 	//
-	// NERVE - SMF - temp fix, terrain is having problems with lighting collapse
+	// temp fix, terrain is having problems with lighting collapse
 	if (0 && (stage > 1 && ((r_vertexLight->integer && !r_uiFullScreen->integer) || glConfig.hardwareType == GLHW_PERMEDIA2))) {
 		VertexLightingCollapse();
 		hasLightmapStage = qfalse;

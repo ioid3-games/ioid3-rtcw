@@ -1014,7 +1014,7 @@ qboolean G_ScriptAction_MapDescription(gentity_t *ent, char *params) {
 	token = COM_Parse(&pString);
 
 	trap_GetConfigstring(CS_MULTI_MAPDESC, cs, sizeof(cs));
-	// NERVE - SMF - compare before setting, so we don't spam the clients during map_restart
+	// compare before setting, so we don't spam the clients during map_restart
 	if (Q_stricmp(cs, token)) {
 		trap_SetConfigstring(CS_MULTI_MAPDESC, token);
 	}
@@ -1041,7 +1041,7 @@ qboolean G_ScriptAction_OverviewImage(gentity_t *ent, char *params) {       // N
 	}
 
 	trap_GetConfigstring(CS_MULTI_INFO, cs, sizeof(cs));
-	// NERVE - SMF - compare before setting, so we don't spam the clients during map_restart
+	// compare before setting, so we don't spam the clients during map_restart
 	if (Q_stricmp(Info_ValueForKey(cs, "overviewimage"), token)) {
 		Info_SetValueForKey(cs, "overviewimage", token);
 
@@ -1129,7 +1129,7 @@ qboolean G_ScriptAction_NumberofObjectives(gentity_t *ent, char *params) {
 	}
 
 	trap_GetConfigstring(CS_MULTI_INFO, cs, sizeof(cs));
-	// NERVE - SMF - compare before setting, so we don't spam the clients during map_restart
+	// compare before setting, so we don't spam the clients during map_restart
 	if (Q_stricmp(Info_ValueForKey(cs, "numobjectives"), token)) {
 		Info_SetValueForKey(cs, "numobjectives", token);
 
@@ -1173,7 +1173,7 @@ qboolean G_ScriptAction_ObjectiveAxisDesc(gentity_t *ent, char *params) {
 	cs_obj += (num - 1);
 
 	trap_GetConfigstring(cs_obj, cs, sizeof(cs));
-	// NERVE - SMF - compare before setting, so we don't spam the clients during map_restart
+	// compare before setting, so we don't spam the clients during map_restart
 	if (Q_stricmp(Info_ValueForKey(cs, "axis_desc"), token)) {
 		Info_SetValueForKey(cs, "axis_desc", token);
 
@@ -1219,7 +1219,7 @@ qboolean G_ScriptAction_ObjectiveShortAxisDesc(gentity_t *ent, char *params) {
 	cs_obj += (num - 1);
 
 	trap_GetConfigstring(cs_obj, cs, sizeof(cs));
-	// NERVE - SMF - compare before setting, so we don't spam the clients during map_restart
+	// compare before setting, so we don't spam the clients during map_restart
 	if (Q_stricmp(Info_ValueForKey(cs, "short_axis_desc"), token)) {
 		Info_SetValueForKey(cs, "short_axis_desc", token);
 
@@ -1263,7 +1263,7 @@ qboolean G_ScriptAction_ObjectiveAlliedDesc(gentity_t *ent, char *params) {
 	cs_obj += (num - 1);
 
 	trap_GetConfigstring(cs_obj, cs, sizeof(cs));
-	// NERVE - SMF - compare before setting, so we don't spam the clients during map_restart
+	// compare before setting, so we don't spam the clients during map_restart
 	if (Q_stricmp(Info_ValueForKey(cs, "allied_desc"), token)) {
 		Info_SetValueForKey(cs, "allied_desc", token);
 
@@ -1309,7 +1309,7 @@ qboolean G_ScriptAction_ObjectiveShortAlliedDesc(gentity_t *ent, char *params) {
 	cs_obj += (num - 1);
 
 	trap_GetConfigstring(cs_obj, cs, sizeof(cs));
-	// NERVE - SMF - compare before setting, so we don't spam the clients during map_restart
+	// compare before setting, so we don't spam the clients during map_restart
 	if (Q_stricmp(Info_ValueForKey(cs, "short_allied_desc"), token)) {
 		Info_SetValueForKey(cs, "short_allied_desc", token);
 
@@ -1353,7 +1353,7 @@ qboolean G_ScriptAction_ObjectiveImage(gentity_t *ent, char *params) {
 	cs_obj += (num - 1);
 
 	trap_GetConfigstring(cs_obj, cs, sizeof(cs));
-	// NERVE - SMF - compare before setting, so we don't spam the clients during map_restart
+	// compare before setting, so we don't spam the clients during map_restart
 	if (Q_stricmp(Info_ValueForKey(cs, "image"), token)) {
 		Info_SetValueForKey(cs, "image", token);
 
@@ -1395,7 +1395,7 @@ qboolean G_ScriptAction_SetWinner(gentity_t *ent, char *params) {
 	}
 
 	trap_GetConfigstring(CS_MULTI_MAPWINNER, cs, sizeof(cs));
-	// NERVE - SMF - compare before setting, so we don't spam the clients during map_restart
+	// compare before setting, so we don't spam the clients during map_restart
 	if (Q_stricmp(Info_ValueForKey(cs, "winner"), token)) {
 		Info_SetValueForKey(cs, "winner", token);
 
@@ -1451,7 +1451,7 @@ qboolean G_ScriptAction_SetObjectiveStatus(gentity_t *ent, char *params) {
 	cs_obj += (num - 1);
 
 	trap_GetConfigstring(cs_obj, cs, sizeof(cs));
-	// NERVE - SMF - compare before setting, so we don't spam the clients during map_restart
+	// compare before setting, so we don't spam the clients during map_restart
 	if (Q_stricmp(Info_ValueForKey(cs, "status"), token)) {
 		Info_SetValueForKey(cs, "status", token);
 

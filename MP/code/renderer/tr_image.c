@@ -1585,7 +1585,6 @@ void R_SetColorMappings(void) {
 	tr.identityLight = 1.0f / (1 << tr.overbrightBits);
 	tr.identityLightByte = 255 * tr.identityLight;
 
-
 	if (r_intensity->value <= 1) {
 		ri.Cvar_Set("r_intensity", "1");
 	}
@@ -2014,7 +2013,6 @@ qhandle_t RE_RegisterSkin(const char *name) {
 	}
 
 	ri.FS_FreeFile(text.v);
-
 
 	// never let a skin have 0 shaders
 

@@ -157,8 +157,7 @@ int BotGoForAir(bot_state_t *bs, int tfl, bot_goal_t *ltg, float range) {
 	bot_goal_t goal;
 	// if the bot needs air
 	if (bs->lastair_time < trap_AAS_Time() - 6) {
-		// 
-#ifdef DEBUG
+	#ifdef DEBUG
 		// BotAI_Print(PRT_MESSAGE, "going for air\n");
 #endif // DEBUG
 	  // if we can find an air goal
@@ -288,8 +287,7 @@ int BotGetItemLongTermGoal(bot_state_t *bs, int tfl, bot_goal_t *goal) {
 	  */
 			bs->ltg_time = trap_AAS_Time() + 20;
 		} else { // the bot gets sorta stuck with all the avoid timings, shouldn't happen though
-				// 
-#ifdef DEBUG
+			#ifdef DEBUG
 			char netname[128];
 
 			BotAI_Print(PRT_MESSAGE, "%s: no valid ltg (probably stuck)\n", ClientName(bs->client, netname, sizeof(netname)));
@@ -412,13 +410,11 @@ int BotGetLongTermGoal(bot_state_t *bs, int tfl, int retreat, bot_goal_t *goal) 
 						BotAI_BotInitialChat(bs, "accompany_arrive", EasyClientName(bs->teammate, netname, sizeof(netname)), NULL);
 						trap_BotEnterChat(bs->cs, bs->client, CHAT_TEAM);
 						bs->arrive_time = trap_AAS_Time();
-					}
 					// if the bot wants to crouch
-					else if (bs->attackcrouch_time > trap_AAS_Time()) {
+					} else if (bs->attackcrouch_time > trap_AAS_Time()) {
 						trap_EA_Crouch(bs->client);
-					}
 					// else do some model taunts
-					else if (random() < bs->thinktime * 0.3) {
+					} else if (random() < bs->thinktime * 0.3) {
 						// do a gesture :)
 						trap_EA_Gesture(bs->client);
 					}
@@ -428,9 +424,8 @@ int BotGetLongTermGoal(bot_state_t *bs, int tfl, int retreat, bot_goal_t *goal) 
 					VectorSubtract(entinfo.origin, bs->origin, dir);
 					vectoangles(dir, bs->ideal_viewangles);
 					bs->ideal_viewangles[2] *= 0.5;
-				}
 				// else look strategically around for enemies
-				else if (random() < bs->thinktime * 0.8) {
+				} else if (random() < bs->thinktime * 0.8) {
 					BotRoamGoal(bs, target);
 					VectorSubtract(target, bs->origin, dir);
 					vectoangles(dir, bs->ideal_viewangles);
@@ -484,8 +479,7 @@ int BotGetLongTermGoal(bot_state_t *bs, int tfl, int retreat, bot_goal_t *goal) 
 		}
 	}
 	// if defending a key area
-	if (bs->ltgtype == LTG_DEFENDKEYAREA && !retreat &&
-		 bs->defendaway_time < trap_AAS_Time()) {
+	if (bs->ltgtype == LTG_DEFENDKEYAREA && !retreat && bs->defendaway_time < trap_AAS_Time()) {
 		// check for bot typing status message
 		if (bs->teammessage_time && bs->teammessage_time < trap_AAS_Time()) {
 			trap_BotGoalName(bs->teamgoal.number, buf, sizeof(buf));
@@ -636,7 +630,6 @@ int BotGetLongTermGoal(bot_state_t *bs, int tfl, int retreat, bot_goal_t *goal) 
 				bs->ltgtype = 0;
 			}
 			// FIXME: move around a bit
-			// 
 			trap_BotResetAvoidReach(bs->ms);
 			return qfalse;
 		}
@@ -786,6 +779,7 @@ int BotLongTermGoal(bot_state_t *bs, int tfl, int retreat, bot_goal_t *goal) {
 	float dist;
 	int areanum;
 	vec3_t dir;
+
 	// FIXME: also have air long term goals?
 	// if the bot is leading someone and not retreating
 	if (bs->lead_time > 0 && !retreat) {
@@ -884,6 +878,7 @@ AINode_Intermission
 =======================================================================================================================================
 */
 int AINode_Intermission(bot_state_t *bs) {
+
 	// if the intermission ended
 	if (!BotIntermission(bs)) {
 		if (BotChat_StartLevel(bs)) {
@@ -904,6 +899,7 @@ AIEnter_Observer
 =======================================================================================================================================
 */
 void AIEnter_Observer(bot_state_t *bs) {
+
 	BotRecordNodeSwitch(bs, "observer", "");
 	// reset the bot state
 	BotResetState(bs);
@@ -916,6 +912,7 @@ AINode_Observer
 =======================================================================================================================================
 */
 int AINode_Observer(bot_state_t *bs) {
+
 	// if the bot left observer mode
 	if (!BotIsObserver(bs)) {
 		AIEnter_Stand(bs);
@@ -930,6 +927,7 @@ AIEnter_Stand
 =======================================================================================================================================
 */
 void AIEnter_Stand(bot_state_t *bs) {
+
 	BotRecordNodeSwitch(bs, "stand", "");
 	bs->standfindenemy_time = trap_AAS_Time() + 1;
 	bs->ainode = AINode_Stand;
@@ -976,6 +974,7 @@ AIEnter_Respawn
 =======================================================================================================================================
 */
 void AIEnter_Respawn(bot_state_t *bs) {
+
 	BotRecordNodeSwitch(bs, "respawn", "");
 	// reset some states
 	trap_BotResetMoveState(bs->ms);
@@ -1033,6 +1032,7 @@ AIEnter_Seek_ActivateEntity
 =======================================================================================================================================
 */
 void AIEnter_Seek_ActivateEntity(bot_state_t *bs) {
+
 	BotRecordNodeSwitch(bs, "activate entity", "");
 	bs->ainode = AINode_Seek_ActivateEntity;
 }
@@ -1269,9 +1269,10 @@ int AINode_Seek_NBG(bot_state_t *bs) {
 		if (trap_BotMovementViewTarget(bs->ms, &goal, bs->tfl, 300, target)) {
 			VectorSubtract(target, bs->origin, dir);
 			vectoangles(dir, bs->ideal_viewangles);
-		}
 		// FIXME: look at cluster portals?
-		else {vectoangles(moveresult.movedir, bs->ideal_viewangles);}
+		} else {
+			vectoangles(moveresult.movedir, bs->ideal_viewangles);
+		}
 
 		bs->ideal_viewangles[2] *= 0.5;
 	}
@@ -1410,14 +1411,12 @@ int AINode_Seek_LTG(bot_state_t *bs) {
 		if (bs->ltgtype == LTG_DEFENDKEYAREA) {
 			range = 400;
 		} else {range = 150;}
-		// 
-#ifdef CTF
+	#ifdef CTF
 		// if carrying a flag the bot shouldn't be distracted too much
 		if (BotCTFCarryingFlag(bs)) {
 			range = 50;
 		}
 #endif // CTF
-	  // 
 		if (BotNearbyGoal(bs, bs->tfl, &goal, range)) {
 			trap_BotResetLastAvoidReach(bs->ms);
 			// get the goal at the top of the stack
@@ -1459,11 +1458,9 @@ int AINode_Seek_LTG(bot_state_t *bs) {
 		if (trap_BotMovementViewTarget(bs->ms, &goal, bs->tfl, 300, target)) {
 			VectorSubtract(target, bs->origin, dir);
 			vectoangles(dir, bs->ideal_viewangles);
-		}
 		// FIXME: look at cluster portals?
-		else if (VectorLength(moveresult.movedir)) {
+		} else if (VectorLength(moveresult.movedir)) {
 			vectoangles(moveresult.movedir, bs->ideal_viewangles);
-
 		} else {
 	 (random() < bs->thinktime * 0.8) {
 			BotRoamGoal(bs, target);
@@ -1641,6 +1638,7 @@ AIEnter_Battle_Chase
 =======================================================================================================================================
 */
 void AIEnter_Battle_Chase(bot_state_t *bs) {
+
 	BotRecordNodeSwitch(bs, "battle chase", "");
 	bs->chase_time = trap_AAS_Time();
 	bs->ainode = AINode_Battle_Chase;
@@ -1887,7 +1885,6 @@ int AINode_Battle_Retreat(bot_state_t *bs) {
 			return qfalse;
 		}
 	}
-	// 
 #ifdef CTF
 	if (gametype == GT_CTF) {
 		BotCTFRetreatGoals(bs);
@@ -1934,9 +1931,7 @@ int AINode_Battle_Retreat(bot_state_t *bs) {
 	// choose the best weapon to fight with
 	BotChooseWeapon(bs);
 	// if the view is fixed for the movement
-	if (moveresult.flags & (MOVERESULT_MOVEMENTVIEW
-							// |MOVERESULT_SWIMVIEW
-						)) {
+	if (moveresult.flags & (MOVERESULT_MOVEMENTVIEW)) {
 		VectorCopy(moveresult.ideal_viewangles, bs->ideal_viewangles);
 	} else if (!(moveresult.flags & MOVERESULT_MOVEMENTVIEWSET) && !(bs->flags & BFL_IDEALVIEWSET)) {
 		attack_skill = trap_Characteristic_BFloat(bs->character, CHARACTERISTIC_ATTACK_SKILL, 0, 1);
@@ -1969,6 +1964,7 @@ AIEnter_Battle_NBG
 =======================================================================================================================================
 */
 void AIEnter_Battle_NBG(bot_state_t *bs) {
+
 	BotRecordNodeSwitch(bs, "battle NBG", "");
 	bs->ainode = AINode_Battle_NBG;
 }

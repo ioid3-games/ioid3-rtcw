@@ -530,7 +530,7 @@ void SP_trigger_hurt(gentity_t *self) {
 	self->use = hurt_use;
 	// link in to the world if starting active
 	if (!(self->spawnflags & 1)) {
-		// ---- (SA)	any reason this needs to be linked? (predicted?)
+		// any reason this needs to be linked? (predicted?)
 // 	trap_LinkEntity(self);
 		self->touch = hurt_touch;
 	}
@@ -855,7 +855,7 @@ void SP_trigger_flagonly(gentity_t *ent) {
 	trap_LinkEntity(ent);
 }
 
-// NERVE - SMF - spawn an explosive indicator
+// spawn an explosive indicator
 void explosive_indicator_think(gentity_t *ent) {
 	gentity_t *parent;
 
@@ -916,7 +916,7 @@ void SP_trigger_objective_info(gentity_t *ent) {
 	ent->s.eType = ET_OID_TRIGGER;
 
 	trap_LinkEntity(ent);
-	// NERVE - SMF - spawn an explosive indicator
+	// spawn an explosive indicator
 	if ((ent->spawnflags & AXIS_OBJECTIVE) || (ent->spawnflags & ALLIED_OBJECTIVE)) {
 		gentity_t *e;
 		e = G_Spawn();

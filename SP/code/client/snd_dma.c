@@ -1084,7 +1084,6 @@ void S_AddLoopSounds (void) {
 	loopSound_t	*loop, *loop2;
 	static int	loopFrame;
 
-
 	numLoopChannels = 0;
 
 	time = Com_Milliseconds();
@@ -1574,7 +1573,6 @@ void S_Update_(void) {
 	samps = dma.samples >> (dma.channels-1);
 	if (endtime - s_soundtime > samps)
 		endtime = s_soundtime + samps;
-
 
 	SNDDMA_BeginPainting ();
 

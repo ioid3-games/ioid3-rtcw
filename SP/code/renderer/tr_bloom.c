@@ -55,7 +55,7 @@ static float Diamond8x[8][8] =
 static float Diamond6x[6][6] =
 { 
 	{ 0.0f, 0.0f, 0.1f, 0.1f, 0.0f, 0.0f,},
-	{ 0.0f, 0.3f, 0.5f, 0.5f, 0.3f, 0.0f,}, 
+	{ 0.0f, 0.3f, 0.5f, 0.5f, 0.3f, 0.0f,},
 	{ 0.1f, 0.5f, 0.9f, 0.9f, 0.5f, 0.1f,},
 	{ 0.1f, 0.5f, 0.9f, 0.9f, 0.5f, 0.1f,},
 	{ 0.0f, 0.3f, 0.5f, 0.5f, 0.3f, 0.0f,},
@@ -167,7 +167,6 @@ static void R_Bloom_InitTextures(void)
 	bloom.effect.readW = bloom.work.width / (float)bloom.effect.width;
 	bloom.effect.readH = bloom.work.height / (float)bloom.effect.height;
 
-
 	// disable blooms if we can't handle a texture of that size
 	if(bloom.screen.width > glConfig.maxTextureSize ||
 		bloom.screen.height > glConfig.maxTextureSize ||
@@ -232,7 +231,6 @@ static void R_Bloom_WarsowEffect(void)
 	int		i, j, k;
 	float	intensity, scale, *diamond;
 
-
 	qglColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	//Take the backup texture and downscale it
 	GL_Bind(bloom.screen.texture);
@@ -247,8 +245,8 @@ static void R_Bloom_WarsowEffect(void)
 		GL_State(GLS_DEPTHTEST_DISABLE | GLS_SRCBLEND_DST_COLOR | GLS_DSTBLEND_ZERO);
 
 		for(i = 0; i < r_bloom_darken->integer; i++) {
-			R_Bloom_Quad(bloom.work.width, bloom.work.height, 
-				0, 0, 
+			R_Bloom_Quad(bloom.work.width, bloom.work.height,
+				0, 0,
 				bloom.effect.readW, bloom.effect.readH);
 		}
 		qglCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, bloom.work.width, bloom.work.height);
@@ -356,8 +354,8 @@ Scale the copied screen back to the sample size used for subsequent passes
 		GL_State(GLS_DEPTHTEST_DISABLE | GLS_SRCBLEND_DST_COLOR | GLS_DSTBLEND_ZERO);
 
 		for(i = 0; i < r_bloom_darken->integer; i++) {
-			R_Bloom_Quad(bloom.work.width, bloom.work.height, 
-				0, 0, 
+			R_Bloom_Quad(bloom.work.width, bloom.work.height,
+				0, 0,
 				bloom.effect.readW, bloom.effect.readH);
 		}
 		qglCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, bloom.work.width, bloom.work.height);
@@ -401,8 +399,8 @@ static void R_Bloom_CreateEffect(void) {
 			r = 2.0f /(range*2+1)*(1 - x*x/(float)(range*range));
 //			r *= r_bloom_darken->value;
 			qglColor4f(r, r, r, 1);
-			R_Bloom_Quad(bloom.work.width, bloom.work.height, 
-				xoffset, yoffset, 
+			R_Bloom_Quad(bloom.work.width, bloom.work.height,
+				xoffset, yoffset,
 				bloom.effect.readW, bloom.effect.readH);
 //				bloom.screen.readW, bloom.screen.readH);
 			GL_State(GLS_DEPTHTEST_DISABLE | GLS_SRCBLEND_ONE | GLS_DSTBLEND_ONE);

@@ -1650,7 +1650,6 @@ typedef struct {
 	shaderProgram_t depthBlurShader[4];
 	shaderProgram_t testcubeShader;
 
-
 	// -----------------------------------------
 
 	viewParms_t viewParms;
@@ -1979,7 +1978,7 @@ void R_AddPolygonSurfaces(void);
 void R_DecomposeSort(unsigned sort, int *entityNum, shader_t **shader,
 					int *fogNum, int *dlightMap, int *pshadowMap);
 
-void R_AddDrawSurf(surfaceType_t *surface, shader_t *shader, 
+void R_AddDrawSurf(surfaceType_t *surface, shader_t *shader,
 			int fogIndex, int dlightMap, int pshadowMap, int cubemap);
 
 void R_CalcTexDirs(vec3_t sdir, vec3_t tdir, const vec3_t v1, const vec3_t v2,

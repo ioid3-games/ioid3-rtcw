@@ -62,9 +62,9 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 // Rafael
 #define FL_NOFATIGUE            0x00010000 // cheat flag no fatigue
 
-#define FL_TOGGLE               0x00020000 // ---- (SA)	ent is toggling(doors use this for ex.)
-#define FL_KICKACTIVATE         0x00040000 // ---- (SA)	ent has been activated by a kick(doors use this too for ex.)
-#define FL_SOFTACTIVATE         0x00000040 // ---- (SA)	ent has been activated while 'walking'(doors use this too for ex.)
+#define FL_TOGGLE               0x00020000 // ent is toggling(doors use this for ex.)
+#define FL_KICKACTIVATE         0x00040000 // ent has been activated by a kick(doors use this too for ex.)
+#define FL_SOFTACTIVATE         0x00000040 // ent has been activated while 'walking'(doors use this too for ex.)
 #define FL_DEFENSE_GUARD        0x00080000 // warzombie defense pose
 
 #define FL_PARACHUTE            0x00100000
@@ -295,8 +295,8 @@ struct gentity_s {
 	int missionLevel;                  // highest mission level completed(for previous level de - briefings)
 	int missionObjectives;             // which objectives for the current level have been met
 										// gets reset each new level
-	int numSecretsFound;               // ---- (SA)	added to get into savegame
-	int numTreasureFound;              // ---- (SA)	added to get into savegame
+	int numSecretsFound;               // added to get into savegame
+	int numTreasureFound;              // added to get into savegame
 
 
 	// Rafael
@@ -583,7 +583,6 @@ typedef struct {
 	int bulletRicochetSound;
 	int snipersound;
 
-
 	int numSecrets;
 	int numTreasure;
 	int numArtifacts;
@@ -843,7 +842,7 @@ void QDECL G_Error(const char *fmt, ...) __attribute__((noreturn, format(printf,
 void G_EndGame(void);
 int G_SendMissionStats(void);  // return '0' if objectives not met, '1' if met
 void G_ChangeLevel(char *mapName);
-// ---- (SA)	end
+// end
 
 
 // g_client.c

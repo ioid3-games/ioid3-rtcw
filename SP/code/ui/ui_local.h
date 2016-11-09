@@ -103,7 +103,7 @@ extern vmCvar_t ui_cameraMode;
 extern vmCvar_t ui_savegameListAutosave;   
 extern vmCvar_t ui_savegameName;   
 
-// NERVE - SMF - multiplayer cvars
+// multiplayer cvars
 extern vmCvar_t ui_serverFilterType;
 extern vmCvar_t ui_currentNetMap;
 extern vmCvar_t ui_currentMap;
@@ -525,7 +525,7 @@ typedef struct {
 	float barrelAngle;
 	int barrelTime;
 	int realWeapon;
-	// NERVE - SMF - added fields so it will work with wolf's skeletal animation system
+	// added fields so it will work with wolf's skeletal animation system
 	// parsed from the start of the cfg file
 	gender_t gender;
 	footstep_t footsteps;
@@ -641,7 +641,7 @@ typedef struct {
 
 	qtime_t tm;
 } savegameInfo;
-// ---- (SA)	end
+// end
 
 typedef struct {
 	const char *name;
@@ -973,7 +973,7 @@ void trap_LAN_GetPing(int n, char *buf, int buflen, int *pingtime);
 void trap_LAN_GetPingInfo(int n, char *buf, int buflen);
 int trap_MemoryRemaining(void);
 
-// NERVE - SMF - multiplayer traps
+// multiplayer traps
 qboolean trap_LAN_UpdateVisiblePings(int source);
 void trap_LAN_MarkServerVisible(int source, int n, qboolean visible);
 void trap_LAN_ResetPings(int n);

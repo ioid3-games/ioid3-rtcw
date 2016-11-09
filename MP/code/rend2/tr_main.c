@@ -229,7 +229,6 @@ qboolean R_CalcTangentVectors(srfVert_t * dv[3])
 	float           bb, s, t;
 	vec3_t          bary;
 
-
 	/* calculate barycentric basis for the triangle */
 	bb = (dv[1]->st[0] - dv[0]->st[0]) * (dv[2]->st[1] - dv[0]->st[1]) - (dv[2]->st[0] - dv[0]->st[0]) * (dv[1]->st[1] - dv[0]->st[1]);
 	if(fabs(bb) < 0.00000001f)
@@ -775,7 +774,6 @@ void R_SetFrameFog(void) {
 	}
 //	else
 //		glfogsettings[FOG_CURRENT].end = 5;
-
 
 	if (r_speeds->integer == 5) {
 		if (glfogsettings[FOG_CURRENT].mode == GL_LINEAR) {

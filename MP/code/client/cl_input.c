@@ -275,15 +275,15 @@ void IN_SprintUp(void) {IN_KeyUp(&kb[KB_BUTTONS5]);}
 // wbuttons(wolf buttons)
 void IN_Wbutton0Down(void) {IN_KeyDown(&kb[KB_WBUTTONS0]); } // ---- (SA) secondary fire button
 void IN_Wbutton0Up(void) {IN_KeyUp(&kb[KB_WBUTTONS0]);}
-void IN_ZoomDown(void) {IN_KeyDown(&kb[KB_WBUTTONS1]); } // ---- (SA)	zoom key
+void IN_ZoomDown(void) {IN_KeyDown(&kb[KB_WBUTTONS1]); } // zoom key
 void IN_ZoomUp(void) {IN_KeyUp(&kb[KB_WBUTTONS1]);}
-void IN_QuickGrenDown(void) {IN_KeyDown(&kb[KB_WBUTTONS2]); } // ---- (SA)	"Quickgrenade"
+void IN_QuickGrenDown(void) {IN_KeyDown(&kb[KB_WBUTTONS2]); } // "Quickgrenade"
 void IN_QuickGrenUp(void) {IN_KeyUp(&kb[KB_WBUTTONS2]);}
-void IN_ReloadDown(void) {IN_KeyDown(&kb[KB_WBUTTONS3]); } // ---- (SA)	manual weapon re - load
+void IN_ReloadDown(void) {IN_KeyDown(&kb[KB_WBUTTONS3]); } // manual weapon re - load
 void IN_ReloadUp(void) {IN_KeyUp(&kb[KB_WBUTTONS3]);}
-void IN_LeanLeftDown(void) {IN_KeyDown(&kb[KB_WBUTTONS4]); } // ---- (SA)	lean left
+void IN_LeanLeftDown(void) {IN_KeyDown(&kb[KB_WBUTTONS4]); } // lean left
 void IN_LeanLeftUp(void) {IN_KeyUp(&kb[KB_WBUTTONS4]);}
-void IN_LeanRightDown(void) {IN_KeyDown(&kb[KB_WBUTTONS5]); } // ---- (SA)	lean right
+void IN_LeanRightDown(void) {IN_KeyDown(&kb[KB_WBUTTONS5]); } // lean right
 void IN_LeanRightUp(void) {IN_KeyUp(&kb[KB_WBUTTONS5]);}
 
 // JPW NERVE
@@ -389,7 +389,6 @@ void CL_KeyMove(usercmd_t *cmd) {
 	side += movespeed * CL_KeyState(&kb[KB_MOVERIGHT]);
 	side -= movespeed * CL_KeyState(&kb[KB_MOVELEFT]);
 
-
 	if (cmd->buttons & BUTTON_ACTIVATE) {
 		if (side > 0) {
 			cmd->wbuttons |= WBUTTON_LEANRIGHT;
@@ -429,7 +428,7 @@ CL_MouseEvent
 void CL_MouseEvent(int dx, int dy, int time) {
 
 	if (Key_GetCatcher() & KEYCATCH_UI) {
-		// NERVE - SMF - if we just want to pass it along to game
+		// if we just want to pass it along to game
 		if (cl_bypassMouseInput->integer == 1) {
 			cl.mouseDx[cl.mouseIndex] += dx;
 			cl.mouseDy[cl.mouseIndex] += dy;
@@ -633,7 +632,7 @@ void CL_FinishMove(usercmd_t *cmd) {
 	// copy the state that the cgame is currently sending
 	cmd->weapon = cl.cgameUserCmdValue;
 
-	cmd->holdable = cl.cgameUserHoldableValue; // ---- (SA)	modified
+	cmd->holdable = cl.cgameUserHoldableValue; // modified
 
 	cmd->mpSetup = cl.cgameMpSetup;            // NERVE - SMF
 	cmd->identClient = cl.cgameMpIdentClient;  // NERVE - SMF
@@ -1042,7 +1041,6 @@ void CL_InitInput(void) {
 	Cmd_AddCommand(" - dropweapon", IN_MP_DropWeaponUp);
 	Cmd_AddCommand(" + wbutton7", IN_Wbutton7Down);  // 
 	Cmd_AddCommand(" - wbutton7", IN_Wbutton7Up);
-
 
 	Cmd_AddCommand("+mlook", IN_MLookDown);
 	Cmd_AddCommand("-mlook", IN_MLookUp);

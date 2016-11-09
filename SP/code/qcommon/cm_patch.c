@@ -295,10 +295,8 @@ static void CM_SubdivideGridColumns(cGrid_t *grid) {
 		// grid->points[i + 1][x] is an approximating control point
 		// grid->points[i + 2][x] is an interpolating control point
 
-		// 
-		// first see if we can collapse the approximating collumn away
-		// 
-		for (j = 0; j < grid->height; j++) {
+			// first see if we can collapse the approximating collumn away
+			for (j = 0; j < grid->height; j++) {
 			if (CM_NeedsSubdivision(grid->points[i][j], grid->points[i + 1][j], grid->points[i + 2][j])) {
 				break;
 			}
@@ -319,8 +317,7 @@ static void CM_SubdivideGridColumns(cGrid_t *grid) {
 			continue;
 		}
 		// we need to subdivide the curve
-		// 
-		for (j = 0; j < grid->height; j++) {
+			for (j = 0; j < grid->height; j++) {
 			vec3_t prev, mid, next;
 			// save the control points now
 			VectorCopy(grid->points[i][j], prev);
@@ -1756,8 +1753,7 @@ void CM_DrawDebugSurface(void (*drawPoly)(int color, int numPoints, float *point
 			w = BaseWindingForPlane(plane, plane[3]);
 
 			for (j = 0; j < facet->numBorders + 1 && w; j++) {
-				// 
-				if (j < facet->numBorders) {
+							if (j < facet->numBorders) {
 					curplanenum = facet->borderPlanes[j];
 					curinward = facet->borderInward[j];
 				} else {

@@ -53,8 +53,7 @@ static void CG_ParseScores(void) {
 	memset(cg.scores, 0, sizeof(cg.scores));
 
 	for (i = 0; i < cg.numScores; i++) {
-		// 
-		cg.scores[i].client = atoi(CG_Argv(i * 8 + 4));
+			cg.scores[i].client = atoi(CG_Argv(i * 8 + 4));
 		cg.scores[i].score = atoi(CG_Argv(i * 8 + 5));
 		cg.scores[i].ping = atoi(CG_Argv(i * 8 + 6));
 		cg.scores[i].time = atoi(CG_Argv(i * 8 + 7));
@@ -143,10 +142,10 @@ void CG_ParseServerinfo(void) {
 		trap_Cvar_Set("g_antilag", va("%i", cgs.antilag));
 	}
 
-	cgs.dmflags = 0; // atoi(Info_ValueForKey(info, "dmflags"));				// NERVE - SMF - no longer serverinfo
+	cgs.dmflags = 0; // atoi(Info_ValueForKey(info, "dmflags"));				// no longer serverinfo
 	cgs.teamflags = 0; // atoi(Info_ValueForKey(info, "teamflags"));
-	cgs.fraglimit = 0; // atoi(Info_ValueForKey(info, "fraglimit"));			// NERVE - SMF - no longer serverinfo
-	cgs.capturelimit = 0; // atoi(Info_ValueForKey(info, "capturelimit"));	// NERVE - SMF - no longer serverinfo
+	cgs.fraglimit = 0; // atoi(Info_ValueForKey(info, "fraglimit"));			// no longer serverinfo
+	cgs.capturelimit = 0; // atoi(Info_ValueForKey(info, "capturelimit"));	// no longer serverinfo
 	cgs.timelimit = atof(Info_ValueForKey(info, "timelimit"));
 	cgs.maxclients = atoi(Info_ValueForKey(info, "sv_maxclients"));
 	mapname = Info_ValueForKey(info, "mapname");
@@ -424,7 +423,7 @@ static void CG_ConfigStringModified(void) {
 	} else if (num >= CS_PARTICLES && num < CS_PARTICLES + MAX_PARTICLES_AREAS) {
 		CG_NewParticleArea(num);
 	}
-// ---- (SA)	have not reached this code yet so I don't know if I really need this here
+// have not reached this code yet so I don't know if I really need this here
 	} else if (num >= CS_DLIGHTS && num < CS_DLIGHTS + MAX_DLIGHTS) {
 // 		CG_Printf(" >> > >> > >> > >> got configstring for dlight: %d\ntell Sherman!!!!!!!!!!", num - CS_DLIGHTS);
 	} else if (num == CS_SHADERSTATE) {
@@ -722,7 +721,6 @@ static void CG_MapRestart(void) {
 	cg.latchVictorySound = qfalse;         // NERVE - SMF
 // reset render flags
 	cg_fxflags = 0;
-
 
 	// we really should clear more parts of cg here and stop sounds
 	cg.v_dmg_time = 0;
@@ -1134,7 +1132,7 @@ CG_PlayVoiceChat
 */
 void CG_PlayVoiceChat(bufferedVoiceChat_t *vchat) {
 	// if we are going into the intermission, don't start any voices
-/*	// NERVE - SMF - don't do this in wolfMP
+/*	// don't do this in wolfMP
 	if (cg.intermissionStarted) {
 		return;
 	}
@@ -1195,8 +1193,7 @@ void CG_PlayBufferedVoiceChats(void) {
 
 	if (cg.voiceChatTime < cg.time) {
 		if (cg.voiceChatBufferOut != cg.voiceChatBufferIn && voiceChatBuffer[cg.voiceChatBufferOut].snd) {
-			// 
-			CG_PlayVoiceChat(&voiceChatBuffer[cg.voiceChatBufferOut]);
+					CG_PlayVoiceChat(&voiceChatBuffer[cg.voiceChatBufferOut]);
 			cg.voiceChatBufferOut = (cg.voiceChatBufferOut + 1) % MAX_VOICECHATBUFFER;
 			cg.voiceChatTime = cg.time + 1000;
 		}
@@ -1210,7 +1207,7 @@ CG_AddBufferedVoiceChat
 */
 void CG_AddBufferedVoiceChat(bufferedVoiceChat_t *vchat) {
 	// if we are going into the intermission, don't start any voices
-/*	// NERVE - SMF - don't do this in wolfMP
+/*	// don't do this in wolfMP
 	if (cg.intermissionStarted) {
 		return;
 	}
@@ -1246,7 +1243,7 @@ void CG_VoiceChatLocal(int mode, qboolean voiceOnly, int clientNum, int color, c
 	bufferedVoiceChat_t vchat;
 	const char *loc;           // NERVE - SMF
 
-/*	// NERVE - SMF - don't do this in wolfMP
+/*	// don't do this in wolfMP
 	// if we are going into the intermission, don't start any voices
 	if (cg.intermissionStarted) {
 		return;
@@ -1271,7 +1268,7 @@ void CG_VoiceChatLocal(int mode, qboolean voiceOnly, int clientNum, int color, c
 			vchat.voiceOnly = voiceOnly;
 			VectorCopy(origin, vchat.origin);    // NERVE - SMF
 			Q_strncpyz(vchat.cmd, cmd, sizeof(vchat.cmd));
-			// NERVE - SMF - get location
+			// get location
 			loc = CG_ConfigString(CS_LOCATIONS + ci->location);
 
 			if (!loc || !*loc) {
@@ -1308,7 +1305,7 @@ void CG_VoiceChat(int mode) {
 	voiceOnly = atoi(CG_Argv(1));
 	clientNum = atoi(CG_Argv(2));
 	color = atoi(CG_Argv(3));
-	// NERVE - SMF - added origin
+	// added origin
 	origin[0] = atoi(CG_Argv(5));
 	origin[1] = atoi(CG_Argv(6));
 	origin[2] = atoi(CG_Argv(7));
@@ -1450,7 +1447,7 @@ static void CG_ServerCommand(void) {
 
 			CG_PriorityCenterPrint(s, SCREEN_HEIGHT - (SCREEN_HEIGHT * 0.25), SMALLCHAR_WIDTH, atoi(CG_Argv(2)));
 		} else {
-			CG_CenterPrint(CG_LocalizeServerCommand(CG_Argv(1)), SCREEN_HEIGHT - (SCREEN_HEIGHT * 0.25), SMALLCHAR_WIDTH); // ---- (SA)	modified
+			CG_CenterPrint(CG_LocalizeServerCommand(CG_Argv(1)), SCREEN_HEIGHT - (SCREEN_HEIGHT * 0.25), SMALLCHAR_WIDTH); // modified
 		}
 
 		return;
@@ -1502,7 +1499,7 @@ static void CG_ServerCommand(void) {
 		CG_AddToTeamChat(text); // JPW NERVE
 		CG_Printf("[skipnotify]%s\n", text); // JPW NERVE
 
-		// NERVE - SMF - we also want this to display in limbo chat
+		// we also want this to display in limbo chat
 		if (cgs.gametype >= GT_WOLF) {
 			trap_UI_LimboChat(text);
 		}
@@ -1525,7 +1522,7 @@ static void CG_ServerCommand(void) {
 		CG_AddToTeamChat(text);
 		CG_Printf("[skipnotify]%s\n", text); // JPW NERVE
 
-		// NERVE - SMF - we also want this to display in limbo chat
+		// we also want this to display in limbo chat
 		if (cgs.gametype >= GT_WOLF) {
 			trap_UI_LimboChat(text);
 		}
@@ -1534,20 +1531,20 @@ static void CG_ServerCommand(void) {
 	}
 
 	if (!strcmp(cmd, "vchat")) {
-		CG_VoiceChat(SAY_ALL);           // NERVE - SMF - enabled support
+		CG_VoiceChat(SAY_ALL);           // enabled support
 		return;
 	}
 
 	if (!strcmp(cmd, "vtchat")) {
-		CG_VoiceChat(SAY_TEAM);          // NERVE - SMF - enabled support
+		CG_VoiceChat(SAY_TEAM);          // enabled support
 		return;
 	}
 
 	if (!strcmp(cmd, "vtell")) {
-		CG_VoiceChat(SAY_TELL);          // NERVE - SMF - enabled support
+		CG_VoiceChat(SAY_TELL);          // enabled support
 		return;
 	}
-	// NERVE - SMF - limbo chat
+	// limbo chat
 	if (!strcmp(cmd, "lchat")) {
 		trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
 		Q_strncpyz(text, CG_Argv(1), MAX_SAY_TEXT);

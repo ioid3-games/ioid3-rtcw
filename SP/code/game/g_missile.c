@@ -51,7 +51,7 @@ qboolean G_BounceMissile(gentity_t *ent, trace_t *trace) {
 	if ((ent->splashMethodOfDeath == MOD_GRENADE_SPLASH) && (g_entities[trace->entityNum].flags & FL_AI_GRENADE_KICK) && (trace->endpos[2] > g_entities[trace->entityNum].r.currentOrigin[2])) {
 		g_entities[trace->entityNum].grenadeExplodeTime = ent->nextthink;
 		g_entities[trace->entityNum].flags &= ~FL_AI_GRENADE_KICK;
-		Add_Ammo(&g_entities[trace->entityNum], WP_GRENADE_LAUNCHER, 1, qfalse);	// ---- (SA)	modified
+		Add_Ammo(&g_entities[trace->entityNum], WP_GRENADE_LAUNCHER, 1, qfalse);	// modified
 		G_FreeEntity(ent);
 		return qfalse;
 	}
@@ -81,7 +81,7 @@ qboolean G_BounceMissile(gentity_t *ent, trace_t *trace) {
 		}
 		// check for stop
 		if (trace->plane.normal[2] > 0.2 && VectorLength(ent->s.pos.trDelta) < 40) {
-// ---- (SA)	make the world the owner of the dynamite, so the player can shoot it after it stops moving
+// make the world the owner of the dynamite, so the player can shoot it after it stops moving
 			if (ent->s.weapon == WP_DYNAMITE) {
 				ent->r.ownerNum = ENTITYNUM_WORLD;
 				// make shootable
@@ -95,7 +95,7 @@ qboolean G_BounceMissile(gentity_t *ent, trace_t *trace) {
 					VectorCopy(ent->r.maxs, ent->r.absmax);
 				}
 			}
-// ---- (SA)	end
+// end
 			G_SetOrigin(ent, trace->endpos);
 			ent->s.time = level.time / 4;
 			return qfalse;
@@ -120,7 +120,7 @@ G_MissileImpact
 	impactDamage is how much damage the impact will do to func_explosives
 =======================================================================================================================================
 */
-void G_MissileImpact(gentity_t *ent, trace_t *trace, int impactDamage, vec3_t dir) { // ---- (SA)	added 'dir'
+void G_MissileImpact(gentity_t *ent, trace_t *trace, int impactDamage, vec3_t dir) { // added 'dir'
 	gentity_t *other;
 	qboolean hitClient = qfalse;
 	vec3_t velocity;
@@ -162,7 +162,7 @@ void G_MissileImpact(gentity_t *ent, trace_t *trace, int impactDamage, vec3_t di
 			} else {
 				flags = trace->surfaceFlags;
 				flags = (flags >> 12);   // shift right 12 so I can send in parm	(#define SURF_METAL 0x1000. metal is lowest flag i need for sound)
-				G_AddEvent(ent, EV_GRENADE_BOUNCE, flags);   // ---- (SA)	send surfaceflags for sound selection
+				G_AddEvent(ent, EV_GRENADE_BOUNCE, flags);   // send surfaceflags for sound selection
 			}
 		}
 
@@ -368,7 +368,7 @@ void M_think(gentity_t *ent) {
 	ent->count++;
 
 // 	if (ent->count == 1)
-// 		Concussive_fx(ent);	// ---- (SA)	moved to G_ExplodeMissile()
+// 		Concussive_fx(ent);	// moved to G_ExplodeMissile()
 
 	if (ent->count == ent->health) {
 		ent->think = G_FreeEntity;
@@ -550,7 +550,7 @@ void G_RunMissile(gentity_t *ent) {
 	// get current position
 	BG_EvaluateTrajectory(&ent->s.pos, level.time, origin);
 
-// ---- (SA)	added direction to pass for mark determination
+// added direction to pass for mark determination
 	VectorSubtract(origin, ent->r.currentOrigin, dir);
 	VectorNormalize(dir);
 	// trace a line from the previous position to the current position, // ignoring interactions with the missile owner
@@ -579,11 +579,11 @@ void G_RunMissile(gentity_t *ent) {
 		if (ent->s.weapon == WP_PANZERFAUST) {
 			impactDamage = 999; // goes through pretty much any func_explosives
 		} else {
-			impactDamage = 6;  // "grenade"/"dynamite"		// probably adjust this based on velocity // ---- (SA)	adjusted to not break through so much stuff. try it to see if this is good enough
+			impactDamage = 6;  // "grenade"/"dynamite"		// probably adjust this based on velocity // adjusted to not break through so much stuff. try it to see if this is good enough
 
 		}
 
-		G_MissileImpact(ent, &tr, impactDamage, dir); // ---- (SA)	added 'dir'
+		G_MissileImpact(ent, &tr, impactDamage, dir); // added 'dir'
 
 		if (ent->s.eType != ET_MISSILE) {
 			return;    // exploded

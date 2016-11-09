@@ -1400,7 +1400,6 @@ script_t *LoadScriptFile(const char *filename) {
 	script->line = 1;
 	script->lastline = 1;
 	SetScriptPunctuations(script, NULL);
-	// 
 #ifdef BOTLIB
 	botimport.FS_Read(script->buffer, length, fp);
 	botimport.FS_FCloseFile(fp);

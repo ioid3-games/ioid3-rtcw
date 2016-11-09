@@ -1954,7 +1954,6 @@ static int BSPSurfaceCompare(const void *a, const void *b)
 	else if (aa > bb)
 		return 1;
 
-
 	return 0;
 }
 
@@ -3082,7 +3081,7 @@ void R_LoadEntities(lump_t *l) {
 				break;
 			}
 			*s++ = 0;
-			// NERVE - SMF - temp fix, don't allow remapping of shader
+			// temp fix, don't allow remapping of shader
 			//  - fixes not drawing terrain surfaces when r_vertexLight is true even when remapped shader is present
 //			if (r_vertexLight->integer) {
 //				R_RemapShader(value, s, "0");

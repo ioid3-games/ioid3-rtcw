@@ -181,7 +181,7 @@ without compiled vertex arrays.
 */
 static void R_DrawElements(int numIndexes, const glIndex_t *indexes) {
 #ifdef USE_OPENGLES
-	qglDrawElements(GL_TRIANGLES, 
+	qglDrawElements(GL_TRIANGLES,
 						numIndexes,
 						GL_INDEX_TYPE,
 						indexes);
@@ -303,7 +303,7 @@ static void DrawTris(shaderCommands_t *input) {
 	}
 
 #ifdef USE_OPENGLES
-	qglDrawElements(GL_LINE_STRIP, 
+	qglDrawElements(GL_LINE_STRIP,
 					input->numIndexes,
 					GL_INDEX_TYPE,
 					input->indexes);
@@ -1641,7 +1641,6 @@ void RB_StageIteratorVertexLitTexture(void) {
 	qglColorPointer(4, GL_UNSIGNED_BYTE, 0, tess.svars.colors);
 	qglTexCoordPointer(2, GL_FLOAT, 16, tess.texCoords[0][0]);
 	qglVertexPointer(3, GL_FLOAT, 16, input->xyz);
-
 
 	if (qglLockArraysEXT) {
 		qglLockArraysEXT(0, input->numVertexes);

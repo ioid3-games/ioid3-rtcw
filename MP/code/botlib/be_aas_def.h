@@ -36,7 +36,7 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 // debugging on
 #define AAS_DEBUG
 
-#define MAX_CONFIGSTRINGS   2048   // ---- (SA)	upped
+#define MAX_CONFIGSTRINGS   2048   // upped
 
 #define DF_AASENTNUMBER(x) (x - (*aasworlds).entities)
 #define DF_NUMBERAASENT(x) (& (*aasworlds).entities[x])

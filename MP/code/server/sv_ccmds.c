@@ -168,11 +168,11 @@ static void SV_Map_f(void) {
 		return;
 	}
 
-	Cvar_Set("gamestate", va("%i", GS_INITIALIZE));      // NERVE - SMF - reset gamestate on map / devmap
+	Cvar_Set("gamestate", va("%i", GS_INITIALIZE));      // reset gamestate on map / devmap
 	Cvar_Set("savegame_loading", "0"); // make sure it's turned off
 
-	Cvar_Set("g_currentRound", "0");           // NERVE - SMF - reset the current round
-	Cvar_Set("g_nextTimeLimit", "0");          // NERVE - SMF - reset the next time limit
+	Cvar_Set("g_currentRound", "0");           // reset the current round
+	Cvar_Set("g_nextTimeLimit", "0");          // reset the next time limit
 
 	// force latched values to get set
 	// default to GT_WOLF
@@ -208,7 +208,7 @@ static void SV_Map_f(void) {
 			Cvar_SetValue("g_gametype", GT_FFA);
 		}
 	}
-	// save the map name here cause on a map restart we reload the q3config.cfg and thus nuke the arguments of the map command
+	// save the map name here cause on a map restart we reload the wolfconfig_server.cfg and thus nuke the arguments of the map command
 	Q_strncpyz(mapname, map, sizeof(mapname));
 	// start up the map
 	SV_SpawnServer(mapname, killBots);
@@ -345,7 +345,7 @@ static void SV_MapRestart_f(void) {
 		SV_SetConfigstring(CS_WARMUP, va("%i", sv.restartTime));
 		return;
 	}
-	// NERVE - SMF - read in gamestate or just default to GS_PLAYING
+	// read in gamestate or just default to GS_PLAYING
 	old_gs = atoi(Cvar_VariableString("gamestate"));
 
 	if (Cmd_Argc() > 2) {

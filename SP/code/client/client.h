@@ -142,7 +142,7 @@ typedef struct {
 	int limboChatPos;
 	// - NERVE - SMF
 
-	qboolean cameraMode;   // ---- (SA)	added for control of input while watching cinematics
+	qboolean cameraMode;   // added for control of input while watching cinematics
 
 } clientActive_t;
 extern clientActive_t cl;
@@ -419,7 +419,7 @@ extern cvar_t *cl_voip;
 extern cvar_t *cl_missionStats;
 extern cvar_t *cl_waitForFire;
 
-// NERVE - SMF - localization
+// localization
 extern cvar_t *cl_language;
 // - NERVE - SMF
 // =================================================

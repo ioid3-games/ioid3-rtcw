@@ -55,7 +55,7 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
  
 #define RETRANSMIT_TIMEOUT	3000	// time between connection packet retransmits
 
-#define LIMBOCHAT_WIDTH     140    // NERVE - SMF - NOTE TTimo buffer size indicator, not related to screen bbox
+#define LIMBOCHAT_WIDTH     140    // NOTE TTimo buffer size indicator, not related to screen bbox
 #define LIMBOCHAT_HEIGHT    7      // NERVE - SMF
 
 // snapshots are a view of the server at a given time
@@ -341,7 +341,7 @@ typedef struct {
 	qhandle_t charSetShader;
 	qhandle_t whiteShader;
 	qhandle_t consoleShader;
-	qhandle_t consoleShader2;      // NERVE - SMF - merged from WolfSP
+	qhandle_t consoleShader2;      // merged from WolfSP
 } clientStatic_t;
 extern clientStatic_t cls;
 extern char cl_oldGame[MAX_QPATH];
@@ -440,7 +440,7 @@ extern cvar_t *cl_voip;
 extern cvar_t *cl_missionStats;
 extern cvar_t *cl_waitForFire;
 
-// NERVE - SMF - localization
+// localization
 extern cvar_t *cl_language;
 // - NERVE - SMF
 
@@ -486,7 +486,7 @@ qboolean CL_CheckPaused(void);
 void CL_AddToLimboChat(const char *str);                 // NERVE - SMF
 qboolean CL_GetLimboString(int index, char *buf);        // NERVE - SMF
 
-// NERVE - SMF - localization
+// localization
 void CL_InitTranslation(void);
 void CL_SaveTransTable(const char *fileName, qboolean newOnly);
 void CL_ReloadTranslation(void);

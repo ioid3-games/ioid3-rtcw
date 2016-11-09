@@ -404,7 +404,7 @@ static qboolean CG_RegisterAcc(clientInfo_t *ci, const char *modelName, const ch
 	return qfalse;
 }
 
-// ---- (SA)	end
+// end
 
 
 /*
@@ -524,7 +524,7 @@ qboolean CG_RegisterClientModelname(clientInfo_t *ci, const char *modelName, con
 		}
 	}
 
-// ---- (SA)	testing
+// testing
 	{
 		char scaleString[MAX_QPATH];
 		char *string_p;
@@ -565,7 +565,7 @@ qboolean CG_RegisterClientModelname(clientInfo_t *ci, const char *modelName, con
 					ci->playermodelScale[2] = 0.0f;
 		}
 	}
-// ---- (SA)	end
+// end
 
 
 	// try all the accessories
@@ -692,7 +692,6 @@ static void CG_LoadClientInfo(int clientNum, clientInfo_t *ci) {
 
 	// load the head first(since if the head loads but there is a problem with something in the lower
 	// body, you will want to default the model back to a default and want the head to match)
-	// 
 
 	if (!CG_RegisterClientHeadname(ci, ci->modelName, ci->hSkinName)) {
 		if (cg_buildScript.integer) {
@@ -1127,7 +1126,7 @@ void CG_RunLerpFrame(clientInfo_t *ci, lerpFrame_t *lf, int newAnimation, float 
 		return;
 	}
 	// see if the animation sequence is switching
-	if (ci && (newAnimation != lf->animationNumber || !lf->animation)) { // ---- (SA)	modified
+	if (ci && (newAnimation != lf->animationNumber || !lf->animation)) { // modified
 		CG_SetLerpFrameAnimation(ci, lf, newAnimation);
 	}
 	// if we have passed the current frame, move it to
@@ -1912,7 +1911,7 @@ static void CG_HasteTrail(centity_t *cent) {
 }
 
 
-// ---- (SA)	added and modified from missionpack
+// added and modified from missionpack
 /*
 =======================================================================================================================================
 CG_BreathPuffs
@@ -1972,7 +1971,7 @@ static void CG_BreathPuffs(centity_t *cent, refEntity_t *head) {
 	ci->breathPuffTime = cg.time + 3000 + random() * 1000;
 }
 
-// ---- (SA)	end
+// end
 
 /*
 =======================================================================================================================================
@@ -2580,7 +2579,6 @@ void CG_Player(centity_t *cent) {
 	// get the rotation information
 	CG_PlayerAngles(cent, legs.axis, torso.axis, head.axis);
 
-
 	// setting the legs axis should pass the scale down through the other parts / tags / etc.
 	// and will need to be 'undone' for the weapon
 	if (ci->playermodelScale[0]) {
@@ -2597,7 +2595,7 @@ void CG_Player(centity_t *cent) {
 	CG_AnimPlayerConditions(cent);
 	// get the animation state(after rotation, to allow feet shuffle)
 	CG_PlayerAnimation(cent, &legs.oldframe, &legs.frame, &legs.backlerp, &torso.oldframe, &torso.frame, &torso.backlerp);
-	// NERVE - SMF - forcibly set binoc animation
+	// forcibly set binoc animation
 	if (cent->currentState.eFlags & EF_ZOOMING) {
 		usingBinocs = qtrue;
 	}
@@ -2668,7 +2666,7 @@ void CG_Player(centity_t *cent) {
 
 	VectorCopy(lightorigin, torso.lightingOrigin);
 	// ---- (SA) check for ladder and if you're on it, don't allow torso model rotation(so the body climbs aligned with the ladder)
-	// ---- (SA)	also taking care of the Loper's interesting heirarchy(his upper body is effectively the same as a weapon_hand.md3. it keeps things connected, but has no geometry)
+	// also taking care of the Loper's interesting heirarchy(his upper body is effectively the same as a weapon_hand.md3. it keeps things connected, but has no geometry)
 
 	if (!ci->isSkeletal) {
 		if (cgsnap == cent && (cg.snap->ps.pm_flags & PMF_LADDER)) {

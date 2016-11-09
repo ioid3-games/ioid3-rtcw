@@ -49,7 +49,7 @@ typedef struct {
 	byte *data;
 	int maxsize;
 	int cursize;
-	int uncompsize;            // NERVE - SMF - net debugging
+	int uncompsize;            // net debugging
 	int readcount;
 	int bit;                   // for bitwise reads and writes
 } msg_t;
@@ -207,7 +207,7 @@ void NET_LeaveMulticast6(void);
 void NET_Sleep(int msec);
 
 
-// ---- (SA)	increased for larger submodel entity counts
+// increased for larger submodel entity counts
 #define MAX_MSGLEN              32768      // max length of a message, which may
 //#define MAX_MSGLEN				16384		// max length of a message, which may
 // be fragmented into multiple packets
@@ -281,14 +281,14 @@ You or the server may be running older versions of the game. Press the auto - up
 #define GAMENAME_STRING     "wolfmp"
 #else
 // the demo uses a different protocol version for independant browsing
-#define PROTOCOL_LEGACY_VERSION    50 // NERVE - SMF - wolfMP protocol version
+#define PROTOCOL_LEGACY_VERSION    50 // wolfMP protocol version
 #endif
 
 // maintain a list of compatible protocols for demo playing
 // NOTE: that stuff only works with two digits protocols
 extern int demo_protocols[];
 
-// NERVE - SMF - wolf multiplayer master servers
+// wolf multiplayer master servers
 #if !defined UPDATE_SERVER_NAME && !defined STANDALONE
 #define UPDATE_SERVER_NAME		"wolfmotd.idsoftware.com"	// 192.246.40.65
 #endif

@@ -1799,7 +1799,7 @@ float AICast_GetWeaponSoundRange(int weapon) {
 	case    WP_FG42:
 	case    WP_FG42SCOPE:
 		return 1500;
-	case    WP_MAUSER: // ---- (SA)	change for DM
+	case    WP_MAUSER: // change for DM
 		return 1500;
 	case    WP_DYNAMITE:
 	case    WP_DYNAMITE2:

@@ -238,12 +238,12 @@ void CG_Respawn(void) {
 	cg.weaponSelectTime = cg.time;
 
 	cg.holdableSelectTime = 0; // ---- (SA) reset holdable timer
-	cg.centerPrintTime = 0;    // ---- (SA)	reset centerprint counter so previous messages don't re - appear
+	cg.centerPrintTime = 0;    // reset centerprint counter so previous messages don't re - appear
 	cg.cursorHintIcon = 0;
 	cg.cursorHintTime = 0;
 	cg.yougotmailTime = 0;
 
-// cg.cameraMode = 0;	// ---- (SA)	get out of camera for sure
+// cg.cameraMode = 0;	// get out of camera for sure
 
 	// select the weapon the server says we are using
 	// cg.weaponSelect = cg.snap->ps.weapon;

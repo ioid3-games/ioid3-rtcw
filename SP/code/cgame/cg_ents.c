@@ -155,11 +155,10 @@ void CG_LoseArmor(centity_t *cent, int index) {
 	VectorSubtract(origin, cent->currentState.origin, dir);
 	VectorNormalize(dir);
 
-
 	if (sound) {
 		CG_SoundPlayIndexedScript(sound, NULL, cent->currentState.number);
 	}
-// ---- (SA)	end
+// end
 
 #define FLY_VELOCITY 200
 #define FLY_JUMP 300
@@ -251,7 +250,7 @@ void CG_AttachedPartChange(centity_t *cent) {
 	}
 }
 
-// ---- (SA)	end
+// end
 
 
 
@@ -374,7 +373,7 @@ static void CG_EntityEffects(centity_t *cent) {
 	CG_SetEntitySoundPosition(cent);
 	// add loop sound
 	if (cent->currentState.loopSound) {
-		// ---- (SA)	hmm, the above(CG_SetEntitySoundPosition()) sets s_entityPosition[entityNum] with a valid
+		// hmm, the above(CG_SetEntitySoundPosition()) sets s_entityPosition[entityNum] with a valid
 		// 			location, but the looping sound for a bmodel will never get it since that sound is
 		// 			started with the lerpOriging right here. \ /  \ / 	How do looping sounds ever work for bmodels?
 		// 			Or have they always been broken and we just never used them?
@@ -498,11 +497,11 @@ static void CG_General(centity_t *cent) {
 // 				ent.radius = cent->currentState.angles2[2];
 // 		}
 
-// ---- (SA)	testing
+// testing
 // 		if (cent->currentState.apos.trType) {
 // 			ent.reFlags |= REFLAG_ORIENT_LOD;
 // 		}
-// ---- (SA)	end
+// end
 	}
 	// add to refresh list
 	trap_R_AddRefEntityToScene(&ent);
@@ -635,7 +634,7 @@ void CG_DrawHoldableSelect(void) {
 			name = cgs.itemPrintNames[item - bg_itemlist];
 
 			if (name) {
-				// ---- (SA)	trying smaller text
+				// trying smaller text
 // 				w = CG_DrawStrlen(name) * BIGCHAR_WIDTH;
 				w = CG_DrawStrlen(name) * 10;
 				x = (SCREEN_WIDTH - w) / 2;
@@ -770,7 +769,7 @@ void CG_HoldableUsedupChange(void) {
 		return;
 	}
 }
-// ---- (SA)	end
+// end
 
 
 
@@ -899,7 +898,7 @@ static void CG_Item(centity_t *cent) {
 			VectorScale(stand.axis[1], 1.5, stand.axis[1]);
 			VectorScale(stand.axis[2], 1.5, stand.axis[2]);
 
-// ---- (SA)	modified
+// modified
 			if (cent->currentState.frame) {
 				CG_PositionEntityOnTag(&ent, &stand, va("tag_stand%d", cent->currentState.frame), 0, NULL);
 			} else {
@@ -968,7 +967,7 @@ static void CG_Item(centity_t *cent) {
 			ent.hModel = cg_items[es->modelindex].models[0];
 		}
 	}
-	// ---- (SA)	find midpoint for highlight corona.
+	// find midpoint for highlight corona.
 	// 			Can't do it when item is registered since it wouldn't know about replacement model
 	if (!(cent->usehighlightOrigin)) {
 		vec3_t mins, maxs, offset;
@@ -1002,15 +1001,15 @@ static void CG_Item(centity_t *cent) {
 			highlight = qtrue;
 
 			if (item->giType == IT_TREASURE) {
-				trap_R_AddCoronaToScene(cent->highlightOrigin, 1, 0.85, 0.5, 2, cent->currentState.number, 1);    // ---- (SA)	add corona to treasure
+				trap_R_AddCoronaToScene(cent->highlightOrigin, 1, 0.85, 0.5, 2, cent->currentState.number, 1);    // add corona to treasure
 			}
 		} else {
 			if (item->giType == IT_TREASURE) {
-				trap_R_AddCoronaToScene(cent->highlightOrigin, 1, 0.85, 0.5, 2, cent->currentState.number, 0); // ---- (SA)	"empty corona" for proper fades
+				trap_R_AddCoronaToScene(cent->highlightOrigin, 1, 0.85, 0.5, 2, cent->currentState.number, 0); // "empty corona" for proper fades
 			}
 		}
 
-// ---- (SA)	added fixed item highlight fading
+// added fixed item highlight fading
 
 		if (highlight) {
 			if (!cent->highlighted) {
@@ -1036,7 +1035,7 @@ static void CG_Item(centity_t *cent) {
 			ent.hilightIntensity = 1.0;
 		}
 	}
-// ---- (SA)	end
+// end
 
 
 	// add to refresh list
@@ -1078,7 +1077,7 @@ static void CG_Missile(centity_t *cent) {
 		trap_R_AddLightToScene(cent->lerpOrigin, weapon->missileDlight, weapon->missileDlightColor[0], weapon->missileDlightColor[1], weapon->missileDlightColor[2], 0);
 	}
 
-// ---- (SA)	whoops, didn't mean to check it in with the missile flare
+// whoops, didn't mean to check it in with the missile flare
 
 	// add missile sound
 	if (weapon->missileSound) {
@@ -1252,7 +1251,7 @@ static void CG_Crowbar(centity_t *cent) {
 }
 
 
-// ---- (SA)	animation_t struct changed, so changes are to keep this working
+// animation_t struct changed, so changes are to keep this working
 static animation_t grabberAnims[] = {
 	{"", 0, 6, 6, 1000 / 5, 1000 / 5}, // (main idle) {"", 5, 21, 21, 1000 / 7, 1000 / 7}, // (random idle) {"", 25, 11, 0, 1000 / 15, 1000 / 15}, // (attack big swipe) {"", 35, 16, 0, 1000 / 15, 1000 / 15}, // (attack small swipe) {"", 50, 16, 0, 1000 / 15, 1000 / 15}, // (attack grab) {"", 66, 1, 0, 1000 / 15, 1000 / 15}  // (starting position)
 };
@@ -1264,7 +1263,7 @@ static animation_t footlockerAnims[] = {
 	{"", 0, 1, 1, 1000 / 5, 1000 / 5	}, // (main idle) {"", 0, 5, 5, 1000 / 5, 1000 / 5	}, // (lock rattle) {"", 5, 6, 0, 1000 / 5, 1000 / 5	}	// (break open)
 };
 */
-// ---- (SA)	end
+// end
 
 // capture and hold flag
 
@@ -1316,7 +1315,7 @@ static int CG_NewAnim(centity_t *cent, lerpFrame_t *lf, animation_t *anim, int i
 
 	return 0;
 }
-// ---- (SA)	end
+// end
 
 /*
 =======================================================================================================================================
@@ -1385,7 +1384,7 @@ static void CG_Trap(centity_t *cent) {
 
 	memcpy(&cent->refEnt, &ent, sizeof(refEntity_t));
 }
-// ---- (SA)	end
+// end
 
 
 /*
@@ -1631,7 +1630,7 @@ static void CG_Explosive(centity_t *cent) {
 	// create the render entity
 	memset(&ent, 0, sizeof(ent));
 
-// ---- (SA)	added animation stuff
+// added animation stuff
 	if (cent->currentState.modelindex2) { // there's a 'model2'
 
 		// first time initialize
@@ -1737,7 +1736,7 @@ static void CG_Mover(centity_t *cent) {
 	if (cent->currentState.eType == ET_ALARMBOX) {
 		ent.renderfx |= RF_MINLIGHT;
 	}
-// ---- (SA)	end
+// end
 
 
 	// add the secondary model
@@ -2413,13 +2412,13 @@ void CG_AddPacketEntities(void) {
 		cent = &cg_entities[cg.snap->entities[num].number];
 
 		if (!(cent->currentState.eFlags & EF_TAGCONNECT)) {
-// ---- (SA)	commented this out for DM and Dom
+// commented this out for DM and Dom
 // 			if (cent->currentState.number < MAX_CLIENTS) {
 // 				if ((clcount > 2) && (cent->currentState.eFlags & EF_DEAD)) {
 // 					cent->pe.forceLOD = qtrue;
 // 				}
 // 			}
-// ---- (SA)	end
+// end
 			CG_AddCEntity(cent);
 		}
 	}

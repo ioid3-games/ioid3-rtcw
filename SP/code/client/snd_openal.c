@@ -1918,7 +1918,7 @@ static void S_AL_StartBackgroundTrack(const char *intro, const char *loop) {
 	// Stop any existing music that might be playing
 	S_AL_StopBackgroundTrack();
 
-	Cvar_Set("s_currentMusic", ""); // ---- (SA)	so the savegame will have the right music
+	Cvar_Set("s_currentMusic", ""); // so the savegame will have the right music
 
 	if ((!intro || !*intro) && (!loop || !*loop)) {
 		return;
@@ -1947,7 +1947,7 @@ static void S_AL_StartBackgroundTrack(const char *intro, const char *loop) {
 	} else {
 		intro_stream = NULL;
 
-	Cvar_Set("s_currentMusic", s_backgroundLoop); // ---- (SA)	so the savegame will have the right music
+	Cvar_Set("s_currentMusic", s_backgroundLoop); // so the savegame will have the right music
 
 	mus_stream = S_CodecOpenStream(s_backgroundLoop);
 

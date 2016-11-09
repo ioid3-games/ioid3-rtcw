@@ -193,7 +193,7 @@ static void CG_spLose_f(void) {
 }
 */
 
-// ---- (SA)	item(key / pickup) drawing
+// item(key / pickup) drawing
 static void CG_InventoryDown_f(void) {
 	cg.showItems = qtrue;
 }
@@ -203,7 +203,7 @@ static void CG_InventoryUp_f(void) {
 	cg.itemFadeTime = cg.time;
 }
 
-// ---- (SA)	end
+// end
 
 static void CG_TellTarget_f(void) {
 	int clientNum;
@@ -305,7 +305,7 @@ void CG_StartCamera(const char *name, qboolean startBlack) {
 		trap_SendClientCommand("startCamera");
 		trap_startCamera(CAM_PRIMARY, cg.time);
 	} else {
-		// ---- (SA)	temp until radiant stores cameras in own directory
+		// temp until radiant stores cameras in own directory
 		// 			check cameras dir then main dir
 		if (trap_loadCamera(CAM_PRIMARY, name)) {
 			cg.cameraMode = qtrue;
@@ -313,7 +313,7 @@ void CG_StartCamera(const char *name, qboolean startBlack) {
 			trap_startCamera(CAM_PRIMARY, cg.time);
 			return;
 		}
-		// ---- (SA)	end(remove when radiant stores cameras...)
+		// end(remove when radiant stores cameras...)
 
 		trap_SendClientCommand("stopCamera");
 		CG_Fade(0, 0, 0, 0, 0);            // ensure fadeup
@@ -394,7 +394,7 @@ static void CG_OpenLimbo_f(void) {
 	trap_Cvar_VariableStringBuffer("ui_isSpectator", buf, 32);
 
 	if (cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR && cg.snap->ps.pm_type != PM_INTERMISSION) {
-		trap_SendConsoleCommand(" + scores\n");          // NERVE - SMF - blah
+		trap_SendConsoleCommand(" + scores\n");          // blah
 
 		if (!atoi(buf)) {
 			trap_Cvar_Set("ui_isSpectator", "1");
@@ -428,7 +428,7 @@ static void CG_VoiceChat_f(void) {
 	if (cgs.gametype < GT_WOLF || trap_Argc() != 2) {
 		return;
 	}
-	// NERVE - SMF - don't let spectators voice chat
+	// don't let spectators voice chat
 	// NOTE - This cg.snap will be the person you are following, but its just for intermission test
 	if (cg.snap && (cg.snap->ps.pm_type != PM_INTERMISSION)) {
 		if (cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR || cgs.clientinfo[cg.clientNum].team == TEAM_FREE) {
@@ -448,7 +448,7 @@ static void CG_TeamVoiceChat_f(void) {
 	if (cgs.gametype < GT_WOLF || trap_Argc() != 2) {
 		return;
 	}
-	// NERVE - SMF - don't let spectators voice chat
+	// don't let spectators voice chat
 	// NOTE - This cg.snap will be the person you are following, but its just for intermission test
 	if (cg.snap && (cg.snap->ps.pm_type != PM_INTERMISSION)) {
 		if (cgs.clientinfo[cg.clientNum].team == TEAM_SPECTATOR || cgs.clientinfo[cg.clientNum].team == TEAM_FREE) {

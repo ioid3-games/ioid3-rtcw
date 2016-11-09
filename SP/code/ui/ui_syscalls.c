@@ -120,7 +120,7 @@ void trap_FS_Read(void *buffer, int len, fileHandle_t f) {
 void trap_FS_Seek(fileHandle_t f, long offset, int origin) {
 	syscall(UI_FS_SEEK, f, offset, origin);
 }
-// ---- (SA)	end
+// end
 
 void trap_FS_Write(const void *buffer, int len, fileHandle_t f) {
 	syscall(UI_FS_WRITE, buffer, len, f);
@@ -210,7 +210,7 @@ sfxHandle_t trap_S_RegisterSound(const char *sample) {
 	return syscall(UI_S_REGISTERSOUND, sample);
 }
 
-// ---- (SA)	added(already in cg)
+// added(already in cg)
 void trap_S_FadeBackgroundTrack(float targetvol, int time, int num) { // yes, i know. fadebackground coming in, fadestreaming going out. will have to see where functionality leads...
 	syscall(UI_S_FADESTREAMINGSOUND, PASSFLOAT(targetvol), time, num); // 'num' is '0' if it's music, '1' if it's "all streaming sounds"
 }
@@ -218,7 +218,7 @@ void trap_S_FadeBackgroundTrack(float targetvol, int time, int num) { // yes, i 
 void trap_S_FadeAllSound(float targetvol, int time) {
 	syscall(UI_S_FADEALLSOUNDS, PASSFLOAT(targetvol), time);
 }
-// ---- (SA)	end
+// end
 
 
 void trap_Key_KeynumToStringBuf(int keynum, char *buf, int buflen) {

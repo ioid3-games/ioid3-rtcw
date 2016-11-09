@@ -1204,8 +1204,7 @@ int BotChooseLTGItem(int goalstate, vec3_t origin, int *inventory, int travelfla
 				goal.iteminfo = 0;
 				// push the goal on the stack
 				BotPushGoal(goalstate, &goal);
-				// 
-#ifdef DEBUG
+			#ifdef DEBUG
 				botimport.Print(PRT_MESSAGE, "chosen roam goal area %d\n", goal.areanum);
 #endif // DEBUG
 				return qtrue;
@@ -1238,7 +1237,6 @@ int BotChooseLTGItem(int goalstate, vec3_t origin, int *inventory, int travelfla
 	BotAddToAvoidGoals(gs, bestitem->number, avoidtime);
 	// push the goal on the stack
 	BotPushGoal(goalstate, &goal);
-	// 
 #ifdef DEBUG_AI_GOAL
 	if (bestitem->timeout) {
 		botimport.Print(PRT_MESSAGE, "new ltg dropped item %s\n", ic->iteminfo[bestitem->iteminfo].classname);
@@ -1330,8 +1328,7 @@ int BotChooseNBGItem(int goalstate, vec3_t origin, int *inventory, int travelfla
 		if (BotAvoidGoalTime(goalstate, li->number) > 0) {
 			continue;
 		}
-		// 
-#ifdef UNDECIDEDFUZZY
+	#ifdef UNDECIDEDFUZZY
 		weight = FuzzyWeightUndecided(inventory, gs->itemweightconfig, weightnum);
 #else
 		weight = FuzzyWeight(inventory, gs->itemweightconfig, weightnum);
@@ -1393,7 +1390,6 @@ int BotChooseNBGItem(int goalstate, vec3_t origin, int *inventory, int travelfla
 	BotAddToAvoidGoals(gs, bestitem->number, avoidtime);
 	// push the goal on the stack
 	BotPushGoal(goalstate, &goal);
-	// 
 #ifdef DEBUG_AI_GOAL
 	if (bestitem->timeout) {
 		botimport.Print(PRT_MESSAGE, "new nbg dropped item %s\n", ic->iteminfo[bestitem->iteminfo].classname);

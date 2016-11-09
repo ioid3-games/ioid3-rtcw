@@ -226,7 +226,7 @@ void Cmd_Fogswitch_f(void) {
 	G_setfog(ConcatArgs(1));
 }
 
-// ---- (SA)	end
+// end
 
 /*
 =======================================================================================================================================
@@ -247,7 +247,7 @@ void Cmd_Give_f(gentity_t *ent) {
 	if (!CheatsOk(ent)) {
 		return;
 	}
-	// ---- (SA)	check for an amount(like "give health 30")
+	// check for an amount(like "give health 30")
 	amt = ConcatArgs(2);
 	amount = atoi(amt);
 		name = ConcatArgs(1);
@@ -263,7 +263,7 @@ void Cmd_Give_f(gentity_t *ent) {
 	}
 
 	if (give_all || Q_stricmpn(name, "health", 6) == 0) {
-		// ---- (SA)	modified
+		// modified
 		if (amount) {
 			ent->health += amount;
 		} else {
@@ -276,7 +276,7 @@ void Cmd_Give_f(gentity_t *ent) {
 	}
 
 	if (give_all || Q_stricmp(name, "weapons") == 0) {
-		// ent->client->ps.weapons[0] = (1 << (WP_MONSTER_ATTACK1)) - 1 - (1 << WP_NONE);	// ---- (SA)	gives the cross now as well
+		// ent->client->ps.weapons[0] = (1 << (WP_MONSTER_ATTACK1)) - 1 - (1 << WP_NONE);	// gives the cross now as well
 
 		// (SA) we really don't want to give anything beyond WP_DYNAMITE
 		for (i = 0; i <= WP_DYNAMITE; i++)
@@ -338,7 +338,7 @@ void Cmd_Give_f(gentity_t *ent) {
 
 	if (give_all || Q_stricmpn(name, "armor", 5) == 0) {
 		if (g_gametype.integer == GT_SINGLE_PLAYER) { // no armor in multiplayer
-			// ---- (SA)	modified
+			// modified
 			if (amount) {
 				ent->client->ps.stats[STAT_ARMOR] += amount;
 			} else {
@@ -603,7 +603,6 @@ void SetTeam(gentity_t *ent, char *s) {
 		return;
 	}
 	// execute the team change
-	// 
 
 	// he starts at 'base'
 	client->pers.teamState.state = TEAM_BEGIN;
@@ -667,7 +666,7 @@ to free floating spectator mode
 void StopFollowing(gentity_t *ent) {
 	ent->client->ps.persistant[PERS_TEAM] = TEAM_SPECTATOR;
 
-	if (g_gametype.integer != GT_WOLF) {        // NERVE - SMF - don't forcibly set this for multiplayer
+	if (g_gametype.integer != GT_WOLF) {        // don't forcibly set this for multiplayer
 		ent->client->sess.sessionTeam = TEAM_SPECTATOR;
 	}
 
@@ -1403,7 +1402,7 @@ void Cmd_Activate_f(gentity_t *ent) {
 	VectorMA(offset, 96, forward, end);
 
 	trap_Trace(&tr, offset, NULL, NULL, end, ent->s.number, (CONTENTS_SOLID|CONTENTS_BODY|CONTENTS_CORPSE|CONTENTS_TRIGGER));
-	// ---- (SA)	removed erroneous code
+	// removed erroneous code
 
 	if (tr.surfaceFlags & SURF_NOIMPACT) {
 		return;
@@ -1421,13 +1420,13 @@ void Cmd_Activate_f(gentity_t *ent) {
 		traceEnt->flags &= ~FL_SOFTACTIVATE;   // FL_SOFTACTIVATE will be set if the user is holding his 'walk' key down when activating things
 
 		if (((Q_stricmp(traceEnt->classname, "func_door") == 0) || (Q_stricmp(traceEnt->classname, "func_door_rotating") == 0))) {
-// ---- (SA)	modified
+// modified
 			if (walking) {
 				traceEnt->flags |= FL_SOFTACTIVATE;    // no noise
 			}
 
 			G_TryDoor(traceEnt, ent, ent);     // (door, other, activator)
-// ---- (SA)	end
+// end
 		} else if ((Q_stricmp(traceEnt->classname, "func_button") == 0) && (traceEnt->s.apos.trType == TR_STATIONARY && traceEnt->s.pos.trType == TR_STATIONARY) && traceEnt->active == qfalse) {
 			G_TryDoor(traceEnt, ent, ent);     // (door, other, activator)
 // 			Use_BinaryMover(traceEnt, ent, ent);
@@ -1502,7 +1501,7 @@ void Cmd_Activate_f(gentity_t *ent) {
 						VectorCopy(traceEnt->s.angles, traceEnt->TargetAngles);
 
 						if (!(ent->r.svFlags & SVF_CASTAI)) {
-							G_UseTargets(traceEnt, ent);  // ---- (SA)	added for Mike so mounting an MG42 can be a trigger event(let me know if there's any issues with this)
+							G_UseTargets(traceEnt, ent);  // added for Mike so mounting an MG42 can be a trigger event(let me know if there's any issues with this)
 
 						}
 
@@ -1621,14 +1620,14 @@ int Cmd_WolfKick_f(gentity_t *ent) {
 // 			if (traceEnt->key < 0) {	// door force locked
 			if (traceEnt->key >= KEY_LOCKED_TARGET) { // door force locked
 
-				// ---- (SA)	play kick "hit" sound
+				// play kick "hit" sound
 				tent = G_TempEntity(tr.endpos, EV_WOLFKICK_HIT_WALL);
 				tent->s.otherEntityNum = ent->s.number;	\
 								AICast_AudibleEvent(ent->s.clientNum, tr.endpos, HEAR_RANGE_DOOR_KICKLOCKED); // "someone kicked a locked door near me!"
 
 				G_AddEvent(traceEnt, EV_GENERAL_SOUND, traceEnt->soundPos3);
 
-				return 1;  // ---- (SA)	changed. shows boot for locked doors
+				return 1;  // changed. shows boot for locked doors
 			}
 
 // 			if (traceEnt->key > 0) {	// door requires key
@@ -1636,7 +1635,7 @@ int Cmd_WolfKick_f(gentity_t *ent) {
 				gitem_t *item = BG_FindItemForKey(traceEnt->key, 0);
 
 				if (!(ent->client->ps.stats[STAT_KEYS] & (1 << item->giTag))) {
-					// ---- (SA)	play kick "hit" sound
+					// play kick "hit" sound
 					tent = G_TempEntity(tr.endpos, EV_WOLFKICK_HIT_WALL);
 					tent->s.otherEntityNum = ent->s.number;	\
 										AICast_AudibleEvent(ent->s.clientNum, tr.endpos, HEAR_RANGE_DOOR_KICKLOCKED); // "someone kicked a locked door near me!"
@@ -1644,7 +1643,7 @@ int Cmd_WolfKick_f(gentity_t *ent) {
 					// player does not have key
 					G_AddEvent(traceEnt, EV_GENERAL_SOUND, traceEnt->soundPos3);
 
-					return 1;  // ---- (SA)	changed. shows boot animation for locked doors
+					return 1;  // changed. shows boot animation for locked doors
 				}
 			}
 
@@ -1674,7 +1673,7 @@ int Cmd_WolfKick_f(gentity_t *ent) {
 		} else if (!Q_stricmp(traceEnt->classname, "props_flippy_table") && traceEnt->use) {
 			traceEnt->use(traceEnt, ent, ent);
 		} else if (!Q_stricmp(traceEnt->classname, "misc_mg42")) {
-			solidKick = qtrue; // ---- (SA)	play kick hit sound
+			solidKick = qtrue; // play kick hit sound
 		}
 	}
 	// snap the endpos to integers, but nudged towards the line
@@ -1723,7 +1722,7 @@ int Cmd_WolfKick_f(gentity_t *ent) {
 
 		}
 
-		G_Damage(traceEnt, ent, ent, forward, tr.endpos, damage, 0, MOD_KICKED);  // ---- (SA)	modified
+		G_Damage(traceEnt, ent, ent, forward, tr.endpos, damage, 0, MOD_KICKED);  // modified
 	}
 
 	return (1);
@@ -1783,7 +1782,7 @@ void ClientDamage(gentity_t *clent, int entnum, int enemynum, int id) {
 	ent = &g_entities[entnum];
 
 	enemy = &g_entities[enemynum];
-	// NERVE - SMF - took this out, this is causing more problems than its helping
+	// took this out, this is causing more problems than its helping
 	//  Either a new way has to be found, or this check needs to change.
 	// sanity check(also protect from cheaters)
 // 	if (g_gametype.integer != GT_SINGLE_PLAYER && entnum != clent->s.number) {
@@ -2119,9 +2118,9 @@ void ClientCommand(int clientNum) {
 	} else if (Q_stricmp(cmd, "where") == 0) {
 		Cmd_Where_f(ent);
 	}
-// 	else if (Q_stricmp(cmd, "callvote") == 0)	// ---- (SA)	id requests these gone in sp
+// 	else if (Q_stricmp(cmd, "callvote") == 0)	// id requests these gone in sp
 // 		Cmd_CallVote_f(ent);
-// 	else if (Q_stricmp(cmd, "vote") == 0)		// ---- (SA)	id requests these gone in sp
+// 	else if (Q_stricmp(cmd, "vote") == 0)		// id requests these gone in sp
 // 		Cmd_Vote_f(ent);
 	} else if (Q_stricmp(cmd, "gc") == 0) {
 		Cmd_GameCommand_f(ent);

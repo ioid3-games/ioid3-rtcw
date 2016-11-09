@@ -52,8 +52,7 @@ static void CG_ParseScores(void) {
 	memset(cg.scores, 0, sizeof(cg.scores));
 
 	for (i = 0; i < cg.numScores; i++) {
-		// 
-		cg.scores[i].client = atoi(CG_Argv(i * 6 + 4));
+			cg.scores[i].client = atoi(CG_Argv(i * 6 + 4));
 		cg.scores[i].score = atoi(CG_Argv(i * 6 + 5));
 		cg.scores[i].ping = atoi(CG_Argv(i * 6 + 6));
 		cg.scores[i].time = atoi(CG_Argv(i * 6 + 7));
@@ -218,7 +217,7 @@ static void CG_ParseMissionStats(void) {
 	token = COM_Parse((char **)&info);
 	cg.attempts = atoi(token);
 }
-// ---- (SA)	end
+// end
 
 
 /*
@@ -459,7 +458,7 @@ static void CG_ConfigStringModified(void) {
 	} else if (num >= CS_PARTICLES && num < CS_PARTICLES + MAX_PARTICLES_AREAS) {
 		CG_NewParticleArea(num);
 	}
-// ---- (SA)	have not reached this code yet so I don't know if I really need this here
+// have not reached this code yet so I don't know if I really need this here
 	} else if (num >= CS_DLIGHTS && num < CS_DLIGHTS + MAX_DLIGHTS) {
 		CG_Printf(" >> > >> > >> > >> got configstring for dlight: %d\ntell Sherman!!!!!!!!!!", num - CS_DLIGHTS);
 	} else if (num == CS_SHADERSTATE) {
@@ -865,7 +864,7 @@ static void CG_ServerCommand(void) {
 		CG_Printf("%s\n", text);
 		return;
 	}
-	// NERVE - SMF - limbo chat
+	// limbo chat
 	if (!strcmp(cmd, "lchat")) {
 		trap_S_StartLocalSound(cgs.media.talkSound, CHAN_LOCAL_SOUND);
 		Q_strncpyz(text, CG_Argv(1), MAX_SAY_TEXT);
@@ -943,7 +942,6 @@ static void CG_ServerCommand(void) {
 
 
 	// music
-	// 
 
 	// loops \ / 
 	if (!strcmp(cmd, "mu_start")) { // has optional parameter for fade - up time

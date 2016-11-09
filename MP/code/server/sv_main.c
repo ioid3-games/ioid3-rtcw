@@ -74,7 +74,7 @@ cvar_t *sv_tourney;
 cvar_t *sv_dl_maxRate;
 // Rafael gameskill
 cvar_t *sv_gameskill;
-cvar_t *sv_showAverageBPS;    // NERVE - SMF - net debugging
+cvar_t *sv_showAverageBPS;    // net debugging
 cvar_t *sv_banFile;
 
 serverBan_t serverBans[SERVER_MAXBANS];
@@ -111,7 +111,7 @@ static char *SV_ExpandNewlines(char *in) {
 			string[l++] = '\\';
 			string[l++] = 'n';
 		} else {
-			// NERVE - SMF - HACK - strip out localization tokens before string command is displayed in syscon window
+			// HACK - strip out localization tokens before string command is displayed in syscon window
 			if (!Q_strncmp(in, "[lon]", 5) || !Q_strncmp(in, "[lof]", 5)) {
 				in += 5;
 				continue;

@@ -99,7 +99,7 @@ field_t fields[] = {
 {"model2", FOFS(model2), F_STRING},
 	{"spawnflags", FOFS(spawnflags), F_INT},
 	{"speed", FOFS(speed), F_FLOAT},
-	{"closespeed", FOFS(closespeed), F_FLOAT}, 
+	{"closespeed", FOFS(closespeed), F_FLOAT},
 	{"target", FOFS(target), F_STRING},
 	{"targetname", FOFS(targetname), F_STRING},
 	{"message", FOFS(message), F_STRING},
@@ -318,7 +318,7 @@ void SP_shooter_tesla(gentity_t *ent);
 
 // alarm
 void SP_alarm_box(gentity_t *ent);
-// ---- (SA)	end
+// end
 
 void SP_trigger_flagonly(gentity_t *ent);    // DHM - Nerve
 void SP_trigger_objective_info(gentity_t *ent);  // DHM - Nerve
@@ -460,7 +460,7 @@ spawn_t spawns[] = {
 	{"target_lock", SP_target_lock},
 	{"target_effect", SP_target_effect},
 	{"target_fog", SP_target_fog},
-	{"target_autosave", SP_target_autosave}, 
+	{"target_autosave", SP_target_autosave},
 	// ---- done
 
 	{"target_rumble", SP_target_rumble}, 
@@ -479,7 +479,7 @@ spawn_t spawns[] = {
 	{"misc_vis_dummy_multiple", SP_misc_vis_dummy_multiple},
 	{"misc_light_surface", SP_misc_light_surface},
 	{"misc_grabber_trap", SP_misc_grabber_trap},
-	{"misc_spotlight", SP_misc_spotlight}, 
+	{"misc_spotlight", SP_misc_spotlight},
 	// ---- (SA) end
 
 
@@ -495,7 +495,7 @@ spawn_t spawns[] = {
 	{"shooter_mortar", SP_shooter_mortar},
 	{"shooter_tesla", SP_shooter_tesla},
 	// alarm
-	{"alarm_box", SP_alarm_box}, 
+	{"alarm_box", SP_alarm_box},
 	// Rafael sniper
 	{"shooter_sniper", SP_shooter_sniper},
 	{"sniper_brush", SP_sniper_brush}, // done
@@ -598,7 +598,7 @@ spawn_t spawns[] = {
 	{"camera_cam", SP_camera_cam},
 	// (SA) dlight and dlightstyles
 	{"dlight", SP_dlight},
-	// ---- (SA)	light coronas
+	// light coronas
 	{"corona", SP_corona},
 	{"test_gas", SP_gas},
 	{"trigger_flagonly", SP_trigger_flagonly}, // DHM - Nerve

@@ -124,7 +124,6 @@ static float RB_ProjectRadius(float r, vec3_t location) {
 				   p[2] * backEnd.viewParms.projectionMatrix[11] +
 				   backEnd.viewParms.projectionMatrix[15];
 
-
 	pr = projected[1] / projected[3];
 
 	if (pr > 1.0f) {
@@ -1824,7 +1823,6 @@ void MC_UnCompress(float mat[3][4],const unsigned char * comp)
 	val-=1<<(MC_BITS_VECT-1);
 	mat[0][2]=((float)(val))*MC_SCALE_VECT;
 
-
 	val=(int)((unsigned short *)(comp))[6];
 	val-=1<<(MC_BITS_VECT-1);
 	mat[1][0]=((float)(val))*MC_SCALE_VECT;
@@ -1836,7 +1834,6 @@ void MC_UnCompress(float mat[3][4],const unsigned char * comp)
 	val=(int)((unsigned short *)(comp))[8];
 	val-=1<<(MC_BITS_VECT-1);
 	mat[1][2]=((float)(val))*MC_SCALE_VECT;
-
 
 	val=(int)((unsigned short *)(comp))[9];
 	val-=1<<(MC_BITS_VECT-1);

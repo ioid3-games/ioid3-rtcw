@@ -254,7 +254,7 @@ static void CG_CalcVrect(void) {
 		}
 	}
 
-// ---- (SA)	added transition to / from letterbox
+// added transition to / from letterbox
 // normal aspect is xx:xx
 // letterbox is yy:yy (85% of 'normal' height)
 
@@ -277,7 +277,7 @@ static void CG_CalcVrect(void) {
 // 		ysize = lbheight + (lbdiff * letterbox_frac);
 // 	}
 	}
-// ---- (SA)	end
+// end
 
 
 	cg.refdef.width = cgs.glconfig.vidWidth * xsize / 100;
@@ -481,7 +481,7 @@ void CG_KickAngles(void) {
 			cg.recoilPitchAngle += cg.recoilPitch * ft;
 		}
 	}
-	// NERVE - SMF - only change cg_recoilPitch cvar when we need to
+	// only change cg_recoilPitch cvar when we need to
 	trap_Cvar_VariableStringBuffer("cg_recoilPitch", buf, sizeof(buf));
 
 	if (atof(buf) != cg.recoilPitchAngle) {
@@ -501,13 +501,10 @@ void CG_Concussive(centity_t *cent) {
 	float pitchRecoilAdd, pitchAdd;
 	float yawRandom;
 	vec3_t recoil;
-	// 
 
 	if (!cg.renderingThirdPerson && cent->currentState.density == cg.snap->ps.clientNum) {
-		// 
-		pitchRecoilAdd = 0;
-		// 
-
+			pitchRecoilAdd = 0;
+	
 		VectorSubtract(cg.snap->ps.origin, cent->currentState.origin, vec);
 		length = VectorLength(vec);
 
@@ -983,14 +980,14 @@ static int CG_CalcFov(void) {
 	cg.refdef.fov_y = fov_y;
 
 	if (!cg.zoomedBinoc) {
-		// NERVE - SMF - fix for zoomed in / out movement bug
+		// fix for zoomed in / out movement bug
 		if (cg.zoomval) {
 			if (cg.snap->ps.weapon == WP_SNOOPERSCOPE) {
-				cg.zoomSensitivity = 0.3f * (cg.zoomval / 90.f); // NERVE - SMF - changed to get less sensitive as you zoom in;
+				cg.zoomSensitivity = 0.3f * (cg.zoomval / 90.f); // changed to get less sensitive as you zoom in;
 			}
 // 			cg.zoomSensitivity = 0.2;
 			else {
-				cg.zoomSensitivity = 0.6 * (cg.zoomval / 90.f);  // NERVE - SMF - changed to get less sensitive as you zoom in
+				cg.zoomSensitivity = 0.6 * (cg.zoomval / 90.f);  // changed to get less sensitive as you zoom in
 			}
 // 			cg.zoomSensitivity = 0.1;
 		} else {
@@ -1467,7 +1464,7 @@ void CG_DrawSkyBoxPortal(void) {
 				}
 			}
 		}
-		// ---- (SA)	end
+		// end
 
 
 		if (cg.predictedPlayerState.pm_type == PM_INTERMISSION) {
@@ -1664,7 +1661,7 @@ void CG_DrawActiveFrame(int serverTime, stereoFrame_t stereoView, qboolean demoP
 		cg.weaponSelectTime = cg.time;
 	}
 
-// ---- (SA)	nerve uses this for snooper / sniper
+// nerve uses this for snooper / sniper
 	if (cg.weaponSelect == WP_FG42SCOPE) {
 		float spd;
 		spd = VectorLength(cg.snap->ps.velocity);
@@ -1739,7 +1736,7 @@ void CG_DrawActiveFrame(int serverTime, stereoFrame_t stereoView, qboolean demoP
 	if (!(cg.snap->ps.persistant[PERS_HWEAPON_USE])) {
 		CG_AddViewWeapon(&cg.predictedPlayerState);
 	}
-	// NERVE - SMF - play buffered voice chats
+	// play buffered voice chats
 	CG_PlayBufferedVoiceChats();
 
 	DEBUGTIME
@@ -1789,7 +1786,7 @@ void CG_DrawActiveFrame(int serverTime, stereoFrame_t stereoView, qboolean demoP
 
 	DEBUGTIME
 
-	mpSetup = CG_GetMPSetupValue();    // NERVE - SMF - setup mpSetup values
+	mpSetup = CG_GetMPSetupValue();    // setup mpSetup values
 
 	// let the client system know what our weapon, holdable item and zoom settings are
 	trap_SetUserCmdValue(cg.weaponSelect, cg.holdableSelect, cg.zoomSensitivity, mpSetup, cg.identifyClientRequest);

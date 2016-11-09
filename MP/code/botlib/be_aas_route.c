@@ -446,8 +446,7 @@ void AAS_CalculateAreaTravelTimes(void) {
 			(*aasworld).areatraveltimes[i][l] = (unsigned short *)ptr;
 			ptr += PAD(revreach->numlinks, sizeof(long)) * sizeof(unsigned short);
 			// reachability link
-			// 
-			for (n = 0, revlink = revreach->first; revlink; revlink = revlink->next, n++) {
+					for (n = 0, revlink = revreach->first; revlink; revlink = revlink->next, n++) {
 				VectorCopy((*aasworld).reachability[revlink->linknum].end, end);
 				(*aasworld).areatraveltimes[i][l][n] = AAS_AreaTravelTime(i, end, reach->start);
 			}
@@ -777,7 +776,6 @@ void AAS_InitRoutingUpdate(void) {
 	if ((*aasworld).areaupdate) {
 		AAS_RoutingFreeMemory((*aasworld).areaupdate);
 	}
-	// 
 // had to change it to numareas for hidepos checking
 /*
 	maxreachabilityareas = 0;
@@ -814,7 +812,7 @@ void AAS_CreateAllRoutingCache(void) {
 	aas_reachability_t *reach;
 
 	numroutingareas = 0;
-	tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA); // ---- (SA)	modified since slime is no longer deadly
+	tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA); // modified since slime is no longer deadly
 // tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_SLIME|TFL_LAVA);
 	botimport.Print(PRT_MESSAGE, "AAS_CreateAllRoutingCache\n");
 
@@ -1230,7 +1228,6 @@ void AAS_InitRouting(void) {
 	AAS_CalculateAreaTravelTimes();
 	// calculate the maximum travel times through portals
 	AAS_InitPortalMaxTravelTimes();
-	// 
 #ifdef ROUTING_DEBUG
 	numareacacheupdates = 0;
 	numportalcacheupdates = 0;
@@ -1690,7 +1687,6 @@ int AAS_AreaRouteToGoalArea(int areanum, vec3_t origin, int goalareanum, int tra
 		  return 0;
 	}
 	  */
-	// 
 	clusternum = (*aasworld).areasettings[areanum].cluster;
 	goalclusternum = (*aasworld).areasettings[goalareanum].cluster;
 	// check if the area is a portal of the goal area cluster
@@ -1714,8 +1710,7 @@ int AAS_AreaRouteToGoalArea(int areanum, vec3_t origin, int goalareanum, int tra
 	// if both areas are in the same cluster
 	// NOTE: there might be a shorter route via another cluster!!!but we don't care
 	if (clusternum > 0 && goalclusternum > 0 && clusternum == goalclusternum) {
-		// 
-		areacache = AAS_GetAreaRoutingCache(clusternum, goalareanum, travelflags, qfalse);
+			areacache = AAS_GetAreaRoutingCache(clusternum, goalareanum, travelflags, qfalse);
 		// note that the routing cache might be NULL now since we are restricting
 		// the updates per frame, hopefully rejected cache's will be requested again
 		// when things have settled down
@@ -2229,7 +2224,6 @@ int AAS_NearestHideArea(int srcnum, vec3_t origin, int areanum, int enemynum, ve
 	} else {
 		memset((*aasworld).hidetraveltimes, 0, (*aasworld).numareas * sizeof(unsigned short int));
 	}
-	// 
 	if (!(*aasworld).visCache) {
 		(*aasworld).visCache = (byte *)GetClearedMemory((*aasworld).numareas * sizeof(byte));
 	} else {
@@ -2355,8 +2349,7 @@ int AAS_NearestHideArea(int srcnum, vec3_t origin, int areanum, int enemynum, ve
 			}
 
 			if (!besttraveltime || besttraveltime > t) {
-				// 
-				// if this area doesn't have a vis list, ignore it
+							// if this area doesn't have a vis list, ignore it
 				if ((*aasworld).areavisibility[nextareanum]) {
 					// if the nextarea is not visible from the enemy area
 					if (!AAS_AreaVisible(enemyareanum, nextareanum)) { // now last of all, check that this area is a safe hiding spot
@@ -2432,13 +2425,11 @@ int AAS_FindAttackSpotWithinRange(int srcnum, int rangenum, int enemynum, float 
 	} else {
 		memset((*aasworld).hidetraveltimes, 0, (*aasworld).numareas * sizeof(unsigned short int));
 	}
-	// 
 	if (!(*aasworld).visCache) {
 		(*aasworld).visCache = (byte *)GetClearedMemory((*aasworld).numareas * sizeof(byte));
 	} else {
 		memset((*aasworld).visCache, 0, (*aasworld).numareas * sizeof(byte));
 	}
-	// 
 	srcarea = AAS_BestReachableEntityArea(srcnum);
 	rangearea = AAS_BestReachableEntityArea(rangenum);
 	enemyarea = AAS_BestReachableEntityArea(enemynum);

@@ -53,13 +53,13 @@ void DeathmatchScoreboardMessage(gentity_t *ent) {
 		int respawnsLeft;
 
 		cl = &level.clients[level.sortedClients[i]];
-		// NERVE - SMF - if on same team, send across player class
+		// if on same team, send across player class
 		if (cl->ps.persistant[PERS_TEAM] == ent->client->ps.persistant[PERS_TEAM]) {
 			playerClass = cl->ps.stats[STAT_PLAYER_CLASS];
 		} else {
 			playerClass = 0;
 		}
-		// NERVE - SMF - number of respawns left
+		// number of respawns left
 		respawnsLeft = cl->ps.persistant[PERS_RESPAWNS_LEFT];
 
 		if (respawnsLeft == 0 && ((cl->ps.pm_flags & PMF_LIMBO) || (level.intermissiontime && g_entities[level.sortedClients[i]].health <= 0))) {
@@ -238,7 +238,7 @@ void Cmd_Give_f(gentity_t *ent) {
 	if (!CheatsOk(ent)) {
 		return;
 	}
-	// ---- (SA)	check for an amount(like "give health 30")
+	// check for an amount(like "give health 30")
 	amt = ConcatArgs(2);
 	amount = atoi(amt);
 		name = ConcatArgs(1);
@@ -250,7 +250,7 @@ void Cmd_Give_f(gentity_t *ent) {
 	}
 
 	if (give_all || Q_stricmpn(name, "health", 6) == 0) {
-		// ---- (SA)	modified
+		// modified
 		if (amount) {
 			ent->health += amount;
 		} else {
@@ -313,7 +313,7 @@ void Cmd_Give_f(gentity_t *ent) {
 
 	if (give_all || Q_stricmpn(name, "armor", 5) == 0) {
 		if (g_gametype.integer == GT_SINGLE_PLAYER) { // no armor in multiplayer
-			// ---- (SA)	modified
+			// modified
 			if (amount) {
 				ent->client->ps.stats[STAT_ARMOR] += amount;
 			} else {
@@ -571,7 +571,7 @@ void SetTeam(gentity_t *ent, char *s) {
 			trap_SendServerCommand(clientNum, "cp \"You cannot switch during a match, please wait until the round ends.\n\"");
 			return; // ignore the request
 		}
-		// NERVE - SMF - merge from team arena
+		// merge from team arena
 		if (g_teamForceBalance.integer) {
 			int counts[TEAM_NUM_TEAMS];
 
@@ -607,7 +607,7 @@ void SetTeam(gentity_t *ent, char *s) {
 	if (team == oldTeam && team != TEAM_SPECTATOR) {
 		return;
 	}
-	// NERVE - SMF - prevent players from switching to regain deployments
+	// prevent players from switching to regain deployments
 	if (g_maxlives.integer > 0 && ent->client->ps.persistant[PERS_RESPAWNS_LEFT] == 0 &&
 		 oldTeam != TEAM_SPECTATOR) {
 		trap_SendServerCommand(clientNum, "cp \"You can't switch teams because you are out of lives.\n\" 3");
@@ -622,7 +622,6 @@ void SetTeam(gentity_t *ent, char *s) {
 	// dhm
 
 	// execute the team change
-	// 
 
 	// DHM - Nerve
 	if (client->pers.initialSpawn && team != TEAM_SPECTATOR) {
@@ -690,7 +689,7 @@ to free floating spectator mode
 */
 void StopFollowing(gentity_t *ent) {
 
-	if (g_gametype.integer < GT_WOLF) {     // NERVE - SMF - don't forcibly set this for multiplayer
+	if (g_gametype.integer < GT_WOLF) {     // don't forcibly set this for multiplayer
 		ent->client->sess.sessionTeam = TEAM_SPECTATOR;
 		ent->client->ps.persistant[PERS_TEAM] = TEAM_SPECTATOR;
 	}
@@ -932,7 +931,7 @@ void G_SayTo(gentity_t *ent, gentity_t *other, int mode, int color, const char *
 		 && ent->client->sess.sessionTeam != TEAM_FREE) {
 		return;
 	}
-	// NERVE - SMF - if spectator, no chatting to players in WolfMP
+	// if spectator, no chatting to players in WolfMP
 	if (g_gametype.integer >= GT_WOLF
 		 && ((ent->client->sess.sessionTeam == TEAM_FREE && other->client->sess.sessionTeam != TEAM_FREE) ||
 			 (ent->client->sess.sessionTeam == TEAM_SPECTATOR && other->client->sess.sessionTeam != TEAM_SPECTATOR))) {
@@ -1463,7 +1462,7 @@ void Cmd_CallVote_f(gentity_t *ent) {
 		Com_sprintf(level.voteString, sizeof(level.voteString), "%s %d", arg1, i);
 		Com_sprintf(level.voteDisplayString, sizeof(level.voteDisplayString), "%s %s", arg1, gameNames[i]);
 	} else if (!Q_stricmp(arg1, "map_restart")) {
-		// NERVE - SMF - do a warmup when we restart maps
+		// do a warmup when we restart maps
 		if (strlen(arg2)) {
 			Com_sprintf(level.voteString, sizeof(level.voteString), "%s \"%s\"", arg1, arg2);
 		} else {
@@ -1851,7 +1850,7 @@ void Cmd_Activate_f(gentity_t *ent) {
 	 ((Q_stricmp(traceEnt->classname, "misc_mg42") == 0) && traceEnt->active == qfalse)       {
 			if (
 				(traceEnt->r.currentOrigin[2] - ent->r.currentOrigin[2] < 40) && (traceEnt->r.currentOrigin[2] - ent->r.currentOrigin[2] > 0) && !infront(traceEnt, ent)) {
-				// ---- (SA)	make sure the client isn't holding a hot potato
+				// make sure the client isn't holding a hot potato
 				gclient_t *cl;
 				cl = &level.clients[ent->s.clientNum];
 
@@ -1883,7 +1882,7 @@ void Cmd_Activate_f(gentity_t *ent) {
 					cl->pmext.centerangles[ROLL] = AngleNormalize180(cl->pmext.centerangles[ROLL]);
 
 					if (!(ent->r.svFlags & SVF_CASTAI)) {
-						G_UseTargets(traceEnt, ent);  // ---- (SA)	added for Mike so mounting an MG42 can be a trigger event(let me know if there's any issues with this)
+						G_UseTargets(traceEnt, ent);  // added for Mike so mounting an MG42 can be a trigger event(let me know if there's any issues with this)
 					}
 				}
 			}
@@ -1985,7 +1984,7 @@ int Cmd_WolfKick_f(gentity_t *ent) {
 	if (!ent->melee) { // because we dont want you to open a door with a prop
 		if ((Q_stricmp(traceEnt->classname, "func_door_rotating") == 0) && (traceEnt->s.apos.trType == TR_STATIONARY && traceEnt->s.pos.trType == TR_STATIONARY) && traceEnt->active == qfalse) {
 			if (traceEnt->key < 0) { // door force locked
-				// ---- (SA)	play kick "hit" sound
+				// play kick "hit" sound
 				tent = G_TempEntity(tr.endpos, EV_WOLFKICK_HIT_WALL);
 				tent->s.otherEntityNum = ent->s.number;	\
 								AICast_AudibleEvent(ent->s.clientNum, tr.endpos, HEAR_RANGE_DOOR_KICKLOCKED); // "someone kicked a locked door near me!"
@@ -1996,14 +1995,14 @@ int Cmd_WolfKick_f(gentity_t *ent) {
 					G_AddEvent(traceEnt, EV_GENERAL_SOUND, G_SoundIndex("sound / movers / doors / default_door_locked.wav"));
 				}
 
-				return 1;  // ---- (SA)	changed. shows boot for locked doors
+				return 1;  // changed. shows boot for locked doors
 			}
 
 			if (traceEnt->key > 0) { // door requires key
 				gitem_t *item = BG_FindItemForKey(traceEnt->key, 0);
 
 				if (!(ent->client->ps.stats[STAT_KEYS] & (1 << item->giTag))) {
-					// ---- (SA)	play kick "hit" sound
+					// play kick "hit" sound
 					tent = G_TempEntity(tr.endpos, EV_WOLFKICK_HIT_WALL);
 					tent->s.otherEntityNum = ent->s.number;	\
 										AICast_AudibleEvent(ent->s.clientNum, tr.endpos, HEAR_RANGE_DOOR_KICKLOCKED); // "someone kicked a locked door near me!"
@@ -2015,7 +2014,7 @@ int Cmd_WolfKick_f(gentity_t *ent) {
 						G_AddEvent(traceEnt, EV_GENERAL_SOUND, G_SoundIndex("sound / movers / doors / default_door_locked.wav"));
 					}
 
-					return 1;  // ---- (SA)	changed. shows boot animation for locked doors
+					return 1;  // changed. shows boot animation for locked doors
 				}
 			}
 
@@ -2035,7 +2034,6 @@ int Cmd_WolfKick_f(gentity_t *ent) {
 	 ((Q_stricmp(traceEnt->classname, "func_button") == 0) && (traceEnt->s.apos.trType == TR_STATIONARY && traceEnt->s.pos.trType == TR_STATIONARY) && traceEnt->active == qfalse) {
 			Use_BinaryMover(traceEnt, ent, ent);
 			traceEnt->active = qtrue;
-
 
 		} else {
 	 (!Q_stricmp(traceEnt->classname, "func_invisible_user")) {
@@ -2096,7 +2094,7 @@ int Cmd_WolfKick_f(gentity_t *ent) {
 
 		}
 
-		G_Damage(traceEnt, ent, ent, forward, tr.endpos, damage, 0, MOD_KICKED);  // ---- (SA)	modified
+		G_Damage(traceEnt, ent, ent, forward, tr.endpos, damage, 0, MOD_KICKED);  // modified
 	}
 
 	return (1);
@@ -2156,7 +2154,7 @@ void ClientDamage(gentity_t *clent, int entnum, int enemynum, int id) {
 	ent = &g_entities[entnum];
 
 	enemy = &g_entities[enemynum];
-	// NERVE - SMF - took this out, this is causing more problems than its helping
+	// took this out, this is causing more problems than its helping
 	//  Either a new way has to be found, or this check needs to change.
 	// sanity check(also protect from cheaters)
 // 	if (g_gametype.integer != GT_SINGLE_PLAYER && entnum != clent->s.number) {
@@ -2450,7 +2448,7 @@ void ClientCommand(int clientNum) {
 	}
 	// ignore all other commands when at intermission
 	if (level.intermissiontime) {
-// 		Cmd_Say_f(ent, qfalse, qtrue);			// NERVE - SMF - we don't want to spam the clients with this.
+// 		Cmd_Say_f(ent, qfalse, qtrue);			// we don't want to spam the clients with this.
 		return;
 	}
 

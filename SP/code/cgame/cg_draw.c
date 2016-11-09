@@ -994,7 +994,7 @@ static float CG_DrawTimer(float y) {
 	int w;
 	int mins, seconds, tens;
 	int msec;
-	// NERVE - SMF - draw time remaining in multiplayer
+	// draw time remaining in multiplayer
 	if (cgs.gametype == GT_WOLF) {
 		msec = (cgs.timelimit * 60.f * 1000.f) - (cg.time - cgs.levelStartTime);
 	} else {
@@ -1202,7 +1202,7 @@ static void CG_DrawUpperRight(stereoFrame_t stereoFrame) {
 			CG_DrawAttacker(y);
 		}
 	}
-// ---- (SA)	end
+// end
 }
 
 /*
@@ -1539,7 +1539,7 @@ static void CG_DrawTeamInfo(void) {
 	}
 }
 
-// ---- (SA)	modified
+// modified
 /*
 =======================================================================================================================================
 CG_DrawPickupItem
@@ -1567,7 +1567,7 @@ static void CG_DrawPickupItem(void) {
 // 			trap_R_SetColor(fadeColor);
 // 			CG_DrawPic(8, 380, ICON_SIZE, ICON_SIZE, cg_items[value].icon);
 
-			// ---- (SA)	so we don't pick up all sorts of items and have it print "0 < itemname > "
+			// so we don't pick up all sorts of items and have it print "0 < itemname > "
 			if (bg_itemlist[value].giType == IT_AMMO || bg_itemlist[value].giType == IT_HEALTH || bg_itemlist[value].giType == IT_POWERUP) {
 				if (bg_itemlist[value].world_model[2]) { // this is a multi - stage item
 					// FIXME: print the correct amount for multi - stage
@@ -1582,7 +1582,7 @@ static void CG_DrawPickupItem(void) {
 			} else {
 				Com_sprintf(pickupText, sizeof(pickupText), "%s", cgs.itemPrintNames[value]);
 			}
-			// ---- (SA)	trying smaller text
+			// trying smaller text
 			color[0] = color[1] = color[2] = 1.0;
 			color[3] = fadeColor[0];
 			CG_DrawStringExt2(ICON_SIZE + 16, 398, pickupText, color, qfalse, qtrue, 10, 10, 0);
@@ -1592,7 +1592,7 @@ static void CG_DrawPickupItem(void) {
 		}
 	}
 }
-// ---- (SA)	end
+// end
 
 
 /*
@@ -1630,8 +1630,8 @@ void CG_DrawHoldableItem_old(void) {
 				value = 3; // 3 stages to icon, just draw full if beyond 'full'
 
 			}
-			// ---- (SA)	trying smaller text
-			// ---- (SA)	and off to the right side of the HUD
+			// trying smaller text
+			// and off to the right side of the HUD
 // 			CG_DrawPic(100, (SCREEN_HEIGHT - ICON_SIZE) - 8, ICON_SIZE / 2, ICON_SIZE, cg_items[item - bg_itemlist].icons[2 - (value - 1)]);
 			CG_DrawPic(606, 366, 24, 24, cg_items[item - bg_itemlist].icons[2 - (value - 1)]);
 
@@ -1937,9 +1937,9 @@ for a few moments
 void CG_CenterPrint(const char *str, int y, int charWidth) {
 	char *s;
 
-// ---- (SA)	added translation lookup
+// added translation lookup
 	Q_strncpyz(cg.centerPrint, CG_translateString((char *)str), sizeof(cg.centerPrint));
-// ---- (SA)	end
+// end
 
 
 	cg.centerPrintTime = cg.time;
@@ -2265,7 +2265,7 @@ static void CG_DrawWeapReticle(void) {
 }
 
 
-// ---- (SA)	removed(9 / 8 / 2001)
+// removed(9 / 8 / 2001)
 
 /*
 =======================================================================================================================================
@@ -2452,7 +2452,7 @@ static void CG_DrawCrosshair(void) {
 		}
 	}
 
-	if (!cg_drawCrosshair.integer) { // ---- (SA)	moved down so it doesn't keep the scoped weaps from drawing reticles
+	if (!cg_drawCrosshair.integer) { // moved down so it doesn't keep the scoped weaps from drawing reticles
 		return;
 	}
 	// no crosshair while leaning
@@ -2490,13 +2490,13 @@ static void CG_DrawCrosshair(void) {
 		CG_AdjustFrom640(&x, &y, &w, &h);
 	}
 
-// ---- (SA)	modified
+// modified
 	if (friendInSights) {
 		hShader = cgs.media.crosshairFriendly;
 	} else {
 		hShader = cgs.media.crosshairShader[cg_drawCrosshair.integer % NUM_CROSSHAIRS];
 	}
-	// NERVE - SMF - modified, fixes crosshair offset in shifted / scaled 3d views
+	// modified, fixes crosshair offset in shifted / scaled 3d views
 	// (SA) also breaks scaled view...
 	if (cg_fixedAspect.integer) {
 		CG_DrawPic(((SCREEN_WIDTH - w) * 0.5f) + x, ((SCREEN_HEIGHT - h) * 0.5f) + y, w, h, hShader);
@@ -2626,7 +2626,7 @@ static void CG_DrawCrosshair3D(void) {
 		}
 	}
 
-	if (!cg_drawCrosshair.integer) { // ---- (SA)	moved down so it doesn't keep the scoped weaps from drawing reticles
+	if (!cg_drawCrosshair.integer) { // moved down so it doesn't keep the scoped weaps from drawing reticles
 		return;
 	}
 	// no crosshair while leaning
@@ -2649,7 +2649,7 @@ static void CG_DrawCrosshair3D(void) {
 	f = (float)cg.snap->ps.aimSpreadScale / 255.0;
 	w *= (1 + f * 2.0);
 
-// ---- (SA)	modified
+// modified
 	if (friendInSights) {
 		hShader = cgs.media.crosshairFriendly;
 	} else {
@@ -2701,16 +2701,16 @@ static void CG_ScanForCrosshairEntity(void) {
 	int content;
 	// We want this in multiplayer
 	if (cgs.gametype == GT_SINGLE_PLAYER) {
-		return; // ---- (SA)	don't use any scanning at the moment.
+		return; // don't use any scanning at the moment.
 
 	}
 
 	VectorCopy(cg.refdef.vieworg, start);
-	VectorMA(start, 4096, cg.refdef.viewaxis[0], end);   // ---- (SA)	changed from 8192
+	VectorMA(start, 4096, cg.refdef.viewaxis[0], end);   // changed from 8192
 
 	CG_Trace(&trace, start, vec3_origin, vec3_origin, end, cg.snap->ps.clientNum, CONTENTS_SOLID|CONTENTS_BODY|CONTENTS_ITEM);
 
-// ---- (SA)	allow targets that aren't clients
+// allow targets that aren't clients
 // 	if (trace.entityNum >= MAX_CLIENTS) {
 // 		return;
 // 	}
@@ -2836,9 +2836,9 @@ static void CG_DrawCrosshairNames(void) {
 		trap_R_SetColor(NULL);
 		return;
 	}
-	// NERVE - SMF - use fade alpha but color text according to teams
+	// use fade alpha but color text according to teams
 	teamColor[3] = color[3];
-	// NERVE - SMF - no longer identify opposing side, so just use green now
+	// no longer identify opposing side, so just use green now
 // 	if (cgs.clientinfo[cg.crosshairClientNum].team != cgs.clientinfo[cg.clientNum].team)
 // 		VectorSet(teamColor, 0.7608, 0.1250, 0.0859);			// LIGHT - RED
 // 	else
@@ -3036,7 +3036,7 @@ CG_DrawAmmoWarning
 =======================================================================================================================================
 */
 static void CG_DrawAmmoWarning(void) {
-// ---- (SA)	forcing return for now
+// forcing return for now
 // 			if we have messages to show here, comment back in
 #if 0
 	const char *s;
@@ -3721,7 +3721,7 @@ static void CG_Draw2D(stereoFrame_t stereoFrame) {
 		return;
 	}
 
-	if (cg.cameraMode) { // ---- (SA)	no 2d when in camera view
+	if (cg.cameraMode) { // no 2d when in camera view
 		CG_DrawFlashBlend();   // (for fades) {
 		return;
 	}
@@ -3938,7 +3938,7 @@ void CG_DrawActive(stereoFrame_t stereoView) {
 
 	cg.refdef.glfog.registered = 0; // make sure it doesn't use fog from another scene
 /*
-	// NERVE - SMF - activate limbo menu and draw small 3d window
+	// activate limbo menu and draw small 3d window
 	CG_ActivateLimboMenu();
 
 	if (cg.limboMenu) {
@@ -3966,7 +3966,7 @@ void CG_DrawActive(stereoFrame_t stereoView) {
 
 	trap_R_RenderScene(&cg.refdef);
 	// clear around the rendered view if sized down
-	CG_TileClear();    // ---- (SA)	moved to 2d section to avoid 2d / 3d fog - state problems
+	CG_TileClear();    // moved to 2d section to avoid 2d / 3d fog - state problems
 
 	// draw status bar and other floating elements
 	CG_Draw2D(stereoView);

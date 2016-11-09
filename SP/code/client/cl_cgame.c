@@ -512,7 +512,7 @@ intptr_t CL_CgameSystemCalls(intptr_t *args) {
 	case CG_S_STARTSOUNDEX:
 		S_StartSoundEx(VMA(1), args[2], args[3], args[4], args[5]);
 		return 0;
-// ---- (SA)	end
+// end
 	case CG_S_STARTLOCALSOUND:
 		S_StartLocalSound(args[1], args[2]);
 		return 0;
@@ -535,7 +535,6 @@ intptr_t CL_CgameSystemCalls(intptr_t *args) {
 // 		S_AddLoopingSound(args[1], VMA(2), VMA(3), args[4], args[5], args[6]);
 // 		// S_AddRealLoopingSound(args[1], VMA(2), VMA(3), args[4], args[5]);
 // 		return 0;
-
 
 	case CG_S_STOPSTREAMINGSOUND:
 		S_StopEntStreamingSound(args[1]);
@@ -561,11 +560,11 @@ intptr_t CL_CgameSystemCalls(intptr_t *args) {
 		return S_RegisterSound(VMA(1), qfalse);
 #endif // / // (SA) DOOMSOUND
 	case CG_S_STARTBACKGROUNDTRACK:
-// 		S_StartBackgroundTrack(VMA(1), VMA(2), args[3]); // ---- (SA)	added fadeup time
+// 		S_StartBackgroundTrack(VMA(1), VMA(2), args[3]); // added fadeup time
 		S_StartBackgroundTrack(VMA(1), VMA(2));
 		return 0;
 	case CG_S_FADESTREAMINGSOUND:
-		S_FadeStreamingSound(VMF(1), args[2], args[3]); // ---- (SA)	added music / all - streaming options
+		S_FadeStreamingSound(VMF(1), args[2], args[3]); // added music / all - streaming options
 		return 0;
 	case CG_S_STARTSTREAMINGSOUND:
 		S_StartStreamingSound(VMA(1), VMA(2), args[3], args[4], args[5]);
@@ -658,7 +657,7 @@ intptr_t CL_CgameSystemCalls(intptr_t *args) {
 	case CG_GETUSERCMD:
 		return CL_GetUserCmd(args[1], VMA(2));
 	case CG_SETUSERCMDVALUE:
-		CL_SetUserCmdValue(args[1], args[2], VMF(3), args[4]);   // ---- (SA)	modified	// NERVE - SMF - added fourth arg [cld]
+		CL_SetUserCmdValue(args[1], args[2], VMF(3), args[4]);   // modified	// added fourth arg [cld]
 		return 0;
 	case CG_MEMORY_REMAINING:
 		return Hunk_MemoryRemaining();
@@ -749,7 +748,6 @@ intptr_t CL_CgameSystemCalls(intptr_t *args) {
 
 		startCamera(args[1], args[2]);
 		return 0;
-
 
 	case CG_STOPCAMERA:
 		if (args[1] == 0) { // CAM_PRIMARY

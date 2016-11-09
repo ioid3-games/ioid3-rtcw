@@ -800,7 +800,6 @@ void BotMatch_Camp(bot_state_t *bs, bot_match_t *match) {
 	bs->teammate = client;
 	// not arrived yet
 	bs->arrive_time = 0;
-	// 
 #ifdef DEBUG
 	BotPrintTeamGoal(bs);
 #endif // DEBUG
@@ -834,7 +833,6 @@ void BotMatch_Patrol(bot_state_t *bs, bot_match_t *match) {
 	if (!bs->teamgoal_time) {
 		bs->teamgoal_time = trap_AAS_Time() + TEAM_PATROL_TIME;
 	}
-	// 
 #ifdef DEBUG
 	BotPrintTeamGoal(bs);
 #endif // DEBUG

@@ -162,7 +162,6 @@ void GL_TexEnv(int env) {
 
 	glState.texEnv[glState.currenttmu] = env;
 
-
 	switch (env)
 	{
 	case GL_MODULATE:
@@ -484,7 +483,7 @@ void RB_BeginDrawingView(void) {
 	} else {                                              // world scene with no portal sky
 		clearBits |= GL_DEPTH_BUFFER_BIT;
 
-		// NERVE - SMF - we don't want to clear the buffer when no world model is specified
+		// we don't want to clear the buffer when no world model is specified
 		if (backEnd.refdef.rdflags & RDF_NOWORLDMODEL) {
 			clearBits &= ~GL_COLOR_BUFFER_BIT;
 		}
@@ -1254,7 +1253,6 @@ void RB_ShowImages(void) {
 
 	qglFinish();
 
-
 	start = ri.Milliseconds();
 
 	for (i = 0 ; i < tr.numImages ; i++) {
@@ -1274,9 +1272,9 @@ void RB_ShowImages(void) {
 
 #ifdef USE_OPENGLES
 		GLfloat tex[] = {
-		 0, 0, 
+		 0, 0,
 		 1, 0,
-		 1, 1, 
+		 1, 1,
 		 0, 1};
 		GLfloat vtx[] = {
 		 x, y,

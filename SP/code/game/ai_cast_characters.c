@@ -72,8 +72,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"infantrySightPlayer", "infantryAttackPlayer", "infantryOrders", "infantryDeath", "infantrySilentDeath", 
-			"infantryFlameDeath", 
+			"infantrySightPlayer", "infantryAttackPlayer", "infantryOrders", "infantryDeath", "infantrySilentDeath",
+			"infantryFlameDeath",
 			"infantryPain", "infantryStay", // stay - you're told to stay put
 			"infantryFollow", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"infantryOrdersDeny", // deny - refuse orders(doing something else)
@@ -111,8 +111,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"americanSightPlayer", "americanAttackPlayer", "americanOrders", "americanDeath", "americanSilentDeath", 
-			"americanFlameDeath", 
+			"americanSightPlayer", "americanAttackPlayer", "americanOrders", "americanDeath", "americanSilentDeath",
+			"americanFlameDeath",
 			"americanPain", "americanStay", // stay - you're told to stay put
 			"americanFollow", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"americanOrdersDeny", // deny - refuse orders(doing something else)
@@ -121,8 +121,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 	// AICHAR_ZOMBIE
 	{
 		"Zombie", {
-			200, // running speed		// ---- (SA)	DK requested change
-			60, // walking speed		// ---- (SA)	DK requested change
+			200, // running speed		// DK requested change
+			60, // walking speed		// DK requested change
 			80, // crouching speed
 			90, // Field of View
 			350, // Yaw Speed
@@ -143,8 +143,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"zombieSightPlayer", "zombieAttackPlayer", "zombieOrders", "zombieDeath", "zombieSilentDeath", 
-			"zombieFlameDeath", 
+			"zombieSightPlayer", "zombieAttackPlayer", "zombieOrders", "zombieDeath", "zombieSilentDeath",
+			"zombieFlameDeath",
 			"zombiePain", "sound/weapons/melee / fstatck.wav", // stay - you're told to stay put
 			"sound/weapons/melee / fstmiss.wav", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"zombieOrdersDeny", // deny - refuse orders(doing something else)
@@ -175,10 +175,10 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"warzombieSightPlayer", "warzombieAttackPlayer", "warzombieOrders", "warzombieDeath", "warzombieSilentDeath", 
-			"warzombieFlameDeath", 
+			"warzombieSightPlayer", "warzombieAttackPlayer", "warzombieOrders", "warzombieDeath", "warzombieSilentDeath",
+			"warzombieFlameDeath",
 			"warzombiePain", 
-// ---- (SA)	changed per DK
+// changed per DK
 // 	"sound/weapons/melee / fstatck.wav", // stay - you're told to stay put
 			"sound/weapons/melee / warz_hit.wav", 
 // 	"sound/weapons/melee / fstmiss.wav", // follow - go with ordering player("i'm with you" rather than "yes sir!")
@@ -211,8 +211,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"venomSightPlayer", "venomAttackPlayer", "venomOrders", "venomDeath", "venomSilentDeath", 
-			"venomFlameDeath", 
+			"venomSightPlayer", "venomAttackPlayer", "venomOrders", "venomDeath", "venomSilentDeath",
+			"venomFlameDeath",
 			"venomPain", "venomStay", // stay - you're told to stay put
 			"venomFollow", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"venomOrdersDeny", // deny - refuse orders(doing something else)
@@ -243,8 +243,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"loperSightPlayer", "loperAttackPlayer", "loperOrders", "loperDeath", "loperSilentDeath", 
-			"loperFlameDeath", 
+			"loperSightPlayer", "loperAttackPlayer", "loperOrders", "loperDeath", "loperSilentDeath",
+			"loperFlameDeath",
 			"loperPain", "loperAttack2Start", // stay - you're told to stay put
 			"loperAttackStart", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"loperHit1", // deny - refuse orders(doing something else)
@@ -277,12 +277,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"eliteGuardSightPlayer", "eliteGuardAttackPlayer", "eliteGuardOrders", "eliteGuardDeath", "eliteGuardSilentDeath", 
-			"eliteGuardFlameDeath", 
+			"eliteGuardSightPlayer", "eliteGuardAttackPlayer", "eliteGuardOrders", "eliteGuardDeath", "eliteGuardSilentDeath",
+			"eliteGuardFlameDeath",
 			"eliteGuardPain", "eliteGuardStay", // stay - you're told to stay put
 			"eliteGuardFollow", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"eliteGuardOrdersDeny", // deny - refuse orders(doing something else)
-		}, AITEAM_NAZI, "eliteguard / default", {WP_SILENCER}, // ---- (SA)	TODO: replace w /  "silenced luger"
+		}, AITEAM_NAZI, "eliteguard / default", {WP_SILENCER}, // TODO: replace w /  "silenced luger"
 		BBOX_SMALL, {32, 48}, AIFL_CATCH_GRENADE|AIFL_STAND_IDLE2, 0, 0, 0, NULL, AISTATE_RELAXED
 	},
 	// AICHAR_STIMSOLDIER1
@@ -310,8 +310,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"stimSoldierSightPlayer", "stimSoldierAttackPlayer", "stimSoldierOrders", "stimSoldierDeath", "stimSoldierSilentDeath", 
-			"stimSoldeirFlameDeath", 
+			"stimSoldierSightPlayer", "stimSoldierAttackPlayer", "stimSoldierOrders", "stimSoldierDeath", "stimSoldierSilentDeath",
+			"stimSoldeirFlameDeath",
 			"stimSoldierPain", "stimSoldierStay", // stay - you're told to stay put
 			"stimSoldierFollow", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"stimSoldierOrdersDeny", // deny - refuse orders(doing something else)
@@ -343,8 +343,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"stimSoldierSightPlayer", "stimSoldierAttackPlayer", "stimSoldierOrders", "stimSoldierDeath", "stimSoldierSilentDeath", 
-			"stimSoldierFlameDeath", 
+			"stimSoldierSightPlayer", "stimSoldierAttackPlayer", "stimSoldierOrders", "stimSoldierDeath", "stimSoldierSilentDeath",
+			"stimSoldierFlameDeath",
 			"stimSoldierPain", "stimSoldierStay", // stay - you're told to stay put
 			"stimSoldierFollow", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"stimSoldierOrdersDeny", // deny - refuse orders(doing something else)
@@ -376,8 +376,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"stimSoldierSightPlayer", "stimSoldierAttackPlayer", "stimSoldierOrders", "stimSoldierDeath", "stimSoldierSilentDeath", 
-			"stimSoldierFlameDeath", 
+			"stimSoldierSightPlayer", "stimSoldierAttackPlayer", "stimSoldierOrders", "stimSoldierDeath", "stimSoldierSilentDeath",
+			"stimSoldierFlameDeath",
 			"stimSoldierPain", "stimSoldierStay", // stay - you're told to stay put
 			"stimSoldierFollow", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"stimSoldierOrdersDeny", // deny - refuse orders(doing something else)
@@ -409,8 +409,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			2.0, // pain threshold multiplier
 		}, {
-			"superSoldierSightPlayer", "superSoldierAttackPlayer", "superSoldierOrders", "superSoldierDeath", "superSoldierSilentDeath", 
-			"superSoldierFlameDeath", 
+			"superSoldierSightPlayer", "superSoldierAttackPlayer", "superSoldierOrders", "superSoldierDeath", "superSoldierSilentDeath",
+			"superSoldierFlameDeath",
 			"superSoldierPain", "superSoldierStay", // stay - you're told to stay put
 			"superSoldierFollow", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"superSoldierOrdersDeny", // deny - refuse orders(doing something else)
@@ -441,8 +441,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"blackGuardSightPlayer", "blackGuardAttackPlayer", "blackGuardOrders", "blackGuardDeath", "blackGuardSilentDeath", 
-			"blackGuardFlameDeath", 
+			"blackGuardSightPlayer", "blackGuardAttackPlayer", "blackGuardOrders", "blackGuardDeath", "blackGuardSilentDeath",
+			"blackGuardFlameDeath",
 			"blackGuardPain", "blackGuardStay", // stay - you're told to stay put
 			"blackGuardFollow", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"blackGuardOrdersDeny", // deny - refuse orders(doing something else)
@@ -476,8 +476,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			2.0, // pain threshold multiplier
 		}, {
-			"protoSoldierSightPlayer", "protoSoldierAttackPlayer", "protoSoldierOrders", "protoSoldierDeath", "protoSoldierSilentDeath", 
-			"protoSoldierFlameDeath", 
+			"protoSoldierSightPlayer", "protoSoldierAttackPlayer", "protoSoldierOrders", "protoSoldierDeath", "protoSoldierSilentDeath",
+			"protoSoldierFlameDeath",
 			"protoSoldierPain", "protoSoldierStay", // stay - you're told to stay put
 			"protoSoldierFollow", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"protoSoldierOrdersDeny", // deny - refuse orders(doing something else)
@@ -508,8 +508,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"frogmanSightPlayer", "frogmanAttackPlayer", "frogmanOrders", "frogmanDeath", "frogmanSilentDeath", 
-			"frogmanFlameDeath", 
+			"frogmanSightPlayer", "frogmanAttackPlayer", "frogmanOrders", "frogmanDeath", "frogmanSilentDeath",
+			"frogmanFlameDeath",
 			"frogmanPain", "frogmanStay", // stay - you're told to stay put
 			"frogmanFollow", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"frogmanOrdersDeny", // deny - refuse orders(doing something else)
@@ -541,8 +541,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			3.0, // pain threshold multiplier
 		}, {
-			"helgaAttackPlayer", "helgaAttackPlayer", "helgaOrders", "helgaDeath", "helgaSilentDeath", 
-			"helgaFlameDeath", 
+			"helgaAttackPlayer", "helgaAttackPlayer", "helgaOrders", "helgaDeath", "helgaSilentDeath",
+			"helgaFlameDeath",
 			"helgaAttackPlayer", "sound/weapons/melee / fstatck.wav", // stay - you're told to stay put
 			"helgaFollow", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"helgaOrdersDeny", // deny - refuse orders(doing something else)
@@ -578,7 +578,7 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			5.0, // pain threshold multiplier
 		}, {
-			"heinrichSightPlayer", "heinrichAttackPlayer", "heinrichOrders", "heinrichDeath", "heinrichSilentDeath", "heinrichFlameDeath", 
+			"heinrichSightPlayer", "heinrichAttackPlayer", "heinrichOrders", "heinrichDeath", "heinrichSilentDeath", "heinrichFlameDeath",
 			"heinrichPain", "heinrichStay", // stay - you're told to stay put
 			"heinrichFollow", // follow - go with ordering player("i'm with you" rather than "yes sir!")
 			"heinrichStomp", // deny - refuse orders(doing something else)
@@ -611,9 +611,9 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"partisanSightPlayer", "partisanAttackPlayer", "partisanOrders", "partisanDeath", "partisanSilentDeath", 
-			"partisanFlameDeath", 
-			"partisanPain", "partisanStay", "partisanFollow", "partisanOrdersDeny",}, AITEAM_ALLIES, // ---- (SA)	changed affiliation for DK
+			"partisanSightPlayer", "partisanAttackPlayer", "partisanOrders", "partisanDeath", "partisanSilentDeath",
+			"partisanFlameDeath",
+			"partisanPain", "partisanStay", "partisanFollow", "partisanOrdersDeny",}, AITEAM_ALLIES, // changed affiliation for DK
 		"partisan / default", {WP_THOMPSON}, BBOX_SMALL, {32, 48}, AIFL_CATCH_GRENADE|AIFL_STAND_IDLE2, 0, 0, 0, NULL, AISTATE_RELAXED
 	},
 	// AICHAR_CIVILIAN
@@ -641,9 +641,9 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			512, // relaxed detection radius
 			1.0, // pain threshold multiplier
 		}, {
-			"civilianSightPlayer", "civilianAttackPlayer", "civilianOrders", "civilianDeath", "civilianSilentDeath", 
-			"civilianFlameDeath", 
-			"civilianPain", "civilianStay", "civilianFollow", "civilianOrdersDeny",}, AITEAM_NEUTRAL, // ---- (SA)	changed affiliation for DK
+			"civilianSightPlayer", "civilianAttackPlayer", "civilianOrders", "civilianDeath", "civilianSilentDeath",
+			"civilianFlameDeath",
+			"civilianPain", "civilianStay", "civilianFollow", "civilianOrdersDeny",}, AITEAM_NEUTRAL, // changed affiliation for DK
 		"civilian / default", {0}, BBOX_SMALL, {32, 48}, AIFL_CATCH_GRENADE|AIFL_STAND_IDLE2, 0, 0, 0, NULL, AISTATE_RELAXED
 	}, 
 
@@ -728,13 +728,13 @@ void AIChar_SetBBox(gentity_t *ent, cast_state_t *cs, qboolean useHeadTag) {
 AIChar_Death
 =======================================================================================================================================
 */
-void AIChar_Death(gentity_t *ent, gentity_t *attacker, int damage, int mod) { // ---- (SA)	added mod
+void AIChar_Death(gentity_t *ent, gentity_t *attacker, int damage, int mod) { // added mod
 	// need this check otherwise sound will overwrite gib message
 	if (ent->health > GIB_HEALTH) {
 		if (ent->client->ps.eFlags & EF_HEADSHOT) {
 			G_AddEvent(ent, EV_GENERAL_SOUND, G_SoundIndex(aiDefaults[ent->aiCharacter].soundScripts[QUIETDEATHSOUNDSCRIPT]));
 		} else {
-			switch (mod) {             // ---- (SA)	modified to add 'quiet' deaths
+			switch (mod) {             // modified to add 'quiet' deaths
 			case MOD_KNIFE_STEALTH:
 			case MOD_SNIPERRIFLE:
 			case MOD_SNOOPERSCOPE:

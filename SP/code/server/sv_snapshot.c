@@ -559,7 +559,7 @@ static void SV_BuildClientSnapshot(client_t *client) {
 	VectorCopy(ps->origin, org);
 	org[2] += ps->viewheight;
 
-// ---- (SA)	added for 'lean'
+// added for 'lean'
 	// need to account for lean, so areaportal doors draw properly
 	if (frame->ps.leanf != 0) {
 		vec3_t right, v3ViewAngles;

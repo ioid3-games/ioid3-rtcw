@@ -304,8 +304,7 @@ static void CG_SoundParseSounds(char *filename, char *buffer) {
 			// setup the new sound defaults
 			sound.channel = CHAN_AUTO;
 			sound.attenuation = 1; // default to fade away with distance(for streaming sounds)
-			// 
-			continue;
+					continue;
 		}
 		// we are inside a sound script
 

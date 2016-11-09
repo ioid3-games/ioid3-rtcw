@@ -37,7 +37,7 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #define RTBID                      (('B' << 24) + ('T' << 16) + ('R' << 8) + 'X')
 #define RTBVERSION                  17
 
-#define RTB_BADTRAVELFLAGS         (TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA) // ---- (SA)	modified since slime is no longer deadly
+#define RTB_BADTRAVELFLAGS         (TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA) // modified since slime is no longer deadly
 //#define RTB_BADTRAVELFLAGS			(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_SLIME|TFL_LAVA)
 
 #define MAX_VISIBLE_AREAS   1024   // going over this limit will result in excessive memory usage, try and keep RANGE low enough so this limit won't be reached

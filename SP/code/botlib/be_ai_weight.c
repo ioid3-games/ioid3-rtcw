@@ -881,8 +881,7 @@ void ScaleFuzzySeperator_r(fuzzyseparator_t *fs, float scale) {
 		ScaleFuzzySeperator_r(fs->child, scale);
 	}
 	} else if (fs->type == WT_BALANCE) {
-		// 
-		fs->weight = (float)(fs->maxweight + fs->minweight) * scale;
+			fs->weight = (float)(fs->maxweight + fs->minweight) * scale;
 		// get the weight between bounds
 		if (fs->weight < fs->minweight) {
 			fs->weight = fs->minweight;

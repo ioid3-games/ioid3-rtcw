@@ -268,7 +268,7 @@ void AAS_JumpReachRunStart(aas_reachability_t *reach, vec3_t runstart) {
 	AAS_PredictClientMovement(&move, -1, start, PRESENCE_NORMAL, qtrue, vec3_origin, cmdmove, 1, 2, 0.1, SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_GAP, 0, qfalse);
 	VectorCopy(move.endpos, runstart);
 	// don't enter slime or lava and don't fall from too high
-	if (move.stopevent & (SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) { // ---- (SA)	modified since slime is no longer deadly
+	if (move.stopevent & (SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) { // modified since slime is no longer deadly
 // if (move.stopevent & (SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE))
 		VectorCopy(start, runstart);
 	}
@@ -790,7 +790,7 @@ int AAS_ClientMovementPrediction(struct aas_clientmove_s *move, int entnum, vec3
 			if (!gaptrace.startsolid) {
 				// if it is a gap (lower than one step height)
 				if (gaptrace.endpos[2] < org[2] - aassettings.sv_maxstep - 1) {
-					if (!(AAS_PointContents(end) & (CONTENTS_WATER|CONTENTS_SLIME))) { // ---- (SA)	modified since slime is no longer deadly
+					if (!(AAS_PointContents(end) & (CONTENTS_WATER|CONTENTS_SLIME))) { // modified since slime is no longer deadly
 // 				if (!(AAS_PointContents(end) & CONTENTS_WATER))
 						VectorCopy(lastorg, move->endpos);
 						VectorScale(frame_test_vel, 1 / frametime, move->velocity);

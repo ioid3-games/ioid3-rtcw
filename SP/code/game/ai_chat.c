@@ -1189,8 +1189,7 @@ void BotChatTest(bot_state_t *bs) {
 	num = trap_BotNumInitialChats(bs->cs, "death_drown");
 
 	for (i = 0; i < num; i++) {
-		// 
-		BotAI_BotInitialChat(bs, "death_drown", name, NULL);
+			BotAI_BotInitialChat(bs, "death_drown", name, NULL);
 		trap_BotEnterChat(bs->cs, bs->client, CHAT_ALL);
 	}
 
@@ -1278,8 +1277,7 @@ void BotChatTest(bot_state_t *bs) {
 	num = trap_BotNumInitialChats(bs->cs, "kill_gauntlet");
 
 	for (i = 0; i < num; i++) {
-		// 
-		BotAI_BotInitialChat(bs, "kill_gauntlet", name, NULL);
+			BotAI_BotInitialChat(bs, "kill_gauntlet", name, NULL);
 		trap_BotEnterChat(bs->cs, bs->client, CHAT_ALL);
 	}
 
@@ -1350,8 +1348,7 @@ void BotChatTest(bot_state_t *bs) {
 	num = trap_BotNumInitialChats(bs->cs, "random_misc");
 
 	for (i = 0; i < num; i++) {
-		// 
-		BotAI_BotInitialChat(bs, "random_misc", BotRandomOpponentName(bs), // 0
+			BotAI_BotInitialChat(bs, "random_misc", BotRandomOpponentName(bs), // 0
 							  name, // 1
 							  "[invalid var]", // 2
 							  "[invalid var]", // 3

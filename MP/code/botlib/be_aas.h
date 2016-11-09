@@ -66,7 +66,7 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 
 // default travel flags
 
-// ---- (SA)	modified since slime is no longer deadly
+// modified since slime is no longer deadly
 #define TFL_DEFAULT(TFL_WALK|TFL_CROUCH|TFL_BARRIERJUMP |	\
 					  TFL_JUMP|TFL_LADDER|\
 					  TFL_WALKOFFLEDGE|TFL_SWIM|TFL_WATERJUMP |	\
@@ -142,7 +142,7 @@ typedef struct aas_entityinfo_s {
 	int legsAnim;          // mask off ANIM_TOGGLEBIT
 	int torsoAnim;         // mask off ANIM_TOGGLEBIT
 // int weapAnim;		// mask off ANIM_TOGGLEBIT	
-// ---- (SA)	didn't want to comment in as I wasn't sure of any implications of changing this structure.
+// didn't want to comment in as I wasn't sure of any implications of changing this structure.
 } aas_entityinfo_t;
 
 

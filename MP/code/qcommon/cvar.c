@@ -423,7 +423,6 @@ cvar_t *Cvar_Get(const char *var_name, const char *var_value, int flags) {
 		return var;
 	}
 	// allocate a new cvar
-	// 
 
 	// find a free cvar
 	for (index = 0; index < MAX_CVARS; index++) {
@@ -811,8 +810,8 @@ void Cvar_Toggle_f(void) {
 	}
 
 	if (c == 2) {
-		Cvar_Set2(Cmd_Argv(1), va("%d", 
-			!Cvar_VariableValue(Cmd_Argv(1))), 
+		Cvar_Set2(Cmd_Argv(1), va("%d",
+			!Cvar_VariableValue(Cmd_Argv(1))),
 			qfalse);
 		return;
 	}
@@ -1416,6 +1415,6 @@ void Cvar_Init(void) {
 	Cmd_AddCommand("cvarlist", Cvar_List_f);
 	Cmd_AddCommand("cvar_modified", Cvar_ListModified_f);
 	Cmd_AddCommand("cvar_restart", Cvar_Restart_f);
-	// NERVE - SMF - can't rely on autoexec to do this
+	// can't rely on autoexec to do this
 	Cvar_Get("devdll", "1", CVAR_ROM);
 }

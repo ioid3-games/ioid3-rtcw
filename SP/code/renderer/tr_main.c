@@ -238,7 +238,6 @@ void R_SetFog(int fogvar, int var1, int var2, float r, float g, float b, float d
 
 		memcpy(&glfogsettings[FOG_TARGET], &glfogsettings[glfogNum], sizeof(glfog_t));
 
-
 		// clear, clear, clear
 		memset(&glfogsettings[FOG_MAP], 0, sizeof(glfog_t));
 //		memset(&glfogsettings[FOG_CURRENT], 0, sizeof(glfog_t));
@@ -697,7 +696,6 @@ void R_SetFrameFog(void) {
 	}
 //	else
 //		glfogsettings[FOG_CURRENT].end = 5;
-
 
 	if (r_speeds->integer == 5) {
 		if (glfogsettings[FOG_CURRENT].mode == GL_LINEAR) {

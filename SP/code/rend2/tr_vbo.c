@@ -137,7 +137,6 @@ vao_t *R_CreateVao(const char *name, byte *vertexes, int vertexesSize, byte *ind
 
 	Q_strncpyz(vao->name, name, sizeof(vao->name));
 
-
 	if (glRefConfig.vertexArrayObject)
 	{
 		qglGenVertexArrays(1, &vao->vao);
@@ -152,14 +151,12 @@ vao_t *R_CreateVao(const char *name, byte *vertexes, int vertexesSize, byte *ind
 	qglBindBuffer(GL_ARRAY_BUFFER, vao->vertexesVBO);
 	qglBufferData(GL_ARRAY_BUFFER, vertexesSize, vertexes, glUsage);
 
-
 	vao->indexesSize = indexesSize;
 
 	qglGenBuffers(1, &vao->indexesIBO);
 
 	qglBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vao->indexesIBO);
 	qglBufferData(GL_ELEMENT_ARRAY_BUFFER, indexesSize, indexes, glUsage);
-
 
 	glState.currentVao = vao;
 
@@ -254,7 +251,6 @@ vao_t *R_CreateVao2(const char *name, int numVertexes, srfVert_t *verts, int num
 	vao->attribs[ATTR_INDEX_COLOR         ].stride = dataSize;
 	vao->attribs[ATTR_INDEX_LIGHTDIRECTION].stride = dataSize;
 
-
 	if (glRefConfig.vertexArrayObject)
 	{
 		qglGenVertexArrays(1, &vao->vao);
@@ -305,7 +301,6 @@ vao_t *R_CreateVao2(const char *name, int numVertexes, srfVert_t *verts, int num
 	qglBindBuffer(GL_ARRAY_BUFFER, vao->vertexesVBO);
 	qglBufferData(GL_ARRAY_BUFFER, vao->vertexesSize, data, glUsage);
 
-
 	// create IBO
 	vao->indexesSize = numIndexes * sizeof(glIndex_t);
 
@@ -314,9 +309,7 @@ vao_t *R_CreateVao2(const char *name, int numVertexes, srfVert_t *verts, int num
 	qglBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vao->indexesIBO);
 	qglBufferData(GL_ELEMENT_ARRAY_BUFFER, vao->indexesSize, indexes, glUsage);
 
-
 	Vao_SetVertexPointers(vao);
-
 
 	glState.currentVao = vao;
 

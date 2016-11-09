@@ -601,13 +601,13 @@ void G_AddEvent(gentity_t *ent, int event, int eventParm) {
 	}
 	// use the sequential event list
 	if (ent->client) {
-		// NERVE - SMF - commented in - externalEvents not being handled properly in Wolf right now
+		// commented in - externalEvents not being handled properly in Wolf right now
 		ent->client->ps.events[ent->client->ps.eventSequence & (MAX_EVENTS - 1)] = event;
 		ent->client->ps.eventParms[ent->client->ps.eventSequence & (MAX_EVENTS - 1)] = eventParm;
 		ent->client->ps.eventSequence++;
 		// - NERVE - SMF
 
-		// NERVE - SMF - commented out
+		// commented out
 // 	bits = ent->client->ps.externalEvent & EV_EVENT_BITS;
 // 	bits = (bits + EV_EVENT_BIT1) & EV_EVENT_BITS;
 // 	ent->client->ps.externalEvent = event|bits;
@@ -615,13 +615,13 @@ void G_AddEvent(gentity_t *ent, int event, int eventParm) {
 // 	ent->client->ps.externalEventTime = level.time;
 		// - NERVE - SMF
 	} else {
-		// NERVE - SMF - commented in - externalEvents not being handled properly in Wolf right now
+		// commented in - externalEvents not being handled properly in Wolf right now
 		ent->s.events[ent->s.eventSequence & (MAX_EVENTS - 1)] = event;
 		ent->s.eventParms[ent->s.eventSequence & (MAX_EVENTS - 1)] = eventParm;
 		ent->s.eventSequence++;
 		// - NERVE - SMF
 
-		// NERVE - SMF - commented out
+		// commented out
 // 	bits = ent->s.event & EV_EVENT_BITS;
 // 	bits = (bits + EV_EVENT_BIT1) & EV_EVENT_BITS;
 // 	ent->s.event = event|bits;
@@ -728,7 +728,7 @@ qboolean infront(gentity_t *self, gentity_t *other) {
 	dot = DotProduct(vec, forward);
 	// G_Printf("other %5.2f\n", dot);
 
-	if (!other->aiCharacter && self->activateArc) { // ---- (SA)	make sure ai's aren't constrained to the grabarc of an mg42
+	if (!other->aiCharacter && self->activateArc) { // make sure ai's aren't constrained to the grabarc of an mg42
 		float angle;
 		angle = RAD2DEG(M_PI - acos(dot));
 

@@ -233,7 +233,7 @@ vmCvar_t cg_animState;
 vmCvar_t cg_missionStats;
 vmCvar_t cg_waitForFire;
 
-// NERVE - SMF - Wolf multiplayer configuration cvars
+// Wolf multiplayer configuration cvars
 vmCvar_t mp_playerType;
 vmCvar_t mp_currentPlayerType;
 vmCvar_t mp_team;
@@ -274,15 +274,15 @@ cvarTable_t cvarTable[] = {
 	{&cg_zoomDefaultBinoc, "cg_zoomDefaultBinoc", "22.5", CVAR_ARCHIVE},
 	{&cg_zoomDefaultSniper, "cg_zoomDefaultSniper", "20", CVAR_ARCHIVE}, // JPW NERVE changed per atvi req
 	{&cg_zoomDefaultSnooper, "cg_zoomDefaultSnooper", "40", CVAR_ARCHIVE}, // JPW NERVE made temp
-	{&cg_zoomDefaultFG, "cg_zoomDefaultFG", "55", CVAR_ARCHIVE},   // ---- (SA)	added // JPW NERVE made temp
+	{&cg_zoomDefaultFG, "cg_zoomDefaultFG", "55", CVAR_ARCHIVE},   // added // JPW NERVE made temp
 	{&cg_zoomStepBinoc, "cg_zoomStepBinoc", "3", CVAR_ARCHIVE},
 	{&cg_zoomStepSniper, "cg_zoomStepSniper", "2", CVAR_ARCHIVE},
 	{&cg_zoomStepSnooper, "cg_zoomStepSnooper", "5", CVAR_ARCHIVE},
-	{&cg_zoomStepFG, "cg_zoomStepFG", "10", CVAR_ARCHIVE}, 
+	{&cg_zoomStepFG, "cg_zoomStepFG", "10", CVAR_ARCHIVE},
 	{&cg_fov, "cg_fov", "90", CVAR_ARCHIVE},
 	{&cg_fixedAspect, "cg_fixedAspect", "0", CVAR_ARCHIVE|CVAR_LATCH}, // Essentially the same as setting DF_FIXED_FOV for widescreen aspects
 	{&cg_viewsize, "cg_viewsize", "100", CVAR_ARCHIVE},
-	{&cg_letterbox, "cg_letterbox", "0", CVAR_TEMP}, 
+	{&cg_letterbox, "cg_letterbox", "0", CVAR_TEMP},
 	{&cg_shadows, "cg_shadows", "1", CVAR_ARCHIVE},
 	{&cg_gibs, "cg_gibs", "1", CVAR_ARCHIVE},
 	{&cg_draw2D, "cg_draw2D", "1", CVAR_CHEAT}, // JPW NERVE changed per atvi req to prevent sniper rifle zoom cheats
@@ -302,7 +302,7 @@ cvarTable_t cvarTable[] = {
 	{&cg_drawRewards, "cg_drawRewards", "1", CVAR_ARCHIVE},
 	{&cg_hudAlpha, "cg_hudAlpha", "1", CVAR_ARCHIVE},
 	{&cg_useWeapsForZoom, "cg_useWeapsForZoom", "1", CVAR_ARCHIVE},
-	{&cg_weaponCycleDelay, "cg_weaponCycleDelay", "150", CVAR_ARCHIVE}, 
+	{&cg_weaponCycleDelay, "cg_weaponCycleDelay", "150", CVAR_ARCHIVE},
 	{&cg_cycleAllWeaps, "cg_cycleAllWeaps", "1", CVAR_ARCHIVE},
 	{&cg_drawAllWeaps, "cg_drawAllWeaps", "1", CVAR_ARCHIVE},
 	{&cg_crosshairSize, "cg_crosshairSize", "48", CVAR_ARCHIVE},
@@ -751,7 +751,7 @@ static void CG_RegisterSounds(void) {
 	char items[MAX_ITEMS + 1];
 	char name[MAX_QPATH];
 	const char *soundName;
-	// NERVE - SMF - voice commands
+	// voice commands
 	CG_LoadVoiceChats();
 	// init sound scripts
 	CG_SoundInit();
@@ -976,14 +976,14 @@ static void CG_RegisterSounds(void) {
 	cgs.media.sparkSounds[1] = trap_S_RegisterSound("sound/world/arc2.wav");
 
 
-// ---- (SA)	doors and kick
+// doors and kick
 
 	// Used for multiplayer
 	if (cgs.gametype >= GT_WOLF) {
 		trap_S_RegisterSound("sound / multiplayer / artillery_01.wav");
 		trap_S_RegisterSound("sound / multiplayer / airstrike_01.wav");
 	}
-	// ---- (SA)	removed some unnecessary stuff
+	// removed some unnecessary stuff
 
 /* JPW NERVE -- kick pulled from MP(cheat issues)
 	trap_S_RegisterSound("sound/weapons/melee / fstatck.wav");
@@ -1130,7 +1130,7 @@ static void CG_RegisterGraphics(void) {
 	cgs.media.tracerShader = trap_R_RegisterShader("gfx/misc/tracer");
 	cgs.media.selectShader = trap_R_RegisterShader("gfx/2d/select");
 
-// ---- (SA)	cursor hints
+// cursor hints
 	cgs.media.usableHintShader = trap_R_RegisterShader("gfx/2d/usableHint");
 	cgs.media.notUsableHintShader = trap_R_RegisterShader("gfx/2d/notUsableHint");
 	cgs.media.doorHintShader = trap_R_RegisterShader("gfx/2d/doorHint");
@@ -1274,7 +1274,7 @@ static void CG_RegisterGraphics(void) {
 
 	cgs.media.bloodExplosionShader = trap_R_RegisterShader("bloodExplosion");
 	// cgs.media.bleedExplosionShader = trap_R_RegisterShader("bleedExplosion");
-	// ---- (SA)	water splash
+	// water splash
 	cgs.media.waterSplashModel = trap_R_RegisterModel("models/weaphits/bullet.md3");
 	cgs.media.waterSplashShader = trap_R_RegisterShader("waterSplash");
 		cgs.media.spearModel = trap_R_RegisterModel("models/weaphits/spear.md3");   // ---- (SA)
@@ -1365,7 +1365,7 @@ static void CG_RegisterGraphics(void) {
 // TODO: FIXME:  REMOVE REGISTRATION OF EACH MODEL FOR EVERY LEVEL LOAD
 
 
-	// ---- (SA)	okay, new stuff to intialize rather than doing it at level load time(or "give all" time)
+	// okay, new stuff to intialize rather than doing it at level load time(or "give all" time)
 	// 			(I'm certainly not against being efficient here, but I'm tired of the rocket launcher effect only registering
 	// 			sometimes and want it to work for sure for this demo)
 
@@ -1467,7 +1467,7 @@ static void CG_RegisterGraphics(void) {
 			}
 		}
 	}
-	// NERVE - SMF - register WolfMP models and skins
+	// register WolfMP models and skins
 	{
 		clientInfo_t ci;
 		memset(&ci, 0, sizeof(ci));
@@ -2247,7 +2247,7 @@ void CG_LoadHudMenu(void) {
 
 	Menu_Reset();
 
-	trap_Cvar_Set("cg_hudFiles", "ui_mp / hud.txt"); // NERVE - SMF - we need to hardwire for wolfMP
+	trap_Cvar_Set("cg_hudFiles", "ui_mp / hud.txt"); // we need to hardwire for wolfMP
 
 	trap_Cvar_VariableStringBuffer("cg_hudFiles", buff, sizeof(buff));
 	hudSet = buff;
@@ -2315,7 +2315,7 @@ void CG_Init(int serverMessageNum, int serverCommandSequence, int clientNum) {
 	cgs.animScriptData.soundIndex = CG_SoundScriptPrecache;
 	cgs.animScriptData.playSound = CG_SoundPlayIndexedScript;
 
-	cg.clientNum = clientNum;      // NERVE - SMF - TA merge
+	cg.clientNum = clientNum;      // TA merge
 
 	cgs.processedSnapshotNum = serverMessageNum;
 	cgs.serverCommandSequence = serverCommandSequence;
@@ -2462,5 +2462,5 @@ void CG_S_AddRangedLoopingSound(int entityNum, const vec3_t origin, const vec3_t
 }
 
 void CG_S_AddRealLoopingSound(int entityNum, const vec3_t origin, const vec3_t velocity, sfxHandle_t sfx) {
-	trap_S_AddRealLoopingSound(entityNum, origin, velocity, 1250, sfx, 255);  // ---- (SA)	modified
+	trap_S_AddRealLoopingSound(entityNum, origin, velocity, 1250, sfx, 255);  // modified
 }

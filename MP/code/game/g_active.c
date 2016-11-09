@@ -122,7 +122,7 @@ void P_WorldEffects(gentity_t *ent) {
 		if (envirosuit) {
 			ent->client->airOutTime = level.time + 10000;
 		}
-		// ---- (SA)	both these will end up being by virtue of having the 'breather' powerup
+		// both these will end up being by virtue of having the 'breather' powerup
 		if (ent->client->ps.aiChar == AICHAR_FROGMAN) { // let frogmen breathe forever
 			ent->client->airOutTime = level.time + 10000;
 		}
@@ -213,7 +213,7 @@ void G_SetClientSound(gentity_t *ent) {
 		return;
 	}
 
-	if (ent->waterlevel && (ent->watertype & CONTENTS_LAVA)) { // ---- (SA)	modified since slime is no longer deadly
+	if (ent->waterlevel && (ent->watertype & CONTENTS_LAVA)) { // modified since slime is no longer deadly
 		ent->s.loopSound = level.snd_fry;
 	} else {
 		ent->s.loopSound = 0;
@@ -384,7 +384,6 @@ void SpectatorThink(gentity_t *ent, usercmd_t *ucmd) {
 	client->oldbuttons = client->buttons;
 	client->buttons = ucmd->buttons;
 
-
 	client->oldwbuttons = client->wbuttons;
 	client->wbuttons = ucmd->wbuttons;
 	// attack button cycles through spectators
@@ -519,7 +518,6 @@ void ClientIntermissionThink(gclient_t *client) {
 	client->oldbuttons = client->buttons;
 	client->buttons = client->pers.cmd.buttons;
 
-
 	client->oldwbuttons = client->wbuttons;
 	client->wbuttons = client->pers.cmd.wbuttons;
 
@@ -619,7 +617,7 @@ void ClientEvents(gentity_t *ent, int oldEventSequence) {
 			FireWeapon(ent);
 			break;
 
-// ---- (SA)	modified
+// modified
 		case EV_USE_ITEM1:     // (HI_MEDKIT)	medkit
 		case EV_USE_ITEM2:     // (HI_WINE)		wine
 		case EV_USE_ITEM3:     // (HI_SKULL)		skull of invulnerable
@@ -1134,7 +1132,7 @@ void ClientThink_real(gentity_t *ent) {
 			if (g_gametype.integer == GT_SINGLE_PLAYER) {
 				ClientRespawn(ent);
 			}
-			// NERVE - SMF - we want to only respawn on jump button now
+			// we want to only respawn on jump button now
 			else if ((ucmd->upmove > 0) && (!(ent->client->ps.pm_flags & PMF_LIMBO))) { // JPW NERVE
 				// JPW NERVE
 				if (g_gametype.integer >= GT_WOLF) {
@@ -1145,7 +1143,7 @@ void ClientThink_real(gentity_t *ent) {
 				// jpw
 			}
 			// dhm - Nerve :: end
-			// NERVE - SMF - we want to immediately go to limbo mode if gibbed
+			// we want to immediately go to limbo mode if gibbed
 			else if (client->ps.stats[STAT_HEALTH] <= GIB_HEALTH && !(ent->client->ps.pm_flags & PMF_LIMBO)) {
 				if (g_gametype.integer >= GT_WOLF) {
 					limbo(ent, qfalse);
@@ -1273,7 +1271,7 @@ void SpectatorClientEndFrame(gentity_t *ent) {
 					ent->client->ps.persistant[PERS_RESPAWNS_LEFT] = savedRespawns;
 					ent->client->ps.pm_time = do_respawn;                          // put pm_time back
 					ent->client->ps.persistant[PERS_SCORE] = savedScore;           // put score back
-					ent->client->ps.stats[STAT_PLAYER_CLASS] = savedClass;         // NERVE - SMF - put player class back
+					ent->client->ps.stats[STAT_PLAYER_CLASS] = savedClass;         // put player class back
 				} else {
 					ent->client->ps = cl->ps;
 					ent->client->ps.pm_flags |= PMF_FOLLOW;

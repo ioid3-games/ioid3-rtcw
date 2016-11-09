@@ -268,7 +268,6 @@ static void GLSL_GetShaderHeader(GLenum shaderType, const GLchar *extra, char *d
 	//Q_strcat(dest, size,
 	//       va("#ifndef r_NormalScale\n#define r_NormalScale %f\n#endif\n", r_normalScale->value));
 
-
 	Q_strcat(dest, size, "#ifndef M_PI\n#define M_PI 3.14159265358979323846\n#endif\n");
 
 	//Q_strcat(dest, size, va("#ifndef MAX_SHADOWMAPS\n#define MAX_SHADOWMAPS %i\n#endif\n", MAX_SHADOWMAPS));
@@ -1182,7 +1181,6 @@ void GLSL_InitGPUShaders(void)
 
 	numEtcShaders++;
 
-
 	attribs = ATTR_POSITION | ATTR_TEXCOORD;
 	extradefines[0] = '\0';
 
@@ -1198,7 +1196,6 @@ void GLSL_InitGPUShaders(void)
 	GLSL_FinishGPUShader(&tr.down4xShader);
 
 	numEtcShaders++;
-
 
 	attribs = ATTR_POSITION | ATTR_TEXCOORD;
 	extradefines[0] = '\0';
@@ -1216,7 +1213,6 @@ void GLSL_InitGPUShaders(void)
 
 	numEtcShaders++;
 
-
 	attribs = ATTR_POSITION | ATTR_TEXCOORD;
 	extradefines[0] = '\0';
 
@@ -1233,7 +1229,6 @@ void GLSL_InitGPUShaders(void)
 	GLSL_FinishGPUShader(&tr.tonemapShader);
 
 	numEtcShaders++;
-
 
 	for (i = 0; i < 2; i++)
 	{
@@ -1273,7 +1268,6 @@ void GLSL_InitGPUShaders(void)
 	Q_strcat(extradefines, 1024, va("#define r_shadowMapSize %f\n", r_shadowMapSize->value));
 	Q_strcat(extradefines, 1024, va("#define r_shadowCascadeZFar %f\n", r_shadowCascadeZFar->value));
 
-
 	if (!GLSL_InitGPUShader(&tr.shadowmaskShader, "shadowmask", attribs, qtrue, extradefines, qtrue, fallbackShader_shadowmask_vp, fallbackShader_shadowmask_fp))
 	{
 		ri.Error(ERR_FATAL, "Could not load shadowmask shader!");
@@ -1291,7 +1285,6 @@ void GLSL_InitGPUShaders(void)
 
 	numEtcShaders++;
 
-
 	attribs = ATTR_POSITION | ATTR_TEXCOORD;
 	extradefines[0] = '\0';
 
@@ -1308,7 +1301,6 @@ void GLSL_InitGPUShaders(void)
 
 	numEtcShaders++;
 
-
 	for (i = 0; i < 4; i++)
 	{
 		attribs = ATTR_POSITION | ATTR_TEXCOORD;
@@ -1321,7 +1313,6 @@ void GLSL_InitGPUShaders(void)
 
 		if (!(i & 2))
 			Q_strcat(extradefines, 1024, "#define USE_DEPTH\n");
-
 
 		if (!GLSL_InitGPUShader(&tr.depthBlurShader[i], "depthBlur", attribs, qtrue, extradefines, qtrue, fallbackShader_depthblur_vp, fallbackShader_depthblur_fp))
 		{
@@ -1359,8 +1350,8 @@ void GLSL_InitGPUShaders(void)
 
 	endTime = ri.Milliseconds();
 
-	ri.Printf(PRINT_ALL, "loaded %i GLSL shaders (%i gen %i light %i etc) in %5.2f seconds\n", 
-		numGenShaders + numLightShaders + numEtcShaders, numGenShaders, numLightShaders, 
+	ri.Printf(PRINT_ALL, "loaded %i GLSL shaders (%i gen %i light %i etc) in %5.2f seconds\n",
+		numGenShaders + numLightShaders + numEtcShaders, numGenShaders, numLightShaders,
 		numEtcShaders, (endTime - startTime) / 1000.0);
 }
 

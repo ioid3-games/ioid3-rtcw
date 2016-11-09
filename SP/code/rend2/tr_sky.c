@@ -361,7 +361,6 @@ static void MakeSkyVec(float s, float t, int axis, float outSt[2], vec3_t outXYZ
 
 	t = 1.0 - t;
 
-
 	if (outSt) {
 		outSt[0] = s;
 		outSt[1] = t;
@@ -1039,7 +1038,6 @@ void RB_DrawSun(float scale, shader_t *shader) {
 
 	RB_EndSurface();
 
-
 	if (r_drawSun->integer > 1) { // draw flare effect
 		// (SA) FYI:	This is cheezy and was only a test so far.
 		//				If we decide to use the flare business I will /definatly/ improve all this
@@ -1105,7 +1103,6 @@ void RB_StageIteratorSky(void) {
 
 
 	backEnd.refdef.rdflags |= RDF_DRAWINGSKY;
-
 
 	// go through all the polygons and project them onto
 	// the sky box to see which blocks on each side need

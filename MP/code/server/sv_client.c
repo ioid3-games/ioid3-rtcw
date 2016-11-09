@@ -161,7 +161,7 @@ void SV_GetChallenge(netadr_t from) {
 			}
 
 			fs = Cvar_Get("sv_allowAnonymous", "0", CVAR_SERVERINFO);
-			// NERVE - SMF - fixed parsing on sv_allowAnonymous
+			// fixed parsing on sv_allowAnonymous
 			NET_OutOfBandPrint(NS_SERVER, svs.authorizeAddress, "getIpAuthorize %i %i.%i.%i.%i %s %i", challenge->challenge, from.ip[0], from.ip[1], from.ip[2], from.ip[3], game, fs->integer);
 
 			return;
@@ -1573,7 +1573,7 @@ static qboolean SV_ClientCommand(client_t *cl, msg_t *msg) {
 		SV_DropClient(cl, "Lost reliable commands");
 		return qfalse;
 	}
-	// NERVE - SMF - some server game - only commands we cannot have flood protect
+	// some server game - only commands we cannot have flood protect
 	if (!Q_strncmp("team", s, 4) || !Q_strncmp("setspawnpt", s, 10) || !Q_strncmp("score", s, 5)) {
 // 		Com_DPrintf("Skipping flood protection for: %s\n", s);
 		floodprotect = qfalse;

@@ -182,7 +182,7 @@ without compiled vertex arrays.
 */
 static void R_DrawElements(int numIndexes, const glIndex_t *indexes) {
 #ifdef USE_OPENGLES
-	qglDrawElements(GL_TRIANGLES, 
+	qglDrawElements(GL_TRIANGLES,
 						numIndexes,
 						GL_INDEX_TYPE,
 						indexes);
@@ -302,7 +302,7 @@ static void DrawTris(shaderCommands_t *input) {
 	}
 
 #ifdef USE_OPENGLES
-	qglDrawElements(GL_LINE_STRIP, 
+	qglDrawElements(GL_LINE_STRIP,
 					input->numIndexes,
 					GL_INDEX_TYPE,
 					input->indexes);
@@ -1473,7 +1473,6 @@ void RB_StageIteratorGeneric(void) {
 
 	// set GL fog
 	SetIteratorFog();
-
 
 	//
 	// set face culling appropriately

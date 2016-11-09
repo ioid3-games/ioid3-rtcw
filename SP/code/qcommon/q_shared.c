@@ -929,7 +929,7 @@ int Q_isforfilename(int c) {
 
 	return (0);
 }
-// ---- (SA)	end
+// end
 
 qboolean Q_isanumber(const char *s) {
 	char *p;

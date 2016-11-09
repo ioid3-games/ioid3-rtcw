@@ -68,7 +68,7 @@ pml_t pml;
 float pm_stopspeed = 100;
 // float pm_duckScale = 0.25;
 
-// ---- (SA)	modified
+// modified
 float pm_waterSwimScale = 0.50;
 float pm_waterSprintSwimScale = 0.70;
 float pm_waterWadeScale = 0.70;
@@ -88,7 +88,7 @@ float pm_flightfriction = 3;
 float pm_ladderfriction = 14;
 float pm_spectatorfriction = 5.0f;
 
-// ---- (SA)	end
+// end
 
 int c_pmove = 0;
 
@@ -274,7 +274,7 @@ static void PM_Friction(void) {
 	}
 	// apply water friction even if just wading
 	if (pm->waterlevel) {
-		if (pm->watertype & CONTENTS_SLIME) { // ---- (SA)	slag
+		if (pm->watertype & CONTENTS_SLIME) { // slag
 			drop += speed * pm_slagfriction * pm->waterlevel * pml.frametime;
 		} else {
 			drop += speed * pm_waterfriction * pm->waterlevel * pml.frametime;
@@ -676,7 +676,7 @@ static void PM_WaterMove(void) {
 	VectorCopy(wishvel, wishdir);
 	wishspeed = VectorNormalize(wishdir);
 
-	if (pm->watertype & CONTENTS_SLIME) { // ---- (SA)	slag
+	if (pm->watertype & CONTENTS_SLIME) { // slag
 		if (wishspeed > pm->ps->speed * pm_slagSwimScale) {
 			wishspeed = pm->ps->speed * pm_slagSwimScale;
 		}
@@ -981,7 +981,7 @@ static void PM_WalkMove(void) {
 
 		waterScale = pm->waterlevel / 3.0;
 
-		if (pm->watertype & CONTENTS_SLIME) { // ---- (SA)	slag
+		if (pm->watertype & CONTENTS_SLIME) { // slag
 			waterScale = 1.0 - (1.0 - pm_slagSwimScale) * waterScale;
 		} else {
 			waterScale = 1.0 - (1.0 - pm_waterSwimScale) * waterScale;
@@ -1173,7 +1173,7 @@ static int PM_FootstepForSurface(void) {
 	if (pml.groundTrace.surfaceFlags & SURF_CARPET) {
 		return EV_FOOTSTEP_CARPET;
 	}
-// ---- (SA)	end
+// end
 	return EV_FOOTSTEP;
 }
 
@@ -1249,7 +1249,7 @@ static void PM_CrashLand(void) {
 			Com_Printf("delta: %5.2f\n", delta);
 		}
 
-// ---- (SA)	removed per DM
+// removed per DM
 		// Rafael gameskill
 // 	if (bg_pmove_gameskill_integer == 1)
 // 	{
@@ -1932,7 +1932,7 @@ static void PM_BeginWeaponReload(int weapon) {
 PM_BeginWeaponChange
 =======================================================================================================================================
 */
-static void PM_BeginWeaponChange(int oldweapon, int newweapon, qboolean reload) { // ---- (SA)	modified to play 1st person alt - mode transition animations.
+static void PM_BeginWeaponChange(int oldweapon, int newweapon, qboolean reload) { // modified to play 1st person alt - mode transition animations.
 	int switchtime;
 	qboolean altswitch, showdrop;
 
@@ -1987,7 +1987,7 @@ static void PM_BeginWeaponChange(int oldweapon, int newweapon, qboolean reload) 
 		pm->ps->grenadeTimeLeft = 0;       // initialize the timer on the potato you're switching to
 
 	default:
-		// ---- (SA)	only play the weapon switch sound for the player
+		// only play the weapon switch sound for the player
 		if (!(pm->ps->aiChar)) {
 			PM_AddEvent(EV_CHANGE_WEAPON);
 		}
@@ -2488,7 +2488,7 @@ void PM_AdjustAimSpreadScale(void) {
 	if (wpnScale) {
 
 // JPW NERVE crouched players recover faster(mostly useful for snipers)
-		if ((pm->ps->eFlags & EF_CROUCHING) && (pm->ps->groundEntityNum != ENTITYNUM_NONE)) { // ---- (SA)	modified so you can't do this in the air. cool?
+		if ((pm->ps->eFlags & EF_CROUCHING) && (pm->ps->groundEntityNum != ENTITYNUM_NONE)) { // modified so you can't do this in the air. cool?
 			wpnScale *= 0.5;
 		}
 
@@ -2673,7 +2673,7 @@ static void PM_Weapon(void) {
 	}
 
 
-// ---- (SA)	removed 'quickgrenade'
+// removed 'quickgrenade'
 
 	// weapon cool down
 	PM_CoolWeapons();
@@ -2730,7 +2730,7 @@ static void PM_Weapon(void) {
 			if (pm->ps->grenadeTimeLeft > 8000) {
 				PM_AddEvent(EV_FIRE_WEAPON);
 				pm->ps->weaponTime = 1600;
-				PM_WeaponUseAmmo(pm->ps->weapon, 1);     // ---- (SA)	take ammo
+				PM_WeaponUseAmmo(pm->ps->weapon, 1);     // take ammo
 				return;
 			}
 
@@ -2742,16 +2742,16 @@ static void PM_Weapon(void) {
 			if (pm->ps->grenadeTimeLeft <= 0) { // give two frames advance notice so there's time to launch and detonate
 // 				pm->ps->grenadeTimeLeft = 100;
 // 				PM_AddEvent(EV_FIRE_WEAPON);
-				PM_WeaponUseAmmo(pm->ps->weapon, 1);     // ---- (SA)	take ammo
+				PM_WeaponUseAmmo(pm->ps->weapon, 1);     // take ammo
 // 				pm->ps->weaponTime = 1600;
 
-				PM_AddEvent(EV_GRENADE_SUICIDE);     // ---- (SA)	die, dumbass
+				PM_AddEvent(EV_GRENADE_SUICIDE);     // die, dumbass
 
 				return;
 			}
 		}
 
-		if (!(pm->cmd.buttons & BUTTON_ATTACK)) { // ---- (SA)	modified
+		if (!(pm->cmd.buttons & BUTTON_ATTACK)) { // modified
 			if (pm->ps->weaponDelay == ammoTable[pm->ps->weapon].fireDelayTime) {
 				// released fire button. Fire!!!
 				BG_AnimScriptEvent(pm->ps, ANIM_ET_FIREWEAPON, qfalse, qtrue);
@@ -2798,7 +2798,7 @@ if (pm->ps->weaponTime > 0) {
 		pm->ps->weaponTime = 0;
 	}
 
-// ---- (SA)	removed for DM and id
+// removed for DM and id
 /*
 		// testing special case Pistol, which fires faster if you tap the fire button
 		if (pm->ps->weapon == WP_LUGER) {
@@ -2827,7 +2827,7 @@ if (pm->ps->weaponTime > 0) {
 			}
 		}
 */
-// ---- (SA)	end
+// end
 
 // added back for multiplayer pistol balancing
 #ifdef CGAMEDLL
@@ -2865,7 +2865,7 @@ if (pm->ps->weaponTime > 0) {
 if (pm->ps->weaponTime <= 0 || (!weaponstateFiring && pm->ps->weaponDelay <= 0)) {
 
 	if (pm->ps->weapon != pm->cmd.weapon) {
-		PM_BeginWeaponChange(pm->ps->weapon, pm->cmd.weapon, qfalse);    // ---- (SA)	modified
+		PM_BeginWeaponChange(pm->ps->weapon, pm->cmd.weapon, qfalse);    // modified
 	}
 }
 
@@ -3255,7 +3255,7 @@ case WP_AKIMBO:
 
 	aimSpreadScaleAdd = 20;
 	break;
-// ---- (SA)	end
+// end
 
 case WP_MAUSER:
 case WP_GARAND:
@@ -3559,7 +3559,7 @@ PM_UpdateViewAngles
 This can be used as another entry point when only the viewangles are being updated instead of a full move.
 =======================================================================================================================================
 */
-void PM_UpdateViewAngles(playerState_t *ps, usercmd_t *cmd, void (trace)(trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentMask)) { // ---- (SA)	modified
+void PM_UpdateViewAngles(playerState_t *ps, usercmd_t *cmd, void (trace)(trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentMask)) { // modified
 	short temp;
 	int i;
 	pmove_t tpm;
@@ -3819,7 +3819,7 @@ PM_Sprint
 =======================================================================================================================================
 */
 
-// ---- (SA)	cleaned up for SP(10 / 22 / 01)
+// cleaned up for SP(10 / 22 / 01)
 void PM_Sprint(void) {
 
 	if ((pm->cmd.buttons & BUTTON_SPRINT) && (pm->cmd.forwardmove || pm->cmd.rightmove) && !(pm->ps->pm_flags & PMF_DUCKED) && (!pm->waterlevel)
@@ -3984,7 +3984,7 @@ void PmoveSingle(pmove_t *pmove) {
 	if (!isDummy) {
 		// done.
 		if (!(pm->ps->pm_flags & PMF_LIMBO)) { // JPW NERVE
-			PM_UpdateViewAngles(pm->ps, &pm->cmd, pm->trace); // ---- (SA)	modified
+			PM_UpdateViewAngles(pm->ps, &pm->cmd, pm->trace); // modified
 
 		}
 	}

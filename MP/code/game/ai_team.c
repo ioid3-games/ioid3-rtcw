@@ -155,8 +155,7 @@ int BotSortTeamMatesByBaseTravelTime(bot_state_t *bs, int *teammates, int maxtea
 		}
 
 		if (BotSameTeam(bs, i) && goal) {
-			// 
-			traveltime = BotClientTravelTimeToGoal(i, goal);
+					traveltime = BotClientTravelTimeToGoal(i, goal);
 
 			for (j = 0; j < numteammates; j++) {
 				if (traveltime < traveltimes[j]) {
@@ -350,15 +349,13 @@ void BotCTFOrders_FlagNotAtBase(bot_state_t *bs) {
 		attackers = (int)(float)numteammates * 0.5 + 0.5;
 
 		for (i = 0; i < defenders; i++) {
-			// 
-			ClientName(teammates[i], name, sizeof(name));
+					ClientName(teammates[i], name, sizeof(name));
 			BotAI_BotInitialChat(bs, "cmd_defendbase", name, NULL);
 			BotSayTeamOrder(bs, teammates[i]);
 		}
 
 		for (i = 0; i < attackers; i++) {
-			// 
-			ClientName(teammates[numteammates - i - 1], name, sizeof(name));
+					ClientName(teammates[numteammates - i - 1], name, sizeof(name));
 			BotAI_BotInitialChat(bs, "cmd_getflag", name, NULL);
 			BotSayTeamOrder(bs, teammates[numteammates - i - 1]);
 		}
@@ -514,15 +511,13 @@ void BotCTFOrders_BothFlagsAtBase(bot_state_t *bs) {
 		attackers = (int)(float)numteammates * 0.3 + 0.5;
 
 		for (i = 0; i < defenders; i++) {
-			// 
-			ClientName(teammates[i], name, sizeof(name));
+					ClientName(teammates[i], name, sizeof(name));
 			BotAI_BotInitialChat(bs, "cmd_defendbase", name, NULL);
 			BotSayTeamOrder(bs, teammates[i]);
 		}
 
 		for (i = 0; i < attackers; i++) {
-			// 
-			ClientName(teammates[numteammates - i - 1], name, sizeof(name));
+					ClientName(teammates[numteammates - i - 1], name, sizeof(name));
 			BotAI_BotInitialChat(bs, "cmd_getflag", name, NULL);
 			BotSayTeamOrder(bs, teammates[numteammates - i - 1]);
 		}
@@ -613,8 +608,7 @@ void BotTeamAI(bot_state_t *bs) {
 
 	case GT_CTF:
 	{
-		// 
-		if (bs->numteammates != numteammates || bs->flagstatuschanged || bs->forceorders) {
+			if (bs->numteammates != numteammates || bs->flagstatuschanged || bs->forceorders) {
 			bs->teamgiveorders_time = trap_AAS_Time();
 			bs->numteammates = numteammates;
 			bs->flagstatuschanged = qfalse;

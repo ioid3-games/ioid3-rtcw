@@ -33,12 +33,27 @@ c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 
 uiInfo_t uiInfo;
 static const char *MonthAbbrev[] = {
-	"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+	"Jan",
+	"Feb",
+	"Mar",
+	"Apr",
+	"May",
+	"Jun",
+	"Jul",
+	"Aug",
+	"Sep",
+	"Oct",
+	"Nov",
+	"Dec"
 };
 
 
 static const char *skillLevels[] = {
-	"I Can Win", "Bring It On", "Hurt Me Plenty", "Hardcore", "Nightmare"
+	"I Can Win",
+	"Bring It On",
+	"Hurt Me Plenty",
+	"Hardcore",
+	"Nightmare"
 };
 
 static const int numSkillLevels = ARRAY_LEN(skillLevels);
@@ -53,7 +68,13 @@ static const int numSkillLevels = ARRAY_LEN(skillLevels);
 #define UIAS_FAVORITES			6
 
 static const char *netSources[] = {
-	"Local", "Internet1", "Internet2", "Internet3", "Internet4", "Internet5", "Favorites"
+	"Local",
+	"Internet1",
+	"Internet2",
+	"Internet3",
+	"Internet4",
+	"Internet5",
+	"Favorites"
 };
 
 static const int numNetSources = ARRAY_LEN(netSources);
@@ -67,12 +88,21 @@ static const serverFilter_t serverFilters[] = {
 
 static const int numServerFilters = ARRAY_LEN(serverFilters);
 static const char *teamArenaGameTypes[] = {
-	"FFA", "TOURNAMENT", "SP", "TEAM DM", "CTF", "1FCTF", "OVERLOAD", "HARVESTER",
+	"FFA",
+	"TOURNAMENT",
+	"SP",
+	"TEAM DM",
+	"CTF",
+	"1FCTF",
+	"OVERLOAD",
+	"HARVESTER",
 };
 
 static int const numTeamArenaGameTypes = ARRAY_LEN(teamArenaGameTypes);
 static char *netnames[] = {
-	"???", "IP4", "IP6"
+	"???",
+	"IP4",
+	"IP6"
 };
 
 // TTimo: unused
@@ -82,7 +112,7 @@ static int gamecodetoui[] = {4, 2, 3, 0, 5, 1, 6};
 static int uitogamecode[] = {4, 6, 2, 3, 1, 5, 7};
 
 
-// NERVE - SMF - enabled for multiplayer
+// enabled for multiplayer
 static void UI_StartServerRefresh(qboolean full);
 static void UI_StopServerRefresh(void);
 static void UI_DoServerRefresh(void);
@@ -106,9 +136,9 @@ static uiMenuCommand_t menutype = UIMENU_NONE;
 extern displayContextDef_t *DC;
 
 
-// ---- (SA)	added for savegame sorting
+// added for savegame sorting
 static int QDECL UI_SavegamesQsortCompare(const void *arg1, const void *arg2);
-// ---- (SA)	end
+// end
 
 void Text_PaintCenter(float x, float y, int font, float scale, vec4_t color, const char *text, float adjust);
 
@@ -1648,7 +1678,7 @@ static void UI_DrawLoadStatus(rectDef_t *rect, vec4_t color, int align) {
 		Text_Paint(rect->x, rect->y, UI_FONT_DEFAULT, 0.2f, color, DC->getTranslatedString("pleasewait"), 0, 0, 0);
 	}
 }
-// ---- (SA)	end
+// end
 
 
 static void UI_DrawMapPreview(rectDef_t *rect, float scale, vec4_t color, qboolean net) {
@@ -1780,7 +1810,7 @@ static void UI_DrawPlayerModel(rectDef_t *rect) {
 		}
 	}
 
-	moveangles[YAW] += 1;      // NERVE - SMF - TEMPORARY
+	moveangles[YAW] += 1;      // TEMPORARY
 
 	// compare new cvars to old cvars and see if we need to update
 	{
@@ -1811,7 +1841,7 @@ static void UI_DrawPlayerModel(rectDef_t *rect) {
 		}
 	}
 
-	if (updateModel) {    // NERVE - SMF - TEMPORARY
+	if (updateModel) {    // TEMPORARY
 		memset(&info, 0, sizeof(playerInfo_t));
 		viewangles[YAW] = 180 - 10;
 		viewangles[PITCH] = 0;
@@ -2219,7 +2249,6 @@ static int UI_OwnerDrawWidth(int ownerDraw, int font, float scale) {
 		i = 20 - h / 5;
 		s = handicapValues[i];
 		break;
-
 
 	case UI_SAVEGAMENAME:
 		s = ui_savegameName.string;
@@ -2707,7 +2736,6 @@ static void UI_OwnerDraw(float x, float y, float w, float h, float text_x, float
 		UI_DrawMapPreview(&rect, scale, color, qtrue);
 		break;
 
-
 	case UI_SAVEGAMENAME:
 		UI_DrawSavegameName(&rect, font, scale, color, textStyle);
 		break;
@@ -3052,7 +3080,7 @@ static qboolean UI_SavegameName_HandleKey(int flags, float *special, int key) {
 	return qfalse;
 #endif
 }
-// ---- (SA)	end
+// end
 
 static qboolean UI_ClanName_HandleKey(int flags, float *special, int key) {
 	int select = UI_SelectForKey(key);
@@ -3456,7 +3484,7 @@ static qboolean UI_OwnerDrawHandleKey(int ownerDraw, int flags, float *special, 
 	case UI_SAVEGAMEINFO:
 		return UI_SavegameName_HandleKey(flags, special, key);
 
-// ---- (SA)	end
+// end
 	case UI_CLANNAME:
 		return UI_ClanName_HandleKey(flags, special, key);
 		break;
@@ -3672,7 +3700,7 @@ void UI_SavegameSort(int column, qboolean force) {
 		trap_Cvar_Set("ui_savegameInfo", "(no savegames)");
 	}
 }
-// ---- (SA)	end
+// end
 
 
 /*
@@ -4172,7 +4200,7 @@ typedef struct {
 	const char *legs_anim;
 } weaponType_t;
 
-// NERVE - SMF - this is the weapon info list [what can and can't be used by character classes]
+// this is the weapon info list [what can and can't be used by character classes]
 //   - This list is separate from the actual text names in the listboxes for localization purposes.
 //   - The list boxes look up this list by the cvar value.
 static weaponType_t weaponTypes[] = {
@@ -4527,7 +4555,7 @@ static void UI_Update(const char *name) {
 			trap_Cvar_SetValue("r_fastSky", 0);
 			trap_Cvar_SetValue("r_inGameVideo", 1);
 			trap_Cvar_SetValue("cg_brassTime", 2500);
-			trap_Cvar_Set("r_texturemode", "GL_LINEAR_MIPMAP_NEAREST"); // ---- (SA)	modified so wolf never sets trilinear automatically
+			trap_Cvar_Set("r_texturemode", "GL_LINEAR_MIPMAP_NEAREST"); // modified so wolf never sets trilinear automatically
 			trap_Cvar_SetValue("cg_shadows", 0);
 			break;
 		case 2: // fast
@@ -4588,7 +4616,7 @@ static void UI_Update(const char *name) {
 			UI_LoadSavegames("autosave");   // get from default directory 'main / save / autosave/*.svg'
 		}
 	}
-// ---- (SA)	end
+// end
 
 }
 
@@ -4602,7 +4630,7 @@ static void UI_RunMenuScript(char **args) {
 	char buff[1024];
 
 	if (String_Parse(args, &name)) {
-		//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+		//#ifdef MISSIONPACK			// enabled for multiplayer
 		if (Q_stricmp(name, "StartServer") == 0) {
 			float skill;
 			int i, clients;
@@ -4644,7 +4672,7 @@ static void UI_RunMenuScript(char **args) {
 					if (ui_actualNetGameType.integer >= GT_TEAM) {
 						Com_sprintf(buff, sizeof(buff), "addbot %s %f %s\n", uiInfo.characterList[bot - 2].name, skill, "Blue");
 					} else {
-						// NERVE - SMF - no bots in wolf multiplayer
+						// no bots in wolf multiplayer
 						// 						Com_sprintf(buff, sizeof(buff), "addbot %s %f \n", UI_GetBotNameByNumber(bot - 2), skill);
 					}
 
@@ -4657,7 +4685,7 @@ static void UI_RunMenuScript(char **args) {
 					if (ui_actualNetGameType.integer >= GT_TEAM) {
 						Com_sprintf(buff, sizeof(buff), "addbot %s %f %s\n", uiInfo.characterList[bot - 2].name, skill, "Red");
 					} else {
-						// NERVE - SMF - no bots in wolf multiplayer
+						// no bots in wolf multiplayer
 						// 						Com_sprintf(buff, sizeof(buff), "addbot %s %f \n", UI_GetBotNameByNumber(bot - 2), skill);
 					}
 
@@ -4683,7 +4711,7 @@ static void UI_RunMenuScript(char **args) {
 // 			trap_Cmd_ExecuteText(EXEC_APPEND, "vid_restart\n");
 
 // from MP 11 / 12 / 01
-			trap_Cmd_ExecuteText(EXEC_NOW, "cvar_restart\n");           // NERVE - SMF - changed order
+			trap_Cmd_ExecuteText(EXEC_NOW, "cvar_restart\n");           // changed order
 			trap_Cmd_ExecuteText(EXEC_NOW, "exec default.cfg\n");
 			trap_Cmd_ExecuteText(EXEC_NOW, "exec language.cfg\n");      // NERVE - SMF
 			trap_Cmd_ExecuteText(EXEC_NOW, "setRecommended\n");    // NERVE - SMF
@@ -4726,7 +4754,7 @@ static void UI_RunMenuScript(char **args) {
 			} else {
 				trap_Cvar_Set("ui_cdkeyvalid", "CD Key does not appear to be valid.");
 			}
-			//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+			//#ifdef MISSIONPACK			// enabled for multiplayer
 		} else if (Q_stricmp(name, "loadArenas") == 0) {
 			UI_LoadArenas();
 			UI_MapCountByGameType(qfalse);
@@ -4738,14 +4766,14 @@ static void UI_RunMenuScript(char **args) {
 			Controls_GetConfig();
 		} else if (Q_stricmp(name, "clearError") == 0) {
 			trap_Cvar_Set("com_errorMessage", "");
-			//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+			//#ifdef MISSIONPACK			// enabled for multiplayer
 		} else if (Q_stricmp(name, "loadGameInfo") == 0) {
 			UI_ParseGameInfo("gameinfo.txt");
 			UI_LoadBestScores(uiInfo.mapList[ui_currentMap.integer].mapLoadName, uiInfo.gameTypes[ui_gameType.integer].gtEnum);
 			//#endif	//#ifdef MISSIONPACK
 		} else if (Q_stricmp(name, "resetScores") == 0) {
 			UI_ClearScores();
-			//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+			//#ifdef MISSIONPACK			// enabled for multiplayer
 		} else if (Q_stricmp(name, "RefreshServers") == 0) {
 			UI_StartServerRefresh(qtrue);
 			UI_BuildServerDisplayList(qtrue);
@@ -4844,7 +4872,7 @@ static void UI_RunMenuScript(char **args) {
 		} else if (Q_stricmp(name, "Wolf") == 0) {
 			trap_Cvar_Set("fs_game", "");
 			trap_Cmd_ExecuteText(EXEC_APPEND, "vid_restart;");
-			//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+			//#ifdef MISSIONPACK			// enabled for multiplayer
 		} else if (Q_stricmp(name, "closeJoin") == 0) {
 			if (uiInfo.serverStatus.refreshActive) {
 				UI_StopServerRefresh();
@@ -4858,7 +4886,7 @@ static void UI_RunMenuScript(char **args) {
 			}
 			//#endif
 		} else if (Q_stricmp(name, "StopRefresh") == 0) {
-			//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+			//#ifdef MISSIONPACK			// enabled for multiplayer
 			UI_StopServerRefresh();
 			uiInfo.serverStatus.nextDisplayRefresh = 0;
 			uiInfo.nextServerStatusRefresh = 0;
@@ -4931,7 +4959,7 @@ static void UI_RunMenuScript(char **args) {
 			trap_Key_ClearStates();
 			trap_Cvar_Set("cl_paused", "0");
 			Menus_CloseAll();
-			//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+			//#ifdef MISSIONPACK			// enabled for multiplayer
 		} else if (Q_stricmp(name, "voteMap") == 0) {
 			if (ui_currentNetMap.integer >= 0 && ui_currentNetMap.integer < uiInfo.mapCount) {
 				trap_Cmd_ExecuteText(EXEC_APPEND, va("callvote map %s\n", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName));
@@ -4949,12 +4977,12 @@ static void UI_RunMenuScript(char **args) {
 			if (uiInfo.teamIndex >= 0 && uiInfo.teamIndex < uiInfo.myTeamCount) {
 				trap_Cmd_ExecuteText(EXEC_APPEND, va("callteamvote leader %s\n", uiInfo.teamNames[uiInfo.teamIndex]));
 			}
-			//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+			//#ifdef MISSIONPACK			// enabled for multiplayer
 		} else if (Q_stricmp(name, "addBot") == 0) {
 			if (trap_Cvar_VariableValue("g_gametype") >= GT_TEAM) {
 				trap_Cmd_ExecuteText(EXEC_APPEND, va("addbot %s %i %s\n", uiInfo.characterList[uiInfo.botIndex].name, uiInfo.skillIndex + 1, (uiInfo.redBlue == 0) ? "Red" : "Blue"));
 			} else {
-				// NERVE - SMF - no bots in wolf multiplayer
+				// no bots in wolf multiplayer
 				// 				trap_Cmd_ExecuteText(EXEC_APPEND, va("addbot %s %i %s\n", UI_GetBotNameByNumber(uiInfo.botIndex), uiInfo.skillIndex + 1, (uiInfo.redBlue == 0) ? "Red" : "Blue"));
 			}
 		} else if (Q_stricmp(name, "addFavorite") == 0) {
@@ -5085,7 +5113,7 @@ static void UI_RunMenuScript(char **args) {
 				UI_Update(name2);
 			}
 			// NERVE - SMF
-// ---- (SA)	// start other .exe
+// // start other .exe
 		} else if (Q_stricmp(name, "startSingleplayer") == 0) { // so it doesn't barf if it gets a mp menu
 			trap_Cmd_ExecuteText(EXEC_APPEND, "startMultiplayer\n");
 		} else if (Q_stricmp(name, "startMultiplayer") == 0) {
@@ -5258,7 +5286,7 @@ UI_BinaryServerInsertion
 =======================================================================================================================================
 */
 static void UI_BinaryServerInsertion(int num) {
-	//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+	//#ifdef MISSIONPACK			// enabled for multiplayer
 	int mid, offset, res, len;
 	// use binary search to insert server
 	len = uiInfo.serverStatus.numDisplayServers;
@@ -5300,7 +5328,7 @@ UI_BuildServerDisplayList
 =======================================================================================================================================
 */
 static void UI_BuildServerDisplayList(int force) {
-	//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+	//#ifdef MISSIONPACK			// enabled for multiplayer
 	int i, count, clients, maxClients, ping, len, visible;
 	char info[MAX_STRING_CHARS];
 	// qboolean startRefresh = qtrue; // TTimo: unused
@@ -5384,7 +5412,7 @@ static void UI_BuildServerDisplayList(int force) {
 					continue;
 				}
 			}
-			/*	// NERVE - SMF - comment out for now, not recognizing "gametype" properly
+			/*	// comment out for now, not recognizing "gametype" properly
 			if (uiInfo.joinGameTypes[ui_joinGameType.integer].gtEnum != -1) {
 			game = atoi(Info_ValueForKey(info, "gametype"));
 
@@ -5483,7 +5511,7 @@ UI_GetServerStatusInfo
 =======================================================================================================================================
 */
 static int UI_GetServerStatusInfo(const char *serverAddress, serverStatusInfo_t *info) {
-	//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+	//#ifdef MISSIONPACK			// enabled for multiplayer
 	char *p, *score, *ping, *name;
 	int i, len;
 
@@ -5636,7 +5664,7 @@ UI_BuildFindPlayerList
 =======================================================================================================================================
 */
 static void UI_BuildFindPlayerList(qboolean force) {
-	//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+	//#ifdef MISSIONPACK			// enabled for multiplayer
 	static int numFound, numTimeOuts;
 	int i, j, resend;
 	serverStatusInfo_t info;
@@ -5681,8 +5709,7 @@ static void UI_BuildFindPlayerList(qboolean force) {
 		if (uiInfo.pendingServerStatus.server[i].valid) {
 			// try to get the server status for this server
 			if (UI_GetServerStatusInfo(uiInfo.pendingServerStatus.server[i].adrstr, &info)) {
-				// 
-				numFound++;
+							numFound++;
 				// parse through the server status lines
 				for (j = 0; j < info.numLines; j++) {
 					// should have ping info
@@ -5696,8 +5723,7 @@ static void UI_BuildFindPlayerList(qboolean force) {
 					if (stristr(name, uiInfo.findPlayerName)) {
 						// add to found server list if we have space(always leave space for a line with the number found)
 						if (uiInfo.numFoundPlayerServers < MAX_FOUNDPLAYER_SERVERS - 1) {
-							// 
-							Q_strncpyz(uiInfo.foundPlayerServerAddresses[uiInfo.numFoundPlayerServers - 1], uiInfo.pendingServerStatus.server[i].adrstr, sizeof(uiInfo.foundPlayerServerAddresses[0]));
+													Q_strncpyz(uiInfo.foundPlayerServerAddresses[uiInfo.numFoundPlayerServers - 1], uiInfo.pendingServerStatus.server[i].adrstr, sizeof(uiInfo.foundPlayerServerAddresses[0]));
 							Q_strncpyz(uiInfo.foundPlayerServerNames[uiInfo.numFoundPlayerServers - 1], uiInfo.pendingServerStatus.server[i].name, sizeof(uiInfo.foundPlayerServerNames[0]));
 							uiInfo.numFoundPlayerServers++;
 						} else {
@@ -5765,7 +5791,7 @@ UI_BuildServerStatus
 =======================================================================================================================================
 */
 static void UI_BuildServerStatus(qboolean force) {
-//#ifdef MISSIONPACK // NERVE - SMF - enabled for multiplayer
+//#ifdef MISSIONPACK // enabled for multiplayer
 	if (uiInfo.nextFindPlayerRefresh) {
 		return;
 	}
@@ -5880,7 +5906,7 @@ static int UI_GetIndexFromSelection(int actual) {
 }
 
 static void UI_UpdatePendingPings(void) {
-	//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+	//#ifdef MISSIONPACK			// enabled for multiplayer
 	trap_LAN_ResetPings(UI_SourceForLAN());
 	uiInfo.serverStatus.refreshActive = qtrue;
 	uiInfo.serverStatus.refreshtime = uiInfo.uiDC.realTime + 1000;
@@ -5943,7 +5969,7 @@ static const char *UI_translateString(const char *inString) {
 
 	return inString;
 }
-// ---- (SA)	end
+// end
 
 
 /*
@@ -5970,7 +5996,7 @@ static const char *UI_FeederItemText(float feederID, int index, int column, qhan
 	} else if (feederID == FEEDER_MAPS || feederID == FEEDER_ALLMAPS) {
 		int actual;
 		return UI_SelectedMap(index, &actual);
-		//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+		//#ifdef MISSIONPACK			// enabled for multiplayer
 	} else if (feederID == FEEDER_SERVERS) {
 		if (index >= 0 && index < uiInfo.serverStatus.numDisplayServers) {
 			int ping, game;
@@ -6144,7 +6170,7 @@ static void UI_FeederSelection(float feederID, int index) {
 			trap_Cvar_Set("headmodel", uiInfo.q3HeadNames[index]);
 			updateModel = qtrue;
 		}
-		//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+		//#ifdef MISSIONPACK			// enabled for multiplayer
 	} else if (feederID == FEEDER_MAPS || feederID == FEEDER_ALLMAPS) {
 		int actual, map;
 		map = (feederID == FEEDER_ALLMAPS) ? ui_currentNetMap.integer : ui_currentMap.integer;
@@ -6187,8 +6213,7 @@ static void UI_FeederSelection(float feederID, int index) {
 			uiInfo.serverStatus.currentServerCinematic = trap_CIN_PlayCinematic(va("%s.roq", mapName), 0, 0, 0, 0, (CIN_loop|CIN_silent));
 		}
 	} else if (feederID == FEEDER_SERVERSTATUS) {
-		// 
-	} else if (feederID == FEEDER_FINDPLAYER) {
+		} else if (feederID == FEEDER_FINDPLAYER) {
 		uiInfo.currentFoundPlayerServer = index;
 
 		if (index < uiInfo.numFoundPlayerServers - 1) {
@@ -6856,7 +6881,6 @@ void _UI_Init(qboolean inGameLoad) {
 
 	uiInfo.uiDC.getTranslatedString = &UI_translateString;
 
-
 	uiInfo.uiDC.feederSelection = &UI_FeederSelection;
 	uiInfo.uiDC.feederAddItem = &UI_FeederAddItem;                 // NERVE - SMF
 	uiInfo.uiDC.setBinding = &trap_Key_SetBinding;
@@ -6915,7 +6939,7 @@ void _UI_Init(qboolean inGameLoad) {
 #endif
 	Menus_CloseAll();
 
-//#ifdef MISSIONPACK			// NERVE - SMF - enabled for multiplayer
+//#ifdef MISSIONPACK			// enabled for multiplayer
 	trap_LAN_LoadCachedServers();
 	UI_LoadBestScores(uiInfo.mapList[0].mapLoadName, uiInfo.gameTypes[ui_gameType.integer].gtEnum);
 //#endif	//#ifdef MISSIONPACK
@@ -7026,7 +7050,7 @@ uiMenuCommand_t _UI_GetActiveMenu(void) {
 	return menutype;
 }
 
-// ---- (SA)	end
+// end
 
 void _UI_SetActiveMenu(uiMenuCommand_t menu) {
 	char buf[256];
@@ -7086,7 +7110,6 @@ void _UI_SetActiveMenu(uiMenuCommand_t menu) {
 			trap_Key_SetCatcher(KEYCATCH_UI);
 			Menus_ActivateByName("team");
 			return;
-
 
 		case UIMENU_ENDGAME:
 			// ensure sound is there for the menu
@@ -7481,7 +7504,7 @@ vmCvar_t ui_cameraMode;
 vmCvar_t ui_savegameListAutosave;
 vmCvar_t ui_savegameName;
 
-// NERVE - SMF - cvars for multiplayer
+// cvars for multiplayer
 vmCvar_t ui_serverFilterType;
 vmCvar_t ui_currentNetMap;
 vmCvar_t ui_currentMap;
@@ -7535,7 +7558,7 @@ cvarTable_t cvarTable[] = {
 	{&ui_drawCrosshairPickups, "cg_drawCrosshairPickups", "1", CVAR_ARCHIVE}, // ---- (SA) added
 	{&ui_marks, "cg_marktime", "20000", CVAR_ARCHIVE},
 	{&ui_autoactivate, "cg_autoactivate", "1", CVAR_ARCHIVE},
-	{&ui_useSuggestedWeapons, "cg_useSuggestedWeapons", "1", CVAR_ARCHIVE}, 
+	{&ui_useSuggestedWeapons, "cg_useSuggestedWeapons", "1", CVAR_ARCHIVE},
 	{&ui_emptyswitch, "cg_emptyswitch", "0", CVAR_ARCHIVE},
 
 	{&ui_fixedAspect, "cg_fixedAspect", "0", CVAR_ARCHIVE|CVAR_LATCH},
@@ -7572,7 +7595,7 @@ cvarTable_t cvarTable[] = {
 	{&ui_actualNetGameType, "ui_actualNetGametype", "0", CVAR_ARCHIVE},
 	{&ui_notebookCurrentPage, "ui_notebookCurrentPage", "1", CVAR_ROM},
 	{&ui_clipboardName, "cg_clipboardName", "", CVAR_ROM},
-	// NERVE - SMF - multiplayer cvars
+	// multiplayer cvars
 	{&ui_mapIndex, "ui_mapIndex", "0", CVAR_ARCHIVE},
 	{&ui_currentMap, "ui_currentMap", "0", CVAR_ARCHIVE},
 	{&ui_currentNetMap, "ui_currentNetMap", "0", CVAR_ARCHIVE},
@@ -7591,7 +7614,7 @@ cvarTable_t cvarTable[] = {
 	{&ui_limboMode, "ui_limboMode", "0", 0}, // - NERVE - SMF
 
 	{&ui_hudAlpha, "cg_hudAlpha", "0.8", CVAR_ARCHIVE},
-	{&ui_hunkUsed, "com_hunkused", "0", 0}, 
+	{&ui_hunkUsed, "com_hunkused", "0", 0},
 	{&ui_cameraMode, "com_cameraMode", "0", 0},
 
 	{&ui_savegameName, "ui_savegameName", "", CVAR_ROM}

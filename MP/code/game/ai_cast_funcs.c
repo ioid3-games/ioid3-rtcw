@@ -422,8 +422,7 @@ char *AIFunc_Idle(cast_state_t *cs) {
 	}
 	// if we've recently been in a fight, keep looking around, so we don't look stupid
 	if (cs->lastEnemy >= 0) {
-		// 
-		// if we like to crouch, then do so, since we are in a battle situation
+			// if we like to crouch, then do so, since we are in a battle situation
 /*	if (cs->lastEnemy > 0) {	// not the player
 			if (cs->attributes[ATTACK_CROUCH] > 0.3) {
 				cs->bs->attackcrouch_time = trap_AAS_Time() + 2;
@@ -456,11 +455,9 @@ char *AIFunc_Idle(cast_state_t *cs) {
 			// wait a second before changing again
 			if ((cs->nextIdleAngleChange + 3000) < level.time) {
 				// FIXME: This could be changed to use some AAS sampling, which would:
-				// 
-				// 	Given a src area, pick a random dest area which is visible from that area
+							// 	Given a src area, pick a random dest area which is visible from that area
 				// 	and return it's position, which we'd then use to set the next view angles
-				// 
-				// 	This would result in more efficient, more realistic behaviour, since they'd
+							// 	This would result in more efficient, more realistic behaviour, since they'd
 				// 	also use PITCH angles to look at areas above / below them
 
 				cs->idleYaw = AICast_GetRandomViewAngle(cs, 512);
@@ -525,7 +522,7 @@ char *AIFunc_IdleStart(cast_state_t *cs) {
 	// make sure we don't avoid any areas when we start again
 	trap_BotInitAvoidReach(cs->bs->ms);
 	// randomly choose idle animation
-// ---- (SA)	try always using the 'casual' stand on spawn and change to crouching one when 'alerted'
+// try always using the 'casual' stand on spawn and change to crouching one when 'alerted'
 	if (cs->aiFlags & AIFL_STAND_IDLE2) {
 // 		if (rand()%2 || (cs->lastEnemy < 0 && cs->aiFlags & AIFL_TALKING))
 		g_entities[cs->entityNum].client->ps.eFlags |= EF_STAND_IDLE2;
@@ -601,10 +598,8 @@ char *AIFunc_InspectFriendly(cast_state_t *cs) {
 	dist = Distance(destorg, cs->bs->origin);
 
 	if (!(dist < cs->followDist && (ent->waterlevel || (cs->bs->cur_ps.groundEntityNum != ENTITYNUM_NONE)))) {
-		// 
-		// go to them
-		// 
-		bs = cs->bs;
+			// go to them
+			bs = cs->bs;
 		// set this flag so we know when we; ve just reached them
 		cs->aiFlags |= AIFL_MISCFLAG1;
 		// move straight to them if we can
@@ -735,11 +730,9 @@ char *AIFunc_InspectFriendly(cast_state_t *cs) {
 		// wait a second before changing again
 		if ((cs->nextIdleAngleChange + 3000) < level.time) {
 			// FIXME: This could be changed to use some AAS sampling, which would:
-			// 
-			// 	Given a src area, pick a random dest area which is visible from that area
+					// 	Given a src area, pick a random dest area which is visible from that area
 			// 	and return it's position, which we'd then use to set the next view angles
-			// 
-			// 	This would result in more efficient, more realistic behaviour, since they'd
+					// 	This would result in more efficient, more realistic behaviour, since they'd
 			// 	also use PITCH angles to look at areas above / below them
 
 			cs->idleYaw = AICast_GetRandomViewAngle(cs, 512);
@@ -989,10 +982,8 @@ char *AIFunc_InspectAudibleEvent(cast_state_t *cs) {
 	dist = Distance(destorg, cs->bs->origin);
 
 	if (!(dist < cs->followDist && (ent->waterlevel || (cs->bs->cur_ps.groundEntityNum != ENTITYNUM_NONE)))) {
-		// 
-		// go to them
-		// 
-		bs = cs->bs;
+			// go to them
+			bs = cs->bs;
 		// set this flag so we know when we; ve just reached them
 		cs->aiFlags |= AIFL_MISCFLAG1;
 		// if not overly aggressive, pursue with caution
@@ -1319,7 +1310,7 @@ char *AIFunc_ChaseGoalIdleStart(cast_state_t *cs, int entitynum, float reachdist
 		g_entities[cs->entityNum].client->ps.eFlags &= ~EF_STAND_IDLE2;
 	} else {
 		// randomly choose idle animation
-// ---- (SA)	try always using the 'casual' stand on spawn and change to crouching one when 'alerted'
+// try always using the 'casual' stand on spawn and change to crouching one when 'alerted'
 		if (cs->aiFlags & AIFL_STAND_IDLE2) {
 // 			if (cs->lastEnemy < 0)
 			g_entities[cs->entityNum].client->ps.eFlags |= EF_STAND_IDLE2;
@@ -1706,8 +1697,7 @@ char *AIFunc_BattleRoll(cast_state_t *cs) {
 			cs->speedScale = 1.5;
 		}
 	} else if (cs->takeCoverTime > level.time) {
-		// 
-		// if we are taking Cover, use this position, if it's bad, we'll just look for a better spot once we're done here
+			// if we are taking Cover, use this position, if it's bad, we'll just look for a better spot once we're done here
 		VectorCopy(cs->bs->origin, cs->takeCoverPos);
 	}
 
@@ -2206,8 +2196,7 @@ char *AIFunc_BattleAmbush(cast_state_t *cs) {
 			}
 		}
 	} else {
-		// 
-		// check for a movement we should be making
+			// check for a movement we should be making
 		if (cs->obstructingTime > level.time) {
 			AICast_MoveToPos(cs, cs->obstructingPos, -1);
 		}
@@ -2247,11 +2236,9 @@ char *AIFunc_BattleAmbush(cast_state_t *cs) {
 			// wait a second before changing again
 			if ((cs->nextIdleAngleChange + 3000) < level.time) {
 				// FIXME: This could be changed to use some AAS sampling, which would:
-				// 
-				// 	Given a src area, pick a random dest area which is visible from that area
+							// 	Given a src area, pick a random dest area which is visible from that area
 				// 	and return it's position, which we'd then use to set the next view angles
-				// 
-				// 	This would result in more efficient, more realistic behaviour, since they'd
+							// 	This would result in more efficient, more realistic behaviour, since they'd
 				// 	also use PITCH angles to look at areas above / below them
 
 				cs->idleYaw = AICast_GetRandomViewAngle(cs, 512);
@@ -2402,8 +2389,7 @@ char *AIFunc_BattleChase(cast_state_t *cs) {
 		/*
 		if (!cs->vislist[bs->enemy].visible_timestamp || Distance(bs->origin, cs->vislist[bs->enemy].visible_pos) < 16) {
 			// we're done attacking, go back to default state, which in turn will recall previous state
-			// 
-			return AIFunc_DefaultStart(cs);
+					return AIFunc_DefaultStart(cs);
 		}
 
 		*/
@@ -2536,8 +2522,7 @@ char *AIFunc_BattleChase(cast_state_t *cs) {
 	// if they are visible, but not attackable, look for a spot where we can attack them, and head
 	// for there. This should prevent AI's getting stuck in a bunch.
 	if (!moved && cs->bs->weaponnum >= WP_LUGER && cs->bs->weaponnum <= WP_SPEARGUN_CO2 && cs->attributes[TACTICAL] >= 0.1) {
-		// 
-		// check for another movement we should be making
+			// check for another movement we should be making
 		if (cs->obstructingTime > level.time) {
 			AICast_MoveToPos(cs, cs->obstructingPos, -1);
 			moved = qtrue;
@@ -3123,8 +3108,7 @@ char *AIFunc_BattleTakeCover(cast_state_t *cs) {
 			cs->bs->attackcrouch_time = trap_AAS_Time() + 1;
 		}
 	} else {
-		// 
-		// have we been Taking Cover for enough time?
+			// have we been Taking Cover for enough time?
 		if (level.time > cs->takeCoverTime) {
 			return AIFunc_DefaultStart(cs);
 		}
@@ -3184,8 +3168,7 @@ char *AIFunc_BattleTakeCover(cast_state_t *cs) {
 		}
 		// attack the enemy if possible
 		AICast_ProcessAttack(cs);
-		// 
-	} else /*if (dist < 48)*/ {
+		} else /*if (dist < 48)*/ {
 		// if we've recently been in a fight, look towards the enemy
 		if (cs->bs->enemy >= 0) {
 			AICast_AimAtEnemy(cs);
@@ -3363,8 +3346,7 @@ char *AIFunc_GrenadeFlush(cast_state_t *cs) {
 		// not visible, go to their previously visible position
 		if (!cs->vislist[bs->enemy].visible_timestamp || Distance(bs->origin, cs->vislist[bs->enemy].real_visible_pos) < 16) {
 			// we're done attacking, go back to default state, which in turn will recall previous state
-			// 
-			// face the direction they currently are from this position(bit of a hack, but it looks best)
+					// face the direction they currently are from this position(bit of a hack, but it looks best)
 			VectorSubtract(g_entities[bs->enemy].client->ps.origin, cs->vislist[bs->enemy].visible_pos, dir);
 			vectoangles(dir, cs->bs->ideal_viewangles);
 			// G_Printf("aborting, reached visible pos\n");
@@ -3404,18 +3386,15 @@ char *AIFunc_GrenadeFlush(cast_state_t *cs) {
 	dist = VectorDistance(destorg, cs->bs->origin);
 
 	if (cs->vislist[bs->enemy].lastcheck_timestamp > cs->vislist[bs->enemy].real_visible_timestamp || dist > 128) {
-		// 
-		// go to them
-		// 
-		if (followent->client && followent->health <= 0) {
+			// go to them
+			if (followent->client && followent->health <= 0) {
 			cs->bs->enemy = -1;
 			// G_Printf("aborting, enemy dead\n");
 			return AIFunc_DefaultStart(cs);
 		}
 		// ...........................................................
 		// Do the movement..
-		// 
-		// move straight to them if we can
+			// move straight to them if we can
 		if ((cs->leaderNum < 0) && (cs->bs->cur_ps.groundEntityNum != ENTITYNUM_NONE || g_entities[cs->entityNum].waterlevel > 1)) {
 			aicast_predictmove_t move;
 			vec3_t dir;
@@ -3880,8 +3859,7 @@ char *AIFunc_GrenadeKick(cast_state_t *cs) {
 		return NULL;
 		/*
 		cs->bs->weaponnum = weapon;	// select grenade launcher
-		// 
-		if (cs->weaponFireTimes[weapon] < cs->thinkFuncChangeTime) {
+			if (cs->weaponFireTimes[weapon] < cs->thinkFuncChangeTime) {
 			if (!cs->bs->cur_ps.grenadeTimeLeft) {
 				// hold fire button down
 				AICast_AimAtEnemy(cs);
@@ -3892,8 +3870,7 @@ char *AIFunc_GrenadeKick(cast_state_t *cs) {
 			return NULL;
 		}
 		// the grenade has been released!
-		// 
-		// modify the explode time
+			// modify the explode time
 		g_entities[ent->grenadeFired].nextthink = ent->grenadeExplodeTime;
 
 		if (g_entities[ent->grenadeFired].nextthink < level.time + 200) {	// cut them some slack
@@ -3909,7 +3886,6 @@ char *AIFunc_GrenadeKick(cast_state_t *cs) {
 		return AIFunc_DefaultStart(cs);
 		*/
 	}
-	// 
 /*
 	// have we caught the grenade?
 	if (!(ent->flags & FL_AI_GRENADE_KICK)) {
@@ -3950,8 +3926,7 @@ char *AIFunc_GrenadeKick(cast_state_t *cs) {
 	if (/*cs->grenadeGrabFlag <= 0 || */
 		(danger->s.pos.trDelta[2] < 20 && VectorDistance(danger->r.currentOrigin, cs->bs->origin) < 48 && (danger->r.currentOrigin[2] < cs->bs->origin[2]) &&
 		  VectorLength(danger->s.pos.trDelta) < 50)) {
-		// 
-		// we have a choice here, either pick up and return, or just kick it
+			// we have a choice here, either pick up and return, or just kick it
 // 		if ((cs->grenadeGrabFlag == -1) || (cs->grenadeGrabFlag == qtrue && level.time > danger->nextthink - 2000)) {	// kick
 
 		// play the kick anim
@@ -4034,8 +4009,7 @@ char *AIFunc_GrenadeKick(cast_state_t *cs) {
 			}
 		}
 */
-		// 
-		return NULL;
+			return NULL;
 	}
 
 	cs->grenadeGrabFlag = qtrue;   // we must play the anim before we can grab it
@@ -4104,8 +4078,7 @@ char *AIFunc_GrenadeKick(cast_state_t *cs) {
 	}
 	// are we close enough to the goal?
 	if (dist > 12) { // not close enough
-					// 
-		moveresult = AICast_MoveToPos(cs, destorg, -1);
+						moveresult = AICast_MoveToPos(cs, destorg, -1);
 
 		if (moveresult) {
 			// if the movement failed

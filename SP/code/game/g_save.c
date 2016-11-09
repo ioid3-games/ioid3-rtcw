@@ -97,7 +97,17 @@ static saveField_t gclientFields[] = {
 };
 
 static saveField_t castStateFields[] = {
-	{CSFOFS(aifunc), F_FUNCTION}, {CSFOFS(oldAifunc), F_FUNCTION}, {CSFOFS(painfunc), F_FUNCTION}, {CSFOFS(deathfunc), F_FUNCTION}, {CSFOFS(sightfunc), F_FUNCTION}, {CSFOFS(sightEnemy), F_FUNCTION}, {CSFOFS(sightFriend), F_FUNCTION}, {CSFOFS(activate), F_FUNCTION}, {CSFOFS(aifuncAttack1), F_FUNCTION}, {CSFOFS(aifuncAttack2), F_FUNCTION}, {CSFOFS(aifuncAttack3), F_FUNCTION},
+	{CSFOFS(aifunc), F_FUNCTION},
+	{CSFOFS(oldAifunc), F_FUNCTION},
+	{CSFOFS(painfunc), F_FUNCTION},
+	{CSFOFS(deathfunc), F_FUNCTION},
+	{CSFOFS(sightfunc), F_FUNCTION},
+	{CSFOFS(sightEnemy), F_FUNCTION},
+	{CSFOFS(sightFriend), F_FUNCTION},
+	{CSFOFS(activate), F_FUNCTION},
+	{CSFOFS(aifuncAttack1), F_FUNCTION},
+	{CSFOFS(aifuncAttack2), F_FUNCTION},
+	{CSFOFS(aifuncAttack3), F_FUNCTION},
 	{0, 0}
 };
 
@@ -122,7 +132,9 @@ static ignoreField_t gclientIgnoreFields[] = {
 };
 
 static ignoreField_t castStateIgnoreFields[] = {
-	{CSFOFS(bs), sizeof(bot_state_t *)}, {CSFOFS(numCastScriptEvents), sizeof(int)}, {CSFOFS(castScriptEvents), sizeof(cast_script_event_t *)}, // gets created upon parsing the script file, this is static while playing
+	{CSFOFS(bs), sizeof(bot_state_t *)},
+	{CSFOFS(numCastScriptEvents), sizeof(int)},
+	{CSFOFS(castScriptEvents), sizeof(cast_script_event_t *)}, // gets created upon parsing the script file, this is static while playing
 	{CSFOFS(weaponInfo), sizeof(cast_weapon_info_t *)},
 	{0, 0}
 };
@@ -141,9 +153,14 @@ static persField_t gentityPersFields[] = {
 };
 
 static persField_t gclientPersFields[] = {
-	{CFOFS(ps.weapon), sizeof(int)}, {CFOFS(ps.ammo[0]), sizeof(int)* MAX_WEAPONS}, {CFOFS(ps.ammoclip[0]), sizeof(int)* MAX_WEAPONS}, // ---- (SA)	added for ammo in clip
-	{CFOFS(ps.persistant[0]), sizeof(int)* MAX_PERSISTANT}, {CFOFS(ps.stats[0]), sizeof(int)* MAX_STATS}, {CFOFS(ps.weapons[0]), sizeof(int)* MAX_WEAPONS / (sizeof(int)* 8)}, // // ---- (SA)	added. weapons owned got moved outside stats[]
-	{CFOFS(ps.powerups[0]), sizeof(int)* MAX_POWERUPS}, {CFOFS(ps.holdable[0]), sizeof(int)* MAX_HOLDABLE}, 
+	{CFOFS(ps.weapon), sizeof(int)},
+	{CFOFS(ps.ammo[0]), sizeof(int)* MAX_WEAPONS},
+	{CFOFS(ps.ammoclip[0]), sizeof(int)* MAX_WEAPONS}, // added for ammo in clip
+	{CFOFS(ps.persistant[0]), sizeof(int)* MAX_PERSISTANT},
+	{CFOFS(ps.stats[0]), sizeof(int)* MAX_STATS},
+	{CFOFS(ps.weapons[0]), sizeof(int)* MAX_WEAPONS / (sizeof(int)* 8)}, // // added. weapons owned got moved outside stats[]
+	{CFOFS(ps.powerups[0]), sizeof(int)* MAX_POWERUPS},
+	{CFOFS(ps.holdable[0]), sizeof(int)* MAX_HOLDABLE},
 	{CFOFS(ps.holding), sizeof(int)},   
 
 	{0, 0}
@@ -1055,7 +1072,7 @@ qboolean G_SaveGame(char *username) {
 		G_SaveWriteError();
 	}
 
-// ---- (SA)	had to add 'episode' tracking.
+// had to add 'episode' tracking.
 	// this is only set in the map scripts, and was previously only handled in the menu's
 
 	// write the 'episode'
@@ -1068,7 +1085,7 @@ qboolean G_SaveGame(char *username) {
 			G_SaveWriteError();
 		}
 	}
-// ---- (SA)	end
+// end
 
 
 
@@ -1129,7 +1146,7 @@ qboolean G_SaveGame(char *username) {
 		G_SaveWriteError();
 	}
 
-// ---- (SA)	write fog
+// write fog
 // 	trap_Cvar_VariableStringBuffer("sg_fog", infoString, sizeof(infoString));
 	trap_GetConfigstring(CS_FOGVARS, infoString, sizeof(infoString));
 
@@ -1317,7 +1334,7 @@ void G_LoadGame(char *filename) {
 		trap_Cvar_Set("g_totalPlayTime", va("%i", i));
 	}
 
-// ---- (SA)	had to add 'episode' tracking.
+// had to add 'episode' tracking.
 	// this is only set in the map scripts, and was previously only handled in the menu's
 	// read the 'episode'
 	if (ver >= 13) {
@@ -1490,7 +1507,7 @@ void G_LoadGame(char *filename) {
 		}
 	}
 
-// ---- (SA)	moved these up in ver 15
+// moved these up in ver 15
 	if (ver < SA_MOVEDSTUFF) {
 		if (ver > SA_ADDEDMUSIC) {
 			// read current time / date info
@@ -1516,7 +1533,7 @@ void G_LoadGame(char *filename) {
 			aicast_skillscale = (float)i / (float)GSKILL_MAX;
 		}
 	}
-// ---- (SA)	end moved
+// end moved
 
 	trap_FS_FCloseFile(f);
 	// now increment the attempts field and update totalplaytime according to cvar

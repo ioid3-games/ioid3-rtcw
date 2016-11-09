@@ -67,7 +67,7 @@ int weapBanks[MAX_WEAP_BANKS][MAX_WEAPS_IN_BANK] = {
 };
 extern int weapBanksMultiPlayer[MAX_WEAP_BANKS_MP][MAX_WEAPS_IN_BANK_MP]; // JPW NERVE moved to bg_misc.c so I can get a droplist
 
-// ---- (SA)	end
+// end
 
 
 /*
@@ -106,7 +106,7 @@ void CG_MachineGunEjectBrassNew(centity_t *cent) {
 
 	VectorCopy(re->origin, le->pos.trBase);
 
-	if (CG_PointContents(re->origin, -1) & (CONTENTS_WATER|CONTENTS_SLIME)) { // ---- (SA)	modified since slime is no longer deadly
+	if (CG_PointContents(re->origin, -1) & (CONTENTS_WATER|CONTENTS_SLIME)) { // modified since slime is no longer deadly
 // if (CG_PointContents(re->origin, -1) & CONTENTS_WATER) {
 		waterScale = 0.10;
 	}
@@ -247,7 +247,7 @@ void CG_MachineGunEjectBrass(centity_t *cent) {
 
 	VectorCopy(re->origin, le->pos.trBase);
 
-	if (CG_PointContents(re->origin, -1) & (CONTENTS_WATER|CONTENTS_SLIME)) { // ---- (SA)	modified since slime is no longer deadly
+	if (CG_PointContents(re->origin, -1) & (CONTENTS_WATER|CONTENTS_SLIME)) { // modified since slime is no longer deadly
 // if (CG_PointContents(re->origin, -1) & CONTENTS_WATER) {
 		waterScale = 0.10;
 	}
@@ -678,7 +678,7 @@ static void CG_GrenadeTrail(centity_t *ent, const weaponInfo_t *wi) {
 		return;
 	}
 
-// ---- (SA)	trying this back on for DM
+// trying this back on for DM
 
 	// spawn smoke junctions
 	for (; t <= ent->trailTime; t += step) {
@@ -688,7 +688,7 @@ static void CG_GrenadeTrail(centity_t *ent, const weaponInfo_t *wi) {
 											  1000, 0.3, 2, 20);
 		ent->lastTrailTime = cg.time;
 	}
-// ---- (SA)	end
+// end
 }
 // done.
 
@@ -830,7 +830,7 @@ CG_RailTrail
 	modified so we could draw boxes for debugging as well
 =======================================================================================================================================
 */
-void CG_RailTrail(clientInfo_t *ci, vec3_t start, vec3_t end, int type) { // ---- (SA)	added 'type'
+void CG_RailTrail(clientInfo_t *ci, vec3_t start, vec3_t end, int type) { // added 'type'
 	vec3_t diff, v1, v2, v3, v4, v5, v6;
 
 	if (!type) { // just a line
@@ -1081,7 +1081,7 @@ void CG_RegisterWeapon(int weaponNum) {
 		return;
 	}
 	// load weapon config
-// ---- (SA)	modified. use first person model for finding weapon config name, not third
+// modified. use first person model for finding weapon config name, not third
 	if (item->world_model[W_FP_MODEL]) {
 		COM_StripFilename(item->world_model[W_FP_MODEL], path);
 
@@ -1202,7 +1202,7 @@ void CG_RegisterWeapon(int weaponNum) {
 		weaponInfo->handsModel = trap_R_RegisterModel("models/weapons2/shotgun / shotgun_hand.md3");
 	}
 
-// ---- (SA)	weapon pickup 'stand'
+// weapon pickup 'stand'
 	if (!item->world_model[W_TP_MODEL]) {
 		Q_strncpyz(path, comppath, sizeof(path));
 	} else {
@@ -1426,7 +1426,7 @@ void CG_RegisterItemVisuals(int itemNum) {
 		CG_RegisterWeapon(item->giTag);
 	}
 
-	itemInfo->registered = qtrue;  // ---- (SA)	moved this down after the registerweapon()
+	itemInfo->registered = qtrue;  // moved this down after the registerweapon()
 
 	// wolfkickModel = trap_R_RegisterModel("models/weapons2/foot / v_wolfoot_10f.md3");
 	hWeaponSnd = trap_S_RegisterSound("sound/weapons/mg42 / 37mm.wav");
@@ -1638,7 +1638,7 @@ CG_WeaponAnimation
 =======================================================================================================================================
 */
 
-// ---- (SA)	modified. this is now client - side only(server does not dictate weapon animation info)
+// modified. this is now client - side only(server does not dictate weapon animation info)
 static void CG_WeaponAnimation(playerState_t *ps, weaponInfo_t *weapon, int *weapOld, int *weap, float *weapBackLerp) {
 
 	centity_t *cent = &cg.predictedPlayerEntity;
@@ -1745,7 +1745,7 @@ static void CG_CalculateWeaponPosition(vec3_t origin, vec3_t angles) {
 // ---- (SA) adjustment for MAX KAUFMAN
 // scale = cg.xyspeed + 40;
 	scale = 80;
-// ---- (SA)	end
+// end
 	fracsin = sin(cg.time * 0.001);
 	angles[ROLL] += scale * fracsin * 0.01;
 	angles[YAW] += scale * fracsin * 0.01;
@@ -1844,7 +1844,7 @@ static float CG_TeslaSpinAngle(centity_t *cent) {
 
 	return AngleMod(angle);
 
-// ---- (SA)	trying new tesla effect scheme for MK
+// trying new tesla effect scheme for MK
 // angle = -(cent->pe.barrelAngle + delta * TESLA_SPINSPEED);
 // cent->pe.barrelAngle = AngleMod(angle);
 
@@ -2607,7 +2607,7 @@ void CG_AddPlayerFoot(refEntity_t *parent, playerState_t *ps, centity_t *cent) {
 	wolfkick.hModel = wolfkickModel;
 
 	VectorCopy(cg.refdef.vieworg, wolfkick.origin);
-	// ---- (SA)	allow offsets for testing boot model
+	// allow offsets for testing boot model
 	if (cg_gun_x.value) {
 		VectorMA(wolfkick.origin, cg_gun_x.value, cg.refdef.viewaxis[0], wolfkick.origin);
 	}
@@ -2619,13 +2619,13 @@ void CG_AddPlayerFoot(refEntity_t *parent, playerState_t *ps, centity_t *cent) {
 	if (cg_gun_z.value) {
 		VectorMA(wolfkick.origin, cg_gun_z.value, cg.refdef.viewaxis[2], wolfkick.origin);
 	}
-	// ---- (SA)	end
+	// end
 
 
 	VectorCopy(cg.refdefViewAngles, kickangle);
 
 	if (kickangle[0] < 0) {
-		kickangle[0] = 0;                      // ---- (SA)	avoid "Rockette" syndrome :)
+		kickangle[0] = 0;                      // avoid "Rockette" syndrome :)
 	}
 
 	AnglesToAxis(kickangle, wolfkick.axis);
@@ -2719,7 +2719,7 @@ void CG_AddViewWeapon(playerState_t *ps) {
 		gunoff[1] = cg_gun_y.value;
 		gunoff[2] = cg_gun_z.value;
 
-// ---- (SA)	removed
+// removed
 
 		VectorMA(hand.origin, (gunoff[0] + fovOffset[0]), cg.refdef.viewaxis[0], hand.origin);
 		VectorMA(hand.origin, (gunoff[1] + fovOffset[1]), cg.refdef.viewaxis[1], hand.origin);
@@ -2731,7 +2731,7 @@ void CG_AddViewWeapon(playerState_t *ps) {
 			hand.frame = hand.oldframe = cg_gun_frame.integer;
 			hand.backlerp = 0;
 		} else { // get the animation state
-			CG_WeaponAnimation(ps, weapon, &hand.oldframe, &hand.frame, &hand.backlerp);  // ---- (SA)	changed
+			CG_WeaponAnimation(ps, weapon, &hand.oldframe, &hand.frame, &hand.backlerp);  // changed
 		}
 
 		VectorCopy(hand.origin, hand.lightingOrigin);
@@ -2806,7 +2806,7 @@ void CG_DrawWeaponSelect(void) {
 		CG_SetScreenPlacement(PLACE_RIGHT, PLACE_TOP);
 	}
 
-// ---- (SA)	neither of these overlap the weapon selection area anymore, so let them stay
+// neither of these overlap the weapon selection area anymore, so let them stay
 	// showing weapon select clears pickup item display, but not the blend blob
 	cg.itemPickupTime = 0;
 	// also clear holdable list
@@ -3417,7 +3417,7 @@ void CG_AltWeapon_f(void) {
 
 	if (CG_WeaponSelectable(num)) { // new weapon is valid
 
-// ---- (SA)	testing mod functionality for the silencer on the luger
+// testing mod functionality for the silencer on the luger
 		// (SA) this way, if you switch away from the silenced luger, // 	the silencer will still be attached when you switch back
 		// 	(until you remove it)
 		// TODO: will need to make sure the table gets initialized properly on restart/death / whatever.
@@ -3450,7 +3450,7 @@ void CG_AltWeapon_f(void) {
 			break;
 		}
 
-// ---- (SA)	end
+// end
 		CG_FinishWeaponChange(original, num);
 	}
 }
@@ -3986,7 +3986,6 @@ void CG_OutOfAmmoChange(void) {
 	int bank = 0, cycle = 0;
 	int equiv = WP_NONE;
 	// trivial switching
-	// 
 
 // early out if we just dropped dynamite, go to pliers
 	if (cg.weaponSelect == WP_DYNAMITE) {
@@ -4037,7 +4036,6 @@ void CG_OutOfAmmoChange(void) {
 	}
 	}
 	// more complicated selection
-	// 
 
 	// didn't have available alternative or equivalent, try another weap in the bank
 	CG_WeaponIndex(cg.weaponSelect, &bank, &cycle);    // get bank / cycle of current weapon
@@ -4184,7 +4182,7 @@ void CG_MortarEFX(centity_t *cent) {
 	}
 }
 
-// ---- (SA)	end
+// end
 
 
 // RF
@@ -4214,8 +4212,8 @@ void CG_WeaponFireRecoil(int weapon) {
 	case WP_GARAND:
 		// pitchAdd = 4 + rand()%3;
 		// yawRandom = 4;
-		pitchAdd = 2;  // ---- (SA)	for DM
-		yawRandom = 1; // ---- (SA)	for DM
+		pitchAdd = 2;  // for DM
+		yawRandom = 1; // for DM
 		break;
 	case WP_SNIPERRIFLE:
 	case WP_SNOOPERSCOPE:
@@ -5430,7 +5428,7 @@ static void CG_VenomPellet(vec3_t start, vec3_t end, int skipNum) {
 }
 
 
-// ---- (SA)	all changes to venom below should be mine
+// all changes to venom below should be mine
 #define DEFAULT_VENOM_COUNT 10
 //#define DEFAULT_VENOM_SPREAD 20
 //#define DEFAULT_VENOM_SPREAD 400
@@ -5494,7 +5492,7 @@ void CG_VenomFire(entityState_t *es, qboolean fullmode) {
 			if (fullmode) {
 				CG_SmokePuff(v, up, 24, 1, 1, 1, 0.33, 1200, cg.time, 0, 0, cgs.media.shotgunSmokePuffShader);   // LEF_PUFF_DONT_SCALE
 			}
-// ---- (SA)	for the time being don't do the single shot smoke as it's position is funky
+// for the time being don't do the single shot smoke as it's position is funky
 // 		else
 // 			CG_SmokePuff(v, up, 4, 1, 1, 1, 0.33, 700, cg.time, 0, cgs.media.shotgunSmokePuffShader);
 		}
@@ -5902,7 +5900,7 @@ CG_ClientDamage
 =======================================================================================================================================
 */
 void CG_ClientDamage(int entnum, int enemynum, int id) {
-	// NERVE - SMF - don't do this in multiplayer
+	// don't do this in multiplayer
 	if (cgs.gametype != GT_SINGLE_PLAYER) {
 		return;
 	}

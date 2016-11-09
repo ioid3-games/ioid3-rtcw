@@ -228,8 +228,7 @@ static void SV_CreateBaseline(void) {
 
 		svent->s.number = entnum;
 		// take current state as baseline
-		// 
-		sv.svEntities[entnum].baseline = svent->s;
+			sv.svEntities[entnum].baseline = svent->s;
 	}
 }
 
@@ -240,7 +239,7 @@ SV_BoundMaxClients
 */
 static void SV_BoundMaxClients(int minimum) {
 	// get the current maxclients value
-	Cvar_Get("sv_maxclients", "20", 0);        // NERVE - SMF - changed to 20 from 8
+	Cvar_Get("sv_maxclients", "20", 0);        // changed to 20 from 8
 
 	sv_maxclients->modified = qfalse;
 

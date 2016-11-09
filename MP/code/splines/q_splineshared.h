@@ -1434,7 +1434,7 @@ typedef struct playerState_s {
 
 #define BUTTON_SPRINT       32
 #define BUTTON_ACTIVATE     64
-// ---- (SA)	end
+// end
 
 #define BUTTON_ANY          128        // any key whatsoever
 
@@ -1493,12 +1493,12 @@ typedef enum {
 	TR_INTERPOLATE, // non - parametric, but interpolate between snapshots
 	TR_LINEAR,
 	TR_LINEAR_STOP,
-	TR_LINEAR_STOP_BACK, // ---- (SA)	added. so reverse movement can be different than forward
+	TR_LINEAR_STOP_BACK, // added. so reverse movement can be different than forward
 	TR_SINE, // value = base + sin(time / duration) * delta
 	TR_GRAVITY, // Ridah
 	TR_GRAVITY_LOW,
 	TR_GRAVITY_FLOAT, // super low grav with no gravity acceleration(floating feathers / fabric / leaves / ...)
-	TR_GRAVITY_PAUSED, // ---- (SA)	has stopped, but will still do a short trace to see if it should be switched back to TR_GRAVITY
+	TR_GRAVITY_PAUSED, // has stopped, but will still do a short trace to see if it should be switched back to TR_GRAVITY
 	TR_ACCELERATE,
 	TR_DECCELERATE
 } trType_t;
@@ -1507,10 +1507,10 @@ typedef struct {
 	trType_t trType;
 	int trTime;
 	int trDuration;            // if non 0, trTime + trDuration = stop time
-// ---- (SA)	removed
+// removed
 	vec3_t trBase;
 	vec3_t trDelta;            // velocity, etc
-// ---- (SA)	removed
+// removed
 } trajectory_t;
 
 // put this here so we have a central means of defining a Zombie(kind of a hack, but this is to minimize bandwidth usage)
@@ -1564,7 +1564,7 @@ typedef struct entityState_s {
 	int weapon;            // determines weapon and flash model, etc
 	int legsAnim;          // mask off ANIM_TOGGLEBIT
 	int torsoAnim;         // mask off ANIM_TOGGLEBIT
-// int weapAnim;		// mask off ANIM_TOGGLEBIT	// ---- (SA)	removed(weap anims will be client - side only)
+// int weapAnim;		// mask off ANIM_TOGGLEBIT	// removed(weap anims will be client - side only)
 	int density;           // for particle effects
 	int dmgFlags;          // to pass along additional information for damage effects for players /  Also used for cursorhints for non - player entities
 
@@ -1641,7 +1641,7 @@ typedef struct qtime_s {
 
 // server browser sources
 #define AS_LOCAL        0
-#define AS_GLOBAL       1          // NERVE - SMF - modified
+#define AS_GLOBAL       1          // modified
 #define AS_FAVORITES    2
 #define AS_MPLAYER      3
 
@@ -1677,12 +1677,12 @@ typedef enum _flag_status {
 #define LERP(a, b, w)((a) * (1.0f - (w)) + (b) * (w))
 #define LUMA(red, green, blue)(0.2126f * (red) + 0.7152f * (green) + 0.0722f * (blue))
 
-// NERVE - SMF - localization
+// localization
 typedef enum {
 	LANGUAGE_FRENCH = 0, LANGUAGE_GERMAN, LANGUAGE_ITALIAN, LANGUAGE_SPANISH, MAX_LANGUAGES
 } languages_t;
 
-// NERVE - SMF - wolf server / game states
+// wolf server / game states
 typedef enum {
 	GS_INITIALIZE = -1, GS_PLAYING, GS_WARMUP_COUNTDOWN, GS_WARMUP, GS_INTERMISSION, GS_WAITING_FOR_PLAYERS, GS_RESET
 } gamestate_t;

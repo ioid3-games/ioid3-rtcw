@@ -75,6 +75,6 @@ void AICast_AudibleEvent(int srcnum, vec3_t pos, float range);
 
 int AICast_PlayTime(int entnum);
 int AICast_NumAttempts(int entnum);
-// ---- (SA)	end
+// end
 
 void AICast_RegisterPain(int entnum);

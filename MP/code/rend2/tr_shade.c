@@ -275,7 +275,7 @@ static void ComputeTexMods(shaderStage_t *pStage, int bundleNum, float *outMatri
 			break;
 		
 		case TMOD_STRETCH:
-			RB_CalcStretchTexMatrix(&bundle->texMods[tm].wave, 
+			RB_CalcStretchTexMatrix(&bundle->texMods[tm].wave,
 								   matrix);
 			break;
 
@@ -1876,7 +1876,6 @@ void RB_StageIteratorGeneric(void)
 	}
 
 
-	// 
 	// now do any dynamic lighting needed
 	//
 	if (tess.dlightBits && tess.shader->sort <= SS_OPAQUE

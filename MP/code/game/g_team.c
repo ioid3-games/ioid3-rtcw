@@ -797,7 +797,7 @@ gentity_t *SelectRandomTeamSpawnPoint(int teamstate, team_t team, int spawnObjec
 	char *def;
 	int defendingTeam;
 	qboolean defender = qfalse;
-	// NERVE - SMF - get defender
+	// get defender
 	trap_GetConfigstring(CS_MULTI_INFO, cs, sizeof(cs));
 	def = Info_ValueForKey(cs, "defender");
 
@@ -877,7 +877,7 @@ gentity_t *SelectRandomTeamSpawnPoint(int teamstate, team_t team, int spawnObjec
 		} else {
 			for (j = 0; j < count; j++) {
 				if (spots[j]->spawnflags & 1) { // only use spawnpoint if it's a permanent one
-					// NERVE - SMF - make defenders spawn all the way back by default
+					// make defenders spawn all the way back by default
 					if (defendingTeam < 0) {
 						i = FindFarthestObjectiveIndex(spots[j]->s.origin);
 			

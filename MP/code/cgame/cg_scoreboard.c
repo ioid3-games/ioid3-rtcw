@@ -675,7 +675,7 @@ qboolean CG_DrawScoreboard(void) {
 	} else if (cg_fixedAspect.integer && !cg.limboMenu) {
 		CG_SetScreenPlacement(PLACE_CENTER, PLACE_CENTER);
 	}
-	// NERVE - SMF - added mp wolf check
+	// added mp wolf check
 	if (cg.showScores || (cg.predictedPlayerState.pm_type == PM_DEAD && cgs.gametype < GT_WOLF) || cg.predictedPlayerState.pm_type == PM_INTERMISSION) {
 		fade = 1.0;
 	} else {
@@ -701,7 +701,7 @@ qboolean CG_DrawScoreboard(void) {
 	// current rank
 
 	// ---- (SA) enclosed this so it doesn't draw for SP
-	if (cgs.gametype != GT_SINGLE_PLAYER && cgs.gametype < GT_WOLF) { // NERVE - SMF - added wolf multiplayer check
+	if (cgs.gametype != GT_SINGLE_PLAYER && cgs.gametype < GT_WOLF) { // added wolf multiplayer check
 		if (cg.snap->ps.persistant[PERS_TEAM] != TEAM_SPECTATOR) {
 			if (cgs.gametype < GT_TEAM) {
 				s = va("%s place with %i", CG_PlaceString(cg.snap->ps.persistant[PERS_RANK] + 1), cg.snap->ps.persistant[PERS_SCORE]);
@@ -785,10 +785,8 @@ qboolean CG_DrawScoreboard(void) {
 	}
 	// - NERVE - SMF
 	} else if (cgs.gametype >= GT_TEAM) {
-		// 
-		// teamplay scoreboard
-		// 
-		if (cg.teamScores[0] >= cg.teamScores[1]) {
+			// teamplay scoreboard
+			if (cg.teamScores[0] >= cg.teamScores[1]) {
 			y = CG_TeamScoreboard(x, y, TEAM_RED, fade);
 			y = CG_TeamScoreboard(x, y, TEAM_BLUE, fade);
 		} else {
@@ -798,10 +796,8 @@ qboolean CG_DrawScoreboard(void) {
 
 		CG_TeamScoreboard(x, y, TEAM_SPECTATOR, fade);
 	} else if (cgs.gametype != GT_SINGLE_PLAYER) { // ---- (SA) modified
-		// 
-		// free for all scoreboard
-		// 
-		y = CG_TeamScoreboard(x, y, TEAM_FREE, fade);
+			// free for all scoreboard
+			y = CG_TeamScoreboard(x, y, TEAM_FREE, fade);
 		CG_TeamScoreboard(x, y, TEAM_SPECTATOR, fade);
 	}
 	// load any models that have been deferred

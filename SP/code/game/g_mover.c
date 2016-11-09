@@ -350,8 +350,7 @@ qboolean G_TryPushingEntity(gentity_t *check, gentity_t *pusher, vec3_t move, ve
 								if (check->client) {
 									VectorCopy(org2, check->client->ps.origin);
 								}
-								// 
-								// do the test
+															// do the test
 								block = G_TestEntityPosition(check);
 
 								if (!block) {
@@ -616,7 +615,7 @@ void G_MoverTeam(gentity_t *ent) {
 				}
 			}
 		}
-// ---- (SA)	removed
+// removed
 		// opening or closing rotating door
 		else if (part->s.apos.trType == TR_LINEAR_STOP) {
 			if (level.time >= part->s.apos.trTime + part->s.apos.trDuration) {
@@ -724,7 +723,7 @@ void SetMoverState(gentity_t *ent, moverState_t moverState, int time) {
 	case MOVER_1TO2:       // opening
 		VectorCopy(ent->pos1, ent->s.pos.trBase);
 		VectorSubtract(ent->pos2, ent->pos1, delta);
-// ---- (SA)	numerous changes start here
+// numerous changes start here
 		ent->s.pos.trDuration = ent->gDuration;
 		f = 1000.0 / ent->s.pos.trDuration;
 		VectorScale(delta, f, ent->s.pos.trDelta);
@@ -734,7 +733,7 @@ void SetMoverState(gentity_t *ent, moverState_t moverState, int time) {
 		VectorCopy(ent->pos2, ent->s.pos.trBase);
 		VectorSubtract(ent->pos1, ent->pos2, delta);
 
-		if (ent->closespeed) {                      // ---- (SA)	handle doors with different close speeds
+		if (ent->closespeed) {                      // handle doors with different close speeds
 			ent->s.pos.trDuration = ent->gDurationBack;
 			f = 1000.0 / ent->gDurationBack;
 		} else {
@@ -1080,7 +1079,7 @@ qboolean IsBinaryMoverBlocked(gentity_t *ent, gentity_t *other, gentity_t *activ
 		if (ent->spawnflags & 32) {
 			return qfalse;
 		}
-		// ---- (SA)	only check for blockage by players
+		// only check for blockage by players
 		if (!activator) {
 			if (Q_stricmp(other->classname, "target_relay") == 0) {
 				is_relay = qtrue;
@@ -1626,7 +1625,7 @@ void InitMover(gentity_t *ent) {
 		ent->speed = 100;
 	}
 
-// ---- (SA)	changes
+// changes
 	// open time based on speed
 // 	VectorScale(move, ent->speed, ent->s.pos.trDelta);
 	VectorScale(move, ent->speed, ent->gDelta);
@@ -1985,7 +1984,7 @@ void finishSpawningKeyedMover(gentity_t *ent) {
 	gentity_t *slave;
 	// all ents should be spawned, so it's okay to check for special door triggers now
 
-// ---- (SA)	modified
+// modified
 	if (ent->key == KEY_UNLOCKED_ENT) { // the key was not set in the spawn
 		if (ent->targetname && findNonAIBrushTargeter(ent)) {
 			ent->key = KEY_LOCKED_TARGET;  // something is targeting this(other than a trigger_aidoor) so leave locked
@@ -2168,7 +2167,7 @@ void G_TryDoor(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 		}
 	}
 }
-// ---- (SA)	end
+// end
 
 
 /*QUAKED func_door(0 .5 .8) ? START_OPEN TOGGLE CRUSHER TOUCH SHOOT - THRU
@@ -3966,7 +3965,7 @@ void use_target_effect(gentity_t *self, gentity_t *other, gentity_t *activator) 
 		tent->s.dl_intensity = 0;
 	}
 
-	trap_SetConfigstring(CS_TARGETEFFECT, self->dl_shader);  // ---- (SA)	allow shader to be set from entity
+	trap_SetConfigstring(CS_TARGETEFFECT, self->dl_shader);  // allow shader to be set from entity
 
 	// (SA) this should match the values from func_explosive
 	tent->s.frame = self->key;     // pass the type to the client("glass", "wood", "metal", "gibs", "brick", "stone", "fabric", 0, 1, 2, 3, 4, 5, 6)
@@ -4391,7 +4390,7 @@ void SP_func_explosive(gentity_t *ent) {
 			}
 		}
 	}
-// ---- (SA)	end
+// end
 
 
 
@@ -4484,8 +4483,8 @@ void use_invisible_user(gentity_t *ent, gentity_t *other, gentity_t *activator) 
 	}
 
 	if (other->client && ent->spawnflags & 1) {
-		// ---- (SA)	play 'off' sound
-		// ---- (SA)	I think this is where this goes. Raf, let me know if it's wrong. I need someone to tell me what a test map is for this(I'll ask Dan tomorrow)
+		// play 'off' sound
+		// I think this is where this goes. Raf, let me know if it's wrong. I need someone to tell me what a test map is for this(I'll ask Dan tomorrow)
 		// not usable by player. turned off.
 		G_Sound(ent, ent->soundPos1);
 		return;
@@ -4499,8 +4498,8 @@ void use_invisible_user(gentity_t *ent, gentity_t *other, gentity_t *activator) 
 		}
 	}
 
-	G_UseTargets(ent, other); // ---- (SA)	how about this so the triggered targets have an 'activator' as well as an 'other'?
-								// ---- (SA)	Please let me know if you forsee any problems with this.
+	G_UseTargets(ent, other); // how about this so the triggered targets have an 'activator' as well as an 'other'?
+								// Please let me know if you forsee any problems with this.
 }
 
 
@@ -4536,7 +4535,7 @@ void func_invisible_user(gentity_t *ent) {
 			}
 		}
 	}
-// ---- (SA)	end
+// end
 
 
 	if (!(ent->spawnflags & 4)) { // !NO_OFF_NOISE

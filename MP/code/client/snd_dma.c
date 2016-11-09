@@ -109,7 +109,6 @@ S_Base_SoundInfo
 void S_Base_SoundInfo(void) {
 	Com_Printf("----- Sound Info -----\n");
 
-
 	if (!s_soundStarted) {
 		Com_Printf("sound system not started\n");
 	} else {
@@ -727,7 +726,7 @@ static void S_Base_MainStartSound(vec3_t origin, int entityNum, int entchannel, 
 
 	ch = NULL;
 
-// ---- (SA)	modified
+// modified
 
 	// shut off other sounds on this channel if necessary
 	for (i = 0; i < MAX_CHANNELS; i++) {
@@ -768,7 +767,7 @@ static void S_Base_MainStartSound(vec3_t origin, int entityNum, int entchannel, 
 	if (!ch) {
 		ch = S_ChannelMalloc();
 	}
-// ---- (SA)	end
+// end
 
 // 	ch = S_ChannelMalloc();	// entityNum, entchannel);
 

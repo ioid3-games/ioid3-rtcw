@@ -488,7 +488,7 @@ void SP_misc_spotlight(gentity_t *ent) {
 	ent->think = spotlight_finish_spawning;
 	ent->nextthink = level.time + 100;
 
-// ---- (SA)	model now tracked by client
+// model now tracked by client
 
 // if (ent->model)
 // 	ent->s.modelindex = G_ModelIndex(ent->model);
@@ -500,7 +500,7 @@ void SP_misc_spotlight(gentity_t *ent) {
 	}
 }
 
-// ---- (SA)	end
+// end
 
 // =========================================================== 
 
@@ -596,7 +596,7 @@ For safety, you should have each dummy only point at one entity(however, it's ok
 */
 void SP_misc_vis_dummy(gentity_t *ent) {
 
-	if (!ent->target) { // ---- (SA)	added safety check
+	if (!ent->target) { // added safety check
 		G_Printf("Couldn't find target for misc_vis_dummy at %s\n", vtos(ent->r.currentOrigin));
 		G_FreeEntity(ent);
 		return;
@@ -758,7 +758,7 @@ void Use_Shooter(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 
 	switch (ent->s.weapon) {
 	case WP_GRENADE_LAUNCHER:
-		VectorScale(dir, 700, dir);                // ---- (SA)	had to add this as fire_grenade now expects a non - normalized direction vector
+		VectorScale(dir, 700, dir);                // had to add this as fire_grenade now expects a non - normalized direction vector
 		fire_grenade(ent, ent->s.origin, dir, WP_GRENADE_LAUNCHER);
 		break;
 	case WP_PANZERFAUST:
@@ -967,7 +967,7 @@ void SP_shooter_tesla(gentity_t *ent) {
 	ent->think = shooter_tesla_finish_spawning;
 	ent->nextthink = level.time + 100;
 }
-// ---- (SA)	end
+// end
 
 
 /*QUAKED shooter_grenade(1 0 0)(-16 - 16 - 16)(16 16 16)
@@ -1536,7 +1536,7 @@ Fire_Lead
 =======================================================================================================================================
 */
 
-// ---- (SA)	added 'activator' so the bits that used to expect 'ent' to be the gun still work
+// added 'activator' so the bits that used to expect 'ent' to be the gun still work
 void Fire_Lead(gentity_t *ent, gentity_t *activator, float spread, int damage, vec3_t muzzle, vec3_t angles) {
 	trace_t tr;
 	vec3_t end, lead_muzzle, mg42_muzzle = {0};
@@ -2193,7 +2193,7 @@ void mg42_spawn(gentity_t *ent) {
 		VectorCopy(base->s.angles, base->s.apos.trBase);
 		VectorCopy(base->s.angles, base->s.apos.trDelta);
 		base->health = ent->health;
-		base->target = ent->target; // ---- (SA)	added so mounting mg42 can trigger targets
+		base->target = ent->target; // added so mounting mg42 can trigger targets
 		base->takedamage = qtrue;
 		base->die = mg42_die;
 		base->soundPos3 = ent->soundPos3;  // ---- (SA)
@@ -2236,7 +2236,7 @@ void mg42_spawn(gentity_t *ent) {
 	gun->damage = ent->damage;
 	gun->health = ent->health; 
 	gun->accuracy = ent->accuracy;
-	gun->target = ent->target; // ---- (SA)	added so mounting mg42 can trigger targets
+	gun->target = ent->target; // added so mounting mg42 can trigger targets
 	gun->use = mg42_use;
 	gun->die = mg42_die; // JPW NERVE we want it to be called for non - tripod machineguns too(for mp_beach etc)
 	gun->soundPos3 = ent->soundPos3;   // ---- (SA)

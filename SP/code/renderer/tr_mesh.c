@@ -70,7 +70,6 @@ static float ProjectRadius(float r, vec3_t location) {
 				   p[2] * tr.viewParms.projectionMatrix[11] +
 				   tr.viewParms.projectionMatrix[15];
 
-
 	pr = projected[1] / projected[3];
 
 	if (pr > 1.0f) {
@@ -450,7 +449,6 @@ void R_AddMD3Surfaces(trRefEntity_t *ent) {
 		// for testing polygon shadows (on /all/ models)
 //		if (r_shadows->integer == 4)
 //			R_AddDrawSurf((void *)surface, tr.projectionShadowShader, 0, qfalse);
-
 
 		// don't add third_person objects if not viewing through a portal
 		if (!personalModel) {

@@ -126,11 +126,11 @@ cast_script_stack_action_t scriptActions[] = {
 	{"wait", AICast_ScriptAction_Wait},
 	{"trigger", AICast_ScriptAction_Trigger},
 	{"setammo", AICast_ScriptAction_SetAmmo},
-	{"setclip", AICast_ScriptAction_SetClip}, 
+	{"setclip", AICast_ScriptAction_SetClip},
 	{"selectweapon", AICast_ScriptAction_SelectWeapon},
 	{"noattack", AICast_ScriptAction_NoAttack},
 	{"attack", AICast_ScriptAction_Attack},
-	{"givearmor", AICast_ScriptAction_GiveArmor}, 
+	{"givearmor", AICast_ScriptAction_GiveArmor},
 	{"giveinventory", AICast_ScriptAction_GiveInventory},
 	{"giveweapon", AICast_ScriptAction_GiveWeapon},
 	{"takeweapon", AICast_ScriptAction_TakeWeapon},
@@ -167,8 +167,8 @@ cast_script_stack_action_t scriptActions[] = {
 	{"knockback", AICast_ScriptAction_KnockBack},
 	{"zoom", AICast_ScriptAction_Zoom},
 	{"parachute", AICast_ScriptAction_Parachute},
-	{"startcam", AICast_ScriptAction_StartCam}, 
-	{"startcamblack", AICast_ScriptAction_StartCamBlack}, 
+	{"startcam", AICast_ScriptAction_StartCam},
+	{"startcamblack", AICast_ScriptAction_StartCamBlack},
 	{"entityscriptname", AICast_ScriptAction_EntityScriptName},
 	{"aiscriptname", AICast_ScriptAction_AIScriptName},
 	{"sethealth", AICast_ScriptAction_SetHealth},
@@ -681,8 +681,7 @@ qboolean AICast_ScriptRun(cast_state_t *cs, qboolean force) {
 	}
 
 	while (cs->castScriptStatus.castScriptStackHead < stack->numItems) {
-		// 
-		// show debugging info
+			// show debugging info
 		if ((cs->castScriptStatus.castScriptStackChangeTime == level.time) && ((aicast_debug.integer == 1) || ((aicast_debug.integer == 2) && ((strlen(aicast_debugname.string) < 1) || (g_entities[cs->entityNum].aiName && !strcmp(aicast_debugname.string, g_entities[cs->entityNum].aiName)))))) {
 			G_Printf("(%s) AIScript command: %s %s\n", g_entities[cs->entityNum].aiName, stack->items[cs->castScriptStatus.castScriptStackHead].action->actionString, (stack->items[cs->castScriptStatus.castScriptStackHead].params ? stack->items[cs->castScriptStatus.castScriptStackHead].params : ""));
 		}

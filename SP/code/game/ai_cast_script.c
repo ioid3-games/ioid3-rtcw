@@ -145,16 +145,16 @@ cast_script_stack_action_t scriptActions[] = {
 	{"playanim", AICast_ScriptAction_PlayAnim},
 	{"clearanim", AICast_ScriptAction_ClearAnim},
 	{"wait", AICast_ScriptAction_Wait},
-	{"abort_if_loadgame", AICast_ScriptAction_AbortIfLoadgame}, 
+	{"abort_if_loadgame", AICast_ScriptAction_AbortIfLoadgame},
 	{"trigger", AICast_ScriptAction_Trigger},
 	{"setammo", AICast_ScriptAction_SetAmmo},
-	{"setclip", AICast_ScriptAction_SetClip}, 
+	{"setclip", AICast_ScriptAction_SetClip},
 	{"selectweapon", AICast_ScriptAction_SelectWeapon},
 	{"noattack", AICast_ScriptAction_NoAttack},
-	{"suggestweapon", AICast_ScriptAction_SuggestWeapon}, 
+	{"suggestweapon", AICast_ScriptAction_SuggestWeapon},
 	{"attack", AICast_ScriptAction_Attack},
-	{"givearmor", AICast_ScriptAction_GiveArmor}, 
-	{"setarmor", AICast_ScriptAction_SetArmor}, 
+	{"givearmor", AICast_ScriptAction_GiveArmor},
+	{"setarmor", AICast_ScriptAction_SetArmor},
 	{"giveinventory", AICast_ScriptAction_GiveInventory},
 	{"giveweapon", AICast_ScriptAction_GiveWeapon},
 	{"takeweapon", AICast_ScriptAction_TakeWeapon},
@@ -177,8 +177,8 @@ cast_script_stack_action_t scriptActions[] = {
 	{"unmount", AICast_ScriptAction_Unmount},
 	{"savepersistant", AICast_ScriptAction_SavePersistant},
 	{"changelevel", AICast_ScriptAction_ChangeLevel},
-	{"endgame", AICast_ScriptAction_EndGame}, 
-	{"teleport", AICast_ScriptAction_Teleport}, 
+	{"endgame", AICast_ScriptAction_EndGame},
+	{"teleport", AICast_ScriptAction_Teleport},
 	{"foundsecret", AICast_ScriptAction_FoundSecret},
 	{"nosight", AICast_ScriptAction_NoSight},
 	{"sight", AICast_ScriptAction_Sight},
@@ -195,17 +195,17 @@ cast_script_stack_action_t scriptActions[] = {
 	{"knockback", AICast_ScriptAction_KnockBack},
 	{"zoom", AICast_ScriptAction_Zoom},
 	{"parachute", AICast_ScriptAction_Parachute},
-	{"cigarette", AICast_ScriptAction_Cigarette}, 
+	{"cigarette", AICast_ScriptAction_Cigarette},
 	{"startcam", AICast_ScriptAction_StartCam},
 	{"startcamblack", AICast_ScriptAction_StartCamBlack},
-	{"stopcam", AICast_ScriptAction_StopCam}, 
+	{"stopcam", AICast_ScriptAction_StopCam},
 	{"entityscriptname", AICast_ScriptAction_EntityScriptName},
 	{"aiscriptname", AICast_ScriptAction_AIScriptName},
 	{"sethealth", AICast_ScriptAction_SetHealth},
 	{"notarget", AICast_ScriptAction_NoTarget},
 	{"cvar", AICast_ScriptAction_Cvar}, 
 
-// ---- (SA)	added some music interface
+// added some music interface
 	{"mu_start", AICast_ScriptAction_MusicStart}, // (char *new_music, int time)	// time to fade in
 	{"mu_play", AICast_ScriptAction_MusicPlay}, // (char *new_music) {"mu_stop", AICast_ScriptAction_MusicStop}, // (int time)	// time to fadeout
 	{"mu_fade", AICast_ScriptAction_MusicFade}, // (float target_volume, int time)	// time to fade to target
@@ -394,7 +394,6 @@ void AICast_ScriptParse(cast_state_t *cs) {
 	int bracketLevel;
 	qboolean buildScript;
 
-
 	if (!level.scriptAI) {
 		return;
 	}
@@ -525,7 +524,7 @@ void AICast_ScriptParse(cast_state_t *cs) {
 							G_SoundIndex(token);
 						}
 
-// ---- (SA)	added a bit more
+// added a bit more
 						if (buildScript && (
 									!Q_stricmp(action->actionString, "mu_start") || !Q_stricmp(action->actionString, "mu_play") || !Q_stricmp(action->actionString, "mu_queue") || !Q_stricmp(action->actionString, "startcam") || !Q_stricmp(action->actionString, "startcamblack"))
 							) {
@@ -539,7 +538,7 @@ void AICast_ScriptParse(cast_state_t *cs) {
 // 						if (weap)
 							RegisterItem(weap);  // don't be nice, just do it. if it can't find it, you'll bomb out to the error menu
 						}
-// ---- (SA)	end
+// end
 					}
 
 					if (strrchr(token, ' ')) { // need to wrap this param in quotes since it has more than one word
@@ -737,8 +736,7 @@ qboolean AICast_ScriptRun(cast_state_t *cs, qboolean force) {
 	}
 
 	while (cs->castScriptStatus.castScriptStackHead < stack->numItems) {
-		// 
-		// show debugging info
+			// show debugging info
 		if ((cs->castScriptStatus.castScriptStackChangeTime == level.time) && ((aicast_debug.integer == 1) || ((aicast_debug.integer == 2) && ((strlen(aicast_debugname.string) < 1) || (g_entities[cs->entityNum].aiName && !strcmp(aicast_debugname.string, g_entities[cs->entityNum].aiName)))))) {
 			G_Printf("(%s) AIScript command: %s %s\n", g_entities[cs->entityNum].aiName, stack->items[cs->castScriptStatus.castScriptStackHead].action->actionString, (stack->items[cs->castScriptStatus.castScriptStackHead].params ? stack->items[cs->castScriptStatus.castScriptStackHead].params : ""));
 		}

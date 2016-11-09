@@ -251,7 +251,6 @@ static void SV_Map_f(void) {
 	Cvar_Get("g_gameskill", "1", CVAR_SERVERINFO|CVAR_LATCH);
 	Cvar_SetValue("g_episode", 0);
 
-
 	cmd = Cmd_Argv(0);
 
 	if (Q_stricmpn(cmd, "sp", 2) == 0) {
@@ -280,7 +279,7 @@ static void SV_Map_f(void) {
 			Cvar_SetValue("g_gametype", GT_FFA);
 		}
 	}
-	// save the map name here cause on a map restart we reload the q3config.cfg and thus nuke the arguments of the map command
+	// save the map name here cause on a map restart we reload the wolfconfig_server.cfg and thus nuke the arguments of the map command
 	Q_strncpyz(mapname, map, sizeof(mapname));
 	// start up the map
 	SV_SpawnServer(mapname, killBots);

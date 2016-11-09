@@ -125,7 +125,7 @@ void Weapon_Knife(gentity_t *ent) {
 // 		} else {
 // 			damage *= 10;
 // 		}
-// ---- (SA)	end
+// end
 		}
 	}
 
@@ -499,7 +499,7 @@ void Weapon_Engineer(gentity_t *ent) {
 				traceEnt->nextthink = level.time + 30000;
 				traceEnt->think = G_ExplodeMissile;
 				// check if player is in trigger objective field
-				// NERVE - SMF - made this the actual bounding box of dynamite instead of range, also must snap origin to line up properly
+				// made this the actual bounding box of dynamite instead of range, also must snap origin to line up properly
 				VectorCopy(traceEnt->r.currentOrigin, origin);
 				SnapVector(origin);
 				VectorAdd(origin, traceEnt->r.mins, mins);
@@ -1429,7 +1429,7 @@ void SP5_Fire(gentity_t *ent, float aimSpreadScale) {
 				reflectBool = qtrue;
 			}
 		}
-		// ---- (SA)	moved these up so damage sent in Bullet_Fire() will be valid
+		// moved these up so damage sent in Bullet_Fire() will be valid
 		damage = G_GetWeaponDamage(WP_SILENCER) + (random() * 15); // JPW giving 40 - 55
 		damage *= s_quadFactor;
 
@@ -1461,7 +1461,7 @@ void RubbleFlagCheck(gentity_t *ent, trace_t tr) {
 		is_valid = qtrue;
 		type = 4;
 	} else if (tr.surfaceFlags & SURF_METAL) {
-// ---- (SA)	removed
+// removed
 // 	is_valid = qtrue;
 // 	type = 2;
 	} else if (tr.surfaceFlags & SURF_WOOD) {
@@ -1606,7 +1606,7 @@ void Bullet_Fire_Extended(gentity_t *source, gentity_t *attacker, vec3_t start, 
 	}
 
 
-// ---- (SA)	commented out
+// commented out
 // if (tr.surfaceFlags & SURF_NOIMPACT) {
 // 	if (attacker->s.weapon == WP_MAUSER && attacker->r.svFlags & SVF_CASTAI)
 // 		SniperSoundEFX(tr.endpos);
@@ -1620,7 +1620,7 @@ void Bullet_Fire_Extended(gentity_t *source, gentity_t *attacker, vec3_t start, 
 	// snap the endpos to integers, but nudged towards the line
 	SnapVectorTowards(tr.endpos, start);
 
-// ---- (SA)	commented out
+// commented out
 // if (attacker->s.weapon == WP_MAUSER && attacker->r.svFlags & SVF_CASTAI)
 // {
 // 	SniperSoundEFX(tr.endpos);
@@ -1711,7 +1711,7 @@ void Bullet_Fire_Extended(gentity_t *source, gentity_t *attacker, vec3_t start, 
 			G_AddEvent(traceEnt, EV_GENERAL_SOUND, level.bulletRicochetSound);
 			CalcMuzzlePoints(traceEnt, traceEnt->s.weapon);
 
-// ---- (SA)	modified to use extended version so attacker would pass through
+// modified to use extended version so attacker would pass through
 // 		Bullet_Fire(traceEnt, 1000, damage);
 			Bullet_Endpos(traceEnt, spread, &reflect_end);
 			Bullet_Fire_Extended(traceEnt, attacker, muzzleTrace, reflect_end, spread, damage);
@@ -1842,7 +1842,7 @@ gentity_t *weapon_grenadelauncher_fire(gentity_t *ent, int grenType) {
 	}
 	// jpw
 
-	// ---- (SA)	adjust for movement of character. TODO: Probably comment in later, but only for forward / back not strafing
+	// adjust for movement of character. TODO: Probably comment in later, but only for forward / back not strafing
 	// VectorAdd(m->s.pos.trDelta, ent->client->ps.velocity, m->s.pos.trDelta);	// "real" physics
 
 	// let the AI know which grenade it has fired
@@ -1851,7 +1851,7 @@ gentity_t *weapon_grenadelauncher_fire(gentity_t *ent, int grenType) {
 	return m;
 }
 
-// ---- (SA)	modified this entire "venom" section
+// modified this entire "venom" section
 /*
 =======================================================================================================================================
 
@@ -2154,7 +2154,7 @@ void CalcMuzzlePoint(gentity_t *ent, int weapon, vec3_t forward, vec3_t right, v
 	{
 	case WP_PANZERFAUST:
 		if (g_gametype.integer == GT_SINGLE_PLAYER) { // JPW NERVE
-			VectorMA(muzzlePoint, 14, right, muzzlePoint);       // ---- (SA)	new first person rl position
+			VectorMA(muzzlePoint, 14, right, muzzlePoint);       // new first person rl position
 			VectorMA(muzzlePoint, -10, up, muzzlePoint);
 		}
 // pfaust shoots into walls too much so we moved it to shoulder mount
@@ -2169,7 +2169,7 @@ void CalcMuzzlePoint(gentity_t *ent, int weapon, vec3_t forward, vec3_t right, v
 		// spawn into a wall and detonate
 
 // 		VectorMA(muzzlePoint, 16, right, muzzlePoint);
-		VectorMA(muzzlePoint, 14, right, muzzlePoint);       // ---- (SA)	new first person rl position
+		VectorMA(muzzlePoint, 14, right, muzzlePoint);       // new first person rl position
 		break;
 	case WP_DYNAMITE:
 	case WP_DYNAMITE2:
@@ -2226,7 +2226,7 @@ void CalcMuzzlePoints(gentity_t *ent, int weapon) {
 	// set aiming directions
 	AngleVectors(viewang, forward, right, up);
 
-// ---- (SA)	modified the muzzle stuff so that weapons that need to fire down a perfect trace
+// modified the muzzle stuff so that weapons that need to fire down a perfect trace
 // 		straight out of the camera(SP5, Mauser right now) can have that accuracy, but
 // 		weapons that need an offset effect(bazooka / grenade/etc.) can still look like
 // 		they came out of the weap.

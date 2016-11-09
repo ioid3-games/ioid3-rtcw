@@ -770,7 +770,7 @@ int Sys_GetHighQualityCPU() {
 	return 1;
 }
 
-// ---- (SA)	from NERVE MP codebase(10 / 15 / 01) (checkins at time of this file should be related)
+// from NERVE MP codebase(10 / 15 / 01) (checkins at time of this file should be related)
 /*
 =======================================================================================================================================
 Sys_StartProcess
@@ -822,7 +822,7 @@ void Sys_OpenURL(char *url, qboolean doexit) {              // NERVE - SMF
 		Cbuf_ExecuteText(EXEC_APPEND, "quit");
 	}
 }
-// ---- (SA)	end
+// end
 
 char *Sys_GetDLLName(const char *name) {
 	return va("%s_sp_" ARCH_STRING DLL_EXT, name);

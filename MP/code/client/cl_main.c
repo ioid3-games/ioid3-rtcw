@@ -79,7 +79,7 @@ cvar_t *cl_timeNudge;
 cvar_t *cl_showTimeDelta;
 cvar_t *cl_freezeDemo;
 cvar_t *cl_showPing;
-cvar_t *cl_shownet = NULL;    // NERVE - SMF - This is referenced in msg.c and we need to make sure it is NULL
+cvar_t *cl_shownet = NULL;    // This is referenced in msg.c and we need to make sure it is NULL
 cvar_t *cl_shownuments;       // DHM - Nerve
 cvar_t *cl_visibleClients;    // DHM - Nerve
 cvar_t *cl_showSend;
@@ -121,7 +121,7 @@ cvar_t *cl_serverStatusResendTime;
 cvar_t *cl_missionStats;
 cvar_t *cl_waitForFire;
 
-// NERVE - SMF - localization
+// localization
 cvar_t *cl_language;
 cvar_t *cl_debugTranslation;
 // - NERVE - SMF
@@ -1802,7 +1802,7 @@ void CL_Connect_f(void) {
 	clc.connectPacketCount = 0;
 	// server connection string
 	Cvar_Set("cl_currentServerAddress", server);
-	// NERVE - SMF - reset some cvars
+	// reset some cvars
 	Cvar_Set("mp_playerType", "0");
 	Cvar_Set("mp_currentPlayerType", "0");
 	Cvar_Set("mp_weapon", "0");
@@ -3849,7 +3849,7 @@ void CL_Init(void) {
 
 	// userinfo
 	Cvar_Get("name", "WolfPlayer", CVAR_USERINFO|CVAR_ARCHIVE);
-	cl_rate = Cvar_Get("rate", "25000", CVAR_USERINFO|CVAR_ARCHIVE);    // NERVE - SMF - changed from 3000
+	cl_rate = Cvar_Get("rate", "25000", CVAR_USERINFO|CVAR_ARCHIVE);    // changed from 3000
 	Cvar_Get("snaps", "20", CVAR_USERINFO|CVAR_ARCHIVE);
 // 	Cvar_Get("model", "american", CVAR_USERINFO|CVAR_ARCHIVE);	// temp until we have an skeletal american model
 	Cvar_Get("model", "multi", CVAR_USERINFO|CVAR_ARCHIVE);
@@ -3890,7 +3890,7 @@ void CL_Init(void) {
 	Cvar_Get("cg_autoReload", "1", CVAR_ARCHIVE|CVAR_USERINFO);
 	cl_missionStats = Cvar_Get("g_missionStats", "0", CVAR_ROM);
 	cl_waitForFire = Cvar_Get("cl_waitForFire", "0", CVAR_ROM);
-	// NERVE - SMF - localization
+	// localization
 	cl_language = Cvar_Get("cl_language", "0", CVAR_ARCHIVE);
 	cl_debugTranslation = Cvar_Get("cl_debugTranslation", "0", 0);
 	// - NERVE - SMF
@@ -3942,10 +3942,10 @@ void CL_Init(void) {
 
 	Cmd_AddCommand("updatehunkusage", CL_UpdateLevelHunkUsage);
 	Cmd_AddCommand("updatescreen", SCR_UpdateScreen);
-	Cmd_AddCommand("SaveTranslations", CL_SaveTranslations_f);    // NERVE - SMF - localization
-	Cmd_AddCommand("SaveNewTranslations", CL_SaveNewTranslations_f);  // NERVE - SMF - localization
-	Cmd_AddCommand("LoadTranslations", CL_LoadTranslations_f);    // NERVE - SMF - localization
-	// NERVE - SMF - don't do this in multiplayer
+	Cmd_AddCommand("SaveTranslations", CL_SaveTranslations_f);    // localization
+	Cmd_AddCommand("SaveNewTranslations", CL_SaveNewTranslations_f);  // localization
+	Cmd_AddCommand("LoadTranslations", CL_LoadTranslations_f);    // localization
+	// don't do this in multiplayer
 	// add this command so clients can't bind a key to send client damage commands to the server
 // 	Cmd_AddCommand("cld", CL_ClientDamageCommand);
 
@@ -3964,7 +3964,7 @@ void CL_Init(void) {
 	autoupdateChecked = qfalse;
 	autoupdateStarted = qfalse;
 
-	CL_InitTranslation();  // NERVE - SMF - localization
+	CL_InitTranslation();  // localization
 
 	CL_GenerateQKey();
 	CL_UpdateGUID(NULL, 0);
@@ -4035,9 +4035,9 @@ void CL_Shutdown(char *finalmsg, qboolean disconnect, qboolean quit) {
 	Cmd_RemoveCommand("updatehunkusage");
 
 	Cmd_RemoveCommand("updatescreen");
-	Cmd_RemoveCommand("SaveTranslations");    // NERVE - SMF - localization
-	Cmd_RemoveCommand("SaveNewTranslations");  // NERVE - SMF - localization
-	Cmd_RemoveCommand("LoadTranslations");    // NERVE - SMF - localization
+	Cmd_RemoveCommand("SaveTranslations");    // localization
+	Cmd_RemoveCommand("SaveNewTranslations");  // localization
+	Cmd_RemoveCommand("LoadTranslations");    // localization
 	Cmd_RemoveCommand("startSingleplayer");     // NERVE - SMF
 	Cmd_RemoveCommand("setRecommended");
 
@@ -4812,8 +4812,7 @@ qboolean CL_UpdateVisiblePings_f(int source) {
 				else if (server[i].ping == 0) {
 					// if we are updating global servers
 					if (source == AS_GLOBAL) {
-						// 
-						if (cls.numGlobalServerAddresses > 0) {
+											if (cls.numGlobalServerAddresses > 0) {
 							// overwrite this server with one from the additional global servers
 							cls.numGlobalServerAddresses--;
 							CL_InitServerInfo(&server[i], &cls.globalServerAddresses[cls.numGlobalServerAddresses]);
@@ -5049,7 +5048,7 @@ qboolean CL_GetLimboString(int index, char *buf) {
 
 
 
-// NERVE - SMF - Localization code
+// Localization code
 #define FILE_HASH_SIZE      1024
 #define MAX_VA_STRING       32000
 #define MAX_TRANS_STRING    4096

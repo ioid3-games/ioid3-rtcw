@@ -175,7 +175,7 @@ void trap_S_StartSound(vec3_t origin, int entityNum, int entchannel, sfxHandle_t
 void trap_S_StartSoundEx(vec3_t origin, int entityNum, int entchannel, sfxHandle_t sfx, int flags) {
 	syscall(CG_S_STARTSOUNDEX, origin, entityNum, entchannel, sfx, flags);
 }
-// ---- (SA)	end
+// end
 
 void trap_S_StartLocalSound(sfxHandle_t sfx, int channelNum) {
 	syscall(CG_S_STARTLOCALSOUND, sfx, channelNum);
@@ -241,7 +241,7 @@ qboolean trap_R_GetSkinModel(qhandle_t skinid, const char *type, char *name) {
 qhandle_t trap_R_GetShaderFromModel(qhandle_t modelid, int surfnum, int withlightmap) {
 	return syscall(CG_R_GETMODELSHADER, modelid, surfnum, withlightmap);
 }
-// ---- (SA)	end
+// end
 
 qhandle_t trap_R_RegisterSkin(const char *name) {
 	CG_DrawInformation();

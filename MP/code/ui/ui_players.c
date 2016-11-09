@@ -65,7 +65,7 @@ tryagain:
 	if (weaponNum == WP_NONE) {
 		return;
 	}
-	// NERVE - SMF - multiplayer only hack to show correct panzerfaust and venom barrel
+	// multiplayer only hack to show correct panzerfaust and venom barrel
 	if (weaponNum == WP_PANZERFAUST) {
 		pi->weaponModel = trap_R_RegisterModel("models/multiplayer / panzerfaust / multi_pf.md3");
 		return;
@@ -89,12 +89,12 @@ tryagain:
 	}
 
 	if (pi->weaponModel == 0) {
-// 		if (weaponNum == WP_MACHINEGUN) {	// ---- (SA)	removing old weapon references
+// 		if (weaponNum == WP_MACHINEGUN) {	// removing old weapon references
 		if (weaponNum == WP_MP40) {
 			weaponNum = WP_NONE;
 			goto tryagain;
 		}
-// 		weaponNum = WP_MACHINEGUN;	// ---- (SA)	removing old weapon references
+// 		weaponNum = WP_MACHINEGUN;	// removing old weapon references
 		weaponNum = WP_MP40;
 		goto tryagain;
 	}
@@ -816,7 +816,7 @@ void UI_DrawPlayer(float x, float y, float w, float h, playerInfo_t *pi, int tim
 	refdef.fov_y = atan2(refdef.height / uiInfo.uiDC.yscale, xx);
 	refdef.fov_y *= (360 / M_PI);
 	// calculate distance so the player nearly fills the box
-	len = 1.01 * (maxs[2] - mins[2]);                        // NERVE - SMF - changed from 0.7
+	len = 1.01 * (maxs[2] - mins[2]);                        // changed from 0.7
 	origin[0] = len / tan(DEG2RAD(refdef.fov_x) * 0.5);
 	origin[1] = 0.5 * (mins[1] + maxs[1]);
 	origin[2] = -0.5 * (mins[2] + maxs[2]);
@@ -956,11 +956,11 @@ static qboolean UI_RegisterClientSkin(playerInfo_t *pi, const char *modelName, c
 	char filename[MAX_QPATH];
 
 // 	Com_sprintf(filename, sizeof(filename), "models/players/%s/lower_%s.skin", modelName, skinName);
-	Com_sprintf(filename, sizeof(filename), "models/players/%s/body_%s.skin", modelName, skinName);     // NERVE - SMF - make this work with wolf
+	Com_sprintf(filename, sizeof(filename), "models/players/%s/body_%s.skin", modelName, skinName);     // make this work with wolf
 	pi->legsSkin = trap_R_RegisterSkin(filename);
 
 // 	Com_sprintf(filename, sizeof(filename), "models/players/%s/upper_%s.skin", modelName, skinName);
-	Com_sprintf(filename, sizeof(filename), "models/players/%s/body_%s.skin", modelName, skinName); // NERVE - SMF - make this work with wolf
+	Com_sprintf(filename, sizeof(filename), "models/players/%s/body_%s.skin", modelName, skinName); // make this work with wolf
 	pi->torsoSkin = trap_R_RegisterSkin(filename);
 
 	Com_sprintf(filename, sizeof(filename), "models/players/%s/head_%s.skin", modelName, skinName);
@@ -1232,7 +1232,7 @@ static qboolean AnimParseAnimConfig(playerInfo_t *animModelInfo, const char *fil
 		return qfalse;
 	}
 
-#if 0 // NERVE - SMF - blah
+#if 0 // blah
 	// check for head anims
 	token = COM_Parse(&text_p);
 
@@ -1313,7 +1313,7 @@ static qboolean UI_ParseAnimationFile(const char *filename, playerInfo_t *pi) {
 	trap_FS_Read(text, len, f);
 	text[len] = 0;
 	trap_FS_FCloseFile(f);
-	// NERVE - SMF - new!!!!
+	// new!!!!
 	AnimParseAnimConfig(pi, filename, text);
 	return qtrue;
 }
@@ -1352,10 +1352,10 @@ qboolean UI_RegisterClientModelname(playerInfo_t *pi, const char *modelSkinName)
 		// truncate modelName
 		*slash = 0;
 	}
-	// NERVE - SMF - set weapon
+	// set weapon
 	pi->weapon = WM_getWeaponIndex();
 	UI_PlayerInfo_SetWeapon(pi, pi->weapon);
-	// NERVE - SMF - determine skin
+	// determine skin
 	{
 		const char *team;
 		const char *playerClass;
@@ -1419,15 +1419,15 @@ qboolean UI_RegisterClientModelname(playerInfo_t *pi, const char *modelSkinName)
 	}
 	// - NERVE - SMF
 
-// 		Q_strncpyz(skinName, "bluesoldier1", sizeof(skinName));		// NERVE - SMF - make this work with wolf - TESTING!!!
+// 		Q_strncpyz(skinName, "bluesoldier1", sizeof(skinName));		// make this work with wolf - TESTING!!!
 // 	}
 // 	else {
-// 		Q_strncpyz(skinName, "redsoldier1", sizeof(skinName));		// NERVE - SMF - make this work with wolf - TESTING!!!
+// 		Q_strncpyz(skinName, "redsoldier1", sizeof(skinName));		// make this work with wolf - TESTING!!!
 // 	}
 	// load cmodels before models so filecache works
 
 // 	Com_sprintf(filename, sizeof(filename), "models/players/%s/lower.md3", modelName);
-	Com_sprintf(filename, sizeof(filename), "models/players/%s/body.mds", modelName); // NERVE - SMF - make this work with wolf
+	Com_sprintf(filename, sizeof(filename), "models/players/%s/body.mds", modelName); // make this work with wolf
 	pi->legsModel = trap_R_RegisterModel(filename);
 
 	if (!pi->legsModel) {
@@ -1436,7 +1436,7 @@ qboolean UI_RegisterClientModelname(playerInfo_t *pi, const char *modelSkinName)
 	}
 
 // 	Com_sprintf(filename, sizeof(filename), "models/players/%s/upper.md3", modelName);
-	Com_sprintf(filename, sizeof(filename), "models/players/%s/body.mds", modelName); // NERVE - SMF - make this work with wolf
+	Com_sprintf(filename, sizeof(filename), "models/players/%s/body.mds", modelName); // make this work with wolf
 	pi->torsoModel = trap_R_RegisterModel(filename);
 
 	if (!pi->torsoModel) {
@@ -1451,7 +1451,7 @@ qboolean UI_RegisterClientModelname(playerInfo_t *pi, const char *modelSkinName)
 		Com_Printf("Failed to load model file %s\n", filename);
 		return qfalse;
 	}
-	// NERVE - SMF - load backpack and helmet
+	// load backpack and helmet
 	if (backpack) {
 		pi->backpackModel = trap_R_RegisterModel(va("models/players/%s/%s", modelName, backpack));
 	}
@@ -1470,7 +1470,7 @@ qboolean UI_RegisterClientModelname(playerInfo_t *pi, const char *modelSkinName)
 // ---- (SA) changing name of config file to avoid backwards or alternate compatibility confustion
 // 	Com_sprintf(filename, sizeof(filename), "models/players/%s/animation.cfg", modelName);
 	Com_sprintf(filename, sizeof(filename), "models/players/%s/wolfanim.cfg", modelName);
-	if (!UI_ParseAnimationFile(filename, pi)) {       // NERVE - SMF - make this work with wolf
+	if (!UI_ParseAnimationFile(filename, pi)) {       // make this work with wolf
 		Com_Printf("Failed to load animation file %s\n", filename);
 		return qfalse;
 	}

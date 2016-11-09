@@ -72,7 +72,7 @@ cvar_t *cl_packetdup;
 cvar_t *cl_timeNudge;
 cvar_t *cl_showTimeDelta;
 cvar_t *cl_freezeDemo;
-cvar_t *cl_shownet = NULL;    // NERVE - SMF - This is referenced in msg.c and we need to make sure it is NULL
+cvar_t *cl_shownet = NULL;    // This is referenced in msg.c and we need to make sure it is NULL
 cvar_t *cl_showSend;
 cvar_t *cl_timedemo;
 cvar_t *cl_timedemoLog;
@@ -115,7 +115,7 @@ cvar_t *cl_rate;
 cvar_t *cl_missionStats;
 cvar_t *cl_waitForFire;
 
-// NERVE - SMF - localization
+// localization
 cvar_t *cl_language;
 cvar_t *cl_debugTranslation;
 // - NERVE - SMF
@@ -1381,7 +1381,7 @@ void CL_Disconnect(qboolean showMainMenu) {
 	}
 
 	SCR_StopCinematic();
-// 	S_ClearSoundBuffer(qtrue); // ---- (SA)	modified
+// 	S_ClearSoundBuffer(qtrue); // modified
 	S_ClearSoundBuffer();
 	// send a disconnect message to the server
 	// send it a few times in case one is dropped
@@ -2010,7 +2010,7 @@ void CL_DownloadsComplete(void) {
 	// let the client game init and load data
 	clc.state = CA_LOADING;
 
-// ---- (SA)	removed some loading stuff
+// removed some loading stuff
 	Com_EventLoop();
 	// if the gamestate was changed by calling Com_EventLoop then we loaded everything already and we don't want to do it again.
 	if (clc.state != CA_LOADING) {
@@ -3529,7 +3529,7 @@ void CL_Init(void) {
 	Cvar_Get("cg_stereoSeparation", "0", CVAR_ROM);
 	cl_missionStats = Cvar_Get("g_missionStats", "0", CVAR_ROM);
 	cl_waitForFire = Cvar_Get("cl_waitForFire", "0", CVAR_ROM);
-	// NERVE - SMF - localization
+	// localization
 	cl_language = Cvar_Get("cl_language", "0", CVAR_ARCHIVE);
 	cl_debugTranslation = Cvar_Get("cl_debugTranslation", "0", 0);
 	// - NERVE - SMF
@@ -4408,8 +4408,7 @@ qboolean CL_UpdateVisiblePings_f(int source) {
 				else if (server[i].ping == 0) {
 					// if we are updating global servers
 					if (source == AS_GLOBAL) {
-						// 
-						if (cls.numGlobalServerAddresses > 0) {
+											if (cls.numGlobalServerAddresses > 0) {
 							// overwrite this server with one from the additional global servers
 							cls.numGlobalServerAddresses--;
 							CL_InitServerInfo(&server[i], &cls.globalServerAddresses[cls.numGlobalServerAddresses]);

@@ -1447,7 +1447,7 @@ e_status CIN_RunCinematic(int handle) {
 		cinTable[currentHandle].startTime += thisTime - cinTable[currentHandle].lastTime;
 	}
 
-// ---- (SA)	modified to use specified fps for roq's
+// modified to use specified fps for roq's
 
 	cinTable[currentHandle].tfps = (((CL_ScaledMilliseconds() - cinTable[currentHandle].startTime) * cinTable[currentHandle].roqFPS) / 1000);
 
@@ -1716,7 +1716,7 @@ void CIN_DrawCinematic(int handle) {
 		re.SetColor(&colorBlack[0]);
 // 		re.DrawStretchPic(0, 0, SCREEN_WIDTH, LETTERBOX_OFFSET, 0, 0, 0, 0, cls.whiteShader);
 // 		re.DrawStretchPic(0, SCREEN_HEIGHT - LETTERBOX_OFFSET, SCREEN_WIDTH, LETTERBOX_OFFSET, 0, 0, 0, 0, cls.whiteShader);
-		// ---- (SA)	adjust for 640x480
+		// adjust for 640x480
 		re.DrawStretchPic(0, 0, w, barheight, 0, 0, 0, 0, cls.whiteShader);
 		re.DrawStretchPic(0, vh - barheight - 1, w, barheight + 1, 0, 0, 0, 0, cls.whiteShader);
 	}

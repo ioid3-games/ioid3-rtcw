@@ -651,7 +651,6 @@ void R_SetFrameFog(void) {
 //	else
 //		glfogsettings[FOG_CURRENT].end = 5;
 
-
 	if (r_speeds->integer == 5) {
 		if (glfogsettings[FOG_CURRENT].mode == GL_LINEAR) {
 			ri.Printf(PRINT_ALL, "farclip fog - den: %0.1f  calc zFar: %0.1f  fog zfar: %0.1f\n", glfogsettings[FOG_CURRENT].density, tr.viewParms.zFar, glfogsettings[FOG_CURRENT].end);
