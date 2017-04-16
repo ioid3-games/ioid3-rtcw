@@ -24,13 +24,14 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 US
 #if idppc_altivec && !defined(__APPLE__)
 #include <altivec.h>
 #endif
-
 static portable_samplepair_t paintbuffer[PAINTBUFFER_SIZE];
 static int snd_vol;
+
 int *snd_p;
 int snd_linear_count;
 short *snd_out;
-#if	!id386                                       // if configured not to use asm
+
+#if !id386 // if configured not to use asm
 /*
 =======================================================================================================================================
 S_WriteLinearBlastStereo16
@@ -43,21 +44,23 @@ void S_WriteLinearBlastStereo16(void) {
 	for (i = 0; i < snd_linear_count; i += 2) {
 		val = snd_p[i] >> 8;
 
-		if (val > 0x7fff)
+		if (val > 0x7fff) {
 			snd_out[i] = 0x7fff;
-		else if (val < -32768)
+		} else if (val < -32768) {
 			snd_out[i] = -32768;
 		} else {
 			snd_out[i] = val;
+		}
 
 		val = snd_p[i + 1] >> 8;
 
-		if (val > 0x7fff)
+		if (val > 0x7fff) {
 			snd_out[i + 1] = 0x7fff;
-		else if (val < -32768)
+		} else if (val < -32768) {
 			snd_out[i + 1] = -32768;
 		} else {
 			snd_out[i + 1] = val;
+		}
 	}
 }
 #elif defined(__GNUC__)
@@ -70,50 +73,47 @@ S_WriteLinearBlastStereo16
 */
 void S_WriteLinearBlastStereo16(void);
 #else
-
 __declspec(naked) void S_WriteLinearBlastStereo16(void) {
 	__asm {
-
- push edi
- push ebx
- mov ecx, ds:dword ptr[snd_linear_count]
- mov ebx, ds:dword ptr[snd_p]
- mov edi, ds:dword ptr[snd_out]
-LWLBLoopTop:
- mov eax, ds:dword ptr[-8 + ebx + ecx * 4]
- sar eax, 8
- cmp eax, 07FFFh
- jg LClampHigh
- cmp eax, 0FFFF8000h
- jnl LClampDone
- mov eax, 0FFFF8000h
- jmp LClampDone
-LClampHigh:
- mov eax, 07FFFh
-LClampDone:
- mov edx, ds:dword ptr[-4 + ebx + ecx * 4]
- sar edx, 8
- cmp edx, 07FFFh
- jg LClampHigh2
- cmp edx, 0FFFF8000h
- jnl LClampDone2
- mov edx, 0FFFF8000h
- jmp LClampDone2
-LClampHigh2:
- mov edx, 07FFFh
-LClampDone2:
- shl edx, 16
- and eax, 0FFFFh
- or edx, eax
- mov ds:dword ptr[-4 + edi + ecx * 2], edx
- sub ecx, 2
- jnz LWLBLoopTop
- pop ebx
- pop edi
- ret
+		push edi
+		push ebx
+		mov ecx, ds:dword ptr[snd_linear_count]
+		mov ebx, ds:dword ptr[snd_p]
+		mov edi, ds:dword ptr[snd_out]
+	LWLBLoopTop:
+		mov eax, ds:dword ptr[-8 + ebx + ecx * 4]
+		sar eax, 8
+		cmp eax, 07FFFh
+		jg LClampHigh
+		cmp eax, 0FFFF8000h
+		jnl LClampDone
+		mov eax, 0FFFF8000h
+		jmp LClampDone
+	LClampHigh:
+		mov eax, 07FFFh
+	LClampDone:
+		mov edx, ds:dword ptr[-4 + ebx + ecx * 4]
+		sar edx, 8
+		cmp edx, 07FFFh
+		jg LClampHigh2
+		cmp edx, 0FFFF8000h
+		jnl LClampDone2
+		mov edx, 0FFFF8000h
+		jmp LClampDone2
+	LClampHigh2:
+		mov edx, 07FFFh
+	LClampDone2:
+		shl edx, 16
+		and eax, 0FFFFh
+		or edx, eax
+		mov ds:dword ptr[-4 + edi + ecx * 2], edx
+		sub ecx, 2
+		jnz LWLBLoopTop
+		pop ebx
+		pop edi
+		ret
 	}
 }
-
 #endif
 /*
 =======================================================================================================================================
@@ -128,25 +128,25 @@ void S_TransferStereo16(unsigned long *pbuf, int endtime) {
 	ls_paintedtime = s_paintedtime;
 
 	while (ls_paintedtime < endtime) {
-	// handle recirculating buffer issues
+		// handle recirculating buffer issues
 		lpos = ls_paintedtime & ((dma.samples >> 1) - 1);
-
 		snd_out = (short *)pbuf + (lpos << 1);
-
 		snd_linear_count = (dma.samples >> 1) - lpos;
 
-		if (ls_paintedtime + snd_linear_count > endtime)
+		if (ls_paintedtime + snd_linear_count > endtime) {
 			snd_linear_count = endtime - ls_paintedtime;
+		}
 
 		snd_linear_count <<= 1;
-	// write a linear blast of samples
+		// write a linear blast of samples
 		S_WriteLinearBlastStereo16();
 
 		snd_p += snd_linear_count;
 		ls_paintedtime += (snd_linear_count >> 1);
 
-		if (CL_VideoRecording())
+		if (CL_VideoRecording()) {
 			CL_WriteAVIAudioFrame((byte *)snd_out, snd_linear_count << 1);
+		}
 	}
 }
 
@@ -168,16 +168,18 @@ void S_TransferPaintBuffer(int endtime) {
 
 	if (s_testsound->integer) {
 		int i;
+
 		// write a fixed sine wave
 		count = (endtime - s_paintedtime);
 
-		for (i = 0; i < count; i++)
+		for (i = 0; i < count; i++) {
 			paintbuffer[i].left = paintbuffer[i].right = sin((s_paintedtime + i) * 0.1) * 20000 * 256;
+		}
 	}
 
-	if (dma.samplebits == 16 && dma.channels == 2) {	// optimized case
+	if (dma.samplebits == 16 && dma.channels == 2) { // optimized case
 		S_TransferStereo16(pbuf, endtime);
-	} else {	// general case
+	} else { // general case
 		p = (int *)paintbuffer;
 		count = (endtime - s_paintedtime) * dma.channels;
 		out_mask = dma.samples - 1;
@@ -191,10 +193,12 @@ void S_TransferPaintBuffer(int endtime) {
 				val = *p >> 8;
 				p += step;
 
-				if (val > 0x7fff)
+				if (val > 0x7fff) {
 					val = 0x7fff;
-				else if (val < -32768)
+				} else if (val < -32768) {
 					val = -32768;
+				}
+
 				out[out_idx] = val;
 				out_idx = (out_idx + 1) & out_mask;
 			}
@@ -205,10 +209,12 @@ void S_TransferPaintBuffer(int endtime) {
 				val = *p >> 8;
 				p += step;
 
-				if (val > 0x7fff)
+				if (val > 0x7fff) {
 					val = 0x7fff;
-				else if (val < -32768)
+				} else if (val < -32768) {
 					val = -32768;
+				}
+
 				out[out_idx] = (val >> 8) + 128;
 				out_idx = (out_idx + 1) & out_mask;
 			}
@@ -272,9 +278,11 @@ static void S_PaintChannelFrom16_altivec(channel_t *ch, const sfx_t *sc, int cou
 		vector signed short volume_vec;
 		vector unsigned int volume_shift;
 		int vectorCount, samplesLeft, chunkSamplesLeft;
+
 		leftvol = ch->leftvol * snd_vol;
 		rightvol = ch->rightvol * snd_vol;
 		samples = chunk->sndChunk;
+
 		((short *)&volume_vec)[0] = leftvol;
 		((short *)&volume_vec)[1] = leftvol;
 		((short *)&volume_vec)[4] = leftvol;
@@ -283,6 +291,7 @@ static void S_PaintChannelFrom16_altivec(channel_t *ch, const sfx_t *sc, int cou
 		((short *)&volume_vec)[3] = rightvol;
 		((short *)&volume_vec)[6] = rightvol;
 		((short *)&volume_vec)[7] = rightvol;
+
 		volume_shift = vec_splat_u32(8);
 		i = 0;
 
@@ -311,34 +320,31 @@ static void S_PaintChannelFrom16_altivec(channel_t *ch, const sfx_t *sc, int cou
 			samplesLeft = count - i;
 			chunkSamplesLeft = SND_CHUNK_SIZE - sampleOffset;
 
-			if (samplesLeft > chunkSamplesLeft)
+			if (samplesLeft > chunkSamplesLeft) {
 				samplesLeft = chunkSamplesLeft;
+			}
 
-	vectorCount = samplesLeft / 8;
+			vectorCount = samplesLeft / 8;
 
-	if (vectorCount) {
+			if (vectorCount) {
 				vector unsigned char tmp;
 				vector short s0, s1, sampleData0, sampleData1;
 				vector signed int merge0, merge1;
-				vector signed int d0, d1, d2, d3;				
-				vector unsigned char samplePermute0 =
-					VECCONST_UINT8(0, 1, 4, 5, 0, 1, 4, 5, 2, 3, 6, 7, 2, 3, 6, 7);
-				vector unsigned char samplePermute1 = 
-					VECCONST_UINT8(8, 9, 12, 13, 8, 9, 12, 13, 10, 11, 14, 15, 10, 11, 14, 15);
+				vector signed int d0, d1, d2, d3;
+				vector unsigned char samplePermute0 = VECCONST_UINT8(0, 1, 4, 5, 0, 1, 4, 5, 2, 3, 6, 7, 2, 3, 6, 7);
+				vector unsigned char samplePermute1 = VECCONST_UINT8(8, 9, 12, 13, 8, 9, 12, 13, 10, 11, 14, 15, 10, 11, 14, 15);
 				vector unsigned char loadPermute0, loadPermute1;
-				
+
 				// Rather than permute the vectors after we load them to do the sample replication and rearrangement, we permute the alignment vector so
 				// we do everything in one step below and avoid data shuffling.
-				tmp = vec_lvsl(0, &samples[sampleOffset]);								
+				tmp = vec_lvsl(0, &samples[sampleOffset]);
 				loadPermute0 = vec_perm(tmp, tmp, samplePermute0);
 				loadPermute1 = vec_perm(tmp, tmp, samplePermute1);
-				
 				s0 = *(vector short *)&samples[sampleOffset];
 
 				while (vectorCount) {
 					// Load up source (16-bit) sample data
 					s1 = *(vector short *)&samples[sampleOffset + 7];
-					
 					// Load up destination sample data
 					d0 = *(vector signed int *)&samp[i];
 					d1 = *(vector signed int *)&samp[i + 2];
@@ -347,26 +353,25 @@ static void S_PaintChannelFrom16_altivec(channel_t *ch, const sfx_t *sc, int cou
 
 					sampleData0 = vec_perm(s0, s1, loadPermute0);
 					sampleData1 = vec_perm(s0, s1, loadPermute1);
-					
+
 					merge0 = vec_mule(sampleData0, volume_vec);
 					merge0 = vec_sra(merge0, volume_shift); // Shift down to proper range
-					
+
 					merge1 = vec_mulo(sampleData0, volume_vec);
 					merge1 = vec_sra(merge1, volume_shift);
-					
+
 					d0 = vec_add(merge0, d0);
 					d1 = vec_add(merge1, d1);
-					
+
 					merge0 = vec_mule(sampleData1, volume_vec);
 					merge0 = vec_sra(merge0, volume_shift); // Shift down to proper range
-					
+
 					merge1 = vec_mulo(sampleData1, volume_vec);
-					merge1 = vec_sra(merge1, volume_shift);					
+					merge1 = vec_sra(merge1, volume_shift);
 
 					d2 = vec_add(merge0, d2);
 					d3 = vec_add(merge1, d3);
-
-					/* Store destination sample data */
+					// Store destination sample data
 					*(vector signed int *)&samp[i] = d0;
 					*(vector signed int *)&samp[i + 2] = d1;
 					*(vector signed int *)&samp[i + 4] = d2;
@@ -411,11 +416,11 @@ static void S_PaintChannelFrom16_altivec(channel_t *ch, const sfx_t *sc, int cou
 				}
 
 				if (sc->soundChannels == 2) {
-					fdata[0] += samples[j& (SND_CHUNK_SIZE - 1)];
-					fdata[1] += samples[(j + 1)& (SND_CHUNK_SIZE - 1)];
+					fdata[0] += samples[j&(SND_CHUNK_SIZE - 1)];
+					fdata[1] += samples[(j + 1)&(SND_CHUNK_SIZE - 1)];
 				} else {
-					fdata[0] += samples[j& (SND_CHUNK_SIZE - 1)];
-					fdata[1] += samples[j& (SND_CHUNK_SIZE - 1)];
+					fdata[0] += samples[j&(SND_CHUNK_SIZE - 1)];
+					fdata[1] += samples[j&(SND_CHUNK_SIZE - 1)];
 				}
 			}
 
@@ -496,9 +501,6 @@ static void S_PaintChannelFrom16_scalar(channel_t *ch, const sfx_t *sc, int coun
 
 		ooff = sampleOffset;
 		samples = chunk->sndChunk;
-		
-
-
 
 		for (i = 0; i < count; i++) {
 			aoff = ooff;
@@ -519,11 +521,11 @@ static void S_PaintChannelFrom16_scalar(channel_t *ch, const sfx_t *sc, int coun
 				}
 
 				if (sc->soundChannels == 2) {
-					fdata[0] += samples[j& (SND_CHUNK_SIZE - 1)];
-					fdata[1] += samples[(j + 1)& (SND_CHUNK_SIZE - 1)];
+					fdata[0] += samples[j&(SND_CHUNK_SIZE - 1)];
+					fdata[1] += samples[(j + 1)&(SND_CHUNK_SIZE - 1)];
 				} else {
-					fdata[0] += samples[j& (SND_CHUNK_SIZE - 1)];
-					fdata[1] += samples[j& (SND_CHUNK_SIZE - 1)];
+					fdata[0] += samples[j&(SND_CHUNK_SIZE - 1)];
+					fdata[1] += samples[j&(SND_CHUNK_SIZE - 1)];
 				}
 			}
 
@@ -731,12 +733,13 @@ void S_PaintChannels(int endtime) {
 	int ltime, count;
 	int sampleOffset;
 
-	if (s_muted->integer)
+	if (s_muted->integer) {
 		snd_vol = 0;
 	} else {
 		snd_vol = s_volume->value * 255;
+	}
 
-// Com_Printf("%i to %i\n", s_paintedtime, endtime);
+	//Com_Printf("%i to %i\n", s_paintedtime, endtime);
 
 	while (s_paintedtime < endtime) {
 		// if paintbuffer is smaller than DMA buffer we may need to fill it multiple times
@@ -755,7 +758,7 @@ void S_PaintChannels(int endtime) {
 				const int stop = (end < s_rawend[stream]) ? end : s_rawend[stream];
 
 				for (i = s_paintedtime; i < stop; i++) {
-					const int s = i& (MAX_RAW_SAMPLES - 1);
+					const int s = i&(MAX_RAW_SAMPLES - 1);
 					paintbuffer[i - s_paintedtime].left += rawsamples[s].left;
 					paintbuffer[i - s_paintedtime].right += rawsamples[s].right;
 				}
@@ -812,7 +815,6 @@ void S_PaintChannels(int endtime) {
 			// we might have to make two passes if it is a looping sound effect and the end of the sample is hit
 			do {
 				sampleOffset = (ltime % sc->soundLength);
-
 				count = end - ltime;
 
 				if (sampleOffset + count > sc->soundLength) {

@@ -1,24 +1,24 @@
 /*
-=======================================================================================================================================
-Copyright (C) 1999-2005 Id Software, Inc.
-Copyright (C) 2005 Stuart Dalton(badcdev@gmail.com)
+===========================================================================
+Copyright(C)1999-2005 Id Software, Inc.
+Copyright(C)2005 Stuart Dalton(badcdev@gmail.com)
 
 This file is part of Quake III Arena source code.
 
 Quake III Arena source code is free software; you can redistribute it
 and/or modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of the License, 
-or (at your option) any later version.
+or(at your option)any later version.
 
 Quake III Arena source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Quake III Arena source code; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-=======================================================================================================================================
+===========================================================================
 */
 
 #include "client.h"
@@ -33,6 +33,7 @@ cvar_t *s_doppler;
 cvar_t *s_backend;
 cvar_t *s_muteWhenMinimized;
 cvar_t *s_muteWhenUnfocused;
+
 static soundInterface_t si;
 
 /*
@@ -130,7 +131,9 @@ static qboolean S_ValidSoundInterface(soundInterface_t *si) {
 		return qfalse;
 	}
 
-	if (!si->SoundList) return qfalse;
+	if (!si->SoundList) {
+		return qfalse;
+	}
 #ifdef USE_VOIP
 	if (!si->StartCapture) {
 		return qfalse;
@@ -248,8 +251,9 @@ S_RawSamples
 */
 void S_RawSamples(int stream, int samples, int rate, int width, int channels, const byte *data, float volume, int entityNum) {
 
-	if (si.RawSamples)
+	if (si.RawSamples) {
 		si.RawSamples(stream, samples, rate, width, channels, data, volume, entityNum);
+	}
 }
 
 /*
@@ -344,7 +348,7 @@ S_Update
 void S_Update(void) {
 
 	if (s_muted->integer) {
-		if (!(s_muteWhenMinimized->integer && com_minimized->integer) &&& !(s_muteWhenUnfocused->integer && com_unfocused->integer)) {
+		if (!(s_muteWhenMinimized->integer && com_minimized->integer) && !(s_muteWhenUnfocused->integer && com_unfocused->integer)) {
 			s_muted->integer = qfalse;
 			s_muted->modified = qtrue;
 		}
@@ -433,8 +437,6 @@ void S_SoundList(void) {
 		si.SoundList();
 	}
 }
-
-
 #ifdef USE_VOIP
 /*
 =======================================================================================================================================
@@ -498,9 +500,6 @@ void S_MasterGain(float gain) {
 	}
 }
 #endif
-
-// =============================================================================
-
 /*
 =======================================================================================================================================
 S_Play_f
@@ -652,4 +651,3 @@ void S_Shutdown(void) {
 
 	S_CodecShutdown();
 }
-

@@ -76,9 +76,13 @@ void wt1(float a[], unsigned long n, int isign) {
 	}
 
 	if (isign >= 0) {
-		for (nn = n; nn > =inverseStartLength; nn >> =1) daub4(a, nn, isign);
+		for (nn = n; nn >= inverseStartLength; nn >>= 1) {
+			daub4(a, nn, isign);
+		}
 	} else {
-		for (nn = inverseStartLength; nn < =n; nn << =1) daub4(a, nn, isign);
+		for (nn = inverseStartLength; nn <= n; nn <<= 1) {
+			daub4(a, nn, isign);
+		}
 	}
 }
 
@@ -105,7 +109,10 @@ byte MuLawEncode(short s) {
 
 	sign = (s < 0) ? 0 : 0x80;
 
-	if (s < 0) s= -s;
+	if (s < 0) {
+		s = -s;
+	}
+
 	adjusted = (long)s << (16 - sizeof(short) * 8);
 	adjusted += 128L + 4L;
 
@@ -168,7 +175,6 @@ void encodeWavelet(sfx_t *sfx, short *packets) {
 	}
 
 	chunk = NULL;
-
 	samples = sfx->soundLength;
 
 	while (samples > 0) {
@@ -186,9 +192,7 @@ void encodeWavelet(sfx_t *sfx, short *packets) {
 
 		if (sfx->soundData == NULL) {
 			sfx->soundData = newchunk;
-
-		} else {
-	 (chunk != NULL) {
+		} else if (chunk != NULL) {
 			chunk->next = newchunk;
 		}
 
@@ -280,9 +284,7 @@ void encodeMuLaw(sfx_t *sfx, short *packets) {
 
 		if (sfx->soundData == NULL) {
 			sfx->soundData = newchunk;
-
-		} else {
-	 (chunk != NULL) {
+		} else if (chunk != NULL) {
 			chunk->next = newchunk;
 		}
 
@@ -294,9 +296,7 @@ void encodeMuLaw(sfx_t *sfx, short *packets) {
 
 			if (poop > 32767) {
 				poop = 32767;
-	
-		} else {
-	 (poop < -32768) {
+			} else if (poop < -32768) {
 				poop = -32768;
 			}
 
@@ -326,5 +326,3 @@ void decodeMuLaw(sndBuffer *chunk, short *to) {
 		to[i] = mulawToShort[out[i]];
 	}
 }
-
-

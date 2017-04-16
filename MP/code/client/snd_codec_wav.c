@@ -1,23 +1,18 @@
 /*
 =======================================================================================================================================
 Copyright (C) 1999-2005 Id Software, Inc.
-Copyright (C) 2005 Stuart Dalton(badcdev@gmail.com)
+Copyright (C) 2005 Stuart Dalton (badcdev@gmail.com)
 
 This file is part of Quake III Arena source code.
 
-Quake III Arena source code is free software; you can redistribute it
-and/or modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of the License, 
-or (at your option) any later version.
+Quake III Arena source code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public
+License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
-Quake III Arena source code is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+Quake III Arena source code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with Quake III Arena source code; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+You should have received a copy of the GNU General Public License along with Quake III Arena source code; if not, write to the Free
+Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 =======================================================================================================================================
 */
 
@@ -33,7 +28,6 @@ static int FGetLittleLong(fileHandle_t f) {
 	int v;
 
 	FS_Read(&v, sizeof(v), f);
-
 	return LittleLong(v);
 }
 
@@ -46,7 +40,6 @@ static short FGetLittleShort(fileHandle_t f) {
 	short v;
 
 	FS_Read(&v, sizeof(v), f);
-
 	return LittleShort(v);
 }
 
@@ -59,7 +52,6 @@ static int S_ReadChunkInfo(fileHandle_t f, char *name) {
 	int len, r;
 
 	name[4] = 0;
-
 	r = FS_Read(name, 4, f);
 
 	if (r != 4) {
@@ -89,8 +81,9 @@ static int S_FindRIFFChunk(fileHandle_t f, char *chunk) {
 
 	while ((len = S_ReadChunkInfo(f, name)) >= 0) {
 		// If this is the right chunk, return
-		if (!Q_strncmp(name, chunk, 4))
+		if (!Q_strncmp(name, chunk, 4)) {
 			return len;
+		}
 
 		len = PAD(len, 2);
 		// Not the right chunk - skip it
@@ -134,6 +127,7 @@ static qboolean S_ReadRIFFHeader(fileHandle_t file, snd_info_t *info) {
 	char dump[16];
 	int bits;
 	int fmtlen = 0;
+
 	// skip the riff wav header
 	FS_Read(dump, 12, file);
 	// Scan for the format chunk
@@ -143,15 +137,18 @@ static qboolean S_ReadRIFFHeader(fileHandle_t file, snd_info_t *info) {
 	}
 	// Save the parameters
 	FGetLittleShort(file); // wav_format
+
 	info->channels = FGetLittleShort(file);
 	info->rate = FGetLittleLong(file);
+
 	FGetLittleLong(file);
 	FGetLittleShort(file);
+
 	bits = FGetLittleShort(file);
 
 	if (bits < 8) {
-	  Com_Printf(S_COLOR_RED "ERROR: Less than 8 bit sound is not supported\n");
-	  return qfalse;
+		Com_Printf(S_COLOR_RED "ERROR: Less than 8 bit sound is not supported\n");
+		return qfalse;
 	}
 
 	info->width = bits / 8;
@@ -174,7 +171,12 @@ static qboolean S_ReadRIFFHeader(fileHandle_t file, snd_info_t *info) {
 
 // WAV codec
 snd_codec_t wav_codec = {
-	"wav", S_WAV_CodecLoad, S_WAV_CodecOpenStream, S_WAV_CodecReadStream, S_WAV_CodecCloseStream, NULL
+	"wav",
+	S_WAV_CodecLoad,
+	S_WAV_CodecOpenStream,
+	S_WAV_CodecReadStream,
+	S_WAV_CodecCloseStream,
+	NULL
 };
 
 /*
@@ -185,6 +187,7 @@ S_WAV_CodecLoad
 void *S_WAV_CodecLoad(const char *filename, snd_info_t *info) {
 	fileHandle_t file;
 	void *buffer;
+
 	// Try to open the file
 	FS_FOpenFileRead(filename, &file, qtrue);
 
@@ -220,11 +223,13 @@ S_WAV_CodecOpenStream
 */
 snd_stream_t *S_WAV_CodecOpenStream(const char *filename) {
 	snd_stream_t *rv;
+
 	// Open
 	rv = S_CodecUtilOpen(filename, &wav_codec);
 
-	if (!rv)
+	if (!rv) {
 		return NULL;
+	}
 	// Read the RIFF header
 	if (!S_ReadRIFFHeader(rv->file, &rv->info)) {
 		S_CodecUtilClose(&rv);
@@ -256,10 +261,13 @@ int S_WAV_CodecReadStream(snd_stream_t *stream, int bytes, void *buffer) {
 		return 0;
 	}
 
-	if (bytes > remaining)
+	if (bytes > remaining) {
 		bytes = remaining;
+	}
+
 	stream->pos += bytes;
 	samples = (bytes / stream->info.width) / stream->info.channels;
+
 	FS_Read(buffer, bytes, stream->file);
 	S_ByteSwapRawSamples(samples, stream->info.width, stream->info.channels, buffer);
 	return bytes;

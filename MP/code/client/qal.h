@@ -1,59 +1,53 @@
 /*
-=======================================================================================================================================
+===========================================================================
 Copyright (C) 1999-2005 Id Software, Inc.
-Copyright (C) 2005 Stuart Dalton(badcdev@gmail.com)
+Copyright (C) 2005 Stuart Dalton (badcdev@gmail.com)
 
 This file is part of Quake III Arena source code.
 
 Quake III Arena source code is free software; you can redistribute it
 and/or modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of the License, 
+published by the Free Software Foundation; either version 2 of the License,
 or (at your option) any later version.
 
 Quake III Arena source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Quake III Arena source code; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-=======================================================================================================================================
+===========================================================================
 */
-
 
 #ifndef __QAL_H__
 #define __QAL_H__
-
 #include "../qcommon/q_shared.h"
 #include "../qcommon/qcommon.h"
-
 #ifdef USE_OPENAL_DLOPEN
 #define AL_NO_PROTOTYPES
 #define ALC_NO_PROTOTYPES
 #endif
-
 #ifdef USE_LOCAL_HEADERS
-#include "../AL / al.h"
-#include "../AL / alc.h"
+#include "../AL/al.h"
+#include "../AL/alc.h"
 #else
 #ifdef _MSC_VER
- // MSVC users must install the OpenAL SDK which doesn't use the AL/*.h scheme.
-  #include <al.h>
-  #include <alc.h>
+// MSVC users must install the OpenAL SDK which doesn't use the AL/*.h scheme.
+#include <al.h>
+#include <alc.h>
 #else
-  #include <AL / al.h>
-  #include <AL / alc.h>
+#include <AL/al.h>
+#include <AL/alc.h>
 #endif
 #endif
-
-/* Hack to enable compiling both on OpenAL SDK and OpenAL - soft. */
+// Hack to enable compiling both on OpenAL SDK and OpenAL-soft.
 #ifndef ALC_ENUMERATE_ALL_EXT
 #define ALC_ENUMERATE_ALL_EXT 1
-#define ALC_DEFAULT_ALL_DEVICES_SPECIFIER        0x1012
-#define ALC_ALL_DEVICES_SPECIFIER                0x1013
+#define ALC_DEFAULT_ALL_DEVICES_SPECIFIER 0x1012
+#define ALC_ALL_DEVICES_SPECIFIER 0x1013
 #endif
-
 #ifdef USE_OPENAL_DLOPEN
 extern LPALENABLE qalEnable;
 extern LPALDISABLE qalDisable;
@@ -220,7 +214,6 @@ extern LPALCCAPTURESAMPLES qalcCaptureSamples;
 #define qalDopplerFactor alDopplerFactor
 #define qalSpeedOfSound alSpeedOfSound
 #define qalDistanceModel alDistanceModel
-
 #define qalcCreateContext alcCreateContext
 #define qalcMakeContextCurrent alcMakeContextCurrent
 #define qalcProcessContext alcProcessContext
@@ -242,8 +235,6 @@ extern LPALCCAPTURESAMPLES qalcCaptureSamples;
 #define qalcCaptureStop alcCaptureStop
 #define qalcCaptureSamples alcCaptureSamples
 #endif
-
 qboolean QAL_Init(const char *libname);
 void QAL_Shutdown(void);
-
-#endif	// __QAL_H__
+#endif // __QAL_H__
