@@ -276,18 +276,16 @@ void AAS_DumpAASData(void) {
 
 	(*aasworld).clusters = NULL;
 	(*aasworld).numclusters = 0;
-
 	(*aasworld).loaded = qfalse;
 	(*aasworld).initialized = qfalse;
 	(*aasworld).savefile = qfalse;
 }
-
+#ifdef AASFILEDEBUG
 /*
 =======================================================================================================================================
 AAS_FileInfo
 =======================================================================================================================================
 */
-#ifdef AASFILEDEBUG
 void AAS_FileInfo(void) {
 	int i, n, optimized;
 
@@ -421,7 +419,7 @@ int AAS_LoadAASFile(char *filename) {
 
 	(*aasworld).bspchecksum = atoi(LibVarGetString("sv_mapChecksum"));
 
-	if (LittleLong(header.bspchecksum)!= (*aasworld).bspchecksum) {
+	if (LittleLong(header.bspchecksum) != (*aasworld).bspchecksum) {
 		AAS_Error("aas file %s is out of date\n", filename);
 		botimport.FS_FCloseFile(fp);
 		return BLERR_WRONGAASFILEVERSION;
@@ -603,6 +601,7 @@ qboolean AAS_WriteAASFile(char *filename) {
 	AAS_SwapAASData();
 	// initialize the file header
 	memset(&header, 0, sizeof(aas_header_t));
+
 	header.ident = LittleLong(AASID);
 	header.version = LittleLong(AASVERSION);
 	header.bspchecksum = LittleLong((*aasworld).bspchecksum);

@@ -167,19 +167,19 @@ int Export_BotLibSetup(void) {
 	botlibglobals.maxclients = (int)LibVarValue("maxclients", "128");
 	botlibglobals.maxentities = (int)LibVarValue("maxentities", "2048");
 
-	errnum = AAS_Setup();		// be_aas_main.c
+	errnum = AAS_Setup(); // be_aas_main.c
 
 	if (errnum != BLERR_NOERROR) {
 		return errnum;
 	}
 
-	errnum = EA_Setup();		// be_ea.c
+	errnum = EA_Setup(); // be_ea.c
 
 	if (errnum != BLERR_NOERROR) {
 		return errnum;
 	}
 
-	errnum = BotSetupMoveAI();	// be_ai_move.c
+	errnum = BotSetupMoveAI(); // be_ai_move.c
 
 	if (errnum != BLERR_NOERROR) {
 		return errnum;
@@ -350,26 +350,26 @@ BotExportTest
 =======================================================================================================================================
 */
 int BotExportTest(int parm0, char *parm1, vec3_t parm2, vec3_t parm3) {
-// 	return AAS_PointLight(parm2, NULL, NULL, NULL);
+	//return AAS_PointLight(parm2, NULL, NULL, NULL);
 #ifdef DEBUG
 	static int area = -1;
 	static int line[2];
 	int newarea, i, highlightarea, bot_testhidepos, hideposarea, bot_testroutevispos;
-// 	int reachnum;
+	//int reachnum;
 	vec3_t eye, forward, right, end, origin;
-// 	vec3_t bottomcenter;
-// 	aas_trace_t trace;
-// 	aas_face_t *face;
-// 	aas_entity_t *ent;
-// 	bsp_trace_t bsptrace;
-// 	aas_reachability_t reach;
-// 	bot_goal_t goal;
-// 	clock_t start_time, end_time;
+	//vec3_t bottomcenter;
+	//aas_trace_t trace;
+	//aas_face_t *face;
+	//aas_entity_t *ent;
+	//bsp_trace_t bsptrace;
+	//aas_reachability_t reach;
+	//bot_goal_t goal;
+	//clock_t start_time, end_time;
 	vec3_t mins = {-16, -16, -24};
 	vec3_t maxs = {16, 16, 32};
-// 	int areas[10], numareas;
+	//int areas[10], numareas;
 
-	// return 0;
+	//return 0;
 
 	if (!(*aasworld).loaded) {
 		return 0;
@@ -438,8 +438,9 @@ int BotExportTest(int parm0, char *parm1, vec3_t parm2, vec3_t parm3) {
 		AAS_ShowAreaPolygons(hideposarea, 4, qtrue);
 		return 0;
 	}
-	// if(AAS_AgainstLadder(parm2))botimport.Print(PRT_MESSAGE, "against ladder\n");
-	// BotOnGround(parm2, PRESENCE_NORMAL, 1, &newarea, &newarea);
+
+	//if(AAS_AgainstLadder(parm2))botimport.Print(PRT_MESSAGE, "against ladder\n");
+	//BotOnGround(parm2, PRESENCE_NORMAL, 1, &newarea, &newarea);
 	//botimport.Print(PRT_MESSAGE, "%f %f %f\n", parm2[0], parm2[1], parm2[2]);
 
 	highlightarea = LibVarGetValue("bot_highlightarea");
@@ -454,8 +455,9 @@ int BotExportTest(int parm0, char *parm1, vec3_t parm2, vec3_t parm3) {
 		newarea = BotFuzzyPointReachabilityArea(origin);
 	}
 
-	botimport.Print(PRT_MESSAGE, "\rtravel time to goal (%d) = %d  ", botlibglobals.goalareanum, AAS_AreaTravelTimeToGoalArea(newarea, origin, botlibglobals.goalareanum, TFL_DEFAULT));
-	// newarea = BotReachabilityArea(origin, qtrue);
+	botimport.Print(PRT_MESSAGE, "\rtravel time to goal (%d) = %d.", botlibglobals.goalareanum, AAS_AreaTravelTimeToGoalArea(newarea, origin, botlibglobals.goalareanum, TFL_DEFAULT));
+
+	//newarea = BotReachabilityArea(origin, qtrue);
 
 	if (newarea != area) {
 		botimport.Print(PRT_MESSAGE, "origin = %f, %f, %f\n", origin[0], origin[1], origin[2]);
@@ -508,7 +510,7 @@ int BotExportTest(int parm0, char *parm1, vec3_t parm2, vec3_t parm3) {
 		}
 
 		botimport.Print(PRT_MESSAGE, "\n");
-		botimport.Print(PRT_MESSAGE, "travel time to goal(%d) = %d\n", botlibglobals.goalareanum, AAS_AreaTravelTimeToGoalArea(newarea, origin, botlibglobals.goalareanum, TFL_DEFAULT|TFL_ROCKETJUMP));
+		botimport.Print(PRT_MESSAGE, "travel time to goal (%d) = %d\n", botlibglobals.goalareanum, AAS_AreaTravelTimeToGoalArea(newarea, origin, botlibglobals.goalareanum, TFL_DEFAULT|TFL_ROCKETJUMP));
 		/*
 		VectorCopy(origin, end);
 
@@ -614,11 +616,15 @@ int BotExportTest(int parm0, char *parm1, vec3_t parm2, vec3_t parm3) {
 	// get the end point for the line to be traced
 	VectorMA(eye, 800, forward, end);
 
-// 	AAS_TestMovementPrediction(1, parm2, forward);
-/*	// trace the line to find the hit point
+	//AAS_TestMovementPrediction(1, parm2, forward);
+/*
+	// trace the line to find the hit point
 	trace = AAS_TraceClientBBox(eye, end, PRESENCE_NORMAL, 1);
 
-	if (!line[0])line[0] = botimport.DebugLineCreate();
+	if (!line[0]) {
+		line[0] = botimport.DebugLineCreate();
+	}
+
 	botimport.DebugLineShow(line[0], eye, trace.endpos, LINECOLOR_BLUE);
 
 	AAS_ClearShownDebugLines();
@@ -633,7 +639,7 @@ int BotExportTest(int parm0, char *parm1, vec3_t parm2, vec3_t parm3) {
 
 	for (i = 0; i < 2000; i++) {
 		AAS_Trace2(eye, mins, maxs, end, 1, MASK_PLAYERSOLID);
-// 		AAS_TraceClientBBox(eye, end, PRESENCE_NORMAL, 1);
+		//AAS_TraceClientBBox(eye, end, PRESENCE_NORMAL, 1);
 	}
 
 	end_time = clock();
@@ -669,9 +675,9 @@ int BotExportTest(int parm0, char *parm1, vec3_t parm2, vec3_t parm3) {
 			ent = &(*aasworld).entities[trace.ent];
 			AAS_ShowBoundingBox(ent->origin, ent->mins, ent->maxs);
 		}
-	}*/
-	/*/
-	// bsptrace = AAS_Trace2(eye, NULL, NULL, end, 1, MASK_PLAYERSOLID);
+	}
+
+	//bsptrace = AAS_Trace2(eye, NULL, NULL, end, 1, MASK_PLAYERSOLID);
 	bsptrace = AAS_Trace2(eye, mins, maxs, end, 1, MASK_PLAYERSOLID);
 	botimport.DebugLineShow(line[1], eye, bsptrace.endpos, LINECOLOR_BLUE);
 
@@ -694,48 +700,48 @@ Init_AAS_Export
 =======================================================================================================================================
 */
 static void Init_AAS_Export(aas_export_t *aas) {
-	// --------------------------------------------
+	//--------------------------------------------
 	// be_aas_entity.c
-	// --------------------------------------------
+	//--------------------------------------------
 	aas->AAS_EntityInfo = AAS_EntityInfo;
-	// --------------------------------------------
+	//--------------------------------------------
 	// be_aas_main.c
-	// --------------------------------------------
+	//--------------------------------------------
 	aas->AAS_Initialized = AAS_Initialized;
 	aas->AAS_PresenceTypeBoundingBox = AAS_PresenceTypeBoundingBox;
 	aas->AAS_Time = AAS_Time;
-	// --------------------------------------------
+	//--------------------------------------------
 	// be_aas_sample.c
-	// --------------------------------------------
+	//--------------------------------------------
 	aas->AAS_PointAreaNum = AAS_PointAreaNum;
 	aas->AAS_TraceAreas = AAS_TraceAreas;
-	// --------------------------------------------
+	//--------------------------------------------
 	// be_aas_bspq3.c
-	// --------------------------------------------
+	//--------------------------------------------
 	aas->AAS_PointContents = AAS_PointContents;
 	aas->AAS_NextBSPEntity = AAS_NextBSPEntity;
 	aas->AAS_ValueForBSPEpairKey = AAS_ValueForBSPEpairKey;
 	aas->AAS_VectorForBSPEpairKey = AAS_VectorForBSPEpairKey;
 	aas->AAS_FloatForBSPEpairKey = AAS_FloatForBSPEpairKey;
 	aas->AAS_IntForBSPEpairKey = AAS_IntForBSPEpairKey;
-	// --------------------------------------------
+	//--------------------------------------------
 	// be_aas_reach.c
-	// --------------------------------------------
+	//--------------------------------------------
 	aas->AAS_AreaReachability = AAS_AreaReachability;
-	// --------------------------------------------
+	//--------------------------------------------
 	// be_aas_route.c
-	// --------------------------------------------
+	//--------------------------------------------
 	aas->AAS_AreaTravelTimeToGoalArea = AAS_AreaTravelTimeToGoalArea;
-	// --------------------------------------------
+	//--------------------------------------------
 	// be_aas_move.c
-	// --------------------------------------------
+	//--------------------------------------------
 	aas->AAS_Swimming = AAS_Swimming;
 	aas->AAS_PredictClientMovement = AAS_PredictClientMovement;
 
 	// Ridah, route-tables
-	// --------------------------------------------
+	//--------------------------------------------
 	// be_aas_routetable.c
-	// --------------------------------------------
+	//--------------------------------------------
 	aas->AAS_RT_ShowRoute = AAS_RT_ShowRoute;
 	aas->AAS_RT_GetHidePos = AAS_RT_GetHidePos;
 	aas->AAS_FindAttackSpotWithinRange = AAS_FindAttackSpotWithinRange;
@@ -788,9 +794,10 @@ Init_AI_Export
 =======================================================================================================================================
 */
 static void Init_AI_Export(ai_export_t *ai) {
-	// -----------------------------------
+
+	//-----------------------------------
 	// be_ai_char.h
-	// -----------------------------------
+	//-----------------------------------
 	ai->BotLoadCharacter = BotLoadCharacter;
 	ai->BotFreeCharacter = BotFreeCharacter;
 	ai->Characteristic_Float = Characteristic_Float;
@@ -798,9 +805,9 @@ static void Init_AI_Export(ai_export_t *ai) {
 	ai->Characteristic_Integer = Characteristic_Integer;
 	ai->Characteristic_BInteger = Characteristic_BInteger;
 	ai->Characteristic_String = Characteristic_String;
-	// -----------------------------------
+	//-----------------------------------
 	// be_ai_chat.h
-	// -----------------------------------
+	//-----------------------------------
 	ai->BotAllocChatState = BotAllocChatState;
 	ai->BotFreeChatState = BotFreeChatState;
 	ai->BotQueueConsoleMessage = BotQueueConsoleMessage;
@@ -821,9 +828,9 @@ static void Init_AI_Export(ai_export_t *ai) {
 	ai->BotLoadChatFile = BotLoadChatFile;
 	ai->BotSetChatGender = BotSetChatGender;
 	ai->BotSetChatName = BotSetChatName;
-	// -----------------------------------
+	//-----------------------------------
 	// be_ai_goal.h
-	// -----------------------------------
+	//-----------------------------------
 	ai->BotResetGoalState = BotResetGoalState;
 	ai->BotResetAvoidGoals = BotResetAvoidGoals;
 	ai->BotRemoveFromAvoidGoals = BotRemoveFromAvoidGoals;
@@ -852,9 +859,9 @@ static void Init_AI_Export(ai_export_t *ai) {
 	ai->BotMutateGoalFuzzyLogic = BotMutateGoalFuzzyLogic;
 	ai->BotAllocGoalState = BotAllocGoalState;
 	ai->BotFreeGoalState = BotFreeGoalState;
-	// -----------------------------------
+	//-----------------------------------
 	// be_ai_move.h
-	// -----------------------------------
+	//-----------------------------------
 	ai->BotResetMoveState = BotResetMoveState;
 	ai->BotMoveToGoal = BotMoveToGoal;
 	ai->BotMoveInDirection = BotMoveInDirection;
@@ -867,18 +874,18 @@ static void Init_AI_Export(ai_export_t *ai) {
 	ai->BotFreeMoveState = BotFreeMoveState;
 	ai->BotInitMoveState = BotInitMoveState;
 	ai->BotInitAvoidReach = BotInitAvoidReach;
-	// -----------------------------------
+	//-----------------------------------
 	// be_ai_weap.h
-	// -----------------------------------
+	//-----------------------------------
 	ai->BotChooseBestFightWeapon = BotChooseBestFightWeapon;
 	ai->BotGetWeaponInfo = BotGetWeaponInfo;
 	ai->BotLoadWeaponWeights = BotLoadWeaponWeights;
 	ai->BotAllocWeaponState = BotAllocWeaponState;
 	ai->BotFreeWeaponState = BotFreeWeaponState;
 	ai->BotResetWeaponState = BotResetWeaponState;
-	// -----------------------------------
+	//-----------------------------------
 	// be_ai_gen.h
-	// -----------------------------------
+	//-----------------------------------
 	ai->GeneticParentsAndChildSelection = GeneticParentsAndChildSelection;
 }
 

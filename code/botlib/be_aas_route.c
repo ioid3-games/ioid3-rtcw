@@ -290,7 +290,7 @@ int AAS_EnableRoutingArea(int areanum, int enable) {
 		(*aasworld).areasettings[areanum].areaflags |= AREA_DISABLED;
 	}
 	// if the status of the area changed
-	if ((flags & AREA_DISABLED)!= ((*aasworld).areasettings[areanum].areaflags & AREA_DISABLED)) {
+	if ((flags & AREA_DISABLED) != ((*aasworld).areasettings[areanum].areaflags & AREA_DISABLED)) {
 		// remove all routing cache involving this area
 		AAS_RemoveRoutingCacheUsingArea(areanum);
 	}
@@ -439,7 +439,7 @@ void AAS_CalculateAreaTravelTimes(void) {
 	}
 #ifdef DEBUG
 	botimport.Print(PRT_MESSAGE, "area travel times %d msec\n", Sys_MilliSeconds() - starttime);
-#endif // DEBUG
+#endif
 }
 
 /*
@@ -496,27 +496,37 @@ void AAS_InitPortalMaxTravelTimes(void) {
 
 /*
 =======================================================================================================================================
-AAS_FreeOldestCache
+AAS_UnlinkCache
 =======================================================================================================================================
 */
 /*
-
 void AAS_UnlinkCache(aas_routingcache_t *cache) {
-	if (cache->time_next)cache->time_next->time_prev = cache->time_prev;
-	else newestcache = cache->time_prev;
 
-	if (cache->time_prev)cache->time_prev->time_next = cache->time_next;
-	else oldestcache = cache->time_next;
+	if (cache->time_next) {
+		cache->time_next->time_prev = cache->time_prev;
+	} else {
+		newestcache = cache->time_prev;
+	}
+
+
+	if (cache->time_prev) {
+		cache->time_prev->time_next = cache->time_next;
+	} else {
+		oldestcache = cache->time_next;
+	}
+
 	cache->time_next = NULL;
 	cache->time_prev = NULL;
-} // end of the function AAS_UnlinkCache
-//===========================================================================
-// 
-// Parameter:			-
-// Returns:				-
-// Changes Globals:		-
-//===========================================================================
+}
+*/
+/*
+=======================================================================================================================================
+AAS_LinkCache
+=======================================================================================================================================
+*/
+/*
 void AAS_LinkCache(aas_routingcache_t *cache) {
+
 	if (newestcache) {
 		newestcache->time_next = cache;
 		cache->time_prev = cache;
@@ -527,13 +537,13 @@ void AAS_LinkCache(aas_routingcache_t *cache) {
 
 	cache->time_next = NULL;
 	newestcache = cache;
-} // end of the function AAS_LinkCache*/
-//===========================================================================
-// 
-// Parameter:			-
-// Returns:				-
-// Changes Globals:		-
-//===========================================================================
+}
+*/
+/*
+=======================================================================================================================================
+AAS_FreeOldestCache
+=======================================================================================================================================
+*/
 int AAS_FreeOldestCache(void) {
 	int i, j, bestcluster, bestarea, freed;
 	float besttime;
@@ -1311,14 +1321,18 @@ int AAS_AreaContentsTravelFlag(int areanum) {
 	}
 
 	return tfl;
-} // end of the function AAS_AreaContentsTravelFlag
-//===========================================================================
-// update the given routing cache
-// 
-// Parameter:			areacache : routing cache to update
-// Returns:				-
-// Changes Globals:		-
-//===========================================================================
+}
+
+/*
+=======================================================================================================================================
+AAS_UpdateAreaRoutingCache
+
+Update the given routing cache.
+
+Parameter:	areacache	: routing cache to update.
+Returns: qtrue when a string was read successfully.
+=======================================================================================================================================
+*/
 void AAS_UpdateAreaRoutingCache(aas_routingcache_t *areacache) {
 	int i, nextareanum, cluster, badtravelflags, clusterareanum, linknum;
 	int numreachabilityareas;
@@ -1333,7 +1347,7 @@ void AAS_UpdateAreaRoutingCache(aas_routingcache_t *areacache) {
 	// number of reachability areas within this cluster
 	numreachabilityareas = (*aasworld).clusters[areacache->cluster].numreachabilityareas;
 	// clear the routing update fields
-// 	memset((*aasworld).areaupdate, 0, (*aasworld).numareas * sizeof(aas_routingupdate_t));
+	//memset((*aasworld).areaupdate, 0, (*aasworld).numareas * sizeof(aas_routingupdate_t));
 
 	badtravelflags = ~areacache->travelflags;
 	clusterareanum = AAS_ClusterAreaNum(areacache->cluster, areacache->areanum);
@@ -1609,7 +1623,9 @@ aas_routingcache_t *AAS_GetPortalRoutingCache(int clusternum, int areanum, int t
 		cache = AAS_AllocRoutingCache((*aasworld).numportals);
 		cache->cluster = clusternum;
 		cache->areanum = areanum;
+
 		VectorCopy((*aasworld).areas[areanum].center, cache->origin);
+
 		cache->starttraveltime = 1;
 		cache->travelflags = travelflags;
 		// add the cache to the cache list
@@ -1652,7 +1668,7 @@ int AAS_AreaRouteToGoalArea(int areanum, vec3_t origin, int goalareanum, int tra
 		*reachnum = 0;
 		return qtrue;
 	}
-	// check !AAS_AreaReachability(areanum)with custom developer-only debug message
+	// check !AAS_AreaReachability(areanum) with custom developer-only debug message
 	if (areanum <= 0 || areanum >= (*aasworld).numareas) {
 		if (botDeveloper) {
 			botimport.Print(PRT_ERROR, "AAS_AreaTravelTimeToGoalArea: areanum %d out of range\n", areanum);
@@ -1701,15 +1717,14 @@ int AAS_AreaRouteToGoalArea(int areanum, vec3_t origin, int goalareanum, int tra
 	goalclusternum = (*aasworld).areasettings[goalareanum].cluster;
 	// check if the area is a portal of the goal area cluster
 	if (clusternum < 0 && goalclusternum > 0) {
-		portal = &(*aasworld).portals[- clusternum];
+		portal = &(*aasworld).portals[-clusternum];
 
 		if (portal->frontcluster == goalclusternum || portal->backcluster == goalclusternum) {
 			clusternum = goalclusternum;
 		}
-	}
 	// check if the goalarea is a portal of the area cluster
-	else if (clusternum > 0 && goalclusternum < 0) {
-		portal = &(*aasworld).portals[- goalclusternum];
+	} else if (clusternum > 0 && goalclusternum < 0) {
+		portal = &(*aasworld).portals[-goalclusternum];
 
 		if (portal->frontcluster == clusternum || portal->backcluster == clusternum) {
 			goalclusternum = clusternum;
@@ -1792,7 +1807,7 @@ int AAS_AreaRouteToGoalArea(int areanum, vec3_t origin, int goalareanum, int tra
 		}
 		// get the cache of the portal area
 		areacache = AAS_GetAreaRoutingCache(clusternum, portal->areanum, travelflags, qfalse);
-		// RF, this may be NULL if we were unable to calculate the cache this frame
+		// this may be NULL if we were unable to calculate the cache this frame
 		if (!areacache) {
 			return qfalse;
 		}
@@ -1800,14 +1815,13 @@ int AAS_AreaRouteToGoalArea(int areanum, vec3_t origin, int goalareanum, int tra
 		if (!areacache->traveltimes[clusterareanum]) {
 			continue;
 		}
-		// total travel time is the travel time the portal area is from
-		// the goal area plus the travel time towards the portal area
+		// total travel time is the travel time the portal area is from the goal area plus the travel time towards the portal area
 		t = portalcache->traveltimes[portalnum] + areacache->traveltimes[clusterareanum];
 		// FIXME: add the exact travel time through the actual portal area
-		// NOTE: for now we just add the largest travel time through the area portal
-		// 		because we can't directly calculate the exact travel time
-		// 		to be more specific we don't know which reachability is used to travel
-		// 		into the portal area when coming from the current area
+		// NOTE: for now we just add the largest travel time through the portal area
+		//		because we can't directly calculate the exact travel time
+		//		to be more specific we don't know which reachability was used to travel
+		//		into the portal area
 		t += (*aasworld).portalmaxtraveltimes[portalnum];
 		// Ridah, needs to be up here
 		*reachnum = (*aasworld).areasettings[areanum].firstreachablearea + areacache->reachabilities[clusterareanum];
@@ -2124,15 +2138,16 @@ int AAS_AreaVisible(int srcarea, int destarea) {
 	}
 
 	return(*aasworld).decompressedvis[destarea];
-} // end of the function AAS_AreaVisible
-//===========================================================================
-// just center to center visibility checking...
-// FIXME: implement a correct full vis
-// 
-// Parameter:			-
-// Returns:				-
-// Changes Globals:		-
-//===========================================================================
+}
+
+/*
+=======================================================================================================================================
+AAS_CreateVisibility
+
+Just center to center visibility checking...
+FIXME: implement a correct full vis.
+=======================================================================================================================================
+*/
 void AAS_CreateVisibility(void) {
 	int i, j, size, totalsize;
 	vec3_t endpos, mins, maxs;

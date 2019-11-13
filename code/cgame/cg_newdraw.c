@@ -221,10 +221,12 @@ static void CG_DrawPlayerArmorIcon(rectDef_t *rect, qboolean draw2D) {
 		CG_DrawPic(rect->x, rect->y + rect->h / 2 + 1, rect->w, rect->h, cgs.media.armorIcon);
 	} else if (cg_draw3dIcons.integer) {
 		VectorClear(angles);
+
 		origin[0] = 90;
 		origin[1] = 0;
 		origin[2] = -10;
 		angles[YAW] = (cg.time &2047) * 360 / 2048.0;
+
 		CG_Draw3DModel(rect->x, rect->y, rect->w, rect->h, cgs.media.armorModel, 0, origin, angles);
 	}
 #endif
@@ -765,9 +767,7 @@ static void CG_DrawSelectedPlayerArmor(rectDef_t *rect, int font, float scale, v
 				trap_R_SetColor(NULL);
 			} else {
 				Com_sprintf(num, sizeof(num), "%i", ci->armor);
-
 				value = CG_Text_Width(num, font, scale, 0);
-
 				CG_Text_Paint(rect->x + (rect->w - value) / 2, rect->y + rect->h, font, scale, color, num, 0, 0, textStyle);
 			}
 		}
@@ -1893,6 +1893,7 @@ qboolean CG_OwnerDrawVisible(int flags) {
 	}
 
 	if (flags &CG_SHOW_DURINGINCOMINGVOICE) {
+
 	}
 #ifdef MISSIONPACK
 	if (flags &CG_SHOW_IF_PLAYER_HAS_FLAG) {

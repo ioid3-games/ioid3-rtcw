@@ -81,6 +81,7 @@ static const char *netSources[] = {
 	"Master5"
 	//"Favorites"
 };
+
 static const int numNetSources = ARRAY_LEN(netSources);
 
 static const serverFilter_t serverFilters[] = {
@@ -279,7 +280,7 @@ void _UI_DrawTopBottom(float x, float y, float w, float h, float size) {
 
 /*
 =======================================================================================================================================
-UI_DrawRect
+_UI_DrawRect
 
 Coordinates are 640 * 480 virtual values.
 =======================================================================================================================================
@@ -608,7 +609,11 @@ void Text_PaintWithCursor(float x, float y, int font, float scale, vec4_t color,
 	}
 }
 
-// TTimo: unused
+/*
+=======================================================================================================================================
+Text_Paint_Limit
+=======================================================================================================================================
+*/
 /*
 static void Text_Paint_Limit(float *maxX, float x, float y, int font, float scale, vec4_t color, const char *text, float adjust, int limit) {
 	int len, count;
@@ -808,7 +813,7 @@ char *GetMenuBuffer(const char *filename) {
 	}
 
 	if (len >= MAX_MENUFILE) {
-		trap_Print(va(S_COLOR_RED "menu file too large: %s is %i, max allowed is %i", filename, len, MAX_MENUFILE));
+		trap_Print(va(S_COLOR_RED "menu file too large: %s is %i, max allowed is %i\n", filename, len, MAX_MENUFILE));
 		trap_FS_FCloseFile(f);
 		return defaultMenu;
 	}
@@ -1730,6 +1735,7 @@ UI_DrawPreviewCinematic
 =======================================================================================================================================
 */
 static void UI_DrawPreviewCinematic(rectDef_t *rect, float scale, vec4_t color) {
+
 	if (uiInfo.previewMovie > -2) {
 		uiInfo.previewMovie = trap_CIN_PlayCinematic(va("%s.roq", uiInfo.movieList[uiInfo.movieIndex]), 0, 0, 0, 0, (CIN_loop|CIN_silent));
 
@@ -3057,7 +3063,7 @@ static void UI_DrawGLInfo(rectDef_t *rect, int font, float scale, vec4_t color, 
 
 	Text_Paint(rect->x + 2, rect->y, font, scale, color, va("VENDOR: %s", uiInfo.uiDC.glconfig.vendor_string), 0, 30, textStyle);
 	Text_Paint(rect->x + 2, rect->y + 15, font, scale, color, va("VERSION: %s: %s", uiInfo.uiDC.glconfig.version_string, uiInfo.uiDC.glconfig.renderer_string), 0, 30, textStyle);
-	Text_Paint(rect->x + 2, rect->y + 30, font, scale, color, va("PIXELFORMAT: color(%d-bits)Z(%d-bits)stencil(%d-bits)", uiInfo.uiDC.glconfig.colorBits, uiInfo.uiDC.glconfig.depthBits, uiInfo.uiDC.glconfig.stencilBits), 0, 30, textStyle);
+	Text_Paint(rect->x + 2, rect->y + 30, font, scale, color, va("PIXELFORMAT: color(%d-bits) Z(%d-bits) stencil(%d-bits)", uiInfo.uiDC.glconfig.colorBits, uiInfo.uiDC.glconfig.depthBits, uiInfo.uiDC.glconfig.stencilBits), 0, 30, textStyle);
 	// build null terminated extension strings
 	Q_strncpyz(buff, uiInfo.uiDC.glconfig.extensions_string, 4096);
 

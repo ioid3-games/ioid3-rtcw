@@ -33,7 +33,6 @@ int ui_numBots;
 static char *ui_botInfos[MAX_BOTS];
 static int ui_numArenas;
 static char *ui_arenaInfos[MAX_ARENAS];
-
 // TTimo: unused
 //static int ui_numSinglePlayerArenas;
 //static int ui_numSpecialSinglePlayerArenas;
@@ -241,7 +240,7 @@ static void UI_LoadBotsFromFile(char *filename) {
 	}
 
 	if (len >= MAX_BOTS_TEXT) {
-		trap_Print(va(S_COLOR_RED "file too large: %s is %i, max allowed is %i", filename, len, MAX_BOTS_TEXT));
+		trap_Print(va(S_COLOR_RED "file too large: %s is %i, max allowed is %i\n", filename, len, MAX_BOTS_TEXT));
 		trap_FS_FCloseFile(f);
 		return;
 	}

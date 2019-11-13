@@ -422,7 +422,7 @@ int AAS_FindClusters(void) {
 		// number the cluster areas
 		//AAS_NumberClusterPortals((*aasworld).numclusters);
 		AAS_NumberClusterAreas((*aasworld).numclusters);
-		// Log_Write("cluster %d has %d areas\r\n", (*aasworld).numclusters, cluster->numareas);
+		//Log_Write("cluster %d has %d areas\r\n", (*aasworld).numclusters, cluster->numareas);
 		(*aasworld).numclusters++;
 	}
 
@@ -649,12 +649,15 @@ qboolean AAS_CanMergeFaces(int *facenums, int numfaces, int planenum) {
 
 		for (en1 = 0; en1 < face1->numedges; en1++) {
 			edgenum1 = (*aasworld).edgeindex[face1->firstedge + en1];
-			side1 = (edgenum1 < 0)^(face1->planenum != planenum);
+			side1 = (edgenum1 < 0) ^ (face1->planenum != planenum);
 			edgenum1 = abs(edgenum1);
 			edge1 = &(*aasworld).edges[edgenum1];
 			// check if the edge is shared with another face
 			for (s = 0; s < numfaces; s++) {
-				if (s == i)continue;
+				if (s == i) {
+					continue;
+				}
+
 				otherface = &(*aasworld).faces[facenums[s]];
 
 				for (ens = 0; ens < otherface->numedges; ens++) {
@@ -681,7 +684,7 @@ qboolean AAS_CanMergeFaces(int *facenums, int numfaces, int planenum) {
 
 				for (en2 = 0; en2 < face2->numedges; en2++) {
 					edgenum2 = (*aasworld).edgeindex[face2->firstedge + en2];
-					side2 = (edgenum2 < 0)^(face2->planenum != planenum);
+					side2 = (edgenum2 < 0) ^ (face2->planenum != planenum);
 					edgenum2 = abs(edgenum2);
 					edge2 = &(*aasworld).edges[edgenum2];
 					// check if the edge is shared with another face
@@ -689,6 +692,7 @@ qboolean AAS_CanMergeFaces(int *facenums, int numfaces, int planenum) {
 						if (s == i) {
 							continue;
 						}
+
 						otherface = &(*aasworld).faces[facenums[s]];
 						for (ens = 0; ens < otherface->numedges; ens++) {
 							if (edgenum2 == abs((*aasworld).edgeindex[otherface->firstedge + ens])) {
@@ -1247,7 +1251,7 @@ AAS_RemoveNotClusterClosingPortals
 =======================================================================================================================================
 */
 void AAS_RemoveNotClusterClosingPortals(void) {
-	int i, j, facenum, otherareanum, nonclosingportals, numseperatedclusters;
+	int i, j, facenum, otherareanum, nonclosingportals, numseparatedclusters;
 	aas_area_t *area;
 	aas_face_t *face;
 
@@ -1287,11 +1291,11 @@ void AAS_RemoveNotClusterClosingPortals(void) {
 			if ((*aasworld).areasettings[otherareanum].cluster) {
 				continue;
 			}
-			// another cluster is seperated by this portal
-			numseperatedclusters++;
+			// another cluster is separated by this portal
+			numseparatedclusters++;
 			// flood the cluster
-			AAS_FloodCluster_r(otherareanum, numseperatedclusters);
-			AAS_FloodClusterReachabilities(numseperatedclusters);
+			AAS_FloodCluster_r(otherareanum, numseparatedclusters);
+			AAS_FloodClusterReachabilities(numseparatedclusters);
 		}
 		// use the reachabilities to flood into other areas
 		for (j = 0; j < (*aasworld).areasettings[i].numreachableareas; j++) {
@@ -1308,14 +1312,14 @@ void AAS_RemoveNotClusterClosingPortals(void) {
 			if ((*aasworld).areasettings[otherareanum].cluster) {
 				continue;
 			}
-			// another cluster is seperated by this portal
-			numseperatedclusters++;
+			// another cluster is separated by this portal
+			numseparatedclusters++;
 			// flood the cluster
-			AAS_FloodCluster_r(otherareanum, numseperatedclusters);
-			AAS_FloodClusterReachabilities(numseperatedclusters);
+			AAS_FloodCluster_r(otherareanum, numseparatedclusters);
+			AAS_FloodClusterReachabilities(numseparatedclusters);
 		}
-		// a portal must seperate no more and no less than 2 clusters
-		if (numseperatedclusters != 2) {
+		// a portal must separate no more and no less than 2 clusters
+		if (numseparatedclusters != 2) {
 			(*aasworld).areasettings[i].contents &= ~AREACONTENTS_CLUSTERPORTAL;
 			nonclosingportals++;
 			// recheck all the other portals again

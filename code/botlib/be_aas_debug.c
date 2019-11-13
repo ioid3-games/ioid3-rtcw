@@ -458,6 +458,7 @@ void AAS_ShowArea(int areanum, int groundfacesonly) {
 		}
 
 		botimport.DebugLineShow(debuglines[line], (*aasworld).vertexes[edge->v[0]], (*aasworld).vertexes[edge->v[1]], color);
+
 		debuglinevisible[line] = qtrue;
 	}
 }
@@ -584,7 +585,7 @@ void AAS_PrintTravelType(int traveltype) {
 	}
 
 	botimport.Print(PRT_MESSAGE, "%s", str);
-#endif // DEBUG
+#endif
 }
 
 /*

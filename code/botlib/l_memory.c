@@ -45,9 +45,7 @@ If you have questions concerning this license or the applicable additional terms
 int allocatedmemory;
 int totalmemorysize;
 int numblocks;
-
 #ifdef MEMORYMANEGER
-
 typedef struct memoryblock_s {
 	unsigned long int id;
 	void *ptr;
@@ -56,7 +54,7 @@ typedef struct memoryblock_s {
 	char *label;
 	char *file;
 	int line;
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 	struct memoryblock_s *prev, *next;
 } memoryblock_t;
 
@@ -106,7 +104,7 @@ GetMemory
 void *GetMemoryDebug(unsigned long size, char *label, char *file, int line)
 #else
 void *GetMemory(unsigned long size)
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 {
 	void *ptr;
 	memoryblock_t *block;
@@ -120,8 +118,9 @@ void *GetMemory(unsigned long size)
 	block->label = label;
 	block->file = file;
 	block->line = line;
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 	LinkMemoryBlock(block);
+
 	allocatedmemory += block->size;
 	totalmemorysize += block->size + sizeof(memoryblock_t);
 	numblocks++;
@@ -137,14 +136,14 @@ GetClearedMemory
 void *GetClearedMemoryDebug(unsigned long size, char *label, char *file, int line)
 #else
 void *GetClearedMemory(unsigned long size)
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 {
 	void *ptr;
 #ifdef MEMDEBUG
 	ptr = GetMemoryDebug(size, label, file, line);
 #else
 	ptr = GetMemory(size);
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 	memset(ptr, 0, size);
 	return ptr;
 }
@@ -158,10 +157,9 @@ GetHunkMemory
 void *GetHunkMemoryDebug(unsigned long size, char *label, char *file, int line)
 #else
 void *GetHunkMemory(unsigned long size)
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 {
 	void *ptr;
-
 	memoryblock_t *block;
 
 	ptr = botimport.HunkAlloc(size + sizeof(memoryblock_t));
@@ -173,8 +171,9 @@ void *GetHunkMemory(unsigned long size)
 	block->label = label;
 	block->file = file;
 	block->line = line;
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 	LinkMemoryBlock(block);
+
 	allocatedmemory += block->size;
 	totalmemorysize += block->size + sizeof(memoryblock_t);
 	numblocks++;
@@ -190,14 +189,14 @@ GetClearedHunkMemory
 void *GetClearedHunkMemoryDebug(unsigned long size, char *label, char *file, int line)
 #else
 void *GetClearedHunkMemory(unsigned long size)
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 {
 	void *ptr;
 #ifdef MEMDEBUG
 	ptr = GetHunkMemoryDebug(size, label, file, line);
 #else
 	ptr = GetHunkMemory(size);
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 	memset(ptr, 0, size);
 	return ptr;
 }
@@ -215,7 +214,7 @@ memoryblock_t *BlockFromPointer(void *ptr, char *str) {
 		//char *crash = (char *)NULL;
 		//crash[0] = 1;
 		botimport.Print(PRT_FATAL, "%s: NULL pointer\n", str);
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 		return NULL;
 	}
 
@@ -297,7 +296,9 @@ void PrintMemoryLabels(void) {
 	int i;
 
 	PrintUsedMemorySize();
+
 	i = 0;
+
 	Log_Write("\r\n");
 
 	for (block = memory; block; block = block->next) {
@@ -307,7 +308,7 @@ void PrintMemoryLabels(void) {
 		} else {
 			Log_Write("%6d, %p, %8d: %24s line %6d: %s\r\n", i, block->ptr, block->size, block->file, block->line, block->label);
 		}
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 		i++;
 	}
 }
@@ -337,7 +338,7 @@ GetMemory
 void *GetMemoryDebug(unsigned long size, char *label, char *file, int line)
 #else
 void *GetMemory(unsigned long size)
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 {
 	void *ptr;
 	unsigned long int *memid;
@@ -350,7 +351,7 @@ void *GetMemory(unsigned long size)
 
 	memid = (unsigned long int *)ptr;
 	*memid = MEM_ID;
-	return(unsigned long int *)((char *)ptr + sizeof(unsigned long int));
+	return (unsigned long int *)((char *)ptr + sizeof(unsigned long int));
 }
 
 /*
@@ -362,16 +363,16 @@ GetClearedMemory
 void *GetClearedMemoryDebug(unsigned long size, char *label, char *file, int line)
 #else
 void *GetClearedMemory(unsigned long size)
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 {
 	void *ptr;
 #ifdef MEMDEBUG
 	ptr = GetMemoryDebug(size, label, file, line);
 #else
 	ptr = GetMemory(size);
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 	memset(ptr, 0, size);
-return ptr;
+	return ptr;
 }
 
 /*
@@ -383,7 +384,7 @@ GetHunkMemory
 void *GetHunkMemoryDebug(unsigned long size, char *label, char *file, int line)
 #else
 void *GetHunkMemory(unsigned long size)
-#endif //MEMDEBUG
+#endif // MEMDEBUG
 {
 	void *ptr;
 	unsigned long int *memid;
@@ -396,7 +397,7 @@ void *GetHunkMemory(unsigned long size)
 
 	memid = (unsigned long int *)ptr;
 	*memid = HUNK_ID;
-	return(unsigned long int *)((char *)ptr + sizeof(unsigned long int));
+	return (unsigned long int *)((char *)ptr + sizeof(unsigned long int));
 }
 
 /*
@@ -414,10 +415,10 @@ void *GetClearedHunkMemory(unsigned long size)
 #ifdef MEMDEBUG
 	ptr = GetHunkMemoryDebug(size, label, file, line);
 #else
-ptr = GetHunkMemory(size);
+	ptr = GetHunkMemory(size);
 #endif // MEMDEBUG
 	memset(ptr, 0, size);
-return ptr;
+	return ptr;
 }
 
 /*

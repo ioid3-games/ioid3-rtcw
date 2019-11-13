@@ -129,6 +129,7 @@ void EA_SelectWeapon(int client, int weapon) {
 	bot_input_t *bi;
 
 	bi = &botinputs[client];
+
 	bi->weapon = weapon;
 }
 
@@ -141,6 +142,7 @@ void EA_Attack(int client) {
 	bot_input_t *bi;
 
 	bi = &botinputs[client];
+
 	bi->actionflags |= ACTION_ATTACK;
 }
 
@@ -165,6 +167,7 @@ void EA_Talk(int client) {
 	bot_input_t *bi;
 
 	bi = &botinputs[client];
+
 	bi->actionflags |= ACTION_TALK;
 }
 
@@ -177,6 +180,7 @@ void EA_Use(int client) {
 	bot_input_t *bi;
 
 	bi = &botinputs[client];
+
 	bi->actionflags |= ACTION_USE;
 }
 
@@ -189,6 +193,7 @@ void EA_Respawn(int client) {
 	bot_input_t *bi;
 
 	bi = &botinputs[client];
+
 	bi->actionflags |= ACTION_RESPAWN;
 }
 
@@ -235,6 +240,7 @@ void EA_Crouch(int client) {
 	bot_input_t *bi;
 
 	bi = &botinputs[client];
+
 	bi->actionflags |= ACTION_CROUCH;
 }
 
@@ -247,6 +253,7 @@ void EA_Walk(int client) {
 	bot_input_t *bi;
 
 	bi = &botinputs[client];
+
 	bi->actionflags |= ACTION_WALK;
 }
 
@@ -259,6 +266,7 @@ void EA_MoveUp(int client) {
 	bot_input_t *bi;
 
 	bi = &botinputs[client];
+
 	bi->actionflags |= ACTION_MOVEUP;
 }
 
@@ -271,6 +279,7 @@ void EA_MoveDown(int client) {
 	bot_input_t *bi;
 
 	bi = &botinputs[client];
+
 	bi->actionflags |= ACTION_MOVEDOWN;
 }
 
@@ -283,6 +292,7 @@ void EA_MoveForward(int client) {
 	bot_input_t *bi;
 
 	bi = &botinputs[client];
+
 	bi->actionflags |= ACTION_MOVEFORWARD;
 }
 
@@ -295,6 +305,7 @@ void EA_MoveBack(int client) {
 	bot_input_t *bi;
 
 	bi = &botinputs[client];
+
 	bi->actionflags |= ACTION_MOVEBACK;
 }
 
@@ -307,6 +318,7 @@ void EA_MoveLeft(int client) {
 	bot_input_t *bi;
 
 	bi = &botinputs[client];
+
 	bi->actionflags |= ACTION_MOVELEFT;
 }
 
@@ -319,6 +331,7 @@ void EA_MoveRight(int client) {
 	bot_input_t *bi;
 
 	bi = &botinputs[client];
+
 	bi->actionflags |= ACTION_MOVERIGHT;
 }
 
@@ -393,7 +406,9 @@ void EA_ResetInput(int client, bot_input_t *init) {
 	VectorClear(bi->dir);
 
 	bi->speed = 0;
+
 	jumped = bi->actionflags & ACTION_JUMP;
+
 	bi->actionflags = 0;
 
 	if (jumped) {
@@ -411,6 +426,7 @@ EA_Setup
 =======================================================================================================================================
 */
 int EA_Setup(void) {
+
 	// initialize the bot inputs
 	botinputs = (bot_input_t *)GetClearedHunkMemory(botlibglobals.maxclients * sizeof(bot_input_t));
 	return BLERR_NOERROR;
@@ -422,6 +438,8 @@ EA_Shutdown
 =======================================================================================================================================
 */
 void EA_Shutdown(void) {
+
 	FreeMemory(botinputs);
+
 	botinputs = NULL;
 }

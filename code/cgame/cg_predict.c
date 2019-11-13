@@ -119,8 +119,8 @@ static void CG_ClipMoveToEntities(const vec3_t start, const vec3_t mins, const v
 		} else {
 			// encoded bbox
 			x = (ent->solid & 255);
-			zd = ((ent->solid >> 8)& 255);
-			zu = ((ent->solid >> 16)& 255) - 32;
+			zd = ((ent->solid >> 8) & 255);
+			zu = ((ent->solid >> 16) & 255) - 32;
 
 			bmins[0] = bmins[1] = -x;
 			bmaxs[0] = bmaxs[1] = x;
@@ -541,7 +541,7 @@ void CG_PredictPlayerState(void) {
 		cg_pmove.tracemask &= ~CONTENTS_BODY; // spectators can fly through bodies
 	}
 
-	cg_pmove.noFootsteps = (cgs.dmflags & DF_NO_FOOTSTEPS)> 0;
+	cg_pmove.noFootsteps = (cgs.dmflags & DF_NO_FOOTSTEPS) > 0;
 	cg_pmove.noWeapClips = (cgs.dmflags & DF_NO_WEAPRELOAD)> 0;
 
 	if (cg.predictedPlayerState.aiChar) {

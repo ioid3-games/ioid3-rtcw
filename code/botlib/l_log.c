@@ -33,7 +33,6 @@ If you have questions concerning this license or the applicable additional terms
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
 #include "../qcommon/q_shared.h"
 #include "../qcommon/qcommon.h"
 #include "botlib.h"
@@ -101,6 +100,7 @@ Log_Close
 =======================================================================================================================================
 */
 void Log_Close(void) {
+
 	if (!logfile.fp) {
 		return;
 	}
@@ -120,6 +120,7 @@ Log_Shutdown
 =======================================================================================================================================
 */
 void Log_Shutdown(void) {
+
 	if (logfile.fp) {
 		Log_Close();
 	}
@@ -180,6 +181,7 @@ Log_Flush
 =======================================================================================================================================
 */
 void Log_Flush(void) {
+
 	if (logfile.fp) {
 		fflush(logfile.fp);
 	}

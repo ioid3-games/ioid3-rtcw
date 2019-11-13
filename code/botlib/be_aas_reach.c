@@ -52,7 +52,6 @@ extern botlib_import_t botimport;
 //#define REACHDEBUG
 // NOTE: all travel times are in hundredths of a second
 // maximum fall delta before getting damaged
-
 // tweaked for Wolf AI
 #define FALLDELTA_5DAMAGE 25	// 40
 #define FALLDELTA_10DAMAGE 40	// 60
@@ -71,16 +70,16 @@ extern botlib_import_t botimport;
 #define INSIDEUNITS_WATERJUMP 15
 // travel times in hundreth of a second
 // tweaked these for Wolf AI
-#define REACH_MIN_TIME			4 // always at least this much time for a reachability
-#define WATERJUMP_TIME			700 // 7 seconds
-#define TELEPORT_TIME			50 // 0.5 seconds
-#define BARRIERJUMP_TIME		900 // fixed value?
-#define STARTCROUCH_TIME		300 // 3 sec to start crouching
-#define STARTGRAPPLE_TIME		500 // using the grapple costs a lot of time
-#define STARTWALKOFFLEDGE_TIME	300 // 3 seconds
-#define STARTJUMP_TIME			500 // 3 seconds for jumping
-#define FALLDAMAGE_5_TIME		400 // extra travel time when falling hurts
-#define FALLDAMAGE_10_TIME		900 // extra travel time when falling hurts
+#define REACH_MIN_TIME 4 // always at least this much time for a reachability
+#define WATERJUMP_TIME 700 // 7 seconds
+#define TELEPORT_TIME 50 // 0.5 seconds
+#define BARRIERJUMP_TIME 900 // fixed value?
+#define STARTCROUCH_TIME 300 // 3 sec to start crouching
+#define STARTGRAPPLE_TIME 500 // using the grapple costs a lot of time
+#define STARTWALKOFFLEDGE_TIME 300 // 3 seconds
+#define STARTJUMP_TIME 500 // 3 seconds for jumping
+#define FALLDAMAGE_5_TIME 400 // extra travel time when falling hurts
+#define FALLDAMAGE_10_TIME 900 // extra travel time when falling hurts
 // maximum height the bot may fall down when jumping
 #define MAX_JUMPFALLHEIGHT 450
 // area flag used for weapon jumping
@@ -207,14 +206,14 @@ int AAS_BestReachableArea(vec3_t origin, vec3_t mins, vec3_t maxs, vec3_t goalor
 		} else {
 			// it can very well happen that the AAS_PointAreaNum function tells that a point is in an area and that starting
 			// an AAS_TraceClientBBox from that point will return trace.startsolid qtrue
-			/*
+#if 0
 			if (AAS_PointAreaNum(start)) {
 				Log_Write("point %f %f %f in area %d but trace startsolid", start[0], start[1], start[2], areanum);
 				AAS_DrawPermanentCross(start, 4, LINECOLOR_RED);
 			}
 
 			botimport.Print(PRT_MESSAGE, "AAS_BestReachableArea: start solid\n");
-			*/
+#endif
 			VectorCopy(start, goalorigin);
 			return areanum;
 		}
@@ -769,7 +768,7 @@ int AAS_Reachability_Swim(int area1num, int area2num) {
 			if (face1num == face2num) {
 				AAS_FaceCenter(face1num, start);
 
-				if (AAS_PointContents(start)&(CONTENTS_LAVA|CONTENTS_SLIME|CONTENTS_WATER)) {
+				if (AAS_PointContents(start) & (CONTENTS_LAVA|CONTENTS_SLIME|CONTENTS_WATER)) {
 					face1 = &(*aasworld).faces[face1num];
 					// create a new reachability link
 					lreach = AAS_AllocReachability();
@@ -3293,12 +3292,12 @@ void AAS_Reachability_FuncBobbing(void) {
 
 		VectorSet(end_plane.normal, 0, 0, 1);
 #ifndef BSPC
-		/*
+#if 0
 		for (i = 0; i < 4; i++) {
 			AAS_PermanentLine(start_edgeverts[i], start_edgeverts[(i + 1)%4], 1);
 			AAS_PermanentLine(end_edgeverts[i], end_edgeverts[(i + 1)%4], 1);
 		}
-		*/
+#endif
 #endif
 		VectorCopy(move_start, move_start_top);
 
@@ -3821,7 +3820,7 @@ int AAS_Reachability_Grapple(int area1num, int area2num) {
 			continue;
 		}
 		// only use vertical faces or downward facing faces
-		if (DotProduct((*aasworld).planes[face2->planenum].normal, down)< 0) {
+		if (DotProduct((*aasworld).planes[face2->planenum].normal, down) < 0) {
 			continue;
 		}
 		// direction towards the face center
@@ -4074,7 +4073,7 @@ int AAS_Reachability_WeaponJump(int area1num, int area2num) {
 			} else {
 				zvel = AAS_RocketJumpZVelocity(areastart);
 			}
-			// get the horizontal speed for the jump, if it isn't possible to calculate this speed (the jump is not possible)then there's no jump reachability created
+			// get the horizontal speed for the jump, if it isn't possible to calculate this speed (the jump is not possible) then there's no jump reachability created
 			ret = AAS_HorizontalVelocityForJump(zvel, areastart, facecenter, &speed);
 
 			if (ret && speed < 270) {
@@ -4096,7 +4095,7 @@ int AAS_Reachability_WeaponJump(int area1num, int area2num) {
 					AAS_PredictClientMovement(&move, -1, areastart, PRESENCE_NORMAL, qtrue, velocity, cmdmove, 30, 30, 0.1, SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_TOUCHJUMPPAD|SE_HITGROUNDAREA, area2num, qfalse);
 					// if prediction time wasn't enough to fully predict the movement
 					// don't enter slime or lava and don't fall from too high
-					if (move.frames < 30 && !(move.stopevent & (SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) && (move.stopevent &(SE_HITGROUNDAREA|SE_TOUCHJUMPPAD))) {
+					if (move.frames < 30 && !(move.stopevent & (SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) && (move.stopevent & (SE_HITGROUNDAREA|SE_TOUCHJUMPPAD))) {
 						// create a rocket or bfg jump reachability from area1 to area2
 						lreach = AAS_AllocReachability();
 
@@ -4302,6 +4301,7 @@ void AAS_Reachability_WalkOffLedge(int areanum) {
 						}
 
 						lreach->next = areareachability[areanum];
+
 						areareachability[areanum] = lreach;
 						// we've got another walk off ledge reachability
 						reach_walkoffledge++;
@@ -4396,7 +4396,7 @@ int AAS_ContinueInitReachability(float time) {
 	if ((*aasworld).reachabilityareas >= (*aasworld).numareas + 2) {
 		return qfalse;
 	}
-	// if starting with area 1(area 0 is a dummy)
+	// if starting with area 1 (area 0 is a dummy)
 	if ((*aasworld).reachabilityareas == 1) {
 		botimport.Print(PRT_MESSAGE, "calculating reachability...\n");
 		lastpercentage = 0;
@@ -4420,7 +4420,7 @@ int AAS_ContinueInitReachability(float time) {
 			}
 			// never create reachabilities from teleporter or jumppad areas to regular areas
 			if ((*aasworld).areasettings[i].contents & (AREACONTENTS_TELEPORTER|AREACONTENTS_JUMPPAD)) {
-				if (!((*aasworld).areasettings[j].contents &(AREACONTENTS_TELEPORTER|AREACONTENTS_JUMPPAD))) {
+				if (!((*aasworld).areasettings[j].contents & (AREACONTENTS_TELEPORTER|AREACONTENTS_JUMPPAD))) {
 					continue;
 				}
 			}
@@ -4470,11 +4470,11 @@ int AAS_ContinueInitReachability(float time) {
 // 			AAS_Reachability_WeaponJump(i, j);
 		}
 		// if the calculation took more time than the max reachability delay
-		if (Sys_MilliSeconds() - start_time >(int)reachability_delay) {
+		if (Sys_MilliSeconds() - start_time > (int)reachability_delay) {
 			break;
 		}
 
-		if ((*aasworld).reachabilityareas * 1000 /(*aasworld).numareas > lastpercentage) {
+		if ((*aasworld).reachabilityareas * 1000 / (*aasworld).numareas > lastpercentage) {
 			break;
 		}
 	}
@@ -4543,6 +4543,7 @@ AAS_InitReachability
 =======================================================================================================================================
 */
 void AAS_InitReachability(void) {
+
 	if (!(*aasworld).loaded) {
 		return;
 	}

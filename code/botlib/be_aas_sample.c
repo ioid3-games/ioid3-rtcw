@@ -418,7 +418,7 @@ aas_trace_t AAS_TraceClientBBox(vec3_t start, vec3_t end, int presencetype, int 
 		// if it is an area
 		if (nodenum < 0) {
 #ifdef AAS_SAMPLE_DEBUG
-			if (-nodenum >(*aasworld).numareasettings) {
+			if (-nodenum > (*aasworld).numareasettings) {
 				botimport.Print(PRT_ERROR, "AAS_TraceBoundingBox: -nodenum out of range\n");
 				return trace;
 			}
@@ -507,7 +507,7 @@ aas_trace_t AAS_TraceClientBBox(vec3_t start, vec3_t end, int presencetype, int 
 			return trace;
 		}
 #ifdef AAS_SAMPLE_DEBUG
-		if (nodenum >(*aasworld).numnodes) {
+		if (nodenum > (*aasworld).numnodes) {
 			botimport.Print(PRT_ERROR, "AAS_TraceBoundingBox: nodenum out of range\n");
 			return trace;
 		}
@@ -521,7 +521,8 @@ aas_trace_t AAS_TraceClientBBox(vec3_t start, vec3_t end, int presencetype, int 
 		// the current node plane
 		plane = &(*aasworld).planes[aasnode->planenum];
 
-		switch (plane->type) {/*FIXME: wtf doesn't this work? obviously the axial node planes aren't always facing positive!!!
+		switch (plane->type) {
+			/* FIXME: wtf doesn't this work? obviously the axial node planes aren't always facing positive!!!
 			// check for axial planes
 			case PLANE_X:
 			{

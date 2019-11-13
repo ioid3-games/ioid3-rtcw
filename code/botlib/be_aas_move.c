@@ -90,7 +90,7 @@ void AAS_InitSettings(void) {
 	aassettings.sv_maxstep = 18;
 	aassettings.sv_maxsteepness = 0.7;
 	aassettings.sv_maxwaterjump = 17;
-	// Ridah, calculate maxbarrier according to jumpvel and gravity
+	// calculate maxbarrier according to jumpvel and gravity
 	aassettings.sv_jumpvel = 270;
 	aassettings.sv_maxbarrier = 49; // -0.8 + (0.5 * aassettings.sv_gravity * (aassettings.sv_jumpvel / aassettings.sv_gravity) * (aassettings.sv_jumpvel / aassettings.sv_gravity));
 }
@@ -752,6 +752,7 @@ int AAS_PredictClientMovement(struct aas_clientmove_s *move, int entnum, vec3_t 
 			if (event & stopevent) {
 				VectorCopy(org, move->endpos);
 				VectorScale(frame_test_vel, 1 / frametime, move->velocity);
+
 				move->stopevent = event & stopevent;
 				move->presencetype = presencetype;
 				move->endcontents = pc;
@@ -767,6 +768,7 @@ int AAS_PredictClientMovement(struct aas_clientmove_s *move, int entnum, vec3_t 
 			if (stopevent & SE_HITGROUND) {
 				VectorCopy(org, move->endpos);
 				VectorScale(frame_test_vel, 1 / frametime, move->velocity);
+
 				move->trace = trace;
 				move->stopevent = SE_HITGROUND;
 				move->presencetype = presencetype;
@@ -778,6 +780,7 @@ int AAS_PredictClientMovement(struct aas_clientmove_s *move, int entnum, vec3_t 
 		} else if (stopevent & SE_LEAVEGROUND) {
 			VectorCopy(org, move->endpos);
 			VectorScale(frame_test_vel, 1 / frametime, move->velocity);
+
 			move->trace = trace;
 			move->stopevent = SE_LEAVEGROUND;
 			move->presencetype = presencetype;

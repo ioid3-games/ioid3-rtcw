@@ -93,8 +93,8 @@ typedef struct bot_movestate_s {
 #define WEAPONINDEX_ROCKET_LAUNCHER	5
 #define WEAPONINDEX_BFG				9
 
-#define MODELTYPE_FUNC_PLAT 1
-#define MODELTYPE_FUNC_BOB 2
+#define MODELTYPE_FUNC_PLAT		1
+#define MODELTYPE_FUNC_BOB		2
 
 float sv_maxstep;
 float sv_maxbarrier;
@@ -900,6 +900,7 @@ float BotGapDistance(vec3_t origin, vec3_t hordir, int entnum) {
 		VectorCopy(start, end);
 
 		end[2] -= 48 + sv_maxbarrier;
+
 		trace = AAS_TraceClientBBox(start, end, PRESENCE_CROUCH, entnum);
 		// if solid is found the bot can't walk any further and fall into a gap
 		if (!trace.startsolid) {
@@ -1073,7 +1074,6 @@ int BotWalkInDirection(bot_movestate_t *ms, vec3_t dir, float speed, int type) {
 		}
 		// don't enter slime or lava and don't fall from too high
 		if (move.stopevent & (SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) { // modified since slime is no longer deadly
-// 		if (move.stopevent & (SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) {
 			//botimport.Print(PRT_MESSAGE, "client %d: would be hurt ", ms->client);
 			//if (move.stopevent & SE_ENTERSLIME) botimport.Print(PRT_MESSAGE, "slime\n");
 			//if (move.stopevent & SE_ENTERLAVA) botimport.Print(PRT_MESSAGE, "lava\n");
@@ -1243,9 +1243,7 @@ bot_moveresult_t BotTravel_Walk(bot_movestate_t *ms, aas_reachability_t *reach) 
 
 	BotCheckBlocked(ms, hordir, qtrue, &result);
 
-	//  tweaked this
-// 	if (dist < 10)
-	if (dist < 32) {
+	if (dist < 32) { // tweaked this
 		// walk straight to the reachability end
 		hordir[0] = reach->end[0] - ms->origin[0];
 		hordir[1] = reach->end[1] - ms->origin[1];
@@ -1255,7 +1253,6 @@ bot_moveresult_t BotTravel_Walk(bot_movestate_t *ms, aas_reachability_t *reach) 
 	// if going towards a crouch area
 
 	// some areas have a 0 presence(!?!)
-// 	if (!(AAS_AreaPresenceType(reach->areanum)& PRESENCE_NORMAL))
 	if ((AAS_AreaPresenceType(reach->areanum)& PRESENCE_CROUCH) && !(AAS_AreaPresenceType(reach->areanum)& PRESENCE_NORMAL)) {
 		// if pretty close to the reachable area
 		if (dist < 20) {
@@ -1680,6 +1677,7 @@ bot_moveresult_t BotFinishTravel_WalkOffLedge(bot_movestate_t *ms, aas_reachabil
 	}
 	// looks better crouching off a ledge
 	EA_Crouch(ms->client);
+	// elementary action move in direction
 	EA_Move(ms->client, hordir, speed);
 	VectorCopy(hordir, result.movedir);
 
@@ -1754,18 +1752,28 @@ bot_moveresult_t BotTravel_Jump(bot_movestate_t *ms, aas_reachability_t *reach) 
 	// check for solids
 	trace = AAS_Trace(start, mins, maxs, end, ms->entitynum, MASK_PLAYERSOLID);
 
-	if (trace.startsolid)VectorCopy(start, trace.endpos);
+	if (trace.startsolid) {
+		VectorCopy(start, trace.endpos);
+	}
 	// check for a gap
 	for (gapdist = 0; gapdist < 80; gapdist += 10) {
 		VectorMA(start, gapdist + 10, hordir, end);
 		end[2] += 1;
 
-		if (AAS_PointAreaNum(end)!= ms->reachareanum)break;
+		if (AAS_PointAreaNum(end) != ms->reachareanum) {
+			break;
+		}
 	}
 
-	if (gapdist < 80)VectorMA(reach->start, gapdist, hordir, trace.endpos);
-// 	dist1 = BotGapDistance(start, hordir, ms->entitynum);
-// 	if (dist1 && dist1 <= trace.fraction * 80)VectorMA(reach->start, dist1 - 20, hordir, trace.endpos);
+	if (gapdist < 80) {
+		VectorMA(reach->start, gapdist, hordir, trace.endpos);
+	}
+
+//	dist1 = BotGapDistance(start, hordir, ms->entitynum);
+
+//	if (dist1 && dist1 <= trace.fraction * 80) {
+//		VectorMA(reach->start, dist1 - 20, hordir, trace.endpos);
+//	}
 
 	VectorSubtract(ms->origin, reach->start, dir1);
 	dir1[2] = 0;
@@ -1779,10 +1787,15 @@ bot_moveresult_t BotTravel_Jump(bot_movestate_t *ms, aas_reachability_t *reach) 
 		hordir[0] = reach->end[0] - ms->origin[0];
 		hordir[1] = reach->end[1] - ms->origin[1];
 		hordir[2] = 0;
+
 		VectorNormalize(hordir);
-		// elemantary action jump
-		if (dist1 < 24)EA_Jump(ms->client);
-		else if (dist1 < 32)EA_DelayedJump(ms->client);
+		// elementary action jump
+		if (dist1 < 24) {
+			EA_Jump(ms->client);
+		} else if (dist1 < 32) {
+			EA_DelayedJump(ms->client);
+		}
+
 		EA_Move(ms->client, hordir, 600);
 
 		ms->jumpreach = ms->lastreachnum;
@@ -1793,8 +1806,12 @@ bot_moveresult_t BotTravel_Jump(bot_movestate_t *ms, aas_reachability_t *reach) 
 		hordir[2] = 0;
 		VectorNormalize(hordir);
 
-		if (dist2 > 80)dist2 = 80;
+		if (dist2 > 80) {
+			dist2 = 80;
+		}
+
 		speed = 400 - (400 - 5 * dist2);
+
 		EA_Move(ms->client, hordir, speed);
 	}
 
@@ -1935,10 +1952,10 @@ BotTravel_Ladder
 =======================================================================================================================================
 */
 bot_moveresult_t BotTravel_Ladder(bot_movestate_t *ms, aas_reachability_t *reach) {
-	// float dist, speed;
+	//float dist, speed;
 	vec3_t dir, viewdir, hordir, pos, p, v1, v2, vec, right;
 	vec3_t origin = {0, 0, 0};
-// 	vec3_t up = {0, 0, 1};
+	//vec3_t up = {0, 0, 1};
 	bot_moveresult_t_cleared(result);
 	float dist, speed;
 
@@ -2754,7 +2771,6 @@ bot_moveresult_t BotTravel_Grapple(bot_movestate_t *ms, aas_reachability_t *reac
 				botimport.Print(PRT_ERROR, "grapple normal end\n");
 #endif // DEBUG_GRAPPLE
 			}
-
 		// if no valid grapple at all, or the grapple hooked and the bot isn't moving anymore
 		} else if (!state || (state == 2 && dist > ms->lastgrappledist - 2)) {
 			if (ms->grapplevisible_time < AAS_Time() - 0.4) {
@@ -2925,7 +2941,7 @@ bot_moveresult_t BotTravel_RocketJump(bot_movestate_t *ms, aas_reachability_t *r
 	result.ideal_viewangles[PITCH] = 90;
 	// set the view angles directly
 	EA_View(ms->client, result.ideal_viewangles);
-	// view is important for the movment
+	// view is important for the movement
 	result.flags |= MOVERESULT_MOVEMENTVIEWSET;
 	// select the rocket launcher
 	EA_SelectWeapon(ms->client, WEAPONINDEX_ROCKET_LAUNCHER);
@@ -3082,8 +3098,8 @@ bot_moveresult_t BotMoveInGoalArea(bot_movestate_t *ms, bot_goal_t *goal) {
 	float dist, speed;
 #ifdef DEBUG
 	//botimport.Print(PRT_MESSAGE, "%s: moving straight to goal\n", ClientName(ms->entitynum - 1));
-	// AAS_ClearShownDebugLines();
-	// AAS_DebugLine(ms->origin, goal->origin, LINECOLOR_RED);
+	//AAS_ClearShownDebugLines();
+	//AAS_DebugLine(ms->origin, goal->origin, LINECOLOR_RED);
 #endif // DEBUG
 	// walk straight to the goal origin
 	dir[0] = goal->origin[0] - ms->origin[0];
@@ -3118,7 +3134,7 @@ bot_moveresult_t BotMoveInGoalArea(bot_movestate_t *ms, bot_goal_t *goal) {
 		Vector2Angles(dir, result.ideal_viewangles);
 		result.flags |= MOVERESULT_SWIMVIEW;
 	}
-	// if (!debugline) debugline = botimport.DebugLineCreate();
+	//if (!debugline) debugline = botimport.DebugLineCreate();
 	//botimport.DebugLineShow(debugline, ms->origin, goal->origin, LINECOLOR_BLUE);
 
 	ms->lastreachnum = 0;
@@ -3570,7 +3586,6 @@ void BotMoveToGoal(bot_moveresult_t *result, int movestate, bot_goal_t *goal, in
 	VectorCopy(ms->origin, ms->lastorigin);
 
 	ms->lasttime = AAS_Time();
-
 	// RF, try to look in the direction we will be moving ahead of time
 	if (reachnum > 0 && !(result->flags &(MOVERESULT_MOVEMENTVIEW|MOVERESULT_SWIMVIEW))) {
 		vec3_t dir;

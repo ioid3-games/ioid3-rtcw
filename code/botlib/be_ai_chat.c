@@ -2695,8 +2695,6 @@ int BotReplyChat(int chatstate, char *message, int mcontext, int vcontext, char 
 					found = qfalse;
 					break;
 				}
-				// botnames is an exception
-				//if(!(key->flags & RCKFL_BOTNAMES))found = qtrue;
 			// if the key must be absent
 			} else if (key->flags & RCKFL_NOT) {
 				if (res) {

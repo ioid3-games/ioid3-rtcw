@@ -403,7 +403,7 @@ Called when the library is first loaded.
 =======================================================================================================================================
 */
 int AAS_Setup(void) {
-	// Ridah, just use the default world for entities
+	// just use the default world for entities
 	AAS_SetCurrentWorld(0);
 
 	(*aasworlds).maxclients = (int)LibVarValue("maxclients", "128");

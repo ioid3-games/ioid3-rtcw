@@ -271,6 +271,7 @@ itemconfig_t *LoadItemConfig(char *filename) {
 	}
 
 	Q_strncpyz(path, filename, sizeof(path));
+
 	source = LoadSourceFile(path);
 
 	if (!source) {
@@ -395,7 +396,6 @@ levelitem_t *AllocLevelItem(void) {
 	freelevelitems = freelevelitems->next;
 
 	memset(li, 0, sizeof(levelitem_t));
-
 	return li;
 }
 
@@ -937,10 +937,9 @@ void BotUpdateEntityItems(void) {
 					VectorCopy(entinfo.origin, li->origin);
 					// also update the goal area number
 					li->goalareanum = AAS_BestReachableArea(li->origin, ic->iteminfo[li->iteminfo].mins, ic->iteminfo[li->iteminfo].maxs, li->goalorigin);
-					// Log_Write("found item %s entity", ic->iteminfo[li->iteminfo].classname);
+					//Log_Write("found item %s entity", ic->iteminfo[li->iteminfo].classname);
 					break;
 				}
-				// else botimport.Print(PRT_MESSAGE, "item %s has no attached entity\n", ic->iteminfo[li->iteminfo].name);
 			}
 		}
 
@@ -1089,7 +1088,6 @@ int BotGetTopGoal(int goalstate, bot_goal_t *goal) {
 	}
 
 	memcpy(goal, &gs->goalstack[gs->goalstacktop], sizeof(bot_goal_t));
-
 	return qtrue;
 }
 
@@ -1112,7 +1110,6 @@ int BotGetSecondGoal(int goalstate, bot_goal_t *goal) {
 	}
 
 	memcpy(goal, &gs->goalstack[gs->goalstacktop - 1], sizeof(bot_goal_t));
-
 	return qtrue;
 }
 
