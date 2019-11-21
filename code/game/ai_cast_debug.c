@@ -35,13 +35,13 @@ If you have questions concerning this license or the applicable additional terms
 //===========================================================================
 
 #include "g_local.h"
-#include "../botlib/botlib.h"      //bot lib interface
+#include "../botlib/botlib.h" // bot lib interface
 #include "../botlib/be_aas.h"
 #include "../botlib/be_ea.h"
 #include "../botlib/be_ai_gen.h"
 #include "../botlib/be_ai_goal.h"
 #include "../botlib/be_ai_move.h"
-#include "../botlib/botai.h"          //bot ai interface
+#include "../botlib/botai.h" // bot ai interface
 
 #include "ai_cast.h"
 
@@ -63,6 +63,7 @@ AICast_DBG_AddAIFunc
 =======================================================================================================================================
 */
 void AICast_DBG_AddAIFunc(cast_state_t *cs, char *funcname) {
+
 	if (aicast_debug.integer) {
 		if (aicast_debug.integer != 2 || (g_entities[cs->entityNum].aiName && !strcmp(aicast_debugname.string, g_entities[cs->entityNum].aiName))) {
 			G_Printf("%s: %s\n", g_entities[cs->entityNum].aiName, funcname);
@@ -84,8 +85,10 @@ void AICast_DBG_ListAIFuncs(cast_state_t *cs, int numprint) {
 	if (aicast_debug.integer != 2 || (g_entities[cs->entityNum].aiName && !strcmp(aicast_debugname.string, g_entities[cs->entityNum].aiName))) {
 		AICast_Printf(AICAST_PRT_DEBUG, S_COLOR_RED "AICast_ProcessAIFunctions: executed more than %d AI funcs\n", MAX_AIFUNCS);
 
-		for (i = MAX_AIFUNCS - numprint; i < MAX_AIFUNCS; i++)
+		for (i = MAX_AIFUNCS - numprint; i < MAX_AIFUNCS; i++) {
 			AICast_Printf(AICAST_PRT_DEBUG, "%s, ", aifuncs[i]);
+		}
+
 		AICast_Printf(AICAST_PRT_DEBUG, "\n");
 	}
 }
@@ -118,7 +121,7 @@ void AICast_DBG_RouteTable_f(vec3_t org, char *param) {
 	static int srcarea = 0, dstarea = 0;
 //	extern botlib_export_t botlib;
 
-	if (!param || strlen(param)< 1) {
+	if (!param || strlen(param) < 1) {
 		trap_Print("You must specify 'src', 'dest' or 'show'\n");
 		return;
 	}
@@ -126,7 +129,7 @@ void AICast_DBG_RouteTable_f(vec3_t org, char *param) {
 	trap_AAS_SetCurrentWorld(0);  // use the default world, which should have a routetable
 
 	if (Q_stricmp(param, "toggle") == 0) {
-		trap_AAS_RT_ShowRoute(vec3_origin, -666, -666);   // stupid toggle hack
+		trap_AAS_RT_ShowRoute(vec3_origin, -666, -666); // stupid toggle hack
 		return;
 	}
 
@@ -156,6 +159,7 @@ void AICast_DBG_Spawn_f(gclient_t *client, char *cmd) {
 
 	ent = G_Spawn();
 	ent->classname = G_Alloc(strlen(cmd) + 1);
+
 	strcpy(ent->classname, cmd);
 	AngleVectors(client->ps.viewangles, dir, NULL, NULL);
 	VectorMA(client->ps.origin, 96, dir, ent->s.origin);
@@ -169,7 +173,7 @@ void AICast_DBG_Spawn_f(gclient_t *client, char *cmd) {
 =======================================================================================================================================
 AICast_DBG_Cmd_f
 
-  General entry point for all "aicast ..." commands
+General entry point for all "aicast ..." commands.
 =======================================================================================================================================
 */
 void AICast_DBG_Cmd_f(int clientNum) {
@@ -179,7 +183,7 @@ void AICast_DBG_Cmd_f(int clientNum) {
 	ent = g_entities + clientNum;
 
 	if (!ent->client) {
-		return;     // not fully in game yet
+		return; // not fully in game yet
 	}
 	// get the first word following "aicast"
 	trap_Argv(1, cmd, sizeof(cmd));
@@ -234,5 +238,5 @@ int Sys_MilliSeconds(void) {
 #else
 	return clock() * 1000 / CLOCKS_PER_SEC;
 #endif
-} //end of the function Sys_MilliSeconds
+}
 */

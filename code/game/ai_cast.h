@@ -62,7 +62,7 @@ If you have questions concerning this license or the applicable additional terms
 #define AASWORLD_LARGE      1
 //
 // use this for returning the length of an anim
-#define ANIMLENGTH(frames,fps)((frames * 1000) / fps)
+#define ANIMLENGTH(frames,fps) ((frames * 1000) / fps)
 //
 #define AICAST_TFL_DEFAULT  TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA) //---- (SA)	modified since slime is no longer deadly
 //#define AICAST_TFL_DEFAULT	TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_SLIME|TFL_LAVA)
@@ -508,7 +508,7 @@ typedef struct cast_state_s {
 	int respawnsleft;
 } cast_state_t;
 //
-#define CSFOFS(x)((size_t)&(((cast_state_t *)0) ->x))
+#define CSFOFS(x) ((size_t)&(((cast_state_t *)0) ->x))
 //
 typedef struct aicast_predictmove_s {
 	vec3_t endpos;              //position at the end of movement prediction
@@ -557,8 +557,7 @@ void AICast_CheckLevelAttributes(cast_state_t *cs, gentity_t *ent, char **ppStr)
 //
 // ai_cast_sight.c
 void AICast_SightUpdate(int numchecks);
-qboolean AICast_VisibleFromPos(vec3_t srcpos, int srcnum,
-								vec3_t destpos, int destnum, qboolean updateVisPos);
+qboolean AICast_VisibleFromPos(vec3_t srcpos, int srcnum, vec3_t destpos, int destnum, qboolean updateVisPos);
 void AICast_UpdateVisibility(gentity_t *srcent, gentity_t *destent, qboolean shareVis, qboolean directview);
 qboolean AICast_CheckVisibility(gentity_t *srcent, gentity_t *destent);
 //

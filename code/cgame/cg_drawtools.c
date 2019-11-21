@@ -193,7 +193,7 @@ void CG_FilledBar(float x, float y, float w, float h, const float *startColorIn,
 	// background
 	if ((flags & BAR_BG)) {
 		// draw background at full size and shrink the remaining box to fit inside with a border (alternate border may be specified by a BAR_BGSPACING_xx)
-		CG_FillRect(x, y, , h, backgroundcolor);
+		CG_FillRect(x, y, w, h, backgroundcolor);
 
 		if (flags & BAR_BGSPACING_X0Y0) { // fill the whole box (no border)
 

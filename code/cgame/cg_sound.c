@@ -41,7 +41,9 @@ int numSoundScriptSounds = 0;
 
 /*
 =======================================================================================================================================
-return a hash value for the filename
+generateHashValue
+
+Return a hash value for the filename.
 =======================================================================================================================================
 */
 static long generateHashValue(const char *fname) {
@@ -193,7 +195,6 @@ qboolean CG_SoundPlaySoundScript(const char *name, vec3_t org, int entnum) {
 	}
 
 	hash = generateHashValue(name);
-
 	s = (char *)name;
 	sound = hashTable[hash];
 
@@ -300,17 +301,16 @@ static void CG_SoundParseSounds(char *filename, char *buffer) {
 			}
 
 			memset(&sound, 0, sizeof(sound));
+
 			Q_strncpyz(sound.name, token, sizeof(sound.name));
 			wantSoundName = qfalse;
 			sound.index = numSoundScripts;
 			// setup the new sound defaults
 			sound.channel = CHAN_AUTO;
-			sound.attenuation = 1;  // default to fade away with distance(for streaming sounds)
-
+			sound.attenuation = 1; // default to fade away with distance(for streaming sounds)
 			continue;
 		}
 		// we are inside a sound script
-
 		if (!Q_strcasecmp(token, "channel")) {
 			// ignore this now, just look for the channel identifiers explicitly
 			continue;
@@ -461,6 +461,7 @@ static void CG_SoundLoadSoundFiles(void) {
 		}
 
 		memset(buffer, 0, sizeof(buffer));
+
 		trap_FS_Read(buffer, len, f);
 		trap_FS_FCloseFile(f);
 		CG_SoundParseSounds(filename, buffer);
@@ -488,5 +489,4 @@ void CG_SoundInit(void) {
 		CG_SoundLoadSoundFiles();
 		CG_Printf("done.\n");
 	}
-
 }

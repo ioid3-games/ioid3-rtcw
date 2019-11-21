@@ -30,7 +30,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "cg_local.h"
 #include "../ui/ui_shared.h"
 
-#define SCOREBOARD_WIDTH(31 * BIGCHAR_WIDTH)
+#define SCOREBOARD_WIDTH (31 * BIGCHAR_WIDTH)
 /*
 =======================================================================================================================================
 CG_DrawCoopScoreboard
@@ -131,7 +131,7 @@ void CG_DrawCoopScoreboard(void) {
 	CG_DrawStringExt(170 + 294 - w, 130, va("Ping"), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25);
 #endif
 	//if(cg.scores[0].respawnsLeft != -1)
-	//        maxlives = qtrue;
+	// maxlives = qtrue;
 
 	// first get highest values
 #ifdef MONEY
@@ -226,12 +226,9 @@ void CG_DrawCoopScoreboard(void) {
 
 				if (ci->team != TEAM_SPECTATOR) {
 #ifdef MONEY
-					if (cg.scores[i].score == highest_score)
-					{
+					if (cg.scores[i].score == highest_score) {
 						CG_DrawStringExt(170 + 255 - w, 154 + (28 * i) + 1, va("%d(%d)", cg.scores[i].score, cg.scores[i].respawnsLeft), green, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25);
-					}
-
-					else
+					} else
 #endif
 					{
 						CG_DrawStringExt(170 + 255 - w, 154 + (28 * i) + 1, va("%d(%d)", cg.scores[i].score, cg.scores[i].respawnsLeft), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25);
@@ -242,12 +239,9 @@ void CG_DrawCoopScoreboard(void) {
 
 				if (ci->team != TEAM_SPECTATOR) {
 #ifdef MONEY
-					if (cg.scores[i].score == highest_score)
-					{
+					if (cg.scores[i].score == highest_score) {
 						CG_DrawStringExt(170 + 255 - w, 154 + (28 * i) + 1, va("%d", cg.scores[i].score), green, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25);
-					}
-
-					else
+					} else
 #endif
 					{
 						CG_DrawStringExt(170 + 255 - w, 154 + (28 * i) + 1, va("%d", cg.scores[i].score), color3, qfalse, qtrue, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT, 25);
@@ -293,8 +287,11 @@ void CG_DrawCoopScoreboard(void) {
 
 	if (cgs.gametype == GT_COOP_SPEEDRUN)
 #ifdef LOCALISATION
-	{s = va(CG_TranslateString("Time to beat: %2.0f:%i%i"), (float)mins, tens, seconds);}
-#else {s = va("Time to beat: %2.0f:%i%i", (float)mins, tens, seconds);}
+	{
+		s = va(CG_TranslateString("Time to beat: %2.0f:%i%i"), (float)mins, tens, seconds);}
+#else
+	{
+		s = va("Time to beat: %2.0f:%i%i", (float)mins, tens, seconds);}
 #endif
 	else {
 		s = va("%2.0f:%i%i", (float)mins, tens, seconds);

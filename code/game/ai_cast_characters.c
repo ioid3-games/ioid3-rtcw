@@ -82,12 +82,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"infantryAttackPlayer",
 			"infantryOrders",
 			"infantryDeath",
-			"infantrySilentDeath",				//---- (SA)	added
-			"infantryFlameDeath",				//---- (SA)	added
+			"infantrySilentDeath",
+			"infantryFlameDeath",
 			"infantryPain",
 			"infantryStay",						// stay - you're told to stay put
-			"infantryFollow",					// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"infantryOrdersDeny",				// deny - refuse orders(doing something else)
+			"infantryFollow",					// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"infantryOrdersDeny",				// deny - refuse orders (doing something else)
 		},
 		AITEAM_NAZI,							// team
 		"infantryss/default",					// default model/skin
@@ -107,7 +107,7 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			90, // walking speed
 			80, // crouching speed
 			90, // Field of View
-			200, // Yaw Speed	// RF change
+			200, // Yaw Speed
 			0.0, // leader
 			0.70, // aim skill
 			0.70, // aim accuracy
@@ -130,12 +130,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"americanAttackPlayer",
 			"americanOrders",
 			"americanDeath",
-			"americanSilentDeath",	//---- (SA)	added
-			"americanFlameDeath",	//---- (SA)	added
+			"americanSilentDeath",
+			"americanFlameDeath",
 			"americanPain",
 			"americanStay",			// stay - you're told to stay put
-			"americanFollow",		// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"americanOrdersDeny",	// deny - refuse orders(doing something else)
+			"americanFollow",		// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"americanOrdersDeny",	// deny - refuse orders (doing something else)
 		},
 		AITEAM_ALLIES,
 		"american/default",
@@ -151,8 +151,8 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 	{
 		"Zombie",
 		{
-			200, // running speed		//---- (SA)	DK requested change
-			60, // walking speed		//---- (SA)	DK requested change
+			200, // running speed		// DK requested change
+			60, // walking speed		// DK requested change
 			80, // crouching speed
 			90, // Field of View
 			350, // Yaw Speed
@@ -178,12 +178,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"zombieAttackPlayer",
 			"zombieOrders",
 			"zombieDeath",
-			"zombieSilentDeath",				//---- (SA)	added
-			"zombieFlameDeath",					//---- (SA)	added
+			"zombieSilentDeath",
+			"zombieFlameDeath",
 			"zombiePain",
 			"sound/weapons/melee/fstatck.wav",	// stay - you're told to stay put
-			"sound/weapons/melee/fstmiss.wav",	// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"zombieOrdersDeny",					// deny - refuse orders(doing something else)
+			"sound/weapons/melee/fstmiss.wav",	// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"zombieOrdersDeny",					// deny - refuse orders (doing something else)
 		},
 		AITEAM_MONSTER,
 		"zombie/default",
@@ -195,7 +195,7 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 		AISTATE_ALERT
 	},
 
-//---- (SA)	added
+// added
 	//AICHAR_WARZOMBIE
 	{
 		"WarriorZombie",
@@ -227,15 +227,15 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"warzombieAttackPlayer",
 			"warzombieOrders",
 			"warzombieDeath",
-			"warzombieSilentDeath",				//---- (SA)	added
-			"warzombieFlameDeath",				//---- (SA)	added
+			"warzombieSilentDeath",
+			"warzombieFlameDeath",
 			"warzombiePain",
-//---- (SA)	changed per DK
+// changed per DK
 //			"sound/weapons/melee/fstatck.wav",	// stay - you're told to stay put
 			"sound/weapons/melee/warz_hit.wav",
-//			"sound/weapons/melee/fstmiss.wav",	// follow - go with ordering player("i'm with you" rather than "yes sir!")
+//			"sound/weapons/melee/fstmiss.wav",	// follow - go with ordering player ("i'm with you" rather than "yes sir!")
 			"sound/weapons/melee/warz_miss.wav",
-			"warzombieOrdersDeny",				// deny - refuse orders(doing something else)
+			"warzombieOrdersDeny",				// deny - refuse orders (doing something else)
 		},
 		AITEAM_MONSTER,
 		"warrior/crypt2",
@@ -246,7 +246,7 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 		NULL,
 		AISTATE_ALERT
 	},
-//---- (SA)	end
+// end
 
 	//AICHAR_VENOM
 	{
@@ -279,12 +279,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"venomAttackPlayer",
 			"venomOrders",
 			"venomDeath",
-			"venomSilentDeath",	//---- (SA)	added
-			"venomFlameDeath",	//---- (SA)	added
+			"venomSilentDeath",
+			"venomFlameDeath",
 			"venomPain",
 			"venomStay",		// stay - you're told to stay put
-			"venomFollow",		// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"venomOrdersDeny",	// deny - refuse orders(doing something else)
+			"venomFollow",		// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"venomOrdersDeny",	// deny - refuse orders (doing something else)
 		},
 		AITEAM_NAZI,
 		"venom/default",
@@ -327,12 +327,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"loperAttackPlayer",
 			"loperOrders",
 			"loperDeath",
-			"loperSilentDeath",		//---- (SA)	added
-			"loperFlameDeath",		//---- (SA)	added
+			"loperSilentDeath",
+			"loperFlameDeath",
 			"loperPain",
 			"loperAttack2Start",	// stay - you're told to stay put
-			"loperAttackStart",		// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"loperHit1",			// deny - refuse orders(doing something else)
+			"loperAttackStart",		// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"loperHit1",			// deny - refuse orders (doing something else)
 			"loperHit2",			// misc1
 		},
 		AITEAM_MONSTER,
@@ -376,16 +376,16 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"eliteGuardAttackPlayer",
 			"eliteGuardOrders",
 			"eliteGuardDeath",
-			"eliteGuardSilentDeath",	//---- (SA)	added
-			"eliteGuardFlameDeath",		//---- (SA)	added
+			"eliteGuardSilentDeath",
+			"eliteGuardFlameDeath",		// added
 			"eliteGuardPain",
 			"eliteGuardStay",			// stay - you're told to stay put
-			"eliteGuardFollow",			// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"eliteGuardOrdersDeny",		// deny - refuse orders(doing something else)
+			"eliteGuardFollow",			// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"eliteGuardOrdersDeny",		// deny - refuse orders (doing something else)
 		},
 		AITEAM_NAZI,
 		"eliteguard/default",
-		{WP_SILENCER}, //---- (SA)	TODO: replace w/ "silenced luger"
+		{WP_SILENCER}, // TODO: replace w/ "silenced luger"
 		BBOX_SMALL, {32,48},
 		AIFL_CATCH_GRENADE|AIFL_STAND_IDLE2,
 		0, 0, 0,
@@ -424,12 +424,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"stimSoldierAttackPlayer",
 			"stimSoldierOrders",
 			"stimSoldierDeath",
-			"stimSoldierSilentDeath",	//---- (SA)	added
-			"stimSoldeirFlameDeath",	//---- (SA)	added
+			"stimSoldierSilentDeath",
+			"stimSoldeirFlameDeath",
 			"stimSoldierPain",
 			"stimSoldierStay",			// stay - you're told to stay put
-			"stimSoldierFollow",		// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"stimSoldierOrdersDeny",	// deny - refuse orders(doing something else)
+			"stimSoldierFollow",		// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"stimSoldierOrdersDeny",	// deny - refuse orders (doing something else)
 		},
 		AITEAM_NAZI,
 		"stim/default",
@@ -472,12 +472,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"stimSoldierAttackPlayer",
 			"stimSoldierOrders",
 			"stimSoldierDeath",
-			"stimSoldierSilentDeath",	//---- (SA)	added
-			"stimSoldierFlameDeath",	//---- (SA)	added
+			"stimSoldierSilentDeath",
+			"stimSoldierFlameDeath",
 			"stimSoldierPain",
 			"stimSoldierStay",			// stay - you're told to stay put
-			"stimSoldierFollow",		// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"stimSoldierOrdersDeny",	// deny - refuse orders(doing something else)
+			"stimSoldierFollow",		// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"stimSoldierOrdersDeny",	// deny - refuse orders (doing something else)
 		},
 		AITEAM_NAZI,
 		"stim/default",
@@ -520,12 +520,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"stimSoldierAttackPlayer",
 			"stimSoldierOrders",
 			"stimSoldierDeath",
-			"stimSoldierSilentDeath",	//---- (SA)	added
-			"stimSoldierFlameDeath",	//---- (SA)	added
+			"stimSoldierSilentDeath",
+			"stimSoldierFlameDeath",
 			"stimSoldierPain",
 			"stimSoldierStay",			// stay - you're told to stay put
-			"stimSoldierFollow",		// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"stimSoldierOrdersDeny",	// deny - refuse orders(doing something else)
+			"stimSoldierFollow",		// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"stimSoldierOrdersDeny",	// deny - refuse orders (doing something else)
 		},
 		AITEAM_NAZI,
 		"stim/default",
@@ -568,12 +568,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"superSoldierAttackPlayer",
 			"superSoldierOrders",
 			"superSoldierDeath",
-			"superSoldierSilentDeath",	//---- (SA)	added
-			"superSoldierFlameDeath",	//---- (SA)	added
+			"superSoldierSilentDeath",
+			"superSoldierFlameDeath",
 			"superSoldierPain",
 			"superSoldierStay",			// stay - you're told to stay put
-			"superSoldierFollow",		// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"superSoldierOrdersDeny",	// deny - refuse orders(doing something else)
+			"superSoldierFollow",		// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"superSoldierOrdersDeny",	// deny - refuse orders (doing something else)
 		},
 		AITEAM_NAZI,
 		"supersoldier/default",
@@ -616,12 +616,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"blackGuardAttackPlayer",
 			"blackGuardOrders",
 			"blackGuardDeath",
-			"blackGuardSilentDeath",	//---- (SA)	added
-			"blackGuardFlameDeath",		//---- (SA)	added
+			"blackGuardSilentDeath",
+			"blackGuardFlameDeath",		// added
 			"blackGuardPain",
 			"blackGuardStay",			// stay - you're told to stay put
-			"blackGuardFollow",			// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"blackGuardOrdersDeny",		// deny - refuse orders(doing something else)
+			"blackGuardFollow",			// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"blackGuardOrdersDeny",		// deny - refuse orders (doing something else)
 		},
 		AITEAM_NAZI,
 		"blackguard/default",
@@ -665,12 +665,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"protoSoldierAttackPlayer",
 			"protoSoldierOrders",
 			"protoSoldierDeath",
-			"protoSoldierSilentDeath",	//---- (SA)	added
-			"protoSoldierFlameDeath",	//---- (SA)	added
+			"protoSoldierSilentDeath",
+			"protoSoldierFlameDeath",
 			"protoSoldierPain",
 			"protoSoldierStay",			// stay - you're told to stay put
-			"protoSoldierFollow",		// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"protoSoldierOrdersDeny",	// deny - refuse orders(doing something else)
+			"protoSoldierFollow",		// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"protoSoldierOrdersDeny",	// deny - refuse orders (doing something else)
 		},
 		AITEAM_NAZI,
 		"protosoldier/default",
@@ -713,12 +713,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"frogmanAttackPlayer",
 			"frogmanOrders",
 			"frogmanDeath",
-			"frogmanSilentDeath",	//---- (SA)	added
-			"frogmanFlameDeath",	//---- (SA)	added
+			"frogmanSilentDeath",
+			"frogmanFlameDeath",
 			"frogmanPain",
 			"frogmanStay",			// stay - you're told to stay put
-			"frogmanFollow",		// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"frogmanOrdersDeny",	// deny - refuse orders(doing something else)
+			"frogmanFollow",		// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"frogmanOrdersDeny",	// deny - refuse orders (doing something else)
 		},
 		AITEAM_NAZI,
 		"frogman/default",
@@ -761,12 +761,12 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"helgaAttackPlayer",
 			"helgaOrders",
 			"helgaDeath",
-			"helgaSilentDeath",					//---- (SA)	added
-			"helgaFlameDeath",					//---- (SA)	added
+			"helgaSilentDeath",					// added
+			"helgaFlameDeath",					// added
 			"helgaAttackPlayer",
 			"sound/weapons/melee/fstatck.wav",	// stay - you're told to stay put
-			"helgaFollow",						// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"helgaOrdersDeny",					// deny - refuse orders(doing something else)
+			"helgaFollow",						// follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"helgaOrdersDeny",					// deny - refuse orders (doing something else)
 		},
 		AITEAM_MONSTER,														// team
 		"beast/default",													// default model/skin
@@ -810,16 +810,16 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"heinrichOrders",
 			"heinrichDeath",
 			"heinrichSilentDeath",
-			"heinrichFlameDeath",	//---- (SA)	added
+			"heinrichFlameDeath",
 			"heinrichPain",
-			"heinrichStay",			// stay - you're told to stay put
-			"heinrichFollow",		// follow - go with ordering player("i'm with you" rather than "yes sir!")
-			"heinrichStomp",		// deny - refuse orders(doing something else)
+			"heinrichStay", // stay - you're told to stay put
+			"heinrichFollow", // follow - go with ordering player ("i'm with you" rather than "yes sir!")
+			"heinrichStomp", // deny - refuse orders (doing something else)
 		},
 		AITEAM_NAZI,
 		"heinrich/default",
-		{WP_MONSTER_ATTACK1,WP_MONSTER_ATTACK2,WP_MONSTER_ATTACK3},	// attack3 is given to him by scripting
-		BBOX_LARGE, {72,72},		//(SA)height is not exact. just eyeballed.
+		{WP_MONSTER_ATTACK1,WP_MONSTER_ATTACK2,WP_MONSTER_ATTACK3}, // attack3 is given to him by scripting
+		BBOX_LARGE, {72,72}, // height is not exact. just eyeballed.
 		AIFL_NO_FLAME_DAMAGE|AIFL_WALKFORWARD|AIFL_NO_RELOAD,
 		AIFunc_Heinrich_MeleeStart, AIFunc_Heinrich_RaiseDeadStart, AIFunc_Heinrich_SpawnSpiritsStart,
 		NULL,
@@ -857,14 +857,14 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"partisanAttackPlayer",
 			"partisanOrders",
 			"partisanDeath",
-			"partisanSilentDeath",	//---- (SA)	added
-			"partisanFlameDeath",	//---- (SA)	added
+			"partisanSilentDeath",
+			"partisanFlameDeath",
 			"partisanPain",
 			"partisanStay",
 			"partisanFollow",
 			"partisanOrdersDeny",
 		},
-		AITEAM_ALLIES, //---- (SA)	changed affiliation for DK
+		AITEAM_ALLIES, // changed affiliation for DK
 		"partisan/default",
 		{WP_THOMPSON},
 		BBOX_SMALL, {32,48},
@@ -905,14 +905,14 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 			"civilianAttackPlayer",
 			"civilianOrders",
 			"civilianDeath",
-			"civilianSilentDeath",	//---- (SA)	added
-			"civilianFlameDeath",	//---- (SA)	added
+			"civilianSilentDeath",
+			"civilianFlameDeath",
 			"civilianPain",
 			"civilianStay",
 			"civilianFollow",
 			"civilianOrdersDeny",
 		},
-		AITEAM_NEUTRAL,			//---- (SA)	changed affiliation for DK
+		AITEAM_NEUTRAL, // changed affiliation for DK
 		"civilian/default",
 		{0},
 		BBOX_SMALL, {32,48},
@@ -929,7 +929,7 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 // Bounding boxes
 static vec3_t bbmins[2] = {{-18, -18, -24},{-32,-32,-24}};
 static vec3_t bbmaxs[2] = {{18, 18, 48},{32, 32, 68}};
-//static float crouchMaxZ[2] = {32,48};	// same as player, will head be ok?
+//static float crouchMaxZ[2] = {32,48}; // same as player, will head be ok?
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
@@ -941,8 +941,8 @@ cast_weapon_info_t weaponInfo;
 =======================================================================================================================================
 AIChar_SetBBox
 
-  FIXME: pass a maxZ into this so we can tailor the height for each character,
-  since height isn't important for the AAS routing(whereas width is very important)
+FIXME: pass a maxZ into this so we can tailor the height for each character, since height isn't important for the AAS routing (whereas
+width is very important).
 =======================================================================================================================================
 */
 void AIChar_SetBBox(gentity_t *ent, cast_state_t *cs, qboolean useHeadTag) {
@@ -965,7 +965,7 @@ void AIChar_SetBBox(gentity_t *ent, cast_state_t *cs, qboolean useHeadTag) {
 		ent->client->ps.crouchMaxZ = aiDefaults[cs->aiCharacter].crouchstandZ[0];
 		ent->s.density = cs->aasWorldIndex;
 	} else if (trap_GetTag(ent->s.number, "tag_head", &or)) { // if not found, then just leave it
-		or.origin[2] -= ent->client->ps.origin[2];  // convert to local coordinates
+		or.origin[2] -= ent->client->ps.origin[2]; // convert to local coordinates
 		or.origin[2] += 11;
 
 		if (or.origin[2] < 0) {
@@ -977,7 +977,6 @@ void AIChar_SetBBox(gentity_t *ent, cast_state_t *cs, qboolean useHeadTag) {
 		}
 
 		memset(&tr, 0, sizeof(tr));
-
 		// check that the new height is ok first, otherwise leave it alone
 		VectorCopy(bbmins[cs->aasWorldIndex], bbox[0]);
 		VectorCopy(bbmaxs[cs->aasWorldIndex], bbox[1]);
@@ -1009,24 +1008,25 @@ void AIChar_SetBBox(gentity_t *ent, cast_state_t *cs, qboolean useHeadTag) {
 AIChar_Death
 =======================================================================================================================================
 */
-void AIChar_Death(gentity_t *ent, gentity_t *attacker, int damage, int mod) { //---- (SA)	added mod
+void AIChar_Death(gentity_t *ent, gentity_t *attacker, int damage, int mod) { // added mod
+
 	// need this check otherwise sound will overwrite gib message
 	if (ent->health > GIB_HEALTH) {
 		if (ent->client->ps.eFlags & EF_HEADSHOT) {
 			G_AddEvent(ent, EV_GENERAL_SOUND, G_SoundIndex(aiDefaults[ent->aiCharacter].soundScripts[QUIETDEATHSOUNDSCRIPT]));
 		} else {
-			switch (mod) { //---- (SA)	modified to add 'quiet' deaths
-			case MOD_KNIFE_STEALTH:
-			case MOD_SNIPERRIFLE:
-			case MOD_SNOOPERSCOPE:
-				G_AddEvent(ent, EV_GENERAL_SOUND, G_SoundIndex(aiDefaults[ent->aiCharacter].soundScripts[QUIETDEATHSOUNDSCRIPT]));
-				break;
-			case MOD_FLAMETHROWER:
-				G_AddEvent(ent, EV_GENERAL_SOUND, G_SoundIndex(aiDefaults[ent->aiCharacter].soundScripts[FLAMEDEATHSOUNDSCRIPT]));      //---- (SA)	added
-				break;
-			default:
-				G_AddEvent(ent, EV_GENERAL_SOUND, G_SoundIndex(aiDefaults[ent->aiCharacter].soundScripts[DEATHSOUNDSCRIPT]));
-				break;
+			switch (mod) { // modified to add 'quiet' deaths
+				case MOD_KNIFE_STEALTH:
+				case MOD_SNIPERRIFLE:
+				case MOD_SNOOPERSCOPE:
+					G_AddEvent(ent, EV_GENERAL_SOUND, G_SoundIndex(aiDefaults[ent->aiCharacter].soundScripts[QUIETDEATHSOUNDSCRIPT]));
+					break;
+				case MOD_FLAMETHROWER:
+					G_AddEvent(ent, EV_GENERAL_SOUND, G_SoundIndex(aiDefaults[ent->aiCharacter].soundScripts[FLAMEDEATHSOUNDSCRIPT]));
+					break;
+				default:
+					G_AddEvent(ent, EV_GENERAL_SOUND, G_SoundIndex(aiDefaults[ent->aiCharacter].soundScripts[DEATHSOUNDSCRIPT]));
+					break;
 			}
 		}
 	}
@@ -1084,8 +1084,8 @@ AIChar_Pain
 =======================================================================================================================================
 */
 void AIChar_Pain(gentity_t *ent, gentity_t *attacker, int damage, vec3_t point) {
-	#define PAIN_THRESHOLD      25
-	#define STUNNED_THRESHOLD   30
+	#define PAIN_THRESHOLD 25
+	#define STUNNED_THRESHOLD 30
 	cast_state_t *cs;
 	float dist;
 	qboolean forceStun = qfalse;
@@ -1094,7 +1094,7 @@ void AIChar_Pain(gentity_t *ent, gentity_t *attacker, int damage, vec3_t point) 
 	cs = AICast_GetCastState(ent->s.number);
 
 	if (g_testPain.integer == 1) {
-		ent->health = ent->client->pers.maxHealth;  // debugging
+		ent->health = ent->client->pers.maxHealth; // debugging
 	}
 
 	if (g_testPain.integer != 2) {
@@ -1105,7 +1105,6 @@ void AIChar_Pain(gentity_t *ent, gentity_t *attacker, int damage, vec3_t point) 
 
 	painThreshold = PAIN_THRESHOLD * cs->attributes[PAIN_THRESHOLD_SCALE];
 	stunnedThreshold = STUNNED_THRESHOLD * cs->attributes[PAIN_THRESHOLD_SCALE];
-
 	// if they are already playing another animation, we might get confused and cut it off, so don't play a pain
 	if (ent->client->ps.torsoTimer || ent->client->ps.legsTimer) {
 		return;
@@ -1117,7 +1116,7 @@ void AIChar_Pain(gentity_t *ent, gentity_t *attacker, int damage, vec3_t point) 
 
 	if (attacker->s.weapon == WP_FLAMETHROWER && !(cs->aiFlags & AIFL_NO_FLAME_DAMAGE)) { // flames should be recognized more often, since they stay onfire until they're dead anyway
 		painThreshold = 1;
-		stunnedThreshold = 99999;   // dont be stunned
+		stunnedThreshold = 99999; // dont be stunned
 	}
 	// HACK: if the attacker is using the flamethrower, don't do any special pain anim or sound
 	// FIXME: we should pass in the MOD here, since they could have fired a grenade, then switched weapons
@@ -1149,6 +1148,7 @@ void AIChar_Pain(gentity_t *ent, gentity_t *attacker, int damage, vec3_t point) 
 	// if it's been a long time since our last pain, scale it up
 	if (cs->painSoundTime < level.time - 1000) {
 		float scale;
+
 		scale = (float)(level.time - cs->painSoundTime - 1000) / 1000.0;
 
 		if (scale > 4.0) {
@@ -1171,9 +1171,7 @@ void AIChar_Pain(gentity_t *ent, gentity_t *attacker, int damage, vec3_t point) 
 		cs->damageQuota = painThreshold + 1;
 	}
 	// if it's over the threshold, play a pain
-
 	// don't do this if crouching, or we might clip through the world
-
 	if (g_testPain.integer == 2 || (cs->damageQuota > painThreshold)) {
 		int delay;
 
@@ -1194,7 +1192,6 @@ void AIChar_Pain(gentity_t *ent, gentity_t *attacker, int damage, vec3_t point) 
 		}
 		// pause while we play a pain
 		delay = BG_AnimScriptEvent(&ent->client->ps, ANIM_ET_PAIN, qfalse, qtrue);
-
 		// turn off temporary conditions
 		BG_UpdateConditionValue(ent->s.number, ANIM_COND_STUNNED, 0, qfalse);
 		BG_UpdateConditionValue(ent->s.number, ANIM_COND_ENEMY_WEAPON, 0, qfalse);
@@ -1220,10 +1217,8 @@ void AIChar_Pain(gentity_t *ent, gentity_t *attacker, int damage, vec3_t point) 
 		// reset the quota
 		cs->damageQuota = 0;
 		cs->damageQuotaTime = 0;
-
-		cs->painSoundTime = cs->pauseTime + (int)(1000 * (g_gameskill.value / GSKILL_MAX));     // add a bit more of a buffer before the next one
+		cs->painSoundTime = cs->pauseTime + (int)(1000 * (g_gameskill.value / GSKILL_MAX)); // add a bit more of a buffer before the next one
 	}
-
 }
 
 /*
@@ -1235,7 +1230,6 @@ void AIChar_Sight(gentity_t *ent, gentity_t *other, int lastSight) {
 	cast_state_t *cs;
 
 	cs = AICast_GetCastState(ent->s.number);
-
 	// if we are in noattack mode, don't make sounds
 	if (cs->castScriptStatus.scriptNoAttackTime >= level.time) {
 		return;
@@ -1256,14 +1250,13 @@ void AIChar_Sight(gentity_t *ent, gentity_t *other, int lastSight) {
 
 		cs->firstSightTime = level.time;
 	}
-
 }
 
 /*
 =======================================================================================================================================
 AIChar_AttackSND
 
-  NOTE: this should just lookup a sound script for this character/weapon combo
+NOTE: this should just lookup a sound script for this character/weapon combo.
 =======================================================================================================================================
 */
 void AIChar_AttackSound(cast_state_t *cs) {
@@ -1282,7 +1275,7 @@ void AIChar_AttackSound(cast_state_t *cs) {
 	if (cs->noAttackTime >= level.time) {
 		return;
 	}
-	// Ridah, only yell when throwing grenades every now and then, since it's not very "stealthy"
+	// only yell when throwing grenades every now and then, since it's not very "stealthy"
 	if (cs->weaponNum == WP_GRENADE_LAUNCHER && rand()% 5) {
 		return;
 	}
@@ -1300,7 +1293,6 @@ void AIChar_AttackSound(cast_state_t *cs) {
 	} else {
 		G_AddEvent(ent, EV_GENERAL_SOUND, G_SoundIndex(aiDefaults[ent->aiCharacter].soundScripts[ATTACKSOUNDSCRIPT]));
 	}
-
 }
 
 /*
@@ -1328,7 +1320,7 @@ void AIChar_spawn(gentity_t *ent) {
 		}
 
 		if (newent == ent) {
-			break;      // we are the first in line
+			break;  // we are the first in line
 		}
 		// still waiting for someone else
 		ent->nextthink = level.time + FRAMETIME;
@@ -1343,19 +1335,16 @@ void AIChar_spawn(gentity_t *ent) {
 	if (lastCall == level.time) {
 		if (numCalls++ > 2) {
 			ent->nextthink = level.time + FRAMETIME;
-			return;     // spawned enough this frame already
+			return; // spawned enough this frame already
 		}
 	} else {
 		numCalls = 0;
 	}
 
 	lastCall = level.time;
-
 	aiCharDefaults = &aiDefaults[ent->aiCharacter];
-
 	// ............................
 	// setup weapon info
-
 	// starting weapons/ammo
 	memset(&weaponInfo, 0, sizeof(weaponInfo));
 
@@ -1378,8 +1367,7 @@ void AIChar_spawn(gentity_t *ent) {
 	// ............................
 
 	// create the character
-
-	//(there will always be an ent->aiSkin(SA))
+	// (there will always be an ent->aiSkin)
 	//newent = AICast_CreateCharacter(ent, aiCharDefaults->attributes, &weaponInfo, aiCharDefaults->name, ent->aiSkin, ent->aihSkin, "m", "7", "100");
 	//newent = AICast_CreateCharacter(ent, aiCharDefaults->attributes, &weaponInfo, ent->aiName, ent->aiSkin, ent->aihSkin, "m", "7", "100");
 	name = "dummy";
@@ -1462,11 +1450,9 @@ void AIChar_spawn(gentity_t *ent) {
 		G_FreeEntity(ent);
 		return;
 	}
-	// copy any character-specific information to the new entity(like editor fields, etc)
-
+	// copy any character-specific information to the new entity (like editor fields, etc.)
 	// copy this across so killing ai can trigger a target
 	newent->target = ent->target;
-
 	newent->classname = ent->classname;
 	newent->r.svFlags |= (ent->r.svFlags & SVF_NOFOOTSTEPS);
 	newent->aiCharacter = ent->aiCharacter;
@@ -1479,19 +1465,14 @@ void AIChar_spawn(gentity_t *ent) {
 	}
 
 	newent->client->ps.teamNum = newent->aiTeam;
-
 	// kill the old entity
 	G_FreeEntity(ent);
 	// attach to the new entity
 	ent = newent;
-
 	// precache any specific sounds
-
 	// ...
-
 	// get the cast state
 	cs = AICast_GetCastState(ent->s.number);
-
 	// setup any character specific cast_state variables
 	cs->deathfunc = AIChar_Death;
 	cs->painfunc = AIChar_Pain;
@@ -1505,7 +1486,6 @@ void AIChar_spawn(gentity_t *ent) {
 		newent->client->ps.eFlags |= EF_STAND_IDLE2;
 	}
 	// attach any event specific functions(pain, death, etc)
-
 	//cs->getDeathAnim = AIChar_getDeathAnim;
 	cs->sightfunc = AIChar_Sight;
 
@@ -1518,7 +1498,6 @@ void AIChar_spawn(gentity_t *ent) {
 	cs->aifuncAttack1 = aiCharDefaults->aifuncAttack1;
 	cs->aifuncAttack2 = aiCharDefaults->aifuncAttack2;
 	cs->aifuncAttack3 = aiCharDefaults->aifuncAttack3;
-
 	// looping sound?
 	if (aiCharDefaults->loopingSound) {
 		ent->s.loopSound = G_SoundIndex(aiCharDefaults->loopingSound);
@@ -1540,10 +1519,8 @@ void AIChar_spawn(gentity_t *ent) {
 	// init scripting
 	cs->castScriptStatus.castScriptEventIndex = -1;
 	cs->castScriptStatus.scriptAttackEnt = -1;
-
 	// set crouch move speed
 	ent->client->ps.crouchSpeedScale = cs->attributes[CROUCHING_SPEED] / cs->attributes[RUNNING_SPEED];
-
 	// check for some anims which we can use for special behaviours
 	if (BG_GetAnimScriptEvent(&ent->client->ps, ANIM_ET_ROLL)>= 0) {
 		cs->aiFlags |= AIFL_ROLL_ANIM;
@@ -1636,7 +1613,7 @@ void SP_ai_zombie(gentity_t *ent) {
 	AICast_DelayedSpawnCast(ent, AICHAR_ZOMBIE);
 }
 
-//---- (SA)	added
+// added
 //----------------------------------------------------------------------------------------------------------------------------
 /*QUAKED ai_warzombie(1 0.25 0)(-16 -16 -24)(16 16 64)TriggerSpawn NoRevive PortalZombie
 warrior zombie entity
@@ -1653,7 +1630,7 @@ SP_ai_warzombie
 void SP_ai_warzombie(gentity_t *ent) {
 	AICast_DelayedSpawnCast(ent, AICHAR_WARZOMBIE);
 }
-//---- (SA)	end
+// end
 
 //----------------------------------------------------------------------------------------------------------------------------
 /*QUAKED ai_venom(1 0.25 0)(-16 -16 -24)(16 16 64)TriggerSpawn NoRevive

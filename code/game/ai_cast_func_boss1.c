@@ -36,14 +36,13 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "g_local.h"
 #include "../qcommon/q_shared.h"
-#include "../botlib/botlib.h"      //bot lib interface
+#include "../botlib/botlib.h" // bot lib interface
 #include "../botlib/be_aas.h"
 #include "../botlib/be_ea.h"
 #include "../botlib/be_ai_gen.h"
 #include "../botlib/be_ai_goal.h"
 #include "../botlib/be_ai_move.h"
-#include "../botlib/botai.h"          //bot ai interface
-
+#include "../botlib/botai.h" // bot ai interface
 #include "ai_cast.h"
 
 //=================================================================================
@@ -52,17 +51,23 @@ If you have questions concerning this license or the applicable additional terms
 //
 //=================================================================================
 
-#define HELGA_SPIRIT_BUILDUP_TIME       8000    // last for this long
-#define HELGA_SPIRIT_FADEOUT_TIME       1000
-#define HELGA_SPIRIT_DLIGHT_RADIUS_MAX  384
-#define HELGA_SPIRIT_FIRE_INTERVAL      1000
+#define HELGA_SPIRIT_BUILDUP_TIME 8000 // last for this long
+#define HELGA_SPIRIT_FADEOUT_TIME 1000
+#define HELGA_SPIRIT_DLIGHT_RADIUS_MAX 384
+#define HELGA_SPIRIT_FIRE_INTERVAL 1000
 
 extern int lastZombieSpiritAttack;
 
+/*
+=======================================================================================================================================
+AIFunc_Helga_SpiritAttack
+=======================================================================================================================================
+*/
 char *AIFunc_Helga_SpiritAttack(cast_state_t *cs) {
 	gentity_t *ent;
 
 	cs->aiFlags |= AIFL_SPECIAL_FUNC;
+
 	ent = &g_entities[cs->entityNum];
 	// make sure we're still playing the right anim
 	if ((ent->client->ps.torsoAnim & ~ANIM_TOGGLEBIT) - BG_AnimationIndexForString("attack1", cs->entityNum)) {
@@ -82,7 +87,6 @@ char *AIFunc_Helga_SpiritAttack(cast_state_t *cs) {
 	}
 	// we are firing this weapon, so record it
 	cs->weaponFireTimes[WP_MONSTER_ATTACK2] = level.time;
-
 	// once an attack has started, only abort once the player leaves our view, or time runs out
 	if (cs->thinkFuncChangeTime < level.time - HELGA_SPIRIT_BUILDUP_TIME) {
 		// if enough time has elapsed, finish this attack
@@ -95,18 +99,22 @@ char *AIFunc_Helga_SpiritAttack(cast_state_t *cs) {
 		// set timers
 		ent->client->ps.torsoTimer = 1000;
 		ent->client->ps.legsTimer = 1000;
-
 		// draw the client-side effect
 		ent->client->ps.eFlags |= EF_MONSTER_EFFECT;
-
 		// inform the client of our enemies position
 		VectorCopy(g_entities[cs->enemyNum].client->ps.origin, ent->s.origin2);
+
 		ent->s.origin2[2] += g_entities[cs->enemyNum].client->ps.viewheight;
 	}
 
 	return NULL;
 }
 
+/*
+=======================================================================================================================================
+AIFunc_Helga_SpiritAttack_Start
+=======================================================================================================================================
+*/
 char *AIFunc_Helga_SpiritAttack_Start(cast_state_t *cs) {
 	gentity_t *ent;
 
@@ -114,7 +122,6 @@ char *AIFunc_Helga_SpiritAttack_Start(cast_state_t *cs) {
 	ent->s.otherEntityNum2 = cs->enemyNum;
 	ent->s.effect1Time = level.time;
 	cs->aiFlags |= AIFL_SPECIAL_FUNC;
-
 	// dont turn
 	cs->ideal_viewangles[YAW] = cs->viewangles[YAW];
 	// play an anim
@@ -131,12 +138,13 @@ char *AIFunc_Helga_SpiritAttack_Start(cast_state_t *cs) {
 //
 //=================================================================================
 
-#define NUM_HELGA_ANIMS     3
-#define MAX_HELGA_IMPACTS   3
+#define NUM_HELGA_ANIMS 3
+#define MAX_HELGA_IMPACTS 3
+
 int helgaHitTimes[NUM_HELGA_ANIMS][MAX_HELGA_IMPACTS] = { // up to three hits per attack
-	{ANIMLENGTH(16,20),-1},
-	{ANIMLENGTH(11,20),ANIMLENGTH(19,20),-1},
-	{ANIMLENGTH(10,20),ANIMLENGTH(17,20),ANIMLENGTH(26,20)},
+	{ANIMLENGTH(16, 20), -1},
+	{ANIMLENGTH(11, 20), ANIMLENGTH(19, 20), -1},
+	{ANIMLENGTH(10, 20), ANIMLENGTH(17, 20), ANIMLENGTH(26, 20)},
 };
 int helgaHitDamage[NUM_HELGA_ANIMS] = {
 	20,
@@ -167,15 +175,14 @@ char *AIFunc_Helga_Melee(cast_state_t *cs) {
 	}
 
 	if (cs->enemyNum < 0) {
-		ent->client->ps.legsTimer = 0;      // allow legs us to move
-		ent->client->ps.torsoTimer = 0;     // allow legs us to move
+		ent->client->ps.legsTimer = 0; // allow legs us to move
+		ent->client->ps.torsoTimer = 0;  // allow legs us to move
 		cs->aiFlags &= ~AIFL_SPECIAL_FUNC;
 		return AIFunc_DefaultStart(cs);
 	}
 
 	ecs = AICast_GetCastState(cs->enemyNum);
 	enemy = &g_entities[cs->enemyNum];
-
 	anim = (ent->client->ps.torsoAnim & ~ANIM_TOGGLEBIT) - BG_AnimationIndexForString("attack3", cs->entityNum);
 
 	if (anim < 0 || anim >= NUM_HELGA_ANIMS) {
@@ -188,12 +195,14 @@ char *AIFunc_Helga_Melee(cast_state_t *cs) {
 	if (cs->animHitCount < MAX_HELGA_IMPACTS && helgaHitTimes[anim][cs->animHitCount] >= 0) {
 		// face them
 		VectorCopy(cs->bs->origin, vec);
+
 		vec[2] += ent->client->ps.viewheight;
+
 		VectorSubtract(enemy->client->ps.origin, vec, vec);
 		VectorNormalize(vec);
 		vectoangles(vec, cs->ideal_viewangles);
-		cs->ideal_viewangles[PITCH] = AngleNormalize180(cs->ideal_viewangles[PITCH]);
 
+		cs->ideal_viewangles[PITCH] = AngleNormalize180(cs->ideal_viewangles[PITCH]);
 		// get hitDelay
 		if (!cs->animHitCount) {
 			hitDelay = helgaHitTimes[anim][cs->animHitCount];
@@ -211,8 +220,7 @@ char *AIFunc_Helga_Melee(cast_state_t *cs) {
 				trap_Trace(&tr, ent->r.currentOrigin, NULL, NULL, enemy->r.currentOrigin, ent->s.number, MASK_SHOT);
 
 				if (tr.entityNum == cs->enemyNum) {
-					G_Damage(&g_entities[tr.entityNum], ent, ent, vec3_origin, tr.endpos,
-							  helgaHitDamage[anim], 0, MOD_GAUNTLET);
+					G_Damage(&g_entities[tr.entityNum], ent, ent, vec3_origin, tr.endpos, helgaHitDamage[anim], 0, MOD_GAUNTLET);
 					G_AddEvent(enemy, EV_GENERAL_SOUND, G_SoundIndex(aiDefaults[ent->aiCharacter].soundScripts[STAYSOUNDSCRIPT]));
 				}
 			}
@@ -224,6 +232,7 @@ char *AIFunc_Helga_Melee(cast_state_t *cs) {
 	// if they are outside range, move forward
 	AICast_PredictMovement(ecs, 2, 0.3, &move, &g_entities[cs->enemyNum].client->pers.cmd, -1);
 	VectorSubtract(move.endpos, cs->bs->origin, vec);
+
 	vec[2] = 0;
 	enemyDist = VectorLength(vec);
 	enemyDist -= g_entities[cs->enemyNum].r.maxs[0];
@@ -234,7 +243,7 @@ char *AIFunc_Helga_Melee(cast_state_t *cs) {
 		//	cs->castScriptStatus.scriptNoMoveTime = 0;
 		trap_EA_MoveForward(cs->entityNum);
 		//}
-		//ent->client->ps.legsTimer = 0;		// allow legs us to move
+		//ent->client->ps.legsTimer = 0; // allow legs us to move
 	}
 
 	return NULL;
@@ -250,27 +259,23 @@ char *AIFunc_Helga_MeleeStart(cast_state_t *cs) {
 
 	ent = &g_entities[cs->entityNum];
 	ent->s.effect1Time = level.time;
+
 	cs->ideal_viewangles[YAW] = cs->viewangles[YAW];
 	cs->weaponFireTimes[cs->weaponNum] = level.time;
 	cs->animHitCount = 0;
 	cs->aiFlags |= AIFL_SPECIAL_FUNC;
-
 	// face them
 	AICast_AimAtEnemy(cs);
-
 	// play an anim
 	BG_UpdateConditionValue(cs->entityNum, ANIM_COND_WEAPON, cs->weaponNum, qtrue);
 	BG_AnimScriptEvent(&ent->client->ps, ANIM_ET_FIREWEAPON, qfalse, qtrue);
-
 	// play a sound
 	G_AddEvent(ent, EV_GENERAL_SOUND, G_SoundIndex(aiDefaults[ent->aiCharacter].soundScripts[ATTACKSOUNDSCRIPT]));
 
 	cs->aifunc = AIFunc_Helga_Melee;
-	cs->aifunc(cs);   // think once now, to prevent a delay
+	cs->aifunc(cs); // think once now, to prevent a delay
 	return "AIFunc_Helga_Melee";
 }
-
-//===================================================================
 
 /*
 =======================================================================================================================================
@@ -298,7 +303,7 @@ char *AIFunc_FlameZombie_Portal(cast_state_t *cs) {
 			AICast_UpdateVisibility(&g_entities[cs->entityNum], player, qfalse, qtrue);
 		}
 
-		ent->s.time2 = 0;   // turn spawning effect off
+		ent->s.time2 = 0; // turn spawning effect off
 		return AIFunc_DefaultStart(cs);
 	}
 
@@ -313,18 +318,14 @@ AIFunc_FlameZombie_PortalStart
 char *AIFunc_FlameZombie_PortalStart(cast_state_t *cs) {
 	gentity_t *ent = &g_entities[cs->entityNum];
 
-	ent->s.time2 = level.time + 200;    // hijacking this for portal spawning effect
-
+	ent->s.time2 = level.time + 200; // hijacking this for portal spawning effect
 	// play a special animation
-	ent->client->ps.torsoAnim =
-		((ent->client->ps.torsoAnim & ANIM_TOGGLEBIT) ^ ANIM_TOGGLEBIT)|BOTH_EXTRA1;
-	ent->client->ps.legsAnim =
-		((ent->client->ps.legsAnim & ANIM_TOGGLEBIT) ^ ANIM_TOGGLEBIT)|BOTH_EXTRA1;
+	ent->client->ps.torsoAnim = ((ent->client->ps.torsoAnim & ANIM_TOGGLEBIT) ^ ANIM_TOGGLEBIT)|BOTH_EXTRA1;
+	ent->client->ps.legsAnim = ((ent->client->ps.legsAnim & ANIM_TOGGLEBIT) ^ ANIM_TOGGLEBIT)|BOTH_EXTRA1;
 	ent->client->ps.torsoTimer = PORTAL_ZOMBIE_SPAWNTIME - 200;
 	ent->client->ps.legsTimer = PORTAL_ZOMBIE_SPAWNTIME - 200;
 
 	cs->thinkFuncChangeTime = level.time;
-
 	cs->aifunc = AIFunc_FlameZombie_Portal;
 	return "AIFunc_FlameZombie_Portal";
 }
@@ -335,9 +336,7 @@ char *AIFunc_FlameZombie_PortalStart(cast_state_t *cs) {
 //
 //=================================================================================
 
-//
 // Special Sound Precache
-//
 
 typedef enum {
 	HEINRICH_SWORDIMPACT,
@@ -366,8 +365,14 @@ char *heinrichSounds[MAX_HEINRICH_SOUNDS] = {
 	"heinrichTauntGoodHealth",
 	"heinrichTauntLowHealth",
 };
+
 int heinrichSoundIndex[MAX_HEINRICH_SOUNDS];
 
+/*
+=======================================================================================================================================
+AICast_Heinrich_SoundPrecache
+=======================================================================================================================================
+*/
 void AICast_Heinrich_SoundPrecache(void) {
 	int i;
 
@@ -376,9 +381,15 @@ void AICast_Heinrich_SoundPrecache(void) {
 	}
 }
 
+/*
+=======================================================================================================================================
+AICast_Heinrich_Taunt
+=======================================================================================================================================
+*/
 void AICast_Heinrich_Taunt(cast_state_t *cs) {
 	gentity_t *ent = &g_entities[cs->entityNum];
 	static int lastTaunt;
+
 	// sound
 	if (ent->health > cs->attributes[STARTING_HEALTH] * 0.25) {
 		if (lastTaunt > level.time || lastTaunt < level.time - 20000) {
@@ -393,10 +404,15 @@ void AICast_Heinrich_Taunt(cast_state_t *cs) {
 	}
 }
 
-#define HEINRICH_LUNGE_DELAY    ANIMLENGTH(15,20)
-#define HEINRICH_LUNGE_RANGE    170
-#define HEINRICH_LUNGE_DAMAGE(50 + rand()% 20)
+#define HEINRICH_LUNGE_DELAY ANIMLENGTH(15,20)
+#define HEINRICH_LUNGE_RANGE 170
+#define HEINRICH_LUNGE_DAMAGE (50 + rand()% 20)
 
+/*
+=======================================================================================================================================
+AIFunc_Heinrich_SwordLunge
+=======================================================================================================================================
+*/
 char *AIFunc_Heinrich_SwordLunge(cast_state_t *cs) {
 	gentity_t *ent = &g_entities[cs->entityNum];
 	trace_t *tr;
@@ -441,7 +457,8 @@ char *AIFunc_Heinrich_SwordLunge(cast_state_t *cs) {
 			cs->castScriptStatus.scriptNoMoveTime = 0;
 			trap_EA_MoveForward(cs->entityNum);
 		}
-*/                                                                                                                                                                                                           // ready for damage?
+*/
+		// ready for damage?
 		if (cs->thinkFuncChangeTime < level.time - HEINRICH_LUNGE_DELAY) {
 			cs->aiFlags |= AIFL_MISCFLAG1;
 			// do melee damage
@@ -455,6 +472,7 @@ char *AIFunc_Heinrich_SwordLunge(cast_state_t *cs) {
 	// if they are outside range, move forward
 	AICast_PredictMovement(ecs, 2, 0.3, &move, &g_entities[cs->enemyNum].client->pers.cmd, -1);
 	VectorSubtract(move.endpos, cs->bs->origin, vec);
+
 	vec[2] = 0;
 	enemyDist = VectorLength(vec);
 	enemyDist -= g_entities[cs->enemyNum].r.maxs[0];
@@ -463,7 +481,7 @@ char *AIFunc_Heinrich_SwordLunge(cast_state_t *cs) {
 	if (enemyDist > 30) { // we can get closer
 		if (ent->client->ps.legsTimer) {
 			cs->castScriptStatus.scriptNoMoveTime = level.time + 100;
-			ent->client->ps.legsTimer = 0;      // allow legs to move us
+			ent->client->ps.legsTimer = 0; // allow legs to move us
 		}
 
 		if (cs->castScriptStatus.scriptNoMoveTime < level.time) {
@@ -474,6 +492,11 @@ char *AIFunc_Heinrich_SwordLunge(cast_state_t *cs) {
 	return NULL;
 }
 
+/*
+=======================================================================================================================================
+AIFunc_Heinrich_SwordLungeStart
+=======================================================================================================================================
+*/
 char *AIFunc_Heinrich_SwordLungeStart(cast_state_t *cs) {
 	gentity_t *ent = &g_entities[cs->entityNum];
 //	gentity_t *enemy = &g_entities[cs->enemyNum];
@@ -492,10 +515,15 @@ char *AIFunc_Heinrich_SwordLungeStart(cast_state_t *cs) {
 	return "AIFunc_Heinrich_SwordLunge";
 }
 
-#define HEINRICH_KNOCKBACK_DELAY    ANIMLENGTH(26,20)
-#define HEINRICH_KNOCKBACK_RANGE    150
-#define HEINRICH_KNOCKBACK_DAMAGE(60 + rand()% 20)
+#define HEINRICH_KNOCKBACK_DELAY ANIMLENGTH(26,20)
+#define HEINRICH_KNOCKBACK_RANGE 150
+#define HEINRICH_KNOCKBACK_DAMAGE (60 + rand()% 20)
 
+/*
+=======================================================================================================================================
+AIFunc_Heinrich_SwordKnockback
+=======================================================================================================================================
+*/
 char *AIFunc_Heinrich_SwordKnockback(cast_state_t *cs) {
 	gentity_t *ent = &g_entities[cs->entityNum];
 	trace_t *tr;
@@ -536,7 +564,8 @@ char *AIFunc_Heinrich_SwordKnockback(cast_state_t *cs) {
 			cs->castScriptStatus.scriptNoMoveTime = 0;
 			trap_EA_MoveForward(cs->entityNum);
 		}
-*/                                                                                                                                                                                                           // ready for damage?
+*/
+		// ready for damage?
 		if (cs->thinkFuncChangeTime < level.time - HEINRICH_KNOCKBACK_DELAY) {
 			cs->aiFlags |= AIFL_MISCFLAG1;
 			// do melee damage
@@ -563,6 +592,11 @@ char *AIFunc_Heinrich_SwordKnockback(cast_state_t *cs) {
 	return NULL;
 }
 
+/*
+=======================================================================================================================================
+AIFunc_Heinrich_SwordKnockbackStart
+=======================================================================================================================================
+*/
 char *AIFunc_Heinrich_SwordKnockbackStart(cast_state_t *cs) {
 	gentity_t *ent = &g_entities[cs->entityNum];
 //	gentity_t *enemy = &g_entities[cs->enemyNum];
@@ -587,10 +621,15 @@ char *AIFunc_Heinrich_SwordKnockbackStart(cast_state_t *cs) {
 	return "AIFunc_Heinrich_SwordKnockback";
 }
 
-#define HEINRICH_SLASH_DELAY    ANIMLENGTH(17,25)
-#define HEINRICH_SLASH_RANGE    140
-#define HEINRICH_SLASH_DAMAGE(30 + rand()% 15)
+#define HEINRICH_SLASH_DELAY ANIMLENGTH (17, 25)
+#define HEINRICH_SLASH_RANGE 140
+#define HEINRICH_SLASH_DAMAGE (30 + rand()% 15)
 
+/*
+=======================================================================================================================================
+AIFunc_Heinrich_SwordSideSlash
+=======================================================================================================================================
+*/
 char *AIFunc_Heinrich_SwordSideSlash(cast_state_t *cs) {
 	gentity_t *ent = &g_entities[cs->entityNum];
 	trace_t *tr;
@@ -648,6 +687,7 @@ char *AIFunc_Heinrich_SwordSideSlash(cast_state_t *cs) {
 	// if they are outside range, move forward
 	AICast_PredictMovement(ecs, 2, 0.3, &move, &g_entities[cs->enemyNum].client->pers.cmd, -1);
 	VectorSubtract(move.endpos, cs->bs->origin, vec);
+
 	vec[2] = 0;
 	enemyDist = VectorLength(vec);
 	enemyDist -= g_entities[cs->enemyNum].r.maxs[0];
@@ -656,7 +696,7 @@ char *AIFunc_Heinrich_SwordSideSlash(cast_state_t *cs) {
 	if (enemyDist > 30) { // we can get closer
 		if (ent->client->ps.legsTimer) {
 			cs->castScriptStatus.scriptNoMoveTime = level.time + 100;
-			ent->client->ps.legsTimer = 0;      // allow legs to move us
+			ent->client->ps.legsTimer = 0; // allow legs to move us
 		}
 
 		if (cs->castScriptStatus.scriptNoMoveTime < level.time) {
@@ -667,6 +707,11 @@ char *AIFunc_Heinrich_SwordSideSlash(cast_state_t *cs) {
 	return NULL;
 }
 
+/*
+=======================================================================================================================================
+AIFunc_Heinrich_SwordSideSlashStart
+=======================================================================================================================================
+*/
 char *AIFunc_Heinrich_SwordSideSlashStart(cast_state_t *cs) {
 	gentity_t *ent = &g_entities[cs->entityNum];
 
@@ -686,11 +731,16 @@ char *AIFunc_Heinrich_SwordSideSlashStart(cast_state_t *cs) {
 	return "AIFunc_Heinrich_SwordSideSlash";
 }
 
-#define HEINRICH_STOMP_DELAY        900
-#define HEINRICH_STOMP_RANGE        1024.0
-#define HEINRICH_STOMP_VELOCITY_Z   420
-#define HEINRICH_STOMP_DAMAGE       35
+#define HEINRICH_STOMP_DELAY 900
+#define HEINRICH_STOMP_RANGE 1024.0
+#define HEINRICH_STOMP_VELOCITY_Z 420
+#define HEINRICH_STOMP_DAMAGE 35
 
+/*
+=======================================================================================================================================
+AIFunc_Heinrich_Earthquake
+=======================================================================================================================================
+*/
 char *AIFunc_Heinrich_Earthquake(cast_state_t *cs) {
 	gentity_t *ent = &g_entities[cs->entityNum];
 	gentity_t *enemy;
@@ -722,6 +772,7 @@ char *AIFunc_Heinrich_Earthquake(cast_state_t *cs) {
 
 		AICast_PredictMovement(ecs, 2, 0.5, &move, &g_entities[cs->enemyNum].client->pers.cmd, -1);
 		VectorSubtract(move.endpos, cs->bs->origin, vec);
+
 		vec[2] = 0;
 		enemyDist = VectorLength(vec);
 		enemyDist -= g_entities[cs->enemyNum].r.maxs[0];
@@ -730,13 +781,14 @@ char *AIFunc_Heinrich_Earthquake(cast_state_t *cs) {
 		if (enemyDist < 140) {
 			// combo attack
 			rnd = rand()% 3;
+
 			switch (rnd) {
-			case 0:
-				return AIFunc_Heinrich_SwordSideSlashStart(cs);
-			case 1:
-				return AIFunc_Heinrich_SwordKnockbackStart(cs);
-			case 2:
-				return AIFunc_Heinrich_SwordLungeStart(cs);
+				case 0:
+					return AIFunc_Heinrich_SwordSideSlashStart(cs);
+				case 1:
+					return AIFunc_Heinrich_SwordKnockbackStart(cs);
+				case 2:
+					return AIFunc_Heinrich_SwordLungeStart(cs);
 			}
 		} else { // back to roaming
 			ent->client->ps.legsTimer = 0;
@@ -767,7 +819,6 @@ char *AIFunc_Heinrich_Earthquake(cast_state_t *cs) {
 	}
 
 	enemyDist = Distance(enemy->s.pos.trBase, ent->s.pos.trBase);
-
 	// do the earthquake effects
 	if (cs->thinkFuncChangeTime < level.time - HEINRICH_STOMP_DELAY) {
 		// throw the player into the air, if they are on the ground
@@ -780,6 +831,7 @@ char *AIFunc_Heinrich_Earthquake(cast_state_t *cs) {
 
 			VectorSubtract(ent->s.pos.trBase, enemy->s.pos.trBase, enemyVec);
 			VectorScale(enemyVec, 2.0 * (0.6 + 0.5 * random()) * scale * (0.6 + 0.6 * (1.0 - (enemyDist / HEINRICH_STOMP_RANGE))), enemyVec);
+
 			enemyVec[2] = scale * HEINRICH_STOMP_VELOCITY_Z * (1.0 - 0.5 * (enemyDist / HEINRICH_STOMP_RANGE));
 			// bounce the player using this velocity
 			VectorAdd(enemy->client->ps.velocity, enemyVec, enemy->client->ps.velocity);
@@ -789,6 +841,11 @@ char *AIFunc_Heinrich_Earthquake(cast_state_t *cs) {
 	return NULL;
 }
 
+/*
+=======================================================================================================================================
+AIFunc_Heinrich_MeleeStart
+=======================================================================================================================================
+*/
 char *AIFunc_Heinrich_MeleeStart(cast_state_t *cs) {
 	gentity_t *ent = &g_entities[cs->entityNum];
 	gentity_t *enemy = &g_entities[cs->enemyNum];
@@ -805,53 +862,58 @@ char *AIFunc_Heinrich_MeleeStart(cast_state_t *cs) {
 	// clear flags
 	cs->aiFlags &= ~(AIFL_MISCFLAG1|AIFL_MISCFLAG2);
 	// decide which attack to use
-	if (VectorDistance(ent->r.currentOrigin, enemy->r.currentOrigin)< 60) {
-		rnd = 0;    // sword slash up close
-	} else if (VectorDistance(ent->r.currentOrigin, enemy->r.currentOrigin)>= HEINRICH_SLASH_RANGE) {
-		rnd = 1;    // too far away, stomp
+	if (VectorDistance(ent->r.currentOrigin, enemy->r.currentOrigin) < 60) {
+		rnd = 0; // sword slash up close
+	} else if (VectorDistance(ent->r.currentOrigin, enemy->r.currentOrigin) >= HEINRICH_SLASH_RANGE) {
+		rnd = 1; // too far away, stomp
 	} else {
 		// pick at random
 		rnd = rand()% 2;
 	}
 
 	switch (rnd) {
-	case 0:
-	{
-		int rnd = rand()% 3;
-		switch (rnd) {
 		case 0:
-			return AIFunc_Heinrich_SwordSideSlashStart(cs);
+		{
+			int rnd = rand()% 3;
+
+			switch (rnd) {
+				case 0:
+					return AIFunc_Heinrich_SwordSideSlashStart(cs);
+				case 1:
+					return AIFunc_Heinrich_SwordKnockbackStart(cs);
+				case 2:
+					return AIFunc_Heinrich_SwordLungeStart(cs);
+			}
+		}
+
 		case 1:
-			return AIFunc_Heinrich_SwordKnockbackStart(cs);
-		case 2:
-			return AIFunc_Heinrich_SwordLungeStart(cs);
-		}
-	}
+			// dont do stomp too often
+			if (lastStomp > level.time - 12000) { // plenty of time to let debris disappear
+				return NULL;
+			}
 
-	case 1:
-		// dont do stomp too often
-		if (lastStomp > level.time - 12000) { // plenty of time to let debris disappear
-			return NULL;
-		}
-
-		lastStomp = level.time;
-		cs->aiFlags |= AIFL_SPECIAL_FUNC;
-		// sound
-		G_AddEvent(ent, EV_GENERAL_SOUND, heinrichSoundIndex[HEINRICH_EARTHQUAKE_START]);
-		// play the anim
-		BG_PlayAnimName(&ent->client->ps, "attack7", ANIM_BP_BOTH, qtrue, qfalse, qtrue);
-		// start the func
-		cs->aifunc = AIFunc_Heinrich_Earthquake;
-		return "AIFunc_Heinrich_Earthquake";
+			lastStomp = level.time;
+			cs->aiFlags |= AIFL_SPECIAL_FUNC;
+			// sound
+			G_AddEvent(ent, EV_GENERAL_SOUND, heinrichSoundIndex[HEINRICH_EARTHQUAKE_START]);
+			// play the anim
+			BG_PlayAnimName(&ent->client->ps, "attack7", ANIM_BP_BOTH, qtrue, qfalse, qtrue);
+			// start the func
+			cs->aifunc = AIFunc_Heinrich_Earthquake;
+			return "AIFunc_Heinrich_Earthquake";
 	}
 	// shutup compiler
 	return NULL;
 }
 
-#define HEINRICH_RAISEDEAD_DELAY        1200
-#define HEINRICH_RAISEDEAD_COUNT        3
+#define HEINRICH_RAISEDEAD_DELAY 1200
+#define HEINRICH_RAISEDEAD_COUNT 3
 int lastRaise;
-
+/*
+=======================================================================================================================================
+AIFunc_Heinrich_RaiseDead
+=======================================================================================================================================
+*/
 char *AIFunc_Heinrich_RaiseDead(cast_state_t *cs) {
 	int i;
 	gentity_t *ent = &g_entities[cs->entityNum];
@@ -879,7 +941,8 @@ char *AIFunc_Heinrich_RaiseDead(cast_state_t *cs) {
 		lastRaise = level.time;
 		// summons the closest warrior
 		closest = NULL;
-		closestDist = 0;    // shutup the compiler
+		closestDist = 0; // shutup the compiler
+
 		for (i = 0, trav = g_entities; i < level.maxclients; i++, trav++) {
 			if (!trav->inuse) {
 				continue;
@@ -913,6 +976,11 @@ char *AIFunc_Heinrich_RaiseDead(cast_state_t *cs) {
 	return NULL;
 }
 
+/*
+=======================================================================================================================================
+AIFunc_Heinrich_RaiseDeadStart
+=======================================================================================================================================
+*/
 char *AIFunc_Heinrich_RaiseDeadStart(cast_state_t *cs) {
 	int i, cnt, free;
 	gentity_t *ent = &g_entities[cs->entityNum];
@@ -962,7 +1030,7 @@ char *AIFunc_Heinrich_RaiseDeadStart(cast_state_t *cs) {
 	// TTimo: gcc: suggest()around assignment used as truth value
 	while ((trav = G_Find(trav, FOFS(classname), "func_bats"))) {
 		if (!trav->active && trav->spawnflags & 4) {
-			trav->active = 1;   // let them release spirits now
+			trav->active = 1; // let them release spirits now
 		}
 	}
 	// is the player outside the circle?
@@ -974,7 +1042,7 @@ char *AIFunc_Heinrich_RaiseDeadStart(cast_state_t *cs) {
 			trav = G_Find(NULL, FOFS(targetname), trav->target);
 
 			if (trav) {
-				if (VectorDistance(g_entities[0].s.pos.trBase, trav->s.origin)> circleDist) {
+				if (VectorDistance(g_entities[0].s.pos.trBase, trav->s.origin) > circleDist) {
 					cs->aiFlags &= ~AIFL_MISCFLAG1;
 					ent->count2 = 0;
 					cs->aiFlags |= AIFL_SPECIAL_FUNC;
@@ -995,6 +1063,11 @@ char *AIFunc_Heinrich_RaiseDeadStart(cast_state_t *cs) {
 	return NULL;
 }
 
+/*
+=======================================================================================================================================
+AIFunc_Heinrich_SpawnSpiritsStart
+=======================================================================================================================================
+*/
 char *AIFunc_Heinrich_SpawnSpiritsStart(cast_state_t *cs) {
 	gentity_t *ent = &g_entities[cs->entityNum];
 	gentity_t *trav;
@@ -1005,7 +1078,7 @@ char *AIFunc_Heinrich_SpawnSpiritsStart(cast_state_t *cs) {
 	// TTimo: gcc: suggest()around assignment used as truth value
 	while ((trav = G_Find(trav, FOFS(classname), "func_bats"))) {
 		if (!trav->active && trav->spawnflags & 4) {
-			trav->active = 1;   // let them release spirits now
+			trav->active = 1; // let them release spirits now
 		}
 	}
 	// is the player outside the circle?
@@ -1017,7 +1090,7 @@ char *AIFunc_Heinrich_SpawnSpiritsStart(cast_state_t *cs) {
 			trav = G_Find(NULL, FOFS(targetname), trav->target);
 
 			if (trav) {
-				if (VectorDistance(g_entities[0].s.pos.trBase, trav->s.origin)> circleDist) {
+				if (VectorDistance(g_entities[0].s.pos.trBase, trav->s.origin) > circleDist) {
 					cs->aiFlags &= ~AIFL_MISCFLAG1;
 					ent->count2 = 0;
 					cs->aiFlags |= AIFL_SPECIAL_FUNC;

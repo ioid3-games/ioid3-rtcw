@@ -103,7 +103,7 @@ void AAS_RT_FreeMemory(void *ptr) {
 
 	before = totalmemorysize;
 
-	// FreeMemory(ptr);
+	//FreeMemory(ptr);
 	// Ryan - 01102k
 	free(ptr);
 
@@ -155,8 +155,8 @@ AAS_RT_CalcTravelTimesToGoalArea
 void AAS_RT_CalcTravelTimesToGoalArea(int goalarea) {
 	int i;
 	// TTimo: unused
-// 	static int tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA);	// ---- (SA)	modified since slime is no longer deadly
-// 	static int tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_SLIME|TFL_LAVA);
+//	static int tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA);	// ---- (SA)	modified since slime is no longer deadly
+//	static int tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_SLIME|TFL_LAVA);
 	aas_rt_route_t *rt;
 	int reach, travel;
 
@@ -298,7 +298,7 @@ void AAS_RT_DBG_Read(void *buf, int size, int fp) {
 AAS_RT_ReadRouteTable
 
 Reads the given file, and creates the structures required for the route-table system.
-Returnsqtrue if succesful, qfalse if not.
+Returns qtrue if succesful, qfalse if not.
 =======================================================================================================================================
 */
 qboolean AAS_RT_ReadRouteTable(fileHandle_t fp) {
@@ -539,8 +539,9 @@ void AAS_RT_BuildRouteTable(void) {
 	// allocate and calculate the travel times
 	filteredroutetable = (aas_rt_route_t **)AAS_RT_GetClearedMemory(childcount * sizeof(aas_rt_route_t *));
 
-	for (i = 0; i < childcount; i++)
+	for (i = 0; i < childcount; i++) {
 		filteredroutetable[i] = (aas_rt_route_t *)AAS_RT_GetClearedMemory(childcount * sizeof(aas_rt_route_t));
+	}
 
 	AAS_RT_CalculateRouteTable(filteredroutetable);
 #endif // CHECK_TRAVEL_TIMES
@@ -559,7 +560,7 @@ void AAS_RT_BuildRouteTable(void) {
 			}
 #ifdef CHECK_TRAVEL_TIMES
 			// make sure travel time is reasonable
-			// Get the travel time from i to j
+			// get the travel time from i to j
 			traveltime = (int)filteredroutetable[i][j].travel_time;
 
 			if (!traveltime) {
@@ -571,7 +572,7 @@ void AAS_RT_BuildRouteTable(void) {
 				continue;
 			}
 #endif // CHECK_TRAVEL_TIMES
-			// Add it to the list
+			// add it to the list
 			localinfo->visible[localinfo->numvisible++] = j;
 			totalcount++;
 
@@ -597,7 +598,6 @@ void AAS_RT_BuildRouteTable(void) {
 		for (i = 0; i < childcount; i++) {
 			if (area_childlocaldata[i]->parentlink) {
 				continue; // already has been allocated to a parent
-
 			}
 
 			cnt = AAS_RT_GetValidVisibleAreasCount(area_localinfos[i], area_childlocaldata);
@@ -637,18 +637,19 @@ void AAS_RT_BuildRouteTable(void) {
 		thisparent = area_parents[num_parents];
 		thisparent->areanum = filtered_areas[bestparent];
 		thisparent->children = (unsigned short int *)AAS_RT_GetClearedMemory((localinfo->numvisible + 1) * sizeof(unsigned short int));
-		// first, add itself to the list(yes, a parent is a child of itself)
+		// first, add itself to the list (yes, a parent is a child of itself)
 		child = area_childlocaldata[bestparent];
+
 		AAS_RT_AddParentLink(child, num_parents, thisparent->numchildren);
+
 		thisparent->children[thisparent->numchildren++] = filtered_areas[bestparent];
 		// loop around all the parent's visible list, and make them children if they're aren't already assigned to a parent
 		for (i = 0; i < localinfo->numvisible; i++) {
 			// create the childlocaldata
 			child = area_childlocaldata[localinfo->visible[i]];
-			// Ridah, only one parent per child in the new system
+			// only one parent per child in the new system
 			if (child->parentlink) {
 				continue; // already has been allocated to a parent
-
 			}
 
 			if (child->areanum != thisparent->areanum) {
@@ -726,36 +727,35 @@ void AAS_RT_BuildRouteTable(void) {
 		}
 		// now copy the list over to the current src area
 		area_parents[i]->visibleParents = (unsigned short int *)AAS_RT_GetClearedMemory(area_parents[i]->numVisibleParents * sizeof(unsigned short int));
-		memcpy(area_parents[i]->visibleParents, visibleParents, area_parents[i]->numVisibleParents * sizeof(unsigned short int));
 
+		memcpy(area_parents[i]->visibleParents, visibleParents, area_parents[i]->numVisibleParents * sizeof(unsigned short int));
 	}
 
 	AAS_RT_FreeMemory(visibleParents);
 	// before we free the main childlocaldata, go through and assign the aas_area's to their appropriate childlocaldata
 	// this would require modification of the aas_area_t structure, so for now, we'll just place them in a global array, for external reference
 
-// 	aasworld->routetable->area_childlocaldata_list = (aas_area_childlocaldata_t **)AAS_RT_GetClearedMemory((*aasworld).numareas * sizeof(aas_area_childlocaldata_t *));
-// 	for (i = 0; i < childcount; i++)
-// 	{
-// 		aasworld->routetable->area_childlocaldata_list[filtered_areas[i]] = area_childlocaldata[i];
-// 	}
+//	aasworld->routetable->area_childlocaldata_list = (aas_area_childlocaldata_t **)AAS_RT_GetClearedMemory((*aasworld).numareas * sizeof(aas_area_childlocaldata_t *));
+
+//	for (i = 0; i < childcount; i++) {
+//		aasworld->routetable->area_childlocaldata_list[filtered_areas[i]] = area_childlocaldata[i];
+//	}
 	// copy the list of parents to a global structure for now(should eventually go into the(*aasworld)structure
-// 	aasworld->routetable->area_parents_global = (aas_area_parent_t **)AAS_RT_GetClearedMemory(num_parents * sizeof(aas_area_parent_t *));
-// 	memcpy(aasworld->routetable->area_parents_global, area_parents, num_parents * sizeof(aas_area_parent_t *));
+//	aasworld->routetable->area_parents_global = (aas_area_parent_t **)AAS_RT_GetClearedMemory(num_parents * sizeof(aas_area_parent_t *));
+
+//	memcpy(aasworld->routetable->area_parents_global, area_parents, num_parents * sizeof(aas_area_parent_t *));
 
 	// ................................................
-	// Convert the data into the correct format
+	// convert the data into the correct format
 	{
 		aas_rt_t *rt;
 		aas_rt_child_t *child;
 		aas_rt_parent_t *parent;
 		aas_rt_parent_link_t *plink;
 		unsigned short int *psi;
-
 		aas_area_childlocaldata_t *chloc;
 		aas_area_parent_t *apar;
 		aas_parent_link_t *oplink;
-
 		int parentChildrenCount, visibleParentsCount, parentLinkCount;
 
 		rt = (*aasworld).routetable;
@@ -843,7 +843,6 @@ void AAS_RT_BuildRouteTable(void) {
 // #ifdef USE_ROUTECACHE
 // 	AAS_FreeRoutingCaches();
 // #endif
-
 	for (i = 0; i < childcount; i++) {
 		AAS_RT_FreeMemory(area_localinfos[i]);
 #ifdef CHECK_TRAVEL_TIMES
@@ -901,6 +900,7 @@ Free permanent memory used by route-table system.
 =======================================================================================================================================
 */
 void AAS_RT_ShutdownRouteTable(void) {
+
 	if (!aasworld->routetable) {
 		return;
 	}
@@ -910,14 +910,14 @@ void AAS_RT_ShutdownRouteTable(void) {
 	AAS_RT_FreeMemory(aasworld->routetable->parents);
 	AAS_RT_FreeMemory(aasworld->routetable->parentChildren);
 	AAS_RT_FreeMemory(aasworld->routetable->visibleParents);
-// 	AAS_RT_FreeMemory(aasworld->routetable->localRoutes);
-// 	AAS_RT_FreeMemory(aasworld->routetable->parentRoutes);
+//	AAS_RT_FreeMemory(aasworld->routetable->localRoutes);
+//	AAS_RT_FreeMemory(aasworld->routetable->parentRoutes);
 	AAS_RT_FreeMemory(aasworld->routetable->parentLinks);
-// 	AAS_RT_FreeMemory(aasworld->routetable->routeIndexes);
-// 	AAS_RT_FreeMemory(aasworld->routetable->parentTravelTimes);
-
+//	AAS_RT_FreeMemory(aasworld->routetable->routeIndexes);
+//	AAS_RT_FreeMemory(aasworld->routetable->parentTravelTimes);
 	// kill the table
 	AAS_RT_FreeMemory(aasworld->routetable);
+
 	aasworld->routetable = NULL;
 }
 
@@ -962,8 +962,8 @@ aas_rt_route_t *AAS_RT_GetRoute(int srcnum, vec3_t origin, int destnum) {
 	aas_rt_route_t *thisroute;
 	int reach, traveltime;
 	aas_rt_t *rt;
-	static int tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA);   // ---- (SA)	modified since slime is no longer deadly
-// 	static int tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_SLIME|TFL_LAVA);
+	static int tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA); // modified since slime is no longer deadly
+//	static int tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_SLIME|TFL_LAVA);
 
 	if (!(rt = aasworld->routetable)) { // no route table present
 		return NULL;
@@ -990,7 +990,6 @@ aas_rt_route_t *AAS_RT_GetRoute(int srcnum, vec3_t origin, int destnum) {
 
 #include "be_ai_goal.h"
 int BotGetReachabilityToGoal(vec3_t origin, int areanum, int entnum, int lastgoalareanum, int lastareanum, int *avoidreach, float *avoidreachtimes, int *avoidreachtries, bot_goal_t *goal, int travelflags, int movetravelflags);
-
 /*
 =======================================================================================================================================
 AAS_RT_ShowRoute
@@ -1017,6 +1016,7 @@ void AAS_RT_ShowRoute(vec3_t srcpos, int srcnum, int destnum) {
 		goal.areanum = destnum;
 		VectorCopy(botlibglobals.goalorigin, goal.origin);
 		reachnum = BotGetReachabilityToGoal(srcpos, srcnum, -1, lastgoalareanum, lastareanum, avoidreach, avoidreachtimes, avoidreachtries, &goal, TFL_DEFAULT|TFL_FUNCBOB, TFL_DEFAULT|TFL_FUNCBOB);
+
 		AAS_ReachabilityFromNum(reachnum, &reach);
 		AAS_ShowReachability(&reach);
 	}
@@ -1024,7 +1024,6 @@ void AAS_RT_ShowRoute(vec3_t srcpos, int srcnum, int destnum) {
 }
 
 int AAS_NearestHideArea(int srcnum, vec3_t origin, int areanum, int enemynum, vec3_t enemyorigin, int enemyareanum, int travelflags);
-
 /*
 =======================================================================================================================================
 AAS_RT_GetHidePos
@@ -1033,29 +1032,28 @@ AAS_RT_GetHidePos
 =======================================================================================================================================
 */
 qboolean AAS_RT_GetHidePos(vec3_t srcpos, int srcnum, int srcarea, vec3_t destpos, int destnum, int destarea, vec3_t returnPos) {
-	static int tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA);   // ---- (SA)	modified since slime is no longer deadly
-// 	static int tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_SLIME|TFL_LAVA);
+	static int tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA); // modified since slime is no longer deadly
+//	static int tfl = TFL_DEFAULT & ~(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_SLIME|TFL_LAVA);
 #if 1
 	// use MrE's breadth first method
 	int hideareanum;
-// 	int pretime;
+//	int pretime;
 
 	// disabled this so grenade hiding works
 	// if(!srcarea || !destarea)
-	// 	return qfalse;
+	//	return qfalse;
 
-// 	pretime = -Sys_MilliSeconds();
-
+//	pretime = -Sys_MilliSeconds();
 	hideareanum = AAS_NearestHideArea(srcnum, srcpos, srcarea, destnum, destpos, destarea, tfl);
 
 	if (!hideareanum) {
-// 		botimport.Print(PRT_MESSAGE, "Breadth First HidePos FAILED: %i ms\n", pretime + Sys_MilliSeconds());
+//		botimport.Print(PRT_MESSAGE, "Breadth First HidePos FAILED: %i ms\n", pretime + Sys_MilliSeconds());
 		return qfalse;
 	}
 	// we found a valid hiding area
 	VectorCopy((*aasworld).areawaypoints[hideareanum], returnPos);
 
-// 	botimport.Print(PRT_MESSAGE, "Breadth First HidePos: %i ms\n", pretime + Sys_MilliSeconds());
+//	botimport.Print(PRT_MESSAGE, "Breadth First HidePos: %i ms\n", pretime + Sys_MilliSeconds());
 
 	return qtrue;
 #else
@@ -1097,25 +1095,24 @@ qboolean AAS_RT_GetHidePos(vec3_t srcpos, int srcnum, int srcarea, vec3_t destpo
 	}
 */
 	pretime = -Sys_MilliSeconds();
-
 	// is the src area grounded?
 	if (!(srcChild = AAS_RT_GetChild(srcarea))) {
 		return qfalse;
 	}
 	// does it have a parent?
 // all valid areas have a parent
-// 	if (!srcChild->numParentLinks) {
-// 		return qfalse;
-// 	}
+//	if (!srcChild->numParentLinks) {
+//		return qfalse;
+//	}
 	// get the dest(enemy)area
 	if (!(destChild = AAS_RT_GetChild(destarea))) {
 		return qfalse;
 	}
 
 	destParent = &rt->parents[rt->parentLinks[destChild->startParentLinks].parent];
-
 	// populate the destVisAreas
 	memset(destVisLookup, 0, sizeof(destVisLookup));
+
 	destVisTrav = rt->visibleParents + destParent->startVisibleParents;
 
 	for (i = 0; i < destParent->numVisibleParents; i++, destVisTrav++) {
@@ -1133,10 +1130,11 @@ qboolean AAS_RT_GetHidePos(vec3_t srcpos, int srcnum, int srcarea, vec3_t destpo
 	bestTravelTime = MAX_HIDE_TRAVELTIME; // ignore any routes longer than 10 seconds away
 	// set the destVec
 	VectorSubtract(destpos, srcpos, destVec);
+
 	destTravelDist = VectorNormalize(destVec);
 	// randomize the direction we traverse the list, so the hiding spot isn't always the same
 	if (rand()% 2) {
-		dir = 1;  // forward
+		dir = 1; // forward
 	} else {
 		dir = -1; // reverse
 	}
@@ -1223,7 +1221,7 @@ qboolean AAS_RT_GetHidePos(vec3_t srcpos, int srcnum, int srcarea, vec3_t destpo
 							break;
 						}
 
-						if (DotProduct(destVec, vec)< 0.2) {
+						if (DotProduct(destVec, vec) < 0.2) {
 							invalidRoute = qtrue;
 							break;
 						}
@@ -1233,14 +1231,13 @@ qboolean AAS_RT_GetHidePos(vec3_t srcpos, int srcnum, int srcarea, vec3_t destpo
 							break;
 						}
 					}
-
 					// check the directions to make sure we're not trying to run through them
 					if (j > 0) {
-						if (DotProduct(vec, lastVec)< 0.2) {
+						if (DotProduct(vec, lastVec) < 0.2) {
 							invalidRoute = qtrue;
 							break;
 						}
-					} else if (DotProduct(destVec, vec)< 0.2) {
+					} else if (DotProduct(destVec, vec) < 0.2) {
 						invalidRoute = qtrue;
 						break;
 					}
@@ -1279,11 +1276,12 @@ qboolean AAS_RT_GetHidePos(vec3_t srcpos, int srcnum, int srcarea, vec3_t destpo
 			}
 		}
 		// now last of all, check that this area is a safe hiding spot
-// 		if (botimport.AICast_VisibleFromPos(destpos, destnum, (*aasworld).areas[travParent->areanum].center, srcnum, qfalse)) {
-// 			continue;
-// 		}
+//		if (botimport.AICast_VisibleFromPos(destpos, destnum, (*aasworld).areas[travParent->areanum].center, srcnum, qfalse)) {
+//			continue;
+//		}
 		// we've found a good hiding spot, so use it
 		VectorCopy((*aasworld).areas[travParent->areanum].center, returnPos);
+
 		bestTravelTime = elapsedTravelTime;
 
 		if (thisTravelTime < 300) {
@@ -1308,6 +1306,6 @@ AAS_RT_GetReachabilityIndex
 =======================================================================================================================================
 */
 int AAS_RT_GetReachabilityIndex(int areanum, int reachIndex) {
-// 	return(*aasworld).areasettings[areanum].firstreachablearea + reachIndex;
+//	return (*aasworld).areasettings[areanum].firstreachablearea + reachIndex;
 	return reachIndex;
 }

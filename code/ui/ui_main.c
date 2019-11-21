@@ -4558,13 +4558,13 @@ void Menu_ShowItemByName(menuDef_t *menu, const char *p, qboolean bShow);
 
 #define DEFAULT_PISTOL
 
-#define PT_KNIFE(1)
-#define PT_PISTOL(1 << 2)
-#define PT_RIFLE(1 << 3)
-#define PT_LIGHTONLY(1 << 4)
-#define PT_GRENADES(1 << 5)
-#define PT_EXPLOSIVES(1 << 6)
-#define PT_MEDKIT(1 << 7)
+#define PT_KNIFE (1)
+#define PT_PISTOL (1 << 2)
+#define PT_RIFLE (1 << 3)
+#define PT_LIGHTONLY (1 << 4)
+#define PT_GRENADES (1 << 5)
+#define PT_EXPLOSIVES (1 << 6)
+#define PT_MEDKIT (1 << 7)
 
 typedef struct {
 	const char *name;

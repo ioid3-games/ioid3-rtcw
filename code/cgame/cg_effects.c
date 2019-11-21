@@ -944,14 +944,14 @@ unsigned int randtable[NUMRANDTABLE] = {
 };
 
 #define LT_MS 100 // random number will change every LT_MS millseconds
-#define LT_RANDMAX((unsigned short)0xffff)
+#define LT_RANDMAX ((unsigned short)0xffff)
 /*
 =======================================================================================================================================
 lt_random
 =======================================================================================================================================
 */
 float lt_random(int thisrandseed, int t) {
-	return (float)randtable[abs((thisrandseed + t + (cg.time / LT_MS) * (cg.time / LT_MS)))% NUMRANDTABLE] /(float)LT_RANDMAX;
+	return (float)randtable[abs((thisrandseed + t + (cg.time / LT_MS) * (cg.time / LT_MS)))% NUMRANDTABLE] / (float)LT_RANDMAX;
 }
 
 /*
@@ -960,7 +960,7 @@ lt_crandom
 =======================================================================================================================================
 */
 float lt_crandom(int thisrandseed, int t) {
-	return ((2.0 * ((float)randtable[abs((thisrandseed + t + (cg.time / LT_MS) * (cg.time / LT_MS)))% NUMRANDTABLE] /(float)LT_RANDMAX)) - 1.0);
+	return ((2.0 * ((float)randtable[abs((thisrandseed + t + (cg.time / LT_MS) * (cg.time / LT_MS)))% NUMRANDTABLE] / (float)LT_RANDMAX)) - 1.0);
 }
 
 /*
@@ -1410,10 +1410,10 @@ void CG_Spotlight(centity_t *cent, float *color, vec3_t realstart, vec3_t lightD
 	}
 	// generate the beam cylinder
 	for (i = 0; i <= segs; i++) {
-		RotatePointAroundVector(start_points[i], lightDir, startvec, (360.0f /(float)segs) * i);
+		RotatePointAroundVector(start_points[i], lightDir, startvec, (360.0f / (float)segs) * i);
 		VectorAdd(start_points[i], start, start_points[i]);
 
-		RotatePointAroundVector(end_points[i], lightDir, endvec, (360.0f /(float)segs) * i);
+		RotatePointAroundVector(end_points[i], lightDir, endvec, (360.0f / (float)segs) * i);
 		VectorAdd(end_points[i], start, end_points[i]);
 	}
 

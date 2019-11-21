@@ -30,21 +30,27 @@ If you have questions concerning this license or the applicable additional terms
 #include "g_local.h"
 #include "g_coop.h"
 
-#define SPAWNPOINT_ENABLED      1
-#define SPAWNPOINT_ALLIES       2
-#define SPAWNPOINT_AXIS         4
+#define SPAWNPOINT_ENABLED	1
+#define SPAWNPOINT_ALLIES	2
+#define SPAWNPOINT_AXIS		4
 
-// set weapons when player spawns in coop
-// in the map dam, the player gets all the weapons, bug !
+/*
+=======================================================================================================================================
+SetCoopSpawnWeapons
+
+Set weapons when player spawns in coop.
+NOTE: in the map dam, the player gets all the weapons (bug)!
+=======================================================================================================================================
+*/
 void SetCoopSpawnWeapons(gclient_t *client) {
 	int pc = client->sess.playerType;
 
-	if (g_spawnInvul.integer < 0)
+	if (g_spawnInvul.integer < 0) {
 		g_spawnInvul.integer = 0;
+	}
 
 	if (!(client->ps.eFlags & EF_FROZEN)) {
-		client->ps.powerups[PW_INVULNERABLE] = level.time + (g_spawnInvul.integer * 1000);         // some time to find cover
-
+		client->ps.powerups[PW_INVULNERABLE] = level.time + (g_spawnInvul.integer * 1000); // some time to find cover
 	}
 	// zero out all ammo counts
 #ifdef MONEY
@@ -52,26 +58,19 @@ void SetCoopSpawnWeapons(gclient_t *client) {
 		memset(client->ps.ammo,MAX_WEAPONS,sizeof(int));
 	}
 #endif
-
-	// Communicate it to cgame
+	// communicate it to cgame
 	client->ps.stats[STAT_PLAYER_CLASS] = pc;
-
-	// Abuse teamNum to store player class as well(can't see stats for all clients in cgame)
+	// abuse teamNum to store player class as well(can't see stats for all clients in cgame)
 	//client->ps.teamNum = pc;
-
-	// All players start with a knife(not OR-ing so that it clears previous weapons)
+	// all players start with a knife(not OR-ing so that it clears previous weapons)
 	//client->ps.weapons[0] = 0;
 	//client->ps.weapons[1] = 0;
-
-	// COM_BitSet(client->ps.weapons, WP_KNIFE);
-	// client->ps.ammo[BG_FindAmmoForWeapon(WP_KNIFE)] = 1;
+	//COM_BitSet(client->ps.weapons, WP_KNIFE);
+	//client->ps.ammo[BG_FindAmmoForWeapon(WP_KNIFE)] = 1;
 	//client->ps.weapon = WP_KNIFE;
-
 	client->ps.weaponstate = WEAPON_READY;
-
 	// give all the players a binocular
 	client->ps.stats[STAT_KEYS] |= (1 << INV_BINOCS);
-
 #ifdef MONEY
 	// start with mp40 and knife
 	if (!client->pers.initialSpawn && g_gametype.integer == GT_COOP_BATTLE) {
@@ -83,10 +82,8 @@ void SetCoopSpawnWeapons(gclient_t *client) {
 		client->ps.ammoclip[BG_FindClipForWeapon(WP_MP40)] += 0;
 		client->ps.ammo[BG_FindAmmoForWeapon(WP_MP40)] += 12;
 		client->ps.weapon = WP_MP40;
-
 	}
 #endif
-
 	if (g_throwKnives.integer > 0) {
 		client->ps.ammo[BG_FindAmmoForWeapon(WP_KNIFE)] = g_throwKnives.integer;
 	}
@@ -94,6 +91,11 @@ void SetCoopSpawnWeapons(gclient_t *client) {
 	client->pers.initialSpawn = qtrue;
 }
 
+/*
+=======================================================================================================================================
+CoopInfoMessage
+=======================================================================================================================================
+*/
 void CoopInfoMessage(gentity_t *ent) {
 	char entry[1024];
 	char string[1400];
@@ -123,10 +125,8 @@ void CoopInfoMessage(gentity_t *ent) {
 				a = 0;
 			}
 			// what do we want: clientnum, health, weapon, current amount of ammo
-			Com_sprintf(entry, sizeof(entry),
-						 " %i %i %i %i %i %i %i %i",
-						 level.sortedClients[i], player->client->pers.teamState.location, h, a,
-						 player->client->ps.weapon, player->client->ps.ammoclip[BG_FindClipForWeapon(player->client->ps.weapon)], player->client->ps.ammo[BG_FindAmmoForWeapon(player->client->ps.weapon)], player->client->sess.sessionTeam);
+			Com_sprintf(entry, sizeof(entry), " %i %i %i %i %i %i %i %i", level.sortedClients[i], player->client->pers.teamState.location, h, a, player->client->ps.weapon, player->client->ps.ammoclip[BG_FindClipForWeapon(player->client->ps.weapon)], player->client->ps.ammo[BG_FindAmmoForWeapon(player->client->ps.weapon)], player->client->sess.sessionTeam);
+
 			j = strlen(entry);
 
 			if (stringlength + j > sizeof(string)) {
@@ -146,7 +146,7 @@ void CoopInfoMessage(gentity_t *ent) {
 =======================================================================================================================================
 Coop_GetLocation
 
-Report a location for the player. Uses placed nearby target_location entities
+Report a location for the player. Uses placed nearby target_location entities.
 =======================================================================================================================================
 */
 gentity_t *Coop_GetLocation(gentity_t *ent) {
@@ -160,9 +160,7 @@ gentity_t *Coop_GetLocation(gentity_t *ent) {
 	VectorCopy(ent->r.currentOrigin, origin);
 
 	for (eloc = level.locationHead; eloc; eloc = eloc->nextTrain) {
-		len = (origin[0] - eloc->r.currentOrigin[0]) * (origin[0] - eloc->r.currentOrigin[0])
-			  + (origin[1] - eloc->r.currentOrigin[1]) * (origin[1] - eloc->r.currentOrigin[1])
-			  + (origin[2] - eloc->r.currentOrigin[2]) * (origin[2] - eloc->r.currentOrigin[2]);
+		len = (origin[0] - eloc->r.currentOrigin[0]) * (origin[0] - eloc->r.currentOrigin[0]) + (origin[1] - eloc->r.currentOrigin[1]) * (origin[1] - eloc->r.currentOrigin[1]) + (origin[2] - eloc->r.currentOrigin[2]) * (origin[2] - eloc->r.currentOrigin[2]);
 
 		if (len > bestlen) {
 			continue;
@@ -179,6 +177,11 @@ gentity_t *Coop_GetLocation(gentity_t *ent) {
 	return best;
 }
 
+/*
+=======================================================================================================================================
+CheckCoopStatus
+=======================================================================================================================================
+*/
 void CheckCoopStatus(void) {
 	int i;
 	gentity_t *loc, *ent;
@@ -204,22 +207,21 @@ void CheckCoopStatus(void) {
 	}
 }
 
-/*
-=======================================================================================================================================
-SelectRandomAntiCoopSpawnPoint
-
-if you play as axis in a coop game, you spawn at the spots where
-AI's spawn, if you spawn at an ai spawn that specific AI will be killed(offered)
-=======================================================================================================================================
-*/
-#define MAX_SPAWN_POINTS    128
+#define MAX_SPAWN_POINTS 128
 struct gspawnpoint_s {
 	int clientNum;
 	gentity_t *spot;
 };
 
 typedef struct gspawnpoint_s gspawnpoint_t;
+/*
+=======================================================================================================================================
+SelectRandomAntiCoopSpawnPoint
 
+If you play as axis in a coop game, you spawn at the spots where AI's spawn, if you spawn at an ai spawn that specific AI will be
+killed (offered).
+=======================================================================================================================================
+*/
 gentity_t *SelectRandomAntiCoopSpawnPoint(gentity_t *ent, vec3_t origin, vec3_t angles) {
 	int i = 0;
 	int count = 0;
@@ -247,9 +249,7 @@ gentity_t *SelectRandomAntiCoopSpawnPoint(gentity_t *ent, vec3_t origin, vec3_t 
 
 		spawnpoint.spot = spot;
 		spawnpoint.clientNum = i;
-
 		spots[count] = &spawnpoint;
-
 		count++;
 	}
 	// no alive and active bots found, just now look for a bot that is alive
@@ -267,14 +267,13 @@ gentity_t *SelectRandomAntiCoopSpawnPoint(gentity_t *ent, vec3_t origin, vec3_t 
 
 			spawnpoint.spot = spot;
 			spawnpoint.clientNum = i;
-
 			spots[count] = &spawnpoint;
 			count++;
 		}
-		// what to do if no AI's are alive, where to spawn ?(after a map_restart his can be the cause, because ai's spawn later than humans)
-		// -> every map needs two initial axis spawnpoints, for cases like this, they need to have the enabled and axis spawnflag set(spawnflags 5)
+		// what to do if no AI's are alive, where to spawn (after a map_restart his can be the cause, because ai's spawn later than humans)?
+		// -> every map needs two initial axis spawnpoints, for cases like this, they need to have the enabled and axis spawnflag set (spawnflags 5)
 		if (!count) {
-			while ((spot = G_Find(spot, FOFS(classname), "coop_spawnpoint"))!= NULL) {
+			while ((spot = G_Find(spot, FOFS(classname), "coop_spawnpoint")) != NULL) {
 				if (SpotWouldTelefrag(spot)) {
 					continue;
 				}
@@ -282,7 +281,6 @@ gentity_t *SelectRandomAntiCoopSpawnPoint(gentity_t *ent, vec3_t origin, vec3_t 
 				if ((spot->spawnflags & SPAWNPOINT_ENABLED) && (spot->spawnflags & SPAWNPOINT_AXIS)) {
 					spawnpoint.spot = spot;
 					spawnpoint.clientNum = -1;
-
 					spots[count] = &spawnpoint;
 					count++;
 				}
@@ -305,8 +303,8 @@ gentity_t *SelectRandomAntiCoopSpawnPoint(gentity_t *ent, vec3_t origin, vec3_t 
 	}
 
 	origin[2] += 9;
-	VectorCopy(spot->s.angles, angles);
 
+	VectorCopy(spot->s.angles, angles);
 	// kill the bot
 	// this is handled in clientspawn in g_client.c(see g_killbox();)
 	if (clientnum >= MAX_COOP_CLIENTS && spot->client) {
@@ -321,7 +319,7 @@ gentity_t *SelectRandomAntiCoopSpawnPoint(gentity_t *ent, vec3_t origin, vec3_t 
 =======================================================================================================================================
 SelectRandomCoopSpawnPoint
 
-go to a random point that doesn't telefrag
+Go to a random point that doesn't telefrag.
 =======================================================================================================================================
 */
 gentity_t *SelectRandomCoopSpawnPoint(vec3_t origin, vec3_t angles) {
@@ -333,14 +331,13 @@ gentity_t *SelectRandomCoopSpawnPoint(vec3_t origin, vec3_t angles) {
 	count = 0;
 	spot = NULL;
 
-
-/*	while ((spot = G_Find(spot, FOFS(classname), "coop_spawnpoint"))!= NULL) {
-	    G_Printf("spawnpoint: %d %d %d\n", (spot->spawnflags & SPAWNPOINT_ENABLED) ? 1 : 0, (spot->spawnflags & SPAWNPOINT_ALLIES) ? 1 : 0, (spot->spawnflags & SPAWNPOINT_AXIS) ? 1 : 0);
+/*	while ((spot = G_Find(spot, FOFS(classname), "coop_spawnpoint")) != NULL) {
+		G_Printf("spawnpoint: %d %d %d\n", (spot->spawnflags & SPAWNPOINT_ENABLED) ? 1 : 0, (spot->spawnflags & SPAWNPOINT_ALLIES) ? 1 : 0, (spot->spawnflags & SPAWNPOINT_AXIS) ? 1 : 0);
 	}
 */
 	spot = NULL;
 
-	while ((spot = G_Find(spot, FOFS(classname), "coop_spawnpoint"))!= NULL) {
+	while ((spot = G_Find(spot, FOFS(classname), "coop_spawnpoint")) != NULL) {
 		if (SpotWouldTelefrag(spot)) {
 			continue;
 		}
@@ -361,7 +358,6 @@ gentity_t *SelectRandomCoopSpawnPoint(vec3_t origin, vec3_t angles) {
 				VectorCopy(spot->s.origin, origin);
 				origin[2] += 9;
 				VectorCopy(spot->s.angles, angles);
-
 				return spot;
 			}
 		} else {
@@ -373,13 +369,21 @@ gentity_t *SelectRandomCoopSpawnPoint(vec3_t origin, vec3_t angles) {
 	spot = spots[selection];
 
 	VectorCopy(spot->s.origin, origin);
+
 	origin[2] += 9;
+
 	VectorCopy(spot->s.angles, angles);
 
 	return spot;
 }
 
-// Resets player's current stats
+/*
+=======================================================================================================================================
+Coop_DeleteStats
+
+Resets player's current stats.
+=======================================================================================================================================
+*/
 void Coop_DeleteStats(int clientnum) {
 	gclient_t *cl = &level.clients[clientnum];
 
@@ -395,21 +399,25 @@ void Coop_DeleteStats(int clientnum) {
 	cl->sess.lastBonusLifeScore = 0;
 }
 
-// Records accuracy, damage, and kill/death stats.
+/*
+=======================================================================================================================================
+Coop_AddStats
+
+Records accuracy, damage, and kill/death stats.
+=======================================================================================================================================
+*/
 void Coop_AddStats(gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod) {
 	int dmg;
-
 
 	if (!targ->client && attacker && attacker->client) {
 		attacker->client->sess.prop_damage += dmg_ref;
 		return;
 	}
-	// Keep track of only active player-to-player interactions in a real game
-	if (!targ || !targ->client ||
-		(g_gametype.integer >= GT_SINGLE_PLAYER && (targ->s.eFlags == EF_DEAD || targ->client->ps.pm_type == PM_DEAD))) {
+	// keep track of only active player-to-player interactions in a real game
+	if (!targ || !targ->client || (g_gametype.integer >= GT_SINGLE_PLAYER && (targ->s.eFlags == EF_DEAD || targ->client->ps.pm_type == PM_DEAD))) {
 		return;
 	}
-	// Suicides only affect the player specifically
+	// suicides only affect the player specifically
 	if (targ == attacker || !attacker || !attacker->client) {
 		if (targ->health <= 0) {
 			targ->client->sess.suicides++;
@@ -417,7 +425,7 @@ void Coop_AddStats(gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod) {
 
 		return;
 	}
-	// Telefrags dont add points
+	// telefrags dont add points
 	if (mod == MOD_TELEFRAG) {
 		dmg = 0;
 	} else {
@@ -486,7 +494,6 @@ void Coop_AddStats(gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod) {
 #endif
 			targ->client->sess.damage_received += dmg;
 		}
-
 	} else { // bots don't need stats ?
 
 	}
@@ -497,74 +504,87 @@ void Coop_AddStats(gentity_t *targ, gentity_t *attacker, int dmg_ref, int mod) {
 	}
 
 	CalculateRanks();
-
 }
 
 void spawnpoint_trigger_touch(gentity_t *self, gentity_t *other, trace_t *trace);
 
-#define WCP_ANIM_NOFLAG             0
-#define WCP_ANIM_RAISE_NAZI         1
-#define WCP_ANIM_RAISE_AMERICAN     2
-#define WCP_ANIM_NAZI_RAISED        3
-#define WCP_ANIM_AMERICAN_RAISED    4
-#define WCP_ANIM_NAZI_TO_AMERICAN   5
-#define WCP_ANIM_AMERICAN_TO_NAZI   6
+#define WCP_ANIM_NOFLAG				0
+#define WCP_ANIM_RAISE_NAZI			1
+#define WCP_ANIM_RAISE_AMERICAN		2
+#define WCP_ANIM_NAZI_RAISED		3
+#define WCP_ANIM_AMERICAN_RAISED	4
+#define WCP_ANIM_NAZI_TO_AMERICAN	5
+#define WCP_ANIM_AMERICAN_TO_NAZI	6
 
+/*
+=======================================================================================================================================
+spawnpoint_trigger_use
+=======================================================================================================================================
+*/
 void spawnpoint_trigger_use(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 	spawnpoint_trigger_touch(ent, activator, NULL);
 }
 
+/*
+=======================================================================================================================================
+spawnpoint_trigger_think
+=======================================================================================================================================
+*/
 void spawnpoint_trigger_think(gentity_t *self) {
-	switch (self->s.frame) {
-	case WCP_ANIM_NOFLAG:
-		break;
-	case WCP_ANIM_RAISE_NAZI:
-		self->s.frame = WCP_ANIM_NAZI_RAISED;
-		break;
-	case WCP_ANIM_RAISE_AMERICAN:
-		self->s.frame = WCP_ANIM_AMERICAN_RAISED;
-		break;
-	case WCP_ANIM_NAZI_RAISED:
-		break;
-	case WCP_ANIM_AMERICAN_RAISED:
-		break;
-	case WCP_ANIM_NAZI_TO_AMERICAN:
-		self->s.frame = WCP_ANIM_AMERICAN_RAISED;
-		break;
-	case WCP_ANIM_AMERICAN_TO_NAZI:
-		self->s.frame = WCP_ANIM_NAZI_RAISED;
-		break;
-	default:
-		break;
 
+	switch (self->s.frame) {
+		case WCP_ANIM_NOFLAG:
+			break;
+		case WCP_ANIM_RAISE_NAZI:
+			self->s.frame = WCP_ANIM_NAZI_RAISED;
+			break;
+		case WCP_ANIM_RAISE_AMERICAN:
+			self->s.frame = WCP_ANIM_AMERICAN_RAISED;
+			break;
+		case WCP_ANIM_NAZI_RAISED:
+			break;
+		case WCP_ANIM_AMERICAN_RAISED:
+			break;
+		case WCP_ANIM_NAZI_TO_AMERICAN:
+			self->s.frame = WCP_ANIM_AMERICAN_RAISED;
+			break;
+		case WCP_ANIM_AMERICAN_TO_NAZI:
+			self->s.frame = WCP_ANIM_NAZI_RAISED;
+			break;
+		default:
+			break;
 	}
 
 	self->touch = spawnpoint_trigger_touch;
 	self->nextthink = 0;
 }
 
+/*
+=======================================================================================================================================
+spawnpoint_trigger_touch
+=======================================================================================================================================
+*/
 void spawnpoint_trigger_touch(gentity_t *self, gentity_t *other, trace_t *trace) {
 	gentity_t *ent = NULL;
 	qboolean named = qfalse;
 
 	/*if(self->count == other->client->sess.sessionTeam) {
-	        return;
+		return;
 	}*/
-
 	// TODO: AI's should be able to recapture the flags
 	if (other->r.svFlags & SVF_CASTAI) {
 		return;
 	}
-	// Set controlling team
+	// set controlling team
 	self->count = other->client->sess.sessionTeam;
 
 	if (self->s.frame == WCP_ANIM_NOFLAG) {
 		if (other->client->sess.sessionTeam == TEAM_BLUE) {
 			self->s.frame = WCP_ANIM_RAISE_AMERICAN;
-			// Play a sound
+			// play a sound
 			G_AddEvent(self, EV_GENERAL_SOUND, self->soundPos1);
 
-			while ((ent = G_Find(ent, FOFS(classname), "target_location"))!= NULL) {
+			while ((ent = G_Find(ent, FOFS(classname), "target_location")) != NULL) {
 				if (!ent) {
 					break;
 				}
@@ -583,7 +603,6 @@ void spawnpoint_trigger_touch(gentity_t *self, gentity_t *other, trace_t *trace)
 			// if an axis touches a pole without flag, just do nothing
 			return;
 		}
-
 	} else if (self->s.frame == WCP_ANIM_NAZI_RAISED) {
 		if (other->client->sess.sessionTeam == TEAM_BLUE) {
 			self->s.frame = WCP_ANIM_NAZI_TO_AMERICAN;
@@ -597,22 +616,18 @@ void spawnpoint_trigger_touch(gentity_t *self, gentity_t *other, trace_t *trace)
 	} else {
 		self->s.frame = WCP_ANIM_AMERICAN_RAISED;
 	}
-	// Don't allow touch again until animation is finished
+	// don't allow touch again until animation is finished
 	self->touch = NULL;
-
 	self->think = spawnpoint_trigger_think;
 	self->nextthink = level.time + 1000;
-
 	// activate all targets
 	if (self->target) {
 		// if you touch a pole as an american, all spawnpoints connected to it are enabled, others are disabled
 		// so we first have to disable all of them, and then enable the ones we are targetting
 		// we also have to get the other flags down
-
 		ent = NULL;
-
 		// disable all the spawnpoints
-		while ((ent = G_Find(ent, FOFS(classname), "coop_spawnpoint"))!= NULL) {
+		while ((ent = G_Find(ent, FOFS(classname), "coop_spawnpoint")) != NULL) {
 			if (!ent) {
 				break;
 			}
@@ -623,9 +638,8 @@ void spawnpoint_trigger_touch(gentity_t *self, gentity_t *other, trace_t *trace)
 		}
 
 		ent = NULL;
-
 		// now disable all the other flags
-		while ((ent = G_Find(ent, FOFS(classname), "coop_spawnpoint_trigger"))!= NULL) {
+		while ((ent = G_Find(ent, FOFS(classname), "coop_spawnpoint_trigger")) != NULL) {
 			if (!ent) {
 				break;
 			}
@@ -651,10 +665,8 @@ void spawnpoint_trigger_touch(gentity_t *self, gentity_t *other, trace_t *trace)
 				if (!strcmp(ent->classname,"coop_spawnpoint") && (ent->spawnflags & SPAWNPOINT_ALLIES)) {
 					ent->spawnflags |= SPAWNPOINT_ENABLED;
 				}
-
 			}
-			// if you touch a pole as a axis, disable all spawnpoints
-			// and enable the initial spawnpoints(the ones without a targetname)
+			// if you touch a pole as a axis, disable all spawnpoints and enable the initial spawnpoints (the ones without a targetname)
 		} else if (other->client->sess.sessionTeam == TEAM_RED) {
 			// now enable the spawnpoints where targetname == NULL
 			while (1) {
@@ -676,11 +688,9 @@ void spawnpoint_trigger_touch(gentity_t *self, gentity_t *other, trace_t *trace)
 This is the flagpole players touch enable spawnpoints which are set with with
 the same 'targetname' as the 'target' of this entity
 
-
 It will call specific trigger funtions in the map script for this object.
 When allies capture, it will call "allied_capture".
 When axis capture, it will call "axis_capture".
-
 */
 void SP_coop_spawnpoint_trigger(gentity_t *ent) {
 	char *capture_sound;
@@ -688,10 +698,9 @@ void SP_coop_spawnpoint_trigger(gentity_t *ent) {
 	if (g_spawnpoints.integer != 2) {
 		return;
 	}
-	// Make sure the ET_TRAP entity type stays valid
+	// make sure the ET_TRAP entity type stays valid
 	ent->s.eType = ET_TRAP;
-
-	// Model is user assignable, but it will always try and use the animations for flagpole.md3
+	// model is user assignable, but it will always try and use the animations for flagpole.md3
 	if (ent->model) {
 		ent->s.modelindex = G_ModelIndex(ent->model);
 	} else {
@@ -699,8 +708,8 @@ void SP_coop_spawnpoint_trigger(gentity_t *ent) {
 	}
 
 	G_SpawnString("noise", "sound/movers/doors/door6_open.wav", &capture_sound);
-	ent->soundPos1 = G_SoundIndex(capture_sound);
 
+	ent->soundPos1 = G_SoundIndex(capture_sound);
 	ent->clipmask = CONTENTS_SOLID;
 	ent->r.contents = CONTENTS_SOLID;
 
@@ -709,21 +718,16 @@ void SP_coop_spawnpoint_trigger(gentity_t *ent) {
 
 	G_SetOrigin(ent, ent->s.origin);
 	G_SetAngle(ent, ent->s.angles);
-
 	// s.frame is the animation number
 	ent->s.frame = WCP_ANIM_NOFLAG;
-
 	// s.teamNum is which set of animations to use(only 1 right now)
 	ent->s.teamNum = 1;
-
 	// Used later to set animations(and delay between captures)
 	ent->nextthink = 0;
-
 	// 'count' signifies which team holds the checkpoint
 	ent->count = -1;
-
 	ent->touch = spawnpoint_trigger_touch;
-	ent->use = spawnpoint_trigger_use;       // allow 'capture' from trigger
+	ent->use = spawnpoint_trigger_use; // allow 'capture' from trigger
 
 	trap_LinkEntity(ent);
 }

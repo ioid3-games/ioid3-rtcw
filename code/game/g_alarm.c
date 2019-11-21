@@ -31,18 +31,17 @@ If you have questions concerning this license or the applicable additional terms
 /*
 =======================================================================================================================================
 alarmExplosion
-	copied from propExplosion
+
+Copied from propExplosion.
 =======================================================================================================================================
 */
 void alarmExplosion(gentity_t *ent) {
+
 	// death sound
 	G_AddEvent(ent, EV_GENERAL_SOUND, ent->sound1to2);
-
 	G_AddEvent(ent, EV_ENTDEATH, ent->s.eType);
-
 	G_RadiusDamage(ent->s.origin, ent, ent->damage, ent->damage, ent, MOD_EXPLOSIVE);
 	// return
-
 	// old way.(using grenade)
 /*
 	gentity_t *bolt;
@@ -86,7 +85,6 @@ void alarmbox_updateparts(gentity_t *ent, qboolean matestoo) {
 	}
 
 	alarming = (ent->s.frame == 1);
-
 	// update teammates
 	if (matestoo) {
 		for (mate = ent->teammaster; mate; mate = mate->teamchain) {
@@ -121,7 +119,7 @@ void alarmbox_updateparts(gentity_t *ent, qboolean matestoo) {
 			// give the dlight the sound
 			if (!Q_stricmp(t->classname, "dlight")) {
 				t->soundLoop = ent->soundLoop;
-				t->r.svFlags |= SVF_BROADCAST;  // no pvs
+				t->r.svFlags |= SVF_BROADCAST; // no pvs
 
 				if (alarming) {
 					if (!(t->r.linked)) {
@@ -132,11 +130,9 @@ void alarmbox_updateparts(gentity_t *ent, qboolean matestoo) {
 						t->use(t, ent, 0);
 					}
 				}
-			}
-			// alarmbox can tell script_trigger about activation
-			//(but don't trigger if dying, only activation)
-			else if (!Q_stricmp(t->classname, "target_script_trigger")) {
-				if (ent->active && matestoo) { // not dead(and this is the box that was used)
+			// alarmbox can tell script_trigger about activation (but don't trigger if dying, only activation)
+			} else if (!Q_stricmp(t->classname, "target_script_trigger")) {
+				if (ent->active && matestoo) { // not dead (and this is the box that was used)
 					t->use(t, ent, 0);
 				}
 			}
@@ -150,6 +146,7 @@ alarmbox_use
 =======================================================================================================================================
 */
 void alarmbox_use(gentity_t *ent, gentity_t *other, gentity_t *foo) {
+
 	if (!(ent->active)) {
 		return;
 	}
@@ -165,8 +162,8 @@ void alarmbox_use(gentity_t *ent, gentity_t *other, gentity_t *foo) {
 	if (other->client) {
 		G_AddEvent(ent, EV_GENERAL_SOUND, ent->soundPos3);
 	}
-//	G_Printf("touched alarmbox\n");
 
+	//G_Printf("touched alarmbox\n");
 }
 
 /*
@@ -178,11 +175,12 @@ void alarmbox_die(gentity_t *ent, gentity_t *inflictor, gentity_t *attacker, int
 	gentity_t *t;
 
 	alarmExplosion(ent);
+
 	ent->s.frame = 2;
 	ent->active = qfalse;
 	ent->takedamage = qfalse;
-	alarmbox_updateparts(ent, qtrue);
 
+	alarmbox_updateparts(ent, qtrue);
 	// fire 'death' targets
 	if (ent->targetdeath) {
 		t = NULL;
@@ -196,7 +194,6 @@ void alarmbox_die(gentity_t *ent, gentity_t *inflictor, gentity_t *attacker, int
 			}
 		}
 	}
-
 }
 
 /*
@@ -208,9 +205,9 @@ void alarmbox_finishspawning(gentity_t *ent) {
 	gentity_t *mate;
 
 	// make sure they all have the same master(picked arbitrarily. last spawned)
-	for (mate = ent; mate; mate = mate->teamchain)
+	for (mate = ent; mate; mate = mate->teamchain) {
 		mate->teammaster = ent->teammaster;
-
+	}
 	// find lights and set their state
 	alarmbox_updateparts(ent, qtrue);
 }
@@ -241,17 +238,14 @@ void SP_alarm_box(gentity_t *ent) {
 	// model
 	trap_SetBrushModel(ent, ent->model);
 	ent->s.modelindex2 = G_ModelIndex("models/mapobjects/electronics/alarmbox.md3");
-
 	// sound
 	if (G_SpawnString("noise", "0", &s)) {
 		ent->soundLoop = G_SoundIndex(s);
 	}
 	// activation sound
 	ent->soundPos3 = G_SoundIndex("sound/world/alarmswitch.wav");
-
 	// death sound
 	ent->sound1to2 = G_SoundIndex("sound/world/alarmdeath.wav");
-
 
 	G_SetOrigin(ent, ent->s.origin);
 	G_SetAngle(ent, ent->s.angles);
@@ -276,4 +270,3 @@ void SP_alarm_box(gentity_t *ent) {
 
 	trap_LinkEntity(ent);
 }
-

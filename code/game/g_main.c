@@ -464,7 +464,7 @@ static qboolean G_CanShowExitHint(gentity_t *entity, gentity_t *brush) {
 	return qtrue;
 }
 
-#define CH_KNIFE_DIST48  // from g_weapon.c
+#define CH_KNIFE_DIST 48 // from g_weapon.c
 #define CH_LADDER_DIST 100
 #define CH_WATER_DIST 100
 #define CH_BREAKABLE_DIST 64

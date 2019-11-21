@@ -68,7 +68,8 @@ static statsItem_t statsItems[] = {
 	{"Secret Areas", 28, 214, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, "%i/%i", 348, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, 2},
 	{"Treasures", 28, 214, ITEM_TEXTSTYLE_SHADOWEDMORE, {0.62f, 0.56f, 0.0f, 1.0f}, "%i/%i", 348, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, 2},
 	{"Attempts", 28, 214, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, "%i", 348, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, 1},
-#else {"end_time", 134, 214, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, "%02i:%02i:%02i", 348, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, 3},
+#else
+	{"end_time", 134, 214, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, "%02i:%02i:%02i", 348, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, 3},
 	{"end_objectives", 28, 214, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, "%i/%i", 348, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, 2},
 	{"end_secrets", 28, 214, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, "%i/%i", 348, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, 2},
 	{"end_treasure", 28, 214, ITEM_TEXTSTYLE_SHADOWEDMORE, {0.62f, 0.56f, 0.0f, 1.0f}, "%i/%i", 348, ITEM_TEXTSTYLE_SHADOWEDMORE, {1.0f, 1.0f, 1.0f, 1.0f}, 2},

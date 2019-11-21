@@ -32,17 +32,15 @@ If you have questions concerning this license or the applicable additional terms
 #include "g_local.h"
 
 // defines
-#define TRAMCAR_START_ON        1
-#define TRAMCAR_TOGGLE          2
-#define TRAMCAR_BLOCK_STOPS     4
-#define TRAMCAR_LEADER          8
+#define TRAMCAR_START_ON	1
+#define TRAMCAR_TOGGLE		2
+#define TRAMCAR_BLOCK_STOPS	4
+#define TRAMCAR_LEADER		8
 
 void props_me109_think(gentity_t *ent);
 void ExplodePlaneSndFx(gentity_t *self);
-
 void Think_SetupAirplaneWaypoints(gentity_t *ent);
 void truck_cam_think(gentity_t *ent);
-
 // extern calls
 extern void Think_SetupTrainTargets(gentity_t *ent);
 extern void Reached_BinaryMover(gentity_t *ent);
@@ -51,6 +49,7 @@ extern void SetMoverState(gentity_t *ent, moverState_t moverState, int time);
 extern void Blocked_Door(gentity_t *ent, gentity_t *other);
 extern void Think_BeginMoving(gentity_t *ent);
 extern void propExplosionLarge(gentity_t *ent);
+
 ////////////////////////
 // truck states
 ////////////////////////
@@ -71,7 +70,6 @@ typedef enum {
 /////////////////////////
 // truck sounds
 /////////////////////////
-
 int truck_idle_snd;
 int truck_gear1_snd;
 int truck_gear2_snd;
@@ -83,7 +81,6 @@ int truck_bouncy1_snd;
 int truck_bouncy2_snd;
 int truck_bouncy3_snd;
 int truck_sound;
-
 
 ////////////////////////
 // plane states
@@ -101,7 +98,6 @@ typedef enum {
 ///////////////////////////
 // aircraft sounds
 ///////////////////////////
-
 int fploop_snd;
 int fpchoke_snd;
 int fpattack_snd;
@@ -121,6 +117,12 @@ int nose_part;
 int crash_part;
 
 // functions to be added
+
+/*
+=======================================================================================================================================
+InitTramcar
+=======================================================================================================================================
+*/
 void InitTramcar(gentity_t *ent) {
 	vec3_t move;
 	float distance;
@@ -129,9 +131,8 @@ void InitTramcar(gentity_t *ent) {
 	qboolean lightSet, colorSet;
 	char *sound;
 
-	// This is here just for show
-	// if the "model2" key is set, use a seperate model
-	// for drawing, but clip against the brushes
+	// this is here just for show
+	// if the "model2" key is set, use a seperate model for drawing, but clip against the brushes
 	if (ent->model2) {
 		ent->s.modelindex2 = G_ModelIndex(ent->model2);
 	}
@@ -183,20 +184,19 @@ void InitTramcar(gentity_t *ent) {
 
 	ent->use = Use_BinaryMover;
 //	ent->reached = Reached_BinaryMover;
-
 	ent->moverState = MOVER_POS1;
 	ent->r.svFlags = SVF_USE_CURRENT_ORIGIN;
 	ent->s.eType = ET_MOVER;
 
 	VectorCopy(ent->pos1, ent->r.currentOrigin);
-
 	trap_LinkEntity(ent);
 
 	ent->s.pos.trType = TR_STATIONARY;
-	VectorCopy(ent->pos1, ent->s.pos.trBase);
 
+	VectorCopy(ent->pos1, ent->s.pos.trBase);
 	// calculate time to reach second position from speed
 	VectorSubtract(ent->pos2, ent->pos1, move);
+
 	distance = VectorLength(move);
 
 	if (!ent->speed) {
@@ -204,6 +204,7 @@ void InitTramcar(gentity_t *ent) {
 	}
 
 	VectorScale(move, ent->speed, ent->s.pos.trDelta);
+
 	ent->s.pos.trDuration = distance * 1000 / ent->speed;
 
 	if (ent->s.pos.trDuration <= 0) {
@@ -211,6 +212,11 @@ void InitTramcar(gentity_t *ent) {
 	}
 }
 
+/*
+=======================================================================================================================================
+Calc_Roll
+=======================================================================================================================================
+*/
 void Calc_Roll(gentity_t *ent) {
 	gentity_t *target;
 	vec3_t vec;
@@ -222,6 +228,7 @@ void Calc_Roll(gentity_t *ent) {
 	target = ent->nextTrain;
 
 	VectorCopy(ent->r.currentAngles, tang);
+
 	tang[ROLL] = 0;
 
 	AngleVectors(tang, forward, right, NULL);
@@ -229,13 +236,12 @@ void Calc_Roll(gentity_t *ent) {
 	VectorNormalize(vec);
 
 	dot2 = DotProduct(vec, right);
-
 	ent->angle = (int)ent->angle;
 
 	if (dot2 > 0) {
-		if (ent->s.apos.trBase[ROLL] < - (ent->angle * 2)) {
+		if (ent->s.apos.trBase[ROLL] < -(ent->angle * 2)) {
 			ent->s.apos.trBase[ROLL] += 2;
-		} else if (ent->s.apos.trBase[ROLL] > - (ent->angle * 2)) {
+		} else if (ent->s.apos.trBase[ROLL] > -(ent->angle * 2)) {
 			ent->s.apos.trBase[ROLL] -= 2;
 		}
 
@@ -243,9 +249,9 @@ void Calc_Roll(gentity_t *ent) {
 			ent->s.apos.trBase[ROLL] = 90;
 		}
 	} else if (dot2 < 0) {
-		if (ent->s.apos.trBase[ROLL] > - (ent->angle * 2)) {
+		if (ent->s.apos.trBase[ROLL] > -(ent->angle * 2)) {
 			ent->s.apos.trBase[ROLL] -= 2;
-		} else if (ent->s.apos.trBase[ROLL] < - (ent->angle * 2)) {
+		} else if (ent->s.apos.trBase[ROLL] < -(ent->angle * 2)) {
 			ent->s.apos.trBase[ROLL] += 2;
 		}
 
@@ -261,8 +267,12 @@ void Calc_Roll(gentity_t *ent) {
 	ent->nextthink = level.time + 50;
 }
 
-#define MAXCHOICES  8
-
+#define MAXCHOICES 8
+/*
+=======================================================================================================================================
+GetNextTrack
+=======================================================================================================================================
+*/
 void GetNextTrack(gentity_t *ent) {
 	gentity_t *track = NULL;
 	gentity_t *next;
@@ -300,9 +310,13 @@ void GetNextTrack(gentity_t *ent) {
 
 	ent->nextTrain = NULL;
 	ent->target = choice[rval]->targetname;
-
 }
 
+/*
+=======================================================================================================================================
+Reached_Tramcar
+=======================================================================================================================================
+*/
 void Reached_Tramcar(gentity_t *ent) {
 	gentity_t *next;
 	float speed;
@@ -313,11 +327,11 @@ void Reached_Tramcar(gentity_t *ent) {
 	next = ent->nextTrain;
 
 	if (!next || !next->nextTrain) {
-		return;     // just stop
+		return; // just stop
 	}
-	// Rafael
+
 	if (next->wait == -1 && next->count) {
-		// G_Printf("stoped wait = -1 count %i\n",next->count);
+		//G_Printf("stoped wait = -1 count %i\n",next->count);
 		return;
 	}
 
@@ -353,23 +367,18 @@ void Reached_Tramcar(gentity_t *ent) {
 
 			ent->s.modelindex = crash_part;
 			// spawn the wing at the player effect
-
 			ent->nextTrain = NULL;
 			G_UseTargets(next, NULL);
-
 			return;
 		}
 
 		VectorSubtract(ent->nextTrain->nextTrain->s.origin, ent->r.currentOrigin, vec);
 		vectoangles(vec, angles);
 
-
 		diff = AngleSubtract(ent->r.currentAngles [YAW], angles[YAW]);
 		// diff = AngleSubtract(ent->TargetAngles [YAW], angles[YAW]);
-
 		ent->rotate[1] = 1;
 		ent->angle = -diff;
-
 		//if(angles[YAW] == 0)
 		//	ent->s.apos.trDuration = ent->s.pos.trDuration;
 		//else
@@ -392,22 +401,15 @@ void Reached_Tramcar(gentity_t *ent) {
 			}
 			// calculate duration
 			VectorSubtract(ent->pos2, ent->pos1, move);
+
 			length = VectorLength(move);
-
 			ent->s.apos.trDuration = length * 1000 / speed;
-
-//testing
-// ent->gDuration = ent->s.apos.trDuration;
 			ent->gDurationBack = ent->gDuration = ent->s.apos.trDuration;
-// ent->gDeltaBack = ent->gDelta =
-
 		}
 
 		VectorClear(ent->s.apos.trDelta);
-
 		SetMoverState(ent, MOVER_1TO2ROTATE, level.time);
 		VectorCopy(ent->r.currentAngles, ent->s.apos.trBase);
-
 		trap_LinkEntity(ent);
 
 		ent->think = props_me109_think;
@@ -434,7 +436,6 @@ void Reached_Tramcar(gentity_t *ent) {
 			vectoangles(vec, angles);
 
 			diff = AngleSubtract(ent->r.currentAngles [YAW], angles[YAW]);
-
 			ent->rotate[1] = 1;
 			ent->angle = -diff;
 
@@ -444,14 +445,11 @@ void Reached_Tramcar(gentity_t *ent) {
 				ent->s.apos.trDuration = 1000;
 			}
 
-//testing
 			ent->gDuration = ent->s.pos.trDuration;
 
 			VectorClear(ent->s.apos.trDelta);
-
 			SetMoverState(ent, MOVER_1TO2ROTATE, level.time);
 			VectorCopy(ent->r.currentAngles, ent->s.apos.trBase);
-
 			trap_LinkEntity(ent);
 		}
 
@@ -468,27 +466,46 @@ void Reached_Tramcar(gentity_t *ent) {
 		}
 
 		switch (ent->props_frame_state) {
-		case truck_idle: ent->s.loopSound = truck_idle_snd; break;
-		case truck_gear1: ent->s.loopSound = truck_gear1_snd; break;
-		case truck_gear2: ent->s.loopSound = truck_gear2_snd; break;
-		case truck_gear3: ent->s.loopSound = truck_gear3_snd; break;
-		case truck_reverse: ent->s.loopSound = truck_reverse_snd; break;
-		case truck_moving: ent->s.loopSound = truck_moving_snd; break;
-		case truck_breaking: ent->s.loopSound = truck_breaking_snd; break;
-		case truck_bouncy1: ent->s.loopSound = truck_bouncy1_snd; break;
-		case truck_bouncy2: ent->s.loopSound = truck_bouncy2_snd; break;
-		case truck_bouncy3: ent->s.loopSound = truck_bouncy3_snd; break;
+			case truck_idle:
+				ent->s.loopSound = truck_idle_snd;
+				break;
+			case truck_gear1:
+				ent->s.loopSound = truck_gear1_snd;
+				break;
+			case truck_gear2:
+				ent->s.loopSound = truck_gear2_snd;
+				break;
+			case truck_gear3:
+				ent->s.loopSound = truck_gear3_snd;
+				break;
+			case truck_reverse:
+				ent->s.loopSound = truck_reverse_snd;
+				break;
+			case truck_moving:
+				ent->s.loopSound = truck_moving_snd;
+				break;
+			case truck_breaking:
+				ent->s.loopSound = truck_breaking_snd;
+				break;
+			case truck_bouncy1:
+				ent->s.loopSound = truck_bouncy1_snd;
+				break;
+			case truck_bouncy2:
+				ent->s.loopSound = truck_bouncy2_snd;
+				break;
+			case truck_bouncy3:
+				ent->s.loopSound = truck_bouncy3_snd;
+				break;
 		}
 
-//testing
 		ent->s.loopSound = truck_sound;
 		ent->think = truck_cam_think;
 		ent->nextthink = level.time + (FRAMETIME / 2);
 	} else if (!Q_stricmp(ent->classname, "camera_cam")) {
+
 	}
 	// fire all other targets
 	G_UseTargets(next, NULL);
-
 	// set the new trajectory
 	ent->nextTrain = next->nextTrain;
 
@@ -498,7 +515,6 @@ void Reached_Tramcar(gentity_t *ent) {
 
 	VectorCopy(next->s.origin, ent->pos1);
 	VectorCopy(next->nextTrain->s.origin, ent->pos2);
-
 	// if the path_corner has a speed, use that
 	if (next->speed) {
 		speed = next->speed;
@@ -512,24 +528,20 @@ void Reached_Tramcar(gentity_t *ent) {
 	}
 	// calculate duration
 	VectorSubtract(ent->pos2, ent->pos1, move);
+
 	length = VectorLength(move);
-
 	ent->s.pos.trDuration = length * 1000 / speed;
-
-//testing
-// ent->gDuration = ent->s.pos.trDuration;
+	//ent->gDuration = ent->s.pos.trDuration;
 	ent->gDurationBack = ent->gDuration = ent->s.pos.trDuration;
-// ent->gDeltaBack = ent->gDelta =;
-
+	//ent->gDeltaBack = ent->gDelta =;
 	// looping sound
 	if (next->soundLoop) {
 		ent->s.loopSound = next->soundLoop;
 	}
 	// start it going
 	SetMoverState(ent, MOVER_1TO2, level.time);
-
 	// if there is a "wait" value on the target, don't start moving yet
-	// if(next->wait)
+	//if(next->wait)
 	if (next->wait && next->wait != -1) {
 		ent->nextthink = level.time + next->wait * 1000;
 		ent->think = Think_BeginMoving;
@@ -538,7 +550,11 @@ void Reached_Tramcar(gentity_t *ent) {
 }
 
 extern void func_explosive_explode(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod);
-
+/*
+=======================================================================================================================================
+Tramcar_die
+=======================================================================================================================================
+*/
 void Tramcar_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod) {
 	gentity_t *slave;
 
@@ -547,7 +563,6 @@ void Tramcar_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	}
 
 	func_explosive_explode(self, self, inflictor, 0, 0);
-
 	// link all teammembers
 	for (slave = self; slave; slave = slave->teamchain) {
 		if (slave == self) {
@@ -555,16 +570,17 @@ void Tramcar_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		}
 		// slaves need to inherit position
 		slave->nextTrain = self->nextTrain;
-
 		slave->s.pos.trType = self->s.pos.trType;
 		slave->s.pos.trTime = self->s.pos.trTime;
 		slave->s.pos.trDuration = self->s.pos.trDuration;
+
 		VectorCopy(self->s.pos.trBase, slave->s.pos.trBase);
 		VectorCopy(self->s.pos.trDelta, slave->s.pos.trDelta);
 
 		slave->s.apos.trType = self->s.apos.trType;
 		slave->s.apos.trTime = self->s.apos.trTime;
 		slave->s.apos.trDuration = self->s.apos.trDuration;
+
 		VectorCopy(self->s.apos.trBase, slave->s.apos.trBase);
 		VectorCopy(self->s.apos.trDelta, slave->s.apos.trDelta);
 
@@ -575,10 +591,8 @@ void Tramcar_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 		VectorCopy(self->pos2, slave->pos2);
 
 		slave->speed = self->speed;
-
 		slave->flags &= ~FL_TEAMSLAVE;
 		// make it visible
-
 		if (self->use) {
 			slave->use = self->use;
 		}
@@ -587,9 +601,7 @@ void Tramcar_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	}
 
 	self->use = 0;
-
 	self->is_dead = qtrue;
-
 	self->takedamage = qfalse;
 
 	if (self->nextTrain) {
@@ -602,10 +614,15 @@ void Tramcar_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int
 	VectorCopy(self->r.currentAngles, self->s.apos.trBase);
 
 	self->flags |= FL_TEAMSLAVE;
-	trap_UnlinkEntity(self);
 
+	trap_UnlinkEntity(self);
 }
 
+/*
+=======================================================================================================================================
+TramCarUse
+=======================================================================================================================================
+*/
 void TramCarUse(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 	gentity_t *next;
 
@@ -622,10 +639,15 @@ void TramCarUse(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 	}
 //	else
 //		G_Printf("no can do havent reached yet\n");
-
 }
 
+/*
+=======================================================================================================================================
+Blocked_Tramcar
+=======================================================================================================================================
+*/
 void Blocked_Tramcar(gentity_t *ent, gentity_t *other) {
+
 	// remove anything other than a client
 	if (!other->client) {
 		// except CTF flags!!!!
@@ -645,10 +667,9 @@ void Blocked_Tramcar(gentity_t *ent, gentity_t *other) {
 	}
 
 	G_Damage(other, ent, ent, NULL, NULL, 99999, 0, MOD_CRUSH);
-
 }
 
-/*QUAKED func_tramcar(0 .5 .8) ? START_ON TOGGLE - LEADER
+/*QUAKED func_tramcar (0 .5 .8) ? START_ON TOGGLE - LEADER
 health value of 999 will designate the piece as non damageable
 
 The leader of the tramcar group must have the leader flag set or
@@ -665,7 +686,7 @@ position when you bsp the map you can the start it by targeting the desired path
 
 "model2"	.md3 model to also draw
 "speed"		default 100
-"dmg"		default	2
+"dmg"		default 2
 "noise"		looping sound to play when the train is in motion
 "target"	next path corner
 "color"		constantLight color
@@ -742,44 +763,48 @@ void SP_func_tramcar(gentity_t *self) {
 		}
 	} else {
 		switch (self->key) {
-		case 0:     // "wood"
-			self->s.dl_intensity = G_SoundIndex("sound/world/boardbreak.wav");
-			break;
-		case 1:     // "glass"
-			self->s.dl_intensity = G_SoundIndex("sound/world/glassbreak.wav");
-			break;
-		case 2:     // "metal"
-			self->s.dl_intensity = G_SoundIndex("sound/world/metalbreak.wav");
-			break;
-		case 3:     // "gibs"
-			self->s.dl_intensity = G_SoundIndex("sound/player/gibsplit1.wav");
-			break;
+			case 0: // "wood"
+				self->s.dl_intensity = G_SoundIndex("sound/world/boardbreak.wav");
+				break;
+			case 1: // "glass"
+				self->s.dl_intensity = G_SoundIndex("sound/world/glassbreak.wav");
+				break;
+			case 2: // "metal"
+				self->s.dl_intensity = G_SoundIndex("sound/world/metalbreak.wav");
+				break;
+			case 3: // "gibs"
+				self->s.dl_intensity = G_SoundIndex("sound/player/gibsplit1.wav");
+				break;
 		}
 	}
 
-	self->s.density = self->count;  // pass the "mass" to the client
+	self->s.density = self->count; // pass the "mass" to the client
 
 	InitTramcar(self);
 
 	self->reached = Reached_Tramcar;
-
 	self->nextthink = level.time + (FRAMETIME / 2);
-
 	self->think = Think_SetupTrainTargets;
-
 	self->blocked = Blocked_Tramcar;
 
 	if (self->spawnflags & TRAMCAR_TOGGLE) {
 		self->use = TramCarUse;
 	}
-
 }
 
-////////////////////////////
-// me109
-////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// me109
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+=======================================================================================================================================
+plane_AIScript_AlertEntity
+=======================================================================================================================================
+*/
 void plane_AIScript_AlertEntity(gentity_t *ent) {
+
 	// when count reaches 0, the marker is active
 	ent->count--;
 
@@ -788,12 +813,17 @@ void plane_AIScript_AlertEntity(gentity_t *ent) {
 	}
 }
 
-/*QUAKED plane_waypoint(.5 .3 0)(-8 -8 -8)(8 8 8)SCRIPTS DIE EXPLODE LAPS ATTACK
-"count" number of times this waypoint needs to be triggered by an AIScript "alertentity" call before the aircraft changes tracks
-"track"	tells it what track to branch off to there can be several track with the same track name
-the program will pick one randomly there can be a maximum of eight tracks at any branch
+/*
+....................................................................................................................................
 
-the entity will fire its target when reached
+QUAKED plane_waypoint (.5 .3 0) (-8 -8 -8) (8 8 8) SCRIPTS DIE EXPLODE LAPS ATTACK
+
+ "count" number of times this waypoint needs to be triggered by an AIScript "alertentity" call before the aircraft changes tracks.
+ "track" tells it what track to branch off to there can be several track with the same track name.
+
+The program will pick one randomly there can be a maximum of eight tracks at any branch.
+The entity will fire its target when reached.
+....................................................................................................................................
 */
 void SP_plane_waypoint(gentity_t *self) {
 	if (!self->targetname) {
@@ -815,10 +845,11 @@ void SP_plane_waypoint(gentity_t *self) {
 	}
 }
 
-/*QUAKED props_me109(.7 .3 .1)(-128 -128 0)(128 128 64)START_ON TOGGLE SPINNINGPROP FIXED_DIE
-default health = 1000
+/*
+=======================================================================================================================================
+ExplodePlaneSndFx
+=======================================================================================================================================
 */
-
 void ExplodePlaneSndFx(gentity_t *self) {
 	gentity_t *temp;
 	vec3_t dir;
@@ -834,10 +865,11 @@ void ExplodePlaneSndFx(gentity_t *self) {
 
 	G_SetOrigin(temp, self->melee->s.pos.trBase);
 	G_AddEvent(temp, EV_GLOBAL_SOUND, fpexpdebris_snd);
+
 	temp->think = G_FreeEntity;
 	temp->nextthink = level.time + 10000;
-	trap_LinkEntity(temp);
 
+	trap_LinkEntity(temp);
 	// added this because plane may be parked on runway
 	// we may want to add some exotic deaths to parked aircraft
 	if (self->nextTrain && self->nextTrain->spawnflags & 4) { // explode the plane
@@ -872,7 +904,6 @@ void ExplodePlaneSndFx(gentity_t *self) {
 			}
 
 			part->s.eType = ET_FP_PARTS;
- 
 			part->s.modelindex = wing_part;
 		}
 
@@ -908,7 +939,13 @@ void ExplodePlaneSndFx(gentity_t *self) {
 	}
 }
 
+/*
+=======================================================================================================================================
+props_me109_die
+=======================================================================================================================================
+*/
 void props_me109_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod) {
+
 	G_Printf("dead\n");
 
 	VectorClear(self->rotate);
@@ -919,11 +956,18 @@ void props_me109_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker,
 	}
 
 	propExplosionLarge(self);
+
 	self->melee->s.loopSound = self->melee->noise_index = 0;
+
 	ExplodePlaneSndFx(self);
 	G_FreeEntity(self);
 }
 
+/*
+=======================================================================================================================================
+props_me109_pain
+=======================================================================================================================================
+*/
 void props_me109_pain(gentity_t *self, gentity_t *attacker, int damage, vec3_t point) {
 	vec3_t temp;
 
@@ -933,11 +977,15 @@ void props_me109_pain(gentity_t *self, gentity_t *attacker, int damage, vec3_t p
 	VectorCopy(self->pos3, self->r.currentOrigin);
 	Spawn_Shard(self, NULL, 6, 999);
 	VectorCopy(temp, self->r.currentOrigin);
-
 	VectorClear(self->rotate);
 	VectorSet(self->rotate, 0, 1, 0); //sigh
 }
 
+/*
+=======================================================================================================================================
+Plane_Fire_Lead
+=======================================================================================================================================
+*/
 void Plane_Fire_Lead(gentity_t *self) {
 	vec3_t dir, right;
 	vec3_t pos1, pos2;
@@ -952,7 +1000,13 @@ void Plane_Fire_Lead(gentity_t *self) {
 	fire_lead(self, pos2, dir, 12);
 }
 
+/*
+=======================================================================================================================================
+Plane_Attack
+=======================================================================================================================================
+*/
 void Plane_Attack(gentity_t *self, qboolean in_PVS) {
+
 	if (self->nextTrain->spawnflags & 16) {
 		self->count++;
 
@@ -976,25 +1030,30 @@ void Plane_Attack(gentity_t *self, qboolean in_PVS) {
 	}
 }
 
+/*
+=======================================================================================================================================
+props_me109_think
+=======================================================================================================================================
+*/
 void props_me109_think(gentity_t *self) {
 	int i;
 	qboolean in_PVS = qfalse;
 	gentity_t *player;
- 
+
 	for (i = 0; i < g_maxclients.integer; i++) {
 		player = &g_entities[i];
- 
+
 		if (!player || !player->inuse) {
 			continue;
 		}
- 
+
 		if (player->r.svFlags & SVF_CASTAI) {
 			continue;
 		}
- 
+
 		in_PVS = trap_InPVS(player->r.currentOrigin, self->s.pos.trBase);
 		self->melee->s.eType = ET_GENERAL;
- 
+
 		if (in_PVS) {
 			float len;
 			vec3_t vec;
@@ -1004,14 +1063,15 @@ void props_me109_think(gentity_t *self) {
 
 			VectorCopy(player->r.currentOrigin, point);
 			VectorSubtract(player->r.currentOrigin, self->r.currentOrigin, vec);
+
 			len = VectorLength(vec);
+
 			vectoangles(vec, dir);
 			AngleVectors(dir, forward, NULL, NULL);
 			VectorMA(point, len * 0.1, forward, point);
- 
 			G_SetOrigin(self->melee, point);
 		}
- 
+
 		trap_LinkEntity(self->melee);
 		Plane_Attack(self, in_PVS);
 	}
@@ -1023,8 +1083,11 @@ void props_me109_think(gentity_t *self) {
 		vec3_t point;
 
 		VectorCopy(self->r.currentOrigin, point);
+
 		tent = G_TempEntity(point, EV_SMOKE);
+
 		VectorCopy(point, tent->s.origin);
+
 		tent->s.time = 2000;
 		tent->s.time2 = 1000;
 		tent->s.density = 4;
@@ -1057,20 +1120,21 @@ void props_me109_think(gentity_t *self) {
 		ExplodePlaneSndFx(self);
 		G_FreeEntity(self->melee);
 		G_FreeEntity(self);
-
-
 	}
-
 }
 
+/*
+=======================================================================================================================================
+Think_SetupAirplaneWaypoints
+=======================================================================================================================================
+*/
 void Think_SetupAirplaneWaypoints(gentity_t *ent) {
 	gentity_t *path, *next, *start;
 
 	ent->nextTrain = G_Find(NULL, FOFS(targetname), ent->target);
 
 	if (!ent->nextTrain) {
-		G_Printf("plane at %s with an unfound target\n",
-				  vtos(ent->r.absmin));
+		G_Printf("plane at %s with an unfound target\n", vtos(ent->r.absmin));
 		return;
 	}
 
@@ -1082,23 +1146,21 @@ void Think_SetupAirplaneWaypoints(gentity_t *ent) {
 		}
 
 		if (!path->target) {
-			G_Printf("plane at %s without a target\n",
-					  vtos(path->s.origin));
+			G_Printf("plane at %s without a target\n", vtos(path->s.origin));
 			return;
 		}
 		// find a path_corner among the targets
-		// there may also be other targets that get fired when the corner
-		// is reached
+		// there may also be other targets that get fired when the corner is reached
 		next = NULL;
+
 		do {
 			next = G_Find(next, FOFS(targetname), path->target);
 
 			if (!next) {
-				G_Printf("plane at %s without a target path_corner\n",
-						  vtos(path->s.origin));
+				G_Printf("plane at %s without a target path_corner\n", vtos(path->s.origin));
 				return;
 			}
-		} while(strcmp(next->classname, "plane_waypoint"));
+		} while (strcmp(next->classname, "plane_waypoint"));
 
 		path->nextTrain = next;
 	}
@@ -1112,6 +1174,11 @@ void Think_SetupAirplaneWaypoints(gentity_t *ent) {
 	}
 }
 
+/*
+=======================================================================================================================================
+PlaneUse
+=======================================================================================================================================
+*/
 void PlaneUse(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 	gentity_t *next;
 
@@ -1124,27 +1191,26 @@ void PlaneUse(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 		}
 
 		Reached_Tramcar(ent);
-
 	}
 //	else
 //		G_Printf("no can do havent reached yet\n");
-
 }
 
+/*
+=======================================================================================================================================
+InitPlaneSpeaker
+=======================================================================================================================================
+*/
 void InitPlaneSpeaker(gentity_t *ent) {
 	gentity_t *snd;
 
 	snd = G_Spawn();
-
 	snd->noise_index = fploop_snd;
-
 	snd->s.eType = ET_SPEAKER;
 	snd->s.eventParm = snd->noise_index;
 	snd->s.frame = 0;
 	snd->s.clientNum = 0;
-
 	snd->s.loopSound = snd->noise_index;
-
 	snd->r.svFlags |= SVF_BROADCAST;
 
 	VectorCopy(ent->s.origin, snd->s.pos.trBase);
@@ -1152,10 +1218,15 @@ void InitPlaneSpeaker(gentity_t *ent) {
 	ent->melee = snd;
 
 	trap_LinkEntity(snd);
-
 }
+//...........................................................................................
 
+/*QUAKED props_me109(.7 .3 .1)(-128 -128 0)(128 128 64)START_ON TOGGLE SPINNINGPROP FIXED_DIE
+default health = 1000
+*/
+//...........................................................................................
 void SP_props_me109(gentity_t *ent) {
+
 	VectorSet(ent->r.mins, -128, -128, -128);
 	VectorSet(ent->r.maxs, 128, 128, 128);
 
@@ -1163,9 +1234,7 @@ void SP_props_me109(gentity_t *ent) {
 	ent->r.contents = CONTENTS_SOLID;
 	ent->r.svFlags = SVF_USE_CURRENT_ORIGIN;
 	ent->s.eType = ET_MOVER;
-
 	ent->isProp = qtrue;
-
 	ent->s.modelindex = G_ModelIndex("models/mapobjects/vehicles/m109.md3");
 
 	if (!ent->health) {
@@ -1173,16 +1242,11 @@ void SP_props_me109(gentity_t *ent) {
 	}
 
 	ent->takedamage = qtrue;
-
 	ent->die = props_me109_die;
 	ent->pain = props_me109_pain;
-
 	ent->reached = Reached_Tramcar;
-
 	ent->nextthink = level.time + (FRAMETIME / 2);
-
 	ent->think = Think_SetupAirplaneWaypoints;
-
 	ent->use = PlaneUse;
 
 	if (!(ent->speed)) {
@@ -1203,12 +1267,10 @@ void SP_props_me109(gentity_t *ent) {
 	fpattack_snd = G_SoundIndex("sound/weapons/mg42/37mm.wav");
 	fpexpdebris_snd = G_SoundIndex("sound/fighterplane/fpexpdebris.wav");
 
-
 	fpflyby1_snd = G_SoundIndex("sound/fighterplane/fpflyby1.wav");
 	fpflyby2_snd = G_SoundIndex("sound/fighterplane/fpflyby2.wav");
 	fpidle_snd = G_SoundIndex("sound/fighterplane/fpidle.wav");
 	fpstartup_snd = G_SoundIndex("sound/fighterplane/fpstartup.wav");
-
 
 	fuse_part = G_ModelIndex("models/mapobjects/vehicles/m109debris_a.md3");
 	wing_part = G_ModelIndex("models/mapobjects/vehicles/m109debris_b.md3");
@@ -1218,29 +1280,31 @@ void SP_props_me109(gentity_t *ent) {
 	crash_part = G_ModelIndex("models/mapobjects/vehicles/m109crash.md3");
 
 	InitPlaneSpeaker(ent);
-
 }
 
 /////////////////////////
 // TRUCK DRIVE
 /////////////////////////
 
-/*QUAKED truck_cam(.7 .3 .1) ? START_ON TOGGLE - -
+/*
+=======================================================================================================================================
+truck_cam_touch
+=======================================================================================================================================
 */
 void truck_cam_touch(gentity_t *self, gentity_t *other, trace_t *trace) {
+
 	if (IsPlayerEnt(other)) {
 		vec3_t point;
 
 		trap_UnlinkEntity(other);
-
-		// VectorCopy(self->r.currentOrigin, other->client->ps.origin);
+		//VectorCopy(self->r.currentOrigin, other->client->ps.origin);
 		VectorCopy(self->r.currentOrigin, point);
-		point[2] = other->client->ps.origin[2];
-		VectorCopy(point, other->client->ps.origin);
 
+		point[2] = other->client->ps.origin[2];
+
+		VectorCopy(point, other->client->ps.origin);
 		// save results of pmove
 		BG_PlayerStateToEntityState(&other->client->ps, &other->s, qtrue);
-
 		// use the precise origin for linking
 		VectorCopy(other->client->ps.origin, other->r.currentOrigin);
 
@@ -1248,13 +1312,19 @@ void truck_cam_touch(gentity_t *self, gentity_t *other, trace_t *trace) {
 
 		trap_LinkEntity(other);
 	}
-
 }
 
+/*
+=======================================================================================================================================
+truck_cam_think
+=======================================================================================================================================
+*/
 void truck_cam_think(gentity_t *ent) {
 	ent->nextthink = level.time + (FRAMETIME / 2);
 }
 
+/*QUAKED truck_cam(.7 .3 .1) ? START_ON TOGGLE - -
+*/
 void SP_truck_cam(gentity_t *self) {
 	int mass;
 
@@ -1281,27 +1351,20 @@ void SP_truck_cam(gentity_t *self) {
 	InitTramcar(self);
 
 	self->nextthink = level.time + (FRAMETIME / 2);
-
 	self->think = Think_SetupTrainTargets;
-
 	self->touch = truck_cam_touch;
-
 	self->s.loopSound = 0;
 	self->props_frame_state = 0;
-
 	self->clipmask = CONTENTS_SOLID;
 
-	// G_SetOrigin(self, self->s.origin);
-	// G_SetAngle(self, self->s.angles);
+	//G_SetOrigin(self, self->s.origin);
+	//G_SetAngle(self, self->s.angles);
 
 	self->reached = Reached_Tramcar;
-
 	self->s.density = 6;
-
 	//start_drive_grind_gears
 	truck_sound = G_SoundIndex("sound/vehicles/start_drive_grind_gears_01_11k.wav");
 	// truck_sound = G_SoundIndex("sound/vehicles/tankmove1.wav");
-
 	truck_idle_snd = G_SoundIndex("sound/vehicles/truckidle.wav");
 	truck_gear1_snd = G_SoundIndex("sound/vehicles/truckgear1.wav");
 	truck_gear2_snd = G_SoundIndex("sound/vehicles/truckgear2.wav");
@@ -1318,16 +1381,23 @@ void SP_truck_cam(gentity_t *self) {
 // camera cam
 /////////////////////////
 
-/*QUAKED camera_cam(.5 .7 .3)(-8 -8 -8)(8 8 8)ON TRACKING MOVING -
-"track" is the targetname of the entity providing the starting direction use an info_notnull
+/*
+=======================================================================================================================================
+delayOnthink
+=======================================================================================================================================
 */
-
 void delayOnthink(gentity_t *ent) {
+
 	if (ent->melee) {
 		ent->melee->use(ent->melee, NULL, NULL);
 	}
 }
 
+/*
+=======================================================================================================================================
+Init_Camera
+=======================================================================================================================================
+*/
 void Init_Camera(gentity_t *ent) {
 	vec3_t move;
 	float distance;
@@ -1337,14 +1407,14 @@ void Init_Camera(gentity_t *ent) {
 	ent->s.eType = ET_MOVER;
 
 	VectorCopy(ent->pos1, ent->r.currentOrigin);
-
 	trap_LinkEntity(ent);
 
 	ent->s.pos.trType = TR_STATIONARY;
-	VectorCopy(ent->pos1, ent->s.pos.trBase);
 
+	VectorCopy(ent->pos1, ent->s.pos.trBase);
 	// calculate time to reach second position from speed
 	VectorSubtract(ent->pos2, ent->pos1, move);
+
 	distance = VectorLength(move);
 
 	if (!ent->speed) {
@@ -1352,6 +1422,7 @@ void Init_Camera(gentity_t *ent) {
 	}
 
 	VectorScale(move, ent->speed, ent->s.pos.trDelta);
+
 	ent->s.pos.trDuration = distance * 1000 / ent->speed;
 
 	if (ent->s.pos.trDuration <= 0) {
@@ -1359,6 +1430,11 @@ void Init_Camera(gentity_t *ent) {
 	}
 }
 
+/*
+=======================================================================================================================================
+camera_cam_think
+=======================================================================================================================================
+*/
 void camera_cam_think(gentity_t *ent) {
 	gentity_t *player;
 	int i;
@@ -1378,18 +1454,16 @@ void camera_cam_think(gentity_t *ent) {
 			vec3_t point;
 
 			trap_UnlinkEntity(player);
-
-			// VectorCopy(self->r.currentOrigin, other->client->ps.origin);
+			//VectorCopy(self->r.currentOrigin, other->client->ps.origin);
 			VectorCopy(ent->r.currentOrigin, point);
-			point[2] = player->client->ps.origin[2];
-			VectorCopy(point, player->client->ps.origin);
 
+			point[2] = player->client->ps.origin[2];
+
+			VectorCopy(point, player->client->ps.origin);
 			// save results of pmove
 			BG_PlayerStateToEntityState(&player->client->ps, &player->s, qtrue);
-
 			// use the precise origin for linking
 			VectorCopy(player->client->ps.origin, player->r.currentOrigin);
-
 			// tracking
 			{
 				gentity_t *target = NULL;
@@ -1404,10 +1478,8 @@ void camera_cam_think(gentity_t *ent) {
 					VectorSubtract(target->r.currentOrigin, ent->r.currentOrigin, vec);
 					vectoangles(vec, dang);
 					SetClientViewAngle(player, dang);
-
 					VectorCopy(ent->r.currentOrigin, ent->s.pos.trBase);
 					VectorCopy(dang, ent->s.apos.trBase);
-
 					trap_LinkEntity(ent);
 				}
 			}
@@ -1419,6 +1491,11 @@ void camera_cam_think(gentity_t *ent) {
 	ent->nextthink = level.time + (FRAMETIME / 2);
 }
 
+/*
+=======================================================================================================================================
+camera_cam_use
+=======================================================================================================================================
+*/
 void camera_cam_use(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 	gentity_t *player;
 	int i;
@@ -1455,6 +1532,11 @@ void camera_cam_use(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 	}
 }
 
+/*
+=======================================================================================================================================
+camera_cam_firstthink
+=======================================================================================================================================
+*/
 void camera_cam_firstthink(gentity_t *ent) {
 	gentity_t *target = NULL;
 	vec3_t dang;
@@ -1476,7 +1558,11 @@ void camera_cam_firstthink(gentity_t *ent) {
 	}
 }
 
+/*QUAKED camera_cam(.5 .7 .3)(-8 -8 -8)(8 8 8)ON TRACKING MOVING -
+"track" is the targetname of the entity providing the starting direction use an info_notnull
+*/
 void SP_camera_cam(gentity_t *ent) {
+
 	Init_Camera(ent);
 
 	ent->r.svFlags = SVF_USE_CURRENT_ORIGIN;
@@ -1486,11 +1572,8 @@ void SP_camera_cam(gentity_t *ent) {
 	G_SetAngle(ent, ent->s.angles);
 
 	ent->reached = Reached_Tramcar;
-
 	ent->nextthink = level.time + (FRAMETIME / 2);
-
 	ent->think = camera_cam_firstthink;
-
 	ent->use = camera_cam_use;
 
 	if (ent->spawnflags & 1) { // On
@@ -1502,19 +1585,15 @@ void SP_camera_cam(gentity_t *ent) {
 		delayOn->melee = ent;
 		trap_LinkEntity(delayOn);
 	}
-
 }
 
-/*QUAKED screen_fade(.3 .7 .9)(-8 -8 -8)(8 8 8)
-"wait" duration of fade out
-"delay" duration of fade in
-
-  1 = 1 sec
-  .5 = .5 sec
-
-defaults are .5 sec
+/*
+=======================================================================================================================================
+screen_fade_use
+=======================================================================================================================================
 */
 void screen_fade_use(gentity_t *ent, gentity_t *other, gentity_t *activator) {
+
 	if (ent->spawnflags & 1) {
 		// fade out
 		trap_SetConfigstring(CS_SCREENFADE, va("1 %i %i", level.time + 100, (int)ent->wait));
@@ -1524,10 +1603,15 @@ void screen_fade_use(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 		trap_SetConfigstring(CS_SCREENFADE, va("0 %i %i", level.time + 100, (int)ent->delay));
 		ent->spawnflags |= 1;
 	}
-
 }
 
+/*
+=======================================================================================================================================
+SP_screen_fade
+=======================================================================================================================================
+*/
 void SP_screen_fade(gentity_t *ent) {
+
 	ent->use = screen_fade_use;
 
 	if (!ent->wait) {
@@ -1537,15 +1621,13 @@ void SP_screen_fade(gentity_t *ent) {
 	if (!ent->delay) {
 		ent->delay = 500;
 	}
-
 }
 
-/*QUAKED camera_reset_player(.5 .7 .3)?
-touched will record the players position and fire off its targets and or cameras
-
-used will reset the player back to his last position
+/*
+=======================================================================================================================================
+mark_players_pos
+=======================================================================================================================================
 */
-
 void mark_players_pos(gentity_t *ent, gentity_t *other, trace_t *trace) {
 	gentity_t *player;
 	int i;
@@ -1564,12 +1646,16 @@ void mark_players_pos(gentity_t *ent, gentity_t *other, trace_t *trace) {
 		if (player == other) {
 			VectorCopy(player->r.currentOrigin, ent->s.origin2);
 			VectorCopy(player->r.currentAngles, ent->s.angles2);
-
 			G_UseTargets(ent, NULL);
 		}
 	}
 }
 
+/*
+=======================================================================================================================================
+reset_players_pos
+=======================================================================================================================================
+*/
 void reset_players_pos(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 	int i;
 	gentity_t *player;
@@ -1586,15 +1672,11 @@ void reset_players_pos(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 		}
 
 		trap_UnlinkEntity(player);
-
 		VectorCopy(ent->s.origin2, player->client->ps.origin);
-
 		// save results of pmove
 		BG_PlayerStateToEntityState(&player->client->ps, &player->s, qtrue);
-
 		// use the precise origin for linking
 		VectorCopy(player->client->ps.origin, player->r.currentOrigin);
-
 		SetClientViewAngle(player, ent->s.angles2);
 
 		player->client->ps.persistant[PERS_HWEAPON_USE] = 0;
@@ -1606,12 +1688,15 @@ void reset_players_pos(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 }
 
 extern void InitTrigger(gentity_t *self);
-
+/*QUAKED camera_reset_player(.5 .7 .3)?
+touched will record the players position and fire off its targets and or cameras
+used will reset the player back to his last position
+*/
 void SP_camera_reset_player(gentity_t *ent) {
+
 	InitTrigger(ent);
 
 	ent->r.contents = CONTENTS_TRIGGER;
-
 	ent->touch = mark_players_pos;
 	ent->use = reset_players_pos;
 

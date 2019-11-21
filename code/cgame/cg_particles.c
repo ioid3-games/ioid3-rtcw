@@ -495,7 +495,8 @@ void CG_AddParticleToScene(cparticle_t *p, vec3_t org, float alpha) {
 		width = p->width + (ratio * (p->endwidth - p->width));
 		height = p->height + (ratio * (p->endheight - p->height));
 
-//		if (p->type != P_SMOKE_IMPACT) {
+//		if (p->type != P_SMOKE_IMPACT)
+		{
 			vec3_t temp;
 
 			vectoangles(rforward, temp);

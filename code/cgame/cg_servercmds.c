@@ -278,7 +278,7 @@ static void CG_ParseWarmup(void) {
 	cg.warmupCount = -1;
 
 	if (warmup == 0 && cg.warmup) {
-	} else if (warmup > 0 && cg.warmup <= 0  && cg_announcer.integer) { // use sound only they have it set..
+	} else if (warmup > 0 && cg.warmup <= 0 && cg_announcer.integer) { // use sound only they have it set..
 		trap_S_StartLocalSound(cgs.media.countPrepareSound, CHAN_ANNOUNCER);
 	}
 
@@ -659,7 +659,6 @@ void CG_AddToNotify(const char *str) {
 
 			*p = 0;
 			cgs.notifyMsgTimes[cgs.notifyPos % chatHeight] = cg.time;
-
 			cgs.notifyPos++;
 			p = cgs.notifyMsgs[cgs.notifyPos % chatHeight];
 			*p = 0;

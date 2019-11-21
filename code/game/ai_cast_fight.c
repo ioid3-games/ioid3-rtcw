@@ -36,14 +36,14 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "g_local.h"
 #include "../qcommon/q_shared.h"
-#include "../botlib/botlib.h"      //bot lib interface
+#include "../botlib/botlib.h" // bot lib interface
 #include "../botlib/be_aas.h"
 #include "../botlib/be_ea.h"
 #include "../botlib/be_ai_gen.h"
 #include "../botlib/be_ai_goal.h"
 #include "../botlib/be_ai_move.h"
 #include "../botlib/be_ai_weap.h"
-#include "../botlib/botai.h"          //bot ai interface
+#include "../botlib/botai.h" // bot ai interface
 
 #include "ai_cast.h"
 
@@ -51,14 +51,13 @@ If you have questions concerning this license or the applicable additional terms
 Support routines for the Decision Making layer.
 */
 
-// FIXME: go through here and convert all weapon/character parameters to#define's
-// and move them to a seperate header file for easy modification
+// FIXME: go through here and convert all weapon/character parameters to #define's and move them to a seperate header file for easy modification
 
 /*
 =======================================================================================================================================
 AICast_StateChange
 
-  returns qfalse if scripting has denied the action
+Returns qfalse if scripting has denied the action.
 =======================================================================================================================================
 */
 qboolean AICast_StateChange(cast_state_t *cs, aistateEnum_t newaistate) {
@@ -67,11 +66,9 @@ qboolean AICast_StateChange(cast_state_t *cs, aistateEnum_t newaistate) {
 	aistateEnum_t oldstate;
 
 	ent = &g_entities[cs->entityNum];
-
 	oldstate = cs->aiState;
 	cs->aiState = newaistate;
-
-	// RF, if the state is the same, ignore
+	// if the state is the same, ignore
 	if (oldstate == newaistate) {
 		return qtrue;
 	}
@@ -89,15 +86,14 @@ qboolean AICast_StateChange(cast_state_t *cs, aistateEnum_t newaistate) {
 	}
 
 	scriptIndex = cs->scriptCallIndex;
-
 	// check scripting to see if this event should be ignored(no anim or handling)
 	cs->aiFlags &= ~AIFL_DENYACTION;
+
 	AICast_ScriptEvent(cs, "statechange", va("%s %s", animStateStr[oldstate].string, animStateStr[newaistate].string));
 
 	if (!(cs->aiFlags & AIFL_DENYACTION)) {
 		// if no script was found, try enemysight
-		if (newaistate == AISTATE_COMBAT && cs->scriptCallIndex == scriptIndex &&
-			 !(cs->vislist[cs->enemyNum].flags & AIVIS_SIGHT_SCRIPT_CALLED)) { // no script was found, so default back to enemysight
+		if (newaistate == AISTATE_COMBAT && cs->scriptCallIndex == scriptIndex && !(cs->vislist[cs->enemyNum].flags & AIVIS_SIGHT_SCRIPT_CALLED)) { // no script was found, so default back to enemysight
 			AICast_ScriptEvent(cs, "enemysight", g_entities[cs->enemyNum].aiName);
 			cs->vislist[cs->enemyNum].flags |= AIVIS_SIGHT_SCRIPT_CALLED;
 
@@ -128,17 +124,18 @@ qboolean AICast_StateChange(cast_state_t *cs, aistateEnum_t newaistate) {
 			cs->queryCount++;
 		}
 
-		cs->queryCountValidTime = level.time + 60000;   // one minute
+		cs->queryCountValidTime = level.time + 60000; // one minute
+
 		switch (cs->queryCount) {
-		case 0:
-			cs->queryAlertSightTime = level.time + 1000;
-			break;
-		case 1:
-			cs->queryAlertSightTime = level.time + 500;
-			break;
-		default:
-			cs->queryAlertSightTime = -1;   // IMMEDIATE COMBAT MODE
-			break;
+			case 0:
+				cs->queryAlertSightTime = level.time + 1000;
+				break;
+			case 1:
+				cs->queryAlertSightTime = level.time + 500;
+				break;
+			default:
+				cs->queryAlertSightTime = -1; // IMMEDIATE COMBAT MODE
+				break;
 		}
 	}
 
@@ -149,10 +146,8 @@ qboolean AICast_StateChange(cast_state_t *cs, aistateEnum_t newaistate) {
 =======================================================================================================================================
 AICast_ScanForEnemies
 
-  returns the number of enemies visible, filling the "enemies" list before exiting
-
-  if we only found queryEnemies(possibly hostile, but not sure)while relaxed,
-  then a negative count is returned
+Returns the number of enemies visible, filling the "enemies" list before exiting.
+If we only found queryEnemies (possibly hostile, but not sure)while relaxed, then a negative count is returned.
 =======================================================================================================================================
 */
 int AICast_ScanForEnemies(cast_state_t *cs, int *enemies) {
@@ -169,7 +164,7 @@ int AICast_ScanForEnemies(cast_state_t *cs, int *enemies) {
 		} else {
 			// if we are not in combat mode, then an enemy should trigger a state change straight to combat mode
 			if (cs->aiState < AISTATE_COMBAT) {
-				AICast_StateChange(cs, AISTATE_COMBAT);   // just go straight to combat mode
+				AICast_StateChange(cs, AISTATE_COMBAT); // just go straight to combat mode
 			}
 
 			enemies[0] = cs->castScriptStatus.scriptAttackEnt;
@@ -196,7 +191,6 @@ int AICast_ScanForEnemies(cast_state_t *cs, int *enemies) {
 	enemyCount = 0;
 	queryCount = 0;
 	friendlyAlertCount = 0;
-
 	// while we're here, may as well check for some baddies
 	for (i = 0; i < g_maxclients.integer; i++) {
 		if (g_entities[i].inuse) {
@@ -250,7 +244,7 @@ int AICast_ScanForEnemies(cast_state_t *cs, int *enemies) {
 
 		if (!distances[i]) {
 			G_Printf("WARNING: zero distance between enemies:\n%s at %s, %s at %s\n", g_entities[cs->entityNum].aiName, vtos(cs->bs->origin), g_entities[enemies[i]].aiName, vtos(g_entities[enemies[i]].client->ps.origin));
-			distances[i] = 999998;  // try to ignore them(HACK)
+			distances[i] = 999998; // try to ignore them (HACK)
 		}
 	}
 
@@ -274,7 +268,6 @@ int AICast_ScanForEnemies(cast_state_t *cs, int *enemies) {
 	}
 
 	memcpy(enemies, sortedEnemies, sizeof(int) * enemyCount);
-
 	// if we are not in combat mode, then an enemy should trigger a state change straight to combat mode
 	if (!queryCount && !friendlyAlertCount && enemyCount && cs->aiState < AISTATE_COMBAT) {
 		// face them while making the transition
@@ -283,7 +276,7 @@ int AICast_ScanForEnemies(cast_state_t *cs, int *enemies) {
 		cs->enemyNum = enemies[0];
 
 		AICast_AimAtEnemy(cs);
-		AICast_StateChange(cs, AISTATE_COMBAT);   // just go straight to combat mode
+		AICast_StateChange(cs, AISTATE_COMBAT); // just go straight to combat mode
 		// set it back
 		cs->enemyNum = oldEnemy;
 	}
@@ -292,11 +285,11 @@ int AICast_ScanForEnemies(cast_state_t *cs, int *enemies) {
 		if (cs->aiState == AISTATE_RELAXED) {
 			// go into query mode
 			if (AICast_StateChange(cs, AISTATE_QUERY)) {
-				cs->enemyNum = enemies[0];  // lock onto the closest potential enemy
+				cs->enemyNum = enemies[0]; // lock onto the closest potential enemy
 				return -1;
 			}
 
-			return 0;   // scripting obviously doesn't want us to progress from relaxed just yet
+			return 0; // scripting obviously doesn't want us to progress from relaxed just yet
 		}
 		// else ignore the query mode, since we are already above relaxed mode
 		return 0;
@@ -309,8 +302,8 @@ int AICast_ScanForEnemies(cast_state_t *cs, int *enemies) {
 
 			if (cs->aiFlags & AIFL_DENYACTION) {
 				// ignore this friendly
-				cs->vislist[enemies[0]].flags |= AIVIS_INSPECTED;   // they have been notified
-				cs->vislist[enemies[0]].flags &= ~AIVIS_INSPECT;        // they have been notified
+				cs->vislist[enemies[0]].flags |= AIVIS_INSPECTED; // they have been notified
+				cs->vislist[enemies[0]].flags &= ~AIVIS_INSPECT; // they have been notified
 				return 0;
 			}
 		}
@@ -327,7 +320,7 @@ int AICast_ScanForEnemies(cast_state_t *cs, int *enemies) {
 				}
 			}
 
-			return 0;   // scripting failed or they're not worth physically inspecting
+			return 0; // scripting failed or they're not worth physically inspecting
 		}
 		// ignore the friendly, we have our hands full
 		return 0;
@@ -348,14 +341,13 @@ qboolean AICast_EntityVisible(cast_state_t *cs, int enemynum, qboolean directvie
 	float dist;
 
 	if (enemynum >= MAX_CLIENTS) {
-		return qtrue;           // FIXME: do a visibility calculation on non-client entities?
-
+		return qtrue; // FIXME: do a visibility calculation on non-client entities?
 	}
 
 	vis = &cs->vislist[enemynum];
 
 	if (!vis->visible_timestamp && !vis->real_visible_timestamp) {
-		return qfalse;  // they are not visible at all
+		return qfalse; // they are not visible at all
 
 	}
 
@@ -389,7 +381,6 @@ qboolean AICast_EntityVisible(cast_state_t *cs, int enemynum, qboolean directvie
 		}
 	}
 	// we can't directly see them, but if they've just left our sight, pretend we can see them for another second or so
-
 	if (!directview && last_visible) {
 		if (vis->notvisible_timestamp > last_visible) {
 			if (vis->notvisible_timestamp < (last_visible + 5000)) {
@@ -405,10 +396,11 @@ qboolean AICast_EntityVisible(cast_state_t *cs, int enemynum, qboolean directvie
 =======================================================================================================================================
 AICast_HostileEnemy
 
-  returns qtrue if the entity is hostile
+Returns qtrue if the entity is hostile.
 =======================================================================================================================================
 */
 qboolean AICast_HostileEnemy(cast_state_t *cs, int enemynum) {
+
 	// if we hate them, they are an enemy
 	if (cs->vislist[enemynum].flags & AIVIS_ENEMY) {
 		return qtrue;
@@ -421,10 +413,11 @@ qboolean AICast_HostileEnemy(cast_state_t *cs, int enemynum) {
 =======================================================================================================================================
 AICast_QueryEnemy
 
-  returns qtrue if the entity can become hostile(they hurt us or we recognize them)
+Returns qtrue if the entity can become hostile (they hurt us or we recognize them).
 =======================================================================================================================================
 */
 qboolean AICast_QueryEnemy(cast_state_t *cs, int enemynum) {
+
 	if (g_entities[cs->entityNum].aiTeam != g_entities[enemynum].aiTeam) {
 		if (g_entities[cs->entityNum].aiTeam == AITEAM_MONSTER || g_entities[enemynum].aiTeam == AITEAM_MONSTER) {
 			// monsters hate all non-monsters and vice-versa
@@ -432,13 +425,13 @@ qboolean AICast_QueryEnemy(cast_state_t *cs, int enemynum) {
 		} else {
 			// neutral's can only possibly become hostile if they hurt us, otherwise they are assumed to be harmless
 			if (g_entities[cs->entityNum].aiTeam == AITEAM_NEUTRAL || g_entities[enemynum].aiTeam == AITEAM_NEUTRAL) {
-				return qfalse;  // one of us is neutral, assume harmless
+				return qfalse; // one of us is neutral, assume harmless
 			}
 
 			return qtrue;
 		}
 	} else { // same team
-		return qfalse;  // be cool bitch
+		return qfalse; // be cool bitch
 	}
 
 }
@@ -447,14 +440,14 @@ qboolean AICast_QueryEnemy(cast_state_t *cs, int enemynum) {
 =======================================================================================================================================
 AICast_SameTeam
 
-  the player is always team 1, AI's default to team 0
+The player is always team 1, AI's default to team 0.
 
-  MONSTER's hate everyone else except other MONSTER's
-
-  NEUTRAL's are cool with everyone that hasn't hurt them
+MONSTER's hate everyone else except other MONSTER's.
+NEUTRAL's are cool with everyone that hasn't hurt them.
 =======================================================================================================================================
 */
 qboolean AICast_SameTeam(cast_state_t *cs, int enemynum) {
+
 	if (g_entities[cs->entityNum].aiTeam != g_entities[enemynum].aiTeam) {
 		if (g_entities[cs->entityNum].aiTeam == AITEAM_NEUTRAL || g_entities[enemynum].aiTeam == AITEAM_NEUTRAL) {
 			// if we hate them, they are an enemy
@@ -464,10 +457,10 @@ qboolean AICast_SameTeam(cast_state_t *cs, int enemynum) {
 				return qtrue;
 			}
 		} else {
-			return qfalse;  // they are an enemy
+			return qfalse; // they are an enemy
 		}
 	} else {
-		return qtrue;   // be cool bitch
+		return qtrue; // be cool bitch
 	}
 
 }
@@ -478,82 +471,81 @@ AICast_WeaponRange
 =======================================================================================================================================
 */
 float AICast_WeaponRange(cast_state_t *cs, int weaponnum) {
+
 	switch (weaponnum) {
-	case WP_TESLA:
-		switch (cs->aiCharacter) {
-		case AICHAR_SUPERSOLDIER:   // BOSS2
-			// if they have a panzer, give this weapon a shorter range
-			if (!COM_BitCheck(cs->bs->cur_ps.weapons, WP_PANZERFAUST)) {
-				return TESLA_SUPERSOLDIER_RANGE;
-			}
-		}
-
-		return(TESLA_RANGE * 0.9) - 50;  // allow for bounding box
-	case WP_FLAMETHROWER:
-		return(FLAMETHROWER_RANGE * 0.5) - 50;   // allow for bounding box
-	case WP_PANZERFAUST:
-		return 8000;
-	case WP_GRENADE_LAUNCHER:
-	case WP_GRENADE_PINEAPPLE:
-		return 800;
-	case WP_MONSTER_ATTACK1:
-		switch (cs->aiCharacter) {
-		case AICHAR_HEINRICH:
-			if (cs->weaponFireTimes[weaponnum] < level.time - 8000) {
-				return 500;     // lots of room for stomping
-			} else {
-				return 120;     // come in real close
+		case WP_TESLA:
+			switch (cs->aiCharacter) {
+				case AICHAR_SUPERSOLDIER: // BOSS2
+				// if they have a panzer, give this weapon a shorter range
+				if (!COM_BitCheck(cs->bs->cur_ps.weapons, WP_PANZERFAUST)) {
+					return TESLA_SUPERSOLDIER_RANGE;
+				}
 			}
 
-		case AICHAR_HELGA:  // helga BOSS1 melee
-			return 80;
-		case AICHAR_WARZOMBIE:
-			return 80;      // make it larger so we can start swinging early, and move in while swinging
-		case AICHAR_LOPER:  // close attack, head-butt, fist
-			return 60;
-		case AICHAR_BLACKGUARD:
-			return BLACKGUARD_MELEE_RANGE;
-		case AICHAR_STIMSOLDIER3:
-			return TESLA_RANGE;
-		case AICHAR_ZOMBIE: // zombie flaming attack
-			return ZOMBIE_FLAME_RADIUS - 50;      // get well within range before starting
-		}
-
-		break;
-	case WP_MONSTER_ATTACK2:
-		switch (cs->aiCharacter) {
-		case AICHAR_HEINRICH:
+			return (TESLA_RANGE * 0.9) - 50; // allow for bounding box
+		case WP_FLAMETHROWER:
+			return (FLAMETHROWER_RANGE * 0.5) - 50; // allow for bounding box
+		case WP_PANZERFAUST:
 			return 8000;
-		case AICHAR_ZOMBIE: // zombie spirit attack
-			return 1000;
-		case AICHAR_HELGA:  // zombie spirit attack
-			return 1900;
-		case AICHAR_LOPER:  // loper leap attack
-			return 8000;    // use it to gain on them also
-		}
+		case WP_GRENADE_LAUNCHER:
+		case WP_GRENADE_PINEAPPLE:
+			return 800;
+		case WP_MONSTER_ATTACK1:
+			switch (cs->aiCharacter) {
+				case AICHAR_HEINRICH:
+				if (cs->weaponFireTimes[weaponnum] < level.time - 8000) {
+					return 500; // lots of room for stomping
+				} else {
+					return 120; // come in real close
+				}
 
-		break;
-	case WP_MONSTER_ATTACK3:
-		switch (cs->aiCharacter) {
-		case AICHAR_HEINRICH:   // spirits
-			return 50000;
-		case AICHAR_LOPER:  // loper ground attack
-			return LOPER_GROUND_RANGE;
-		case AICHAR_WARZOMBIE:  // warzombie defense
-			return 2000;
-		case AICHAR_ZOMBIE:
-			return 44;
-		}
+				case AICHAR_HELGA: // helga BOSS1 melee
+				return 80;
+				case AICHAR_WARZOMBIE:
+				return 80; // make it larger so we can start swinging early, and move in while swinging
+				case AICHAR_LOPER: // close attack, head-butt, fist
+				return 60;
+				case AICHAR_BLACKGUARD:
+				return BLACKGUARD_MELEE_RANGE;
+				case AICHAR_STIMSOLDIER3:
+				return TESLA_RANGE;
+				case AICHAR_ZOMBIE: // zombie flaming attack
+				return ZOMBIE_FLAME_RADIUS - 50; // get well within range before starting
+			}
 
-		break;
+			break;
+		case WP_MONSTER_ATTACK2:
+			switch (cs->aiCharacter) {
+				case AICHAR_HEINRICH:
+				return 8000;
+				case AICHAR_ZOMBIE: // zombie spirit attack
+				return 1000;
+				case AICHAR_HELGA: // zombie spirit attack
+				return 1900;
+				case AICHAR_LOPER: // loper leap attack
+				return 8000; // use it to gain on them also
+			}
 
-		// Rafael added these changes as per Mikes request
-	case WP_MAUSER:
-	case WP_GARAND:
-	case WP_SNIPERRIFLE:
-	case WP_SNOOPERSCOPE:
-		return 8000;
-		break;
+			break;
+		case WP_MONSTER_ATTACK3:
+			switch (cs->aiCharacter) {
+				case AICHAR_HEINRICH: // spirits
+				return 50000;
+				case AICHAR_LOPER: // loper ground attack
+				return LOPER_GROUND_RANGE;
+				case AICHAR_WARZOMBIE: // warzombie defense
+				return 2000;
+				case AICHAR_ZOMBIE:
+				return 44;
+			}
+
+			break;
+		case WP_MAUSER:
+		case WP_GARAND:
+		case WP_SNIPERRIFLE:
+		case WP_SNOOPERSCOPE:
+			return 8000;
+			break;
 
 
 	}
@@ -620,54 +612,56 @@ qboolean AICast_CheckAttack_real(cast_state_t *cs, int enemy, qboolean allowHitW
 	if (cs->aiCharacter == AICHAR_WARZOMBIE && weapnum == WP_MONSTER_ATTACK2) {
 		return qtrue;
 	}
-
-	//if the enemy isn't directly visible
+	// if the enemy isn't directly visible
 	if (!allowHitWorld && cs->vislist[enemy].real_visible_timestamp != cs->vislist[enemy].real_update_timestamp) {
 		return qfalse;
 	}
-
-	//get the weapon info(FIXME: hard-code the weapon info?)
+	// get the weapon info(FIXME: hard-code the weapon info?)
 	memset(&wi, 0, sizeof(weaponinfo_t));
 
-	traceMask = MASK_SHOT;  // FIXME: assign mask's to different weapons
-	//end point aiming at
+	traceMask = MASK_SHOT; // FIXME: assign mask's to different weapons
+	// end point aiming at
 	if (!ent->active) {
-		//get the start point shooting from
+		// get the start point shooting from
 		VectorCopy(enemyEnt->r.currentOrigin, start);
+
 		start[2] += enemyEnt->client->ps.viewheight;
+
 		VectorCopy(ent->r.currentOrigin, end);
+
 		end[2] += ent->client->ps.viewheight;
+
 		VectorSubtract(start, end, dir);
 		vectoangles(dir, angles);
 		AngleVectors(angles, forward, right, up);
 		CalcMuzzlePoint(&g_entities[cs->entityNum], weapnum, forward, right, up, start);
 
 		traceDist = AICast_WeaponRange(cs, weapnum);
+
 		switch (weapnum) {
-		case WP_GAUNTLET:
-			mins = NULL;
-			maxs = NULL;
-			break;
-		case WP_DYNAMITE:
-		case WP_PANZERFAUST:
-		case WP_GRENADE_LAUNCHER:
-		case WP_GRENADE_PINEAPPLE:
-			traceMask = MASK_MISSILESHOT;
-			mins = smins;
-			maxs = smaxs;
-			break;
-		case WP_FLAMETHROWER:
-			mins = fmins;
-			maxs = fmaxs;
-			break;
-		default:
-			mins = smins;
-			maxs = smaxs;
-			break;
+			case WP_GAUNTLET:
+				mins = NULL;
+				maxs = NULL;
+				break;
+			case WP_DYNAMITE:
+			case WP_PANZERFAUST:
+			case WP_GRENADE_LAUNCHER:
+			case WP_GRENADE_PINEAPPLE:
+				traceMask = MASK_MISSILESHOT;
+				mins = smins;
+				maxs = smaxs;
+				break;
+			case WP_FLAMETHROWER:
+				mins = fmins;
+				maxs = fmaxs;
+				break;
+			default:
+				mins = smins;
+				maxs = smaxs;
+				break;
 		}
 
 		passEnt = cs->entityNum;
-
 		// don't try too far
 		dist = Distance(start, enemyEnt->r.currentOrigin);
 		fuzzyCount = 6;
@@ -675,7 +669,8 @@ qboolean AICast_CheckAttack_real(cast_state_t *cs, int enemy, qboolean allowHitW
 		if (traceDist > dist) {
 			traceDist = dist;
 		} else {
-			dist -= enemyEnt->r.maxs[0];    // subtract distance to edge of bounding box edge
+			dist -= enemyEnt->r.maxs[0]; // subtract distance to edge of bounding box edge
+
 			if (traceDist < dist) {
 				return qfalse;
 			}
@@ -684,13 +679,15 @@ qboolean AICast_CheckAttack_real(cast_state_t *cs, int enemy, qboolean allowHitW
 		gentity_t *mg42;
 		// we are mounted on a weapon
 		mg42 = &g_entities[cs->mountedEntity];
+
 		VectorCopy(enemyEnt->r.currentOrigin, start);
+
 		start[2] += enemyEnt->client->ps.viewheight;
+
 		VectorCopy(mg42->r.currentOrigin, end);
 		VectorSubtract(start, end, dir);
 		vectoangles(dir, angles);
 		AngleVectors(angles, forward, right, up);
-
 		VectorCopy(mg42->r.currentOrigin, start);
 		VectorMA(start, 16, forward, start);
 		VectorMA(start, 16, up, start);
@@ -722,7 +719,6 @@ qboolean AICast_CheckAttack_real(cast_state_t *cs, int enemy, qboolean allowHitW
 
 	for (i = 0; i <= fuzzyCount; i++) {
 		VectorMA(start, traceDist, forward, end);
-
 		// fuzzy end point
 		if (i > 0) {
 			VectorMA(end, enemyEnt->r.maxs[0] * 0.9 * (float)((i % 2) * 2 - 1), right, end);
@@ -741,16 +737,15 @@ qboolean AICast_CheckAttack_real(cast_state_t *cs, int enemy, qboolean allowHitW
 
 		if (trace.fraction == 1.0) {
 			if (!trace.startsolid) {
-				return qtrue;   // not sure why, but this fixes blackguards in chateau shooting through glass ceiling
+				return qtrue; // not sure why, but this fixes blackguards in chateau shooting through glass ceiling
 			}
 			//return qfalse;
 			continue;
 		}
-		//if won't hit the enemy
+		// if won't hit the enemy
 		if (trace.entityNum != enemy) {
-			// RF, assume we can shoot through props(chairs, etc)
-			if (g_entities[trace.entityNum].takedamage && g_entities[trace.entityNum].health > 0 &&
-				 !Q_strncmp(g_entities[trace.entityNum].classname, "props_", 6)) {
+			// assume we can shoot through props (chairs, etc.)
+			if (g_entities[trace.entityNum].takedamage && g_entities[trace.entityNum].health > 0 && !Q_strncmp(g_entities[trace.entityNum].classname, "props_", 6)) {
 				return qtrue;
 			}
 
@@ -761,20 +756,19 @@ qboolean AICast_CheckAttack_real(cast_state_t *cs, int enemy, qboolean allowHitW
 			if (trace.startsolid) {
 				continue;
 			}
-
-			//if the entity is a client
+			// if the entity is a client
 			if (trace.entityNum >= 0 && trace.entityNum < MAX_CLIENTS) {
-				//if a teammate is hit
+				// if a teammate is hit
 				if (AICast_SameTeam(cs, trace.entityNum)) {
 					return qfalse;
 				}
 			}
-			//if the projectile does a radial damage
+			// if the projectile does a radial damage
 			if (cs->weaponNum == WP_PANZERFAUST) {
-				if (Distance(trace.endpos, g_entities[enemy].s.pos.trBase)> 120) {
+				if (Distance(trace.endpos, g_entities[enemy].s.pos.trBase) > 120) {
 					continue;
 				}
-				//FIXME: check if a teammate gets radial damage
+				// FIXME: check if a teammate gets radial damage
 			}
 		}
 		// will successfully hit enemy
@@ -826,23 +820,21 @@ qboolean AICast_CheckAttackAtPos(int entnum, int enemy, vec3_t pos, qboolean duc
 =======================================================================================================================================
 AICast_CheckAttack
 
-  optimization, uses the cache to avoid possible duplicate calls with same world paramaters
+Optimization, uses the cache to avoid possible duplicate calls with same world paramaters.
 =======================================================================================================================================
 */
 qboolean AICast_CheckAttack(cast_state_t *cs, int enemy, qboolean allowHitWorld) {
+
 	if (cs->bs) {
-		if ((cs->checkAttackCache.time == level.time)
-				&& (cs->checkAttackCache.enemy == enemy)
-				&& (cs->checkAttackCache.weapon == cs->weaponNum)
-				&& (cs->checkAttackCache.allowHitWorld == allowHitWorld)) {
+		if ((cs->checkAttackCache.time == level.time) && (cs->checkAttackCache.enemy == enemy) && (cs->checkAttackCache.weapon == cs->weaponNum) && (cs->checkAttackCache.allowHitWorld == allowHitWorld)) {
 			//G_Printf("checkattack cache hit\n");
-			return(cs->checkAttackCache.result);
+			return (cs->checkAttackCache.result);
 		} else {
 			cs->checkAttackCache.allowHitWorld = allowHitWorld;
 			cs->checkAttackCache.enemy = enemy;
 			cs->checkAttackCache.time = level.time;
 			cs->checkAttackCache.weapon = cs->weaponNum;
-			return(cs->checkAttackCache.result = AICast_CheckAttack_real(cs, enemy, allowHitWorld));
+			return (cs->checkAttackCache.result = AICast_CheckAttack_real(cs, enemy, allowHitWorld));
 		}
 	} else {
 		return AICast_CheckAttack_real(cs, enemy, allowHitWorld);
@@ -881,13 +873,14 @@ AICast_WeaponWantScale
 =======================================================================================================================================
 */
 float AICast_WeaponWantScale(cast_state_t *cs, int weapon) {
+
 	switch (weapon) {
-	case WP_GAUNTLET:
-		return 0.1;
-	case WP_FLAMETHROWER:
-		return 2.0;     // if we have this up close, definately use it
-	default:
-		return 1.0;
+		case WP_GAUNTLET:
+			return 0.1;
+		case WP_FLAMETHROWER:
+			return 2.0; // if we have this up close, definately use it
+		default:
+			return 1.0;
 	}
 }
 
@@ -903,13 +896,12 @@ qboolean AICast_GotEnoughAmmoForWeapon(cast_state_t *cs, int weapon) {
 	ent = &g_entities[cs->entityNum];
 	ammo = ent->client->ps.ammo[BG_FindAmmoForWeapon(weapon)];
 	clip = ent->client->ps.ammoclip[BG_FindClipForWeapon(weapon)];
-
 	// TODO!! check some kind of weapon list that holds the minimum requirements for each weapon
 	switch (weapon) {
-	case WP_GAUNTLET:
-		return qtrue;
-	default:
-		return(qboolean)((clip >= ammoTable[weapon].uses) || (ammo >= ammoTable[weapon].uses));    //---- (SA)
+		case WP_GAUNTLET:
+			return qtrue;
+		default:
+			return (qboolean)((clip >= ammoTable[weapon].uses) || (ammo >= ammoTable[weapon].uses));
 	}
 }
 
@@ -917,12 +909,9 @@ qboolean AICast_GotEnoughAmmoForWeapon(cast_state_t *cs, int weapon) {
 =======================================================================================================================================
 AICast_WeaponUsable
 
-  This is used to prevent weapons from being selected, even if they have ammo.
-
-  This can be used to add a delay between firing for special attacks, or make certain
-  that certain weapons are only selected within a certain range or under certain conditions.
-
-  NOTE: that monster_attack2 will always override monster_attack1 if both are usable
+This is used to prevent weapons from being selected, even if they have ammo. This can be used to add a delay between firing for special
+attacks, or make certain that certain weapons are only selected within a certain range or under certain conditions.
+NOTE: that monster_attack2 will always override monster_attack1 if both are usable.
 =======================================================================================================================================
 */
 qboolean AICast_WeaponUsable(cast_state_t *cs, int weaponNum) {
@@ -936,218 +925,215 @@ qboolean AICast_WeaponUsable(cast_state_t *cs, int weaponNum) {
 
 	ent = &g_entities[cs->entityNum];
 	delay = -1;
-
 	// just return qfalse if this weapon isn't ready for use
 	switch (weaponNum) {
 		// don't attempt to lob a grenade more than this often, since we will abort a grenade
 		// throw if it's not safe, we shouldn't keep switching back too quickly
-	case WP_DYNAMITE:
-	case WP_GRENADE_LAUNCHER:
-	case WP_GRENADE_PINEAPPLE:
-		if (cs->enemyNum < 0) {
-			return qfalse;
-		}
-
-		delay = 5000;
-
-		if (dist > 0 && dist < 200) {
-			return qfalse;
-		}
-
-		if (cs->weaponFireTimes[weaponNum] < level.time - delay) {
-			// make sure it's safe
-			CalcMuzzlePoints(ent, weaponNum);
-			grenade = weapon_grenadelauncher_fire(ent, weaponNum);
-			hitclient = AICast_SafeMissileFire(grenade, grenade->nextthink - level.time, cs->enemyNum, g_entities[cs->enemyNum].s.pos.trBase, cs->entityNum, NULL);
-			G_FreeEntity(grenade);
-
-			if (hitclient > -1) {
-				return qtrue;
-			} else {
-				return qfalse;  // it's not safe
-			}
-		}
-
-		break;
-	case WP_TESLA:
-		switch (cs->aiCharacter) {
-		case AICHAR_STIMSOLDIER3:
-			if (dist < 0 || dist >= TESLA_RANGE) {
-				return qfalse;
-			}
-		}
-
-		break;
-	case WP_MONSTER_ATTACK1:
-		switch (g_entities[cs->entityNum].aiCharacter) {
-		case AICHAR_ZOMBIE: // zombie flaming attack
-			delay = 4000;
-
-			if (dist < 0) { // || dist < 128) {
-				return qfalse;
-			}
-
-			if (dist > 1200) {
-				return qfalse;
-			}
-
+		case WP_DYNAMITE:
+		case WP_GRENADE_LAUNCHER:
+		case WP_GRENADE_PINEAPPLE:
 			if (cs->enemyNum < 0) {
 				return qfalse;
 			}
-			//if(cs->vislist[cs->enemyNum].notvisible_timestamp > level.time - 500) {
-			//	return qfalse;
-			//}
 
-			break;
-
-			// melee attacks are always available
-		case AICHAR_LOPER:
-		case AICHAR_WARZOMBIE:
-			return qtrue;   // always usable
-
-		case AICHAR_STIMSOLDIER2:
-			delay = 7000;
-
-			if (dist < 0 || dist < 300) {
-				return qfalse;
-			}
-
-			break;
-		case AICHAR_STIMSOLDIER3:   // stim flying tesla attack
-			delay = 7000;
-
-			if (dist < 0 || dist < 300) {
-				return qfalse;
-			}
-
-			break;
-		case AICHAR_BLACKGUARD:
 			delay = 5000;
 
-			if (dist < 0 || dist > BLACKGUARD_MELEE_RANGE) {
+			if (dist > 0 && dist < 200) {
 				return qfalse;
+			}
+
+			if (cs->weaponFireTimes[weaponNum] < level.time - delay) {
+				// make sure it's safe
+				CalcMuzzlePoints(ent, weaponNum);
+				grenade = weapon_grenadelauncher_fire(ent, weaponNum);
+				hitclient = AICast_SafeMissileFire(grenade, grenade->nextthink - level.time, cs->enemyNum, g_entities[cs->enemyNum].s.pos.trBase, cs->entityNum, NULL);
+				G_FreeEntity(grenade);
+
+				if (hitclient > -1) {
+					return qtrue;
+				} else {
+					return qfalse;  // it's not safe
+				}
 			}
 
 			break;
-		default:
-			delay = -1;
-			break;
-		}
-
-		break;
-	case WP_MONSTER_ATTACK2:
-		switch (g_entities[cs->entityNum].aiCharacter) {
-		case AICHAR_HEINRICH:
-			delay = 6000;
-			break;
-		case AICHAR_WARZOMBIE:
-			delay = 9999999;
-			break;
-		case AICHAR_ZOMBIE:
-			delay = 6000;
-			// zombie "flying spirit" attack
-			if (dist < 64) {
-				return qfalse;
-			}
-
-			if (dist > 1200) {
-				return qfalse;
-			}
-
-			if (cs->enemyNum < 0) {
-				return qfalse;
-			}
-
-			if (cs->vislist[cs->enemyNum].notvisible_timestamp > level.time - 1500) {
-				return qfalse;
-			}
-
-			break;
-		case AICHAR_HELGA:
-			delay = 8000;
-			// zombie "flying spirit" attack
-			if (dist < 0 || dist < 80) {
-				return qfalse;
-			}
-
-			if (dist > 2000) {
-				return qfalse;
-			}
-
-			if (cs->enemyNum < 0) {
-				return qfalse;
-			}
-
-			if (cs->vislist[cs->enemyNum].notvisible_timestamp > level.time - 1500) {
-				return qfalse;
-			}
-
-			break;
-		case AICHAR_LOPER:  // loper leap attack
-			if (cs->bs->areanum && VectorLength(cs->bs->velocity)> 1) { // if we are in a valid area, and are persuing, then leave a delay
-				// if there isn't a direct trace to our enemy, then fail
-				if (cs->enemyNum >= 0) {
-					trace_t trace;
-					vec3_t mins;
-					VectorCopy(cs->bs->cur_ps.mins, mins);
-					mins[0] = 0;
-					trap_Trace(&trace, g_entities[cs->entityNum].client->ps.origin, mins, cs->bs->cur_ps.maxs, g_entities[cs->enemyNum].client->ps.origin, cs->entityNum, g_entities[cs->entityNum].clipmask);
-
-					if (trace.entityNum != cs->enemyNum && trace.fraction < 1.0) {
+		case WP_TESLA:
+			switch (cs->aiCharacter) {
+				case AICHAR_STIMSOLDIER3:
+					if (dist < 0 || dist >= TESLA_RANGE) {
 						return qfalse;
 					}
-				}
+			}
 
-				delay = 4500;
+			break;
+		case WP_MONSTER_ATTACK1:
+			switch (g_entities[cs->entityNum].aiCharacter) {
+				case AICHAR_ZOMBIE: // zombie flaming attack
+					delay = 4000;
 
-				if (dist < 200) {
-					return qfalse;
-				}
-			} else {
-				delay = 0;  // jump to get out of trouble
+					if (dist < 0) { // || dist < 128) {
+						return qfalse;
+					}
+
+					if (dist > 1200) {
+						return qfalse;
+					}
+
+					if (cs->enemyNum < 0) {
+						return qfalse;
+					}
+					//if(cs->vislist[cs->enemyNum].notvisible_timestamp > level.time - 500) {
+					//	return qfalse;
+					//}
+
+					break;
+				// melee attacks are always available
+				case AICHAR_LOPER:
+				case AICHAR_WARZOMBIE:
+					return qtrue; // always usable
+				case AICHAR_STIMSOLDIER2:
+					delay = 7000;
+
+					if (dist < 0 || dist < 300) {
+						return qfalse;
+					}
+
+					break;
+				case AICHAR_STIMSOLDIER3: // stim flying tesla attack
+					delay = 7000;
+
+					if (dist < 0 || dist < 300) {
+						return qfalse;
+					}
+
+					break;
+				case AICHAR_BLACKGUARD:
+					delay = 5000;
+
+					if (dist < 0 || dist > BLACKGUARD_MELEE_RANGE) {
+						return qfalse;
+					}
+
+					break;
+				default:
+					delay = -1;
+					break;
+			}
+
+			break;
+		case WP_MONSTER_ATTACK2:
+			switch (g_entities[cs->entityNum].aiCharacter) {
+				case AICHAR_HEINRICH:
+					delay = 6000;
+					break;
+				case AICHAR_WARZOMBIE:
+					delay = 9999999;
+					break;
+				case AICHAR_ZOMBIE:
+					delay = 6000;
+					// zombie "flying spirit" attack
+					if (dist < 64) {
+						return qfalse;
+					}
+
+					if (dist > 1200) {
+						return qfalse;
+					}
+
+					if (cs->enemyNum < 0) {
+						return qfalse;
+					}
+
+					if (cs->vislist[cs->enemyNum].notvisible_timestamp > level.time - 1500) {
+						return qfalse;
+					}
+
+					break;
+				case AICHAR_HELGA:
+					delay = 8000;
+					// zombie "flying spirit" attack
+					if (dist < 0 || dist < 80) {
+						return qfalse;
+					}
+
+					if (dist > 2000) {
+						return qfalse;
+					}
+
+					if (cs->enemyNum < 0) {
+						return qfalse;
+					}
+
+					if (cs->vislist[cs->enemyNum].notvisible_timestamp > level.time - 1500) {
+						return qfalse;
+					}
+
+					break;
+				case AICHAR_LOPER: // loper leap attack
+					if (cs->bs->areanum && VectorLength(cs->bs->velocity) > 1) { // if we are in a valid area, and are persuing, then leave a delay
+						// if there isn't a direct trace to our enemy, then fail
+						if (cs->enemyNum >= 0) {
+							trace_t trace;
+							vec3_t mins;
+							VectorCopy(cs->bs->cur_ps.mins, mins);
+							mins[0] = 0;
+							trap_Trace(&trace, g_entities[cs->entityNum].client->ps.origin, mins, cs->bs->cur_ps.maxs, g_entities[cs->enemyNum].client->ps.origin, cs->entityNum, g_entities[cs->entityNum].clipmask);
+
+							if (trace.entityNum != cs->enemyNum && trace.fraction < 1.0) {
+								return qfalse;
+							}
+						}
+
+						delay = 4500;
+
+						if (dist < 200) {
+							return qfalse;
+						}
+					} else {
+						delay = 0; // jump to get out of trouble
+					}
+
+					break;
+				default:
+					delay = -1;
+					break;
+			}
+
+			break;
+		case WP_MONSTER_ATTACK3:
+			switch (g_entities[cs->entityNum].aiCharacter) {
+				case AICHAR_HEINRICH: // spirits
+					delay = 7000;
+					break;
+				case AICHAR_LOPER: // loper ground zap
+					delay = 3500;
+
+					if (dist < 0 || dist > LOPER_GROUND_RANGE) {
+						return qfalse;
+					}
+
+					break;
+				case AICHAR_WARZOMBIE: // warzombie defense
+					delay = 7000;
+
+					if (dist < 120 || dist > 2000) {
+						return qfalse;
+					}
+
+					break;
+				case AICHAR_ZOMBIE:
+					return qtrue; // always usable
+				default:
+					delay = -1;
+					break;
 			}
 
 			break;
 		default:
 			delay = -1;
-			break;
-		}
-
-		break;
-	case WP_MONSTER_ATTACK3:
-		switch (g_entities[cs->entityNum].aiCharacter) {
-		case AICHAR_HEINRICH:   // spirits
-			delay = 7000;
-			break;
-		case AICHAR_LOPER:  // loper ground zap
-			delay = 3500;
-
-			if (dist < 0 || dist > LOPER_GROUND_RANGE) {
-				return qfalse;
-			}
-
-			break;
-		case AICHAR_WARZOMBIE:  // warzombie defense
-			delay = 7000;
-
-			if (dist < 120 || dist > 2000) {
-				return qfalse;
-			}
-
-			break;
-		case AICHAR_ZOMBIE:
-			return qtrue;   // always usable
-		default:
-			delay = -1;
-			break;
-		}
-
-		break;
-	default:
-		delay = -1;
 	}
 
-	return(!cs->weaponFireTimes[weaponNum] || (cs->weaponFireTimes[weaponNum] < level.time - delay));
+	return (!cs->weaponFireTimes[weaponNum] || (cs->weaponFireTimes[weaponNum] < level.time - delay));
 }
 
 /*
@@ -1161,6 +1147,7 @@ void AICast_ChooseWeapon(cast_state_t *cs, qboolean battleFunc) {
 	qboolean inRange = qfalse, thisInRange, gotOne;
 
 	BotAI_GetClientState(cs->entityNum, &(cs->bs->cur_ps));
+
 	bestWantScale = 0.0;
 
 	if (cs->enemyNum >= 0) {
@@ -1169,10 +1156,7 @@ void AICast_ChooseWeapon(cast_state_t *cs, qboolean battleFunc) {
 		enemyDist -= g_entities[cs->enemyNum].r.maxs[0];
 	}
 
-	if (cs->bs->cur_ps.weaponstate == WEAPON_RAISING ||
-		 cs->bs->cur_ps.weaponstate == WEAPON_RAISING_TORELOAD ||   //---- (SA)	added
-		 cs->bs->cur_ps.weaponstate == WEAPON_DROPPING ||
-		 cs->bs->cur_ps.weaponstate == WEAPON_DROPPING_TORELOAD) { //---- (SA)	added
+	if (cs->bs->cur_ps.weaponstate == WEAPON_RAISING || cs->bs->cur_ps.weaponstate == WEAPON_RAISING_TORELOAD || cs->bs->cur_ps.weaponstate == WEAPON_DROPPING || cs->bs->cur_ps.weaponstate == WEAPON_DROPPING_TORELOAD) {
 		return;
 	}
 
@@ -1188,42 +1172,40 @@ void AICast_ChooseWeapon(cast_state_t *cs, qboolean battleFunc) {
 		}
 	} else {
 		if (cs->weaponNum == WP_GRENADE_LAUNCHER || cs->weaponNum == WP_GRENADE_PINEAPPLE) {
-			cs->weaponNum = WP_NONE;    // dont use grenades at will
+			cs->weaponNum = WP_NONE; // dont use grenades at will
 		}
 	}
 
 	gotOne = qfalse;
-
 	// choose the best weapon to fight with
 	for (i = 0; i < WP_NUM_WEAPONS; i++) {
 		if (i == WP_GRENADE_LAUNCHER || i == WP_GRENADE_PINEAPPLE) {
-			continue;   // never choose grenades at will, only when going into grenade flush mode
+			continue; // never choose grenades at will, only when going into grenade flush mode
 		}
 
 		if (!battleFunc && (i == WP_MONSTER_ATTACK1) && cs->aifuncAttack1) {
-			continue;   // only choose this weapon from within AIFunc_BattleStart()
+			continue; // only choose this weapon from within AIFunc_BattleStart()
 		}
 
 		if (!battleFunc && (i == WP_MONSTER_ATTACK2) && cs->aifuncAttack2) {
-			continue;   // only choose this weapon from within AIFunc_BattleStart()
+			continue; // only choose this weapon from within AIFunc_BattleStart()
 		}
 
 		if (!battleFunc && (i == WP_MONSTER_ATTACK3) && cs->aifuncAttack3) {
-			continue;   // only choose this weapon from within AIFunc_BattleStart()
+			continue; // only choose this weapon from within AIFunc_BattleStart()
 		}
 
 		if (COM_BitCheck(cs->bs->cur_ps.weapons, i)) {
 			gotOne = qtrue;
 			// check that our ammo is enough
-			if (!AICast_GotEnoughAmmoForWeapon(cs, i) ||
-				 !AICast_WeaponUsable(cs, i)) {
+			if (!AICast_GotEnoughAmmoForWeapon(cs, i) || !AICast_WeaponUsable(cs, i)) {
 				continue;
 			}
-			// get the wantScale for this weapon given the current circumstances(0.0 - 1.0)
+			// get the wantScale for this weapon given the current circumstances (0.0 - 1.0)
 			wantScale = AICast_WeaponWantScale(cs, i);
 			thisInRange = qfalse;
 			// in range?
-			if (enemyDist && AICast_WeaponRange(cs, i)> enemyDist) {
+			if (enemyDist && AICast_WeaponRange(cs, i) > enemyDist) {
 				thisInRange = qtrue;
 			}
 
@@ -1240,7 +1222,7 @@ void AICast_ChooseWeapon(cast_state_t *cs, qboolean battleFunc) {
 
 	if (!gotOne && (cs->weaponNum < WP_MONSTER_ATTACK1 || cs->weaponNum > WP_MONSTER_ATTACK3)) {
 		if (g_cheats.integer && (!cs->bs->cur_ps.weapons[0] && !cs->bs->cur_ps.weapons[1])) {
-//(SA)the print statement is a bit much. lots of actors have no ammo...
+			// the print statement is a bit much. lots of actors have no ammo...
 //			G_Printf("AI: %s has no ammo\n", g_entities[cs->entityNum].aiName);
 		}
 		// select no weapon
@@ -1256,8 +1238,7 @@ void AICast_ChooseWeapon(cast_state_t *cs, qboolean battleFunc) {
 =======================================================================================================================================
 AICast_Aggression
 
-  Check all possible reasons why we shouldn't attack, returning a value from 1.0(fully willing)
-  to 0.0(please don't hurt me).
+Check all possible reasons why we shouldn't attack, returning a value from 1.0 (fully willing) to 0.0 (please don't hurt me).
 =======================================================================================================================================
 */
 float AICast_Aggression(cast_state_t *cs) {
@@ -1275,11 +1256,9 @@ float AICast_Aggression(cast_state_t *cs) {
 	}
 	// start fully willing to attack
 	scale = 1.0;
-
 	//if the enemy is located way higher
 	//if(cs->enemyHeight > 200)
 	//	scale -= (cs->enemyHeight) /800.0;
-
 	//if very low on health
 	if (bs->cur_ps.stats[STAT_HEALTH] < 50) {
 		scale -= (1.0 - cs->attributes[AGGRESSION]) * (1.0 - ((float)bs->cur_ps.stats[STAT_HEALTH] / 50.0));
@@ -1310,9 +1289,8 @@ float AICast_Aggression(cast_state_t *cs) {
 	}
 
 	scale *= cs->attributes[AGGRESSION];
-
 	// this should increase the chances of an ambush attack
-	if (cs->entityNum >= 0 && ((level.time + 2000 * g_entities[cs->entityNum].aiTeam)%(4000 + 500 * g_entities[cs->entityNum].aiTeam))> 4000) {
+	if (cs->entityNum >= 0 && ((level.time + 2000 * g_entities[cs->entityNum].aiTeam)%(4000 + 500 * g_entities[cs->entityNum].aiTeam)) > 4000) {
 		if (cs->vislist[cs->entityNum].visible_timestamp > level.time - 10000) {
 			scale += 0.3 * (float)(level.time - cs->vislist[cs->entityNum].visible_timestamp) / 10000.0;
 		}
@@ -1331,6 +1309,7 @@ AICast_WantsToChase
 =======================================================================================================================================
 */
 int AICast_WantsToChase(cast_state_t *cs) {
+
 	if (g_entities[cs->entityNum].aiTeam != AITEAM_MONSTER) {
 		if (!AICast_GotEnoughAmmoForWeapon(cs, cs->weaponNum)) {
 			return qfalse;
@@ -1341,7 +1320,7 @@ int AICast_WantsToChase(cast_state_t *cs) {
 		return qtrue;
 	}
 
-	if (AICast_Aggression(cs)> 0.6) {
+	if (AICast_Aggression(cs) > 0.6) {
 		return qtrue;
 	}
 
@@ -1378,21 +1357,20 @@ int AICast_WantsToTakeCover(cast_state_t *cs, qboolean attacking) {
 		aggrScale *= 3;
 	}
 	// Dodge enemy aim?
-	if (cs->attributes[AGGRESSION] < 1.0 && attacking && (cs->enemyNum >= 0) && (g_entities[cs->enemyNum].client->ps.weapon) && (cs->attributes[TACTICAL] > 0.5) && (cs->aiFlags & AIFL_ROLL_ANIM) && (VectorLength(cs->bs->cur_ps.velocity)< 1)) {
+	if (cs->attributes[AGGRESSION] < 1.0 && attacking && (cs->enemyNum >= 0) && (g_entities[cs->enemyNum].client->ps.weapon) && (cs->attributes[TACTICAL] > 0.5) && (cs->aiFlags & AIFL_ROLL_ANIM) && (VectorLength(cs->bs->cur_ps.velocity) < 1)) {
 		vec3_t aim, enemyVec;
 		// are they aiming at us?
 		AngleVectors(g_entities[cs->enemyNum].client->ps.viewangles, aim, NULL, NULL);
 		VectorSubtract(cs->bs->origin, g_entities[cs->enemyNum].r.currentOrigin, enemyVec);
 		VectorNormalize(enemyVec);
 		// if they are looking at us, we should avoid them
-		if (DotProduct(aim, enemyVec)> 0.97) {
+		if (DotProduct(aim, enemyVec) > 0.97) {
 			//G_Printf("%s: I'm in danger, I should probably avoid\n", g_entities[cs->entityNum].aiName);
 			aggrScale *= 0.6;
 		}
 	}
 	// FIXME: instead of a constant, call a "attack danger"
-	// function, so we only attack if our aggression is greater than
-	// the danger
+	// function, so we only attack if our aggression is greater than the danger
 	if (AICast_Aggression(cs) * aggrScale < 0.4) {
 		//G_Printf("%s: run for your life!\n", g_entities[cs->entityNum].aiName);
 		return qtrue;
@@ -1414,7 +1392,6 @@ bot_moveresult_t AICast_CombatMove(cast_state_t *cs, int tfl) {
 	bot_goal_t goal;
 
 	bs = cs->bs;
-
 	//get the enemy entity info
 	memset(&moveresult, 0, sizeof(bot_moveresult_t));
 	//initialize the movement state
@@ -1423,17 +1400,16 @@ bot_moveresult_t AICast_CombatMove(cast_state_t *cs, int tfl) {
 	VectorSubtract(cs->vislist[cs->enemyNum].visible_pos, bs->origin, forward);
 	//the distance towards the enemy
 	VectorNormalize(forward);
-
 	// do we have somewhere we are trying to get to?
 	if (cs->combatGoalTime > level.time) {
-		if (VectorLength(cs->combatGoalOrigin)> 1) {
+		if (VectorLength(cs->combatGoalOrigin) > 1) {
 			//create the chase goal
 			goal.areanum = BotPointAreaNum(cs->combatGoalOrigin);
-			VectorCopy(cs->combatGoalOrigin, goal.origin);
 
+			VectorCopy(cs->combatGoalOrigin, goal.origin);
 			// if we are really close, stop going for it
 			// FIXME: a better way of doing this, so we don't stop short of the goal?
-			if ((dist = Distance(goal.origin, cs->bs->origin))< 32) {
+			if ((dist = Distance(goal.origin, cs->bs->origin)) < 32) {
 				if (cs->combatGoalTime > level.time + 3000) {
 					cs->combatGoalTime = level.time + 2000 + rand()% 1000;
 					cs->combatSpotDelayTime = level.time + 4000 + rand()% 3000;
@@ -1442,13 +1418,13 @@ bot_moveresult_t AICast_CombatMove(cast_state_t *cs, int tfl) {
 				VectorClear(cs->combatGoalOrigin);
 			} else {
 				aicast_predictmove_t move;
-				//
+
 				AICast_MoveToPos(cs, cs->combatGoalOrigin, -1);
+
 				cs->speedScale = AICast_SpeedScaleForDistance(cs, dist, 32);
-				//
 				// if we are going to move out of view very soon, stop moving
 				AICast_PredictMovement(cs, 1, 0.8, &move, &cs->lastucmd, -1);
-				//
+
 				if (move.numtouch || !AICast_CheckAttackAtPos(cs->entityNum, cs->enemyNum, move.endpos, qfalse, qfalse)) {
 					// abort the manouver, reached a good spot
 					cs->combatGoalTime = 0;
@@ -1456,20 +1432,15 @@ bot_moveresult_t AICast_CombatMove(cast_state_t *cs, int tfl) {
 				}
 			}
 			// if we are there, and the enemy can see us, but we cant hit them, abort immediately
-		} else if (!AICast_CheckAttack(cs, cs->enemyNum, qfalse) &&
-					AICast_VisibleFromPos(cs->vislist[cs->enemyNum].visible_pos, cs->enemyNum, cs->bs->origin, cs->entityNum, qfalse)) {
+		} else if (!AICast_CheckAttack(cs, cs->enemyNum, qfalse) && AICast_VisibleFromPos(cs->vislist[cs->enemyNum].visible_pos, cs->enemyNum, cs->bs->origin, cs->entityNum, qfalse)) {
 			cs->combatGoalTime = 0;
 			cs->combatSpotAttackCount = cs->startAttackCount;
 		}
 	} else { // look for a good position to move to?
-		if (((cs->attributes[CAMPER] < random())
-					&& (cs->takeCoverTime < level.time)
-					&& (cs->combatSpotAttackCount < cs->startAttackCount)
-					&& (cs->combatSpotDelayTime < level.time))) {
-			if ((cs->attributes[TACTICAL] > 0.3 + random() * 0.5)
-					&&  trap_AAS_RT_GetHidePos(cs->bs->origin, cs->bs->entitynum, cs->bs->areanum, cs->vislist[cs->enemyNum].visible_pos, cs->enemyNum, BotPointAreaNum(cs->vislist[cs->enemyNum].visible_pos), cs->combatGoalOrigin)) {
-				cs->combatGoalTime = level.time + 10000;                // give us plenty of time to get there
-				//cs->combatSpotAttackCount = cs->startAttackCount + 3;	// don't keep moving around to different positions on our own
+		if (((cs->attributes[CAMPER] < random()) && (cs->takeCoverTime < level.time) && (cs->combatSpotAttackCount < cs->startAttackCount) && (cs->combatSpotDelayTime < level.time))) {
+			if ((cs->attributes[TACTICAL] > 0.3 + random() * 0.5) && trap_AAS_RT_GetHidePos(cs->bs->origin, cs->bs->entitynum, cs->bs->areanum, cs->vislist[cs->enemyNum].visible_pos, cs->enemyNum, BotPointAreaNum(cs->vislist[cs->enemyNum].visible_pos), cs->combatGoalOrigin)) {
+				cs->combatGoalTime = level.time + 10000; // give us plenty of time to get there
+				//cs->combatSpotAttackCount = cs->startAttackCount + 3; // don't keep moving around to different positions on our own
 				cs->combatSpotDelayTime = level.time + 3000 + rand()% 3000;
 			} else {
 				// don't look again until we've moved
@@ -1486,27 +1457,28 @@ bot_moveresult_t AICast_CombatMove(cast_state_t *cs, int tfl) {
 =======================================================================================================================================
 AICast_WeaponSway
 
-  Some weapons should be "sprayed" around a bit while firing
+Some weapons should be "sprayed" around a bit while firing.
 =======================================================================================================================================
 */
 void AICast_WeaponSway(cast_state_t *cs, vec3_t ofs) {
-	VectorClear(ofs);
-	switch (cs->weaponNum) {
-	case WP_MONSTER_ATTACK1:
-		if (cs->aiCharacter != AICHAR_ZOMBIE) {
-			break;      // only allow flaming zombie beyond here
-		}
 
-	case WP_FLAMETHROWER:
-		ofs[PITCH] = (3.0 + 4.0 * sin(((float)level.time / 320.0))) * sin(((float)level.time / 500.0));
-		ofs[YAW] = (6.0 + 8.0 * sin(((float)level.time / 250.0))) * sin(((float)level.time / 400.0));
-		ofs[ROLL] = 0;
-		break;
-	case WP_VENOM:
-		ofs[PITCH] = 2 * (float)cos((level.time / 200));
-		ofs[YAW] = 10 * (float)sin((level.time / 150)) * (float)sin((level.time / 100));
-		ofs[ROLL] = 0;
-		break;
+	VectorClear(ofs);
+
+	switch (cs->weaponNum) {
+		case WP_MONSTER_ATTACK1:
+			if (cs->aiCharacter != AICHAR_ZOMBIE) {
+				break; // only allow flaming zombie beyond here
+			}
+		case WP_FLAMETHROWER:
+			ofs[PITCH] = (3.0 + 4.0 * sin(((float)level.time / 320.0))) * sin(((float)level.time / 500.0));
+			ofs[YAW] = (6.0 + 8.0 * sin(((float)level.time / 250.0))) * sin(((float)level.time / 400.0));
+			ofs[ROLL] = 0;
+			break;
+		case WP_VENOM:
+			ofs[PITCH] = 2 * (float)cos((level.time / 200));
+			ofs[YAW] = 10 * (float)sin((level.time / 150)) * (float)sin((level.time / 100));
+			ofs[ROLL] = 0;
+			break;
 	}
 }
 
@@ -1533,7 +1505,6 @@ qboolean AICast_AimAtEnemy(cast_state_t *cs) {
 	}
 
 	bs = cs->bs;
-
 	//if the bot has no enemy
 	if (cs->enemyNum < 0) {
 		return qfalse;
@@ -1550,10 +1521,8 @@ qboolean AICast_AimAtEnemy(cast_state_t *cs) {
 		aim_skill = 1;
 		aim_accuracy = 1;
 	}
-
-	//get the weapon information
-
-	//get the enemy entity information
+	// get the weapon information
+	// get the enemy entity information
 	vis = &cs->vislist[cs->enemyNum];
 
 	if (vis->visible_timestamp < vis->lastcheck_timestamp) {
@@ -1564,8 +1533,7 @@ qboolean AICast_AimAtEnemy(cast_state_t *cs) {
 			VectorCopy(vis->visible_pos, bestorigin);
 		}
 	} else {
-		// we can see them, if this weapon isn't a direct-hit weapon(bullets),
-		// then predict where they are going to be
+		// we can see them, if this weapon isn't a direct-hit weapon (bullets), then predict where they are going to be
 		if (cs->weaponNum == WP_GRENADE_LAUNCHER || cs->weaponNum == WP_GRENADE_PINEAPPLE) {
 			aicast_predictmove_t move;
 			AICast_PredictMovement(AICast_GetCastState(cs->enemyNum), 1, 1.0, &move, &g_entities[cs->enemyNum].client->pers.cmd, -1);
@@ -1579,15 +1547,15 @@ qboolean AICast_AimAtEnemy(cast_state_t *cs) {
 	//get the start point shooting from
 	// NOTE: the x and y projectile start offsets are ignored
 	VectorCopy(bs->origin, start);
+
 	start[2] += bs->cur_ps.viewheight;
 
 	VectorCopy(bestorigin, enemyOrg);
-
 	// grenade hack: aim grenades at their feet if they are close
 	if (cs->weaponNum == WP_GRENADE_LAUNCHER || cs->weaponNum == WP_GRENADE_PINEAPPLE) {
-		if (Distance(start, bestorigin)< 180) {
+		if (Distance(start, bestorigin) < 180) {
 			bestorigin[2] = enemyOrg[2] + g_entities[cs->enemyNum].r.mins[2] + crandom() * 20;
-		} else if (Distance(start, bestorigin)> 400) { // aim up a bit for distance
+		} else if (Distance(start, bestorigin) > 400) { // aim up a bit for distance
 			bestorigin[2] += 12 + Distance(start, bestorigin) / 50 + crandom() * 20;
 		}
 	}
@@ -1603,7 +1571,7 @@ qboolean AICast_AimAtEnemy(cast_state_t *cs) {
 	}
 	// if the enemy is moving, they are harder to hit
 	if (dist > 256) {
-		VectorMA(bestorigin, (0.3 + 0.7 * (1 - aim_accuracy)) * 0.4 * sin((float)level.time /(500.0 + (100.0 * ((cs->entityNum + 3)% 4)))), g_entities[cs->enemyNum].client->ps.velocity, bestorigin);
+		VectorMA(bestorigin, (0.3 + 0.7 * (1 - aim_accuracy)) * 0.4 * sin((float)level.time / (500.0 + (100.0 * ((cs->entityNum + 3)% 4)))), g_entities[cs->enemyNum].client->ps.velocity, bestorigin);
 	}
 	// if we are good at aiming, we should aim ahead of where they are now
 	// since by the time we have rotated to that direction, some time will have passed
@@ -1615,7 +1583,7 @@ qboolean AICast_AimAtEnemy(cast_state_t *cs) {
 	//set the ideal view angles
 	vectoangles(dir, cs->ideal_viewangles);
 
-	return qtrue;   // do real aim checking after we've moved the angles
+	return qtrue; // do real aim checking after we've moved the angles
 }
 
 /*
@@ -1624,16 +1592,17 @@ AICast_CanMoveWhileFiringWeapon
 =======================================================================================================================================
 */
 qboolean AICast_CanMoveWhileFiringWeapon(int weaponnum) {
+
 	switch (weaponnum) {
-	case WP_MAUSER:
-	case WP_GARAND:
-	case WP_SNIPERRIFLE:    //---- (SA)	added
-	case WP_SNOOPERSCOPE:   //---- (SA)	added
-//	case WP_FG42SCOPE:		//---- (SA)	added
-	case WP_PANZERFAUST:
-		return qfalse;
-	default:
-		return qtrue;
+		case WP_MAUSER:
+		case WP_GARAND:
+		case WP_SNIPERRIFLE:
+		case WP_SNOOPERSCOPE:
+		//case WP_FG42SCOPE:
+		case WP_PANZERFAUST:
+			return qfalse;
+		default:
+			return qtrue;
 	}
 }
 
@@ -1643,24 +1612,25 @@ AICast_RandomTriggerRelease
 =======================================================================================================================================
 */
 qboolean AICast_RandomTriggerRelease(cast_state_t *cs) {
+
 	// some characters override all weapon settings for trigger release
 	switch (cs->aiCharacter) {
-	case AICHAR_BLACKGUARD:     // this is here since his "ready" frame is different to his firing frame, so it looks wierd to keep swapping between them
-	case AICHAR_STIMSOLDIER1:
-	case AICHAR_STIMSOLDIER2:
-	case AICHAR_STIMSOLDIER3:
-		return qfalse;
+		case AICHAR_BLACKGUARD: // this is here since his "ready" frame is different to his firing frame, so it looks wierd to keep swapping between them
+		case AICHAR_STIMSOLDIER1:
+		case AICHAR_STIMSOLDIER2:
+		case AICHAR_STIMSOLDIER3:
+			return qfalse;
 	}
 
 	switch (cs->weaponNum) {
-	case WP_MP40:
-	case WP_VENOM:
-	case WP_FG42SCOPE:
-	case WP_FG42:
-		//case WP_FLAMETHROWER:
-		return qtrue;
-	default:
-		return qfalse;
+		case WP_MP40:
+		case WP_VENOM:
+		case WP_FG42SCOPE:
+		case WP_FG42:
+			//case WP_FLAMETHROWER:
+			return qtrue;
+		default:
+			return qfalse;
 	}
 }
 
@@ -1668,7 +1638,7 @@ qboolean AICast_RandomTriggerRelease(cast_state_t *cs) {
 =======================================================================================================================================
 AICast_ProcessAttack
 
-  NOTE: this should always be called after the movement has been processed
+NOTE: this should always be called after the movement has been processed.
 =======================================================================================================================================
 */
 void AICast_ProcessAttack(cast_state_t *cs) {
@@ -1706,22 +1676,16 @@ void AICast_ProcessAttack(cast_state_t *cs) {
 		if (cs->bs->cur_ps.weaponTime > 200) {
 			// if we recently fired, don't let us move for a bit
 			cs->speedScale = 0;
-			AICast_AimAtEnemy(cs);    // keep looking at them regardless
+			AICast_AimAtEnemy(cs); // keep looking at them regardless
 		}
 		// if we're trying to move somewhere, don't let us shoot, until we've arrived
 		trap_EA_GetInput(bs->client, (float)level.time / 1000, &bi);
 
-		if ((cs->castScriptStatus.scriptNoMoveTime < level.time) &&
-				((bi.actionflags & ACTION_MOVEFORWARD) ||
-					(bi.actionflags & ACTION_MOVEBACK) ||
-					(bi.actionflags & ACTION_MOVELEFT) ||
-					(bi.actionflags & ACTION_MOVERIGHT) ||
-					(bi.speed))) {
+		if ((cs->castScriptStatus.scriptNoMoveTime < level.time) && ((bi.actionflags & ACTION_MOVEFORWARD) || (bi.actionflags & ACTION_MOVEBACK) || (bi.actionflags & ACTION_MOVELEFT) || (bi.actionflags & ACTION_MOVERIGHT) || (bi.speed))) {
 			return;
 		}
 	}
-
-	//if not a "walk forward" AI, then aim at the enemy regardless of whether we can attack them or not
+	// if not a "walk forward" AI, then aim at the enemy regardless of whether we can attack them or not
 	if (!(cs->aiFlags & AIFL_WALKFORWARD)) {
 		if (!AICast_AimAtEnemy(cs)) {
 			return;
@@ -1734,14 +1698,13 @@ void AICast_ProcessAttack(cast_state_t *cs) {
 			if (!AICast_CheckAttackAtPos(cs->entityNum, cs->enemyNum, cs->bs->origin, qfalse, qfalse)) {
 				cs->attackcrouch_time = level.time + 2000;
 			} else {
-				cs->attackcrouch_time = 0;  // we can attack them if we stand, so go for it
+				cs->attackcrouch_time = 0; // we can attack them if we stand, so go for it
 			}
 		}
 
 		return;
 	}
-
-	//if we are a "walk forward" AI, then aim at the enemy only if we can attack them
+	// if we are a "walk forward" AI, then aim at the enemy only if we can attack them
 	if (cs->aiFlags & AIFL_WALKFORWARD) {
 		if (!AICast_AimAtEnemy(cs)) {
 			return;
@@ -1762,7 +1725,6 @@ void AICast_ProcessAttack(cast_state_t *cs) {
 	trap_EA_Attack(bs->client);
 
 	cs->bFlags |= BFL_ATTACKED;
-
 }
 
 /*
@@ -1778,23 +1740,19 @@ qboolean AICast_GetTakeCoverPos(cast_state_t *cs, int enemyNum, vec3_t enemyPos,
 	}
 
 	cs->lastGetHidePos = level.time;
-
 	// can we just crouch?
-	if ((cs->attackcrouch_time < level.time)
-			&& (enemyNum < aicast_maxclients)
-			&&  AICast_CheckAttackAtPos(cs->entityNum, enemyNum, cs->bs->origin, qfalse, qfalse)
-			&&  !AICast_CheckAttackAtPos(cs->entityNum, enemyNum, cs->bs->origin, qtrue, qfalse)) {
+	if ((cs->attackcrouch_time < level.time) && (enemyNum < aicast_maxclients) && AICast_CheckAttackAtPos(cs->entityNum, enemyNum, cs->bs->origin, qfalse, qfalse) && !AICast_CheckAttackAtPos(cs->entityNum, enemyNum, cs->bs->origin, qtrue, qfalse)) {
 		// do a more thorough check to see if the enemy can see us if we crouch
 		vec3_t omaxs;
 		gentity_t *ent;
 		qboolean visible;
 
 		ent = &g_entities[cs->entityNum];
+
 		VectorCopy(ent->r.maxs, omaxs);
-		ent->r.maxs[2] = ent->client->ps.crouchMaxZ + 4;    // + 4 to be safe
 
+		ent->r.maxs[2] = ent->client->ps.crouchMaxZ + 4; // + 4 to be safe
 		visible = AICast_VisibleFromPos(g_entities[enemyNum].r.currentOrigin, enemyNum, cs->bs->origin, cs->entityNum, qfalse);
-
 		ent->r.maxs[2] = omaxs[2];
 
 		if (!visible) {
@@ -1828,6 +1786,7 @@ AICast_AIDamageOK
 =======================================================================================================================================
 */
 qboolean AICast_AIDamageOK(cast_state_t *cs, cast_state_t *ocs) {
+
 	if (cs->castScriptStatus.scriptFlags & SFL_NOAIDAMAGE) {
 		return qfalse;
 	} else {
@@ -1843,7 +1802,7 @@ qboolean AICast_AIDamageOK(cast_state_t *cs, cast_state_t *ocs) {
 =======================================================================================================================================
 AICast_RecordWeaponFire
 
-  used for scripting, so we know when the weapon has been fired
+Used for scripting, so we know when the weapon has been fired.
 =======================================================================================================================================
 */
 void AICast_RecordWeaponFire(gentity_t *ent) {
@@ -1853,10 +1812,10 @@ void AICast_RecordWeaponFire(gentity_t *ent) {
 	cs = AICast_GetCastState(ent->s.number);
 	cs->lastWeaponFired = level.time;
 	cs->lastWeaponFiredWeaponNum = ent->client->ps.weapon;
+
 	VectorCopy(ent->r.currentOrigin, cs->lastWeaponFiredPos);
 
 	cs->weaponFireTimes[cs->lastWeaponFiredWeaponNum] = level.time;
-
 	// do sighting
 	range = AICast_GetWeaponSoundRange(cs->lastWeaponFiredWeaponNum);
 
@@ -1873,60 +1832,58 @@ AICast_GetWeaponSoundRange
 =======================================================================================================================================
 */
 float AICast_GetWeaponSoundRange(int weapon) {
-	// NOTE: made this a case, that way changing the ordering of weapons won't cause problems, as it would
-	// with an array lookup
 
+	// NOTE: made this a case, that way changing the ordering of weapons won't cause problems, as it would with an array lookup
 	switch (weapon) {
-	case    WP_NONE:
-		return 0;
-	case    WP_KNIFE:
-	case    WP_GAUNTLET:
-	case    WP_STEN:
-	case    WP_SILENCER:
-		return 64;
-	case    WP_GRENADE_LAUNCHER:
-	case    WP_GRENADE_PINEAPPLE:
-		return 1500;
-	case    WP_GARAND:
-	case    WP_SNOOPERSCOPE:
-		return 128;
-	case    WP_LUGER:
-	case    WP_COLT:
-	case    WP_AKIMBO:
-		return 700;
-	case    WP_MONSTER_ATTACK1:
-	case    WP_MONSTER_ATTACK2:
-	case    WP_MONSTER_ATTACK3:
-		// TODO: case for each monster
-		return 1000;
-	case    WP_MP40:
-	case    WP_THOMPSON:
-		return 1000;
-	case    WP_FG42:
-	case    WP_FG42SCOPE:
-		return 1500;
-	case    WP_SNIPERRIFLE:
-	case    WP_MAUSER:
-		return 2000;
-	case    WP_DYNAMITE:
-		return 3000;
-	case    WP_PANZERFAUST:
-	case    WP_VENOM:
-	case    WP_FLAMETHROWER:
-	case    WP_TESLA:
-		return 1000;
+		case WP_NONE:
+			return 0;
+		case WP_KNIFE:
+		case WP_GAUNTLET:
+		case WP_STEN:
+		case WP_SILENCER:
+			return 64;
+		case WP_GRENADE_LAUNCHER:
+		case WP_GRENADE_PINEAPPLE:
+			return 1500;
+		case WP_GARAND:
+		case WP_SNOOPERSCOPE:
+			return 128;
+		case WP_LUGER:
+		case WP_COLT:
+		case WP_AKIMBO:
+			return 700;
+		case WP_MONSTER_ATTACK1:
+		case WP_MONSTER_ATTACK2:
+		case WP_MONSTER_ATTACK3:
+			// TODO: case for each monster
+			return 1000;
+		case WP_MP40:
+		case WP_THOMPSON:
+			return 1000;
+		case WP_FG42:
+		case WP_FG42SCOPE:
+			return 1500;
+		case WP_SNIPERRIFLE:
+		case WP_MAUSER:
+			return 2000;
+		case WP_DYNAMITE:
+			return 3000;
+		case WP_PANZERFAUST:
+		case WP_VENOM:
+		case WP_FLAMETHROWER:
+		case WP_TESLA:
+			return 1000;
 	}
 
 	G_Error("AICast_GetWeaponSoundRange: unknown weapon index: %i\n", weapon);
-	return 0;   // shutup the compiler
+	return 0; // shutup the compiler
 }
 
 /*
 =======================================================================================================================================
 AICast_StopAndAttack
 
-  returns qtrue if they should go back to a battle state to attack,
-  qfalse if they should keep chasing while they attack(like the Zombie)
+Returns qtrue if they should go back to a battle state to attack, qfalse if they should keep chasing while they attack (like the Zombie).
 =======================================================================================================================================
 */
 qboolean AICast_StopAndAttack(cast_state_t *cs) {
@@ -1938,62 +1895,62 @@ qboolean AICast_StopAndAttack(cast_state_t *cs) {
 	}
 
 	switch (cs->weaponNum) {
-		// if they are using Venom, and are too far away to be effective, then keep chasing
-	case WP_VENOM:
-		if (dist > 300) {
-			return qfalse;
-		}
-		// if we haven't injured them in a while, advance
-		if (cs->enemyNum >= 0) {
-			ecs = AICast_GetCastState(cs->enemyNum);
-
-			if (ecs->lastPain < level.time - 3000) {
-				return qfalse;
-			}
-		}
-
-		break;
-		// if they are using tesla(SUPERSOLDIER / BOSS2)try and get close
-	case WP_TESLA:
-		if (dist > 128 /*&& (level.time%10000 < 8000)*/) {
-			return qfalse;
-		}
-		// if we haven't injured them in a while, advance
-		if (cs->enemyNum >= 0) {
-			ecs = AICast_GetCastState(cs->enemyNum);
-
-			if (ecs->lastPain < level.time - 3000) {
-				return qfalse;
-			}
-		}
-
-		break;
-	case WP_PANZERFAUST:
-		// if we haven't injured them in a while, advance
-		if ((cs->aiCharacter == AICHAR_PROTOSOLDIER || cs->aiCharacter == AICHAR_SUPERSOLDIER) && cs->enemyNum >= 0) {
+			// if they are using Venom, and are too far away to be effective, then keep chasing
+		case WP_VENOM:
 			if (dist > 300) {
 				return qfalse;
 			}
+			// if we haven't injured them in a while, advance
+			if (cs->enemyNum >= 0) {
+				ecs = AICast_GetCastState(cs->enemyNum);
 
-			ecs = AICast_GetCastState(cs->enemyNum);
+				if (ecs->lastPain < level.time - 3000) {
+					return qfalse;
+				}
+			}
 
-			if (ecs->lastPain < level.time - 3000) {
+			break;
+			// if they are using tesla (SUPERSOLDIER / BOSS2) try and get close
+		case WP_TESLA:
+			if (dist > 128 /*&& (level.time%10000 < 8000)*/) {
 				return qfalse;
 			}
-		}
+			// if we haven't injured them in a while, advance
+			if (cs->enemyNum >= 0) {
+				ecs = AICast_GetCastState(cs->enemyNum);
 
-		break;
-	case WP_FLAMETHROWER:
-		// if we haven't injured them in a while, advance
-		if (cs->aiCharacter == AICHAR_VENOM && cs->enemyNum >= 0) {
-			ecs = AICast_GetCastState(cs->enemyNum);
-
-			if (ecs->lastPain < level.time - 3000) {
-				return qfalse;
+				if (ecs->lastPain < level.time - 3000) {
+					return qfalse;
+				}
 			}
-		}
 
-		break;
+			break;
+		case WP_PANZERFAUST:
+			// if we haven't injured them in a while, advance
+			if ((cs->aiCharacter == AICHAR_PROTOSOLDIER || cs->aiCharacter == AICHAR_SUPERSOLDIER) && cs->enemyNum >= 0) {
+				if (dist > 300) {
+					return qfalse;
+				}
+
+				ecs = AICast_GetCastState(cs->enemyNum);
+
+				if (ecs->lastPain < level.time - 3000) {
+					return qfalse;
+				}
+			}
+
+			break;
+		case WP_FLAMETHROWER:
+			// if we haven't injured them in a while, advance
+			if (cs->aiCharacter == AICHAR_VENOM && cs->enemyNum >= 0) {
+				ecs = AICast_GetCastState(cs->enemyNum);
+
+				if (ecs->lastPain < level.time - 3000) {
+					return qfalse;
+				}
+			}
+
+			break;
 
 	}
 
@@ -2006,9 +1963,9 @@ AICast_GetAccuracy
 =======================================================================================================================================
 */
 float AICast_GetAccuracy(int entnum) {
-	#define AICAST_VARIABLE_ACC_ENABLED     1
-	#define AICAST_ACC_VISTIME(500 + (3500 * (1.0 - aicast_skillscale)))
-	#define AICAST_ACC_SCALE    0.4
+	#define AICAST_VARIABLE_ACC_ENABLED 1
+	#define AICAST_ACC_VISTIME (500 + (3500 * (1.0 - aicast_skillscale)))
+	#define AICAST_ACC_SCALE 0.4
 	cast_state_t *cs;
 	float acc;
 
@@ -2026,7 +1983,6 @@ float AICast_GetAccuracy(int entnum) {
 		} else if (g_gameskill.integer == GSKILL_MAX) {
 			acc = 1.0;
 		}
-
 	}
 
 	if (AICAST_VARIABLE_ACC_ENABLED) {
@@ -2045,7 +2001,7 @@ float AICast_GetAccuracy(int entnum) {
 		}
 	}
 
-	return(acc);
+	return (acc);
 }
 
 /*
@@ -2054,6 +2010,7 @@ AICast_WantToRetreat
 =======================================================================================================================================
 */
 qboolean AICast_WantToRetreat(cast_state_t *cs) {
+
 	if (g_entities[cs->entityNum].aiTeam != AITEAM_MONSTER) {
 		if (!cs->weaponNum) {
 			return qtrue;
@@ -2067,16 +2024,13 @@ qboolean AICast_WantToRetreat(cast_state_t *cs) {
 	if (cs->attributes[AGGRESSION] >= 1.0 && cs->attributes[TACTICAL] <= 0.2) {
 		return qfalse;
 	}
-	// RF, (Last Minute Hack)big dudes should never retreat
+	// (last minute hack) big dudes should never retreat
 	if (cs->aasWorldIndex != 0) {
 		return qfalse;
 	}
 
 	if (cs->leaderNum < 0) {
-		if ((cs->attributes[TACTICAL] > 0.11 + random() * 0.5) &&
-				((cs->bs->cur_ps.weaponTime > 500) ||
-					((cs->takeCoverTime < level.time - 100) &&
-					(AICast_WantsToTakeCover(cs, qtrue))))) {
+		if ((cs->attributes[TACTICAL] > 0.11 + random() * 0.5) && ((cs->bs->cur_ps.weaponTime > 500) || ((cs->takeCoverTime < level.time - 100) && (AICast_WantsToTakeCover(cs, qtrue))))) {
 			return qtrue;
 		}
 	}
@@ -2088,7 +2042,7 @@ qboolean AICast_WantToRetreat(cast_state_t *cs) {
 =======================================================================================================================================
 AICast_SafeMissileFire
 
-  checks to see if firing the missile will be successful, neutral, or dangerous to us or a friendly
+Checks to see if firing the missile will be successful, neutral, or dangerous to us or a friendly.
 =======================================================================================================================================
 */
 int AICast_SafeMissileFire(gentity_t *ent, int duration, int enemyNum, vec3_t enemyPos, int selfNum, vec3_t endPos) {
@@ -2105,11 +2059,11 @@ int AICast_SafeMissileFire(gentity_t *ent, int duration, int enemyNum, vec3_t en
 		VectorCopy(org, endPos);
 	}
 	// at end of life, so do radius damage
-	rval = (Distance(org, enemyPos)< ent->splashRadius) && AICast_VisibleFromPos(org, ent->s.number, enemyPos, enemyNum, qfalse);
+	rval = (Distance(org, enemyPos) < ent->splashRadius) && AICast_VisibleFromPos(org, ent->s.number, enemyPos, enemyNum, qfalse);
 
 	if (rval) {
 		// don't hurt ourselves
-		if (Distance(org, g_entities[selfNum].r.currentOrigin)< ent->splashRadius * 1.5) {
+		if (Distance(org, g_entities[selfNum].r.currentOrigin) < ent->splashRadius * 1.5) {
 			return -1;
 		}
 		// make sure we don't injure a friendly
@@ -2131,15 +2085,15 @@ int AICast_SafeMissileFire(gentity_t *ent, int duration, int enemyNum, vec3_t en
 			}
 
 			if (AICast_SameTeam(AICast_GetCastState(selfNum), trav->s.number)) {
-				if (Distance(org, trav->r.currentOrigin)< ent->splashRadius) {
+				if (Distance(org, trav->r.currentOrigin) < ent->splashRadius) {
 					return -1;
 				}
 			}
 		}
 	}
 	// if it overshot the mark
-	if (!rval && Distance(g_entities[ent->r.ownerNum].r.currentOrigin, org)> Distance(g_entities[ent->r.ownerNum].r.currentOrigin, enemyPos)) {
-		return -2;  // so the AI can try aiming down a bit next time
+	if (!rval && Distance(g_entities[ent->r.ownerNum].r.currentOrigin, org) > Distance(g_entities[ent->r.ownerNum].r.currentOrigin, enemyPos)) {
+		return -2; // so the AI can try aiming down a bit next time
 	}
 
 	return rval;
@@ -2149,8 +2103,7 @@ int AICast_SafeMissileFire(gentity_t *ent, int duration, int enemyNum, vec3_t en
 =======================================================================================================================================
 AICast_CheckDangerousEntity
 
-  check to see if the given entity can harm an AI character, if so, informs them
-  appropriately
+Check to see if the given entity can harm an AI character, if so, informs them appropriately.
 =======================================================================================================================================
 */
 void AICast_CheckDangerousEntity(gentity_t *ent, int dangerFlags, float dangerDist, float tacticalLevel, float aggressionLevel, qboolean hurtFriendly) {
@@ -2159,7 +2112,6 @@ void AICast_CheckDangerousEntity(gentity_t *ent, int dangerFlags, float dangerDi
 	gentity_t *trav;
 	int i, endTime;
 	float dist;
-
 
 	if (dangerFlags & DANGER_MISSILE) {
 		// predict where the entity will explode
@@ -2185,7 +2137,8 @@ void AICast_CheckDangerousEntity(gentity_t *ent, int dangerFlags, float dangerDi
 			continue;
 		}
 
-		i++;    // found a connected client
+		i++; // found a connected client
+
 		if (trav == ent) { // don't be afraid of ourself
 			continue;
 		}
@@ -2199,15 +2152,15 @@ void AICast_CheckDangerousEntity(gentity_t *ent, int dangerFlags, float dangerDi
 		}
 
 		if (cs->castScriptStatus.scriptNoSightTime >= level.time) {
-			continue;       // absolutely no sight(or hear)information allowed
+			continue; // absolutely no sight (or hear) information allowed
 		}
 
 		if (!hurtFriendly && ent->s.number < MAX_CLIENTS && AICast_SameTeam(cs, ent->s.number)) {
-			continue;   // trust that friends will not hurt us
+			continue; // trust that friends will not hurt us
 		}
 
 		if ((dangerFlags & DANGER_FLAMES) && (cs->aiFlags & AIFL_NO_FLAME_DAMAGE)) {
-			continue;   // venom not effected by flames
+			continue; // venom not effected by flames
 		}
 
 		if (cs->attributes[TACTICAL] < tacticalLevel) { // not smart enough
@@ -2220,6 +2173,7 @@ void AICast_CheckDangerousEntity(gentity_t *ent, int dangerFlags, float dangerDi
 		// if they are below alert mode, and the danger is not in FOV, then ignore it
 		if (cs->aiState < AISTATE_ALERT) {
 			vec3_t ang, dir;
+
 			VectorSubtract(ent->r.currentOrigin, cs->bs->origin, dir);
 			VectorNormalize(dir);
 			vectoangles(dir, ang);
@@ -2230,24 +2184,25 @@ void AICast_CheckDangerousEntity(gentity_t *ent, int dangerFlags, float dangerDi
 			}
 		}
 
-		if (ent->client &&
-				(!cs->vislist[ent->s.number].visible_timestamp || (cs->vislist[ent->s.number].visible_timestamp < level.time - 3000))) {
-			continue;   // not aware of them, and they're not aware of us
+		if (ent->client && (!cs->vislist[ent->s.number].visible_timestamp || (cs->vislist[ent->s.number].visible_timestamp < level.time - 3000))) {
+			continue; // not aware of them, and they're not aware of us
 		}
 		// are they in danger?
 		if (cs->dangerEntityValidTime < level.time + 50) {
 			VectorSubtract(cs->bs->cur_ps.origin, org, vec);
+
 			dist = VectorLength(vec);
 
 			if (dist < dangerDist) {
 				if (dangerFlags & DANGER_CLIENTAIM) {
 					// also check aiming
-					if (DotProduct(vec, fwd)< (dist * 0.95 - 100)) {
+					if (DotProduct(vec, fwd) < (dist * 0.95 - 100)) {
 						continue;
 					}
 				}
-				//
+
 				cs->aiFlags &= ~AIFL_DENYACTION;
+
 				AICast_ScriptEvent(cs, "avoiddanger", ent->classname);
 
 				if (cs->aiFlags & AIFL_DENYACTION) {
@@ -2255,16 +2210,24 @@ void AICast_CheckDangerousEntity(gentity_t *ent, int dangerFlags, float dangerDi
 				}
 
 				cs->dangerEntity = ent->s.number;
+
 				VectorCopy(org, cs->dangerEntityPos);
+
 				cs->dangerEntityValidTime = endTime + 50;
-				cs->dangerDist = dangerDist * 1.5;    // when we hide from it, get a good distance away
+				cs->dangerDist = dangerDist * 1.5; // when we hide from it, get a good distance away
 				cs->dangerEntityTimestamp = level.time;
 			}
 		}
 	}
 }
 
+/*
+=======================================================================================================================================
+AICast_HasFiredWeapon
+=======================================================================================================================================
+*/
 qboolean AICast_HasFiredWeapon(int entNum, int weapon) {
+
 	if (AICast_GetCastState(entNum) ->weaponFireTimes[weapon]) {
 		return qtrue;
 	}
@@ -2272,7 +2235,13 @@ qboolean AICast_HasFiredWeapon(int entNum, int weapon) {
 	return qfalse;
 }
 
+/*
+=======================================================================================================================================
+AICast_AllowFlameDamage
+=======================================================================================================================================
+*/
 qboolean AICast_AllowFlameDamage(int entNum) {
+
 	if (caststates[entNum].aiFlags & AIFL_NO_FLAME_DAMAGE) {
 		return qfalse;
 	}
@@ -2293,8 +2262,7 @@ void AICast_ProcessBullet(gentity_t *attacker, vec3_t start, vec3_t end) {
 	cast_state_t *cs;
 
 	VectorSubtract(end, start, dir);
-
-	// RF, AI should hear this pass by them really closely, or hitting a wall close by
+	// AI should hear this pass by them really closely, or hitting a wall close by
 	for (cs = caststates, tent = g_entities, i = 0; i < level.maxclients; i++, tent++, cs++) {
 		if (!tent->inuse) {
 			continue;
@@ -2320,7 +2288,7 @@ void AICast_ProcessBullet(gentity_t *attacker, vec3_t start, vec3_t end) {
 			continue;
 		}
 
-		if (cs->aiState >= AISTATE_COMBAT) { // RF add	// already fighting, not interested in bullet impacts
+		if (cs->aiState >= AISTATE_COMBAT) { // already fighting, not interested in bullet impacts
 			continue;
 		}
 
@@ -2343,11 +2311,11 @@ void AICast_ProcessBullet(gentity_t *attacker, vec3_t start, vec3_t end) {
 		ProjectPointOntoVector(tent->client->ps.origin, start, end, vProj);
 		VectorSubtract(vProj, start, vDir);
 
-		if (DotProduct(vDir, dir)< 0) { // they are behind the path of the bullet
+		if (DotProduct(vDir, dir) < 0) { // they are behind the path of the bullet
 			continue;
 		}
 
-		if (Distance(vProj, tent->client->ps.origin)> 0.5 * cs->attributes[INNER_DETECTION_RADIUS]) {
+		if (Distance(vProj, tent->client->ps.origin) > 0.5 * cs->attributes[INNER_DETECTION_RADIUS]) {
 			continue;
 		}
 heard:
@@ -2355,12 +2323,14 @@ heard:
 		AICast_ScriptEvent(cs, "bulletimpact", "");
 
 		if (cs->aiFlags & AIFL_DENYACTION) {
-			continue;   // ignore the bullet
+			continue; // ignore the bullet
 		}
 
-		cs->bulletImpactTime = level.time + 100 + rand()% 200;   // random reaction delay;
+		cs->bulletImpactTime = level.time + 100 + rand()% 200; // random reaction delay
+
 		VectorCopy(start, cs->bulletImpactStart);
 		VectorCopy(end, cs->bulletImpactEnd);
+
 		cs->bulletImpactEntity = attacker->s.number;
 	}
 }
@@ -2432,13 +2402,14 @@ void AICast_AudibleEvent(int srcnum, vec3_t pos, float range) {
 			continue;
 		}
 		// we heard it
-
 		if (g_debugAudibleEvents.integer) {
 			G_Printf("AICast_AudibleEvent heard: %s \"%s\"(dist:%0.0f s:%0.2f pvss:%0.2f)\n", ent->classname, ent->aiName, (sqrt(localDist)), cs->attributes[HEARING_SCALE], cs->attributes[HEARING_SCALE_NOT_PVS]);
 		}
 
-		cs->audibleEventTime = level.time + 200 + rand()% 300;   // random reaction delay
+		cs->audibleEventTime = level.time + 200 + rand()% 300; // random reaction delay
+
 		VectorCopy(pos, cs->audibleEventOrg);
+
 		cs->audibleEventEnt = ent->s.number;
 	}
 }

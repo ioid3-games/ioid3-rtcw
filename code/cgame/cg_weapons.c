@@ -1611,7 +1611,7 @@ static float CG_TeslaSpinAngle(centity_t *cent) {
 }
 
 #define VENOM_LOADTIME 2000
-#define VENOM_DELTATIME(VENOM_LOADTIME / 10) // as there are 10 shots to be loaded
+#define VENOM_DELTATIME (VENOM_LOADTIME / 10) // as there are 10 shots to be loaded
 #define SPIN_SPEED 1
 #define COAST_TIME 2000
 /*
@@ -1761,9 +1761,9 @@ static void CG_AddWeaponWithPowerups(refEntity_t *gun, int powerups, playerState
 */
 }
 
-#define ESLA_LIGHTNING_POINT_TIMEOUT 3000
-#define TESLA_LIGHTNING_MAX_DIST(cent->currentState.aiChar == AICHAR_SUPERSOLDIER ? TESLA_SUPERSOLDIER_RANGE : TESLA_RANGE) // use these to perhaps vary the distance according to aiming
-#define TESLA_LIGHTNING_NORMAL_DIST(TESLA_RANGE / 2.0)
+#define TESLA_LIGHTNING_POINT_TIMEOUT 3000
+#define TESLA_LIGHTNING_MAX_DIST (cent->currentState.aiChar == AICHAR_SUPERSOLDIER ? TESLA_SUPERSOLDIER_RANGE : TESLA_RANGE) // use these to perhaps vary the distance according to aiming
+#define TESLA_LIGHTNING_NORMAL_DIST (TESLA_RANGE / 2.0)
 #define TESLA_MAX_POINT_TESTS 10
 #define TESLA_MAX_POINT_TESTS_PERFRAME 20
 /*
@@ -2749,8 +2749,7 @@ void CG_DrawWeaponSelect(void) {
 			x = WP_DRAW_X - WP_ICON_SEC_X - 4;
 		}
 
-		dawweap = getAltWeapon(weapBanks[curweapbank][i]);
-
+		drawweap = getAltWeapon(weapBanks[curweapbank][i]);
 		// clear drawweap if getaltweap()returns the same weap as passed in.(no secondary available)
 		if (drawweap == weapBanks[curweapbank][i]) {
 			drawweap = 0;

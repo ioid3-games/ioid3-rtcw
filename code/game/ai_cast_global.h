@@ -37,11 +37,11 @@ If you have questions concerning this license or the applicable additional terms
 // TTimo no typedef, "warning: useless keyword or type name in empty declaration"
 struct cast_state_s;
 
-#define AICAST_AIM_SPREAD   2048.0  // a really bad shooter will offset a maximum of this per shot, from the end point of the 8192 trace length
+#define AICAST_AIM_SPREAD 2048.0 // a really bad shooter will offset a maximum of this per shot, from the end point of the 8192 trace length
 
-#define DANGER_MISSILE(1 << 0)
-#define DANGER_CLIENTAIM(1 << 1)
-#define DANGER_FLAMES(1 << 2)
+#define DANGER_MISSILE (1 << 0)
+#define DANGER_CLIENTAIM (1 << 1)
+#define DANGER_FLAMES (1 << 2)
 
 extern qboolean saveGamePending;
 
@@ -66,8 +66,7 @@ void AICast_SetFlameDamage(int entNum, qboolean status);
 qboolean AICast_HasFiredWeapon(int entNum, int weapon);
 void G_SetAASBlockingEntity(gentity_t *ent, qboolean blocking);
 qboolean AICast_InFieldOfVision(vec3_t viewangles, float fov, vec3_t angles);
-qboolean AICast_VisibleFromPos(vec3_t srcpos, int srcnum,
-								vec3_t destpos, int destnum, qboolean updateVisPos);
+qboolean AICast_VisibleFromPos(vec3_t srcpos, int srcnum, vec3_t destpos, int destnum, qboolean updateVisPos);
 qboolean AICast_AllowFlameDamage(int entNum);
 void AICast_AdjustIdealYawForMover(int entnum, float yaw);
 void AICast_AgePlayTime(int entnum);
@@ -76,10 +75,6 @@ void AICast_RecordScriptSound(int client);
 void AICast_UpdateVisibility(gentity_t *srcent, gentity_t *destent, qboolean shareVis, qboolean directview);
 void AICast_ProcessBullet(gentity_t *attacker, vec3_t start, vec3_t end);
 void AICast_AudibleEvent(int srcnum, vec3_t pos, float range);
-
-//---- (SA)	added
 int AICast_PlayTime(int entnum);
 int AICast_NumAttempts(int entnum);
-//---- (SA)	end
-
 void AICast_RegisterPain(int entnum);

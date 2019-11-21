@@ -2163,7 +2163,7 @@ static void CG_AddPainTwitch(centity_t *cent, vec3_t torsoAngles) {
 
 	if (cent->currentState.clientNum && cgs.gametype <= GT_SINGLE_PLAYER) {
 		#define FADEIN_RATIO 0.25
-		#define FADEOUT_RATIO(1.0 - FADEIN_RATIO)
+		#define FADEOUT_RATIO (1.0 - FADEIN_RATIO)
 		f = (float)t / duration;
 
 		if (f < FADEIN_RATIO) {
@@ -3422,7 +3422,7 @@ void CG_AddLoperLightningEffect(centity_t *cent) {
 			VectorCopy(testPos, cent->pe.lightningPoints[i]);
 			// play a zap sound
 			if (cent->pe.lightningSoundTime < cg.time - 100) {
-				trap_S_StartSound(testPos, ENTITYNUM_WORLD, CHAN_AUTO, cgs.media.lightningZap /*cgs.media.lightningSounds[rand()%3] * /);
+				trap_S_StartSound(testPos, ENTITYNUM_WORLD, CHAN_AUTO, cgs.media.lightningZap /*cgs.media.lightningSounds[rand()%3]*/);
 				cent->pe.lightningSoundTime = cg.time;
 			}
 		} else if ((!cent->pe.lightningTimes[i]) || (cent->pe.lightningTimes[i] > cg.time) || (cent->pe.lightningTimes[i] < cg.time - LOPER_LIGHTNING_POINT_TIMEOUT) || (VectorDistance(cent->lerpOrigin, cent->pe.lightningPoints[i])> maxDist)) {

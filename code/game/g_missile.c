@@ -30,7 +30,6 @@ If you have questions concerning this license or the applicable additional terms
 
 #define MISSILE_PRESTEP_TIME 50
 
-
 extern void gas_think(gentity_t *gas);
 extern void gas_touch(gentity_t *gas, gentity_t *other, trace_t *trace);
 extern void SP_target_smoke(gentity_t *ent);
@@ -46,7 +45,7 @@ qboolean G_BounceMissile(gentity_t *ent, trace_t *trace) {
 	vec3_t velocity;
 	float dot;
 	int hitTime;
-	int contents;d
+	int contents;
 /*
 		// if we are a grenade, and we have hit an AI that is waiting to catch us, give them a grenade, and delete ourselves
 	if ((ent->splashMethodOfDeath == MOD_GRENADE_SPLASH) && (g_entities[trace->entityNum].flags & FL_AI_GRENADE_KICK) &&
@@ -946,10 +945,10 @@ void G_RunCrowbar(gentity_t *ent) {
 #define FLAME_START_SPEED 1200.0 // speed of flame as it leaves the nozzle
 #define FLAME_MIN_SPEED 60.0
 // these are calculated (don't change)
-#define FLAME_LENGTH(FLAMETHROWER_RANGE + 50.0) // NOTE: only modify the range, since this should always reflect that range
-#define FLAME_LIFETIME(int)((FLAME_LENGTH / FLAME_START_SPEED) * 1000) // life duration in milliseconds
-#define FLAME_FRICTION_PER_SEC(2.0f * FLAME_START_SPEED)
-#define GET_FLAME_SIZE_SPEED(x)(((float)x / FLAME_LIFETIME) / 0.3) // x is the current sizeMax
+#define FLAME_LENGTH (FLAMETHROWER_RANGE + 50.0) // NOTE: only modify the range, since this should always reflect that range
+#define FLAME_LIFETIME (int)((FLAME_LENGTH / FLAME_START_SPEED) * 1000) // life duration in milliseconds
+#define FLAME_FRICTION_PER_SEC (2.0f * FLAME_START_SPEED)
+#define GET_FLAME_SIZE_SPEED(x) (((float)x / FLAME_LIFETIME) / 0.3) // x is the current sizeMax
 #define FLAME_THRESHOLD 50
 
 /*

@@ -70,7 +70,7 @@ If you have questions concerning this license or the applicable additional terms
 #define AREACONTENTS_MOVER              1024
 #define AREACONTENTS_MODELNUMSHIFT      24
 #define AREACONTENTS_MAXMODELNUM        0xFF
-#define AREACONTENTS_MODELNUM(AREACONTENTS_MAXMODELNUM << AREACONTENTS_MODELNUMSHIFT)
+#define AREACONTENTS_MODELNUM (AREACONTENTS_MAXMODELNUM << AREACONTENTS_MODELNUMSHIFT)
 //////////////////
 //
 bot_waypoint_t botai_waypoints[MAX_WAYPOINTS];

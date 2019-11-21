@@ -36,19 +36,18 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "g_local.h"
 #include "../qcommon/q_shared.h"
-#include "../botlib/botlib.h"      //bot lib interface
+#include "../botlib/botlib.h" // bot lib interface
 #include "../botlib/be_aas.h"
 #include "../botlib/be_ea.h"
 #include "../botlib/be_ai_gen.h"
 #include "../botlib/be_ai_goal.h"
 #include "../botlib/be_ai_move.h"
-#include "../botlib/botai.h"          //bot ai interface
+#include "../botlib/botai.h" // bot ai interface
 
 #include "ai_cast.h"
 
 /*
-Contains response functions for various events that require specific handling
-for Cast AI's.
+Contains response functions for various events that require specific handling for Cast AI's.
 */
 
 /*
@@ -61,10 +60,7 @@ void AICast_Sight(gentity_t *ent, gentity_t *other, int lastSight) {
 
 	cs = AICast_GetCastState(ent->s.number);
 	ocs = AICast_GetCastState(other->s.number);
-
-
 	// call the sightfunc for this cast, so we can play associated sounds, or do any character-specific things
-
 	if (cs->sightfunc) {
 		// factor in the reaction time
 		if (AICast_EntityVisible(cs, other->s.number, qfalse)) {
@@ -102,7 +98,6 @@ void AICast_Pain(gentity_t *targ, gentity_t *attacker, int damage, vec3_t point)
 	cast_state_t *cs;
 
 	cs = AICast_GetCastState(targ->s.number);
-
 	// print debugging message
 	if (aicast_debug.integer == 2 && attacker->s.number == 0) {
 		G_Printf("hit %s %i\n", targ->aiName, targ->health);
@@ -118,7 +113,6 @@ void AICast_Pain(gentity_t *targ, gentity_t *attacker, int damage, vec3_t point)
 	// process the event(turn to face the attacking direction? go into hide/retreat state?)
 	// need to weigh up the situation, but foremost, an inactive AI cast should always react in some way to being hurt
 	cs->lastPain = level.time;
-
 	// record the sighting(FIXME: silent weapons shouldn't do this, but the AI should react in some way)
 	if (attacker->client) {
 		AICast_UpdateVisibility(targ, attacker, qtrue, qtrue);
@@ -129,7 +123,6 @@ void AICast_Pain(gentity_t *targ, gentity_t *attacker, int damage, vec3_t point)
 	}
 
 	AICast_ScriptEvent(cs, "painenemy", attacker->aiName);
-
 	AICast_ScriptEvent(cs, "pain", va("%d %d", targ->health, targ->health + damage));
 
 	if (cs->aiFlags & AIFL_DENYACTION) {
@@ -137,7 +130,6 @@ void AICast_Pain(gentity_t *targ, gentity_t *attacker, int damage, vec3_t point)
 		return;
 	}
 	// call the painfunc for this cast, so we can play associated sounds, or do any character-specific things
-
 	if (cs->painfunc) {
 		cs->painfunc(targ, attacker, damage, point);
 	}
@@ -225,17 +217,13 @@ void AICast_Die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int 
 				return;
 			}
 		}
-
 	} else { // this is our first death, so set everything up
-
 		if (level.intermissiontime) {
 			return;
 		}
 
 		self->client->ps.pm_type = PM_DEAD;
-
 		self->enemy = attacker;
-
 		// drop a weapon?
 		// if client is in a nodrop area, don't drop anything
 		contents = trap_PointContents(self->r.currentOrigin, -1);
@@ -245,14 +233,11 @@ void AICast_Die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int 
 		}
 		// make sure the client doesn't forget about this entity until it's set to "dead" frame
 		// otherwise it might replay it's death animation if it goes out and into client view
-
 		// I'm not sure if above comment still applies, I couldnt reproduce it ..
 		// but we really dont want to put all these bodies(think g_reinforce 2)in the players PVS
 		// thanks to {SSF}Sage for telling me, this should keep fps a bit higher on some maps
 		//self->r.svFlags |= SVF_BROADCAST;
-
-		self->takedamage = qtrue;   // can still be gibbed
-
+		self->takedamage = qtrue; // can still be gibbed
 		self->s.weapon = WP_NONE;
 
 		if (cs->bs) {
@@ -260,10 +245,8 @@ void AICast_Die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int 
 		}
 
 		self->client->ps.weapon = WP_NONE;
-
 		self->s.powerups = 0;
 		self->r.contents = CONTENTS_CORPSE;
-
 		self->s.angles[0] = 0;
 		self->s.angles[1] = self->client->ps.viewangles[1];
 		self->s.angles[2] = 0;
@@ -271,19 +254,15 @@ void AICast_Die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int 
 		VectorCopy(self->s.angles, self->client->ps.viewangles);
 
 		self->s.loopSound = 0;
-
 		self->r.maxs[2] = -8;
 		self->client->ps.maxs[2] = self->r.maxs[2];
-
 		// remove powerups
 		memset(self->client->ps.powerups, 0, sizeof(self->client->ps.powerups));
-
 		//cs->rebirthTime = 0;
-
 		// never gib in a nodrop
 		if (self->health <= GIB_HEALTH) {
 			if (self->aiCharacter == AICHAR_ZOMBIE) {
-				// RF, changed this so Zombies always gib now
+				// changed this so Zombies always gib now
 				GibEntity(self, killer);
 				nogib = qfalse;
 			} else if (!(contents & CONTENTS_NODROP)) {
@@ -322,7 +301,6 @@ void AICast_Die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int 
 			// set this flag so no other anims override us
 			self->client->ps.eFlags |= EF_DEAD;
 			self->s.eFlags |= EF_DEAD;
-
 			// make sure we dont move around while on the ground
 			//self->flags |= FL_NO_HEADCHECK;
 
@@ -344,7 +322,7 @@ void AICast_Die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int 
 		if (self->aiCharacter == AICHAR_ZOMBIE) {
 			if (!cs->secondDeadTime) {
 				cs->rebirthTime = level.time + 5000 + rand()% 2000;
-				// RF, only set for gib at next death, if NoRevive is not set
+				// only set for gib at next death, if NoRevive is not set
 				if (!(self->spawnflags & 2)) {
 					cs->secondDeadTime = qtrue;
 				}
@@ -369,8 +347,7 @@ void AICast_Die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int 
 		respawn = qtrue;
 	}
 
-	if (respawn && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
-		 && self->aiCharacter != AICHAR_HEINRICH && nogib && !cs->norespawn) {
+	if (respawn && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA && self->aiCharacter != AICHAR_HEINRICH && nogib && !cs->norespawn) {
 		if (cs->respawnsleft != 0) {
 			if (cs->respawnsleft > 0) {
 				cs->respawnsleft--;
@@ -389,13 +366,10 @@ void AICast_Die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int 
 	}
 
 	trap_LinkEntity(self);
-
 	// kill, instanly, any streaming sound the character had going
 	G_AddEvent(&g_entities[self->s.number], EV_STOPSTREAMINGSOUND, 0);
-
 	// mark the time of death
 	cs->deathTime = level.time;
-
 	// dying ai's can trigger a target
 	if (!cs->rebirthTime) {
 		G_UseTargets(self, self);
@@ -407,14 +381,13 @@ void AICast_Die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int 
 		}
 		// call the deathfunc for this cast, so we can play associated sounds, or do any character-specific things
 		if (!(cs->aiFlags & AIFL_DENYACTION) && cs->deathfunc) {
-			cs->deathfunc(self, attacker, damage, meansOfDeath);   //---- (SA)	added mod
+			cs->deathfunc(self, attacker, damage, meansOfDeath); // added mod
 		}
 	} else {
 		// really dead now, so call the script
-		if (respawn && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA
-			 && self->aiCharacter != AICHAR_HEINRICH && nogib && !cs->norespawn) {
+		if (respawn && self->aiCharacter != AICHAR_ZOMBIE && self->aiCharacter != AICHAR_HELGA && self->aiCharacter != AICHAR_HEINRICH && nogib && !cs->norespawn) {
 			if (!cs->died) {
-				G_UseTargets(self, self);                 // testing
+				G_UseTargets(self, self); // testing
 				AICast_ScriptEvent(cs, "death", "");
 				cs->died = qtrue;
 			}
@@ -423,7 +396,7 @@ void AICast_Die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int 
 		}
 		// call the deathfunc for this cast, so we can play associated sounds, or do any character-specific things
 		if (!(cs->aiFlags & AIFL_DENYACTION) && cs->deathfunc) {
-			cs->deathfunc(self, attacker, damage, meansOfDeath);   //---- (SA)	added mod
+			cs->deathfunc(self, attacker, damage, meansOfDeath); // added mod
 		}
 	}
 }
@@ -464,12 +437,12 @@ void AICast_AIDoor_Touch(gentity_t *ent, gentity_t *aidoor_trigger, gentity_t *d
 		return;
 	}
 	// if they are moving away from the door, ignore them
-	if (VectorLength(cs->bs->velocity)> 1) {
+	if (VectorLength(cs->bs->velocity) > 1) {
 		VectorAdd(door->r.absmin, door->r.absmax, pos);
 		VectorScale(pos, 0.5, pos);
 		VectorSubtract(pos, cs->bs->origin, dir);
 
-		if (DotProduct(cs->bs->velocity, dir)< 0) {
+		if (DotProduct(cs->bs->velocity, dir) < 0) {
 			return;
 		}
 	}
@@ -503,7 +476,9 @@ void AICast_AIDoor_Touch(gentity_t *ent, gentity_t *aidoor_trigger, gentity_t *d
 		}
 		// make sure there is a clear path
 		VectorCopy(ent->r.mins, mins);
-		mins[2] += 16;  // step height
+
+		mins[2] += 16; // step height
+
 		trap_Trace(&tr, ent->r.currentOrigin, mins, ent->r.maxs, trav->r.currentOrigin, ent->s.number, ent->clipmask);
 
 		if (tr.fraction < 1.0) {
@@ -544,6 +519,7 @@ void AICast_ProcessActivate(int entNum, int activatorNum) {
 	}
 	// try running the activate event, if it denies us the request, then abort
 	cs->aiFlags &= ~AIFL_DENYACTION;
+
 	AICast_ScriptEvent(cs, "activate", g_entities[activatorNum].aiName);
 
 	if (cs->aiFlags & AIFL_DENYACTION) {
@@ -564,7 +540,6 @@ void AICast_ProcessActivate(int entNum, int activatorNum) {
 		}
 
 		cs->leaderNum = -1;
-
 		// create a goal at this position
 		newent = G_Spawn();
 		newent->classname = "AI_wait_goal";

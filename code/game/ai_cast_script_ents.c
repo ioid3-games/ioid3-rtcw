@@ -36,43 +36,40 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "g_local.h"
 #include "../qcommon/q_shared.h"
-#include "../botlib/botlib.h"      //bot lib interface
+#include "../botlib/botlib.h" // bot lib interface
 #include "../botlib/be_aas.h"
 #include "../botlib/be_ea.h"
 #include "../botlib/be_ai_gen.h"
 #include "../botlib/be_ai_goal.h"
 #include "../botlib/be_ai_move.h"
-#include "../botlib/botai.h"          //bot ai interface
+#include "../botlib/botai.h" // bot ai interface
 
 #include "ai_cast.h"
 
-/*QUAKED ai_marker(1 0.5 0)(-18 -18 -24)(18 18 48)NODROP
+extern vec3_t playerMins, playerMaxs;
+
+/*QUAKED ai_marker (1 0.5 0) (-18 -18 -24) (18 18 48) NODROP
 AI marker
 
 NODROP means dont drop it to the ground
 
 "targetname" : identifier for this marker
 */
-
-/*
-=======================================================================================================================================
-SP_ai_marker
-=======================================================================================================================================
-*/
-extern vec3_t playerMins, playerMaxs;
 void SP_ai_marker(gentity_t *ent) {
 	vec3_t dest;
 	trace_t tr;
 	vec3_t checkMins, checkMaxs;
 
-//---- (SA)	move the bounding box for the check in 1 unit on each side so they can butt up against a wall and not startsolid
+	// move the bounding box for the check in 1 unit on each side so they can butt up against a wall and not startsolid
 	VectorCopy(playerMins, checkMins);
+
 	checkMins[0] += 1;
 	checkMins[1] += 1;
+
 	VectorCopy(playerMaxs, checkMaxs);
+
 	checkMaxs[0] -= 1;
 	checkMaxs[1] -= 1;
-//---- (SA)	end
 
 	if (!(ent->spawnflags & 1)) {
 		// drop to floor
@@ -89,15 +86,9 @@ void SP_ai_marker(gentity_t *ent) {
 	}
 }
 
-/*QUAKED ai_effect(0.3 0.8 0.2)(-4 -4 -4)(4 4 4)
-AI effect entity
-
-"ainame" is the name of the AI character that uses this entity for effects
-*/
-
 /*
 =======================================================================================================================================
-SP_ai_effect
+ai_effect_think
 =======================================================================================================================================
 */
 void ai_effect_think(gentity_t *ent) {
@@ -115,31 +106,48 @@ void ai_effect_think(gentity_t *ent) {
 	}
 	// make sure the clients can use this association
 	ent->s.otherEntityNum = targ->s.number;
-
 	ent->s.eType = ET_AI_EFFECT;
+
 	G_SetOrigin(ent, ent->s.origin);
 	trap_LinkEntity(ent);
-	ent->r.svFlags |= SVF_BROADCAST;    // make sure all clients are aware of this entity
+
+	ent->r.svFlags |= SVF_BROADCAST; // make sure all clients are aware of this entity
 }
 
+/*QUAKED ai_effect(0.3 0.8 0.2)(-4 -4 -4)(4 4 4)
+AI effect entity
+
+"ainame" is the name of the AI character that uses this entity for effects
+*/
 void SP_ai_effect(gentity_t *ent) {
+
 	ent->think = ai_effect_think;
 	ent->nextthink = level.time + 500;
 }
 
-//===========================================================
+/*
+=======================================================================================================================================
+AICast_trigger_wait
 
-// the wait time has passed, so set back up for another activation
+The wait time has passed, so set back up for another activation.
+=======================================================================================================================================
+*/
 void AICast_trigger_wait(gentity_t *ent) {
 	ent->nextthink = 0;
 }
 
-// the trigger was just activated
-// ent->activator should be set to the activator so it can be held through a delay
-// so wait for the delay time before firing
+/*
+=======================================================================================================================================
+AICast_trigger_trigger
+
+The trigger was just activated, ent->activator should be set to the activator so it can be held through a delay so wait for the delay
+time before firing.
+=======================================================================================================================================
+*/
 void AICast_trigger_trigger(gentity_t *ent, gentity_t *activator) {
+
 	if (ent->nextthink) {
-		return;     // can't retrigger until the wait is over
+		return; // can't retrigger until the wait is over
 	}
 	// we want the caststate of the activator not of the first client aka "player"
 	//ent->activator = AICast_FindEntityForName(ent->aiName);
@@ -154,20 +162,54 @@ void AICast_trigger_trigger(gentity_t *ent, gentity_t *activator) {
 		ent->think = AICast_trigger_wait;
 		ent->nextthink = level.time + (ent->wait + ent->random * crandom()) * 1000;
 	} else {
-		// we can't just remove(self)here, because this is a touch function
-		// called while looping through area links...
+		// we can't just remove (self) here, because this is a touch function called while looping through area links...
 		ent->touch = 0;
 		ent->nextthink = level.time + FRAMETIME;
 		ent->think = G_FreeEntity;
 	}
 }
 
+/*
+=======================================================================================================================================
+AICast_Touch_Trigger
+=======================================================================================================================================
+*/
 void AICast_Touch_Trigger(gentity_t *self, gentity_t *other, trace_t *trace) {
+
 	if (!other->client || (other->r.svFlags & SVF_CASTAI)) {
 		return;
 	}
 
 	AICast_trigger_trigger(self, other);
+}
+
+extern void InitTrigger(gentity_t *self);
+/*
+=======================================================================================================================================
+ai_trigger_activate
+=======================================================================================================================================
+*/
+void ai_trigger_activate(gentity_t *self) {
+
+	if (self->r.linked) {
+		return;
+	}
+
+	self->use = 0;
+	self->AIScript_AlertEntity = 0;
+	self->touch = AICast_Touch_Trigger;
+
+	InitTrigger(self);
+	trap_LinkEntity(self);
+}
+
+/*
+=======================================================================================================================================
+ai_trigger_use
+=======================================================================================================================================
+*/
+void ai_trigger_use(gentity_t *self, gentity_t *other, gentity_t *activator) {
+	ai_trigger_activate(self);
 }
 
 /*QUAKED ai_trigger(1 0.5 0) ? Startoff
@@ -176,27 +218,8 @@ Triggered only by the player touching it
 "ainame" : name of AI to target(use "player" for the.. player)
 "target" : trigger identifier for that AI script
 */
-extern void InitTrigger(gentity_t *self);
-
-void ai_trigger_activate(gentity_t *self) {
-	if (self->r.linked) {
-		return;
-	}
-
-	self->use = 0;
-	self->AIScript_AlertEntity = 0;
-
-	self->touch = AICast_Touch_Trigger;
-
-	InitTrigger(self);
-	trap_LinkEntity(self);
-}
-
-void ai_trigger_use(gentity_t *self, gentity_t *other, gentity_t *activator) {
-	ai_trigger_activate(self);
-}
-
 void SP_ai_trigger(gentity_t *ent) {
+
 	G_SpawnFloat("wait", "-1", &ent->wait);
 
 	if (!ent->aiName) {

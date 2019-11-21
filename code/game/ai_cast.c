@@ -83,22 +83,22 @@ vmCvar_t aicast_scripts;
 
 // string versions of the attributes used for per-level, per-character definitions
 char *castAttributeStrings[] = {
-	"RUNNING_SPEED", // max = 300	(running speed)
-	"WALKING_SPEED", // max = 300	(walking speed)
-	"CROUCHING_SPEED", // max = 300	(crouching speed)
-	"FOV", // max = 360	(field of view)
-	"YAW_SPEED", // max = 300	(yaw speed)
-	"LEADER", // max = 1.0	(ability to lead an AI squadron)
-	"AIM_SKILL", // max = 1.0	(skill while aiming)
-	"AIM_ACCURACY", // max = 1.0	(accuracy of firing)
-	"ATTACK_SKILL", // max = 1.0	(ability to attack and do other things, like retreat)
-	"REACTION_TIME", // max = 1.0	(upon seeing enemy, wait this long before reaction)
-	"ATTACK_CROUCH", // max = 1.0	(likely to crouch while firing)
-	"IDLE_CROUCH", // max = 1.0	(likely to crouch while idling)
-	"AGGRESSION", // max = 1.0	(willingness to fight till the death)
-	"TACTICAL", // max = 1.0	(ability to use strategy to their advantage, also behaviour whilst hunting enemy, more likely to creep around)
-	"CAMPER", // max = 1.0	(set this to make them stay in the spot they are spawned)
-	"ALERTNESS", // max = 1.0	(ability to notice enemies at long range)
+	"RUNNING_SPEED", // max = 300 (running speed)
+	"WALKING_SPEED", // max = 300 (walking speed)
+	"CROUCHING_SPEED", // max = 300 (crouching speed)
+	"FOV", // max = 360 (field of view)
+	"YAW_SPEED", // max = 300 (yaw speed)
+	"LEADER", // max = 1.0 (ability to lead an AI squadron)
+	"AIM_SKILL", // max = 1.0 (skill while aiming)
+	"AIM_ACCURACY", // max = 1.0 (accuracy of firing)
+	"ATTACK_SKILL", // max = 1.0 (ability to attack and do other things, like retreat)
+	"REACTION_TIME", // max = 1.0 (upon seeing enemy, wait this long before reaction)
+	"ATTACK_CROUCH", // max = 1.0 (likely to crouch while firing)
+	"IDLE_CROUCH", // max = 1.0 (likely to crouch while idling)
+	"AGGRESSION", // max = 1.0 (willingness to fight till the death)
+	"TACTICAL", // max = 1.0 (ability to use strategy to their advantage, also behaviour whilst hunting enemy, more likely to creep around)
+	"CAMPER", // max = 1.0 (set this to make them stay in the spot they are spawned)
+	"ALERTNESS", // max = 1.0 (ability to notice enemies at long range)
 	"STARTING_HEALTH",
 	"HEARING_SCALE",
 	"HEARING_SCALE_NOT_PVS",
@@ -143,6 +143,7 @@ AICast_GetCastState
 =======================================================================================================================================
 */
 cast_state_t *AICast_GetCastState(int entitynum) {
+
 	if (entitynum < 0 || entitynum > level.maxclients) {
 		return NULL;
 	}
@@ -210,15 +211,15 @@ int AICast_ShutdownClient(int client) {
 	// now do the other bot stuff
 #ifdef DEBUG
 //	botai_import.DebugLineDelete(bs->debugline);
-#endif //DEBUG
+#endif // DEBUG
 	trap_BotFreeMoveState(bs->ms);
-	//free the goal state
+	// free the goal state
 	trap_BotFreeGoalState(bs->gs);
-	//clear the bot state
+	// clear the bot state
 	memset(bs, 0, sizeof(bot_state_t));
-	//set the inuse flag to qfalse
+	// set the inuse flag to qfalse
 	bs->inuse = qfalse;
-	//everything went ok
+	// everything went ok
 	return BLERR_NOERROR;
 }
 
@@ -315,6 +316,7 @@ AICast_SetAASIndex
 =======================================================================================================================================
 */
 void AICast_SetAASIndex(cast_state_t *cs) {
+
 	if (aiDefaults[cs->aiCharacter].bboxType == BBOX_SMALL) {
 		cs->aasWorldIndex = AASWORLD_STANDARD;
 		cs->travelflags = AICAST_TFL_DEFAULT;
@@ -367,7 +369,6 @@ gentity_t *AICast_CreateCharacter(gentity_t *ent, float *attributes, cast_weapon
 	client = newent->client;
 	// setup the character..
 	cs = AICast_GetCastState(newent->s.number);
-
 	cs->aiCharacter = ent->aiCharacter;
 	// used with g_airespawn
 	cs->died = qfalse;
@@ -467,7 +468,7 @@ gentity_t *AICast_CreateCharacter(gentity_t *ent, float *attributes, cast_weapon
 
 	newent->pain = AICast_Pain;
 	newent->die = AICast_Die;
-	//update the attack inventory values
+	// update the attack inventory values
 	AICast_UpdateBattleInventory(cs, cs->enemyNum);
 	// make sure all clips are loaded so we don't hear everyone loading up(we don't want to do this inside AICast_UpdateBattleInventory(), only on spawn or giveweapon)
 	for (j = 0; j < WP_NUM_WEAPONS; j++) {
@@ -911,7 +912,7 @@ qboolean AICast_NoFlameDamage(int entNum) {
 	}
 
 	cs = AICast_GetCastState(entNum);
-	return((cs->aiFlags & AIFL_NO_FLAME_DAMAGE)!= 0);
+	return ((cs->aiFlags & AIFL_NO_FLAME_DAMAGE)!= 0);
 }
 
 /*
@@ -995,7 +996,7 @@ AICast_NoReload
 int AICast_NoReload(int entnum) {
 	cast_state_t *cs = AICast_GetCastState(entnum);
 
-	return((cs->aiFlags & AIFL_NO_RELOAD)!= 0);
+	return ((cs->aiFlags & AIFL_NO_RELOAD)!= 0);
 }
 
 /*
@@ -1005,7 +1006,8 @@ AICast_PlayTime
 */
 int AICast_PlayTime(int entnum) {
 	cast_state_t *cs = AICast_GetCastState(entnum);
-	return(cs->totalPlayTime);
+
+	return (cs->totalPlayTime);
 }
 
 /*
@@ -1015,7 +1017,8 @@ AICast_NumAttempts
 */
 int AICast_NumAttempts(int entnum) {
 	cast_state_t *cs = AICast_GetCastState(entnum);
-	return(cs->attempts);
+
+	return (cs->attempts);
 }
 
 /*

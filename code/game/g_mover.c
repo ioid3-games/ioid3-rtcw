@@ -256,7 +256,7 @@ qboolean G_TryPushingEntity(gentity_t *check, gentity_t *pusher, vec3_t move, ve
 	vec3_t matrix[3], transpose[3];
 	float x, fx, y, fy, z, fz;
 #define JITTER_INC  4
-#define JITTER_MAX(check->r.maxs[0] / 2.0)
+#define JITTER_MAX (check->r.maxs[0] / 2.0)
 	// EF_MOVER_STOP will just stop when contacting another entity instead of pushing it, but entities can still ride on top of it
 	if ((pusher->s.eFlags & EF_MOVER_STOP) && check->s.groundEntityNum != pusher->s.number) {
 		//pusher->s.eFlags |= EF_MOVER_BLOCKED;
