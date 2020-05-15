@@ -200,7 +200,7 @@ int AAS_EntityModelindex(int entnum) {
 		return 0;
 	}
 
-	return(*defaultaasworld).entities[entnum].i.modelindex;
+	return (*defaultaasworld).entities[entnum].i.modelindex;
 }
 
 /*
@@ -219,7 +219,7 @@ int AAS_EntityType(int entnum) {
 		return 0;
 	}
 
-	return(*defaultaasworld).entities[entnum].i.type;
+	return (*defaultaasworld).entities[entnum].i.type;
 }
 
 /*
@@ -238,15 +238,15 @@ int AAS_EntityModelNum(int entnum) {
 		return 0;
 	}
 
-	return(*defaultaasworld).entities[entnum].i.modelindex;
+	return (*defaultaasworld).entities[entnum].i.modelindex;
 }
 
 /*
 =======================================================================================================================================
-AAS_OriginOfEntityWithModelNum
+AAS_OriginOfMoverWithModelNum
 =======================================================================================================================================
 */
-int AAS_OriginOfEntityWithModelNum(int modelnum, vec3_t origin) {
+int AAS_OriginOfMoverWithModelNum(int modelnum, vec3_t origin) {
 	int i;
 	aas_entity_t *ent;
 

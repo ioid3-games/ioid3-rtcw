@@ -44,9 +44,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "be_aas_def.h"
 
 extern int Sys_MilliSeconds(void);
-
 //#include "../../../gladiator/bspc/aas_store.h"
-
 extern botlib_import_t botimport;
 
 //#define REACHDEBUG
@@ -62,8 +60,7 @@ extern botlib_import_t botimport;
 // number of units reachability points are placed inside the areas
 #define INSIDEUNITS 2
 // tweaked this, routing issues around small areas
-#define INSIDEUNITS_WALKEND 5 // original
-//#define INSIDEUNITS_WALKEND 0.2 // new
+#define INSIDEUNITS_WALKEND 5
 // added this for better walking off ledges
 #define INSIDEUNITS_WALKOFFLEDGEEND 15
 #define INSIDEUNITS_WALKSTART 0.1
@@ -449,6 +446,7 @@ void AAS_FaceCenter(int facenum, vec3_t center) {
 
 	for (i = 0; i < face->numedges; i++) {
 		edge = &(*aasworld).edges[abs((*aasworld).edgeindex[face->firstedge + i])];
+
 		VectorAdd(center, (*aasworld).vertexes[edge->v[0]], center);
 		VectorAdd(center, (*aasworld).vertexes[edge->v[1]], center);
 	}
@@ -2113,9 +2111,9 @@ int AAS_Reachability_Jump(int area1num, int area2num) {
 
 		if (AAS_HorizontalVelocityForJump(0, beststart, bestend, &speed)) {
 			// FIXME: why multiply with 1.2???
-			speed *= 1.2;
+			speed *= 1.2f;
 			traveltype = TRAVEL_WALKOFFLEDGE;
-		} else if (bestdist <= 48 && fabs(beststart[2] - bestend[2])< 8) {
+		} else if (bestdist <= 48 && fabs(beststart[2] - bestend[2]) < 8) {
 			speed = 400;
 			traveltype = TRAVEL_WALKOFFLEDGE;
 		} else {
@@ -2171,7 +2169,7 @@ int AAS_Reachability_Jump(int area1num, int area2num) {
 
 		if (trace.fraction < 1) {
 			plane = &(*aasworld).planes[trace.planenum];
-
+			// if the bot can stand on the surface
 			if (DotProduct(plane->normal, up) >= 0.7) {
 				if (!(AAS_PointContents(trace.endpos) & (CONTENTS_LAVA|CONTENTS_SLIME))) {
 					if (teststart[2] - trace.endpos[2] <= aassettings.sv_maxbarrier) {
@@ -2854,7 +2852,7 @@ void AAS_Reachability_Elevator(void) {
 				maxs[i] += 1;
 			}
 
-			botimport.Print(PRT_MESSAGE, "platbottom[2] = %1.1f plattop[2] = %1.1f\n", platbottom[2], plattop[2]);
+			//botimport.Print(PRT_MESSAGE, "platbottom[2] = %1.1f plattop[2] = %1.1f\n", platbottom[2], plattop[2]);
 
 			VectorAdd(mins, maxs, mids);
 			VectorScale(mids, 0.5, mids);
@@ -3144,7 +3142,7 @@ aas_lreachability_t *AAS_FindFaceReachabilities(vec3_t *facepoints, int numpoint
 			testpoint[2] = 0;
 		}
 
-		if (!AAS_PointInsideFace(bestfacenum, testpoint, 0.1)) {
+		if (!AAS_PointInsideFace(bestfacenum, testpoint, 0.1f)) {
 			// if the faces are not overlapping then only go down
 			if (bestend[2] - 16 > beststart[2]) {
 				continue;
@@ -3570,7 +3568,7 @@ void AAS_Reachability_JumpPad(void) {
 			area2num = 0;
 
 			for (i = 0; i < 20; i++) {
-				AAS_PredictClientMovement(&move, -1, areastart, PRESENCE_NORMAL, qfalse, velocity, cmdmove, 0, 30, 0.1, SE_HITGROUND|SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_TOUCHJUMPPAD|SE_TOUCHTELEPORTER, 0, qfalse); // qtrue);
+				AAS_PredictClientMovement(&move, -1, areastart, PRESENCE_NORMAL, qfalse, velocity, cmdmove, 0, 30, 0.1f, SE_HITGROUND|SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_TOUCHJUMPPAD|SE_TOUCHTELEPORTER, 0, qfalse); // qtrue);
 
 				area2num = AAS_PointAreaNum(move.endpos);
 
@@ -4092,7 +4090,7 @@ int AAS_Reachability_WeaponJump(int area1num, int area2num) {
 					velocity[2] = zvel;
 					VectorSet(cmdmove, 0, 0, 0);
 					*/
-					AAS_PredictClientMovement(&move, -1, areastart, PRESENCE_NORMAL, qtrue, velocity, cmdmove, 30, 30, 0.1, SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_TOUCHJUMPPAD|SE_HITGROUNDAREA, area2num, qfalse);
+					AAS_PredictClientMovement(&move, -1, areastart, PRESENCE_NORMAL, qtrue, velocity, cmdmove, 30, 30, 0.1f, SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_TOUCHJUMPPAD|SE_HITGROUNDAREA, area2num, qfalse);
 					// if prediction time wasn't enough to fully predict the movement
 					// don't enter slime or lava and don't fall from too high
 					if (move.frames < 30 && !(move.stopevent & (SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) && (move.stopevent & (SE_HITGROUNDAREA|SE_TOUCHJUMPPAD))) {

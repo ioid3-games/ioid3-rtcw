@@ -7660,7 +7660,7 @@ void _UI_Init(qboolean inGameLoad) {
 //	UI_ParseTeamInfo("teaminfo.txt");
 //	UI_LoadTeams();
 	UI_ParseGameInfo("coopgameinfo.txt");
-//	UI_LoadArenas();
+	UI_LoadArenas();
 
 	menuSet = UI_Cvar_VariableString("ui_menuFiles");
 

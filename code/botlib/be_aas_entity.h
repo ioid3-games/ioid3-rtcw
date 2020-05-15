@@ -29,7 +29,7 @@ If you have questions concerning this license or the applicable additional terms
 #ifdef AASINTERN
 // invalidates all entity infos
 void AAS_InvalidateEntities(void);
-// resets the entity AAS and BSP links(sets areas and leaves pointers to NULL)
+// resets the entity AAS and BSP links (sets areas and leaves pointers to NULL)
 void AAS_ResetEntityLinks(void);
 // updates an entity
 int AAS_UpdateEntity(int ent, bot_entitystate_t *state);
@@ -41,7 +41,7 @@ void AAS_EntitySize(int entnum, vec3_t mins, vec3_t maxs);
 // returns the BSP model number of the entity
 int AAS_EntityModelNum(int entnum);
 // returns the origin of an entity with the given model number
-int AAS_OriginOfEntityWithModelNum(int modelnum, vec3_t origin);
+int AAS_OriginOfMoverWithModelNum(int modelnum, vec3_t origin);
 // returns the best reachable area the entity is situated in
 int AAS_BestReachableEntityArea(int entnum);
 // returns the info of the given entity

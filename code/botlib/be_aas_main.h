@@ -27,11 +27,9 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #ifdef AASINTERN
-
-extern aas_t(*aasworld);
-
+extern aas_t (*aasworld);
 // AAS error message
-void QDECL AAS_Error(char *fmt, ...)__attribute__ ((format(printf, 1, 2)));
+void QDECL AAS_Error(char *fmt, ...) __attribute__((format(printf, 1, 2)));
 // set AAS initialized
 void AAS_SetInitialized(void);
 // setup AAS with the given number of entities and clients
@@ -42,7 +40,7 @@ void AAS_Shutdown(void);
 int AAS_LoadMap(const char *mapname);
 // start a new time frame
 int AAS_StartFrame(float time);
-#endif// AASINTERN
+#endif // AASINTERN
 // returns true if AAS is initialized
 int AAS_Initialized(void);
 // returns true if the AAS file is loaded

@@ -54,4 +54,3 @@ void AAS_DrawArrow(vec3_t start, vec3_t end, int linecolor, int arrowcolor);
 void AAS_ShowReachability(struct aas_reachability_s *reach);
 // show the reachable areas from the given area
 void AAS_ShowReachableAreas(int areanum);
-

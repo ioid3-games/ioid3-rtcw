@@ -163,7 +163,7 @@ int AAS_AgainstLadder(vec3_t origin, int ms_areanum) {
 		plane = &(*aasworld).planes[face->planenum ^ side];
 		// if the origin is pretty close to the plane
 		if (fabs(DotProduct(plane->normal, origin) - plane->dist) < 3) {
-			if (AAS_PointInsideFace(abs(facenum), origin, 0.1)) {
+			if (AAS_PointInsideFace(abs(facenum), origin, 0.1f)) {
 				return qtrue;
 			}
 		}
@@ -274,7 +274,7 @@ void AAS_JumpReachRunStart(aas_reachability_t *reach, vec3_t runstart) {
 	// get command movement
 	VectorScale(hordir, 400, cmdmove);
 
-	AAS_PredictClientMovement(&move, -1, start, PRESENCE_NORMAL, qtrue, vec3_origin, cmdmove, 1, 2, 0.1, SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_GAP, 0, qfalse);
+	AAS_PredictClientMovement(&move, -1, start, PRESENCE_NORMAL, qtrue, vec3_origin, cmdmove, 1, 2, 0.1f, SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_GAP, 0, qfalse);
 	VectorCopy(move.endpos, runstart);
 	// don't enter slime or lava and don't fall from too high
 	if (move.stopevent & (SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) { // modified since slime is no longer deadly
@@ -501,6 +501,7 @@ int AAS_PredictClientMovement(struct aas_clientmove_s *move, int entnum, vec3_t 
 		crouch = qfalse;
 		// apply command movement
 		if (n < cmdframes) {
+			// ax = 0;
 			maxvel = sv_maxwalkvelocity;
 			accelerate = sv_airaccelerate;
 
@@ -521,11 +522,13 @@ int AAS_PredictClientMovement(struct aas_clientmove_s *move, int entnum, vec3_t 
 				} else {
 					accelerate = sv_walkaccelerate;
 				}
+				// ax = 2;
 			}
 
 			if (swimming) {
 				maxvel = sv_maxswimvelocity;
 				accelerate = sv_swimaccelerate;
+				// ax = 3;
 			} else {
 				wishdir[2] = 0;
 			}
@@ -880,7 +883,7 @@ void AAS_TestMovementPrediction(int entnum, vec3_t origin, vec3_t dir) {
 	cmdmove[2] = 224;
 
 	AAS_ClearShownDebugLines();
-	AAS_PredictClientMovement(&move, entnum, origin, PRESENCE_NORMAL, qtrue, velocity, cmdmove, 13, 13, 0.1, SE_HITGROUND, 0, qtrue); // SE_LEAVEGROUND
+	AAS_PredictClientMovement(&move, entnum, origin, PRESENCE_NORMAL, qtrue, velocity, cmdmove, 13, 13, 0.1f, SE_HITGROUND, 0, qtrue); // SE_LEAVEGROUND
 
 	if (move.stopevent & SE_LEAVEGROUND) {
 		botimport.Print(PRT_MESSAGE, "leave ground\n");

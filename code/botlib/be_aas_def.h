@@ -27,14 +27,13 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #include "../qcommon/q_shared.h"
-
 // debugging on
 #define AAS_DEBUG
 #define MAX_CONFIGSTRINGS 2048 // upped
-#define DF_AASENTNUMBER(x)(x - (*aasworlds).entities)
-#define DF_NUMBERAASENT(x)(&(*aasworlds).entities[x])
-#define DF_AASENTCLIENT(x)(x - (*aasworlds).entities - 1)
-#define DF_CLIENTAASENT(x)(&(*aasworlds).entities[x + 1])
+#define DF_AASENTNUMBER(x) (x - (*aasworlds).entities)
+#define DF_NUMBERAASENT(x) (&(*aasworlds).entities[x])
+#define DF_AASENTCLIENT(x) (x - (*aasworlds).entities - 1)
+#define DF_CLIENTAASENT(x) (&(*aasworlds).entities[x + 1])
 
 // string index (for model, sound and image index)
 typedef struct aas_stringindex_s {
@@ -48,7 +47,6 @@ typedef struct aas_link_s {
 	struct aas_link_s *next_ent, *prev_ent;
 	struct aas_link_s *next_area, *prev_area;
 } aas_link_t;
-
 // structure to link entities to leaves and leaves to entities
 typedef struct bsp_link_s {
 	int entnum;
@@ -65,7 +63,6 @@ typedef struct bsp_entdata_s {
 	int solid;
 	int modelnum;
 } bsp_entdata_t;
-
 // entity
 typedef struct aas_entity_s {
 	// entity info
@@ -135,20 +132,17 @@ typedef struct aas_routingupdate_s {
 	struct aas_routingupdate_s *next;
 	struct aas_routingupdate_s *prev;
 } aas_routingupdate_t;
-
 // reversed reachability link
 typedef struct aas_reversedlink_s {
 	int linknum;						// the aas_areareachability_t
 	int areanum;						// reachable from this area
 	struct aas_reversedlink_s *next;	// next link
 } aas_reversedlink_t;
-
 // reversed area reachability
 typedef struct aas_reversedreachability_s {
 	int numlinks;
 	aas_reversedlink_t *first;
 } aas_reversedreachability_t;
-
 // route-tables
 #include "be_aas_routetable.h"
 
@@ -224,7 +218,7 @@ typedef struct aas_s {
 	// routing update
 	aas_routingupdate_t *areaupdate;
 	aas_routingupdate_t *portalupdate;
-	// number of routing updates during a frame(reset every frame)
+	// number of routing updates during a frame (reset every frame)
 	int frameroutingupdates;
 	// reversed reachability links
 	aas_reversedreachability_t *reversedreachability;
@@ -233,7 +227,7 @@ typedef struct aas_s {
 	// array of size numclusters with cluster cache
 	aas_routingcache_t ***clusterareacache;
 	aas_routingcache_t **portalcache;
-	// maximum travel time through portals
+	// maximum travel time through portal areas
 	int *portalmaxtraveltimes;
 	// pointer to Route-Table information
 	aas_rt_t *routetable;
@@ -243,16 +237,14 @@ typedef struct aas_s {
 	byte *decompressedvis;
 	int decompressedvisarea;
 	byte **areavisibility;
-	// store the area's waypoint for hidepos calculations(center traced downwards)
+	// store the area's waypoint for hidepos calculations (center traced downwards)
 	vec3_t *areawaypoints;
 	// so we can cache the areas that have already been tested for visibility/attackability
 	byte *visCache;
 } aas_t;
 
 #define AASINTERN
-
 #ifndef BSPCINCLUDE
-
 #include "be_aas_main.h"
 #include "be_aas_entity.h"
 #include "be_aas_sample.h"

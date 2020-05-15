@@ -140,9 +140,9 @@ int AAS_UpdatePortal(int areanum, int clusternum) {
 	} else if (!portal->backcluster) {
 		portal->backcluster = clusternum;
 	} else {
-		Log_Write("portal using area %d is separating more than two clusters\r\n", areanum);
 		// remove the cluster portal flag contents
 		(*aasworld).areasettings[areanum].contents &= ~AREACONTENTS_CLUSTERPORTAL;
+		Log_Write("portal area %d is separating more than two clusters\r\n", areanum);
 		return qfalse;
 	}
 
@@ -876,6 +876,7 @@ int AAS_CheckAreaForPossiblePortals(int areanum) {
 
 	memset(numareafrontfaces, 0, sizeof(numareafrontfaces));
 	memset(numareabackfaces, 0, sizeof(numareabackfaces));
+
 	numfrontfaces = numbackfaces = 0;
 	numfrontareas = numbackareas = 0;
 	frontplanenum = backplanenum = -1;
@@ -1030,7 +1031,7 @@ void AAS_FindPossiblePortals(void) {
 		numpossibleportals += AAS_CheckAreaForPossiblePortals(i);
 	}
 
-	botimport.Print(PRT_MESSAGE, "\r%6d possible portals\n", numpossibleportals);
+	botimport.Print(PRT_MESSAGE, "\r%6d possible portal areas\n", numpossibleportals);
 }
 
 /*
@@ -1533,7 +1534,7 @@ void AAS_CountForcedClusterPortals(void) {
 		}
 	}
 
-	botimport.Print(PRT_MESSAGE, "%6d forced portals\n", num);
+	botimport.Print(PRT_MESSAGE, "%6d forced portal areas\n", num);
 }
 
 /*

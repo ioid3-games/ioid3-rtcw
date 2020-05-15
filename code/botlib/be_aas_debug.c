@@ -646,7 +646,7 @@ void AAS_ShowReachability(aas_reachability_t *reach) {
 
 		cmdmove[2] = aassettings.sv_jumpvel;
 
-		AAS_PredictClientMovement(&move, -1, reach->start, PRESENCE_NORMAL, qtrue, velocity, cmdmove, 3, 30, 0.1, SE_HITGROUND|SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE, 0, qtrue);
+		AAS_PredictClientMovement(&move, -1, reach->start, PRESENCE_NORMAL, qtrue, velocity, cmdmove, 3, 30, 0.1f, SE_HITGROUND|SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE, 0, qtrue);
 
 		if (reach->traveltype == TRAVEL_JUMP) {
 			AAS_JumpReachRunStart(reach, dir);
@@ -665,7 +665,7 @@ void AAS_ShowReachability(aas_reachability_t *reach) {
 		VectorScale(dir, speed, cmdmove);
 		VectorSet(velocity, 0, 0, zvel);
 
-		AAS_PredictClientMovement(&move, -1, reach->start, PRESENCE_NORMAL, qtrue, velocity, cmdmove, 30, 30, 0.1, SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_TOUCHJUMPPAD|SE_HITGROUNDAREA, reach->areanum, qtrue);
+		AAS_PredictClientMovement(&move, -1, reach->start, PRESENCE_NORMAL, qtrue, velocity, cmdmove, 30, 30, 0.1f, SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_TOUCHJUMPPAD|SE_HITGROUNDAREA, reach->areanum, qtrue);
 	} else if (reach->traveltype == TRAVEL_JUMPPAD) {
 		VectorSet(cmdmove, 0, 0, 0);
 		VectorSubtract(reach->end, reach->start, dir);
@@ -679,7 +679,7 @@ void AAS_ShowReachability(aas_reachability_t *reach) {
 		// NOTE: the facenum is the Z velocity
 		velocity[2] = reach->facenum;
 
-		AAS_PredictClientMovement(&move, -1, reach->start, PRESENCE_NORMAL, qtrue, velocity, cmdmove, 30, 30, 0.1, SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_TOUCHJUMPPAD|SE_HITGROUNDAREA, reach->areanum, qtrue);
+		AAS_PredictClientMovement(&move, -1, reach->start, PRESENCE_NORMAL, qtrue, velocity, cmdmove, 30, 30, 0.1f, SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_TOUCHJUMPPAD|SE_HITGROUNDAREA, reach->areanum, qtrue);
 	}
 }
 
