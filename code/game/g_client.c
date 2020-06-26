@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -545,14 +541,15 @@ void limbo(gentity_t *ent, qboolean makeCorpse) {
 	}
 }
 
-/* JPW NERVE
-================
+/*
+=======================================================================================================================================
 reinforce
-================
-// -- called when time expires for a team deployment cycle and there is at least one guy ready to go
+
+Called when time expires for a team deployment cycle and there is at least one guy ready to go.
+=======================================================================================================================================
 */
 void reinforce(gentity_t *ent) {
-	int p;     //team; // numDeployable=0, finished=0; // TTimo unused
+	int p; // team; // numDeployable=0, finished=0; // TTimo unused
 	int i = 0;
 	gclient_t *rclient;
 
@@ -615,7 +612,7 @@ void ClientRespawn(gentity_t *ent) {
 		}
 
 		if (!(ent->r.svFlags & SVF_CASTAI)) {
-			// Fast method, just do a map_restart, and then load in the savegame once everything is settled
+			// fast method, just do a map_restart, and then load in the savegame once everything is settled
 			trap_SetConfigstring(CS_SCREENFADE, va("1 %i 4000", level.time + 2000));
 			trap_Cvar_Set("g_reloading", "1");
 			level.reloadDelayTime = level.time + 6000;
@@ -842,11 +839,11 @@ void SetWolfSpawnWeapons(gclient_t *client) {
 	client->ps.powerups[PW_INVULNERABLE] = level.time + 5000; // some time to find cover
 	// communicate it to cgame
 	client->ps.stats[STAT_PLAYER_CLASS] = pc;
-	// abuse teamNum to store player class as well(can't see stats for all clients in cgame)
+	// abuse teamNum to store player class as well (can't see stats for all clients in cgame)
 	client->ps.teamNum = pc;
 	//zero out all ammo counts
 	memset(client->ps.ammo, 0, MAX_WEAPONS * sizeof(int));
-	// all players start with a knife(not OR-ing so that it clears previous weapons)
+	// all players start with a knife (not OR-ing so that it clears previous weapons)
 	client->ps.weapons[0] = 0;
 	client->ps.weapons[1] = 0;
 
@@ -1489,7 +1486,7 @@ void ClientUserinfoChanged(int clientNum) {
 	}
 
 	trap_SetConfigstring(CS_PLAYERS + clientNum, s);
-	// moved log print bellow to fix an exploit(command could reveal IP of players..) as well as cleared half of garbage that's completely unimportant for Admins..
+	// moved log print bellow to fix an exploit (command could reveal IP of players..) as well as cleared half of garbage that's completely unimportant for Admins..
 	if (!(ent->r.svFlags & SVF_CASTAI)) {
 #ifdef _ADMINS 
 		char *team;
@@ -1611,7 +1608,7 @@ char *ClientConnect(int clientNum, qboolean firstTime, qboolean isBot) {
 		SaveIP(client, value);
 	}
 #endif
-	// get and distribute relevent paramters
+	// get and distribute relevant parameters
 	//G_LogPrintf("ClientConnect: %i\n", clientNum);
 	ClientUserinfoChanged(clientNum);
 	// don't do the "xxx connected" messages if they were caried over from previous level
@@ -1726,6 +1723,7 @@ void ClientBegin(int clientNum) {
 		if (g_enforcemaxlives.integer == 1 && (g_maxlives.integer > 0)) {
 			char *value;
 			char userinfo[MAX_INFO_STRING];
+
 			trap_GetUserinfo(clientNum, userinfo, sizeof(userinfo));
 			value = Info_ValueForKey(userinfo, "cl_guid");
 			G_LogPrintf("EnforceMaxLives-GUID: %s\n", value);
@@ -1851,8 +1849,7 @@ void ClientSpawn(gentity_t *ent) {
 						}
 					}
 				}
-				// Tim needs to prevent bots from spawning at the initial point
-				// on q3dm0...
+				// Tim needs to prevent bots from spawning at the initial point on q3dm0...
 				if ((spawnPoint->flags & FL_NO_BOTS) && (ent->r.svFlags & SVF_BOT)) {
 					continue; // try again
 				}
@@ -2187,7 +2184,6 @@ void ClientDisconnect(int clientNum) {
 	ent->client->sess.sessionTeam = TEAM_FREE;
 
 	trap_SetConfigstring(CS_PLAYERS + clientNum, "");
-
 	CalculateRanks();
 
 	if (ent->r.svFlags & SVF_BOT) {
@@ -2280,7 +2276,6 @@ void G_LoadAndParseMoveSpeeds(char *modelname) {
 		}
 
 		anim->moveSpeed = atoi(token);
-
 		// get the stepgap
 		token = COM_Parse(&text_p);
 
@@ -2296,18 +2291,11 @@ void G_LoadAndParseMoveSpeeds(char *modelname) {
 =======================================================================================================================================
 G_RetrieveMoveSpeedsFromClient
 
-A dedicated server doesn't has access to the renderer functions, so it fails
-when it tries to retrieve the movespeeds for the CASTAI's.
-
-To solve this problem we write out the movespeeds(once)to a file, so we
-can introdruce them to our pk3 files.
-
-When the server can't find the a modelname.mvspd file it requests the local client
-to generate such a file.
-
-So if you ever make a new model, you'll need to generate this file once through this
-function: just run a listen server, load your model in the game and let the game generate
-the file for you.
+A dedicated server doesn't has access to the renderer functions, so it fails when it tries to retrieve the movespeeds for the CASTAI's.
+To solve this problem we write out the movespeeds(once)to a file, so we can introdruce them to our pk3 files.
+When the server can't find the a modelname.mvspd file it requests the local client to generate such a file.
+So if you ever make a new model, you'll need to generate this file once through this function: just run a listen server, load your
+model in the game and let the game generate the file for you.
 =======================================================================================================================================
 */
 void G_RetrieveMoveSpeedsFromClient(int entnum, char *text) {
@@ -2369,7 +2357,6 @@ void G_RetrieveMoveSpeedsFromClient(int entnum, char *text) {
 		}
 
 		anim->moveSpeed = atoi(token);
-
 		// get the stepgap
 		token = COM_Parse(&text_p);
 

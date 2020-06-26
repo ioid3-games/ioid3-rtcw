@@ -26,22 +26,14 @@ If you have questions concerning this license or the applicable additional terms
 =======================================================================================================================================
 */
 
-//===========================================================================
-//
-// Name:			ai_cast_characters.c
-// Function:		Wolfenstein AI Characters
-// Programmer:		Ridah
-// Tab Size:		4(real tabs)
-//===========================================================================
-
 #include "g_local.h"
-#include "../botlib/botlib.h"      //bot lib interface
+#include "../botlib/botlib.h" //bot lib interface
 #include "../botlib/be_aas.h"
 #include "../botlib/be_ea.h"
 #include "../botlib/be_ai_gen.h"
 #include "../botlib/be_ai_goal.h"
 #include "../botlib/be_ai_move.h"
-#include "../botlib/botai.h"          //bot ai interface
+#include "../botlib/botai.h" //bot ai interface
 
 #include "ai_cast.h"
 
@@ -921,14 +913,13 @@ AICharacterDefaults_t aiDefaults[NUM_CHARACTERS] = {
 		NULL,
 		AISTATE_RELAXED
 	},
-
 };
 //---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 // Bounding boxes
-static vec3_t bbmins[2] = {{-18, -18, -24},{-32,-32,-24}};
-static vec3_t bbmaxs[2] = {{18, 18, 48},{32, 32, 68}};
+static vec3_t bbmins[2] = {{-18, -18, -24}, {-32,-32,-24}};
+static vec3_t bbmaxs[2] = {{18, 18, 48}, {32, 32, 68}};
 //static float crouchMaxZ[2] = {32,48}; // same as player, will head be ok?
 //---------------------------------------------------------------------------
 
@@ -1320,7 +1311,7 @@ void AIChar_spawn(gentity_t *ent) {
 		}
 
 		if (newent == ent) {
-			break;  // we are the first in line
+			break; // we are the first in line
 		}
 		// still waiting for someone else
 		ent->nextthink = level.time + FRAMETIME;
@@ -1478,9 +1469,7 @@ void AIChar_spawn(gentity_t *ent) {
 	cs->painfunc = AIChar_Pain;
 	cs->aiFlags |= aiCharDefaults->aiFlags;
 	cs->aiState = aiCharDefaults->aiState;
-
 	cs->queryCountValidTime = -1;
-
 	// randomly choose idle animation
 	if (cs->aiFlags & AIFL_STAND_IDLE2) {
 		newent->client->ps.eFlags |= EF_STAND_IDLE2;
@@ -1522,15 +1511,15 @@ void AIChar_spawn(gentity_t *ent) {
 	// set crouch move speed
 	ent->client->ps.crouchSpeedScale = cs->attributes[CROUCHING_SPEED] / cs->attributes[RUNNING_SPEED];
 	// check for some anims which we can use for special behaviours
-	if (BG_GetAnimScriptEvent(&ent->client->ps, ANIM_ET_ROLL)>= 0) {
+	if (BG_GetAnimScriptEvent(&ent->client->ps, ANIM_ET_ROLL) >= 0) {
 		cs->aiFlags |= AIFL_ROLL_ANIM;
 	}
 
-	if (BG_GetAnimScriptEvent(&ent->client->ps, ANIM_ET_FLIP)>= 0) {
+	if (BG_GetAnimScriptEvent(&ent->client->ps, ANIM_ET_FLIP) >= 0) {
 		cs->aiFlags |= AIFL_FLIP_ANIM;
 	}
 
-	if (BG_GetAnimScriptEvent(&ent->client->ps, ANIM_ET_DIVE)>= 0) {
+	if (BG_GetAnimScriptEvent(&ent->client->ps, ANIM_ET_DIVE) >= 0) {
 		cs->aiFlags |= AIFL_DIVE_ANIM;
 	}
 	// HACK

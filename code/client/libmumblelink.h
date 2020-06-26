@@ -1,17 +1,24 @@
 /*
 =======================================================================================================================================
-Copyright (C) 2008 Ludwig Nussel <ludwig.nussel@suse.de>
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held liable for any damages
-arising from the use of this software.
+This file is part of Spearmint Source Code.
 
-Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and
-redistribute it freely, subject to the following restrictions:
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this
-  software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
-2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
-3. This notice may not be removed or altered from any source distribution.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
+
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
+
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 

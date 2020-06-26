@@ -296,7 +296,7 @@ bot_moveresult_t *AICast_MoveToPos(cast_state_t *cs, vec3_t pos, int entnum) {
 		G_Printf("spd: %i\n", (int)bi.speed);
 	}
 */
-	return(moveresult = &lmoveresult);
+	return (moveresult = &lmoveresult);
 }
 
 /*
@@ -324,9 +324,8 @@ float AICast_SpeedScaleForDistance(cast_state_t *cs, float startdist, float idea
 		} else {
 			return 1.0;
 		}
-	} else
 	// if crouching
-	if (cs->movestate == MS_CROUCH || cs->attackcrouch_time > level.time) {
+	} else if (cs->movestate == MS_CROUCH || cs->attackcrouch_time > level.time) {
 		speed = cs->attributes[CROUCHING_SPEED];
 
 		if (speed * PREDICT_TIME_CROUCH > dist) {
@@ -334,9 +333,8 @@ float AICast_SpeedScaleForDistance(cast_state_t *cs, float startdist, float idea
 		} else {
 			return 1.0;
 		}
-	} else
 	// running
-	{
+	} else {
 		speed = cs->attributes[RUNNING_SPEED];
 
 		if (speed * PREDICT_TIME_RUN > dist) {
@@ -394,8 +392,7 @@ void AICast_SpecialFunc(cast_state_t *cs) {
 
 			break;
 		case AICHAR_HEINRICH:
-			if ((ent->health <= 0.25 * cs->attributes[STARTING_HEALTH])
-				||(cs->weaponFireTimes[WP_MONSTER_ATTACK1] > level.time - 6000) // walk for period after attack
+			if ((ent->health <= 0.25 * cs->attributes[STARTING_HEALTH]) ||(cs->weaponFireTimes[WP_MONSTER_ATTACK1] > level.time - 6000) // walk for period after attack
 				||(cs->weaponFireTimes[WP_MONSTER_ATTACK1] % 8000 < 3000)) { // dont run constantly
 				cs->actionFlags |= CASTACTION_WALK;
 			} else { // charging
@@ -581,12 +578,10 @@ char *AIFunc_Idle(cast_state_t *cs) {
 			// wait a second before changing again
 			if ((cs->nextIdleAngleChange + 3000) < level.time) {
 				// FIXME: This could be changed to use some AAS sampling, which would:
-				//	given a src area, pick a random dest area which is visible from that area
-				//	and return it's position, which we'd then use to set the next view angles
-				//
-				//	this would result in more efficient, more realistic behaviour, since they'd
-				//	also use PITCH angles to look at areas above/below them
-
+				// given a src area, pick a random dest area which is visible from that area
+				// and return it's position, which we'd then use to set the next view angles
+				// this would result in more efficient, more realistic behaviour, since they'd
+				// also use PITCH angles to look at areas above/below them
 				cs->idleYaw = AICast_GetRandomViewAngle(cs, 512);
 
 				if (fabs(AngleDelta(cs->idleYaw, cs->ideal_viewangles[YAW])) < 45) {
@@ -596,7 +591,6 @@ char *AIFunc_Idle(cast_state_t *cs) {
 				}
 				// adjust with time
 				cs->idleYawChange = AngleDelta(cs->idleYaw, cs->ideal_viewangles[YAW]);
-				///((float)(cs->nextIdleAngleChange - level.time) / 1000.0);
 				cs->ideal_viewangles[PITCH] = 0;
 			}
 		} else if (cs->idleYawChange) {
@@ -867,12 +861,10 @@ char *AIFunc_InspectFriendly(cast_state_t *cs) {
 		// wait a second before changing again
 		if ((cs->nextIdleAngleChange + 3000) < level.time) {
 			// FIXME: This could be changed to use some AAS sampling, which would:
-
-			//	given a src area, pick a random dest area which is visible from that area
-			//	and return it's position, which we'd then use to set the next view angles
-
-			//	this would result in more efficient, more realistic behaviour, since they'd
-			//	also use PITCH angles to look at areas above/below them
+			// given a src area, pick a random dest area which is visible from that area
+			// and return it's position, which we'd then use to set the next view angles
+			// this would result in more efficient, more realistic behaviour, since they'd
+			// also use PITCH angles to look at areas above/below them
 			cs->idleYaw = AICast_GetRandomViewAngle(cs, 512);
 
 			if (fabs(AngleDelta(cs->idleYaw, cs->ideal_viewangles[YAW])) < 45) {
@@ -882,8 +874,6 @@ char *AIFunc_InspectFriendly(cast_state_t *cs) {
 			}
 			// adjust with time
 			cs->idleYawChange = AngleDelta(cs->idleYaw, cs->ideal_viewangles[YAW]);
-			/// ((float)(cs->nextIdleAngleChange - level.time) / 1000.0);
-
 			cs->ideal_viewangles[PITCH] = 0;
 		}
 	} else if (cs->idleYawChange) {
@@ -1195,6 +1185,7 @@ char *AIFunc_InspectAudibleEvent(cast_state_t *cs) {
 				if (!ent->waterlevel) {
 					dir[2] = 0;
 				}
+
 //				trap_EA_Move(cs->entityNum, dir, 400);
 				trap_EA_GetInput(cs->entityNum, (float)level.time / 1000, &bi);
 				VectorCopy(dir, bi.dir);
@@ -1600,6 +1591,7 @@ char *AIFunc_ChaseGoal(cast_state_t *cs) {
 					return AIFunc_IdleStart(cs);
 				} else {
 					trace_t tr;
+
 					// if we have a clear line to our leader, move closer, since there may be others following also
 					trap_Trace(&tr, cs->bs->origin, cs->bs->cur_ps.mins, cs->bs->cur_ps.maxs, g_entities[cs->followEntity].r.currentOrigin, cs->entityNum, g_entities[cs->entityNum].clipmask);
 
@@ -2452,12 +2444,10 @@ char *AIFunc_BattleAmbush(cast_state_t *cs) {
 				// wait a second before changing again
 				if ((cs->nextIdleAngleChange + 3000) < level.time) {
 					// FIXME: This could be changed to use some AAS sampling, which would:
-
-					//	given a src area, pick a random dest area which is visible from that area
-					//	and return it's position, which we'd then use to set the next view angles
-
-					//	this would result in more efficient, more realistic behaviour, since they'd
-					//	also use PITCH angles to look at areas above/below them
+					// given a src area, pick a random dest area which is visible from that area
+					// and return it's position, which we'd then use to set the next view angles
+					// this would result in more efficient, more realistic behaviour, since they'd
+					// also use PITCH angles to look at areas above/below them
 					cs->idleYaw = AICast_GetRandomViewAngle(cs, 512);
 
 					if (fabs(AngleDelta(cs->idleYaw, cs->ideal_viewangles[YAW])) < 45) {
@@ -2633,7 +2623,7 @@ char *AIFunc_BattleChase(cast_state_t *cs) {
 	}
 	// if the enemy is inside a CONTENTS_DONOTENTER brush, and we are close enough, stop chasing them
 	if (AICast_EntityVisible(cs, cs->enemyNum, qtrue) && VectorDistance(cs->bs->origin, destorg) < 384) {
-		if (trap_PointContents(destorg, cs->enemyNum)&(CONTENTS_DONOTENTER|CONTENTS_DONOTENTER_LARGE)) {
+		if (trap_PointContents(destorg, cs->enemyNum) & (CONTENTS_DONOTENTER|CONTENTS_DONOTENTER_LARGE)) {
 			// just stay here, and hope they move out of the brush without finding a spot where they can hit us but we can't hit them
 			return NULL;
 		}
@@ -2645,6 +2635,7 @@ char *AIFunc_BattleChase(cast_state_t *cs) {
 		return NULL;
 	} else if (numEnemies == -2) { // inspection may be required
 		char *retval;
+
 		// TTimo: gcc: suggest()around assignment used as truth value
 		if ((retval = AIFunc_InspectFriendlyStart(cs, enemies[0]))) {
 			return retval;
@@ -3222,6 +3213,7 @@ char *AIFunc_BattleTakeCover(cast_state_t *cs) {
 		return NULL;
 	} else if (numEnemies == -2) { // inspection may be required
 		char *retval;
+
 		// TTimo: gcc: suggest()around assignment used as truth value
 		if ((retval = AIFunc_InspectFriendlyStart(cs, enemies[0]))) {
 			return retval;
@@ -3445,8 +3437,7 @@ char *AIFunc_BattleTakeCover(cast_state_t *cs) {
 			return AIFunc_BattleStart(cs);
 		}
 		// if we are tactical and can crouch, do so
-		if (!move.numtouch && (cs->thinkFuncChangeTime < level.time - 2000) && (dist > 128) && cs->attributes[TACTICAL] > 0.4 && cs->attributes[ATTACK_CROUCH] > 0.1 &&
-			(cs->attackcrouch_time >= level.time)) {
+		if (!move.numtouch && (cs->thinkFuncChangeTime < level.time - 2000) && (dist > 128) && cs->attributes[TACTICAL] > 0.4 && cs->attributes[ATTACK_CROUCH] > 0.1 && (cs->attackcrouch_time >= level.time)) {
 			cs->attackcrouch_time = level.time + 1000;
 		}
 		// attack the enemy if possible
@@ -3765,6 +3756,7 @@ char *AIFunc_GrenadeFlush(cast_state_t *cs) {
 //	}
 	// set our angles for the next frame
 	oldyaw = cs->ideal_viewangles[YAW];
+
 	AICast_AimAtEnemy(cs);
 	// if we can't see them, keep facing our movement dir, but use the pitch information
 	if (!AICast_EntityVisible(cs, cs->enemyNum, qtrue)) {
@@ -4243,8 +4235,7 @@ char *AIFunc_GrenadeKick(cast_state_t *cs) {
 	cs->attackcrouch_time = 0;  // animation is played from standing start
 	// are we close enough to pick it up?
 	if (/*cs->grenadeGrabFlag <= 0 || */
-		(danger->s.pos.trDelta[2] < 20 && VectorDistance(danger->r.currentOrigin, cs->bs->origin) < 48 && (danger->r.currentOrigin[2] < cs->bs->origin[2]) &&
-		  VectorLength(danger->s.pos.trDelta) < 50)) {
+		(danger->s.pos.trDelta[2] < 20 && VectorDistance(danger->r.currentOrigin, cs->bs->origin) < 48 && (danger->r.currentOrigin[2] < cs->bs->origin[2]) && VectorLength(danger->s.pos.trDelta) < 50)) {
 		// we have a choice here, either pick up and return, or just kick it
 //		if ((cs->grenadeGrabFlag == -1) || (cs->grenadeGrabFlag == qtrue && level.time > danger->nextthink - 2000)) {	// kick
 

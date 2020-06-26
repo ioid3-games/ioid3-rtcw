@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -1005,6 +1001,7 @@ void Com_Meminfo_f(void) {
 	Com_Printf("%8i high tempHighwater\n", hunk_high.tempHighwater);
 	Com_Printf("\n");
 	Com_Printf("%8i total hunk in use\n", hunk_low.permanent + hunk_high.permanent);
+
 	unused = 0;
 
 	if (hunk_low.tempHighwater > hunk_low.permanent) {
@@ -1350,9 +1347,9 @@ void *Hunk_Alloc(int size, ha_pref preference) {
 		Hunk_Log();
 		Hunk_SmallLog();
 
-		Com_Error(ERR_DROP, "Hunk_Alloc failed on %i: %s, line: %d (%s)", size, file, line, label);
+		Com_Error(ERR_DROP, "Hunk_Alloc failed on %i bytes (increase com_hunkMegs cvar value, current value is %d): %s, line: %d (%s).", size, Cvar_VariableIntegerValue("com_hunkMegs"), file, line, label);
 #else
-		Com_Error(ERR_DROP, "Hunk_Alloc failed on %i", size);
+		Com_Error(ERR_DROP, "Hunk_Alloc failed on %i bytes (increase com_hunkMegs cvar value, current value is %d).", size, Cvar_VariableIntegerValue("com_hunkMegs"));
 #endif
 	}
 
@@ -1413,7 +1410,7 @@ void *Hunk_AllocateTempMemory(int size) {
 	size = PAD(size, sizeof(intptr_t)) + sizeof(hunkHeader_t);
 
 	if (hunk_temp->temp + hunk_permanent->permanent + size > s_hunkTotal) {
-		Com_Error(ERR_DROP, "Hunk_AllocateTempMemory: failed on %i", size);
+		Com_Error(ERR_DROP, "Hunk_AllocateTempMemory failed on %i bytes (increase com_hunkMegs cvar value, current value is %d).", size, Cvar_VariableIntegerValue("com_hunkMegs"));
 	}
 
 	if (hunk_temp == &hunk_low) {
@@ -1936,7 +1933,7 @@ void Com_Setenv_f(void) {
 		char *env = getenv(arg1);
 
 		if (env) {
-			Com_Printf("%s=%s\n", arg1, env);
+			Com_Printf("%s = %s\n", arg1, env);
 		} else {
 			Com_Printf("%s undefined\n", arg1);
 		}

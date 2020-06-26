@@ -26,15 +26,6 @@ If you have questions concerning this license or the applicable additional terms
 =======================================================================================================================================
 */
 
-
-/*****************************************************************************
- * name:		ai_main.h
- *
- * desc:		Quake3 bot AI
- *
- *
- *****************************************************************************/
-
 //#define DEBUG
 #define CTF
 
@@ -85,148 +76,139 @@ typedef struct bot_waypoint_s {
 	int inuse;
 	char name[32];
 	bot_goal_t goal;
-	struct  bot_waypoint_s *next, *prev;
+	struct bot_waypoint_s *next, *prev;
 } bot_waypoint_t;
 
-//bot state
+// bot state
 typedef struct bot_state_s {
-	int inuse;                                      //true if this state is used by a bot client
-	int botthink_residual;                          //residual for the bot thinks
-	int client;                                     //client number of the bot
-	int entitynum;                                  //entity number of the bot
-	playerState_t cur_ps;                           //current player state
-	int last_eFlags;                                //last ps flags
-	usercmd_t lastucmd;                             //usercmd from last frame
-	int entityeventTime[MAX_GENTITIES];                      //last entity event time
+	int inuse;                                    // true if this state is used by a bot client
+	int botthink_residual;                          // residual for the bot thinks
+	int client;                                   // client number of the bot
+	int entitynum;                                // entity number of the bot
+	playerState_t cur_ps;                           // current player state
+	int last_eFlags;                              // last ps flags
+	usercmd_t lastucmd;                           // usercmd from last frame
+	int entityeventTime[MAX_GENTITIES];                      // last entity event time
 
-	bot_settings_t settings;                        //several bot settings
-	int(*ainode)(struct bot_state_s *bs);          //current AI node
-	float thinktime;                                //time the bot thinks this frame
-	vec3_t origin;                                  //origin of the bot
-	vec3_t velocity;                                //velocity of the bot
-	int presencetype;                               //presence type of the bot
-	vec3_t eye;                                     //eye coordinates of the bot
-	int areanum;                                    //the number of the area the bot is in
-	int inventory[MAX_ITEMS];                       //string with items amounts the bot has
-	int tfl;                                        //the travel flags the bot uses
-	int flags;                                      //several flags
-	int respawn_wait;                               //wait until respawned
-	int lasthealth;                                 //health value previous frame
-	int lastkilledplayer;                           //last killed player
-	int lastkilledby;                               //player that last killed this bot
-	int botdeathtype;                               //the death type of the bot
-	int enemydeathtype;                             //the death type of the enemy
-	int botsuicide;                                 //true when the bot suicides
-	int enemysuicide;                               //true when the enemy of the bot suicides
-	int setupcount;                                 //true when the bot has just been setup
-	int entergamechat;                              //true when the bot used an enter game chat
-	int num_deaths;                                 //number of time this bot died
-	int num_kills;                                  //number of kills of this bot
-	int revenge_enemy;                              //the revenge enemy
-	int revenge_kills;                              //number of kills the enemy made
-	int lastframe_health;                           //health value the last frame
-	int lasthitcount;                               //number of hits last frame
-	int chatto;                                     //chat to all or team
-	float walker;                                   //walker charactertic
-	float ltime;                                    //local bot time
-	float entergame_time;                           //time the bot entered the game
-	float ltg_time;                                 //long term goal time
-	float nbg_time;                                 //nearby goal time
-	float respawn_time;                             //time the bot takes to respawn
-	float respawnchat_time;                         //time the bot started a chat during respawn
-	float chase_time;                               //time the bot will chase the enemy
-	float enemyvisible_time;                        //time the enemy was last visible
-	float check_time;                               //time to check for nearby items
-	float stand_time;                               //time the bot is standing still
-	float lastchat_time;                            //time the bot last selected a chat
-	float standfindenemy_time;                      //time to find enemy while standing
-	float attackstrafe_time;                        //time the bot is strafing in one dir
-	float attackcrouch_time;                        //time the bot will stop crouching
-	float attackchase_time;                         //time the bot chases during actual attack
-	float attackjump_time;                          //time the bot jumped during attack
-	float enemysight_time;                          //time before reacting to enemy
-	float enemydeath_time;                          //time the enemy died
-	float enemyposition_time;                       //time the position and velocity of the enemy were stored
-	float activate_time;                            //time to activate something
-	float activatemessage_time;                     //time to show activate message
-	float defendaway_time;                          //time away while defending
-	float defendaway_range;                         //max travel time away from defend area
-	float rushbaseaway_time;                        //time away from rushing to the base
-	float ctfroam_time;                             //time the bot is roaming in ctf
-	float killedenemy_time;                         //time the bot killed the enemy
-	float arrive_time;                              //time arrived(at companion)
-	float lastair_time;                             //last time the bot had air
-	float teleport_time;                            //last time the bot teleported
-	float camp_time;                                //last time camped
-	float weaponchange_time;                        //time the bot started changing weapons
-	float firethrottlewait_time;                    //amount of time to wait
-	float firethrottleshoot_time;                   //amount of time to shoot
+	bot_settings_t settings;                        // several bot settings
+	int(*ainode)(struct bot_state_s *bs);          // current AI node
+	float thinktime;                              // time the bot thinks this frame
+	vec3_t origin;                                // origin of the bot
+	vec3_t velocity;                              // velocity of the bot
+	int presencetype;						// presence type of the bot
+	vec3_t eye;                                   // eye coordinates of the bot
+	int areanum;                                  // the number of the area the bot is in
+	int inventory[MAX_ITEMS];                     // string with items amounts the bot has
+	int tfl;                                      // the travel flags the bot uses
+	int flags;                                    // several flags
+	int respawn_wait;                             // wait until respawned
+	int lasthealth;                               // health value previous frame
+	int lastkilledplayer;                           // last killed player
+	int lastkilledby;                             // player that last killed this bot
+	int botdeathtype;                             // the death type of the bot
+	int enemydeathtype;                           // the death type of the enemy
+	int botsuicide;                               // true when the bot suicides
+	int enemysuicide;                             // true when the enemy of the bot suicides
+	int setupcount;                               // true when the bot has just been setup
+	int entergamechat;                            // true when the bot used an enter game chat
+	int num_deaths;                               // number of time this bot died
+	int num_kills;                                // number of kills of this bot
+	int revenge_enemy;                            // the revenge enemy
+	int revenge_kills;                            // number of kills the enemy made
+	int lastframe_health;                           // health value the last frame
+	int lasthitcount;                             // number of hits last frame
+	int chatto;                                   // chat to all or team
+	float walker;                                 // walker charactertic
+	float ltime;                                  // local bot time
+	float entergame_time;                           // time the bot entered the game
+	float ltg_time;                               // long term goal time
+	float nbg_time;                               // nearby goal time
+	float respawn_time;                           // time the bot takes to respawn
+	float respawnchat_time;                         // time the bot started a chat during respawn
+	float chase_time;                             // time the bot will chase the enemy
+	float enemyvisible_time;                        // time the enemy was last visible
+	float check_time;                             // time to check for nearby items
+	float stand_time;                             // time the bot is standing still
+	float lastchat_time;                          // time the bot last selected a chat
+	float standfindenemy_time;                      // time to find enemy while standing
+	float attackstrafe_time;                        // time the bot is strafing in one dir
+	float attackcrouch_time;                        // time the bot will stop crouching
+	float attackchase_time;                         // time the bot chases during actual attack
+	float attackjump_time;                          // time the bot jumped during attack
+	float enemysight_time;                          // time before reacting to enemy
+	float enemydeath_time;                          // time the enemy died
+	float enemyposition_time;                       // time the position and velocity of the enemy were stored
+	float activate_time;                          // time to activate something
+	float activatemessage_time;                     // time to show activate message
+	float defendaway_time;                          // time away while defending
+	float defendaway_range;                         // max travel time away from defend area
+	float rushbaseaway_time;                        // time away from rushing to the base
+	float ctfroam_time;                           // time the bot is roaming in ctf
+	float killedenemy_time;                         // time the bot killed the enemy
+	float arrive_time;                            // time arrived(at companion)
+	float lastair_time;                           // last time the bot had air
+	float teleport_time;                          // last time the bot teleported
+	float camp_time;                              // last time camped
+	float weaponchange_time;                        // time the bot started changing weapons
+	float firethrottlewait_time;                    // amount of time to wait
+	float firethrottleshoot_time;                   // amount of time to shoot
 	vec3_t aimtarget;
-	vec3_t enemyvelocity;                           //enemy velocity 0.5 secs ago during battle
-	vec3_t enemyorigin;                             //enemy origin 0.5 secs ago during battle
-
-	int character;                                  //the bot character
-	int ms;                                         //move state of the bot
-	int gs;                                         //goal state of the bot
-	int cs;                                         //chat state of the bot
-	int ws;                                         //weapon state of the bot
-
-	int enemy;                                      //enemy entity number
-	int lastenemyareanum;                           //last reachability area the enemy was in
-	vec3_t lastenemyorigin;                         //last origin of the enemy in the reachability area
-	int weaponnum;                                  //current weapon number
-	vec3_t viewangles;                              //current view angles
-	vec3_t ideal_viewangles;                        //ideal view angles
-
-	int ltgtype;                                    //long term goal type
-
-	int teammate;                                   //team mate
-	bot_goal_t teamgoal;                            //the team goal
-	float teammessage_time;                         //time to message team mates what the bot is doing
-	float teamgoal_time;                            //time to stop helping team mate
-	float teammatevisible_time;                     //last time the team mate was NOT visible
-
-	int lead_teammate;                              //team mate the bot is leading
-	bot_goal_t lead_teamgoal;                       //team goal while leading
-	float lead_time;                                //time leading someone
-	float leadvisible_time;                         //last time the team mate was visible
-	float leadmessage_time;                         //last time a messaged was sent to the team mate
-	float leadbackup_time;                          //time backing up towards team mate
-
-	char teamleader[MAX_NETNAME];                            //netname of the team leader
-	float askteamleader_time;                       //time asked for team leader
-	float becometeamleader_time;                    //time the bot will become the team leader
-	float teamgiveorders_time;                      //time to give team orders
-	int numteammates;                               //number of team mates
-	int redflagstatus;                              //0  =  at base, 1  =  not at base
-	int blueflagstatus;                             //0  =  at base, 1  =  not at base
-	int flagstatuschanged;                          //flag status changed
-	int forceorders;                                //true if forced to give orders
-	int flagcarrier;                                //team mate carrying the enemy flag
-	char subteam[32];                               //sub team name
-	float formation_dist;                           //formation team mate intervening space
-	bot_goal_t activategoal;                        //goal to activate(buttons etc.)
-	bot_waypoint_t *checkpoints;                    //check points
-	bot_waypoint_t *patrolpoints;                   //patrol points
-	bot_waypoint_t *curpatrolpoint;                 //current patrol point the bot is going for
-	int patrolflags;                                //patrol flags
+	vec3_t enemyvelocity;                           // enemy velocity 0.5 secs ago during battle
+	vec3_t enemyorigin;                           // enemy origin 0.5 secs ago during battle
+	int character;                                // the bot character
+	int ms;                                       // move state of the bot
+	int gs;                                       // goal state of the bot
+	int cs;                                       // chat state of the bot
+	int ws;                                       // weapon state of the bot
+	int enemy;                                    // enemy entity number
+	int lastenemyareanum;                           // last reachability area the enemy was in
+	vec3_t lastenemyorigin;                         // last origin of the enemy in the reachability area
+	int weaponnum;                                // current weapon number
+	vec3_t viewangles;                            // current view angles
+	vec3_t ideal_viewangles;                        // ideal view angles
+	int ltgtype;                                  // long term goal type
+	int teammate;                                 // team mate
+	bot_goal_t teamgoal;                          // the team goal
+	float teammessage_time;                         // time to message team mates what the bot is doing
+	float teamgoal_time;                          // time to stop helping team mate
+	float teammatevisible_time;                     // last time the team mate was NOT visible
+	int lead_teammate;                            // team mate the bot is leading
+	bot_goal_t lead_teamgoal;                       // team goal while leading
+	float lead_time;                              // time leading someone
+	float leadvisible_time;                         // last time the team mate was visible
+	float leadmessage_time;                         // last time a messaged was sent to the team mate
+	float leadbackup_time;                          // time backing up towards team mate
+	char teamleader[MAX_NETNAME];                          // netname of the team leader
+	float askteamleader_time;                       // time asked for team leader
+	float becometeamleader_time;                    // time the bot will become the team leader
+	float teamgiveorders_time;                      // time to give team orders
+	int numteammates;                             // number of team mates
+	int redflagstatus;                            // 0  =  at base, 1  =  not at base
+	int blueflagstatus;                           // 0  =  at base, 1  =  not at base
+	int flagstatuschanged;                          // flag status changed
+	int forceorders;                              // true if forced to give orders
+	int flagcarrier;                              // team mate carrying the enemy flag
+	char subteam[32];                             // sub team name
+	float formation_dist;                           // formation team mate intervening space
+	bot_goal_t activategoal;                        // goal to activate(buttons etc.)
+	bot_waypoint_t *checkpoints;                    // check points
+	bot_waypoint_t *patrolpoints;                   // patrol points
+	bot_waypoint_t *curpatrolpoint;                 // current patrol point the bot is going for
+	int patrolflags;                              // patrol flags
 } bot_state_t;
-
-//resets the whole bot state
+// resets the whole bot state
 void BotResetState(bot_state_t *bs);
-//returns the number of bots in the game
+// returns the number of bots in the game
 int NumBots(void);
-//returns info about the entity
+// returns info about the entity
 void BotEntityInfo(int entnum, aas_entityinfo_t *info);
 
-// Ridah, defines for AI Cast system
+// defines for AI Cast system
 int AICast_ShutdownClient(int client);
 void AICast_Init(void);
 void AICast_StartFrame(int time);
-// done.
-
 // from the game source
-void QDECL BotAI_Print(int type, char *fmt, ...)__attribute__ ((format(printf, 2, 3)));
+void QDECL BotAI_Print(int type, char *fmt, ...) __attribute__((format(printf, 2, 3)));
 void QDECL QDECL BotAI_BotInitialChat(bot_state_t *bs, char *type, ...);
 void BotAI_Trace(bsp_trace_t *bsptrace, vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end, int passent, int contentmask);
 int BotAI_GetClientState(int clientNum, playerState_t *state);

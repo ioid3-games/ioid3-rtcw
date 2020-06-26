@@ -1,22 +1,24 @@
 /*
 =======================================================================================================================================
-Copyright(C)1999-2005 Id Software, Inc.
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of Quake III Arena source code.
+This file is part of Spearmint Source Code.
 
-Quake III Arena source code is free software; you can redistribute it
-and/or modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of the License,
-or(at your option)any later version.
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-Quake III Arena source code is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with Quake III Arena source code; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
+
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
+
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -51,15 +53,6 @@ static char gogPath[MAX_OSPATH] = {0};
 #ifndef DEDICATED
 static UINT timerResolution = 0;
 #endif
-
-/*
-=======================================================================================================================================
-Sys_SetFPUCW
-
-Set FPU control word to default value.
-=======================================================================================================================================
-*/
-
 #ifndef _RC_CHOP
 // mingw doesn't seem to have these defined :(
 #define _MCW_EM		0x0008001fU
@@ -276,6 +269,7 @@ char *Sys_GetCurrentUser(void) {
 }
 
 #define MEM_THRESHOLD 96 * 1024 * 1024
+
 /*
 =======================================================================================================================================
 Sys_LowPhysicalMemory
@@ -407,6 +401,7 @@ char *Sys_Cwd(void) {
 */
 
 #define MAX_FOUND_FILES 0x1000
+
 /*
 =======================================================================================================================================
 Sys_ListFilteredFiles

@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http:// www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -272,7 +268,7 @@ int AAS_AreaCluster(int areanum) {
 		return 0;
 	}
 
-	return(*aasworld).areasettings[areanum].cluster;
+	return (*aasworld).areasettings[areanum].cluster;
 }
 
 /*
@@ -293,7 +289,7 @@ int AAS_AreaPresenceType(int areanum) {
 		return 0;
 	}
 
-	return(*aasworld).areasettings[areanum].presencetype;
+	return (*aasworld).areasettings[areanum].presencetype;
 }
 
 /*
@@ -316,7 +312,7 @@ int AAS_PointPresenceType(vec3_t point) {
 		return PRESENCE_NONE;
 	}
 
-	return(*aasworld).areasettings[areanum].presencetype;
+	return (*aasworld).areasettings[areanum].presencetype;
 }
 
 /*
@@ -585,9 +581,9 @@ aas_trace_t AAS_TraceClientBBox(vec3_t start, vec3_t end, int presencetype, int 
 			tmpplanenum = tstack_p->planenum;
 
 			if (frac < 0) {
-				frac = 0.001; // 0
+				frac = 0.001f; // 0
 			} else if (frac > 1) {
-				frac = 0.999; // 1
+				frac = 0.999f; // 1
 			}
 
 			//frac = front / (front - back);
@@ -865,6 +861,7 @@ qboolean AAS_InsideFace(aas_face_t *face, vec3_t pnormal, vec3_t point, float ep
 		edge = &(*aasworld).edges[abs(edgenum)];
 		// get the first vertex of the edge
 		firstvertex = edgenum < 0;
+
 		VectorCopy((*aasworld).vertexes[edge->v[firstvertex]], v0);
 		// edge vector
 		VectorSubtract((*aasworld).vertexes[edge->v[!firstvertex]], v0, edgevec);
@@ -965,7 +962,7 @@ aas_face_t *AAS_AreaGroundFace(int areanum, vec3_t point) {
 				VectorCopy(up, normal);
 			}
 			// check if the point is in the face
-			if (AAS_InsideFace(face, normal, point, 0.01)) {
+			if (AAS_InsideFace(face, normal, point, 0.01f)) {
 				return face;
 			}
 		}
@@ -1035,7 +1032,7 @@ aas_face_t *AAS_TraceEndFace(aas_trace_t *trace) {
 				firstface = face;
 			}
 			*/
-			if (AAS_InsideFace(face, (*aasworld).planes[face->planenum].normal, trace->endpos, 0.01)) {
+			if (AAS_InsideFace(face, (*aasworld).planes[face->planenum].normal, trace->endpos, 0.01f)) {
 				return face;
 			}
 		}

@@ -63,7 +63,7 @@ ELSE
 	add esp, 2
 	ret
   endm
-  
+
   qftolx87 PROC
     qftolx87m [esp + 6]
   qftolx87 ENDP

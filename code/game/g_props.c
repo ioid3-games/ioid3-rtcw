@@ -78,7 +78,7 @@ void DropToFloor(gentity_t *ent) {
 		return;
 	}
 
-	if (fabs(ent->r.currentOrigin[2] - tr.endpos[2])> 1.0) {
+	if (fabs(ent->r.currentOrigin[2] - tr.endpos[2]) > 1.0) {
 		tr.endpos[2] = (ent->r.currentOrigin[2] - 1.0);
 	}
 
@@ -1634,7 +1634,7 @@ void Props_Chair_Skyboxtouch(gentity_t *ent) {
 		if (player->r.svFlags & SVF_CASTAI) {
 			continue;
 		}
- 
+
 		if (player->melee == ent) {
 			player->melee = NULL;
 			player->active = qfalse;
@@ -1836,7 +1836,7 @@ void Use_DamageInflictor(gentity_t *ent, gentity_t *other, gentity_t *activator)
 
 	daent = NULL;
 
-	while (daent && ((daent = G_Find(daent, FOFS(targetname), daent->target))!= NULL)) {
+	while (daent && ((daent = G_Find(daent, FOFS(targetname), daent->target)) != NULL)) {
 		if (daent == ent) {
 			G_Printf("Use_DamageInflictor damaging self.\n");
 		} else {
@@ -3848,7 +3848,7 @@ void props_statue_animate(gentity_t *ent) {
 		ent->takedamage = qfalse;
 	}
 
-	if (((ent->delay * 1000) + ent->timestamp)> level.time) {
+	if (((ent->delay * 1000) + ent->timestamp) > level.time) {
 		ent->count = 0;
 	} else if (ent->count == 5) {
 		takeashot = qtrue;
@@ -4379,7 +4379,7 @@ void props_flamethrower_think(gentity_t *ent) {
 		}
 	}
 
-	if ((ent->timestamp + ent->duration)> level.time) {
+	if ((ent->timestamp + ent->duration) > level.time) {
 		//G_AddEvent(ent, EV_FLAMETHROWER_EFFECT, 0);
 		ent->s.eFlags |= EF_FIRING;
 		ent->nextthink = level.time + 50;

@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -1140,6 +1136,7 @@ static qboolean CG_RegisterClientHeadname(clientInfo_t *ci, const char *modelNam
 
 	return qtrue;
 }
+
 /*
 =======================================================================================================================================
 CG_ColorFromString
@@ -1438,10 +1435,9 @@ void CG_NewClientInfo(int clientNum) {
 	// scan for an existing clientinfo that matches this modelname so we can avoid loading checks if possible
 	if (!CG_ScanForExistingClientInfo(&newInfo)) {
 		qboolean forceDefer;
-		// disabled this, we can't have this happening in Wolf. If there is not enough memory,
-		// then we have a leak or havent allocated enough hunk
+		// disabled this, we can't have this happening in Wolf. If there is not enough memory, then we have a leak or havent allocated enough hunk
 		forceDefer = qfalse;
-		// if we are defering loads, just have it pick the first valid
+		// if we are deferring loads, just have it pick the first valid
 //		if (forceDefer || (cg_deferPlayers.integer && !cg_buildScript.integer && !cg.loading)) {
 		// very temporary! do not defer any players just yet
 		// we need to get ai's to be non-deferred players before we can do this
@@ -2278,7 +2274,9 @@ static void CG_IdleHeadMovement(centity_t *cent, const vec3_t torsoAngles, vec3_
 CG_PlayerAngles
 
 Handles separate torso motion.
+
 Legs pivot based on direction of movement. Head always looks exactly at cent->lerpAngles.
+
 If motion < 20 degrees, show in head only. If < 45 degrees, also show in torso.
 =======================================================================================================================================
 */
@@ -2384,6 +2382,7 @@ static void CG_PlayerAngles(centity_t *cent, vec3_t legs[3], vec3_t torso[3], ve
 	}
 
 	CG_SwingAngles(dest, 15, 30, 0.1, &cent->pe.torso.pitchAngle, &cent->pe.torso.pitching);
+
 	torsoAngles[PITCH] = cent->pe.torso.pitchAngle;
 
 	// --------- roll -------------
@@ -2411,7 +2410,7 @@ static void CG_PlayerAngles(centity_t *cent, vec3_t legs[3], vec3_t torso[3], ve
 	CG_AddPainTwitch(cent, torsoAngles);
 	// add the head movement if flag is set for looking around
 	CG_IdleHeadMovement(cent, torsoAngles, headAngles);
-	// pull the angles back out of the hierarchial chain
+	// pull the angles back out of the hierarchical chain
 	AnglesSubtract(headAngles, torsoAngles, headAngles);
 	AnglesSubtract(torsoAngles, legsAngles, torsoAngles);
 	AnglesToAxis(legsAngles, legs);
@@ -2456,7 +2455,6 @@ static void CG_BreathPuffs(centity_t *cent, refEntity_t *head) {
 	clientInfo_t *ci;
 	vec3_t up, forward;
 	int contents;
-
 	vec3_t mang, morg, maxis[3];
 
 	ci = &cgs.clientinfo[cent->currentState.number];
@@ -2481,7 +2479,7 @@ static void CG_BreathPuffs(centity_t *cent, refEntity_t *head) {
 
 	contents = CG_PointContents(head->origin, 0);
 
-	if (contents &(CONTENTS_WATER|CONTENTS_SLIME|CONTENTS_LAVA)) {
+	if (contents & (CONTENTS_WATER|CONTENTS_SLIME|CONTENTS_LAVA)) {
 		return;
 	}
 
@@ -2574,17 +2572,17 @@ static void CG_PlayerPowerups(centity_t *cent) {
 	}
 	// quad gives a dlight
 	if (powerups & (1 << PW_QUAD)) {
-		trap_R_AddLightToScene(cent->lerpOrigin, 200 + (rand()& 31), 0.2, 0.2, 1, 0);
+		trap_R_AddLightToScene(cent->lerpOrigin, 200 + (rand()&31), 0.2, 0.2, 1, 0);
 	}
 	// redflag
 	if (powerups & (1 << PW_REDFLAG)) {
 		CG_TrailItem(cent, cgs.media.redFlagModel);
-		trap_R_AddLightToScene(cent->lerpOrigin, 200 + (rand()& 31), 1, 0.2, 0.2, 0);
+		trap_R_AddLightToScene(cent->lerpOrigin, 200 + (rand()&31), 1, 0.2, 0.2, 0);
 	}
 	// blueflag
 	if (powerups & (1 << PW_BLUEFLAG)) {
 		CG_TrailItem(cent, cgs.media.blueFlagModel);
-		trap_R_AddLightToScene(cent->lerpOrigin, 200 + (rand()& 31), 0.2, 0.2, 1, 0);
+		trap_R_AddLightToScene(cent->lerpOrigin, 200 + (rand()&31), 0.2, 0.2, 1, 0);
 	}
 	// haste leaves smoke trails
 	if (powerups & (1 << PW_HASTE)) {
@@ -2596,7 +2594,7 @@ static void CG_PlayerPowerups(centity_t *cent) {
 =======================================================================================================================================
 CG_PlayerFloatSprite
 
-Float a sprite over the player's head(added height parameter).
+Float a sprite over the player's head (added height parameter).
 =======================================================================================================================================
 */
 static void CG_PlayerFloatSprite(centity_t *cent, qhandle_t shader, int height) {
@@ -2717,7 +2715,7 @@ static qboolean CG_PlayerShadow(centity_t *cent, float *shadowPlane) {
 		return qfalse;
 	}
 	// no shadows when invisible
-	if (cent->currentState.powerups &(1 << PW_INVIS)) {
+	if (cent->currentState.powerups & (1 << PW_INVIS)) {
 		return qfalse;
 	}
 	// send a trace down from the player to the ground
@@ -4004,39 +4002,7 @@ void CG_AddRefEntityWithPowerups(refEntity_t *ent, int powerups, int team, entit
 			*ent = backupRefEnt;
 		}
 
-		if (cent->pe.zombieDeathFadeEnd + fadeRiseTime > cg.time) {
-			// slowly fade the zombie "skin" out, revealing the skeleton underneath
-			VectorNormalize2(ent->axis[0], ent->fireRiseDir);
-
-			if (cent->pe.zombieDeathFadeEnd > cg.time) {
-				// the zombie has hard-edged alpha blending on it's body texture by default so we need to override that for smooth fading
-				if (ent->hModel == cent->pe.legsRefEnt.hModel ||
-					ent->hModel == cent->pe.torsoRefEnt.hModel) {
-					ent->customShader = cgs.media.zombieBodyFadeShader;
-				} else if (ent->hModel == cent->pe.headRefEnt.hModel) {
-					ent->customShader = cgs.media.zombieHeadFadeShader;
-				}
-				// fade the alpha from 0 -> 255 as the time goes, which will fade from front to back
-				if (cent->pe.zombieDeathFadeStart > cg.time) {
-					ent->shaderRGBA[3] = 128;
-				} else {
-					ent->shaderRGBA[3] = 128 - (unsigned char)(128.0*pow(((float)(cg.time - cent->pe.zombieDeathFadeStart) / (float)(cent->pe.zombieDeathFadeEnd - cent->pe.zombieDeathFadeStart)), 2));
-				}
-
-				ent->shaderTime = 1.0;
-
-				trap_R_AddRefEntityToScene(ent);
-			}
-		}
-*/
-	} else {
-		if (CG_EntOnFire(&cg_entities[es->number])) {
-			ent->reFlags |= REFLAG_FORCE_LOD;
-		}
-
-		trap_R_AddRefEntityToScene(ent);
-
-		if (powerups &(1 << PW_QUAD)) {
+		if (state->powerups & (1 << PW_QUAD)) {
 			if (team == TEAM_RED) {
 				ent->customShader = cgs.media.redQuadShader;
 			} else {

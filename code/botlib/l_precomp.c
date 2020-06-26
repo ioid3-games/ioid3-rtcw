@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -54,7 +50,6 @@ typedef enum {
 	qtrue
 } qboolean;
 #endif // SCREWUP
-
 #ifdef BOTLIB
 #include "../qcommon/q_shared.h"
 #include "botlib.h"
@@ -278,6 +273,7 @@ token_t *PC_CopyToken(token_t *token) {
 #endif
 		return NULL;
 	}
+
 	//freetokens = freetokens->next;
 
 	memcpy(t, token, sizeof(token_t));
@@ -469,6 +465,7 @@ int PC_StringizeTokens(token_t *tokens, token_t *token) {
 	token->whitespace_p = NULL;
 	token->endwhitespace_p = NULL;
 	token->string[0] = '\0';
+
 	strcat(token->string, "\"");
 
 	for (t = tokens; t; t = t->next) {
@@ -476,6 +473,7 @@ int PC_StringizeTokens(token_t *tokens, token_t *token) {
 	}
 
 	strncat(token->string, "\"", MAX_TOKEN - strlen(token->string) - 1);
+
 	return qtrue;
 }
 
@@ -493,7 +491,7 @@ int PC_MergeTokens(token_t *t1, token_t *t2) {
 	}
 	// merging of two strings
 	if (t1->type == TT_STRING && t2->type == TT_STRING) {
-		//remove trailing double quote
+		// remove trailing double quote
 		t1->string[strlen(t1->string) - 1] = '\0';
 		// concat without leading double quote
 		strcat(t1->string, &t2->string[1]);
@@ -949,7 +947,7 @@ void PC_ConvertPath(char *path) {
 	// remove double path separators
 	for (ptr = path; *ptr;) {
 		if ((*ptr == '\\' || *ptr == '/') && (*(ptr + 1) == '\\' || *(ptr + 1) == '/')) {
-			memmove(ptr, ptr+1, strlen(ptr));
+			memmove(ptr, ptr + 1, strlen(ptr));
 		} else {
 			ptr++;
 		}
@@ -1701,6 +1699,7 @@ int PC_OperatorPriority(int op) {
 		case P_QUESTIONMARK:
 			return 5;
 	}
+
 	return qfalse;
 }
 
@@ -1711,14 +1710,15 @@ int PC_OperatorPriority(int op) {
 
 #define MAX_VALUES 64
 #define MAX_OPERATORS 64
+
 #define AllocValue(val)									\
 	if (numvalues >= MAX_VALUES) {						\
 		SourceError(source, "out of value space");		\
 		error = 1;										\
 		break;											\
 	}													\
-	else {\
-		val = &value_heap[numvalues++];}
+	else												\
+		val = &value_heap[numvalues++];
 #define FreeValue(val)
 
 #define AllocOperator(op)								\
@@ -1727,8 +1727,8 @@ int PC_OperatorPriority(int op) {
 		error = 1;										\
 		break;											\
 	}													\
-	else {\
-		op = &operator_heap[numoperators++];}
+	else												\
+		op = &operator_heap[numoperators++];
 #define FreeOperator(op)
 
 /*
@@ -1857,111 +1857,135 @@ int PC_EvaluateTokens(source_t *source, token_t *tokens, signed long int *intval
 					v->floatvalue = t->floatvalue;
 				}
 
-			v->parentheses = parentheses;
-			v->next = NULL;
-			v->prev = lastvalue;
+				v->parentheses = parentheses;
+				v->next = NULL;
+				v->prev = lastvalue;
 
-			if (lastvalue) {
-				lastvalue->next = v;
-			} else {
-				firstvalue = v;
-			}
-
-			lastvalue = v;
-			//last token was a value
-			lastwasvalue = 1;
-
-			negativevalue = 0;
-			break;
-		}
-
-		case TT_PUNCTUATION:
-		{
-			if (negativevalue) {
-				SourceError(source, "misplaced minus sign in #if/#elif");
-				error = 1;
-				break;
-			}
-
-			if (t->subtype == P_PARENTHESESOPEN) {
-				parentheses++;
-				break;
-			} else if (t->subtype == P_PARENTHESESCLOSE) {
-				parentheses--;
-
-				if (parentheses < 0) {
-					SourceError(source, "too many)in #if/#elsif");
-					error = 1;
+				if (lastvalue) {
+					lastvalue->next = v;
+				} else {
+					firstvalue = v;
 				}
 
+				lastvalue = v;
+				// last token was a value
+				lastwasvalue = 1;
+				negativevalue = 0;
 				break;
 			}
-			//check for invalid operators on floating point values
-			if (!integer) {
-				if (t->subtype == P_BIN_NOT || t->subtype == P_MOD || t->subtype == P_RSHIFT || t->subtype == P_LSHIFT || t->subtype == P_BIN_AND || t->subtype == P_BIN_OR || t->subtype == P_BIN_XOR) {
-					SourceError(source, "illigal operator %s on floating point operands", t->string);
-					error = 1;
-					break;
-				}
-			}
 
-			switch (t->subtype) {
-			case P_LOGIC_NOT:
-			case P_BIN_NOT:
+			case TT_PUNCTUATION:
 			{
-				if (lastwasvalue) {
-					SourceError(source, "! or ~ after value in #if/#elif");
+				if (negativevalue) {
+					SourceError(source, "misplaced minus sign in #if/#elif");
 					error = 1;
 					break;
 				}
 
-				break;
-			}
+				if (t->subtype == P_PARENTHESESOPEN) {
+					parentheses++;
+					break;
+				} else if (t->subtype == P_PARENTHESESCLOSE) {
+					parentheses--;
 
-			case P_INC:
-			case P_DEC:
-			{
-				SourceError(source, "++ or -- used in #if/#elif");
-				break;
-			}
+					if (parentheses < 0) {
+						SourceError(source, "too many ) in #if/#elsif");
+						error = 1;
+					}
 
-			case P_SUB:
-			{
-				if (!lastwasvalue) {
-					negativevalue = 1;
 					break;
 				}
-			}
+				// check for invalid operators on floating point values
+				if (!integer) {
+					if (t->subtype == P_BIN_NOT || t->subtype == P_MOD || t->subtype == P_RSHIFT || t->subtype == P_LSHIFT || t->subtype == P_BIN_AND || t->subtype == P_BIN_OR || t->subtype == P_BIN_XOR) {
+						SourceError(source, "illigal operator %s on floating point operands", t->string);
+						error = 1;
+						break;
+					}
+				}
 
-			case P_MUL:
-			case P_DIV:
-			case P_MOD:
-			case P_ADD:
+				switch (t->subtype) {
+					case P_LOGIC_NOT:
+					case P_BIN_NOT:
+					{
+						if (lastwasvalue) {
+							SourceError(source, "! or ~ after value in #if/#elif");
+							error = 1;
+							break;
+						}
 
-			case P_LOGIC_AND:
-			case P_LOGIC_OR:
-			case P_LOGIC_GEQ:
-			case P_LOGIC_LEQ:
-			case P_LOGIC_EQ:
-			case P_LOGIC_UNEQ:
+						break;
+					}
 
-			case P_LOGIC_GREATER:
-			case P_LOGIC_LESS:
+					case P_INC:
+					case P_DEC:
+					{
+						SourceError(source, "++ or -- used in #if/#elif");
+						break;
+					}
 
-			case P_RSHIFT:
-			case P_LSHIFT:
+					case P_SUB:
+					{
+						if (!lastwasvalue) {
+							negativevalue = 1;
+							break;
+						}
+					}
 
-			case P_BIN_AND:
-			case P_BIN_OR:
-			case P_BIN_XOR:
+					case P_MUL:
+					case P_DIV:
+					case P_MOD:
+					case P_ADD:
+					case P_LOGIC_AND:
+					case P_LOGIC_OR:
+					case P_LOGIC_GEQ:
+					case P_LOGIC_LEQ:
+					case P_LOGIC_EQ:
+					case P_LOGIC_UNEQ:
+					case P_LOGIC_GREATER:
+					case P_LOGIC_LESS:
+					case P_RSHIFT:
+					case P_LSHIFT:
+					case P_BIN_AND:
+					case P_BIN_OR:
+					case P_BIN_XOR:
+					case P_COLON:
+					case P_QUESTIONMARK:
+					{
+						if (!lastwasvalue) {
+							SourceError(source, "operator %s after operator in #if/#elif", t->string);
+							error = 1;
+							break;
+						}
 
-			case P_COLON:
-			case P_QUESTIONMARK:
-			{
-				if (!lastwasvalue) {
-					SourceError(source, "operator %s after operator in #if/#elif", t->string);
-					error = 1;
-					break;
+						break;
+					}
+
+					default:
+					{
+						SourceError(source, "invalid operator %s in #if/#elif", t->string);
+						error = 1;
+						break;
+					}
+				}
+
+				if (!error && !negativevalue) {
+					//o = (operator_t *)GetClearedMemory(sizeof(operator_t));
+					AllocOperator(o);
+					o->operator = t->subtype;
+					o->priority = PC_OperatorPriority(t->subtype);
+					o->parentheses = parentheses;
+					o->next = NULL;
+					o->prev = lastoperator;
+
+					if (lastoperator) {
+						lastoperator->next = o;
+					} else {
+						firstoperator = o;
+					}
+
+					lastoperator = o;
+					lastwasvalue = 0;
 				}
 
 				break;
@@ -1969,40 +1993,10 @@ int PC_EvaluateTokens(source_t *source, token_t *tokens, signed long int *intval
 
 			default:
 			{
-				SourceError(source, "invalid operator %s in #if/#elif", t->string);
+				SourceError(source, "unknown %s in #if/#elif", t->string);
 				error = 1;
 				break;
 			}
-			}
-
-			if (!error && !negativevalue) {
-				//o = (operator_t *)GetClearedMemory(sizeof(operator_t));
-				AllocOperator(o);
-				o->operator = t->subtype;
-				o->priority = PC_OperatorPriority(t->subtype);
-				o->parentheses = parentheses;
-				o->next = NULL;
-				o->prev = lastoperator;
-
-				if (lastoperator) {
-					lastoperator->next = o;
-				} else {
-					firstoperator = o;
-				}
-
-				lastoperator = o;
-				lastwasvalue = 0;
-			}
-
-			break;
-		}
-
-		default:
-		{
-			SourceError(source, "unknown %s in #if/#elif", t->string);
-			error = 1;
-			break;
-		}
 		}
 
 		if (error) {
@@ -2015,7 +2009,7 @@ int PC_EvaluateTokens(source_t *source, token_t *tokens, signed long int *intval
 			SourceError(source, "trailing operator in #if/#elif");
 			error = 1;
 		} else if (parentheses) {
-			SourceError(source, "too many(in #if/#elif");
+			SourceError(source, "too many ( in #if/#elif");
 			error = 1;
 		}
 	}
@@ -2023,27 +2017,27 @@ int PC_EvaluateTokens(source_t *source, token_t *tokens, signed long int *intval
 	gotquestmarkvalue = qfalse;
 	questmarkintvalue = 0;
 	questmarkfloatvalue = 0;
-	//while there are operators
+	// while there are operators
 	while (!error && firstoperator) {
 		v = firstvalue;
 
 		for (o = firstoperator; o->next; o = o->next) {
-			//if the current operator is nested deeper in parentheses than the next operator
+			// if the current operator is nested deeper in parentheses than the next operator
 			if (o->parentheses > o->next->parentheses) {
 				break;
 			}
-			//if the current and next operator are nested equally deep in parentheses
+			// if the current and next operator are nested equally deep in parentheses
 			if (o->parentheses == o->next->parentheses) {
-				//if the priority of the current operator is equal or higher than the priority of the next operator
+				// if the priority of the current operator is equal or higher than the priority of the next operator
 				if (o->priority >= o->next->priority) {
 					break;
 				}
 			}
-			//if the arity of the operator isn't equal to 1
+			// if the arity of the operator isn't equal to 1
 			if (o->operator != P_LOGIC_NOT && o->operator != P_BIN_NOT) {
 				v = v->next;
 			}
-			//if there's no value or no next value
+			// if there's no value or no next value
 			if (!v) {
 				SourceError(source, "mising values in #if/#elif");
 				error = 1;
@@ -2071,128 +2065,172 @@ int PC_EvaluateTokens(source_t *source, token_t *tokens, signed long int *intval
 				Log_Write("value2 = %f", v2->floatvalue);
 			}
 		}
-#endif //DEBUG_EVAL
+#endif // DEBUG_EVAL
 		switch (o->operator) {
-		case P_LOGIC_NOT: v1->intvalue = !v1->intvalue;
-			v1->floatvalue = !v1->floatvalue; break;
-		case P_BIN_NOT: v1->intvalue = ~v1->intvalue;
-			break;
-		case P_MUL: v1->intvalue *= v2->intvalue;
-			v1->floatvalue *= v2->floatvalue; break;
-		case P_DIV: if(!v2->intvalue || !v2->floatvalue) {
-				SourceError(source, "divide by zero in #if/#elif");
-				error = 1;
+			case P_LOGIC_NOT:
+				v1->intvalue = !v1->intvalue;
+				v1->floatvalue = !v1->floatvalue;
 				break;
-		}
-
-			v1->intvalue /= v2->intvalue;
-			v1->floatvalue /= v2->floatvalue; break;
-		case P_MOD: if(!v2->intvalue) {
-				SourceError(source, "divide by zero in #if/#elif");
-				error = 1;
+			case P_BIN_NOT:
+				v1->intvalue = ~v1->intvalue;
 				break;
-		}
-
-			v1->intvalue %= v2->intvalue; break;
-		case P_ADD: v1->intvalue += v2->intvalue;
-			v1->floatvalue += v2->floatvalue; break;
-		case P_SUB: v1->intvalue -= v2->intvalue;
-			v1->floatvalue -= v2->floatvalue; break;
-		case P_LOGIC_AND: v1->intvalue = v1->intvalue && v2->intvalue;
-			v1->floatvalue = v1->floatvalue && v2->floatvalue; break;
-		case P_LOGIC_OR: v1->intvalue = v1->intvalue || v2->intvalue;
-			v1->floatvalue = v1->floatvalue || v2->floatvalue; break;
-		case P_LOGIC_GEQ: v1->intvalue = v1->intvalue >= v2->intvalue;
-			v1->floatvalue = v1->floatvalue >= v2->floatvalue; break;
-		case P_LOGIC_LEQ: v1->intvalue = v1->intvalue <= v2->intvalue;
-			v1->floatvalue = v1->floatvalue <= v2->floatvalue; break;
-		case P_LOGIC_EQ: v1->intvalue = v1->intvalue == v2->intvalue;
-			v1->floatvalue = v1->floatvalue == v2->floatvalue; break;
-		case P_LOGIC_UNEQ: v1->intvalue = v1->intvalue != v2->intvalue;
-			v1->floatvalue = v1->floatvalue != v2->floatvalue; break;
-		case P_LOGIC_GREATER: v1->intvalue = v1->intvalue > v2->intvalue;
-			v1->floatvalue = v1->floatvalue > v2->floatvalue; break;
-		case P_LOGIC_LESS: v1->intvalue = v1->intvalue < v2->intvalue;
-			v1->floatvalue = v1->floatvalue < v2->floatvalue; break;
-		case P_RSHIFT: v1->intvalue >>= v2->intvalue;
-			break;
-		case P_LSHIFT: v1->intvalue <<= v2->intvalue;
-			break;
-		case P_BIN_AND: v1->intvalue &= v2->intvalue;
-			break;
-		case P_BIN_OR: v1->intvalue |= v2->intvalue;
-			break;
-		case P_BIN_XOR: v1->intvalue ^= v2->intvalue;
-			break;
-		case P_COLON:
-		{
-			if (!gotquestmarkvalue) {
-				SourceError(source, ": without ? in #if/#elif");
-				error = 1;
+			case P_MUL:
+				v1->intvalue *= v2->intvalue;
+				v1->floatvalue *= v2->floatvalue;
 				break;
-			}
-
-			if (integer) {
-				if (!questmarkintvalue) {
-					v1->intvalue = v2->intvalue;
+			case P_DIV:
+				if (!v2->intvalue || !v2->floatvalue) {
+					SourceError(source, "divide by zero in #if/#elif");
+					error = 1;
+					break;
 				}
-			} else {
-				if (!questmarkfloatvalue) {
-					v1->floatvalue = v2->floatvalue;
+
+				v1->intvalue /= v2->intvalue;
+				v1->floatvalue /= v2->floatvalue;
+				break;
+			case P_MOD:
+				if (!v2->intvalue) {
+					SourceError(source, "divide by zero in #if/#elif");
+					error = 1;
+					break;
 				}
-			}
 
-			gotquestmarkvalue = qfalse;
-			break;
-		}
+				v1->intvalue %= v2->intvalue;
+				break;
+			case P_ADD:
+				v1->intvalue += v2->intvalue;
+				v1->floatvalue += v2->floatvalue;
+				break;
+			case P_SUB:
+				v1->intvalue -= v2->intvalue;
+				v1->floatvalue -= v2->floatvalue;
+				break;
+			case P_LOGIC_AND:
+				v1->intvalue = v1->intvalue && v2->intvalue;
+				v1->floatvalue = v1->floatvalue && v2->floatvalue;
+				break;
+			case P_LOGIC_OR:
+				v1->intvalue = v1->intvalue || v2->intvalue;
+				v1->floatvalue = v1->floatvalue || v2->floatvalue;
+				break;
+			case P_LOGIC_GEQ:
+				v1->intvalue = v1->intvalue >= v2->intvalue;
+				v1->floatvalue = v1->floatvalue >= v2->floatvalue;
+				break;
+			case P_LOGIC_LEQ:
+				v1->intvalue = v1->intvalue <= v2->intvalue;
+				v1->floatvalue = v1->floatvalue <= v2->floatvalue;
+				break;
+			case P_LOGIC_EQ:
+				v1->intvalue = v1->intvalue == v2->intvalue;
+				v1->floatvalue = v1->floatvalue == v2->floatvalue;
+				break;
+			case P_LOGIC_UNEQ:
+				v1->intvalue = v1->intvalue != v2->intvalue;
+				v1->floatvalue = v1->floatvalue != v2->floatvalue;
+				break;
+			case P_LOGIC_GREATER:
+				v1->intvalue = v1->intvalue > v2->intvalue;
+				v1->floatvalue = v1->floatvalue > v2->floatvalue;
+				break;
+			case P_LOGIC_LESS:
+				v1->intvalue = v1->intvalue < v2->intvalue;
+				v1->floatvalue = v1->floatvalue < v2->floatvalue;
+				break;
+			case P_RSHIFT:
+				v1->intvalue >>= v2->intvalue;
+				break;
+			case P_LSHIFT:
+				v1->intvalue <<= v2->intvalue;
+				break;
+			case P_BIN_AND:
+				v1->intvalue &= v2->intvalue;
+				break;
+			case P_BIN_OR:
+				v1->intvalue |= v2->intvalue;
+				break;
+			case P_BIN_XOR:
+				v1->intvalue ^= v2->intvalue;
+				break;
+			case P_COLON:
+			{
+				if (!gotquestmarkvalue) {
+					SourceError(source, ": without ? in #if/#elif");
+					error = 1;
+					break;
+				}
 
-		case P_QUESTIONMARK:
-		{
-			if (gotquestmarkvalue) {
-				SourceError(source, "? after ? in #if/#elif");
-				error = 1;
+				if (integer) {
+					if (!questmarkintvalue) {
+						v1->intvalue = v2->intvalue;
+					}
+				} else {
+					if (!questmarkfloatvalue) {
+						v1->floatvalue = v2->floatvalue;
+					}
+				}
+
+				gotquestmarkvalue = qfalse;
 				break;
 			}
 
-			questmarkintvalue = v1->intvalue;
-			questmarkfloatvalue = v1->floatvalue;
-			gotquestmarkvalue = qtrue;
-			break;
-		} //end if
-		} //end switch
+			case P_QUESTIONMARK:
+			{
+				if (gotquestmarkvalue) {
+					SourceError(source, "? after ? in #if/#elif");
+					error = 1;
+					break;
+				}
+
+				questmarkintvalue = v1->intvalue;
+				questmarkfloatvalue = v1->floatvalue;
+				gotquestmarkvalue = qtrue;
+				break;
+			}
+		}
 #ifdef DEBUG_EVAL
 		if (integer) {
 			Log_Write("result value = %d", v1->intvalue);
-		} else {Log_Write("result value = %f", v1->floatvalue);}
-#endif //DEBUG_EVAL
+		} else {
+			Log_Write("result value = %f", v1->floatvalue);
+		}
+#endif // DEBUG_EVAL
 		if (error) {
 			break;
 		}
-		//if not an operator with arity 1
-		if (o->operator != P_LOGIC_NOT
-			 && o->operator != P_BIN_NOT) {
-			//remove the second value if not question mark operator
+		// if not an operator with arity 1
+		if (o->operator != P_LOGIC_NOT && o->operator != P_BIN_NOT) {
+			// remove the second value if not question mark operator
 			if (o->operator != P_QUESTIONMARK) {
 				v = v->next;
 			}
 
 			if (v) {
-				if (v->prev)v->prev->next = v->next;
-				else firstvalue = v->next;
+				if (v->prev) {
+					v->prev->next = v->next;
+				} else {
+					firstvalue = v->next;
+				}
 
-				if (v->next)v->next->prev = v->prev;
+				if (v->next) {
+					v->next->prev = v->prev;
+				}
 			}
+
 			//FreeMemory(v);
 			FreeValue(v);
 		}
-		//remove the operator
+		// remove the operator
 		if (o->prev) {
 			o->prev->next = o->next;
-		} else {firstoperator = o->next;}
+		} else {
+			firstoperator = o->next;
+		}
 
 		if (o->next) {
 			o->next->prev = o->prev;
 		}
+
 		//FreeMemory(o);
 		FreeOperator(o);
 	}
@@ -2209,12 +2247,14 @@ int PC_EvaluateTokens(source_t *source, token_t *tokens, signed long int *intval
 
 	for (o = firstoperator; o; o = lastoperator) {
 		lastoperator = o->next;
+
 		//FreeMemory(o);
 		FreeOperator(o);
 	}
 
 	for (v = firstvalue; v; v = lastvalue) {
 		lastvalue = v->next;
+
 		//FreeMemory(v);
 		FreeValue(v);
 	}
@@ -2262,7 +2302,7 @@ int PC_Evaluate(source_t *source, signed long int *intvalue, float *floatvalue, 
 	lasttoken = NULL;
 
 	do {
-		//if the token is a name
+		// if the token is a name
 		if (token.type == TT_NAME) {
 			if (defined) {
 				defined = qfalse;
@@ -2289,12 +2329,12 @@ int PC_Evaluate(source_t *source, signed long int *intvalue, float *floatvalue, 
 
 				lasttoken = t;
 			} else {
-				//then it must be a define
+				// then it must be a define
 #if DEFINEHASHING
 				define = PC_FindHashedDefine(source->definehash, token.string);
 #else
 				define = PC_FindDefine(source->defines, token.string);
-#endif //DEFINEHASHING
+#endif // DEFINEHASHING
 				if (!define) {
 					SourceError(source, "can't evaluate %s, not defined", token.string);
 					return qfalse;
@@ -2304,34 +2344,34 @@ int PC_Evaluate(source_t *source, signed long int *intvalue, float *floatvalue, 
 					return qfalse;
 				}
 			}
-		}
-		//if the token is a number or a punctuation
-		else if (token.type == TT_NUMBER || token.type == TT_PUNCTUATION) {
+		// if the token is a number or a punctuation
+		} else if (token.type == TT_NUMBER || token.type == TT_PUNCTUATION) {
 			t = PC_CopyToken(&token);
 			t->next = NULL;
 
 			if (lasttoken) {
 				lasttoken->next = t;
-			} else {firsttoken = t;}
+			} else {
+				firsttoken = t;
+			}
 
 			lasttoken = t;
-		} else //can't evaluate the token
-		{
+		} else { // can't evaluate the token
 			SourceError(source, "can't evaluate %s", token.string);
 			return qfalse;
 		}
-	} while(PC_ReadLine(source, &token));
+	} while (PC_ReadLine(source, &token));
 
 	if (!PC_EvaluateTokens(source, firsttoken, intvalue, floatvalue, integer)) {
 		return qfalse;
 	}
 #ifdef DEBUG_EVAL
 	Log_Write("eval:");
-#endif //DEBUG_EVAL
+#endif // DEBUG_EVAL
 	for (t = firsttoken; t; t = nexttoken) {
 #ifdef DEBUG_EVAL
 		Log_Write(" %s", t->string);
-#endif //DEBUG_EVAL
+#endif // DEBUG_EVAL
 		nexttoken = t->next;
 		PC_FreeToken(t);
 	}
@@ -2341,7 +2381,7 @@ int PC_Evaluate(source_t *source, signed long int *intvalue, float *floatvalue, 
 	} else {
 		Log_Write("eval result: %f", *floatvalue);
 	}
-#endif //DEBUG_EVAL
+#endif // DEBUG_EVAL
 	return qtrue;
 }
 
@@ -2365,7 +2405,7 @@ int PC_DollarEvaluate(source_t *source, signed long int *intvalue, float *floatv
 	}
 
 	if (!PC_ReadSourceToken(source, &token)) {
-		SourceError(source, "no leading(after $evalint/$evalfloat");
+		SourceError(source, "no leading ( after $evalint/$evalfloat");
 		return qfalse;
 	}
 
@@ -2379,7 +2419,7 @@ int PC_DollarEvaluate(source_t *source, signed long int *intvalue, float *floatv
 	lasttoken = NULL;
 
 	do {
-		//if the token is a name
+		// if the token is a name
 		if (token.type == TT_NAME) {
 			if (defined) {
 				defined = qfalse;
@@ -2406,12 +2446,12 @@ int PC_DollarEvaluate(source_t *source, signed long int *intvalue, float *floatv
 
 				lasttoken = t;
 			} else {
-				//then it must be a define
+				// then it must be a define
 #if DEFINEHASHING
 				define = PC_FindHashedDefine(source->definehash, token.string);
 #else
 				define = PC_FindDefine(source->defines, token.string);
-#endif //DEFINEHASHING
+#endif // DEFINEHASHING
 				if (!define) {
 					SourceError(source, "can't evaluate %s, not defined", token.string);
 					return qfalse;
@@ -2421,9 +2461,8 @@ int PC_DollarEvaluate(source_t *source, signed long int *intvalue, float *floatv
 					return qfalse;
 				}
 			}
-		}
-		//if the token is a number or a punctuation
-		else if (token.type == TT_NUMBER || token.type == TT_PUNCTUATION) {
+		// if the token is a number or a punctuation
+		} else if (token.type == TT_NUMBER || token.type == TT_PUNCTUATION) {
 			if (*token.string == '(') {
 				indent++;
 			} else if (*token.string == ')') {
@@ -2444,23 +2483,22 @@ int PC_DollarEvaluate(source_t *source, signed long int *intvalue, float *floatv
 			}
 
 			lasttoken = t;
-		} else //can't evaluate the token
-		{
+		} else { // can't evaluate the token
 			SourceError(source, "can't evaluate %s", token.string);
 			return qfalse;
 		}
-	} while(PC_ReadSourceToken(source, &token));
+	} while (PC_ReadSourceToken(source, &token));
 
 	if (!PC_EvaluateTokens(source, firsttoken, intvalue, floatvalue, integer)) {
 		return qfalse;
 	}
 #ifdef DEBUG_EVAL
 	Log_Write("$eval:");
-#endif //DEBUG_EVAL
+#endif // DEBUG_EVAL
 	for (t = firsttoken; t; t = nexttoken) {
 #ifdef DEBUG_EVAL
 		Log_Write(" %s", t->string);
-#endif //DEBUG_EVAL
+#endif // DEBUG_EVAL
 		nexttoken = t->next;
 		PC_FreeToken(t);
 	}
@@ -2470,8 +2508,7 @@ int PC_DollarEvaluate(source_t *source, signed long int *intvalue, float *floatv
 	} else {
 		Log_Write("$eval result: %f", *floatvalue);
 	}
-#endif //DEBUG_EVAL
-
+#endif // DEBUG_EVAL
 	return qtrue;
 }
 
@@ -2496,6 +2533,7 @@ int PC_Directive_elif(source_t *source) {
 	}
 
 	skip = (value == 0);
+
 	PC_PushIndent(source, INDENT_ELIF, skip);
 	return qtrue;
 }
@@ -2514,6 +2552,7 @@ int PC_Directive_if(source_t *source) {
 	}
 
 	skip = (value == 0);
+
 	PC_PushIndent(source, INDENT_IF, skip);
 	return qtrue;
 }
@@ -2524,6 +2563,7 @@ PC_Directive_line
 =======================================================================================================================================
 */
 int PC_Directive_line(source_t *source) {
+
 	SourceError(source, "#line directive not supported");
 	return qfalse;
 }
@@ -2668,20 +2708,20 @@ int PC_ReadDirective(source_t *source) {
 	token_t token;
 	int i;
 
-	//read the directive name
+	// read the directive name
 	if (!PC_ReadSourceToken(source, &token)) {
-		SourceError(source, "found #without name");
+		SourceError(source, "found # without name");
 		return qfalse;
 	}
-	//directive name must be on the same line
+	// directive name must be on the same line
 	if (token.linescrossed > 0) {
 		PC_UnreadSourceToken(source, &token);
-		SourceError(source, "found #at end of line");
+		SourceError(source, "found # at end of line");
 		return qfalse;
 	}
-	//if if is a name
+	// if if is a name
 	if (token.type == TT_NAME) {
-		//find the precompiler directive
+		// find the precompiler directive
 		for (i = 0; directives[i].name; i++) {
 			if (!strcmp(directives[i].name, token.string)) {
 				return directives[i].func(source);
@@ -2710,13 +2750,15 @@ int PC_DollarDirective_evalint(source_t *source) {
 	token.whitespace_p = source->scriptstack->script_p;
 	token.endwhitespace_p = source->scriptstack->script_p;
 	token.linescrossed = 0;
+
 	sprintf(token.string, "%ld", labs(value));
+
 	token.type = TT_NUMBER;
 	token.subtype = TT_INTEGER|TT_LONG|TT_DECIMAL;
 #ifdef NUMBERVALUE
 	token.intvalue = labs(value);
 	token.floatvalue = token.intvalue;
-#endif //NUMBERVALUE
+#endif // NUMBERVALUE
 	PC_UnreadSourceToken(source, &token);
 
 	if (value < 0) {
@@ -2743,13 +2785,15 @@ int PC_DollarDirective_evalfloat(source_t *source) {
 	token.whitespace_p = source->scriptstack->script_p;
 	token.endwhitespace_p = source->scriptstack->script_p;
 	token.linescrossed = 0;
+
 	sprintf(token.string, "%1.2f", fabs(value));
+
 	token.type = TT_NUMBER;
 	token.subtype = TT_FLOAT|TT_LONG|TT_DECIMAL;
 #ifdef NUMBERVALUE
 	token.floatvalue = fabs(value);
 	token.intvalue = (unsigned long)token.floatvalue;
-#endif //NUMBERVALUE
+#endif // NUMBERVALUE
 	PC_UnreadSourceToken(source, &token);
 
 	if (value < 0) {
@@ -2774,20 +2818,20 @@ int PC_ReadDollarDirective(source_t *source) {
 	token_t token;
 	int i;
 
-	//read the directive name
+	// read the directive name
 	if (!PC_ReadSourceToken(source, &token)) {
 		SourceError(source, "found $ without name");
 		return qfalse;
 	}
-	//directive name must be on the same line
+	// directive name must be on the same line
 	if (token.linescrossed > 0) {
 		PC_UnreadSourceToken(source, &token);
 		SourceError(source, "found $ at end of line");
 		return qfalse;
 	}
-	//if if is a name
+	// if if is a name
 	if (token.type == TT_NAME) {
-		//find the precompiler directive
+		// find the precompiler directive
 		for (i = 0; dollardirectives[i].name; i++) {
 			if (!strcmp(dollardirectives[i].name, token.string)) {
 				return dollardirectives[i].func(source);
@@ -2838,7 +2882,7 @@ int QuakeCMacro(source_t *source) {
 		PC_UnreadSourceToken(source, &token);
 		return qtrue;
 	}
-	//find the precompiler directive
+	// find the precompiler directive
 	for (i = 0; dollardirectives[i].name; i++) {
 		if (!strcmp(dollardirectives[i].name, token.string)) {
 			PC_UnreadSourceToken(source, &token);
@@ -2862,13 +2906,13 @@ int PC_ReadToken(source_t *source, token_t *token) {
 		if (!PC_ReadSourceToken(source, token)) {
 			return qfalse;
 		}
-		//check for precompiler directives
+		// check for precompiler directives
 		if (token->type == TT_PUNCTUATION && *token->string == '#') {
 #ifdef QUAKEC
 			if (!BuiltinFunction(source))
-#endif //QUAKC
+#endif // QUAKC
 			{
-				//read the precompiler directive
+				// read the precompiler directive
 				if (!PC_ReadDirective(source)) {
 					return qfalse;
 				}
@@ -2882,7 +2926,7 @@ int PC_ReadToken(source_t *source, token_t *token) {
 			if (!QuakeCMacro(source))
 #endif // QUAKEC
 			{
-				//read the precompiler directive
+				// read the precompiler directive
 				if (!PC_ReadDollarDirective(source)) {
 					return qfalse;
 				}
@@ -2909,21 +2953,21 @@ int PC_ReadToken(source_t *source, token_t *token) {
 				}
 			}
 		}
-		//if skipping source because of conditional compilation
+		// if skipping source because of conditional compilation
 		if (source->skip) {
 			continue;
 		}
-		//if the token is a name
+		// if the token is a name
 		if (token->type == TT_NAME) {
-			//check if the name is a define macro
+			// check if the name is a define macro
 #if DEFINEHASHING
 			define = PC_FindHashedDefine(source->definehash, token->string);
 #else
 			define = PC_FindDefine(source->defines, token->string);
-#endif //DEFINEHASHING
-			//if it is a define macro
+#endif // DEFINEHASHING
+			// if it is a define macro
 			if (define) {
-				//expand the defined macro
+				// expand the defined macro
 				if (!PC_ExpandDefineIntoSource(source, token, define)) {
 					return qfalse;
 				}
@@ -2931,9 +2975,9 @@ int PC_ReadToken(source_t *source, token_t *token) {
 				continue;
 			}
 		}
-		//copy token for unreading
+		// copy token for unreading
 		memcpy(&source->token, token, sizeof(token_t));
-		//found a token
+		// found a token
 		return qtrue;
 	}
 }
@@ -3000,7 +3044,7 @@ int PC_ExpectTokenType(source_t *source, int type, int subtype, token_t *token) 
 	}
 
 	if (token->type == TT_NUMBER) {
-		if ((token->subtype & subtype)!= subtype) {
+		if ((token->subtype & subtype) != subtype) {
 			strcpy(str, "");
 
 			if (subtype & TT_DECIMAL) {
@@ -3020,19 +3064,19 @@ int PC_ExpectTokenType(source_t *source, int type, int subtype, token_t *token) 
 			}
 
 			if (subtype & TT_LONG) {
-				strcat(str, " long");
+				strcat(str, "long");
 			}
 
 			if (subtype & TT_UNSIGNED) {
-				strcat(str, " unsigned");
+				strcat(str, "unsigned");
 			}
 
 			if (subtype & TT_FLOAT) {
-				strcat(str, " float");
+				strcat(str, "float");
 			}
 
 			if (subtype & TT_INTEGER) {
-				strcat(str, " integer");
+				strcat(str, "integer");
 			}
 
 			SourceError(source, "expected %s, found %s", str, token->string);
@@ -3054,6 +3098,7 @@ PC_ExpectAnyToken
 =======================================================================================================================================
 */
 int PC_ExpectAnyToken(source_t *source, token_t *token) {
+
 	if (!PC_ReadToken(source, token)) {
 		SourceError(source, "couldn't read expected token");
 		return qfalse;
@@ -3073,7 +3118,7 @@ int PC_CheckTokenString(source_t *source, char *string) {
 	if (!PC_ReadToken(source, &tok)) {
 		return qfalse;
 	}
-	//if the token is available
+	// if the token is available
 	if (!strcmp(tok.string, string)) {
 		return qtrue;
 	}
@@ -3093,9 +3138,8 @@ int PC_CheckTokenType(source_t *source, int type, int subtype, token_t *token) {
 	if (!PC_ReadToken(source, &tok)) {
 		return qfalse;
 	}
-	//if the type matches
-	if (tok.type == type &&
-		(tok.subtype & subtype) == subtype) {
+	// if the type matches
+	if (tok.type == type && (tok.subtype & subtype) == subtype) {
 		memcpy(token, &tok, sizeof(token_t));
 		return qtrue;
 	}
@@ -3150,9 +3194,8 @@ void PC_SetIncludePath(source_t *source, char *path) {
 	Q_strncpyz(source->includepath, path, sizeof(source->includepath) - 1);
 
 	len = strlen(source->includepath);
-	//add trailing path seperator
-	if (len > 0 && source->includepath[len-1] != '\\' &&
-		source->includepath[len-1] != '/') {
+	// add trailing path separator
+	if (len > 0 && source->includepath[len - 1] != '\\' && source->includepath[len - 1] != '/') {
 		strcat(source->includepath, PATHSEPERATOR_STR);
 	}
 }
@@ -3184,20 +3227,20 @@ source_t *LoadSourceFile(const char *filename) {
 	}
 
 	script->next = NULL;
-
 	source = (source_t *)GetMemory(sizeof(source_t));
+
 	memset(source, 0, sizeof(source_t));
 
 	Q_strncpyz(source->filename, filename, sizeof(source->filename));
+
 	source->scriptstack = script;
 	source->tokens = NULL;
 	source->defines = NULL;
 	source->indentstack = NULL;
 	source->skip = 0;
-
 #if DEFINEHASHING
 	source->definehash = GetClearedMemory(DEFINEHASHSIZE * sizeof(define_t *));
-#endif //DEFINEHASHING
+#endif // DEFINEHASHING
 	PC_AddGlobalDefinesToSource(source);
 	return source;
 }
@@ -3220,20 +3263,20 @@ source_t *LoadSourceMemory(char *ptr, int length, char *name) {
 	}
 
 	script->next = NULL;
-
 	source = (source_t *)GetMemory(sizeof(source_t));
+
 	memset(source, 0, sizeof(source_t));
 
 	Q_strncpyz(source->filename, name, sizeof(source->filename));
+
 	source->scriptstack = script;
 	source->tokens = NULL;
 	source->defines = NULL;
 	source->indentstack = NULL;
 	source->skip = 0;
-
 #if DEFINEHASHING
 	source->definehash = GetClearedMemory(DEFINEHASHSIZE * sizeof(define_t *));
-#endif //DEFINEHASHING
+#endif // DEFINEHASHING
 	PC_AddGlobalDefinesToSource(source);
 	return source;
 }
@@ -3251,16 +3294,18 @@ void FreeSource(source_t *source) {
 	int i;
 
 	//PC_PrintDefineHashTable(source->definehash);
-	//free all the scripts
+	// free all the scripts
 	while (source->scriptstack) {
 		script = source->scriptstack;
 		source->scriptstack = source->scriptstack->next;
+
 		FreeScript(script);
 	}
-	//free all the tokens
+	// free all the tokens
 	while (source->tokens) {
 		token = source->tokens;
 		source->tokens = source->tokens->next;
+
 		PC_FreeToken(token);
 	}
 #if DEFINEHASHING
@@ -3268,36 +3313,38 @@ void FreeSource(source_t *source) {
 		while (source->definehash[i]) {
 			define = source->definehash[i];
 			source->definehash[i] = source->definehash[i]->hashnext;
+
 			PC_FreeDefine(define);
 		}
 	}
-#else //DEFINEHASHING
-	//free all defines
+#else // DEFINEHASHING
+	// free all defines
 	while (source->defines) {
 		define = source->defines;
 		source->defines = source->defines->next;
+
 		PC_FreeDefine(define);
 	}
-#endif //DEFINEHASHING
-	   //free all indents
+#endif // DEFINEHASHING
+	// free all indents
 	while (source->indentstack) {
 		indent = source->indentstack;
 		source->indentstack = source->indentstack->next;
+
 		FreeMemory(indent);
 	}
 #if DEFINEHASHING
-
 	if (source->definehash) {
 		FreeMemory(source->definehash);
 	}
-#endif //DEFINEHASHING
-	   //free the source itself
+#endif // DEFINEHASHING
+	// free the source itself
 	FreeMemory(source);
 }
+
 #define MAX_SOURCEFILES 64
 
 source_t *sourceFiles[MAX_SOURCEFILES];
-
 /*
 =======================================================================================================================================
 PC_LoadSourceHandle
@@ -3318,6 +3365,7 @@ int PC_LoadSourceHandle(const char *filename) {
 	}
 
 	PS_SetBaseFolder("");
+
 	source = LoadSourceFile(filename);
 
 	if (!source) {
@@ -3334,6 +3382,7 @@ PC_FreeSourceHandle
 =======================================================================================================================================
 */
 int PC_FreeSourceHandle(int handle) {
+
 	if (handle < 1 || handle >= MAX_SOURCEFILES) {
 		return qfalse;
 	}
@@ -3343,6 +3392,7 @@ int PC_FreeSourceHandle(int handle) {
 	}
 
 	FreeSource(sourceFiles[handle]);
+
 	sourceFiles[handle] = NULL;
 	return qtrue;
 }
@@ -3365,7 +3415,9 @@ int PC_ReadTokenHandle(int handle, pc_token_t *pc_token) {
 	}
 
 	ret = PC_ReadToken(sourceFiles[handle], &token);
+
 	strcpy(pc_token->string, token.string);
+
 	pc_token->type = token.type;
 	pc_token->subtype = token.subtype;
 	pc_token->intvalue = token.intvalue;
@@ -3384,6 +3436,7 @@ PC_SourceFileAndLine
 =======================================================================================================================================
 */
 int PC_SourceFileAndLine(int handle, char *filename, int *line) {
+
 	if (handle < 1 || handle >= MAX_SOURCEFILES) {
 		return qfalse;
 	}
@@ -3424,7 +3477,7 @@ void PC_CheckOpenSourceHandles(void) {
 		if (sourceFiles[i]) {
 #ifdef BOTLIB
 			botimport.Print(PRT_ERROR, "file %s still open in precompiler\n", sourceFiles[i]->scriptstack->filename);
-#endif  // BOTLIB
+#endif // BOTLIB
 		}
 	}
 }

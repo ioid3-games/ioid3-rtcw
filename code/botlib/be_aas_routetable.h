@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -39,7 +35,7 @@ If you have questions concerning this license or the applicable additional terms
 #define RTBID (('B' << 24) + ('T' << 16) + ('R' << 8) + 'X')
 #define RTBVERSION 17
 #define RTB_BADTRAVELFLAGS (TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_LAVA) //---- (SA)	modified since slime is no longer deadly
-//#define RTB_BADTRAVELFLAGS			(TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_SLIME|TFL_LAVA)
+//#define RTB_BADTRAVELFLAGS (TFL_JUMPPAD|TFL_ROCKETJUMP|TFL_BFGJUMP|TFL_GRAPPLEHOOK|TFL_DOUBLEJUMP|TFL_RAMPJUMP|TFL_STRAFEJUMP|TFL_SLIME|TFL_LAVA)
 #define MAX_VISIBLE_AREAS 1024 // going over this limit will result in excessive memory usage, try and keep RANGE low enough so this limit won't be reached
 #define MAX_LOCALTRAVELTIME 60 // use this to tweak memory usage(reduces parent count, increases local count(and cpu usage) - find a balance)
 #define MAX_PARENTS 8192
@@ -81,7 +77,6 @@ typedef struct {
 // this is what each aasworld attaches itself to
 typedef struct {
 	unsigned short int *areaChildIndexes;	// each aas area that is part of the Route-Table has a pointer here to their position in the list of children
-
 	int numChildren;
 	aas_rt_child_t *children;
 	int numParents;
@@ -91,11 +86,11 @@ typedef struct {
 	int numVisibleParents;
 	unsigned short int *visibleParents;
 //	int numLocalRoutes;
-//	aas_rt_route_t *localRoutes;		// the list of routes to all other local areas
+//	aas_rt_route_t *localRoutes;			// the list of routes to all other local areas
 //	int numParentRoutes;
-//	unsigned char *parentRoutes;		// reachability to each other parent, as an offset from our first reachability
+//	unsigned char *parentRoutes;			// reachability to each other parent, as an offset from our first reachability
 	int numParentLinks;
-	aas_rt_parent_link_t *parentLinks;			// links from each child to the parent's it belongs to
+	aas_rt_parent_link_t *parentLinks;		// links from each child to the parent's it belongs to
 //	int numParentTravelTimes;
 //	unsigned short int *parentTravelTimes;	// travel times between all parent areas
 //	int numRouteIndexes;

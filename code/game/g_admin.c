@@ -28,13 +28,7 @@ If you have questions concerning this license or the applicable additional terms
 
 /*
 ****************************************************************************
-* g_admins.c
-*
 * Functionality for server Administration in CO-OP mode.
-*
-* Author: Nate L0
-* Date: 11.09/12
-* Last edit: 20.Mar/13
 ****************************************************************************
 */
 #ifdef _ADMINS
@@ -70,7 +64,7 @@ static void SanitizeString(char *in, char *out) {
 
 /*
 =======================================================================================================================================
-Login
+cmd_do_login
 =======================================================================================================================================
 */
 void cmd_do_login(gentity_t *ent, qboolean silent) {
@@ -81,7 +75,7 @@ void cmd_do_login(gentity_t *ent, qboolean silent) {
 	error = qfalse;
 	trap_Argv(1, str, sizeof(str));
 
-	// make sure user is not already logged in.
+	// make sure user is not already logged in
 	if (!ent->client->sess.admin == ADM_NONE) {
 		trap_SendServerCommand(ent - g_entities, va("print \"You are already logged in^1!\n\""));
 		return;
@@ -89,12 +83,12 @@ void cmd_do_login(gentity_t *ent, qboolean silent) {
 	// prevent bogus logins
 	if ((!Q_stricmp(str, "\0")) || (!Q_stricmp(str, "")) || (!Q_stricmp(str, "\"")) || (!Q_stricmp(str, "none"))) {
 		trap_SendServerCommand(ent - g_entities, va("print \"Incorrect password^1!\n\""));
-		// No log here to avoid login by error..
+		// no log here to avoid login by error
 		return;
 	}
-	// else let's see if there's a password match.
+	// else let's see if there's a password match
 	if ((Q_stricmp(str, a1_pass.string) == 0) || (Q_stricmp(str, a2_pass.string) == 0) || (Q_stricmp(str, a3_pass.string) == 0)) {
-		// always start with lower level as if owner screws it up and sets the same passes for more levels, the lowest is the safest bet.
+		// always start with lower level as if owner screws it up and sets the same passes for more levels, the lowest is the safest bet
 		if (Q_stricmp(str, a1_pass.string) == 0) {
 			ent->client->sess.admin = ADM_MEM;
 			tag = a1_tag.string;
@@ -107,14 +101,14 @@ void cmd_do_login(gentity_t *ent, qboolean silent) {
 		} else {
 			error = qtrue;
 		}
-		// something went to hell..
+		// something went to hell
 		if (error == qtrue) {
-			// User shouldn't be anything but regular so make sure..
+			// user shouldn't be anything but regular so make sure
 			ent->client->sess.admin = ADM_NONE;
 			trap_SendServerCommand(ent - g_entities, va("print \"Error has occured while trying to log you in^1!\n\""));
 			return;
 		}
-		// we came so far so go with it..
+		// we came so far so go with it
 		if (silent) {
 			trap_SendServerCommand(ent - g_entities, va("print \"Silent Login successful^2!\n\""));
 			ent->client->sess.incognito = 1; // hide them
@@ -129,7 +123,7 @@ void cmd_do_login(gentity_t *ent, qboolean silent) {
 		}
 
 		return;
-		// no match..
+		// no match
 	} else {
 		trap_SendServerCommand(ent - g_entities, va("print \"Incorrect password^1!\n\""));
 		// log it
@@ -141,7 +135,7 @@ void cmd_do_login(gentity_t *ent, qboolean silent) {
 
 /*
 =======================================================================================================================================
-Logout
+cmd_do_logout
 =======================================================================================================================================
 */
 void cmd_do_logout(gentity_t *ent) {
@@ -176,15 +170,19 @@ const char *cMonths[12] = {
 	"Jan", "Feb", "Mar", "Apr", "May", "Jun",
 	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 };
+
 /*
 =======================================================================================================================================
-Log Admin related stuff
+logEntry
+
+Log Admin related stuff.
 =======================================================================================================================================
 */
 void logEntry(char *filename, char *info) {
 	fileHandle_t f;
 	char *varLine;
 	qtime_t ct;
+
 	trap_RealTime(&ct);
 
 	if (!g_extendedLog.integer) {
@@ -203,7 +201,9 @@ void logEntry(char *filename, char *info) {
 
 /*
 =======================================================================================================================================
-Get client number from name
+ClientNumberFromNameMatch
+
+Get client number from name.
 =======================================================================================================================================
 */
 int ClientNumberFromNameMatch(char *name, int *matches) {
@@ -214,6 +214,7 @@ int ClientNumberFromNameMatch(char *name, int *matches) {
 
 	Q_strncpyz(nm, name, sizeof(nm));
 	Q_CleanStr(nm);
+
 	textLen = strlen(nm);
 	c = *nm;
 
@@ -227,6 +228,7 @@ int ClientNumberFromNameMatch(char *name, int *matches) {
 
 		Q_strncpyz(playerName, g_entities[i].client->pers.netname, sizeof(playerName));
 		Q_CleanStr(playerName);
+
 		len = strlen(playerName);
 
 		for (j = 0; j < len; j++) {
@@ -295,6 +297,8 @@ int ClientNumberFromString2(gentity_t *to, char *s) {
 
 /*
 =======================================================================================================================================
+admCmds
+
 Deals with ! & ?
 =======================================================================================================================================
 */
@@ -397,7 +401,7 @@ void DecolorString(char *in, char *out) {
 
 /*
 =======================================================================================================================================
-Sort tag
+sortTag
 =======================================================================================================================================
 */
 char *sortTag(gentity_t *ent) {
@@ -417,6 +421,7 @@ char *sortTag(gentity_t *ent) {
 	DecolorString(tag, n1);
 	SanitizeString(n1, tag);
 	Q_CleanStr(tag);
+
 	tag[20] = 0; // 20 should be enough..
 
 	return tag;
@@ -424,7 +429,9 @@ char *sortTag(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Determine if target has a higher level
+isHigher
+
+Determine if target has a higher level.
 =======================================================================================================================================
 */
 qboolean isHigher(gentity_t *ent, gentity_t *targ) {
@@ -438,7 +445,9 @@ qboolean isHigher(gentity_t *ent, gentity_t *targ) {
 
 /*
 =======================================================================================================================================
-Can't use command msg..
+cantUse
+
+Can't use command msg.
 =======================================================================================================================================
 */
 void cantUse(gentity_t *ent) {
@@ -453,7 +462,9 @@ void cantUse(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Deals with customm commands
+cmdCustom
+
+Deals with customm commands.
 =======================================================================================================================================
 */
 void cmdCustom(gentity_t *ent, char *cmd) {
@@ -471,9 +482,9 @@ void cmdCustom(gentity_t *ent, char *cmd) {
 		} else {
 			trap_SendServerCommand(-1, va("chat \"console: %s ^7changed ^2%s ^7to ^2%s %s\n\"", tag, cmd, ent->client->pers.cmd2, ent->client->pers.cmd3));
 		}
-		// Change the stuff
+		// change the stuff
 		trap_SendConsoleCommand(EXEC_APPEND, va("%s %s %s", cmd, ent->client->pers.cmd2, ent->client->pers.cmd3));
-		// Log it
+		// log it
 		log = va("Player %s(IP:%i.%i.%i.%i)has changed %s to %s %s.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], cmd, ent->client->pers.cmd2, ent->client->pers.cmd3);
 		logEntry(ADMACT, log);
 		return;
@@ -482,7 +493,9 @@ void cmdCustom(gentity_t *ent, char *cmd) {
 
 /*
 =======================================================================================================================================
-Determine if admin level allows command
+canUse
+
+Determine if admin level allows command.
 =======================================================================================================================================
 */
 qboolean canUse(gentity_t *ent, qboolean isCmd) {
@@ -492,7 +505,7 @@ qboolean canUse(gentity_t *ent, qboolean isCmd) {
 	char cmd[128];
 
 	switch (ent->client->sess.admin) {
-	case ADM_NONE: // so linux stops complaining..
+	case ADM_NONE: // so linux stops complaining
 		return qfalse;
 		break;
 	case ADM_MEM:
@@ -591,7 +604,9 @@ qboolean IPv4Valid(char *s) {
 
 /*
 =======================================================================================================================================
-Toggle incognito
+cmd_incognito
+
+Toggle incognito.
 =======================================================================================================================================
 */
 void cmd_incognito(gentity_t *ent) {
@@ -613,7 +628,9 @@ void cmd_incognito(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Ignore user
+cmd_ignore
+
+Ignore user.
 =======================================================================================================================================
 */
 void cmd_ignore(gentity_t *ent) {
@@ -644,15 +661,13 @@ void cmd_ignore(gentity_t *ent) {
 		if (g_entities[nums[i]].client->sess.ignored) {
 			trap_SendServerCommand(ent - g_entities, va("print \"Player %s ^7is already ignored^1!\n\"", g_entities[nums[i]].client->pers.netname));
 			return;
-		}  else {
+		} else {
 			g_entities[nums[i]].client->sess.ignored = 1;
 		}
 
 		trap_SendServerCommand(-1, va("chat \"console: %s ^7has ignored player %s^1!\n\"", tag, g_entities[nums[i]].client->pers.netname));
 		// Log it
-		log = va("Player %s(IP:%i.%i.%i.%i)has Ignored user %s.",
-				  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-				  ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname);
+		log = va("Player %s(IP:%i.%i.%i.%i)has Ignored user %s.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname);
 		logEntry(ADMACT, log);
 	}
 
@@ -661,7 +676,9 @@ void cmd_ignore(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-UnIgnore user
+cmd_unignore
+
+UnIgnore user.
 =======================================================================================================================================
 */
 void cmd_unignore(gentity_t *ent) {
@@ -693,15 +710,13 @@ void cmd_unignore(gentity_t *ent) {
 		if (!g_entities[nums[i]].client->sess.ignored) {
 			trap_SendServerCommand(ent - g_entities, va("print \"Player %s ^7is already Unignored^1!\n\"", g_entities[nums[i]].client->pers.netname));
 			return;
-		}  else {
+		} else {
 			g_entities[nums[i]].client->sess.ignored = 0;
 		}
 
 		trap_SendServerCommand(-1, va("chat \"console: %s ^7has Unignored player %s^1!\n\"", tag, g_entities[nums[i]].client->pers.netname));
 		// Log it
-		log = va("Player %s(IP:%i.%i.%i.%i)has unignored user %s.",
-				  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-				  ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname);
+		log = va("Player %s(IP:%i.%i.%i.%i)has unignored user %s.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname);
 		logEntry(ADMACT, log);
 	}
 
@@ -710,7 +725,9 @@ void cmd_unignore(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Ignore user based upon client number
+cmd_clientIgnore
+
+Ignore user based upon client number.
 =======================================================================================================================================
 */
 void cmd_clientIgnore(gentity_t *ent) {
@@ -719,13 +736,12 @@ void cmd_clientIgnore(gentity_t *ent) {
 	char *tag, *log;
 
 	tag = sortTag(ent);
-
 	player_id = ClientNumberFromString2(ent, ent->client->pers.cmd2);
 
-	if (player_id == -1) { //
+	if (player_id == -1) {
 		return;
 	}
-	// Make sure we're not ignoring bots..(It can happen..)
+	// make sure we're not ignoring bots..(It can happen..)
 	if (player_id > 8) { // XXX: Keep an eye on this since if slots increase we'll need to upscale this..
 		return;
 	}
@@ -740,9 +756,7 @@ void cmd_clientIgnore(gentity_t *ent) {
 	targetclient->client->sess.ignored = 1;
 	trap_SendServerCommand(-1, va("chat \"console: %s ^7has ignored player %s^1!\"", tag, targetclient->client->pers.netname));
 	// Log it
-	log = va("Player %s(IP:%i.%i.%i.%i)has clientIgnored user %s.",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3], targetclient->client->pers.netname);
+	log = va("Player %s(IP:%i.%i.%i.%i)has clientIgnored user %s.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], targetclient->client->pers.netname);
 	logEntry(ADMACT, log);
 
 	return;
@@ -750,7 +764,9 @@ void cmd_clientIgnore(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-UnIgnore user based upon client number
+cmd_clientUnignore
+
+UnIgnore user based upon client number.
 =======================================================================================================================================
 */
 void cmd_clientUnignore(gentity_t *ent) {
@@ -759,10 +775,9 @@ void cmd_clientUnignore(gentity_t *ent) {
 	char *tag, *log;
 
 	tag = sortTag(ent);
-
 	player_id = ClientNumberFromString2(ent, ent->client->pers.cmd2);
 
-	if (player_id == -1) { //
+	if (player_id == -1) {
 		return;
 	}
 
@@ -775,17 +790,17 @@ void cmd_clientUnignore(gentity_t *ent) {
 
 	targetclient->client->sess.ignored = 0;
 	trap_SendServerCommand(-1, va("chat \"console: %s ^7has unignored player %s^1!\"", tag, targetclient->client->pers.netname));
-	// Log it
-	log = va("Player %s(IP:%i.%i.%i.%i)has clientUnignored user %s.",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3], targetclient->client->pers.netname);
+	// log it
+	log = va("Player %s(IP:%i.%i.%i.%i)has clientUnignored user %s.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], targetclient->client->pers.netname);
 	logEntry(ADMACT, log);
 	return;
 }
 
 /*
 =======================================================================================================================================
-Kick player + optional <msg>(NOT PRINTED ATM DUE ERROR MESSAGE BOX...FIXME)
+cmd_kick
+
+Kick player + optional <msg>(NOT PRINTED ATM DUE ERROR MESSAGE BOX...FIXME).
 =======================================================================================================================================
 */
 void cmd_kick(gentity_t *ent) {
@@ -795,7 +810,6 @@ void cmd_kick(gentity_t *ent) {
 	char *tag, *log;
 
 	tag = sortTag(ent);
-
 	count = ClientNumberFromNameMatch(ent->client->pers.cmd2, nums);
 
 	if (count == 0) {
@@ -813,14 +827,10 @@ void cmd_kick(gentity_t *ent) {
 		return;
 		}
 		*/
-
 		trap_DropClient(nums[i], va("^3kicked by ^3admin. ^7%s", ent->client->pers.cmd3));
 		trap_SendServerCommand(-1, va("chat \"console: %s ^7has kicked player %s^1! ^3%s\n\"", tag, g_entities[nums[i]].client->pers.netname,ent->client->pers.cmd3));
-
-		// Log it
-		log = va("Player %s(IP:%i.%i.%i.%i)has kicked user %s. %s",
-				  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-				  ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname,ent->client->pers.cmd3);
+		// log it
+		log = va("Player %s(IP:%i.%i.%i.%i)has kicked user %s. %s", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname,ent->client->pers.cmd3);
 		logEntry(ADMACT, log);
 	}
 
@@ -829,7 +839,9 @@ void cmd_kick(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Kick player based upon clientnumber + optional <msg>(NOT PRINTED ATM DUE ERROR MESSAGE BOX...FIXME)
+cmd_clientkick
+
+Kick player based upon clientnumber + optional <msg>(NOT PRINTED ATM DUE ERROR MESSAGE BOX...FIXME).
 =======================================================================================================================================
 */
 void cmd_clientkick(gentity_t *ent) {
@@ -844,15 +856,11 @@ void cmd_clientkick(gentity_t *ent) {
 	}
 
 	targetclient = g_entities + player_id;
-
-	//kick the client
+	// kick the client
 	trap_DropClient(player_id, va("^3kicked by ^3admin. ^7%s", ent->client->pers.cmd3));
 	trap_SendServerCommand(-1, va("chat \"console: %s ^7has kicked player %s^1 %s\n\"", ent->client->pers.netname, targetclient->client->pers.netname, ent->client->pers.cmd3));
-
-	// Log it
-	log = va("Player %s(IP:%i.%i.%i.%i)has clientKicked user %s. %s",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3], targetclient->client->pers.netname,ent->client->pers.cmd3);
+	// log it
+	log = va("Player %s(IP:%i.%i.%i.%i)has clientKicked user %s. %s", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], targetclient->client->pers.netname,ent->client->pers.cmd3);
 	logEntry(ADMACT, log);
 
 	return;
@@ -860,7 +868,9 @@ void cmd_clientkick(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Ban player
+cmd_ban
+
+Ban player.
 =======================================================================================================================================
 */
 void cmd_ban(gentity_t *ent) {
@@ -870,7 +880,6 @@ void cmd_ban(gentity_t *ent) {
 	char *tag, *log;
 
 	tag = sortTag(ent);
-
 	count = ClientNumberFromNameMatch(ent->client->pers.cmd2, nums);
 
 	if (count == 0) {
@@ -882,19 +891,13 @@ void cmd_ban(gentity_t *ent) {
 	}
 
 	for (i = 0; i < count; i++) {
-		// Ban player
-		trap_SendConsoleCommand(EXEC_APPEND, va("addip %i.%i.%i.%i",
-												  g_entities[nums[i]].client->sess.ip[0], g_entities[nums[i]].client->sess.ip[1],
-												  g_entities[nums[i]].client->sess.ip[2], g_entities[nums[i]].client->sess.ip[3]));
-
-		// Kick player now
+		// ban player
+		trap_SendConsoleCommand(EXEC_APPEND, va("addip %i.%i.%i.%i", g_entities[nums[i]].client->sess.ip[0], g_entities[nums[i]].client->sess.ip[1], g_entities[nums[i]].client->sess.ip[2], g_entities[nums[i]].client->sess.ip[3]));
+		// kick player now
 		trap_DropClient(nums[i], va("^3banned by ^3%s \n^7%s", tag, ent->client->pers.cmd3));
 		AP(va("chat \"^zconsole:^7 %s has banned player %s^z! ^3%s\n\"", tag, g_entities[nums[i]].client->pers.netname,ent->client->pers.cmd3));
-
-		// Log it
-		log = va("Player %s(IP:%i.%i.%i.%i)has(IP)banned user %s",
-				  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-				  ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname);
+		// log it
+		log = va("Player %s(IP:%i.%i.%i.%i)has(IP)banned user %s", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname);
 		logEntry(ADMACT, log);
 	}
 
@@ -903,6 +906,8 @@ void cmd_ban(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
+cmd_tempBanIp
+
 tempBan ip
 =======================================================================================================================================
 */
@@ -913,7 +918,6 @@ void cmd_tempBanIp(gentity_t *ent) {
 	char *tag, *log;
 
 	tag = sortTag(ent);
-
 	count = ClientNumberFromNameMatch(ent->client->pers.cmd2, nums);
 
 	if (count == 0) {
@@ -929,15 +933,11 @@ void cmd_tempBanIp(gentity_t *ent) {
 
 		// TempBan player
 		trap_SendConsoleCommand(EXEC_APPEND, va("tempban %i %s", nums[i], time));
-
-		// Kick player now
+		// kick player now
 		trap_DropClient(nums[i], va("^3temporarily banned by ^3%s \n^7Tempban will expire in ^3%s ^7minute(s)", tag, time));
 		AP(va("chat \"^zconsole:^7 %s has tempbanned player %s ^7for ^z%s ^7minute(s)^z!\n\"", tag, g_entities[nums[i]].client->pers.netname, time));
-
-		// Log it
-		log = va("Player %s(IP:%i.%i.%i.%i)tempbanned user %s by IP for %s minute(s).",
-				  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-				  ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname, time);
+		// log it
+		log = va("Player %s(IP:%i.%i.%i.%i)tempbanned user %s by IP for %s minute(s).", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname, time);
 		logEntry(ADMACT, log);
 	}
 
@@ -946,6 +946,8 @@ void cmd_tempBanIp(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
+cmd_addIp
+
 Add IP
 =======================================================================================================================================
 */
@@ -961,18 +963,17 @@ void cmd_addIp(gentity_t *ent) {
 
 	trap_SendConsoleCommand(EXEC_APPEND, va("addip %s", ent->client->pers.cmd2));
 	AP(va("chat \"^zconsole:^7 %s has added IP ^z%s ^7to banned file.\n\"", tag, ent->client->pers.cmd2));
-
-	// Log it
-	log = va("Player %s(IP:%i.%i.%i.%i)added IP %s to banned file.",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3], ent->client->pers.cmd2);
+	// log it
+	log = va("Player %s(IP:%i.%i.%i.%i)added IP %s to banned file.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], ent->client->pers.cmd2);
 	logEntry(ADMACT, log);
 	return;
 }
 
 /*
 =======================================================================================================================================
-Slap player
+cmd_slap
+
+Slap player.
 =======================================================================================================================================
 */
 void cmd_slap(gentity_t *ent) {
@@ -981,10 +982,8 @@ void cmd_slap(gentity_t *ent) {
 	char *tag, *log, *log2;
 
 	tag = sortTag(ent);
-	// Sort log
-	log = va("Player %s(IP:%i.%i.%i.%i)has slapped ",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3]);
+	// sort log
+	log = va("Player %s(IP:%i.%i.%i.%i)has slapped ", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3]);
 
 	clientid = atoi(ent->client->pers.cmd2);
 	damagetodo = 20; // do 20 damage
@@ -1011,10 +1010,10 @@ void cmd_slap(gentity_t *ent) {
 		trap_SendServerCommand(-1, va("chat \"console: %s ^7was slapped to death by %s^1!\n\"", ent->client->pers.netname, tag));
 		player_die(ent, ent, ent, 100000, MOD_TELEFRAG);
 #endif
-		// Log it
+		// log it
 		log2 = va("%s user %s.", log, ent->client->pers.netname);
 
-		if (g_extendedLog.integer >= 2) { // Only log this if it is set to 2+
+		if (g_extendedLog.integer >= 2) { // only log this if it is set to 2+
 			logEntry(ADMACT, log2);
 		}
 
@@ -1029,10 +1028,10 @@ void cmd_slap(gentity_t *ent) {
 		trap_SendServerCommand(-1, va("chat \"console: %s ^7was slapped by %s^1!\n\"", ent->client->pers.netname, tag));
 		// it's broadcasted globaly but only to near by players
 		G_AddEvent(ent, EV_GENERAL_SOUND, G_SoundIndex("sound/multiplayer/vo_revive.wav")); // TODO: Add sound in pack...
-		// Log it
+		// log it
 		log2 = va("%s to death user %s.", log, ent->client->pers.netname);
 
-		if (g_extendedLog.integer >= 2) { // Only log this if it is set to 2+
+		if (g_extendedLog.integer >= 2) { // only log this if it is set to 2+
 			logEntry(ADMACT, log2);
 		}
 
@@ -1042,7 +1041,9 @@ void cmd_slap(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Kill player
+cmd_kill
+
+Kill player.
 =======================================================================================================================================
 */
 void cmd_kill(gentity_t *ent) {
@@ -1051,14 +1052,11 @@ void cmd_kill(gentity_t *ent) {
 	char *tag, *log, *log2;
 
 	tag = sortTag(ent);
-	// Sort log
-	log = va("Player %s(IP:%i.%i.%i.%i)has killed ",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3]);
+	// sort log
+	log = va("Player %s(IP:%i.%i.%i.%i)has killed ", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3]);
 
 	clientid = atoi(ent->client->pers.cmd2);
-	damagetodo = 250; // Kill the player on spot
-
+	damagetodo = 250; // kill the player on spot
 
 	if ((clientid < 0) || (clientid >= MAX_CLIENTS)) {
 		trap_SendServerCommand(ent - g_entities, va("print \"Invalid client number^1!\n\""));
@@ -1076,7 +1074,6 @@ void cmd_kill(gentity_t *ent) {
 	}
 
 	ent = &g_entities[clientid];
-
 #ifdef _ADMINS // MODs are still wrapped in flag.
 	G_Damage(ent, NULL, NULL, NULL, NULL, damagetodo, DAMAGE_NO_PROTECTION, MOD_ADMKILL);
 	trap_SendServerCommand(-1, va("chat \"console: %s ^7was killed by %s^1!\n\"", ent->client->pers.netname, tag));
@@ -1086,10 +1083,10 @@ void cmd_kill(gentity_t *ent) {
 	trap_SendServerCommand(-1, va("chat \"console: %s ^7was killed by %s^1!\n\"", ent->client->pers.netname, tag));
 	player_die(ent, ent, ent, 100000, MOD_TELEFRAG);
 #endif
-	// Log it
+	// log it
 	log2 = va("%s user %s.", log, ent->client->pers.netname);
 
-	if (g_extendedLog.integer >= 2) { // Only log this if it is set to 2+
+	if (g_extendedLog.integer >= 2) { // only log this if it is set to 2+
 		logEntry(ADMACT, log2);
 	}
 
@@ -1098,7 +1095,9 @@ void cmd_kill(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Lock or Unlock game
+cmd_gamelocked
+
+Lock or Unlock game.
 =======================================================================================================================================
 */
 void cmd_gamelocked(gentity_t *ent, qboolean unlock) {
@@ -1106,34 +1105,28 @@ void cmd_gamelocked(gentity_t *ent, qboolean unlock) {
 
 	tag = sortTag(ent);
 
-	// Deals with unlocking
+	// deals with unlocking
 	if (unlock) {
 		if (!g_gamelocked.integer) {
 			trap_SendServerCommand(ent - g_entities, va("print \"Joining is already enabled^1!\n\""));
 		} else {
 			trap_SendServerCommand(ent - g_entities, va("chat \"console: %s ^7has enabled joining^2!\n\"", tag));
 			trap_Cvar_Set("g_gamelocked", "0");
-
-			// Log it
-			log = va("Player %s(IP:%i.%i.%i.%i)has enabled joining.",
-					  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-					  ent->client->sess.ip[3]);
+			// log it
+			log = va("Player %s(IP:%i.%i.%i.%i)has enabled joining.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3]);
 			logEntry(ADMACT, log);
 		}
 
 		return;
-		// Deals with locking
+		// deals with locking
 	} else {
 		if (g_gamelocked.integer) {
 			trap_SendServerCommand(ent - g_entities, va("print \"Joining is already disabled^1!\n\""));
 		} else {
 			trap_SendServerCommand(ent - g_entities, va("chat \"console: %s ^7has disabled joining^1!\n\"", tag));
 			trap_Cvar_Set("g_gamelocked", "1");
-
-			// Log it
-			log = va("Player %s(IP:%i.%i.%i.%i)has disabled joining.",
-					  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-					  ent->client->sess.ip[3]);
+			// log it
+			log = va("Player %s(IP:%i.%i.%i.%i)has disabled joining.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3]);
 			logEntry(ADMACT, log);
 		}
 
@@ -1143,7 +1136,9 @@ void cmd_gamelocked(gentity_t *ent, qboolean unlock) {
 
 /*
 =======================================================================================================================================
-Force user to spectators
+cmd_specs
+
+Force user to spectators.
 =======================================================================================================================================
 */
 void cmd_specs(gentity_t *ent) {
@@ -1173,13 +1168,10 @@ void cmd_specs(gentity_t *ent) {
 		}
 
 		trap_SendServerCommand(-1, va("chat \"console: %s ^7has forced player %s ^7to spectators^1!\n\"", tag, g_entities[nums[i]].client->pers.netname));
+		// log it
+		log = va("Player %s(IP:%i.%i.%i.%i)has forced user %s to spectators.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname);
 
-		// Log it
-		log = va("Player %s(IP:%i.%i.%i.%i)has forced user %s to spectators.",
-				  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-				  ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname);
-
-		if (g_extendedLog.integer >= 2) { // Only log this if it is set to 2+
+		if (g_extendedLog.integer >= 2) { // only log this if it is set to 2+
 			logEntry(ADMACT, log);
 		}
 	}
@@ -1189,7 +1181,9 @@ void cmd_specs(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Force user to game
+cmd_force
+
+Force user to game.
 =======================================================================================================================================
 */
 void cmd_force(gentity_t *ent) {
@@ -1199,7 +1193,6 @@ void cmd_force(gentity_t *ent) {
 	char *tag, *log;
 
 	tag = sortTag(ent);
-
 	count = ClientNumberFromNameMatch(ent->client->pers.cmd2, nums);
 
 	if (count == 0) {
@@ -1214,18 +1207,15 @@ void cmd_force(gentity_t *ent) {
 		if (g_entities[nums[i]].client->sess.sessionTeam == TEAM_BLUE || g_entities[nums[i]].client->sess.sessionTeam == TEAM_RED) {
 			trap_SendServerCommand(ent - g_entities, va("print \"Player %s ^7is already playing^1!\n\"", g_entities[nums[i]].client->pers.netname));
 			return;
-		}  else {
+		} else {
 			SetTeam(&g_entities[nums[i]], "blue", qtrue);
 		}
 
 		trap_SendServerCommand(-1, va("chat \"console: %s ^7has forced player %s ^7into game^1!\n\"", tag, g_entities[nums[i]].client->pers.netname));
+		// log it
+		log = va("Player %s(IP:%i.%i.%i.%i)has forced user %s into game.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname);
 
-		// Log it
-		log = va("Player %s(IP:%i.%i.%i.%i)has forced user %s into game.",
-				  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-				  ent->client->sess.ip[3], g_entities[nums[i]].client->pers.netname);
-
-		if (g_extendedLog.integer >= 2) { // Only log this if it is set to 2+
+		if (g_extendedLog.integer >= 2) { // only log this if it is set to 2+
 			logEntry(ADMACT, log);
 		}
 	}
@@ -1235,7 +1225,9 @@ void cmd_force(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Execute command
+cmd_exec
+
+Execute command.
 =======================================================================================================================================
 */
 void cmd_exec(gentity_t *ent) {
@@ -1250,13 +1242,10 @@ void cmd_exec(gentity_t *ent) {
 	}
 
 	trap_SendConsoleCommand(EXEC_INSERT, va("exec \"%s.cfg\"", ent->client->pers.cmd2));
-	// There's no prints atm about "not found.." so do it twice in case if user does it with .cfg extension..
+	// there's no prints atm about "not found.." so do it twice in case if user does it with .cfg extension..
 	trap_SendConsoleCommand(EXEC_INSERT, va("exec \"%s\"", ent->client->pers.cmd2));
-
-	// Log it
-	log = va("Player %s(IP:%i.%i.%i.%i)has executed %s config.",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3], ent->client->pers.cmd2);
+	// log it
+	log = va("Player %s(IP:%i.%i.%i.%i)has executed %s config.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], ent->client->pers.cmd2);
 	logEntry(ADMACT, log);
 
 	return;
@@ -1264,7 +1253,7 @@ void cmd_exec(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Nextmap
+cmd_nextmap
 =======================================================================================================================================
 */
 void cmd_nextmap(gentity_t *ent) {
@@ -1283,13 +1272,10 @@ void cmd_nextmap(gentity_t *ent) {
 	*/
 	trap_SendServerCommand(-1, va("chat \"console: %s ^7has set nextmap.\n\"", tag));
 	trap_SendConsoleCommand(EXEC_APPEND, va("coopmap %s\n", level.nextMap));
+	// log it
+	log = va("Player %s(IP:%i.%i.%i.%i)has set nextmap.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3]);
 
-	// Log it
-	log = va("Player %s(IP:%i.%i.%i.%i)has set nextmap.",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3]);
-
-	if (g_extendedLog.integer >= 2) { // Only log this if it is set to 2+
+	if (g_extendedLog.integer >= 2) { // only log this if it is set to 2+
 		logEntry(ADMACT, log);
 	}
 
@@ -1298,7 +1284,9 @@ void cmd_nextmap(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Load map
+cmd_map
+
+Load map.
 =======================================================================================================================================
 */
 void cmd_map(gentity_t *ent) {
@@ -1308,11 +1296,8 @@ void cmd_map(gentity_t *ent) {
 
 	trap_SendServerCommand(-1, va("chat \"console: %s ^7has loaded ^2%s ^7map.\n\"", tag, ent->client->pers.cmd2));
 	trap_SendConsoleCommand(EXEC_APPEND, va("coopmap %s", ent->client->pers.cmd2));
-
-	// Log it
-	log = va("Player %s(IP:%i.%i.%i.%i)has loaded %s map.",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3], g_entities->client->pers.cmd2);
+	// log it
+	log = va("Player %s(IP:%i.%i.%i.%i)has loaded %s map.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], g_entities->client->pers.cmd2);
 	logEntry(ADMACT, log);
 
 	return;
@@ -1320,7 +1305,9 @@ void cmd_map(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Center prints message to all
+cmd_cpa
+
+Center prints message to all.
 =======================================================================================================================================
 */
 void cmd_cpa(gentity_t *ent) {
@@ -1328,13 +1315,10 @@ void cmd_cpa(gentity_t *ent) {
 
 	s = ConcatArgs(2);
 	trap_SendServerCommand(-1, va("cp \"^1ADMIN WARNING^7! \n%s\n\"2", s));
+	// log it
+	log = va("Player %s(IP:%i.%i.%i.%i)issued CPA warning: %s.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], s);
 
-	// Log it
-	log = va("Player %s(IP:%i.%i.%i.%i)issued CPA warning: %s.",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3], s);
-
-	if (g_extendedLog.integer >= 2) { // Only log this if it is set to 2+
+	if (g_extendedLog.integer >= 2) { // only log this if it is set to 2+
 		logEntry(ADMACT, log);
 	}
 
@@ -1343,7 +1327,9 @@ void cmd_cpa(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Shows message to selected user in center print
+cmd_cp
+
+Shows message to selected user in center print.
 =======================================================================================================================================
 */
 void cmd_cp(gentity_t *ent) {
@@ -1352,7 +1338,6 @@ void cmd_cp(gentity_t *ent) {
 	char *s, *log;
 
 	s = ConcatArgs(3);
-
 	player_id = ClientNumberFromString2(ent, ent->client->pers.cmd2);
 
 	if (player_id == -1) {
@@ -1360,16 +1345,12 @@ void cmd_cp(gentity_t *ent) {
 	}
 
 	targetclient = g_entities + player_id;
-
 	// CP to user
 	trap_SendServerCommand(targetclient - g_entities, va("cp \"^1ADMIN WARNING^7! \n%s\n\"2", s));
+	// log it
+	log = va("Player %s(IP:%i.%i.%i.%i)issued to user %s CP warning: %s.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], targetclient->client->pers.netname, s);
 
-	// Log it
-	log = va("Player %s(IP:%i.%i.%i.%i)issued to user %s CP warning: %s.",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3], targetclient->client->pers.netname, s);
-
-	if (g_extendedLog.integer >= 2) { // Only log this if it is set to 2+
+	if (g_extendedLog.integer >= 2) { // only log this if it is set to 2+
 		logEntry(ADMACT, log);
 	}
 
@@ -1378,7 +1359,9 @@ void cmd_cp(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Shows message to all in console and center print
+cmd_warn
+
+Shows message to all in console and center print.
 =======================================================================================================================================
 */
 void cmd_warn(gentity_t *ent) {
@@ -1387,13 +1370,10 @@ void cmd_warn(gentity_t *ent) {
 	s = ConcatArgs(2);
 	trap_SendServerCommand(-1, va("chat \"^1ADMIN WARNING^7: \n%s\n\"2", s));
 	trap_SendServerCommand(-1, va("cp \"^1ADMIN WARNING^7! \n%s\n\"2", s));
+	// log it
+	log = va("Player %s(IP:%i.%i.%i.%i)issued global warning: %s.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], s);
 
-	// Log it
-	log = va("Player %s(IP:%i.%i.%i.%i)issued global warning: %s.",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3], s);
-
-	if (g_extendedLog.integer >= 2) { // Only log this if it is set to 2+
+	if (g_extendedLog.integer >= 2) { // only log this if it is set to 2+
 		logEntry(ADMACT, log);
 	}
 
@@ -1402,21 +1382,21 @@ void cmd_warn(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Shows message to all in console
+cmd_chat
+
+Shows message to all in console.
 =======================================================================================================================================
 */
 void cmd_chat(gentity_t *ent) {
 	char *s, *log;
 
 	s = ConcatArgs(2);
+
 	trap_SendServerCommand(-1, va("chat \"^1ADMIN WARNING^7: \n%s\n\"2", s));
+	// log it
+	log = va("Player %s(IP:%i.%i.%i.%i)issued CHAT warning: %s.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], s);
 
-	// Log it
-	log = va("Player %s(IP:%i.%i.%i.%i)issued CHAT warning: %s.",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3], s);
-
-	if (g_extendedLog.integer >= 2) { // Only log this if it is set to 2+
+	if (g_extendedLog.integer >= 2) { // only log this if it is set to 2+
 		logEntry(ADMACT, log);
 	}
 
@@ -1424,7 +1404,9 @@ void cmd_chat(gentity_t *ent) {
 }
 /*
 =======================================================================================================================================
-Cancels any vote in progress
+cmd_cancelvote
+
+Cancels any vote in progress.
 =======================================================================================================================================
 */
 void cmd_cancelvote(gentity_t *ent) {
@@ -1435,13 +1417,10 @@ void cmd_cancelvote(gentity_t *ent) {
 		CheckVote();
 		trap_SendServerCommand(-1, "cp \"Admin has ^3Cancelled the vote!\n\"2");
 		trap_SendServerCommand(-1, va("chat \"console: Turns out everyone voted No^1!\""));
+		// log it
+		log = va("Player %s(IP:%i.%i.%i.%i)cancelled a vote.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3]);
 
-		// Log it
-		log = va("Player %s(IP:%i.%i.%i.%i)cancelled a vote.",
-				  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-				  ent->client->sess.ip[3]);
-
-		if (g_extendedLog.integer >= 2) { // Only log this if it is set to 2+
+		if (g_extendedLog.integer >= 2) { // only log this if it is set to 2+
 			logEntry(ADMACT, log);
 		}
 
@@ -1453,7 +1432,9 @@ void cmd_cancelvote(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Passes any vote in progress
+cmd_passvote
+
+Passes any vote in progress.
 =======================================================================================================================================
 */
 void cmd_passvote(gentity_t *ent) {
@@ -1464,13 +1445,10 @@ void cmd_passvote(gentity_t *ent) {
 		CheckVote();
 		trap_SendServerCommand(-1, "cp \"Admin has ^3Passed the vote!\n\"2");
 		trap_SendServerCommand(-1, va("chat \"console: Turns out everyone voted Yes^2!\""));
+		// log it
+		log = va("Player %s(IP:%i.%i.%i.%i)passed a vote.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3]);
 
-		// Log it
-		log = va("Player %s(IP:%i.%i.%i.%i)passed a vote.",
-				  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-				  ent->client->sess.ip[3]);
-
-		if (g_extendedLog.integer >= 2) { // Only log this if it is set to 2+
+		if (g_extendedLog.integer >= 2) { // only log this if it is set to 2+
 			logEntry(ADMACT, log);
 		}
 
@@ -1482,7 +1460,9 @@ void cmd_passvote(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Map restart
+cmd_restart
+
+Map restart.
 =======================================================================================================================================
 */
 void cmd_restart(gentity_t *ent) {
@@ -1491,16 +1471,11 @@ void cmd_restart(gentity_t *ent) {
 	tag = sortTag(ent);
 
 	trap_SendServerCommand(-1, va("chat \"console: %s ^7has restarted map.\n\"", tag));
-
 	trap_SendConsoleCommand(EXEC_APPEND, va("map_restart 5"));
+	// log it
+	log = va("Player %s(IP:%i.%i.%i.%i)has restarted map.", ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3]);
 
-
-	// Log it
-	log = va("Player %s(IP:%i.%i.%i.%i)has restarted map.",
-			  ent->client->pers.netname, ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2],
-			  ent->client->sess.ip[3]);
-
-	if (g_extendedLog.integer >= 2) { // Only log this if it is set to 2+
+	if (g_extendedLog.integer >= 2) { // only log this if it is set to 2+
 		logEntry(ADMACT, log);
 	}
 
@@ -1509,9 +1484,9 @@ void cmd_restart(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Getstatus
+cmd_getstatus
 
-Prints IP's and later on GUIDs if we'll decide to go that way..
+Prints IP's and later on GUIDs if we'll decide to go that way.
 =======================================================================================================================================
 */
 void cmd_getstatus(gentity_t *ent) {
@@ -1531,16 +1506,15 @@ void cmd_getstatus(gentity_t *ent) {
 
 	for (j = 0; j <= (MAX_CLIENTS - 1); j++) {
 		if (g_entities[j].client) {
-			// Don't count bots...
+			// don't count bots...
 			if (g_entities[j].r.svFlags & SVF_BOT) {
 				continue;
-			} // end
-
+			}
 			// player is connecting
 			if (g_entities[j].client->pers.connected == CON_CONNECTING) {
 				trap_SendServerCommand(ent - g_entities, va("print \"%3d  : >><< : %-10s : ^2>>Connecting<<  ^7:\n\"", j, g_entities[j].client->pers.netname));
 			}
-			// player is connected && not a AI(bot)
+			// player is connected && not a AI (bot)
 			if (g_entities[j].client->pers.connected == CON_CONNECTED) {
 				char *team, *slot, *ip, *tag, *sortTag = "", *extra;
 				char n1[MAX_NETNAME];
@@ -1551,27 +1525,25 @@ void cmd_getstatus(gentity_t *ent) {
 				Q_CleanStr(n2);
 				n2[10] = 0;
 
-				// Sort it :C
+				// sort it :C
 				slot = va("%3d", j);
 				team = (g_entities[j].client->sess.sessionTeam == TEAM_SPECTATOR) ? "^2SPEC^7" : "COOP";
-				ip = (ent->client->sess.admin == ADM_NONE)?
-					 va("%i.%i.*.*", g_entities[j].client->sess.ip[0], g_entities[j].client->sess.ip[1]):
-					 va("%i.%i.%i.%i", g_entities[j].client->sess.ip[0], g_entities[j].client->sess.ip[1], g_entities[j].client->sess.ip[2], g_entities[j].client->sess.ip[3]);
+				ip = (ent->client->sess.admin == ADM_NONE) ? va("%i.%i.*.*", g_entities[j].client->sess.ip[0], g_entities[j].client->sess.ip[1]) : va("%i.%i.%i.%i", g_entities[j].client->sess.ip[0], g_entities[j].client->sess.ip[1], g_entities[j].client->sess.ip[2], g_entities[j].client->sess.ip[3]);
 				switch (g_entities[j].client->sess.admin) {
-				case ADM_NONE:
-					sortTag = "";
-					break;
-				case ADM_MEM:
-					sortTag = (g_entities[j].client->sess.incognito) ? va("%s ^7(Hidden)", a1_tag.string): va("%s", a1_tag.string);
-					break;
-				case ADM_MED:
-					sortTag = (g_entities[j].client->sess.incognito) ? va("%s ^7(Hidden)", a2_tag.string): va("%s", a2_tag.string);
-					break;
-				case ADM_FULL:
-					sortTag = (g_entities[j].client->sess.incognito) ? va("%s ^7(Hidden)", a3_tag.string): va("%s", a3_tag.string);
-					break;
+					case ADM_NONE:
+						sortTag = "";
+						break;
+					case ADM_MEM:
+						sortTag = (g_entities[j].client->sess.incognito) ? va("%s ^7(Hidden)", a1_tag.string): va("%s", a1_tag.string);
+						break;
+					case ADM_MED:
+						sortTag = (g_entities[j].client->sess.incognito) ? va("%s ^7(Hidden)", a2_tag.string): va("%s", a2_tag.string);
+						break;
+					case ADM_FULL:
+						sortTag = (g_entities[j].client->sess.incognito) ? va("%s ^7(Hidden)", a3_tag.string): va("%s", a3_tag.string);
+						break;
 				}
-				// Sort Admin tags..
+				// sort Admin tags
 				extra = (g_entities[j].client->sess.admin == ADM_NONE && g_entities[j].client->sess.ignored) ? "^1Ignored" : "";
 
 				if (ent->client->sess.admin == ADM_NONE) {
@@ -1579,16 +1551,14 @@ void cmd_getstatus(gentity_t *ent) {
 				} else {
 					tag = (g_entities[j].client->sess.admin == ADM_NONE && g_entities[j].client->sess.ignored) ? "^1Ignored" : sortTag;
 				}
-				// Print it now
-				trap_SendServerCommand(ent - g_entities, va("print \"%-4s : %s : %-10s : ^2%-15s ^7: %-15s \"",
-								slot, team, n2, ip, tag));
+				// print it now
+				trap_SendServerCommand(ent - g_entities, va("print \"%-4s : %s : %-10s : ^2%-15s ^7: %-15s \"", slot, team, n2, ip, tag));
 				trap_SendServerCommand(ent - g_entities, va("print \"\n\""));
 			}
 		}
 	}
 
 	trap_SendServerCommand(ent - g_entities, va("print \"^2------------------------------------------------------------\n\""));
-
 	trap_SendServerCommand(ent - g_entities, va("print \"^7Uptime: ^2%d ^7day%s ^2%d ^7hours ^2%d ^7minutes\n\"", days, (days != 1 ? "s" : ""), hours, mins));
 
 	if (g_gamelocked.integer) {
@@ -1602,7 +1572,9 @@ void cmd_getstatus(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-List commands
+cmd_listCmds
+
+List commands.
 =======================================================================================================================================
 */
 void cmd_listCmds(gentity_t *ent) {
@@ -1643,113 +1615,211 @@ qboolean do_cmds(gentity_t *ent) {
 	if (!strcmp(cmd,"incognito")) {
 		if (canUse(ent, qtrue)) {
 			cmd_incognito(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"list_cmds")) {
-		cmd_listCmds(ent);    return qtrue;
+		cmd_listCmds(ent);
+		return qtrue;
 	} else if (!strcmp(cmd,"ignore")) {
 		if (canUse(ent, qtrue)) {
 			cmd_ignore(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"unignore")) {
 		if (canUse(ent, qtrue)) {
 			cmd_unignore(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"clientignore")) {
 		if (canUse(ent, qtrue)) {
 			cmd_clientIgnore(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"clientunignore")) {
 		if (canUse(ent, qtrue)) {
 			cmd_clientUnignore(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"kick")) {
 		if (canUse(ent, qtrue)) {
 			cmd_kick(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"clientkick")) {
 		if (canUse(ent, qtrue)) {
 			cmd_clientkick(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"slap")) {
 		if (canUse(ent, qtrue)) {
 			cmd_slap(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"kill")) {
 		if (canUse(ent, qtrue)) {
 			cmd_kill(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	}
 //	else if (!strcmp(cmd,"lock"))			{if(canUse(ent, qtrue))cmd_gamelocked(ent, qfalse); else cantUse(ent); return qtrue;}  // Leaving this out for the moment as client would need to start as SPEC upon connecting and dunno if this is general idea in the project?
 //	else if (!strcmp(cmd,"unlock"))			{if(canUse(ent, qtrue))cmd_gamelocked(ent, qtrue); else cantUse(ent); return qtrue;}   // - || -
 	else if (!strcmp(cmd,"specs")) {
 		if (canUse(ent, qtrue)) {
 			cmd_specs(ent);
-		} else {cantUse(ent);} return qtrue;
-	} // NOTE: Set team will need to be patched with "forced" if and when lock and unlock will be set back..
-	else if (!strcmp(cmd,"coop")) {
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
+	// NOTE: Set team will need to be patched with "forced" if and when lock and unlock will be set back..
+	} else if (!strcmp(cmd,"coop")) {
 		if (canUse(ent, qtrue)) {
 			cmd_force(ent);
-		} else {cantUse(ent);} return qtrue;
-	}                                                                                                                   // - || -
-	else if (!strcmp(cmd,"exec")) {
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
+	} else if (!strcmp(cmd,"exec")) {
 		if (canUse(ent, qtrue)) {
 			cmd_exec(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"nextmap")) {
 		if (canUse(ent, qtrue)) {
 			cmd_nextmap(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"map")) {
 		if (canUse(ent, qtrue)) {
 			cmd_map(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"cpa")) {
 		if (canUse(ent, qtrue)) {
 			cmd_cpa(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"cp")) {
 		if (canUse(ent, qtrue)) {
 			cmd_cp(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"chat")) {
 		if (canUse(ent, qtrue)) {
 			cmd_chat(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"warn")) {
 		if (canUse(ent, qtrue)) {
 			cmd_warn(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"cancelvote")) {
 		if (canUse(ent, qtrue)) {
 			cmd_cancelvote(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"passvote")) {
 		if (canUse(ent, qtrue)) {
 			cmd_passvote(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"restart")) {
 		if (canUse(ent, qtrue)) {
 			cmd_restart(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"ban")) {
 		if (canUse(ent, qtrue)) {
 			cmd_ban(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"tempban")) {
 		if (canUse(ent, qtrue)) {
 			cmd_tempBanIp(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
 	} else if (!strcmp(cmd,"addip")) {
 		if (canUse(ent, qtrue)) {
 			cmd_addIp(ent);
-		} else {cantUse(ent);} return qtrue;
+		} else {
+			cantUse(ent);
+		}
+
+		return qtrue;
+	// any other command
+	} else if (canUse(ent, qfalse)) {
+		cmdCustom(ent, cmd);
+		return qtrue;
+	// it fail on all checks
+	} else {
+		trap_SendServerCommand(ent - g_entities, va("print \"Command ^1%s ^7was not found^1!\n\"", cmd));
+		return qfalse;
 	}
-	// Any other command
-	else if (canUse(ent, qfalse)) {
-		cmdCustom(ent, cmd); return qtrue;
-	}
-// It fail on all checks..
-	else {trap_SendServerCommand(ent - g_entities, va("print \"Command ^1%s ^7was not found^1!\n\"", cmd)); return qfalse;}
 }
 
 /*
@@ -1825,7 +1895,9 @@ qboolean do_help(gentity_t *ent) {
 		help = "Temporarily Bans player by IP - Usage: !tempban <unique part of name> <mins>";
 	} else if (!strcmp(cmd,"addip")) {
 		help = "Adds IP to banned file. You can use wildcards for subrange bans - Example: !addip 100.*.*.*";
-	} else {return qfalse;}
+	} else {
+		return qfalse;
+	}
 
 	trap_SendServerCommand(ent - g_entities, va("print \"^2Help: ^7%s\n\"", help));
 
@@ -1838,16 +1910,15 @@ Commands
 =======================================================================================================================================
 */
 qboolean cmds_admin(char cmd[MAX_TOKEN_CHARS], gentity_t *ent) {
-	// We're dealing with command
+
+	// we're dealing with command
 	if (Q_stricmp(cmd, "!") == 0) {
 		return do_cmds(ent);
-	}
-	// We're dealing with help
-	else if (Q_stricmp(cmd, "?") == 0) {
+	// we're dealing with help
+	} else if (Q_stricmp(cmd, "?") == 0) {
 		return do_help(ent);
 	}
 
 	return qfalse;
 }
-
 #endif // _ADMINS

@@ -234,7 +234,6 @@ qboolean AICast_CheckVisibility(gentity_t *srcent, gentity_t *destent) {
 
 	viewer = srcent->s.number;
 	ent = destent->s.number;
-
 	cs = AICast_GetCastState(viewer);
 
 	AICast_GetCastState(ent);

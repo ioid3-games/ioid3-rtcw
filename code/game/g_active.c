@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -38,7 +34,7 @@ Called just before a snapshot is sent to the given player. Totals up all damage 
 that client for pain blends and kicks, and global pain sound events for all clients.
 =======================================================================================================================================
 */
-void P_DamageFeedback(gentity_t *player) {
+void G_DamageFeedback(gentity_t *player) {
 	gclient_t *client;
 	float count;
 	vec3_t angles;
@@ -86,12 +82,12 @@ void P_DamageFeedback(gentity_t *player) {
 
 /*
 =======================================================================================================================================
-P_WorldEffects
+G_WorldEffects
 
 Check for lava/slime contents and drowning.
 =======================================================================================================================================
 */
-void P_WorldEffects(gentity_t *ent) {
+void G_WorldEffects(gentity_t *ent) {
 	qboolean envirosuit;
 	int waterlevel;
 
@@ -157,8 +153,7 @@ void P_WorldEffects(gentity_t *ent) {
 				}
 
 //	(SA)		if (ent->watertype & CONTENTS_SLIME) {
-//					G_Damage(ent, NULL, NULL, NULL, NULL,
-//						10*waterlevel, 0, MOD_SLIME);
+//					G_Damage(ent, NULL, NULL, NULL, NULL, 10 * waterlevel, 0, MOD_SLIME);
 //	end			}
 			}
 		}
@@ -173,7 +168,7 @@ void P_WorldEffects(gentity_t *ent) {
 			if (g_gametype.integer <= GT_SINGLE_PLAYER) {
 				if (ent->r.svFlags & SVF_CASTAI) {
 					G_Damage(ent, attacker, attacker, NULL, NULL, 2, DAMAGE_NO_KNOCKBACK, MOD_FLAMETHROWER);
-				} else if ((ent->s.onFireEnd - level.time)> FIRE_FLASH_TIME / 2 && rand() % 5000 < (ent->s.onFireEnd - level.time)) { // as it fades out, also fade out damage rate
+				} else if ((ent->s.onFireEnd - level.time) > FIRE_FLASH_TIME / 2 && rand() % 5000 < (ent->s.onFireEnd - level.time)) { // as it fades out, also fade out damage rate
 					G_Damage(ent, attacker, attacker, NULL, NULL, 1, DAMAGE_NO_KNOCKBACK, MOD_FLAMETHROWER);
 				}
 			}
@@ -345,9 +340,9 @@ void SpectatorThink(gentity_t *ent, usercmd_t *ucmd) {
 		pm.tracemask = MASK_PLAYERSOLID & ~CONTENTS_BODY; // spectators can fly through bodies
 		pm.trace = trap_Trace;
 		pm.pointcontents = trap_PointContents;
-
+		// perform a pmove
 		Pmove(&pm);
-		// Activate
+		// activate
 		// made it a latched event (occurs on keydown only)
 		if (client->latched_buttons & BUTTON_ACTIVATE) {
 			Cmd_Activate_f(ent);
@@ -463,6 +458,7 @@ void ClientIntermissionThink(gclient_t *client) {
 	client->ps.eFlags &= ~EF_TALK;
 	client->ps.eFlags &= ~EF_FIRING;
 	// the level will exit when everyone wants to or after timeouts
+
 	// swap and latch button actions
 	client->oldbuttons = client->buttons;
 	client->buttons = client->pers.cmd.buttons;
@@ -504,122 +500,122 @@ void ClientEvents(gentity_t *ent, int oldEventSequence) {
 		eventParm = client->ps.eventParms[i & (MAX_EVENTS - 1)];
 
 		switch (event) {
-		case EV_FALL_NDIE:
-		case EV_FALL_DMG_10:
-		case EV_FALL_DMG_15:
-		case EV_FALL_DMG_25:
-		case EV_FALL_DMG_50:
+			case EV_FALL_NDIE:
+			case EV_FALL_DMG_10:
+			case EV_FALL_DMG_15:
+			case EV_FALL_DMG_25:
+			case EV_FALL_DMG_50:
+				if (ent->s.eType != ET_PLAYER) {
+					break; // not in the player model
+				}
 
-			if (ent->s.eType != ET_PLAYER) {
-				break; // not in the player model
-			}
+				if (g_dmflags.integer & DF_NO_FALLING) {
+					break;
+				}
+				// FIXME: TODO: hmm, going through here adding surfaceparms it seems that the value for ent->client->ps.pm_time was weird (1000 for all but dmg_25 which has 250?)
+				if (event == EV_FALL_NDIE) {
+					damage = 9999;
+				} else if (event == EV_FALL_DMG_50) {
+					damage = 50;
+					stunTime = 1000;
+				} else if (event == EV_FALL_DMG_25) {
+					damage = 25;
+					stunTime = 250;
+				} else if (event == EV_FALL_DMG_15) {
+					damage = 15;
+					stunTime = 1000;
+				} else if (event == EV_FALL_DMG_10) {
+					damage = 10;
+					stunTime = 1000;
+				} else {
+					damage = 5; // never used
+				}
 
-			if (g_dmflags.integer & DF_NO_FALLING) {
-				break;
-			}
-			// FIXME: TODO: hmm, going through here adding surfaceparms it seems that the value for ent->client->ps.pm_time was weird (1000 for all but dmg_25 which has 250?)
-			if (event == EV_FALL_NDIE) {
-				damage = 9999;
-			} else if (event == EV_FALL_DMG_50) {
-				damage = 50;
-				stunTime = 1000;
-			} else if (event == EV_FALL_DMG_25) {
-				damage = 25;
-				stunTime = 250;
-			} else if (event == EV_FALL_DMG_15) {
-				damage = 15;
-				stunTime = 1000;
-			} else if (event == EV_FALL_DMG_10) {
-				damage = 10;
-				stunTime = 1000;
-			} else {
-				damage = 5; // never used
-			}
+				fallSoundMul *= 2; // double range for falls greater than FALL_SHORT
 
-			fallSoundMul *= 2; // double range for falls greater than FALL_SHORT
+				if (eventParm & SURF_SLICK) { // don't stun when you drop onto slick
+					stunTime = 0;
+				}
 
-			if (eventParm & SURF_SLICK) { // don't stun when you drop onto slick
-				stunTime = 0;
-			}
+				if (ent->client && stunTime) {
+					ent->client->ps.pm_time = stunTime;
+					ent->client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
+					VectorClear(ent->client->ps.velocity);
+				}
 
-			if (ent->client && stunTime) {
-				ent->client->ps.pm_time = stunTime;
-				ent->client->ps.pm_flags |= PMF_TIME_KNOCKBACK;
-				VectorClear(ent->client->ps.velocity);
-			}
+				ent->pain_debounce_time = level.time + 200; // no normal pain sound
 
-			ent->pain_debounce_time = level.time + 200; // no normal pain sound
-			G_Damage(ent, NULL, NULL, NULL, NULL, damage, 0, MOD_FALLING);
-			// falls through to FALL_SHORT
+				G_Damage(ent, NULL, NULL, NULL, NULL, damage, 0, MOD_FALLING);
+				// falls through to FALL_SHORT
 
-			// added the audible events for jumping/falling
-			// right now just do a short range event on all surfaces until surface-specific stuff is working
-			AICast_AudibleEvent(ent->s.number, ent->s.pos.trBase, g_footstepAudibleRange.value);
-		case EV_FALL_SHORT:
-//				 if(eventParm &(SURF_GRAVEL|SURF_GLASS))						fallSoundMul *= 0.5f;
-//			else if (eventParm & SURF_ROOF)										fallSoundMul *= 0.75f;
-//			else if (eventParm & SURF_NOSTEPS|SURF_GRASS|SURF_CARPET|SURF_SNOW)	fallSoundMul *= 0.0f;		// no sound event
+				// added the audible events for jumping/falling
+				// right now just do a short range event on all surfaces until surface-specific stuff is working
+				AICast_AudibleEvent(ent->s.number, ent->s.pos.trBase, g_footstepAudibleRange.value);
+			case EV_FALL_SHORT:
+//				if(eventParm &(SURF_GRAVEL|SURF_GLASS))						fallSoundMul *= 0.5f;
+//				else if (eventParm & SURF_ROOF)										fallSoundMul *= 0.75f;
+//				else if (eventParm & SURF_NOSTEPS|SURF_GRASS|SURF_CARPET|SURF_SNOW)	fallSoundMul *= 0.0f;		// no sound event
 //
-//			if (fallSoundMul)
-//				AICast_AudibleEvent(ent->s.number, ent->s.pos.trBase, fallSoundMul * g_footstepAudibleRange.value);
-			break;
-		case EV_FIRE_WEAPON_MG42:
-		case EV_FIRE_WEAPON:
-		case EV_FIRE_WEAPONB:
-		case EV_FIRE_WEAPON_LASTSHOT:
-			FireWeapon(ent);
-			break;
-		case EV_GRENADE_SUICIDE:
-			if (!ent->client) {
+//				if (fallSoundMul)
+//					AICast_AudibleEvent(ent->s.number, ent->s.pos.trBase, fallSoundMul * g_footstepAudibleRange.value);
 				break;
-			}
+			case EV_FIRE_WEAPON_MG42:
+			case EV_FIRE_WEAPON:
+			case EV_FIRE_WEAPONB:
+			case EV_FIRE_WEAPON_LASTSHOT:
+				FireWeapon(ent);
+				break;
+			case EV_GRENADE_SUICIDE:
+				if (!ent->client) {
+					break;
+				}
 
-			ent->client->ps.stats[STAT_HEALTH] = ent->health = 0;
-			player_die(ent, ent, ent, 100000, MOD_SUICIDE);
-			break;
-		// added (testing)
-		case EV_FIRE_QUICKGREN:
+				ent->client->ps.stats[STAT_HEALTH] = ent->health = 0;
+				player_die(ent, ent, ent, 100000, MOD_SUICIDE);
+				break;
+			// added (testing)
+			case EV_FIRE_QUICKGREN:
 #if 0 // quickgren gone
-			{
-				// don't fire if on mounted weapon
-				if (ent->client->ps.persistant[PERS_HWEAPON_USE] && ent->active) {
-					break;
+				{
+					// don't fire if on mounted weapon
+					if (ent->client->ps.persistant[PERS_HWEAPON_USE] && ent->active) {
+						break;
 				}
-
-				CalcMuzzlePoints(ent, WP_GRENADE_LAUNCHER);
-				weapon_grenadelauncher_fire(ent, WP_GRENADE_LAUNCHER);
-			}
+	
+					CalcMuzzlePoints(ent, WP_GRENADE_LAUNCHER);
+					weapon_grenadelauncher_fire(ent, WP_GRENADE_LAUNCHER);
+				}
 #endif
-			break;
-		case EV_USE_ITEM1:      //(HI_MEDKIT)	medkit
-		case EV_USE_ITEM2:      //(HI_WINE)		wine
-		case EV_USE_ITEM3:      //(HI_SKULL)		skull of invulnerable
-		case EV_USE_ITEM4:      //(HI_WATER)		protection from drowning
-		case EV_USE_ITEM5:      //(HI_ELECTRIC)	protection from electric attacks
-		case EV_USE_ITEM6:      //(HI_FIRE)		protection from fire attacks
-		case EV_USE_ITEM7:      //(HI_STAMINA)	restores fatigue bar and sets "nofatigue" for a time period
-		case EV_USE_ITEM8:      //(HI_BOOK1)
-		case EV_USE_ITEM9:      //(HI_BOOK2)
-		case EV_USE_ITEM10:     //(HI_BOOK3)
-			UseHoldableItem(ent, event - EV_USE_ITEM0);
-			break;
-		default:
-			if (g_gametype.integer <= GT_SINGLE_PLAYER) {
-				// handle footstep sounds
-				if (ent->client && (ent->client->ps.pm_flags & PMF_DUCKED)) { // no when crouching
-					break;
+				break;
+			case EV_USE_ITEM1:      //(HI_MEDKIT)	medkit
+			case EV_USE_ITEM2:      //(HI_WINE)		wine
+			case EV_USE_ITEM3:      //(HI_SKULL)		skull of invulnerable
+			case EV_USE_ITEM4:      //(HI_WATER)		protection from drowning
+			case EV_USE_ITEM5:      //(HI_ELECTRIC)	protection from electric attacks
+			case EV_USE_ITEM6:      //(HI_FIRE)		protection from fire attacks
+			case EV_USE_ITEM7:      //(HI_STAMINA)	restores fatigue bar and sets "nofatigue" for a time period
+			case EV_USE_ITEM8:      //(HI_BOOK1)
+			case EV_USE_ITEM9:      //(HI_BOOK2)
+			case EV_USE_ITEM10:     //(HI_BOOK3)
+				UseHoldableItem(ent, event - EV_USE_ITEM0);
+				break;
+			default:
+				if (g_gametype.integer <= GT_SINGLE_PLAYER) {
+					// handle footstep sounds
+					if (ent->client && (ent->client->ps.pm_flags & PMF_DUCKED)) { // no when crouching
+						break;
+					}
+
+					if (ent->client && (ent->client->pers.cmd.buttons & BUTTON_WALKING)) {
+						break;
+					}
+
+					if (event >= EV_FOOTSTEP && event <= EV_FOOTSTEP_CARPET) {
+						AICast_AudibleEvent(ent->s.number, ent->s.pos.trBase, g_footstepAudibleRange.value);
+					}
 				}
 
-				if (ent->client && (ent->client->pers.cmd.buttons & BUTTON_WALKING)) {
-					break;
-				}
-
-				if (event >= EV_FOOTSTEP && event <= EV_FOOTSTEP_CARPET) {
-					AICast_AudibleEvent(ent->s.number, ent->s.pos.trBase, g_footstepAudibleRange.value);
-				}
-			}
-
-			break;
+				break;
 		}
 	}
 }
@@ -667,13 +663,13 @@ void reinforce(gentity_t *ent); // JPW NERVE
 void ClientDamage(gentity_t *clent, int entnum, int enemynum, int id);
 /*
 =======================================================================================================================================
-ClientThink_real
+ClientThink_Real
 
 This will be called once for each client frame, which will usually be a couple times for each server frame on fast clients.
 If "g_synchronousClients 1" is set, this will be called exactly once for each server frame, which makes for smooth demo recording.
 =======================================================================================================================================
 */
-void ClientThink_real(gentity_t *ent) {
+void ClientThink_Real(gentity_t *ent) {
 	gclient_t *client;
 	pmove_t pm;
 	int oldEventSequence;
@@ -797,10 +793,11 @@ void ClientThink_real(gentity_t *ent) {
 */
 
 			// NOTE: ----------------- SP uses this method
-			muzzlebounce[PITCH] -= 0.25*client->sniperRifleMuzzlePitch*cos(2.5*(level.time - client->sniperRifleFiredTime) / RIFLE_SHAKE_TIME);
-			muzzlebounce[YAW] += 0.2*client->sniperRifleMuzzleYaw*cos(1.0 - (level.time - client->sniperRifleFiredTime)*3 / RIFLE_SHAKE_TIME);
-			muzzlebounce[PITCH] -= 0.25*client->sniperRifleMuzzlePitch*random() * (1.0f - (level.time - client->sniperRifleFiredTime) / RIFLE_SHAKE_TIME);
+			muzzlebounce[PITCH] -= 0.25 * client->sniperRifleMuzzlePitch * cos(2.5 * (level.time - client->sniperRifleFiredTime) / RIFLE_SHAKE_TIME);
+			muzzlebounce[YAW] += 0.2 * client->sniperRifleMuzzleYaw * cos(1.0 - (level.time - client->sniperRifleFiredTime) * 3 / RIFLE_SHAKE_TIME);
+			muzzlebounce[PITCH] -= 0.25 * client->sniperRifleMuzzlePitch * random() * (1.0f - (level.time - client->sniperRifleFiredTime) / RIFLE_SHAKE_TIME);
 			muzzlebounce[YAW] += 0.2 * crandom() * (1.0f - (level.time - client->sniperRifleFiredTime) / RIFLE_SHAKE_TIME);
+
 			SetClientViewAngle(ent,muzzlebounce);
 		}
 	}
@@ -900,7 +897,7 @@ void ClientThink_real(gentity_t *ent) {
 	if (!saveGamePending && (g_gametype.integer <= GT_SINGLE_PLAYER) && !(ent->r.svFlags & SVF_CASTAI)) {
 		trap_Cvar_Update(&g_missionStats);
 
-		if (strlen(g_missionStats.string)> 1) {
+		if (strlen(g_missionStats.string) > 1) {
 			// ignore movements and buttons
 			ucmd->buttons = 0;
 			ucmd->forwardmove = 0;
@@ -910,7 +907,6 @@ void ClientThink_real(gentity_t *ent) {
 			ucmd->wolfkick = 0;
 		} else { // age their play time
 			//AICast_AgePlayTime(ent->s.number);
-
 		}
 	}
 
@@ -935,7 +931,7 @@ void ClientThink_real(gentity_t *ent) {
 		client->ps.pm_type = PM_NORMAL;
 	}
 	// set parachute anim condition flag
-	BG_UpdateConditionValue(ent->s.number, ANIM_COND_PARACHUTE, (ent->flags & FL_PARACHUTE)!= 0, qfalse);
+	BG_UpdateConditionValue(ent->s.number, ANIM_COND_PARACHUTE, (ent->flags & FL_PARACHUTE) != 0, qfalse);
 	// all playing clients are assumed to be in combat mode
 	if (!client->ps.aiChar) {
 		client->ps.aiState = AISTATE_COMBAT;
@@ -970,10 +966,10 @@ void ClientThink_real(gentity_t *ent) {
 	pm.trace = trap_TraceCapsule; //trap_Trace;
 	pm.pointcontents = trap_PointContents;
 	pm.debugLevel = g_debugMove.integer;
-	pm.noFootsteps = (g_dmflags.integer & DF_NO_FOOTSTEPS)> 0;
+	pm.noFootsteps = (g_dmflags.integer & DF_NO_FOOTSTEPS) > 0;
 	pm.pmove_fixed = pmove_fixed.integer|client->pers.pmoveFixed;
 	pm.pmove_msec = pmove_msec.integer;
-	pm.noWeapClips = (g_dmflags.integer & DF_NO_WEAPRELOAD)> 0;
+	pm.noWeapClips = (g_dmflags.integer & DF_NO_WEAPRELOAD) > 0;
 
 	if (ent->aiCharacter && AICast_NoReload(ent->s.number)) {
 		pm.noWeapClips = qtrue; // ensure AI characters don't use clips if they're not supposed to.
@@ -1054,12 +1050,12 @@ void ClientThink_real(gentity_t *ent) {
 						}
 					}
 				}
-
 				/*
 				VectorClear(dir);
-				dir[YAW] = angle;
-				AngleVectors(dir, forward, NULL, NULL);
 
+				dir[YAW] = angle;
+
+				AngleVectors(dir, forward, NULL, NULL);
 				VectorScale(forward, 32, kvel);
 				VectorAdd(pm.ps->velocity, kvel, pm.ps->velocity);
 				*/
@@ -1070,7 +1066,7 @@ void ClientThink_real(gentity_t *ent) {
 		vec3_t src, vel;
 		trace_t tr;
 
-		if (VectorLength(pm.ps->velocity)< 100 && trap_InPVS(pm.ps->origin, g_entities[0].s.pos.trBase)) {
+		if (VectorLength(pm.ps->velocity) < 100 && trap_InPVS(pm.ps->origin, g_entities[0].s.pos.trBase)) {
 			// find the head position
 			if (trap_GetTag(ent->s.number, "tag_head", &or)) {
 				// move up a tad
@@ -1079,6 +1075,7 @@ void ClientThink_real(gentity_t *ent) {
 				VectorMA(or.origin, 12, or.axis[2], or.origin);
 				// trace from the base of our bounding box, to the head
 				VectorCopy(pm.ps->origin, src);
+
 				src[2] += pm.ps->mins[2] + 3;
 
 				if (or.origin[2] < src[2]) {
@@ -1097,7 +1094,7 @@ void ClientThink_real(gentity_t *ent) {
 					if (DotProduct(vel, pm.ps->velocity)>= 0) {
 						VectorAdd(pm.ps->velocity, vel, pm.ps->velocity);
 
-						if (VectorLength(pm.ps->velocity)> 100) {
+						if (VectorLength(pm.ps->velocity) > 100) {
 							VectorNormalize(pm.ps->velocity);
 							VectorScale(pm.ps->velocity, 100, pm.ps->velocity);
 						}
@@ -1113,7 +1110,7 @@ void ClientThink_real(gentity_t *ent) {
 
 	}
 	// prevent guys from standing ontop of each other
-	if (ent->client->ps.groundEntityNum >= 0 && ent->client->ps.groundEntityNum < MAX_CLIENTS && (VectorLength(ent->client->ps.velocity)< 200)) {
+	if (ent->client->ps.groundEntityNum >= 0 && ent->client->ps.groundEntityNum < MAX_CLIENTS && (VectorLength(ent->client->ps.velocity) < 200)) {
 		// give them some random velocity
 		ent->client->ps.velocity[0] += crandom() * 100;
 		ent->client->ps.velocity[1] += crandom() * 100;
@@ -1323,7 +1320,7 @@ void G_RunClient(gentity_t *ent) {
 
 	ent->client->pers.cmd.serverTime = level.time;
 
-	ClientThink_real(ent);
+	ClientThink_Real(ent);
 }
 
 /*
@@ -1469,7 +1466,7 @@ void SpectatorClientEndFrame(gentity_t *ent) {
 =======================================================================================================================================
 ClientEndFrame
 
-Called at the end of each server frame for each connected client. A fast client will have multiple ClientThink for each ClientEdFrame,
+Called at the end of each server frame for each connected client. A fast client will have multiple ClientThink for each ClientEndFrame,
 while a slow client may have multiple ClientEndFrame between ClientThink.
 =======================================================================================================================================
 */
@@ -1505,9 +1502,9 @@ void ClientEndFrame(gentity_t *ent) {
 		return;
 	}
 	// burn from lava, etc.
-	P_WorldEffects(ent);
+	G_WorldEffects(ent);
 	// apply all the damage taken this frame
-	P_DamageFeedback(ent);
+	G_DamageFeedback(ent);
 	// add the EF_CONNECTION flag if we haven't gotten commands recently
 	if (!(ent->r.svFlags & SVF_CASTAI)) {
 		if (level.time - ent->client->lastCmdTime > 1000) {

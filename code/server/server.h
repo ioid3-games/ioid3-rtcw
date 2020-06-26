@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -70,7 +66,7 @@ typedef struct {
 	int serverId;			// changes each server start
 	int restartedServerId;	// serverId before a map_restart
 	int checksumFeed;		// the feed key that we use to compute the pure checksum strings
-	// show_bug.cgi?id = 475
+	// https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=475
 	// the serverId associated with the current checksumFeed (always <= serverId)
 	int checksumFeedServerId;
 	int snapshotCounter;	// incremented for each snapshot built
@@ -84,7 +80,7 @@ typedef struct {
 	int gentitySize;
 	int num_entities;		// current number, <= MAX_GENTITIES
 	playerState_t *gameClients;
-	int gameClientSize;		// will be > sizeof(playerState_t)due to game private data
+	int gameClientSize;		// will be > sizeof(playerState_t) due to game private data
 	int restartTime;
 	int time;
 	// net debugging
@@ -153,7 +149,7 @@ typedef struct client_s {
 	int lastMessageNum;			// for delta compression
 	int lastClientCommand;		// reliable client message sequence
 	char lastClientCommandString[MAX_STRING_CHARS];
-	sharedEntity_t *gentity;	// SV_GentityNum(clientnum)
+	sharedEntity_t *gentity;	// SV_GentityNum(clientNum)
 	char name[MAX_NAME_LENGTH];	// extracted from userinfo, high bits masked
 	// downloading
 	char downloadName[MAX_QPATH]; // if not empty string, we are downloading
@@ -336,7 +332,7 @@ extern leakyBucket_t outboundLeakyBucket;
 qboolean SVC_RateLimit(leakyBucket_t *bucket, int burst, int period);
 qboolean SVC_RateLimitAddress(netadr_t from, int burst, int period);
 void SV_FinalMessage(char *message);
-void QDECL SV_SendServerCommand(client_t *cl, const char *fmt, ...)__attribute__ ((format(printf, 2, 3)));
+void QDECL SV_SendServerCommand(client_t *cl, const char *fmt, ...) __attribute__((format(printf, 2, 3)));
 void SV_AddOperatorCommands(void);
 void SV_RemoveOperatorCommands(void);
 void SV_MasterShutdown(void);
@@ -362,7 +358,7 @@ void SV_FreeClient(client_t *client);
 void SV_DropClient(client_t *drop, const char *reason);
 void SV_ExecuteClientCommand(client_t *cl, const char *s, qboolean clientOK);
 void SV_ClientThink(client_t *cl, usercmd_t *cmd);
-int SV_WriteDownloadToClient(client_t *cl , msg_t *msg);
+int SV_WriteDownloadToClient(client_t *cl, msg_t *msg);
 int SV_SendDownloadMessages(void);
 int SV_SendQueuedMessages(void);
 // sv_ccmds.c

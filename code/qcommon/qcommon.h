@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -113,12 +109,12 @@ void MSG_ReportChangeVectors_f(void);
 
 // set to 1 to perform net encoding, 0 to drop single player game with no networking doesn't need encoding show_bug.cgi?id=404
 //#define DO_NET_ENCODE 0
-#define NET_ENABLEV4		0x01
-#define NET_ENABLEV6		0x02
-// if this flag is set, always attempt ipv6 connections instead of ipv4 if a v6 address is found.
-#define NET_PRIOV6			0x04
-// disables ipv6 multicast support if set.
-#define NET_DISABLEMCAST	0x08
+#define NET_ENABLEV4		0x00000001
+#define NET_ENABLEV6		0x00000002
+// if this flag is set, always attempt ipv6 connections instead of ipv4 if a v6 address is found
+#define NET_PRIOV6			0x00000004
+// disables ipv6 multicast support if set
+#define NET_DISABLEMCAST	0x00000008
 
 #define PACKET_BACKUP 32 // number of old messages that must be kept on client and server for delta compression and ping estimation
 #define PACKET_MASK (PACKET_BACKUP - 1)
@@ -126,9 +122,7 @@ void MSG_ReportChangeVectors_f(void);
 #define MAX_SNAPSHOT_ENTITIES 256
 #define PORT_ANY -1
 // increased this, seems to keep causing problems when set to 64, especially when loading a savegame, which is hard to fix on that side, since we can't really spread out a loadgame among several frames
-//#define MAX_RELIABLE_COMMANDS 64 // max string commands buffered for restransmit
-//#define MAX_RELIABLE_COMMANDS 128 // max string commands buffered for restransmit
-#define MAX_RELIABLE_COMMANDS 256 // bigger!
+#define MAX_RELIABLE_COMMANDS 256 // max string commands buffered for restransmit
 
 typedef enum {
 	NA_BAD = 0, // an address lookup failed
@@ -325,7 +319,7 @@ typedef enum {
 } vmInterpret_t;
 
 typedef enum {
-	TRAP_MEMSET = 100,
+	TRAP_MEMSET = 0,
 	TRAP_MEMCPY,
 	TRAP_STRNCPY,
 	TRAP_SIN,
@@ -565,7 +559,7 @@ void FS_GetModDescription(const char *modDir, char *description, int description
 fileHandle_t FS_FOpenFileWrite(const char *qpath);
 fileHandle_t FS_FOpenFileAppend(const char *filename);
 fileHandle_t FS_FCreateOpenPipeFile(const char *filename);
-// will properly create any needed paths and deal with seperater character issues
+// will properly create any needed paths and deal with separator character issues
 fileHandle_t FS_SV_FOpenFileWrite(const char *filename);
 long FS_SV_FOpenFileRead(const char *filename, fileHandle_t *fp);
 void FS_SV_Rename(const char *from, const char *to, qboolean safe);
@@ -822,8 +816,6 @@ void Hunk_Clear(void);
 void Hunk_ClearToMark(void);
 void Hunk_SetMark(void);
 qboolean Hunk_CheckMark(void);
-//void *Hunk_Alloc(int size);
-// void *Hunk_Alloc(int size, ha_pref preference);
 void Hunk_ClearTempMemory(void);
 void *Hunk_AllocateTempMemory(int size);
 void Hunk_FreeTempMemory(void *buf);
@@ -883,7 +875,6 @@ void Key_KeynameCompletion(void(*callback)(const char *s));
 // for keyname autocompletion
 void Key_WriteBindings(fileHandle_t f);
 // for writing the config files
-//void S_ClearSoundBuffer(qboolean killStreaming);
 void S_ClearSoundBuffer(void);
 // call before filesystem access
 void SCR_DebugGraph(float value); // FIXME: move logging to common?
@@ -1032,17 +1023,17 @@ void Huff_offsetReceive(node_t *node, int *ch, byte *fin, int *offset, int maxof
 void Huff_offsetTransmit(huff_t *huff, int ch, byte *fout, int *offset, int maxoffset);
 void Huff_putBit(int bit, byte *fout, int *offset);
 int Huff_getBit(byte *fout, int *offset);
-// don't use if you don't know what you're doing.
+// don't use if you don't know what you're doing
 int Huff_getBloc(void);
 void Huff_setBloc(int _bloc);
 
 extern huffman_t clientHuffTables;
 
-#define SV_ENCODE_START		4
-#define SV_DECODE_START		12
+#define SV_ENCODE_START 4
+#define SV_DECODE_START 12
 
-#define CL_ENCODE_START		12
-#define CL_DECODE_START		4
+#define CL_ENCODE_START 12
+#define CL_DECODE_START 4
 // flags for sv_allowDownload and cl_allowDownload
 #define DLF_ENABLE			1
 #define DLF_NO_REDIRECT		2

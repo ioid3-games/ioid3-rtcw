@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -62,7 +58,6 @@ This could be improved by putting some g_banIPs2 g_banIps3 etc. maybe still, you
 
 =======================================================================================================================================
 */
-
 
 #define MAX_IPFILTERS 1024
 
@@ -613,7 +608,7 @@ void Svcmd_Unignore_f(void) {
 	int clientNum;
 	char buf[5];
 
-	if (trap_Argc()!= 2) {
+	if (trap_Argc() != 2) {
 		G_Printf("Usage: unignore <client num>\n");
 		return;
 	}
@@ -632,8 +627,8 @@ void Svcmd_Unignore_f(void) {
 	}
 
 	g_entities[clientNum].client->sess.ignored = 0;
-	trap_SendServerCommand(clientNum, "cp \"You have been unignored^2!\n\"2");  //let them know they can talk again
-	trap_SendServerCommand(-1, va("chat \"console: ^7%s ^7has been unignored.\n\"",g_entities[clientNum].client->pers.netname));
+	trap_SendServerCommand(clientNum, "cp \"You have been unignored^2!\n\"2"); // let them know they can talk again
+	trap_SendServerCommand(-1, va("chat \"console: ^7%s ^7has been unignored.\n\"" ,g_entities[clientNum].client->pers.netname));
 	return;
 }
 
@@ -646,7 +641,7 @@ void Svcmd_Ignore_f(void) {
 	int clientNum;
 	char buf[5];
 
-	if (trap_Argc()!= 2) {
+	if (trap_Argc() != 2) {
 		G_Printf("Usage: ignore <client num>\n");
 		return;
 	}
@@ -666,7 +661,7 @@ void Svcmd_Ignore_f(void) {
 
 	g_entities[clientNum].client->sess.ignored = 1;
 	trap_SendServerCommand(clientNum, "cp \"You are now ignored^1\n\"");
-	trap_SendServerCommand(-1, va("chat \"console: ^7%s ^7has been ignored.\n\"",g_entities[clientNum].client->pers.netname));
+	trap_SendServerCommand(-1, va("chat \"console: ^7%s ^7has been ignored.\n\"", g_entities[clientNum].client->pers.netname));
 	return;
 }
 
@@ -697,7 +692,7 @@ qboolean ConsoleCommand(void) {
 
 		trap_Argv(1, cmd, sizeof(cmd));
 
-		if (strlen(cmd)> 0) {
+		if (strlen(cmd) > 0) {
 			// strip the extension if provided
 			if (strrchr(cmd, '.')) {
 				cmd[strrchr(cmd,'.') - cmd] = '\0';

@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -111,6 +107,7 @@ Coordinates are 640 * 480 virtual values.
 =======================================================================================================================================
 */
 void CG_FillRect(float x, float y, float width, float height, const float *color) {
+	
 	trap_R_SetColor(color);
 	CG_AdjustFrom640(&x, &y, &width, &height);
 	trap_R_DrawStretchPic(x, y, width, height, 0, 0, 0, 1, cgs.media.whiteShader);
@@ -123,6 +120,7 @@ CG_FillRectGradient
 =======================================================================================================================================
 */
 void CG_FillRectGradient(float x, float y, float width, float height, const float *color, const float *gradcolor, int gradientType) {
+
 	trap_R_SetColor(color);
 	CG_AdjustFrom640(&x, &y, &width, &height);
 	trap_R_DrawStretchPicGradient(x, y, width, height, 0, 0, 0, 0, cgs.media.whiteShader, gradcolor, gradientType);
@@ -148,15 +146,16 @@ flags:
 */
 
 // TODO: these flags will be shared, but it was easier to work on stuff if I wasn't changing header files a lot
-#define BAR_LEFT        0x0001
-#define BAR_CENTER      0x0002
-#define BAR_VERT        0x0004
-#define BAR_NOHUDALPHA  0x0008
-#define BAR_BG          0x0010
+#define BAR_LEFT			0x0001
+#define BAR_CENTER			0x0002
+#define BAR_VERT			0x0004
+#define BAR_NOHUDALPHA		0x0008
+#define BAR_BG				0x0010
 // different spacing modes for use w/ BAR_BG
-#define BAR_BGSPACING_X0Y5  0x0020
-#define BAR_BGSPACING_X0Y0  0x0040
-#define BAR_LERP_COLOR  0x0100
+#define BAR_BGSPACING_X0Y5	0x0020
+#define BAR_BGSPACING_X0Y0	0x0040
+#define BAR_LERP_COLOR		0x0100
+
 #define BAR_BORDERSIZE 2
 
 /*
@@ -550,6 +549,7 @@ void CG_DrawStringExt2(int x, int y, const char *string, const float *setColor, 
 	s = string;
 	xx = x;
 	cnt = 0;
+
 	trap_R_SetColor(setColor);
 
 	while (*s && cnt < maxChars) {

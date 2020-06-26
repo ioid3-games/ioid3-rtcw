@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http:// www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -694,6 +690,7 @@ qboolean AAS_CanMergeFaces(int *facenums, int numfaces, int planenum) {
 						}
 
 						otherface = &(*aasworld).faces[facenums[s]];
+
 						for (ens = 0; ens < otherface->numedges; ens++) {
 							if (edgenum2 == abs((*aasworld).edgeindex[otherface->firstedge + ens])) {
 								break;
@@ -1060,7 +1057,7 @@ void AAS_FloodCluster_r(int areanum, int clusternum) {
 	// set cluster mark
 	(*aasworld).areasettings[areanum].cluster = clusternum;
 	// if the area is a portal
-	//if((*aasworld).areasettings[areanum].contents & AREACONTENTS_CLUSTERPORTAL) {
+	//if ((*aasworld).areasettings[areanum].contents & AREACONTENTS_CLUSTERPORTAL) {
 	//	return;
 	//}
 
@@ -1265,7 +1262,7 @@ void AAS_RemoveNotClusterClosingPortals(void) {
 			continue;
 		}
 
-		numseperatedclusters = 0;
+		numseparatedclusters = 0;
 		// reset all cluster fields
 		AAS_RemoveClusterAreas();
 		// find a non-portal area adjacent to the portal area and flood the cluster from there
@@ -1592,8 +1589,6 @@ void AAS_InitClustering(void) {
 	}
 
 	AAS_CountForcedClusterPortals();
-	// remove all the existing portals
-	//AAS_RemoveAllPortals();
 	// remove all area cluster marks
 	AAS_RemoveClusterAreas();
 	// find possible cluster portals
@@ -1620,8 +1615,8 @@ void AAS_InitClustering(void) {
 	}
 
 	(*aasworld).clusters = (aas_cluster_t *)GetClearedMemory(AAS_MAX_CLUSTERS * sizeof(aas_cluster_t));
-
 	removedPortalAreas = 0;
+
 	botimport.Print(PRT_MESSAGE, "\r%6d removed portal areas", removedPortalAreas);
 
 	while (1) {

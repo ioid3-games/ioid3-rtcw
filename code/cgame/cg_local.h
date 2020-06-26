@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -144,24 +140,16 @@ typedef struct {
 // Ridah, effect defines
 #define MAX_ZOMBIE_SPIRITS          4
 #define MAX_ZOMBIE_DEATH_TRAILS     16
-
 #define MAX_LOPER_LIGHTNING_POINTS  24
-
 #define MAX_TESLA_BOLTS             4
-
 #define MAX_EFFECT_ENTS             20
 
 typedef struct {
 	lerpFrame_t legs, torso;
-
-	// Ridah, talking animations
+	// talking animations
 	lerpFrame_t head;
-	// done.
-
 	lerpFrame_t weap;       //---- (SA)	autonomous weapon animations
-
 	int lastTime;                   // last time we were processed/ If the time goes backwards, reset.
-
 	int painTime;
 	int painDuration;
 	int painDirection;              // flip from 0 to 1
@@ -169,30 +157,24 @@ typedef struct {
 	int painAnimLegs;
 	int lightningFiring;
 	int railFireTime;
-
 	// machinegun spinning
 	float barrelAngle;
 	int barrelTime;
 	qboolean barrelSpinning;
-
 	//---- (SA)machinegun bolt sliding
 	float boltPosition;
 	int boltTime;
 	int boltSliding;
 	//---- (SA)end
-
 	//---- (SA)'spinner' spinning(body part)
 	float spinnerAngle;
 	int spinnerTime;
 	qboolean spinnerSpinning;
 	//---- (SA)	end
-
 	// Ridah, so we can do fast tag grabbing
 	refEntity_t legsRefEnt, torsoRefEnt, headRefEnt, gunRefEnt;
 	int gunRefEntFrame;
-
 	float animSpeed;            // for manual adjustment
-
 	// Zombie spirit effect
 	// !!FIXME: these effects will be restarted by a *_restart command, can we save this data somehow?
 	qboolean cueZombieSpirit;               // if this is qfalse, and the zombie effect flag is set, then we need to start a new attack
@@ -260,11 +242,12 @@ typedef struct {
 } skinModel_t;
 //---- (SA)end
 
+/**************************************************************************************************************************************
 
-//=================================================
+	centity_t have a direct correspondence with gentity_t in the game, but only the entityState_t is directly communicated to the cgame.
 
-// centity_t have a direct corespondence with gentity_t in the game, but
-// only the entityState_t is directly communicated to the cgame
+**************************************************************************************************************************************/
+
 typedef struct centity_s {
 	entityState_t currentState;     // from cg.frame
 	entityState_t nextState;        // from cg.nextFrame, if available
@@ -343,11 +326,11 @@ typedef struct centity_s {
 	qboolean akimboFire;
 } centity_t;
 
+/**************************************************************************************************************************************
 
-//======================================================================
+	local entities are created as a result of events or predicted actions, and live independently from all server transmitted entities.
 
-// local entities are created as a result of events or predicted actions,
-// and live independantly from all server transmitted entities
+**************************************************************************************************************************************/
 
 typedef struct markPoly_s {
 	struct markPoly_s *prevMark, *nextMark;
@@ -433,26 +416,17 @@ typedef struct localEntity_s {
 	int startTime;
 	int endTime;
 	int fadeInTime;
-
 	float lifeRate;                     // 1.0 /(endTime - startTime)
-
 	trajectory_t pos;
 	trajectory_t angles;
-
 	float bounceFactor;                 // 0.0 = no bounce, 1.0 = perfect
-
 	float color[4];
-
 	float radius;
-
 	float light;
 	vec3_t lightColor;
-
 	leMarkType_t leMarkType;            // mark to leave on fragment impact
 	leBounceSoundType_t leBounceSoundType;
-
 	refEntity_t refEntity;
-
 	// Ridah
 	int lightOverdraw;
 	int lastTrailTime;
@@ -466,16 +440,11 @@ typedef struct localEntity_s {
 	int loopingSound;
 	int breakCount;                     // break-up this many times before we can break no more
 	float sizeScale;
-
 	char validOldPos[MAX_OLD_POS];
 	vec3_t oldPos[MAX_OLD_POS];
 	int oldPosHead;
 	// done.
-
 } localEntity_t;
-
-//======================================================================
-
 
 typedef struct {
 	int client;
@@ -494,7 +463,7 @@ typedef struct {
 	int accuracy;
 	int impressiveCount;
 	int excellentCount;
-	int guantletCount;
+	int gauntletCount;
 	int defendCount;
 	int assistCount;
 	int captures;
@@ -513,31 +482,29 @@ typedef enum {
 	ACC_HAT, // hat(head)
 	ACC_MOUTH2, //
 	ACC_MOUTH3, //
-
 	ACC_MAX     // this is bound by network limits, must change network stream to increase this
 				//(SA)No, really?  that's not true is it?  isn't this client-side only?
 } accType_t;
 
 #define ACC_NUM_MOUTH 3 // matches the above count(hat/mouth2/mouth3)
 
+/**************************************************************************************************************************************
 
-// each client has an associated clientInfo_t
-// that contains media references necessary to present the
-// client model and other color coded effects
-// this is regenerated each time a client's configstring changes,
-// usually as a result of a userinfo(name, model, etc)change
-#define MAX_CUSTOM_SOUNDS   32
-#define MAX_GIB_MODELS      16
+	Each client has an associated clientInfo_t that contains media references necessary to present the client model and other color
+	coded effects. This is regenerated each time a client's configstring changes, usually as a result of a userinfo (name, model, etc.)
+	change.
+
+**************************************************************************************************************************************/
+
+#define MAX_CUSTOM_SOUNDS 32
+#define MAX_GIB_MODELS 16
 typedef struct {
 	qboolean infoValid;
 	int clientNum;
-
 	char name[MAX_QPATH];
 	team_t team;
 	int botSkill;                   // 0 = not bot, 1-5 = bot
-
 	vec3_t color;
-
 	byte c1RGBA[4];
 	int score;                      // updated by score servercmds
 	int location;                   // location index for team mode
@@ -549,12 +516,8 @@ typedef struct {
 	int ammo;
 	int handicap;
 	int wins, losses;               // in tourney mode
-
 	int breathPuffTime;
-
-	// when clientinfo is changed, the loading of models/skins/sounds
-	// can be deferred until you are dead, to prevent hitches in
-	// gameplay
+	// when clientinfo is changed, the loading of models/skins/sounds can be deferred until you are dead, to prevent hitches in gameplay
 	char modelName[MAX_QPATH];
 	char skinName[MAX_QPATH];
 	char hSkinName[MAX_QPATH];
@@ -562,29 +525,21 @@ typedef struct {
 
 	qhandle_t legsModel;
 	qhandle_t legsSkin;
-
 	qhandle_t torsoModel;
 	qhandle_t torsoSkin;
-
 	qboolean isSkeletal;
-
 	//---- (SA)added accessory models/skins for belts/backpacks/etc.
 	qhandle_t accModels[ACC_MAX];       // see def of ACC_MAX for index descriptions
 	qhandle_t accSkins[ACC_MAX];        // FIXME: put the#define for number of accessory models somewhere.(SA)
-
 	//---- (SA)	additional parts for specialized characters(the loper's spinning trunk for example)
 	qhandle_t partModels[9];        // [0-7] are optionally called in scripts, [8] is reserved for internal use
 	qhandle_t partSkins[9];
 	//---- (SA)	end
-
 	qhandle_t headModel;
 	qhandle_t headSkin;
-
 	qhandle_t modelIcon;
-
 	// RF, may be shared by multiple clients/characters
 	animModelInfo_t *modelInfo;
-
 	sfxHandle_t sounds[MAX_CUSTOM_SOUNDS];
 
 	qhandle_t gibModels[MAX_GIB_MODELS];
@@ -592,7 +547,6 @@ typedef struct {
 	vec3_t playermodelScale;            //---- (SA)	set in the skin. client-side only
 
 	int blinkTime;              //---- (SA)
-
 	int lastkilltime;
 	int lastteamkilltime;
 } clientInfo_t;
@@ -623,48 +577,35 @@ typedef enum {
 typedef struct weaponInfo_s {
 	qboolean registered;
 	gitem_t *item;
-
 //---- (SA)	weapon animation sequences loaded from the weapon.cfg
 	animation_t weapAnimations[MAX_WP_ANIMATIONS];
 //---- (SA)	end
-
 	qhandle_t handsModel;               // the hands don't actually draw, they just position the weapon
-
 	qhandle_t standModel;               // not drawn. tags used for positioning weapons for pickup
-
 //---- (SA)mod for 1st/3rd person weap views
 	qhandle_t weaponModel[W_NUM_TYPES];
 	qhandle_t wpPartModels[W_NUM_TYPES][W_MAX_PARTS];
 	qhandle_t flashModel[W_NUM_TYPES];
 	qhandle_t modModel[W_NUM_TYPES];        // like the scope for the rifles
 //---- (SA)end
-
 	pose_t position;                    // wolf locations(high, low, knife, pistol, shoulder, throw)defines are WPOS_HIGH, WPOS_LOW, WPOS_KNIFE, WPOS_PISTOL, WPOS_SHOULDER, WPOS_THROW
-
 	vec3_t weaponMidpoint;              // so it will rotate centered instead of by tag
-
 	float flashDlight;
 	vec3_t flashDlightColor;
 	sfxHandle_t flashSound[4];          // fast firing weapons randomly choose
 	sfxHandle_t flashEchoSound[4];      //---- (SA)	added - distant gun firing sound
 	sfxHandle_t lastShotSound[4];       // sound of the last shot can be different(mauser doesn't have bolt action on last shot for example)
-
 	sfxHandle_t switchSound[4];     //---- (SA)	added
-
 	qhandle_t weaponIcon[2];            //---- (SA)	[0] is weap icon, [1] is highlight icon
 	qhandle_t ammoIcon;
-
 	qhandle_t ammoModel;
-
 	qhandle_t missileModel;
 	sfxHandle_t missileSound;
 	void(*missileTrailFunc)(centity_t *, const struct weaponInfo_s *wi);
 	float missileDlight;
 	vec3_t missileDlightColor;
 	int missileRenderfx;
-
 	void(*ejectBrassFunc)(centity_t *);
-
 	float trailRadius;
 	float wiTrailTime;
 
@@ -686,7 +627,6 @@ typedef struct {
 	qhandle_t models[MAX_ITEM_MODELS];
 	qhandle_t icons[MAX_ITEM_ICONS];
 } itemInfo_t;
-
 
 typedef struct {
 	int itemNum;
@@ -724,34 +664,24 @@ typedef struct {
 	int deferredPlayerLoading;
 	qboolean loading;               // don't defer players at initial startup
 	qboolean intermissionStarted;       // don't play voice rewards, because game will end shortly
-
-	// there are only one or two snapshot_t that are relevent at a time
+	// there are only one or two snapshot_t that are relevant at a time
 	int latestSnapshotNum;          // the number of snapshots the client system has received
 	int latestSnapshotTime;         // the time from latestSnapshotNum, so we don't need to read the snapshot yet
-
 	snapshot_t *snap;              // cg.snap->serverTime <= cg.time
 	snapshot_t *nextSnap;          // cg.nextSnap->serverTime > cg.time, or NULL
 	snapshot_t activeSnapshots[2];
-
 	float frameInterpolation;       //(float)(cg.time - cg.frame->serverTime) / (cg.nextFrame->serverTime - cg.frame->serverTime)
-
 	qboolean thisFrameTeleport;
 	qboolean nextFrameTeleport;
 	int frametime;              // cg.time - cg.oldTime
-
 	int time;                   // this is the time value that the client
-								// is rendering at.
+								// is rendering at
 	int oldTime;                // time at last frame, used for missile trails and prediction checking
-
 	int physicsTime;            // either cg.snap->time or cg.nextSnap->time
-
 	int timelimitWarnings;          // 5 min, 1 min, overtime
 	int fraglimitWarnings;
-
 	qboolean mapRestart;            // set on a map restart to set back the weapon
-
 	qboolean renderingThirdPerson;          // during deaths, chasecams, etc
-
 	// prediction state
 	qboolean hyperspace;                // true if prediction has hit a trigger_teleport
 	playerState_t predictedPlayerState;
@@ -761,20 +691,15 @@ typedef struct {
 	vec3_t predictedError;
 	int eventSequence;
 	int predictableEvents[MAX_PREDICTED_EVENTS];
-
 	float stepChange;                   // for stair up smoothing
 	int stepTime;
-
 	float duckChange;                   // for duck viewheight smoothing
 	int duckTime;
-
 	float landChange;                   // for landing hard
 	int landTime;
-
 	// input state sent to server
 	int weaponSelect;
 	int holdableSelect;                 //(SA)which holdable item is currently held("selected"). When the client is ready to use it, send "use item <holdableSelect>"
-
 	// auto rotating items
 	vec3_t autoAnglesSlow;
 	vec3_t autoAxisSlow[3];
@@ -782,12 +707,10 @@ typedef struct {
 	vec3_t autoAxis[3];
 	vec3_t autoAnglesFast;
 	vec3_t autoAxisFast[3];
-
 	// view rendering
 	refdef_t refdef;
 	vec3_t refdefViewAngles;	// will be converted to refdef.viewaxis
 	float fov;			// either range checked cg_fov or forced value
-
 	// zoom key
 	qboolean zoomed;
 	qboolean zoomedBinoc;
@@ -795,11 +718,8 @@ typedef struct {
 	int zoomTime;
 	float zoomSensitivity;
 	float zoomval;
-
-
 	// information screen text during loading
 	char infoScreenText[MAX_STRING_CHARS];
-
 	// scoreboard
 	int scoresRequestTime;
 	int numScores;
@@ -818,12 +738,9 @@ typedef struct {
 	int spectatorPaintX2;                                                   // current paint x
 	int spectatorOffset;                                                    // current offset from start
 	int spectatorPaintLen;                                              // current offset from start
-
 	qboolean showItems;
 	int itemFadeTime;
-
 	qboolean lightstylesInited;
-
 	// centerprinting
 	int centerPrintTime;
 	int centerPrintCharWidth;
@@ -831,13 +748,11 @@ typedef struct {
 	char centerPrint[1024];
 	int centerPrintLines;
 	int centerPrintPriority;                    // NERVE - SMF
-
 	// fade in/out
 	int fadeTime;
 	float fadeRate;
 	vec4_t fadeColor1;
 	vec4_t fadeColor2;
-
 //---- (SA)	added
 	// game stats
 	int exitStatsTime;
@@ -856,22 +771,17 @@ typedef struct {
 	int numArtifacts;
 	int numArtifactsFound;
 //---- (SA)	end
-
 	// funstats
 	int airbourne;
 	int destroyer;
 	int pickupmaster;
-
-
 	// low ammo warning state
 	int lowAmmoWarning;             // 1 = low, 2 = empty
-
 	// crosshair client ID
 	int crosshairClientNum;
 	int crosshairClientTime;
 	int crosshairPowerupNum;
 	int crosshairPowerupTime;
-
 //---- (SA)	added
 	// cursorhints
 	int cursorHintIcon;
@@ -879,39 +789,28 @@ typedef struct {
 	int cursorHintFade;
 	int cursorHintValue;
 //---- (SA)	end
-
 	// powerup active flashing
 	int powerupActive;
 	int powerupTime;
-
 	// attacking player
 	int attackerTime;
 	int voiceTime;
-
 	// reward medals
 	int rewardTime;
 	int rewardCount;
 	qhandle_t rewardShader;
-
 	// warmup countdown
 	int warmup;
 	int warmupCount;
-
 	// message icon popup time	//---- (SA)	added
 	int yougotmailTime;
-
-	//==========================
-
 	int itemPickup;
 	int itemPickupTime;
 	int itemPickupBlendTime;            // the pulse around the crosshair is timed seperately
-
 	int holdableSelectTime;             //---- (SA)	for holdable item icon drawing
-
 	int weaponSelectTime;
 	int weaponAnimation;
 	int weaponAnimationTime;
-
 	// blend blobs
 	viewDamage_t viewDamage[MAX_VIEWDAMAGE];
 	float damageTime;           // last time any kind of damage was recieved
@@ -923,7 +822,6 @@ typedef struct {
 	int lastFiredWeapon;
 	int lastWeapSelInBank[MAX_WEAP_BANKS];          // remember which weapon was last selected in a bank for 'weaponbank' commands //---- (SA)	added
 // JPW FIXME NOTE: max_weap_banks > max_weap_banks_mp so this should be OK, but if that changes, change this too
-
 	// status bar head
 	float headYaw;
 	float headEndPitch;
@@ -932,22 +830,18 @@ typedef struct {
 	float headStartPitch;
 	float headStartYaw;
 	int headStartTime;
-
 	// view movement
 	float v_dmg_time;
 	float v_dmg_pitch;
 	float v_dmg_roll;
-
-	// RF, view flames when getting burnt
+	// view flames when getting burnt
 	int v_fireTime, v_noFireTime;
 	vec3_t v_fireRiseDir;
-
 	// temp working variables for player view
 	float bobfracsin;
 	int bobcycle;
 	float xyspeed;
 	int nextOrbitTime;
-
 	// development tool
 	refEntity_t testModelEntity;
 	char testModelName[MAX_QPATH];
@@ -980,18 +874,14 @@ typedef struct {
 	int oidPrintY;
 	char oidPrint[1024];
 	int oidPrintLines;
-
 	cameraShake_t cameraShake[MAX_CAMERA_SHAKE];
 	float cameraShakePhase;
 	vec3_t cameraShakeAngles;
 	int cameraShakeTime;
 	float cameraShakeScale;
 	float cameraShakeLength;
-
 	float rumbleScale;          //RUMBLE FX using new shakeCamera code
-
 	qboolean latchVictorySound;
-
 	//  New centerprint
 	int centerPrintAnnouncerTime;
 	char *centerPrintAnnouncer;
@@ -1000,16 +890,18 @@ typedef struct {
 	vec3_t centerPrintAnnouncerColor;
 	int centerPrintAnnouncerMode;
 	// end
-
 } cg_t;
 
 #define NUM_FUNNEL_SPRITES  21
 #define MAX_LOCKER_DEBRIS   5
 
-// all of the model, shader, and sound references that are
-// loaded at gamestate time are stored in cgMedia_t
-// Other media that can be tied to clients, weapons, or items are
-// stored in the clientInfo_t, itemInfo_t, weaponInfo_t, and powerupInfo_t
+/**************************************************************************************************************************************
+
+	All of the model, shader, and sound references that are loaded at gamestate time are stored in cgMedia_t. Other media that can be
+	tied to clients, weapons, or items are stored in the clientInfo_t, weaponInfo_t, or itemInfo_t.
+
+**************************************************************************************************************************************/
+
 typedef struct {
 	qhandle_t charsetShader;
 	// JOSEPH 4-17-00
@@ -1019,16 +911,12 @@ typedef struct {
 	qhandle_t charsetPropGlow;
 	qhandle_t charsetPropB;
 	qhandle_t whiteShader;
-
 	qhandle_t redFlagModel;
 	qhandle_t blueFlagModel;
 
 	qhandle_t armorModel;
-
 	qhandle_t teamStatusBar;
-
 	qhandle_t deferShader;
-
 	// gib explosions
 	qhandle_t gibAbdomen;
 	qhandle_t gibArm;
@@ -1040,37 +928,25 @@ typedef struct {
 	qhandle_t gibLeg;
 	qhandle_t gibSkull;
 	qhandle_t gibBrain;
-
 	// debris
 	qhandle_t debBlock[6];
 	qhandle_t debRock[3];
 	qhandle_t debFabric[3];
 	qhandle_t debWood[6];
-
 	qhandle_t targetEffectExplosionShader;
-
 	qhandle_t machinegunBrassModel;
 	qhandle_t panzerfaustBrassModel;    //---- (SA)	added
-
-	// Rafael
 	qhandle_t smallgunBrassModel;
-
 	qhandle_t shotgunBrassModel;
-
 	qhandle_t railRingsShader;
 	qhandle_t railCoreShader;
-
 	qhandle_t lightningShader;
-
 	qhandle_t voiceChatShader;
 	qhandle_t friendShader;
-
 	qhandle_t frozenShader;
 	qhandle_t balloonShader;
 	qhandle_t connectionShader;
-
 	qhandle_t aiStateShaders[MAX_AISTATES];
-
 	qhandle_t selectShader;
 	qhandle_t viewBloodShader;
 	qhandle_t tracerShader;
@@ -1080,7 +956,6 @@ typedef struct {
 	qhandle_t lagometerShader;
 	qhandle_t backTileShader;
 	qhandle_t noammoShader;
-
 	qhandle_t reticleShader;
 //	qhandle_t reticleShaderSimple;
 	qhandle_t reticleShaderSimpleQ;
@@ -1088,29 +963,21 @@ typedef struct {
 	qhandle_t snooperShaderSimple;
 //	qhandle_t binocShaderSimple;
 	qhandle_t binocShaderSimpleQ;   // same as above, but quartered.(trying to save texture space)
-
 	qhandle_t smokePuffShader;
 	qhandle_t smokePuffRageProShader;
 	qhandle_t shotgunSmokePuffShader;
 	qhandle_t waterBubbleShader;
 	qhandle_t bloodTrailShader;
-
 	qhandle_t nailPuffShader;
-
 	//---- (SA)	cursor hints
 	// would be nice to specify these in the menu scripts instead of permanent handles...
 	qhandle_t hintShaders[HINT_NUM_HINTS];
-
 	qhandle_t youGotMailShader;         // '!' - new entry in notebook
 	qhandle_t youGotObjectiveShader;    // '<checkmark> - you completed objective
-//---- (SA)	end
-
 	// Rafael
 	qhandle_t snowShader;
 	qhandle_t oilParticle;
 	qhandle_t oilSlick;
-	// done.
-
 	// Rafael - cannon
 	qhandle_t smokePuffShaderdirty;
 	qhandle_t smokePuffShaderb1;
@@ -1118,21 +985,14 @@ typedef struct {
 	qhandle_t smokePuffShaderb3;
 	qhandle_t smokePuffShaderb4;
 	qhandle_t smokePuffShaderb5;
-	// done
-
 	// Rafael - blood pool
 	qhandle_t bloodPool;
-
 	// Ridah, viewscreen blood animation
 	qhandle_t viewBloodAni[5];
 	qhandle_t viewFlashBlood;
 	qhandle_t viewFlashFire[16];
-	// done
-
 	// Rafael bats
 	qhandle_t bats[10];
-	// done
-
 	// Rafael shards
 	qhandle_t shardGlass1;
 	qhandle_t shardGlass2;
@@ -1142,23 +1002,15 @@ typedef struct {
 	qhandle_t shardMetal2;
 	qhandle_t shardCeramic1;
 	qhandle_t shardCeramic2;
-	// done
-
 	qhandle_t shardRubble1;
 	qhandle_t shardRubble2;
 	qhandle_t shardRubble3;
-
-
 	qhandle_t shardJunk[MAX_LOCKER_DEBRIS];
-
 	qhandle_t numberShaders[11];
-
 	qhandle_t shadowMarkShader;
 	qhandle_t shadowFootShader;
 	qhandle_t shadowTorsoShader;
-
 	qhandle_t botSkillShaders[5];
-
 	// wall mark shaders
 	qhandle_t wakeMarkShader;
 	qhandle_t wakeMarkShaderAnim;
@@ -1172,7 +1024,6 @@ typedef struct {
 	qhandle_t burnMarkShader;
 	qhandle_t holeMarkShader;
 	qhandle_t energyMarkShader;
-
 	// powerup shaders
 	qhandle_t quadShader;
 	qhandle_t redQuadShader;
@@ -1182,34 +1033,26 @@ typedef struct {
 	qhandle_t battleSuitShader;
 	qhandle_t battleWeaponShader;
 	qhandle_t hastePuffShader;
-
 	// weapon effect models
 	qhandle_t spearModel;   //---- (SA)
-
 	qhandle_t bulletFlashModel;
 	qhandle_t ringFlashModel;
 	qhandle_t dishFlashModel;
 	qhandle_t lightningExplosionModel;
-
 	qhandle_t zombieLoogie;
 	qhandle_t flamebarrel;
 	qhandle_t mg42muzzleflash;
 	//qhandle_t mg42muzzleflashgg;
 	qhandle_t planemuzzleflash;
-
 	// Rafael
 	qhandle_t crowbar;
-
 	qhandle_t waterSplashModel;
 	qhandle_t waterSplashShader;
-
 	qhandle_t thirdPersonBinocModel;    //---- (SA)	added
 	qhandle_t cigModel;     //---- (SA)	added
-
 	qhandle_t batModel;
 	qhandle_t spiritSkullModel;
 	qhandle_t helgaGhostModel;
-
 	// weapon effect shaders
 	qhandle_t railExplosionShader;
 	qhandle_t bulletExplosionShader;
@@ -1217,19 +1060,15 @@ typedef struct {
 	qhandle_t grenadeExplosionShader;
 	qhandle_t bfgExplosionShader;
 	qhandle_t bloodExplosionShader;
-
 	qhandle_t flameThrowerhitShader;
-
 	// special effects models
 	qhandle_t teleportEffectModel;
 	qhandle_t teleportEffectShader;
-
 	// scoreboard headers
 	qhandle_t scoreboardName;
 	qhandle_t scoreboardPing;
 	qhandle_t scoreboardScore;
 	qhandle_t scoreboardTime;
-	// Ridah
 	qhandle_t bloodCloudShader;
 	qhandle_t sparkParticleShader;
 	qhandle_t smokeTrailShader;
@@ -1250,29 +1089,23 @@ typedef struct {
 	qhandle_t spotLightBaseModel;       //---- (SA)	added
 	qhandle_t spotLightLightModel;      //---- (SA)	added
 	qhandle_t spotLightLightModelBroke;     //---- (SA)	added
-
 	qhandle_t lightningHitWallShader;
 	qhandle_t lightningWaveShader;
 	qhandle_t bulletParticleTrailShader;
 	qhandle_t smokeParticleShader;
-
 	// DHM - Nerve :: bullet hitting dirt
 	qhandle_t dirtParticle1Shader;
 	qhandle_t dirtParticle2Shader;
 	qhandle_t dirtParticle3Shader;
-
 	qhandle_t zombieSpiritWallShader;
 	qhandle_t zombieSpiritTrailShader;
 	qhandle_t zombieSpiritSkullShader;
 	qhandle_t zombieDeathDustShader;
 	qhandle_t zombieBodyFadeShader;
 	qhandle_t zombieHeadFadeShader;
-
 	qhandle_t helgaSpiritSkullShader;
 	qhandle_t helgaSpiritTrailShader;
-
 	qhandle_t ssSpiritSkullModel;
-
 	qhandle_t skeletonSkinShader;
 	qhandle_t skeletonLegsModel;
 	qhandle_t skeletonTorsoModel;
@@ -1280,27 +1113,19 @@ typedef struct {
 	qhandle_t skeletonLegsSkin;
 	qhandle_t skeletonTorsoSkin;
 	qhandle_t skeletonHeadSkin;
-
 	qhandle_t loperGroundChargeShader;
-
 	qhandle_t teslaDamageEffectShader;
 	qhandle_t teslaAltDamageEffectShader;
 	qhandle_t viewTeslaDamageEffectShader;
 	qhandle_t viewTeslaAltDamageEffectShader;
-	// done.
-
-//---- (SA)
 	// proto/super/heini armor parts
 	qhandle_t protoArmor[9 * 3];        // 9 parts, 3 sections each	(nodam, dam1, dam2)
 	qhandle_t superArmor[16 * 3];       // 14 parts, 3 sections each
 	qhandle_t heinrichArmor[22 * 3];    // 20 parts, 3 sections each
-//---- (SA)	end
-
 	// medals shown during gameplay
 	qhandle_t medalImpressive;
 	qhandle_t medalExcellent;
 	qhandle_t medalGauntlet;
-
 	// sounds
 	sfxHandle_t n_health;
 	sfxHandle_t noFireUnderwater;
@@ -1341,30 +1166,24 @@ typedef struct {
 	sfxHandle_t landSound;
 	sfxHandle_t fallSound;
 	sfxHandle_t jumpPadSound;
-
 	sfxHandle_t oneMinuteSound;
 	sfxHandle_t fiveMinuteSound;
 	sfxHandle_t suddenDeathSound;
-
 	sfxHandle_t threeFragSound;
 	sfxHandle_t twoFragSound;
 	sfxHandle_t oneFragSound;
-
 	sfxHandle_t hitSound;
 	sfxHandle_t hitTeamSound;
 	sfxHandle_t impressiveSound;
 	sfxHandle_t excellentSound;
 	sfxHandle_t deniedSound;
 	sfxHandle_t humiliationSound;
-
 	sfxHandle_t takenLeadSound;
 	sfxHandle_t tiedLeadSound;
 	sfxHandle_t lostLeadSound;
-
 	sfxHandle_t watrInSound;
 	sfxHandle_t watrOutSound;
 	sfxHandle_t watrUnSound;
-
 //	sfxHandle_t flightSound;
 	sfxHandle_t underWaterSound;
 	sfxHandle_t medkitSound;
@@ -1379,7 +1198,6 @@ typedef struct {
 	sfxHandle_t redLeadsSound;
 	sfxHandle_t blueLeadsSound;
 	sfxHandle_t teamsTiedSound;
-
 	// tournament sounds
 	// Added 5 & 4 + added audio.
 	sfxHandle_t count5Sound;
@@ -1389,25 +1207,14 @@ typedef struct {
 	sfxHandle_t count1Sound;
 	sfxHandle_t countFightSound;
 	sfxHandle_t countPrepareSound;
-
-	//---- (SA)added
 	sfxHandle_t debBounce1Sound;
 	sfxHandle_t debBounce2Sound;
 	sfxHandle_t debBounce3Sound;
-	//---- (SA)end
-
-	//---- (SA)	added
 	sfxHandle_t grenadePulseSound4;
 	sfxHandle_t grenadePulseSound3;
 	sfxHandle_t grenadePulseSound2;
 	sfxHandle_t grenadePulseSound1;
-	//---- (SA)
-
-//---- (SA)	added
 	sfxHandle_t sparkSounds[2];
-//---- (SA)
-
-	// Ridah
 	sfxHandle_t flameSound;
 	sfxHandle_t flameBlowSound;
 	sfxHandle_t flameStartSound;
@@ -1416,38 +1223,24 @@ typedef struct {
 	sfxHandle_t lightningZap;
 	sfxHandle_t flameCrackSound;
 	sfxHandle_t boneBounceSound;
-
 	sfxHandle_t zombieSpiritSound;
 	sfxHandle_t zombieSpiritLoopSound;
 	sfxHandle_t zombieDeathSound;
-
 	sfxHandle_t helgaSpiritLoopSound;
 	sfxHandle_t helgaSpiritSound;
 	sfxHandle_t helgaGaspSound;
-
-	sfxHandle_t heinrichArmorBreak; //---- (SA)
-	sfxHandle_t protoArmorBreak;    //---- (SA)
-	sfxHandle_t superArmorBreak;    //---- (SA)
-
-
+	sfxHandle_t heinrichArmorBreak;
+	sfxHandle_t protoArmorBreak;
+	sfxHandle_t superArmorBreak;
 	sfxHandle_t debrisHitSound;
-
 	sfxHandle_t loperLightningSounds[3];
 	sfxHandle_t loperLightningZap;
-
 	sfxHandle_t lightningClap[5];
-
 	sfxHandle_t batsFlyingLoopSound;
-
-//	sfxHandle_t grenadebounce1;
-//	sfxHandle_t grenadebounce2;
-	sfxHandle_t grenadebounce[GRENBOUNCE_TOTAL][2]; //---- (SA)	modified
-
-	sfxHandle_t dynamitebounce1;    //---- (SA)	added
-
+	sfxHandle_t grenadebounce[GRENBOUNCE_TOTAL][2];
+	sfxHandle_t dynamitebounce1;
 	sfxHandle_t fbarrelexp1;
 	sfxHandle_t fbarrelexp2;
-
 	sfxHandle_t fkickwall;
 	sfxHandle_t fkickflesh;
 	sfxHandle_t fkickmiss;
@@ -1455,12 +1248,9 @@ typedef struct {
 	int bulletHitFleshMetalScript;
 	int teslaZapScript;
 	sfxHandle_t teslaLoopSound;
-	// done.
-
 	qhandle_t cursor;
 	qhandle_t selectCursor;
 	qhandle_t sizeCursor;
-
 	qhandle_t rtt;
 } cgMedia_t;
 
@@ -1482,7 +1272,6 @@ typedef struct soundScriptSound_s {
 extern soundScriptSound_t soundScriptSounds[MAX_SOUND_SCRIPT_SOUNDS];
 //DAJ defined in cg_sound.c int numSoundScriptSounds;
 
-
 typedef struct soundScript_s {
 	int index;
 	char name[MAX_QPATH];
@@ -1501,20 +1290,20 @@ typedef struct soundScript_s {
 } soundScript_t;
 
 // we have to define these static lists, since we can't alloc memory within the cgame
-
 #define FILE_HASH_SIZE          1024
 extern soundScript_t *    hashTable[FILE_HASH_SIZE];
-
 #define MAX_SOUND_SCRIPTS       4096
 extern soundScript_t soundScripts[MAX_SOUND_SCRIPTS];
 //DAJ defined in cg_sound.c int numSoundScripts;
-
 extern soundScript_t soundScripts[MAX_SOUND_SCRIPTS];
 
-// The client game static(cgs)structure hold everything
-// loaded or calculated from the gamestate. It will NOT
-// be cleared when a tournement restart is done, allowing
-// all clients to begin playing instantly
+/**************************************************************************************************************************************
+
+	The client game static (cgs) structure hold everything loaded or calculated from the gamestate. It will NOT be cleared when a
+	tournament restart is done, allowing all clients to begin playing instantly.
+
+**************************************************************************************************************************************/
+
 typedef struct {
 	gameState_t gameState;              // gamestate from server
 	glconfig_t glconfig;                // rendering configuration

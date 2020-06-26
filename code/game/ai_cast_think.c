@@ -26,14 +26,6 @@ If you have questions concerning this license or the applicable additional terms
 =======================================================================================================================================
 */
 
-//===========================================================================
-//
-// Name:			ai_cast_think.c
-// Function:		Wolfenstein AI Character Thinking
-// Programmer:		Ridah
-// Tab Size:		4(real tabs)
-//===========================================================================
-
 #include "g_local.h"
 #include "../qcommon/q_shared.h"
 #include "../botlib/botlib.h" // bot lib interface

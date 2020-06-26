@@ -1,31 +1,26 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
-*/
-
+*
 /**************************************************************************************************************************************
  Both games player movement code. Takes a playerstate and a usercmd as input and returns a modifed playerstate.
 **************************************************************************************************************************************/
@@ -663,7 +658,7 @@ static void PM_WaterMove(void) {
 		PM_Accelerate(wishdir, wishspeed, pm_wateraccelerate);
 	}
 	// make sure we can go up slopes easily under water
-	if (pml.groundPlane && DotProduct(pm->ps->velocity, pml.groundTrace.plane.normal)< 0) {
+	if (pml.groundPlane && DotProduct(pm->ps->velocity, pml.groundTrace.plane.normal) < 0) {
 		vel = VectorLength(pm->ps->velocity);
 		// slide along the ground plane
 		PM_ClipVelocity(pm->ps->velocity, pml.groundTrace.plane.normal, pm->ps->velocity, OVERCLIP);
@@ -1089,6 +1084,7 @@ PM_AddFallEvent
 =======================================================================================================================================
 */
 void PM_AddFallEvent(int landing, int surfaceparms) {
+
 	//PM_AddEvent(landing); // old way
 	BG_AddPredictableEventToPlayerstate(landing, surfaceparms, pm->ps);
 }
@@ -1545,7 +1541,7 @@ static void PM_Footsteps(void) {
 	}
 
 	footstep = qfalse;
-
+	// ducked
 	if (pm->ps->pm_flags & PMF_DUCKED) {
 		bobmove = 0.5; // ducked characters bob much faster
 
@@ -1697,7 +1693,7 @@ static void PM_Footsteps(void) {
 			bobmove = 0.4 * 1.5f;
 		}
 
-		pm->ps->bobCycle = (int)(old + bobmove * pml.msec)& 255;
+		pm->ps->bobCycle = (int)(old + bobmove * pml.msec) & 255;
 		// if we just crossed a cycle boundary, play an apropriate footstep event
 		if (iswalking /*||(pm->ps->aiChar == AICHAR_HEINRICH)*/) {
 			// sounds much more natural this way
@@ -1720,7 +1716,7 @@ static void PM_Footsteps(void) {
 					// no sound when completely underwater
 				}
 			}
-		} else if (((old + 64)^(pm->ps->bobCycle + 64))& 128) {
+		} else if (((old + 64)^(pm->ps->bobCycle + 64)) & 128) {
 			if (pm->ps->sprintExertTime && pm->waterlevel <= 2) {
 				PM_ExertSound();
 			}
@@ -1902,7 +1898,6 @@ static void PM_BeginWeaponChange(int oldweapon, int newweapon, qboolean reload) 
 	} else {
 		pm->ps->weaponstate = WEAPON_DROPPING;
 	}
-
 	*/
 	switchtime = 250; // dropping/raising usually takes 1/4 sec.
 	// sometimes different switch times for alt weapons
@@ -1926,7 +1921,6 @@ static void PM_BeginWeaponChange(int oldweapon, int newweapon, qboolean reload) 
 			}
 
 			break;
-
 //		case WP_MAUSER:
 //		case WP_SNIPERRIFLE:
 //		case WP_GARAND:
@@ -2365,7 +2359,7 @@ void PM_AdjustAimSpreadScale(void) {
 	}
 
 	if (wpnScale) {
-		// crouched players recover faster(mostly useful for snipers)
+		// crouched players recover faster (mostly useful for snipers)
 		if ((pm->ps->eFlags & EF_CROUCHING) && (pm->ps->groundEntityNum != ENTITYNUM_NONE)) { // modified so you can't do this in the air. cool?
 			wpnScale *= 0.5;
 		}
@@ -2490,37 +2484,37 @@ static void PM_Weapon(void) {
 	if (0) {
 		switch (pm->ps->weaponstate) {
 			case WEAPON_READY:
-				Com_Printf(" -- WEAPON_READY\n");
+				Com_Printf("-- WEAPON_READY\n");
 				break;
 			case WEAPON_RAISING:
-				Com_Printf(" -- WEAPON_RAISING\n");
+				Com_Printf("-- WEAPON_RAISING\n");
 				break;
 			case WEAPON_RAISING_TORELOAD:
-				Com_Printf(" -- WEAPON_RAISING_TORELOAD\n");
+				Com_Printf("-- WEAPON_RAISING_TORELOAD\n");
 				break;
 			case WEAPON_DROPPING:
-				Com_Printf(" -- WEAPON_DROPPING\n");
+				Com_Printf("-- WEAPON_DROPPING\n");
 				break;
 			case WEAPON_DROPPING_TORELOAD:
-				Com_Printf(" -- WEAPON_DROPPING_TORELOAD\n");
+				Com_Printf("-- WEAPON_DROPPING_TORELOAD\n");
 				break;
 			case WEAPON_READYING:
-				Com_Printf(" -- WEAPON_READYING\n");
+				Com_Printf("-- WEAPON_READYING\n");
 				break;
 			case WEAPON_RELAXING:
-				Com_Printf(" -- WEAPON_RELAXING\n");
+				Com_Printf("-- WEAPON_RELAXING\n");
 				break;
 			case WEAPON_VENOM_REST:
-				Com_Printf(" -- WEAPON_VENOM_REST\n");
+				Com_Printf("-- WEAPON_VENOM_REST\n");
 				break;
 			case WEAPON_FIRING:
-				Com_Printf(" -- WEAPON_FIRING\n");
+				Com_Printf("-- WEAPON_FIRING\n");
 				break;
 			case WEAPON_FIRINGALT:
-				Com_Printf(" -- WEAPON_FIRINGALT\n");
+				Com_Printf("-- WEAPON_FIRINGALT\n");
 				break;
 			case WEAPON_RELOADING:
-				Com_Printf(" -- WEAPON_RELOADING\n");
+				Com_Printf("-- WEAPON_RELOADING\n");
 				break;
 		}
 	}

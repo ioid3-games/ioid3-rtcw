@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http:// www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -323,7 +319,7 @@ int AAS_AreaReachability(int areanum) {
 		return 0;
 	}
 
-	return(*aasworld).areasettings[areanum].numreachableareas;
+	return (*aasworld).areasettings[areanum].numreachableareas;
 }
 
 /*
@@ -508,8 +504,6 @@ float AAS_MaxJumpHeight(float sv_jumpvel) {
 /*
 =======================================================================================================================================
 AAS_MaxJumpDistance
-
-Returns true if a player can only crouch in the area.
 =======================================================================================================================================
 */
 float AAS_MaxJumpDistance(float sv_jumpvel) {
@@ -577,7 +571,7 @@ AAS_AreaLava
 =======================================================================================================================================
 */
 int AAS_AreaLava(int areanum) {
-	return((*aasworld).areasettings[areanum].contents & AREACONTENTS_LAVA);
+	return ((*aasworld).areasettings[areanum].contents & AREACONTENTS_LAVA);
 }
 
 /*
@@ -586,7 +580,7 @@ AAS_AreaSlime
 =======================================================================================================================================
 */
 int AAS_AreaSlime(int areanum) {
-	return((*aasworld).areasettings[areanum].contents & AREACONTENTS_SLIME);
+	return ((*aasworld).areasettings[areanum].contents & AREACONTENTS_SLIME);
 }
 
 /*
@@ -597,7 +591,7 @@ Returns qtrue if the area contains ground faces.
 =======================================================================================================================================
 */
 int AAS_AreaGrounded(int areanum) {
-	return((*aasworld).areasettings[areanum].areaflags & AREA_GROUNDED);
+	return ((*aasworld).areasettings[areanum].areaflags & AREA_GROUNDED);
 }
 
 /*
@@ -608,7 +602,7 @@ Returns true if the area contains ladder faces.
 =======================================================================================================================================
 */
 int AAS_AreaLadder(int areanum) {
-	return((*aasworld).areasettings[areanum].areaflags & AREA_LADDER);
+	return ((*aasworld).areasettings[areanum].areaflags & AREA_LADDER);
 }
 
 /*
@@ -617,7 +611,7 @@ AAS_AreaJumpPad
 =======================================================================================================================================
 */
 int AAS_AreaJumpPad(int areanum) {
-	return((*aasworld).areasettings[areanum].contents & AREACONTENTS_JUMPPAD);
+	return ((*aasworld).areasettings[areanum].contents & AREACONTENTS_JUMPPAD);
 }
 
 /*
@@ -626,7 +620,7 @@ AAS_AreaTeleporter
 =======================================================================================================================================
 */
 int AAS_AreaTeleporter(int areanum) {
-	return((*aasworld).areasettings[areanum].contents & AREACONTENTS_TELEPORTER);
+	return ((*aasworld).areasettings[areanum].contents & AREACONTENTS_TELEPORTER);
 }
 
 /*
@@ -635,7 +629,7 @@ AAS_AreaDoNotEnter
 =======================================================================================================================================
 */
 int AAS_AreaDoNotEnter(int areanum) {
-	return((*aasworld).areasettings[areanum].contents & AREACONTENTS_DONOTENTER);
+	return ((*aasworld).areasettings[areanum].contents & AREACONTENTS_DONOTENTER);
 }
 
 /*
@@ -644,7 +638,7 @@ AAS_AreaDoNotEnterLarge
 =======================================================================================================================================
 */
 int AAS_AreaDoNotEnterLarge(int areanum) {
-	return((*aasworld).areasettings[areanum].contents & AREACONTENTS_DONOTENTER_LARGE);
+	return ((*aasworld).areasettings[areanum].contents & AREACONTENTS_DONOTENTER_LARGE);
 }
 
 /*
@@ -895,8 +889,8 @@ int AAS_Reachability_EqualFloorHeight(int area1num, int area2num) {
 					CrossProduct(edgevec, plane2->normal, normal);
 					VectorNormalize(normal);
 					//VectorMA(start, -1, normal, start);
-					VectorMA(end, INSIDEUNITS_WALKEND, normal, end);
 					VectorMA(start, INSIDEUNITS_WALKSTART, normal, start);
+					VectorMA(end, INSIDEUNITS_WALKEND, normal, end);
 
 					end[2] += 0.125;
 					height = DotProduct(invgravity, start);
@@ -2108,7 +2102,6 @@ int AAS_Reachability_Jump(int area1num, int area2num) {
 	if (bestdist > 4 && bestdist < maxjumpdistance) {
 //		Log_Write("shortest distance between %d and %d is %f\r\n", area1num, area2num, bestdist);
 		// if the fall would damage the bot
-
 		if (AAS_HorizontalVelocityForJump(0, beststart, bestend, &speed)) {
 			// FIXME: why multiply with 1.2???
 			speed *= 1.2f;
@@ -2147,7 +2140,7 @@ int AAS_Reachability_Jump(int area1num, int area2num) {
 
 		if (trace.fraction < 1) {
 			plane = &(*aasworld).planes[trace.planenum];
-
+			// if the bot can stand on the surface
 			if (DotProduct(plane->normal, up) >= 0.7) {
 				if (!(AAS_PointContents(trace.endpos) & CONTENTS_LAVA)) { // modified since slime is no longer deadly
 					if (teststart[2] - trace.endpos[2] <= aassettings.sv_maxbarrier) {
@@ -2171,6 +2164,7 @@ int AAS_Reachability_Jump(int area1num, int area2num) {
 			plane = &(*aasworld).planes[trace.planenum];
 			// if the bot can stand on the surface
 			if (DotProduct(plane->normal, up) >= 0.7) {
+				// if no lava or slime below
 				if (!(AAS_PointContents(trace.endpos) & (CONTENTS_LAVA|CONTENTS_SLIME))) {
 					if (teststart[2] - trace.endpos[2] <= aassettings.sv_maxbarrier) {
 						return qfalse;
@@ -2509,8 +2503,8 @@ int AAS_Reachability_Ladder(int area1num, int area2num) {
 #endif // REACHDEBUG
 			trace.endpos[2] += 1;
 			area2num = AAS_PointAreaNum(trace.endpos);
-
 			area2 = &(*aasworld).areas[area2num];
+
 			for (i = 0; i < area2->numfaces; i++) {
 				face2num = (*aasworld).faceindex[area2->firstface + i];
 				face2 = &(*aasworld).faces[abs(face2num)];
@@ -2544,6 +2538,7 @@ int AAS_Reachability_Ladder(int area1num, int area2num) {
 					lreach->traveltype = TRAVEL_LADDER;
 					lreach->traveltime = 10;
 					lreach->next = areareachability[area1num];
+
 					areareachability[area1num] = lreach;
 
 					reach_ladder++;
@@ -3019,6 +3014,7 @@ void AAS_Reachability_Elevator(void) {
 						}
 
 						lreach->next = areareachability[area1num];
+
 						areareachability[area1num] = lreach;
 						// don't go any further to the outside
 						n = 9999;
@@ -3227,7 +3223,6 @@ void AAS_Reachability_FuncBobbing(void) {
 
 		VectorAdd(mins, maxs, mid);
 		VectorScale(mid, 0.5, mid);
-		//VectorAdd(mid, origin, mid);
 		VectorCopy(mid, origin);
 		VectorCopy(origin, move_end);
 		VectorCopy(origin, move_start);
@@ -3395,12 +3390,11 @@ void AAS_Reachability_FuncBobbing(void) {
 #endif
 					lreach->traveltype = TRAVEL_FUNCBOB;
 					lreach->traveltime = 300;
-
-					reach_funcbob++;
-
 					lreach->next = areareachability[startreach->areanum];
 
 					areareachability[startreach->areanum] = lreach;
+
+					reach_funcbob++;
 				}
 			}
 
@@ -3568,6 +3562,7 @@ void AAS_Reachability_JumpPad(void) {
 			area2num = 0;
 
 			for (i = 0; i < 20; i++) {
+				// movement prediction
 				AAS_PredictClientMovement(&move, -1, areastart, PRESENCE_NORMAL, qfalse, velocity, cmdmove, 0, 30, 0.1f, SE_HITGROUND|SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_TOUCHJUMPPAD|SE_TOUCHTELEPORTER, 0, qfalse); // qtrue);
 
 				area2num = AAS_PointAreaNum(move.endpos);
@@ -3599,7 +3594,7 @@ void AAS_Reachability_JumpPad(void) {
 					if (AAS_ReachabilityExists(link->areanum, area2num)) {
 						continue;
 					}
-					// create a rocket or bfg jump reachability from area1 to area2
+					// create a rocket jump reachability from area1 to area2
 					lreach = AAS_AllocReachability();
 
 					if (!lreach) {
@@ -3691,10 +3686,12 @@ void AAS_Reachability_JumpPad(void) {
 					{
 						// get command movement
 						VectorScale(dir, speed, cmdmove);
+						// movement prediction
 						AAS_PredictClientMovement(&move, -1, areastart, PRESENCE_NORMAL, qfalse, velocity, cmdmove, 30, 30, 0.1, SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_TOUCHJUMPPAD|SE_TOUCHTELEPORTER|SE_HITGROUNDAREA, area2num, visualize);
 						// if prediction time wasn't enough to fully predict the movement
 						// don't enter slime or lava and don't fall from too high
 						if (move.frames < 30 && !(move.stopevent & (SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) && (move.stopevent &(SE_HITGROUNDAREA|SE_TOUCHJUMPPAD|SE_TOUCHTELEPORTER))) {
+							// never go back to the same jumppad
 							for (link = areas; link; link = link->next_area) {
 								if (!AAS_AreaJumpPad(link->areanum)) {
 									continue;
@@ -4335,6 +4332,7 @@ void AAS_StoreReachability(void) {
 
 		for (lreach = areareachability[i]; lreach; lreach = lreach->next) {
 			reach = &(*aasworld).reachability[areasettings->firstreachablearea + areasettings->numreachableareas];
+
 			reach->areanum = lreach->areanum;
 			reach->facenum = lreach->facenum;
 			reach->edgenum = lreach->edgenum;

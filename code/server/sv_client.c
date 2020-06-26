@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -341,7 +337,6 @@ void SV_DirectConnect(netadr_t from) {
 	// update Server allows any protocol to connect
 #ifndef UPDATE_SERVER
 	version = atoi(Info_ValueForKey(userinfo, "protocol"));
-
 #ifdef LEGACY_PROTOCOL
 	if (version > 0 && com_legacyprotocol->integer == version) {
 		compat = qtrue;
@@ -698,7 +693,7 @@ static void SV_SendClientGameState(client_t *client) {
 	// NOTE: all server->client messages now acknowledge
 	// let the client know which reliable clientCommands we have received
 	MSG_WriteLong(&msg, client->lastClientCommand);
-	// send any server commands waiting to be sent first.
+	// send any server commands waiting to be sent first
 	// we have to do this cause we send the client->reliableSequence with a gamestate and it sets the clc.serverCommandSequence at
 	// the client side
 	SV_UpdateServerCommandsToClient(client, &msg);
@@ -918,6 +913,7 @@ int SV_WriteDownloadToClient(client_t *cl, msg_t *msg) {
 
 		// chop off filename extension
 		Com_sprintf(pakbuf, sizeof(pakbuf), "%s", cl->downloadName);
+
 		pakptr = strrchr(pakbuf, '.');
 
 		if (pakptr) {
@@ -979,7 +975,7 @@ int SV_WriteDownloadToClient(client_t *cl, msg_t *msg) {
 				Com_sprintf(errorMessage, sizeof(errorMessage), "File \"%s\" is not referenced and cannot be downloaded.", cl->downloadName);
 			} else if (idPack) {
 				Com_Printf("clientDownload: %d : \"%s\" cannot download id pk3 files\n", (int)(cl - svs.clients), cl->downloadName);
-					Com_sprintf(errorMessage, sizeof(errorMessage), "Cannot autodownload id pk3 file \"%s\"", cl->downloadName);
+				Com_sprintf(errorMessage, sizeof(errorMessage), "Cannot autodownload id pk3 file \"%s\"", cl->downloadName);
 			} else if (!(sv_allowDownload->integer & DLF_ENABLE) || (sv_allowDownload->integer & DLF_NO_UDP)) {
 				Com_Printf("clientDownload: %d : \"%s\" download disabled\n", (int)(cl - svs.clients), cl->downloadName);
 
@@ -1075,7 +1071,7 @@ int SV_WriteDownloadToClient(client_t *cl, msg_t *msg) {
 
 	Com_DPrintf("clientDownload: %d : writing block %d\n", (int)(cl - svs.clients), cl->downloadXmitBlock);
 	// move on to the next block
-	// it will get sent with next snap shot. The rate will keep us in line.
+	// it will get sent with next snap shot. The rate will keep us in line
 	cl->downloadXmitBlock++;
 	cl->downloadSendTime = svs.time;
 	return 1;
@@ -1195,7 +1191,7 @@ static void SV_VerifyPaks_f(client_t *cl) {
 		if (!pArg) {
 			bGood = qfalse;
 		} else {
-			// show_bug.cgi?id=475
+			// https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=475
 			// we may get incoming cp sequences from a previous checksumFeed, which we need to ignore
 			// since serverId is a frame count, it always goes up
 			if (atoi(pArg) < sv.checksumFeedServerId) {
@@ -1669,7 +1665,6 @@ static void SV_UserMove(client_t *cl, msg_t *msg, qboolean delta) {
 	for (i = 0; i < cmdCount; i++) {
 		cmd = &cmds[i];
 		MSG_ReadDeltaUsercmdKey(msg, key, oldcmd, cmd);
-//		MSG_ReadDeltaUsercmd(msg, oldcmd, cmd);
 		oldcmd = cmd;
 	}
 	// save time for ping calculation
@@ -1895,7 +1890,7 @@ void SV_ExecuteClientMessage(client_t *cl, msg_t *msg) {
 	// if the client was downloading, let it stay at whatever serverId and gamestate it was at. This allows it to keep downloading even
 	// when the gamestate changes. After the download is finished, we'll notice and send it a new game state
 
-	// show_bug.cgi?id=536
+	// https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=536
 	// don't drop as long as previous command was a nextdl, after a dl is done, downloadName is set back to ""
 	// but we still need to read the next message to move to next download or send gamestate
 	// I don't like this hack though, it must have been working fine at some point, suspecting the fix is somewhere else

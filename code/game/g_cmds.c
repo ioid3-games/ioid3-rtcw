@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -703,8 +699,11 @@ void Cmd_Give_f(gentity_t *ent) {
 		FinishSpawningItem(it_ent);
 
 		memset(&trace, 0, sizeof(trace));
+
 		it_ent->active = qtrue;
+
 		Touch_Item(it_ent, ent, &trace);
+
 		it_ent->active = qfalse;
 
 		if (it_ent->inuse) {
@@ -1008,7 +1007,7 @@ void SetTeam(gentity_t *ent, const char *s, qboolean force) {
 			// pick the team with the least number of players
 			team = PickTeam(clientNum);
 		}
-		// merge from team arena
+
 		if (g_teamForceBalance.integer && !client->pers.localClient && !(ent->r.svFlags & SVF_BOT)) {
 			int counts[TEAM_NUM_TEAMS];
 
@@ -1085,7 +1084,7 @@ void SetTeam(gentity_t *ent, const char *s, qboolean force) {
 			player_die(ent, ent, ent, 100000, MOD_SUICIDE);
 		}
 	}
-	// they go to the end of the line for tournements
+	// they go to the end of the line for tournaments
 	if (team == TEAM_SPECTATOR && oldTeam != team) {
 		if (ent->client->ps.persistant[PERS_SCORE] >= 0) {
 			ent->client->ps.persistant[PERS_SCORE] = -1000;
@@ -1242,7 +1241,7 @@ void Cmd_Follow_f(gentity_t *ent) {
 	if (&level.clients[i] == ent->client) {
 		return;
 	}
-	// Only follow players
+	// only follow players
 	if (!IsPlayerEnt(ent)) {
 		return;
 	}
@@ -1980,8 +1979,8 @@ void Cmd_CallVote_f(gentity_t *ent) {
 			return;
 		}
 
-		//Com_sprintf(level.voteString, sizeof(level.voteString), "g_gameskill %s; map_restart 5", arg2);  // Use map restart.
-		Com_sprintf(level.voteString, sizeof(level.voteString), "g_gameskill %s; map_restart 5", arg2);  // Switch in game.
+		//Com_sprintf(level.voteString, sizeof(level.voteString), "g_gameskill %s; map_restart 5", arg2); // Use map restart
+		Com_sprintf(level.voteString, sizeof(level.voteString), "g_gameskill %s; map_restart 5", arg2); // Switch in game
 		Com_sprintf(level.voteDisplayString, sizeof(level.voteDisplayString), "%s", level.voteString);
 		// g_reinforce
 	} else if (!Q_stricmp(arg1, "g_reinforce")) {
@@ -1992,7 +1991,7 @@ void Cmd_CallVote_f(gentity_t *ent) {
 			return;
 		}
 
-		Com_sprintf(level.voteString, sizeof(level.voteString), "g_reinforce %s; map_restart 5", arg2);  // Use map restart.
+		Com_sprintf(level.voteString, sizeof(level.voteString), "g_reinforce %s; map_restart 5", arg2); // Use map restart
 		Com_sprintf(level.voteDisplayString, sizeof(level.voteDisplayString), "%s", level.voteString);
 		// g_freeze
 	} else if (!Q_stricmp(arg1, "g_freeze")) {
@@ -2003,7 +2002,7 @@ void Cmd_CallVote_f(gentity_t *ent) {
 			return;
 		}
 
-		Com_sprintf(level.voteString, sizeof(level.voteString), "g_freeze %s", arg2);  // Kick starts instantly..
+		Com_sprintf(level.voteString, sizeof(level.voteString), "g_freeze %s", arg2); // Kick starts instantly..
 		Com_sprintf(level.voteDisplayString, sizeof(level.voteDisplayString), "%s", level.voteString);
 		// callvotes enhancements ends here
 	} else if (!Q_stricmp(arg1, "g_gametype")) {
@@ -2020,7 +2019,7 @@ void Cmd_CallVote_f(gentity_t *ent) {
 		i = ClientNumberFromString(ent, arg2, !Q_stricmp(arg1, "clientkick"), !Q_stricmp(arg1, "kick"));
 
 		if (i == -1) {
-			// if it can't do a client number match, don't allow kick(to prevent votekick text spam wars)
+			// if it can't do a client number match, don't allow kick (to prevent votekick text spam wars)
 			trap_SendServerCommand(ent - g_entities, "print \"Client not on server.\n\"");
 			return;
 		}
@@ -2128,6 +2127,7 @@ G_canPickupMelee
 =======================================================================================================================================
 */
 qboolean G_canPickupMelee(gentity_t *ent) {
+
 	if (!(ent->client)) {
 		return qfalse; // hmm, shouldn't be too likely...
 	}
@@ -2320,7 +2320,7 @@ void Cmd_StopCamera_f(gentity_t *ent) {
 		ent->client->ps.eFlags &= ~EF_VIEWING_CAMERA;
 		// if we are near the spawn point, save the "current" game, for reloading after death
 		sp = NULL;
-		// gcc: suggests()around assignment used as truth value
+		// gcc: suggests() around assignment used as truth value
 		while ((sp = G_Find(sp, FOFS(classname), "info_player_deathmatch"))) { // info_player_start becomes info_player_deathmatch in it's spawn functon
 			if (Distance(ent->s.pos.trBase, sp->s.origin) < 256 && trap_InPVS(ent->s.pos.trBase, sp->s.origin)) {
 				G_SaveGame(NULL);
@@ -3248,6 +3248,7 @@ void Touch_Knife(gentity_t *ent, gentity_t *other, trace_t *trace) {
 			int i;
 			int sound;
 			int damage = 20;
+
 			damage -= rand()% 10;
 
 			if (damage <= 0) {
@@ -3507,7 +3508,7 @@ void ClientCommand(int clientNum) {
 	} else if (Q_stricmp(cmd, "setspawnpt") == 0) {
 		Cmd_SetSpawnPoint_f(ent);
 	} else if (Q_stricmp(cmd, "dropammo") == 0) {
-			Cmd_DropAmmo_f(ent);
+		Cmd_DropAmmo_f(ent);
 	} else if (Q_stricmp(cmd, "drawspawns") == 0) {
 		Cmd_DrawSpawns_f(ent);
 	} else if (Q_stricmp(cmd, "drawtriggers") == 0) {

@@ -248,7 +248,7 @@ void G_Script_ScriptLoad(void) {
 
 	trap_Cvar_VariableStringBuffer("g_scriptName", filename, sizeof(filename));
 
-	if (strlen(filename)> 0) {
+	if (strlen(filename) > 0) {
 		trap_Cvar_Register(&mapname, "g_scriptName", "", CVAR_ROM);
 	} else {
 		trap_Cvar_Register(&mapname, "mapname", "", CVAR_SERVERINFO|CVAR_ROM);
@@ -552,7 +552,7 @@ qboolean G_Script_ScriptRun(gentity_t *ent) {
 		return qfalse;
 	}
 
-	if (strlen(g_missionStats.string)> 1) {
+	if (strlen(g_missionStats.string) > 1) {
 		return qfalse;
 	}
 

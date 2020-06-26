@@ -1,22 +1,24 @@
 /*
 =======================================================================================================================================
-Copyright(C)1999-2005 Id Software, Inc.
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of Quake III Arena source code.
+This file is part of Spearmint Source Code.
 
-Quake III Arena source code is free software; you can redistribute it
-and/or modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of the License,
-or(at your option)any later version.
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-Quake III Arena source code is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with Quake III Arena source code; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
+
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
+
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -123,8 +125,10 @@ For profiling, find the symbol behind this value.
 =======================================================================================================================================
 */
 vmSymbol_t *VM_ValueToFunctionSymbol(vm_t *vm, int value) {
-	vmSymbol_t *sym = vm->symbols;
+	vmSymbol_t *sym;
 	static vmSymbol_t nullSym;
+
+	sym = vm->symbols;
 
 	if (!sym) {
 		return &nullSym;
@@ -187,8 +191,10 @@ ParseHex
 =======================================================================================================================================
 */
 int ParseHex(const char *text) {
-	int value = 0;
+	int value;
 	int c;
+
+	value = 0;
 
 	while ((c = *text++) != 0) {
 		if (c >= '0' && c <= '9') {
@@ -409,7 +415,6 @@ vmHeader_t *VM_LoadQVM(vm_t *vm, qboolean alloc, qboolean unpure) {
 		if (header.h->bssLength < 0 || header.h->dataLength < 0 || header.h->litLength < 0 || header.h->codeLength <= 0) {
 			VM_Free(vm);
 			FS_FreeFile(header.v);
-
 			Com_Printf(S_COLOR_YELLOW "Warning: %s has bad header\n", filename);
 			return NULL;
 		}
@@ -819,7 +824,7 @@ intptr_t QDECL VM_Call(vm_t *vm, intptr_t callnum, ...) {
 	++vm->callLevel;
 	// if we have a dll loaded, call it directly
 	if (vm->entryPoint) {
-		// rcg010207 - see dissertation at top of VM_DllSyscall() in this file.
+		// rcg010207 - see dissertation at top of VM_DllSyscall() in this file
 		intptr_t args[MAX_VMMAIN_ARGS - 1];
 		va_list ap;
 

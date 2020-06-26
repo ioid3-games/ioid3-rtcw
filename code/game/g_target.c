@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -57,6 +53,7 @@ void Use_Target_Give(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 		Touch_Item(t, activator, &trace);
 		// make sure it isn't going to respawn or show any events
 		t->nextthink = 0;
+
 		trap_UnlinkEntity(t);
 	}
 }
@@ -70,10 +67,10 @@ void SP_target_give(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-Use_target_remove_powerups
+Use_Target_Remove_Powerups
 =======================================================================================================================================
 */
-void Use_target_remove_powerups(gentity_t *ent, gentity_t *other, gentity_t *activator) {
+void Use_Target_Remove_Powerups(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 
 	if (!activator->client) {
 		return;
@@ -93,7 +90,7 @@ takes away all the activators powerups.
 Used to drop powerups into death puts.
 */
 void SP_target_remove_powerups(gentity_t *ent) {
-	ent->use = Use_target_remove_powerups;
+	ent->use = Use_Target_Remove_Powerups;
 }
 
 /*
@@ -111,6 +108,7 @@ Use_Target_Delay
 =======================================================================================================================================
 */
 void Use_Target_Delay(gentity_t *ent, gentity_t *other, gentity_t *activator) {
+
 	ent->nextthink = level.time + (ent->wait + ent->random * crandom()) * 1000;
 	ent->think = Think_Target_Delay;
 	ent->activator = activator;
@@ -184,7 +182,7 @@ void Use_Target_Print(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 	trap_SendServerCommand(-1, va("cp \"%s\"", ent->message));
 }
 
-/*QUAKED target_print (1 0 0) (-8 -8 -8) (8 8 8) REDTEAM BLUETEAM PRIVAE
+/*QUAKED target_print (1 0 0) (-8 -8 -8) (8 8 8) REDTEAM BLUETEAM PRIVATE
 "message"	text to print
 If "private", only the activator gets the message. If no checks, all clients get the message.
 */
@@ -285,7 +283,7 @@ void SP_target_speaker(gentity_t *ent) {
 
 	ent->use = Use_Target_Speaker;
 	// GLOBAL
-	if (ent->spawnflags &(4|32)) {
+	if (ent->spawnflags & (4|32)) {
 		ent->r.svFlags |= SVF_BROADCAST;
 	}
 
@@ -303,7 +301,7 @@ void SP_target_speaker(gentity_t *ent) {
 	}
 
 	if (ent->radius) {
-		ent->s.dmgFlags = ent->radius;  // store radius in dmgflags
+		ent->s.dmgFlags = ent->radius; // store radius in dmgflags
 	} else {
 		ent->s.dmgFlags = 0;
 	}
@@ -313,10 +311,10 @@ void SP_target_speaker(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-target_laser_think
+Target_Laser_Think
 =======================================================================================================================================
 */
-void target_laser_think(gentity_t *self) {
+void Target_Laser_Think(gentity_t *self) {
 	vec3_t end;
 	trace_t tr;
 	vec3_t point;
@@ -345,49 +343,52 @@ void target_laser_think(gentity_t *self) {
 
 /*
 =======================================================================================================================================
-target_laser_on
+Target_Laser_On
 =======================================================================================================================================
 */
-void target_laser_on(gentity_t *self) {
+void Target_Laser_On(gentity_t *self) {
 
 	if (!self->activator) {
 		self->activator = self;
 	}
 
-	target_laser_think(self);
+	Target_Laser_Think(self);
 }
 
 /*
 =======================================================================================================================================
-target_laser_off
+Target_Laser_Off
 =======================================================================================================================================
 */
-void target_laser_off(gentity_t *self) {
+void Target_Laser_Off(gentity_t *self) {
+
 	trap_UnlinkEntity(self);
+
 	self->nextthink = 0;
 }
 
 /*
 =======================================================================================================================================
-target_laser_use
+Use_Target_Laser
 =======================================================================================================================================
 */
-void target_laser_use(gentity_t *self, gentity_t *other, gentity_t *activator) {
+void Use_Target_Laser(gentity_t *self, gentity_t *other, gentity_t *activator) {
+
 	self->activator = activator;
 
 	if (self->nextthink > 0) {
-		target_laser_off(self);
+		Target_Laser_Off(self);
 	} else {
-		target_laser_on(self);
+		Target_Laser_On(self);
 	}
 }
 
 /*
 =======================================================================================================================================
-target_laser_start
+Target_Laser_Start
 =======================================================================================================================================
 */
-void target_laser_start(gentity_t *self) {
+void Target_Laser_Start(gentity_t *self) {
 	gentity_t *ent;
 
 	self->s.eType = ET_BEAM;
@@ -404,17 +405,17 @@ void target_laser_start(gentity_t *self) {
 		G_SetMovedir(self->s.angles, self->movedir);
 	}
 
-	self->use = target_laser_use;
-	self->think = target_laser_think;
+	self->use = Use_Target_Laser;
+	self->think = Target_Laser_Think;
 
 	if (!self->damage) {
 		self->damage = 1;
 	}
 
 	if (self->spawnflags & 1) {
-		target_laser_on(self);
+		Target_Laser_On(self);
 	} else {
-		target_laser_off(self);
+		Target_Laser_Off(self);
 	}
 }
 
@@ -424,16 +425,16 @@ When triggered, fires a laser. You can either set a target or a direction.
 void SP_target_laser(gentity_t *self) {
 
 	// let everything else get spawned before we start firing
-	self->think = target_laser_start;
+	self->think = Target_Laser_Start;
 	self->nextthink = level.time + FRAMETIME;
 }
 
 /*
 =======================================================================================================================================
-target_teleporter_use
+Use_Target_Teleporter
 =======================================================================================================================================
 */
-void target_teleporter_use(gentity_t *self, gentity_t *other, gentity_t *activator) {
+void Use_Target_Teleporter(gentity_t *self, gentity_t *other, gentity_t *activator) {
 	gentity_t *dest;
 
 	if (!activator->client) {
@@ -459,15 +460,15 @@ void SP_target_teleporter(gentity_t *self) {
 		G_Printf("untargeted %s at %s\n", self->classname, vtos(self->s.origin));
 	}
 
-	self->use = target_teleporter_use;
+	self->use = Use_Target_Teleporter;
 }
 
 /*
 =======================================================================================================================================
-target_relay_use
+Use_Target_Relay
 =======================================================================================================================================
 */
-void target_relay_use(gentity_t *self, gentity_t *other, gentity_t *activator) {
+void Use_Target_Relay(gentity_t *self, gentity_t *other, gentity_t *activator) {
 
 	if ((self->spawnflags & 1) && activator && activator->client && activator->client->sess.sessionTeam != TEAM_RED) {
 		return;
@@ -505,7 +506,7 @@ void target_relay_use(gentity_t *self, gentity_t *other, gentity_t *activator) {
 			item = BG_FindItemForKey(self->key, 0);
 
 			if (item) {
-				if (activator->client->ps.stats[STAT_KEYS] &(1 << item->giTag)) { // user has key
+				if (activator->client->ps.stats[STAT_KEYS] & (1 << item->giTag)) { // user has key
 					if (self->spawnflags & 8) { // relay is NOKEY_ONLY and player has key
 						if (self->soundPos1) {
 							G_Sound(self, self->soundPos1);
@@ -639,13 +640,13 @@ void SP_target_position(gentity_t *self) {
 
 /*
 =======================================================================================================================================
-target_location_linkup
+Target_Location_Linkup
 
 Note to everyone: static functions can cause problems with the savegame code, so avoid using them unless necessary. if that function is
 then assigned to an entity, client or cast field, the game will not save.
 =======================================================================================================================================
 */
-void target_location_linkup(gentity_t *ent) {
+void Target_Location_Linkup(gentity_t *ent) {
 	int i;
 	int n;
 
@@ -688,7 +689,7 @@ in site, closest in distance
 */
 void SP_target_location(gentity_t *self) {
 
-	self->think = target_location_linkup;
+	self->think = Target_Location_Linkup;
 	self->nextthink = level.time + 200; // let them all spawn first
 
 	G_SetOrigin(self, self->s.origin);

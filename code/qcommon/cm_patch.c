@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -33,7 +29,7 @@ If you have questions concerning this license or the applicable additional terms
  struct patchCollide_s *CM_GeneratePatchCollide(int width, int height, const vec3_t *points);
  void CM_TraceThroughPatchCollide(traceWork_t *tw, const struct patchCollide_s *pc);
  qboolean CM_PositionTestInPatchCollide(traceWork_t *tw, const struct patchCollide_s *pc);
- void CM_DrawDebugSurface(void (*drawPoly)(int color, int numPoints, flaot *points));
+ void CM_DrawDebugSurface(void (*DrawPoly)(int color, int numPoints, flaot *points));
 
  WARNING: this may misbehave with meshes that have rows or columns that only degenerate a few triangles. Completely degenerate rows
  and columns are handled properly.
@@ -419,7 +415,6 @@ static facet_t facets[MAX_FACETS];
 
 #define NORMAL_EPSILON 0.0001
 #define DIST_EPSILON 0.02
-
 /*
 =======================================================================================================================================
 CM_PlaneEqual
@@ -484,7 +479,7 @@ int CM_FindPlane2(float plane[4], int *flipped) {
 	}
 	// add a new plane
 	if (numPlanes == MAX_PATCH_PLANES) {
-		Com_Error(ERR_DROP, "MAX_PATCH_PLANES");
+		Com_Error(ERR_DROP, "CM_FindPlane2: MAX_PATCH_PLANES");
 	}
 
 	Vector4Copy(plane, planes[numPlanes].plane);
@@ -536,7 +531,7 @@ static int CM_FindPlane(float *p1, float *p2, float *p3) {
 	}
 	// add a new plane
 	if (numPlanes == MAX_PATCH_PLANES) {
-		Com_Error(ERR_DROP, "MAX_PATCH_PLANES");
+		Com_Error(ERR_DROP, "CM_FindPlane: MAX_PATCH_PLANES");
 	}
 
 	Vector4Copy(plane, planes[numPlanes].plane);
@@ -1249,7 +1244,7 @@ struct patchCollide_s *CM_GeneratePatchCollide(int width, int height, vec3_t *po
 	CM_SetGridWrapWidth(&grid);
 	CM_SubdivideGridColumns(&grid);
 	CM_RemoveDegenerateColumns(&grid);
-	// we now have a grid of points exactly on the curve the approximate surface defined by these points will be collided against
+	// we now have a grid of points exactly on the curve, the approximate surface defined by these points will be collided against
 	pf = Hunk_Alloc(sizeof(*pf), h_high);
 
 	ClearBounds(pf->bounds[0], pf->bounds[1]);
@@ -1683,7 +1678,7 @@ qboolean CM_PositionTestInPatchCollide(traceWork_t *tw, const struct patchCollid
 */
 
 #ifndef BSPC
-void BotDrawDebugPolygons(void(*drawPoly)(int color, int numPoints, float *points), int value);
+void BotDrawDebugPolygons(void(*DrawPoly)(int color, int numPoints, float *points), int value);
 #endif
 /*
 =======================================================================================================================================
@@ -1692,7 +1687,7 @@ CM_DrawDebugSurface
 Called from the renderer.
 =======================================================================================================================================
 */
-void CM_DrawDebugSurface(void (*drawPoly)(int color, int numPoints, float *points)) {
+void CM_DrawDebugSurface(void (*DrawPoly)(int color, int numPoints, float *points)) {
 	static cvar_t *cv;
 #ifndef BSPC
 	static cvar_t *cv2;
@@ -1712,7 +1707,7 @@ void CM_DrawDebugSurface(void (*drawPoly)(int color, int numPoints, float *point
 	}
 
 	if (cv2->integer != 1) {
-		BotDrawDebugPolygons(drawPoly, cv2->integer);
+		BotDrawDebugPolygons(DrawPoly, cv2->integer);
 		return;
 	}
 #endif
@@ -1780,6 +1775,7 @@ void CM_DrawDebugSurface(void (*drawPoly)(int color, int numPoints, float *point
 					VectorSubtract(vec3_origin, plane, plane);
 					plane[3] = -plane[3];
 				}
+
 				//if (!facet->borderNoAdjust[j]) {
 				plane[3] -= cv->value;
 				//}
@@ -1801,10 +1797,10 @@ void CM_DrawDebugSurface(void (*drawPoly)(int color, int numPoints, float *point
 
 			if (w) {
 				if (facet == debugFacet) {
-					drawPoly(4, w->numpoints, w->p[0]);
+					DrawPoly(4, w->numpoints, w->p[0]);
 					//Com_Printf("blue facet has %d border planes\n", facet->numBorders);
 				} else {
-					drawPoly(1, w->numpoints, w->p[0]);
+					DrawPoly(1, w->numpoints, w->p[0]);
 				}
 
 				FreeWinding(w);
@@ -1820,12 +1816,12 @@ void CM_DrawDebugSurface(void (*drawPoly)(int color, int numPoints, float *point
 		VectorCopy(debugBlockPoints[0], v[0]);
 		VectorCopy(debugBlockPoints[1], v[1]);
 		VectorCopy(debugBlockPoints[2], v[2]);
-		drawPoly(2, 3, v[0]);
+		DrawPoly(2, 3, v[0]);
 
 		VectorCopy(debugBlockPoints[2], v[0]);
 		VectorCopy(debugBlockPoints[3], v[1]);
 		VectorCopy(debugBlockPoints[0], v[2]);
-		drawPoly(2, 3, v[0]);
+		DrawPoly(2, 3, v[0]);
 	}
 #if 0
 	vec3_t v[4];
@@ -1846,6 +1842,6 @@ void CM_DrawDebugSurface(void (*drawPoly)(int color, int numPoints, float *point
 	v[3][1] = pc->bounds[1][1];
 	v[3][2] = pc->bounds[1][2];
 
-	drawPoly(4, v[0]);
+	DrawPoly(4, v[0]);
 #endif
 }

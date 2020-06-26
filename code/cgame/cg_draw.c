@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -482,7 +478,7 @@ static void CG_DrawStatusBarKeys() {
 	for (i = 1; i < KEY_NUM_KEYS; i++) {
 		gi = BG_FindItemForKey(i, &itemnum);
 		// if i've got the key...
-		if (cg.snap->ps.stats[STAT_KEYS] &(1 << gi->giTag)) {
+		if (cg.snap->ps.stats[STAT_KEYS] & (1 << gi->giTag)) {
 			y += ICON_SIZE + 5;
 			CG_DrawKeyModel(itemnum, 640 - (1.5 * ICON_SIZE), y, ICON_SIZE, ICON_SIZE, cg.time + fadeColor[0] * 1000);
 		}
@@ -1478,12 +1474,12 @@ void CG_DrawHoldableItem_old(void) {
 }
 /*
 		if (cg.holdableSelect == HI_WINE) {
-			if (value > 3)
+			if (value > 3) {
 				value = 3; // 3 stages to icon, just draw full if beyond 'full'
+			}
 
 			CG_DrawPic(598 + 16, 366, 16, 32, cg_items[item - bg_itemlist].icons[2- (value-1)]);
 			CG_DrawPic((598 + 16) -4, 366-4, 24, 40, cgs.media.selectShader);
-
 		} else {
 			CG_DrawPic(598, 366, 32, 32, cg_items[item - bg_itemlist].icons[0]);
 			CG_DrawPic(598-4, 366-4, 40, 40, cgs.media.selectShader);
@@ -1970,7 +1966,7 @@ static void CG_DrawCenterString(void) {
 /*
 =======================================================================================================================================
 
-CROSSHAIRS
+	CROSSHAIR
 
 =======================================================================================================================================
 */
@@ -2114,9 +2110,7 @@ static void CG_DrawWeapReticle(void) {
 		CG_FillRect(310, 360, 20, 1, color);   //					-----
 
 		CG_FillRect(400, 220, 1, 40, color);   // l
-
 		CG_FillRect(319, 60, 1, 360, color);   // vert
-
 		CG_FillRect(240, 220, 1, 40, color);   // r
 	} else if (weap == WP_FG42SCOPE) {
 		// sides
@@ -2965,8 +2959,9 @@ static void CG_ActivateLimboMenu(void) {
 	qboolean test;
 	char buf[32];
 
-	if (cgs.gametype != GT_WOLF)
+	if (cgs.gametype != GT_WOLF) {
 		return;
+	}
 
 	// should we open the limbo menu
 	test = cg.snap->ps.pm_flags & PMF_LIMBO || cg.snap->ps.persistant[PERS_TEAM] == TEAM_SPECTATOR;
@@ -2983,10 +2978,11 @@ static void CG_ActivateLimboMenu(void) {
 	// set the limbo state
 	trap_Cvar_VariableStringBuffer("ui_limboMode", buf, sizeof(buf));
 
-	if (atoi(buf))
+	if (atoi(buf)) {
 		cg.limboMenu = qtrue;
-	else
+	} else {
 		cg.limboMenu = qfalse;
+	}
 }
 */
 
@@ -3097,7 +3093,7 @@ static void CG_DrawAmmoWarning(void) {
 =======================================================================================================================================
 Countdown audio
 
-Atm commented out as It doesn't work..
+Atm commented out as it doesn't work.
 =======================================================================================================================================
 */
 /*
@@ -3139,28 +3135,24 @@ static void CG_DrawWarmup(void) {
 
 	if (!sec) {
 /*
-	            if(cgs.gamestate == GS_WAITING_FOR_PLAYERS) {
-	                    cw = 10;
+		if(cgs.gamestate == GS_WAITING_FOR_PLAYERS) {
+			cw = 10;
+			s = CG_TranslateString("Game Stopped - Waiting for more players");
 
-	                    s = CG_TranslateString("Game Stopped - Waiting for more players");
+			w = CG_DrawStrlen(s);
+			CG_DrawStringExt(320 - w * 6, 120, s, colorWhite, qfalse, qtrue, 12, 18, 0);
 
-	                    w = CG_DrawStrlen(s);
-	                    CG_DrawStringExt(320 - w * 6, 120, s, colorWhite, qfalse, qtrue, 12, 18, 0);
+			s1 = va(CG_TranslateString("Waiting for %i players"), cgs.minclients);
+			s2 = CG_TranslateString("or call a vote to start match");
 
+			 w = CG_DrawStrlen(s1);
+			CG_DrawStringExt(320 - w * cw / 2, 160, s1, colorWhite, qfalse, qtrue, cw, (int)(cw * 1.5), 0);
 
-	                    s1 = va(CG_TranslateString("Waiting for %i players"), cgs.minclients);
-	                    s2 = CG_TranslateString("or call a vote to start match");
+			w = CG_DrawStrlen(s2);
+			CG_DrawStringExt(320 - w * cw / 2, 180, s2, colorWhite, qfalse, qtrue, cw, (int)(cw * 1.5), 0);
 
-	                    w = CG_DrawStrlen(s1);
-	                    CG_DrawStringExt(320 - w * cw / 2, 160, s1, colorWhite,
-	                                                      qfalse, qtrue, cw, (int)(cw * 1.5), 0);
-
-	                    w = CG_DrawStrlen(s2);
-	                    CG_DrawStringExt(320 - w * cw / 2, 180, s2, colorWhite,
-	                                                      qfalse, qtrue, cw, (int)(cw * 1.5), 0);
-
-	                    return;
-	           }
+			return;
+		}
 */
 		return;
 	}
@@ -3193,14 +3185,6 @@ static void CG_DrawWarmup(void) {
 	if (sec < 0) {
 		sec = 0;
 	}
-	
-	//  Don't show if announcer is enabled!
-	//if(sec == 0 && !cg_announcer.integer) {
-	//        s = va("^2FIGHT!");
-	//} else {
-	s = va("(WARMUP)Game starts in: %i", sec + 1);
-	// countDownAnnouncer(sec); // Needs fixing / FIXME
-	//}
 
 	cw = 16;
 
@@ -4003,6 +3987,7 @@ Perform all drawing needed to completely fill the screen.
 =======================================================================================================================================
 */
 void CG_DrawActive(stereoFrame_t stereoView) {
+
 	// optionally draw the info screen instead
 	if (!cg.snap) {
 		CG_DrawInformation();

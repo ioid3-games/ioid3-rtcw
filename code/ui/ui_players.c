@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -37,8 +33,8 @@ If you have questions concerning this license or the applicable additional terms
 #define UI_TIMER_WEAPON_DELAY 250
 
 #define JUMP_HEIGHT 56
-#define SWINGSPEED 0.3
-#define SPIN_SPEED 0.9
+#define SWINGSPEED 0.3f
+#define SPIN_SPEED 0.9f
 #define COAST_TIME 1000
 
 static int dp_realtime;
@@ -164,6 +160,7 @@ UI_SetTorsoAnim
 */
 /*
 static void UI_SetTorsoAnim(playerInfo_t *pi, int anim) {
+
 	if (pi->pendingTorsoAnim) {
 		anim = pi->pendingTorsoAnim;
 		pi->pendingTorsoAnim = 0;
@@ -323,7 +320,7 @@ UI_SetLerpFrameAnimation
 =======================================================================================================================================
 */
 /*
-static void UI_SetLerpFrameAnimation(playerInfo_t *ci, lerpFrame_t *lf, int newAnimation) {
+static void UI_SetLerpFrameAnimation(playerInfo_t *pi, lerpFrame_t *lf, int newAnimation) {
 	animation_t *anim;
 
 	lf->animationNumber = newAnimation;
@@ -333,7 +330,7 @@ static void UI_SetLerpFrameAnimation(playerInfo_t *ci, lerpFrame_t *lf, int newA
 		trap_Error(va("Bad animation number(UI_SLFA): %i", newAnimation));
 	}
 
-	anim = &ci->animations[newAnimation];
+	anim = &pi->animations[newAnimation];
 
 	lf->animation = anim;
 	lf->animationTime = lf->frameTime + anim->initialLerp;
@@ -345,13 +342,13 @@ UI_RunLerpFrame
 =======================================================================================================================================
 */
 /*
-static void UI_RunLerpFrame(playerInfo_t *ci, lerpFrame_t *lf, int newAnimation) {
+static void UI_RunLerpFrame(playerInfo_t *pi, lerpFrame_t *lf, int newAnimation) {
 	int f;
 	animation_t *anim;
 
 	// see if the animation sequence is switching
 	if (newAnimation != lf->animationNumber || !lf->animation) {
-		UI_SetLerpFrameAnimation(ci, lf, newAnimation);
+		UI_SetLerpFrameAnimation(pi, lf, newAnimation);
 	}
 	// if we have passed the current frame, move it to oldFrame and calculate a new frame
 	if (dp_realtime >= lf->frameTime) {
@@ -604,7 +601,7 @@ static void UI_PlayerAngles(playerInfo_t *pi, vec3_t legs[3], vec3_t torso[3], v
 		dest = headAngles[PITCH] * 0.75;
 	}
 
-	UI_SwingAngles(dest, 15, 30, 0.1, &pi->torso.pitchAngle, &pi->torso.pitching);
+	UI_SwingAngles(dest, 15, 30, 0.1f, &pi->torso.pitchAngle, &pi->torso.pitching);
 
 	torsoAngles[PITCH] = pi->torso.pitchAngle;
 	// pull the angles back out of the hierarchical chain
@@ -771,7 +768,7 @@ void UI_DrawPlayer(float x, float y, float w, float h, playerInfo_t *pi, int tim
 	//UI_PlayerAnimation(pi, &legs.oldframe, &legs.frame, &legs.backlerp, &torso.oldframe, &torso.frame, &torso.backlerp);
 
 	renderfx = RF_LIGHTING_ORIGIN|RF_NOSHADOW;
-	// add the body
+	// add the legs
 	legs.hModel = pi->legsModel;
 	legs.customSkin = pi->legsSkin;
 	legs.renderfx = renderfx;

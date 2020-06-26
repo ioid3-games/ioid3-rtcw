@@ -36,11 +36,15 @@ void TEMPBAN_CLIENT(gentity_t *ent, const int minsbanned) {
 	time(&rawtime);
 
 	tempbannedfile = fopen("tempbanned.txt","a+");
-	fputs(va("%i.%i.%i.%i %i\n",
-			   ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], (int)((rawtime - 1103760000) + (minsbanned * 60))), tempbannedfile);
+	fputs(va("%i.%i.%i.%i %i\n", ent->client->sess.ip[0], ent->client->sess.ip[1], ent->client->sess.ip[2], ent->client->sess.ip[3], (int)((rawtime - 1103760000) + (minsbanned * 60))), tempbannedfile);
 	fclose(tempbannedfile);
 }
 
+/*
+=======================================================================================================================================
+rewrite_tempbanned
+=======================================================================================================================================
+*/
 void rewrite_tempbanned(void) {
 	FILE *bannedfile;
 	FILE *tempfile;
@@ -49,7 +53,7 @@ void rewrite_tempbanned(void) {
 	bannedfile = fopen("tempbanned.txt","w+");
 	tempfile = fopen("tempbannedtemp.txt","r+");
 
-	while (fgets(tempbannedips,64,tempfile)!= NULL) {
+	while (fgets(tempbannedips,64,tempfile) != NULL) {
 		fputs(tempbannedips,bannedfile);
 	}
 
@@ -58,6 +62,11 @@ void rewrite_tempbanned(void) {
 	remove("tempbannedtemp.txt");
 }
 
+/*
+=======================================================================================================================================
+write_tempbannedtemp
+=======================================================================================================================================
+*/
 void write_tempbannedtemp(void) {
 	FILE *bannedfile;
 	FILE *tempfile;
@@ -73,10 +82,10 @@ void write_tempbannedtemp(void) {
 		tempfile = fopen("tempbannedtemp.txt","w+");
 
 		if (tempfile) {
-			while (fgets(tempbaninfo,64,bannedfile)!= NULL) {
+			while (fgets(tempbaninfo,64,bannedfile) != NULL) {
 				sscanf(tempbaninfo,"%s %i",tempbannedip, &tempbannedsec);
 
-				if ((tempbannedsec - (rawtime - 1103760000))> 0) {
+				if ((tempbannedsec - (rawtime - 1103760000)) > 0) {
 					fputs(tempbaninfo,tempfile);
 				}
 			}
@@ -89,10 +98,20 @@ void write_tempbannedtemp(void) {
 	}
 }
 
+/*
+=======================================================================================================================================
+clean_tempbans
+=======================================================================================================================================
+*/
 void clean_tempbans(void) {
 	write_tempbannedtemp();
 }
 
+/*
+=======================================================================================================================================
+TempBanned
+=======================================================================================================================================
+*/
 qboolean TempBanned(char *Clientip) {
 	FILE *tempbannedfile;
 	char tempbannedip[39];
@@ -110,10 +129,10 @@ qboolean TempBanned(char *Clientip) {
 	tempbannedfile = fopen("tempbanned.txt","r"); //Open file
 
 	if (tempbannedfile) { //if there is a tembbannedfile
-		while (fgets(tempbannedinfo,1024,tempbannedfile)!= NULL) {
+		while (fgets(tempbannedinfo,1024,tempbannedfile) != NULL) {
 			sscanf(tempbannedinfo,"%s %i", tempbannedip, &tempbannedsec);
 
-			if (!Q_stricmp(Clientip, tempbannedip) && (tempbannedsec - (rawtime - 1103760000))> 0) {
+			if (!Q_stricmp(Clientip, tempbannedip) && (tempbannedsec - (rawtime - 1103760000)) > 0) {
 				fclose(tempbannedfile);
 				seconds = (tempbannedsec - (rawtime - 1103760000));
 				mins = seconds / 60;
@@ -122,7 +141,7 @@ qboolean TempBanned(char *Clientip) {
 				tens = seconds / 10;
 				seconds -= tens * 10;
 				mins -= hours * 60;
-				sortTime = (hours > 0)?((mins > 9) ? va("%i:", hours): va("%i:0", hours)): "";
+				sortTime = (hours > 0) ? ((mins > 9) ? va("%i:", hours) : va("%i:0", hours)) : "";
 				theTime = va("%s%i:%i%i",sortTime, mins,tens,seconds);
 				TempBannedMessage = va("You Are ^nTemporarily Banned ^7for ^n%s", theTime);
 				return qtrue;
@@ -137,9 +156,7 @@ qboolean TempBanned(char *Clientip) {
 
 /*
 =======================================================================================================================================
-Banned(file check version)
-
-Took this from old S4NDMoD source as it simply works(time saver).
+BreakIP
 =======================================================================================================================================
 */
 void BreakIP(const char *IP, char *charip1, char *charip2, char *charip3, char *charip4) {
@@ -195,13 +212,15 @@ void BreakIP(const char *IP, char *charip1, char *charip2, char *charip3, char *
 =======================================================================================================================================
 Password bypass
 
-Basically we re-use existing stuff..
+Basically we re-use existing stuff.
 =======================================================================================================================================
 */
 qboolean bypassing(char *password) {
+
 	// check for password first
 	if (strlen(g_password.string)) {
 		char *token, *text;
+
 		text = g_password.string;
 
 		while (1) {
@@ -224,7 +243,7 @@ qboolean bypassing(char *password) {
 
 /*
 =======================================================================================================================================
-Banned(file check version)
+Banned (file check version)
 
 Based on s4ndmod
 =======================================================================================================================================
@@ -240,16 +259,18 @@ qboolean Banned(char *Clientip, char *password) {
 	char banip3[10];
 	char banip4[10];
 	char bannedips[1024];
+
 	Q_strncpyz(ip1, "", sizeof(ip1));
 	Q_strncpyz(ip2, "", sizeof(ip2));
 	Q_strncpyz(ip3, "", sizeof(ip3));
 	Q_strncpyz(ip4, "", sizeof(ip4));
 
-	BreakIP(va("%s\n",Clientip),ip1,ip2,ip3,ip4);
+	BreakIP(va("%s\n",Clientip), ip1, ip2, ip3, ip4);
+
 	bannedfile = fopen("banned.txt","r");
 
 	if (bannedfile) {
-		while (fgets(bannedips,1024,bannedfile)!= NULL) {
+		while (fgets(bannedips,1024,bannedfile) != NULL) {
 			Q_strncpyz(banip1, "", sizeof(banip1));
 			Q_strncpyz(banip2, "", sizeof(banip2));
 			Q_strncpyz(banip3, "", sizeof(banip3));
@@ -284,10 +305,11 @@ qboolean Banned(char *Clientip, char *password) {
 =======================================================================================================================================
 Check banned
 
-Checks if user is banned or tempbanned..
+Checks if user is banned or tempbanned.
 =======================================================================================================================================
 */
 int checkBanned(char *data, char *password) {
+
 	if (Banned(data, password)) {
 		return 1;
 	}
@@ -298,5 +320,4 @@ int checkBanned(char *data, char *password) {
 
 	return 0;
 }
-
 #endif // _ADMINS

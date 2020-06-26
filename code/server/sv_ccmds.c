@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -221,11 +217,12 @@ static void SV_Map_f(void) {
 		// set the filename
 		Cvar_Set("savegame_filename", savemap);
 		// the mapname is at the very start of the savegame file
-		Com_sprintf(savemap, sizeof(savemap), "%s", (char *)(buffer + sizeof(int)));  // skip the version
+		Com_sprintf(savemap, sizeof(savemap), "%s", (char *)(buffer + sizeof(int))); // skip the version
 		Q_strncpyz(smapname, savemap, sizeof(smapname));
+
 		map = smapname;
 #if 0 // cannot set before SV_SpawnServer clears sv.time
-		savegameTime = * (int *)(buffer + sizeof(int) + MAX_QPATH);
+		savegameTime = *(int *)(buffer + sizeof(int) + MAX_QPATH);
 
 		if (savegameTime >= 0) {
 			sv.time = savegameTime;
@@ -262,6 +259,7 @@ static void SV_Map_f(void) {
 		Cvar_SetValue("g_doWarmup", 0);
 		// may not set sv_maxclients directly, always set latched
 		Cvar_SetLatched("sv_maxclients", "32");
+
 		cmd += 2;
 		killBots = qtrue;
 
@@ -281,6 +279,7 @@ static void SV_Map_f(void) {
 		//Cvar_SetValue("g_doWarmup", 0);
 		// may not set sv_maxclients directly, always set latched
 		Cvar_SetLatched("sv_maxclients", va("%d", MAX_CLIENTS));
+
 		cmd += 4;
 		killBots = qtrue;
 
@@ -448,7 +447,7 @@ static void SV_MapRestart_f(void) {
 		//buffer = Hunk_AllocateTempMemory(size);
 		FS_ReadFile(savemap, (void **)&buffer);
 		// the mapname is at the very start of the savegame file
-		savegameTime = * (int *)(buffer + sizeof(int) + MAX_QPATH);
+		savegameTime = *(int *)(buffer + sizeof(int) + MAX_QPATH);
 
 		if (savegameTime >= 0) {
 			sv.time = savegameTime;
@@ -461,6 +460,7 @@ static void SV_MapRestart_f(void) {
 	// generate a new serverid
 	// don't update restartedserverId there, otherwise we won't deal correctly with multiple map_restart
 	sv.serverId = com_frameTime;
+
 	Cvar_Set("sv_serverid", va("%i", sv.serverId));
 	// if a map_restart occurs while a client is changing maps, we need to give them the correct time so that when they finish loading
 	// they don't violate the backwards time check in cl_cgame.c
@@ -579,13 +579,13 @@ void SV_LoadGame_f(void) {
 
 	FS_ReadFile(filename, (void **)&buffer);
 	// read the mapname, if it is the same as the current map, then do a fast load
-	Com_sprintf(mapname, sizeof(mapname), "%s", (const char*)(buffer + sizeof(int)));
+	Com_sprintf(mapname, sizeof(mapname), "%s", (const char *)(buffer + sizeof(int)));
 
 	if (com_sv_running->integer && (com_frameTime != sv.serverId)) {
 		// check mapname
 		if (!Q_stricmp(mapname, sv_mapname->string)) { // same
 
-			if (Q_stricmp(filename, "save/current.svg")!= 0) {
+			if (Q_stricmp(filename, "save/current.svg") != 0) {
 				// copy it to the current savegame file
 				FS_WriteFile("save/current.svg", buffer, size);
 			}
@@ -629,7 +629,6 @@ static void SV_Kick_f(void) {
 	}
 
 	if (Cmd_Argc() != 2) {
-//		Com_Printf("Usage: kick <player name>\nkick all = kick everyone\nkick allbots = kick all bots\n");
 		Com_Printf("Usage: kick <player name>\nkick all = kick everyone\n");
 		return;
 	}
@@ -1096,7 +1095,7 @@ static void SV_AddBanToList(qboolean isexception) {
 	banstring = Cmd_Argv(1);
 
 	if (strchr(banstring, '.') || strchr(banstring, ':')) {
-		// this is an ip address, not a client num.
+		// this is an ip address, not a client num
 		if (SV_ParseCIDRNotation(&ip, &mask, banstring)) {
 			Com_Printf("Error: Invalid address %s\n", banstring);
 			return;

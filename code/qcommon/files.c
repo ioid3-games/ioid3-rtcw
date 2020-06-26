@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -1462,8 +1458,8 @@ long FS_FOpenFileReadDir(const char *filename, searchpath_t *search, fileHandle_
 		// check a file in the directory tree
 		// if we are running restricted, the only files we will allow to come from the directory are .cfg files
 		len = strlen(filename);
-		// FIXME TTimo I'm not sure about the fs_numServerPaks test
-		// if you are using FS_ReadFile to find out if a file exists, this test can make the search fail although the file is in the directory
+		// FIXME TTimo I'm not sure about the fs_numServerPaks test if you are using FS_ReadFile to find out if a file exists,
+		// this test can make the search fail although the file is in the directory
 		// I had the problem on https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=8
 		// turned out I used FS_FileExists instead
 		if (!unpure && fs_numServerPaks) {
@@ -1719,7 +1715,7 @@ qboolean FS_CL_ExtractFromPakFile(void *searchpath, const char *fullpath, const 
 		fseek(destHandle, 0, SEEK_SET);
 
 		if (destLength > 0) {
-			destData = (unsigned char*)Z_Malloc(destLength);
+			destData = (unsigned char *)Z_Malloc(destLength);
 			read = fread(destData, 1, destLength, destHandle);
 
 			if (read == 0) {
@@ -3774,7 +3770,7 @@ static void FS_Startup(const char *gameName) {
 	Cmd_AddCommand("fdir", FS_NewDir_f);
 	Cmd_AddCommand("touchFile", FS_TouchFile_f);
 	Cmd_AddCommand("which", FS_Which_f);
-	// show_bug.cgi?id=506
+	// https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=506
 	// reorder the pure pk3 files according to server order
 	FS_ReorderPurePaks();
 	// print the current search paths
@@ -4008,7 +4004,7 @@ static void FS_CheckPak0(void) {
 				if (pakBasename[3] == '0') {
 					Com_Printf("\n\n"
 							"**************************************************\n"
-							"WARNING: " BASEGAME "/pak0.pk3 is present but its checksum (%u)\n"
+							"WARNING: "BASEGAME"/pak0.pk3 is present but its checksum (%u)\n"
 							"is not correct. Please re-copy pak0.pk3 from your\n"
 							"legitimate RTCW CDROM.\n"
 							"**************************************************\n\n\n", curpack->checksum);
@@ -4018,7 +4014,7 @@ static void FS_CheckPak0(void) {
 				else {
 					Com_Printf("\n\n"
 							"**************************************************\n"
-							"WARNING: " BASEGAME "/pak%d.pk3 is present but its checksum (%u)\n"
+							"WARNING: "BASEGAME"/pak%d.pk3 is present but its checksum (%u)\n"
 							"is not correct. Please re-install the point release\n"
 							"**************************************************\n\n\n", pakBasename[3] - '0', curpack->checksum);
 				}
@@ -4325,7 +4321,7 @@ void FS_PureServerSetLoadedPaks(const char *pakSums, const char *pakNames) {
 		Com_DPrintf("Connected to a pure server.\n");
 	} else {
 		if (fs_reordered) {
-			// show_bug.cgi?id=540
+			// https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=540
 			// force a restart to make sure the search order will be correct
 			Com_DPrintf("FS search reorder is required\n");
 			FS_Restart(fs_checksumFeed);

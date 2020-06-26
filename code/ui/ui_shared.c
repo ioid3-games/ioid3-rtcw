@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -1103,6 +1099,8 @@ void Item_UpdatePosition(itemDef_t *item) {
 
 	Item_SetScreenCoords(item, x, y);
 }
+
+// menus
 
 /*
 =======================================================================================================================================
@@ -3268,7 +3266,7 @@ static void Scroll_ListBox_ThumbFunc(void *p) {
 		r.w = si->item->window.rect.w - (SCROLLBAR_SIZE * 2) - 2;
 
 		max = Item_ListBox_MaxScroll(si->item);
-		pos = (DC->cursorx - r.x - SCROLLBAR_SIZE / 2) * max /(r.w - SCROLLBAR_SIZE);
+		pos = (DC->cursorx - r.x - SCROLLBAR_SIZE / 2) * max / (r.w - SCROLLBAR_SIZE);
 
 		if (pos < 0) {
 			pos = 0;
@@ -3285,7 +3283,7 @@ static void Scroll_ListBox_ThumbFunc(void *p) {
 		r.w = SCROLLBAR_SIZE;
 
 		max = Item_ListBox_MaxScroll(si->item);
-		pos = (DC->cursory - r.y - SCROLLBAR_SIZE / 2) * max /(r.h - SCROLLBAR_SIZE);
+		pos = (DC->cursory - r.y - SCROLLBAR_SIZE / 2) * max / (r.h - SCROLLBAR_SIZE);
 
 		if (pos < 0) {
 			pos = 0;
@@ -3547,7 +3545,7 @@ qboolean Item_HandleKey(itemDef_t *item, int key, qboolean down) {
 		case ITEM_TYPE_SLIDER:
 			return Item_Slider_HandleKey(item, key, down);
 			break;
-			//case ITEM_TYPE_IMAGE:
+		//case ITEM_TYPE_IMAGE:
 			//Item_Image_Paint(item);
 			//break;
 		default:
@@ -4956,7 +4954,7 @@ Item_Model_Paint
 =======================================================================================================================================
 */
 void Item_Model_Paint(itemDef_t *item) {
-	float x, y, w, h; //,xx;
+	float x, y, w, h;
 	refdef_t refdef;
 	qhandle_t hModel;
 	refEntity_t ent;
@@ -5000,6 +4998,7 @@ void Item_Model_Paint(itemDef_t *item) {
 	// calculate distance so the model nearly fills the box
 	if (qtrue) {
 		float len = 0.5 * (maxs[2] - mins[2]);
+
 		origin[0] = len / 0.268; // len / tan(fov / 2)
 		//origin[0] = len / tan(w / 2);
 	} else {
@@ -5328,7 +5327,7 @@ void Item_OwnerDraw_Paint(itemDef_t *item) {
 			lowLight[1] = 0.8 * item->window.foreColor[1];
 			lowLight[2] = 0.8 * item->window.foreColor[2];
 			lowLight[3] = 0.8 * item->window.foreColor[3];
-			LerpColor(item->window.foreColor,lowLight,color, 0.5 + 0.5 * sin(DC->realTime / PULSE_DIVISOR));
+			LerpColor(item->window.foreColor, lowLight, color, 0.5 + 0.5 * sin(DC->realTime / PULSE_DIVISOR));
 		}
 
 		if (item->cvarFlags &(CVAR_ENABLE|CVAR_DISABLE) && !Item_EnableShowViaCvar(item, CVAR_ENABLE)) {
@@ -8272,11 +8271,7 @@ Display_GetContext
 displayContextDef_t *Display_GetContext(void) {
 	return DC;
 }
-// TTimo: unused
-/*
-static float captureX;
-static float captureY;
-*/
+
 /*
 =======================================================================================================================================
 Display_CaptureItem

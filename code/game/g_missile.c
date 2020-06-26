@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -67,7 +63,7 @@ qboolean G_BounceMissile(gentity_t *ent, trace_t *trace) {
 
 	VectorMA(velocity, -2 * dot, trace->plane.normal, ent->s.pos.trDelta);
 	// record this for mover pushing
-	if (trace->plane.normal[2] > 0.2 /*&& VectorLength(ent->s.pos.trDelta)< 40*/) {
+	if (trace->plane.normal[2] > 0.2 /*&& VectorLength(ent->s.pos.trDelta) < 40*/) {
 		ent->s.groundEntityNum = trace->entityNum;
 	}
 
@@ -83,7 +79,7 @@ qboolean G_BounceMissile(gentity_t *ent, trace_t *trace) {
 			}
 		}
 		// check for stop
-		if (trace->plane.normal[2] > 0.2 && VectorLength(ent->s.pos.trDelta)< 40) {
+		if (trace->plane.normal[2] > 0.2 && VectorLength(ent->s.pos.trDelta) < 40) {
 			// make the world the owner of the dynamite, so the player can shoot it after it stops moving
 			if (ent->s.weapon == WP_DYNAMITE) {
 				ent->r.ownerNum = ENTITYNUM_WORLD;
@@ -111,7 +107,7 @@ qboolean G_BounceMissile(gentity_t *ent, trace_t *trace) {
 	ent->s.pos.trTime = level.time;
 
 	if (contents & MASK_WATER) {
-		return qfalse;  // no bounce sound
+		return qfalse; // no bounce sound
 	}
 
 	return qtrue;
@@ -386,11 +382,13 @@ void M_think(gentity_t *ent) {
 	tent->s.angles2[2] = 50;
 
 	ent->nextthink = level.time + FRAMETIME;
-
 }
 
-// JPW NERVE
-// think func for below
+/*
+=======================================================================================================================================
+Shaker_think
+=======================================================================================================================================
+*/
 void Shaker_think(gentity_t *ent) {
 	vec3_t vec; // muzzlebounce, JPW NERVE no longer used
 	gentity_t *player;
@@ -427,7 +425,6 @@ void Shaker_think(gentity_t *ent) {
 		trap_SendServerCommand(player->s.clientNum, cmd);
 	}
 }
-// jpw
 
 /*
 =======================================================================================================================================
@@ -495,7 +492,7 @@ void G_ExplodeMissile(gentity_t *ent) {
 	ent->freeAfterEvent = qtrue;
 	// splash damage
 	if (ent->splashDamage) {
-		if (G_RadiusDamage(ent->r.currentOrigin, ent->parent, ent->splashDamage, ent->splashRadius, ent, ent->splashMethodOfDeath)) { //---- (SA)
+		if (G_RadiusDamage(ent->r.currentOrigin, ent->parent, ent->splashDamage, ent->splashRadius, ent, ent->splashMethodOfDeath)) {
 			if (g_entities[ent->r.ownerNum].client) {
 				g_entities[ent->r.ownerNum].client->ps.persistant[PERS_ACCURACY_HITS]++;
 			}
@@ -724,7 +721,7 @@ void G_PredictBounceMissile(gentity_t *ent, trajectory_t *pos, trace_t *trace, i
 			VectorScale(pos->trDelta, 0.65, pos->trDelta);
 		}
 		// check for stop
-		if (trace->plane.normal[2] > 0.2 && VectorLength(pos->trDelta)< 40) {
+		if (trace->plane.normal[2] > 0.2 && VectorLength(pos->trDelta) < 40) {
 			VectorCopy(trace->endpos, pos->trBase);
 			return;
 		}
@@ -1068,8 +1065,7 @@ void G_RunFlamechunk(gentity_t *ent) {
 	float speed;
 
 	VectorCopy(ent->s.pos.trDelta, vel);
-
-	// Adust the current speed of the chunk
+	// adust the current speed of the chunk
 	if (level.time - ent->timestamp > 50) {
 		speed = VectorNormalize(vel);
 		speed -= (50.f / 1000.f) * FLAME_FRICTION_PER_SEC;
@@ -1092,8 +1088,8 @@ void G_RunFlamechunk(gentity_t *ent) {
 		VectorCopy(vec3_origin, ent->s.pos.trDelta);
 	} else if (tr.fraction != 1.0f && !(tr.surfaceFlags & SURF_NOIMPACT)) {
 		float dot;
-		VectorCopy(tr.endpos, ent->r.currentOrigin);
 
+		VectorCopy(tr.endpos, ent->r.currentOrigin);
 		dot = DotProduct(vel, tr.plane.normal);
 		VectorMA(vel, -2 * dot, tr.plane.normal, vel);
 		VectorNormalize(vel);
@@ -1113,6 +1109,7 @@ void G_RunFlamechunk(gentity_t *ent) {
 		float size = ent->speed / 2;
 		vec3_t b1, b2;
 		vec3_t temp;
+
 		VectorSet(temp, -size, -size, -size);
 		VectorCopy(ent->r.currentOrigin, b1);
 		VectorCopy(ent->r.currentOrigin, b2);
@@ -1184,39 +1181,31 @@ gentity_t *fire_flamechunk(gentity_t *self, vec3_t start, vec3_t dir) {
 	return bolt;
 }
 
-//=============================================================================
-
-//---- (SA)removed unused quake3 weapons.
-
 int G_GetWeaponDamage(int weapon); // JPW NERVE
 
 /*
 =======================================================================================================================================
 fire_grenade
 
-	NOTE!!!! NOTE!!!!!
-
-	This accepts a /non-normalized/ direction vector to allow specification
-	of how hard it's thrown. Please scale the vector before calling.
-
+NOTE!!!! NOTE!!!!!
+This accepts a /non-normalized/ direction vector to allow specification of how hard it's thrown. Please scale the vector before calling.
 =======================================================================================================================================
 */
 gentity_t *fire_grenade(gentity_t *self, vec3_t start, vec3_t dir, int grenadeWPID) {
-	gentity_t *bolt, *hit; // JPW NERVE
+	gentity_t *bolt, *hit;
 	qboolean noExplode = qfalse;
-	vec3_t mins, maxs;      // JPW NERVE
-	static vec3_t range = {40, 40, 52};   // JPW NERVE
-	int i,num,touch[MAX_GENTITIES];         // JPW NERVE
+	vec3_t mins, maxs;
+	static vec3_t range = {40, 40, 52};
+	int i,num,touch[MAX_GENTITIES];
 
 	bolt = G_Spawn();
-
 	// no self->client for shooter_grenade's
 	if (self->client && self->client->ps.grenadeTimeLeft) {
 		if (grenadeWPID == WP_DYNAMITE) { // remove any fraction of a 5 second 'click'
 			self->client->ps.grenadeTimeLeft *= 5;
 			self->client->ps.grenadeTimeLeft -= (self->client->ps.grenadeTimeLeft % 5000);
 			self->client->ps.grenadeTimeLeft += 5000;
-//			if (self->client->ps.grenadeTimeLeft < 5000)	// allow dropping of dynamite that won't explode(for shooting)
+//			if (self->client->ps.grenadeTimeLeft < 5000) // allow dropping of dynamite that won't explode(for shooting)
 //				noExplode = qtrue;
 		}
 
@@ -1235,8 +1224,7 @@ gentity_t *fire_grenade(gentity_t *self, vec3_t start, vec3_t dir, int grenadeWP
 	}
 	// no self->client for shooter_grenade's
 	if (self->client) {
-		self->client->ps.grenadeTimeLeft = 0;       // reset grenade timer
-
+		self->client->ps.grenadeTimeLeft = 0; // reset grenade timer
 	}
 
 	if (!noExplode) {
@@ -1248,9 +1236,8 @@ gentity_t *fire_grenade(gentity_t *self, vec3_t start, vec3_t dir, int grenadeWP
 	bolt->s.weapon = grenadeWPID;
 	bolt->r.ownerNum = self->s.number;
 	bolt->parent = self;
-
-// JPW NERVE -- commented out bolt->damage and bolt->splashdamage, override with G_GetWeaponDamage()
-// so it works with different netgame balance. didn't uncomment bolt->damage on dynamite 'cause its so *special*
+	// JPW NERVE -- commented out bolt->damage and bolt->splashdamage, override with G_GetWeaponDamage()
+	// so it works with different netgame balance. didn't uncomment bolt->damage on dynamite 'cause its so *special*
 	bolt->damage = G_GetWeaponDamage(grenadeWPID); // overridden for dynamite
 	bolt->splashDamage = G_GetWeaponDamage(grenadeWPID);
 
@@ -1258,98 +1245,91 @@ gentity_t *fire_grenade(gentity_t *self, vec3_t start, vec3_t dir, int grenadeWP
 		bolt->damage *= 2;
 		bolt->splashDamage *= 2;
 	}
-// jpw
 
 	switch (grenadeWPID) {
-	case WP_GRENADE_LAUNCHER:
-		bolt->classname = "grenade";
-//			bolt->damage				= 100;
-//			bolt->splashDamage			= 100;
+		case WP_GRENADE_LAUNCHER:
+			bolt->classname = "grenade";
 
-		if (self->aiCharacter) {
-			bolt->splashRadius = 300;
-		} else {
-			bolt->splashRadius = 300;
-		}
+			if (self->aiCharacter) {
+				bolt->splashRadius = 300;
+			} else {
+				bolt->splashRadius = 300;
+			}
 
-		bolt->methodOfDeath = MOD_GRENADE;
-		bolt->splashMethodOfDeath = MOD_GRENADE_SPLASH;
+			bolt->methodOfDeath = MOD_GRENADE;
+			bolt->splashMethodOfDeath = MOD_GRENADE_SPLASH;
 
-		if (g_gametype.integer >= GT_COOP) {
+			if (g_gametype.integer >= GT_COOP) {
+				bolt->s.eFlags = EF_BOUNCE_HALF;
+			} else {
+				bolt->s.eFlags = EF_BOUNCE_HALF|EF_BOUNCE;
+			}
+
+			break;
+		case WP_GRENADE_PINEAPPLE:
+			bolt->classname = "grenade";
+			bolt->splashRadius = 450;
+			bolt->methodOfDeath = MOD_GRENADE;
+			bolt->splashMethodOfDeath = MOD_GRENADE_SPLASH;
+
+			if (g_gametype.integer >= GT_COOP) {
+				bolt->s.eFlags = EF_BOUNCE_HALF;
+			} else {
+				bolt->s.eFlags = EF_BOUNCE_HALF|EF_BOUNCE;
+			}
+
+			break;
+		case WP_GRENADE_SMOKE:
+			bolt->classname = "grenade";
 			bolt->s.eFlags = EF_BOUNCE_HALF;
-		} else {
-			bolt->s.eFlags = EF_BOUNCE_HALF|EF_BOUNCE;
-		}
+			break;
+		case WP_DYNAMITE:
+			// oh, this is /so/ cheap...
+			// you need to pick up new code;)
+			trap_SendServerCommand(self - g_entities, va("dp %d", (bolt->nextthink - level.time) / 1000));
 
-		break;
-	case WP_GRENADE_PINEAPPLE:
-		bolt->classname = "grenade";
-//			bolt->damage				= 80;
-//			bolt->splashDamage			= 80;
-		bolt->splashRadius = 450;
-		bolt->methodOfDeath = MOD_GRENADE;
-		bolt->splashMethodOfDeath = MOD_GRENADE_SPLASH;
+			if (g_gametype.integer > GT_SINGLE_PLAYER) {
+				// check if player is in trigger objective field -- swiped from G_TouchTriggers()
+				VectorSubtract(self->client->ps.origin, range, mins);
+				VectorAdd(self->client->ps.origin, range, maxs);
 
-		if (g_gametype.integer >= GT_COOP) {
-			bolt->s.eFlags = EF_BOUNCE_HALF;
-		} else {
-			bolt->s.eFlags = EF_BOUNCE_HALF|EF_BOUNCE;
-		}
+				num = trap_EntitiesInBox(mins, maxs, touch, MAX_GENTITIES);
 
-		break;
-// JPW NERVE
-	case WP_GRENADE_SMOKE:
-		bolt->classname = "grenade";
-		bolt->s.eFlags = EF_BOUNCE_HALF;
-		break;
-// jpw
-	case WP_DYNAMITE:
-		// oh, this is /so/ cheap...
-		// you need to pick up new code;)
-		trap_SendServerCommand(self - g_entities, va("dp %d", (bolt->nextthink - level.time) / 1000));
-// JPW NERVE
-		if (g_gametype.integer > GT_SINGLE_PLAYER) {
-// check if player is in trigger objective field -- swiped from G_TouchTriggers()
-			VectorSubtract(self->client->ps.origin, range, mins);
-			VectorAdd(self->client->ps.origin, range, maxs);
-			num = trap_EntitiesInBox(mins, maxs, touch, MAX_GENTITIES);
-			VectorAdd(self->client->ps.origin, self->r.mins, mins);
-			VectorAdd(self->client->ps.origin, self->r.maxs, maxs);
+				VectorAdd(self->client->ps.origin, self->r.mins, mins);
+				VectorAdd(self->client->ps.origin, self->r.maxs, maxs);
 
-			for (i = 0; i < num; i++) {
-				hit = &g_entities[touch[i]];
+				for (i = 0; i < num; i++) {
+					hit = &g_entities[touch[i]];
 
-				if (!hit->touch && !self->touch) {
-					continue;
-				}
-
-				if (!(hit->r.contents & CONTENTS_TRIGGER)) {
-					continue;
-				}
-
-				if (!strcmp(hit->classname,"trigger_objective_info")) {
-					if (hit->track) {
-						trap_SendServerCommand(-1, va("cp \"%s\"", va("Det charge planted near %s!", hit->track)));
-					} else {
-						trap_SendServerCommand(-1, va("cp \"%s\"", va("Det charge planted near objective %d!", hit->count)));
+					if (!hit->touch && !self->touch) {
+						continue;
 					}
 
-					i = num;
+					if (!(hit->r.contents & CONTENTS_TRIGGER)) {
+						continue;
+					}
+
+					if (!strcmp(hit->classname,"trigger_objective_info")) {
+						if (hit->track) {
+							trap_SendServerCommand(-1, va("cp \"%s\"", va("Det charge planted near %s!", hit->track)));
+						} else {
+							trap_SendServerCommand(-1, va("cp \"%s\"", va("Det charge planted near objective %d!", hit->count)));
+						}
+
+						i = num;
+					}
 				}
 			}
-		}
-// jpw
-		bolt->classname = "dynamite";
-		bolt->damage = 0;
-//		bolt->splashDamage = 300;
-		bolt->splashRadius = 600;
-		bolt->methodOfDeath = MOD_DYNAMITE;
-		bolt->splashMethodOfDeath = MOD_DYNAMITE_SPLASH;
-		bolt->s.eFlags = (EF_BOUNCE|EF_BOUNCE_HALF);   // EF_BOUNCE_HEAVY;
 
-		// dynamite is shootable
-// JPW NERVE only in single player
-		if (g_gametype.integer <= GT_SINGLE_PLAYER) {
+			bolt->classname = "dynamite";
+			bolt->damage = 0;
+			bolt->splashRadius = 600;
+			bolt->methodOfDeath = MOD_DYNAMITE;
+			bolt->splashMethodOfDeath = MOD_DYNAMITE_SPLASH;
+			bolt->s.eFlags = (EF_BOUNCE|EF_BOUNCE_HALF);
+			// dynamite is shootable
+			// JPW NERVE only in single player
+			if (g_gametype.integer <= GT_SINGLE_PLAYER) {
 //				bolt->health = 5;
 //				bolt->takedamage = qtrue;
 //
@@ -1358,18 +1338,16 @@ gentity_t *fire_grenade(gentity_t *self, vec3_t start, vec3_t dir, int grenadeWP
 //				VectorCopy(bolt->r.mins, bolt->r.absmin);
 //				VectorSet(bolt->r.maxs, 4, 4, 8);
 //				VectorCopy(bolt->r.maxs, bolt->r.absmax);
-		} else {
-			bolt->health = 5;
-			bolt->takedamage = qfalse;
-		}
+			} else {
+				bolt->health = 5;
+				bolt->takedamage = qfalse;
+			}
 
-		bolt->die = G_MissileDie;
-		bolt->r.contents = CONTENTS_CORPSE; // (player can walk through)
-		// nope - this causes the dynamite to impact on the players bb when he throws it.
-		// will try setting it when it settles
-//			bolt->r.ownerNum = ENTITYNUM_WORLD;	// make the world the owner of the dynamite, so the player can shoot it without modifying the bullet code to ignore players id for hits
-
-		break;
+			bolt->die = G_MissileDie;
+			bolt->r.contents = CONTENTS_CORPSE; // (player can walk through)
+			// nope - this causes the dynamite to impact on the players bb when he throws it.
+			// will try setting it when it settles
+			break;
 	}
 	// blast radius proportional to damage
 	if (g_gametype.integer > GT_SINGLE_PLAYER) {
@@ -1379,6 +1357,7 @@ gentity_t *fire_grenade(gentity_t *self, vec3_t start, vec3_t dir, int grenadeWP
 	bolt->clipmask = MASK_MISSILESHOT;
 	bolt->s.pos.trType = TR_GRAVITY;
 	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME; // move a bit on the very first frame
+
 	VectorCopy(start, bolt->s.pos.trBase);
 	VectorCopy(dir, bolt->s.pos.trDelta);
 	SnapVector(bolt->s.pos.trDelta); // save net bandwidth
@@ -1398,7 +1377,7 @@ gentity_t *fire_rocket(gentity_t *self, vec3_t start, vec3_t dir) {
 
 	bolt = G_Spawn();
 	bolt->classname = "rocket";
-	bolt->nextthink = level.time + 20000;   // push it out a little
+	bolt->nextthink = level.time + 20000; // push it out a little
 	bolt->think = G_ExplodeMissile;
 	bolt->s.eType = ET_MISSILE;
 	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN|SVF_BROADCAST;
@@ -1432,13 +1411,11 @@ gentity_t *fire_rocket(gentity_t *self, vec3_t start, vec3_t dir) {
 
 	bolt->methodOfDeath = MOD_ROCKET;
 	bolt->splashMethodOfDeath = MOD_ROCKET_SPLASH;
-//	bolt->clipmask = MASK_SHOT;
 	bolt->clipmask = MASK_MISSILESHOT;
 	bolt->s.pos.trType = TR_LINEAR;
 	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME; // move a bit on the very first frame
 
 	VectorCopy(start, bolt->s.pos.trBase);
-//	VectorScale(dir, 900, bolt->s.pos.trDelta);	// old speed was 900
 
 	if (g_gametype.integer > GT_SINGLE_PLAYER) {
 		VectorScale(dir,2500,bolt->s.pos.trDelta);
@@ -1447,7 +1424,7 @@ gentity_t *fire_rocket(gentity_t *self, vec3_t start, vec3_t dir) {
 		if (self->aiCharacter) {
 			VectorScale(dir, 1000, bolt->s.pos.trDelta);
 		} else {
-			//(SA)trying a bit more speed in SP for player rockets
+			// trying a bit more speed in SP for player rockets
 			VectorScale(dir, 1300, bolt->s.pos.trDelta);
 		}
 	}
@@ -1485,7 +1462,6 @@ gentity_t *fire_zombiespit(gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->splashMethodOfDeath = MOD_ZOMBIESPIT_SPLASH;
 	bolt->clipmask = MASK_MISSILESHOT;
 	bolt->s.loopSound = G_SoundIndex("sound/Loogie/sizzle.wav");
-	//bolt->s.pos.trType = TR_LINEAR;
 	bolt->s.pos.trType = TR_GRAVITY_LOW;
 	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME; // move a bit on the very first frame
 
@@ -1525,12 +1501,18 @@ gentity_t *fire_zombiespirit(gentity_t *self, gentity_t *bolt, vec3_t start, vec
 
 	VectorCopy(start, bolt->s.pos.trBase);
 	VectorScale(dir, 800, bolt->s.pos.trDelta);
-	SnapVector(bolt->s.pos.trDelta);          // save net bandwidth
+	SnapVector(bolt->s.pos.trDelta); // save net bandwidth
 	VectorCopy(start, bolt->r.currentOrigin);
 	return bolt;
 }
 
-// the crowbar for the mechanic
+/*
+=======================================================================================================================================
+fire_crowbar
+
+The crowbar for the mechanic.
+=======================================================================================================================================
+*/
 gentity_t *fire_crowbar(gentity_t *self, vec3_t start, vec3_t dir) {
 	gentity_t *bolt;
 
@@ -1542,7 +1524,6 @@ gentity_t *fire_crowbar(gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->think = G_ExplodeMissile;
 	bolt->s.eType = ET_CROWBAR;
 	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN|SVF_BROADCAST;
-	//bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
 	bolt->s.weapon = WP_PANZERFAUST;
 	bolt->r.ownerNum = self->s.number;
 	bolt->parent = self;
@@ -1551,7 +1532,6 @@ gentity_t *fire_crowbar(gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->splashRadius = 0;
 	bolt->methodOfDeath = MOD_ROCKET;
 	bolt->splashMethodOfDeath = MOD_ROCKET_SPLASH;
-//	bolt->clipmask = MASK_SHOT;
 	bolt->clipmask = MASK_MISSILESHOT;
 	bolt->s.pos.trType = TR_GRAVITY;
 	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME; // move a bit on the very first frame
@@ -1568,7 +1548,6 @@ gentity_t *fire_crowbar(gentity_t *self, vec3_t start, vec3_t dir) {
 fire_flamebarrel
 =======================================================================================================================================
 */
-
 gentity_t *fire_flamebarrel(gentity_t *self, vec3_t start, vec3_t dir) {
 	gentity_t *bolt;
 
@@ -1595,7 +1574,7 @@ gentity_t *fire_flamebarrel(gentity_t *self, vec3_t start, vec3_t dir) {
 
 	VectorCopy(start, bolt->s.pos.trBase);
 	VectorScale(dir, 900 + (crandom() * 100), bolt->s.pos.trDelta);
-	SnapVector(bolt->s.pos.trDelta);          // save net bandwidth
+	SnapVector(bolt->s.pos.trDelta); // save net bandwidth
 	VectorCopy(start, bolt->r.currentOrigin);
 	return bolt;
 }
@@ -1606,7 +1585,6 @@ gentity_t *fire_flamebarrel(gentity_t *self, vec3_t start, vec3_t dir) {
 fire_lead
 =======================================================================================================================================
 */
-
 void fire_lead(gentity_t *self, vec3_t start, vec3_t dir, int damage) {
 	trace_t tr;
 	vec3_t end;
@@ -1622,7 +1600,6 @@ void fire_lead(gentity_t *self, vec3_t start, vec3_t dir, int damage) {
 
 	vectoangles(dir, angles);
 	AngleVectors(angles, forward, right, up);
-
 	VectorMA(start, 8192, forward, end);
 	VectorMA(end, r, right, end);
 	VectorMA(end, u, up, end);
@@ -1670,22 +1647,16 @@ void fire_lead(gentity_t *self, vec3_t start, vec3_t dir, int damage) {
 		if (anti_tank_enable) {
 			self->s.weapon = WP_SNIPER;
 		}
-
 	}
-
 }
-
 // Rafael sniper
 // visible
-
 /*
 =======================================================================================================================================
 visible
 =======================================================================================================================================
 */
 qboolean visible(gentity_t *self, gentity_t *other) {
-//	vec3_t spot1;
-//	vec3_t spot2;
 	trace_t tr;
 	gentity_t *traceEnt;
 
@@ -1698,23 +1669,21 @@ qboolean visible(gentity_t *self, gentity_t *other) {
 	}
 
 	return qfalse;
-
 }
 
 /*
 =======================================================================================================================================
 fire_mortar
 
-dir is a non-normalized direction/power vector
+dir is a non-normalized direction/power vector.
 =======================================================================================================================================
 */
 gentity_t *fire_mortar(gentity_t *self, vec3_t start, vec3_t dir) {
 	gentity_t *bolt;
 
-//	VectorNormalize(dir);
-
 	if (self->spawnflags) {
 		gentity_t *tent;
+
 		tent = G_TempEntity(self->s.pos.trBase, EV_MORTAREFX);
 		tent->s.density = self->spawnflags; // send smoke and muzzle flash flags
 		VectorCopy(self->s.pos.trBase, tent->s.origin);
@@ -1727,7 +1696,6 @@ gentity_t *fire_mortar(gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->think = G_ExplodeMissile;
 	bolt->s.eType = ET_MISSILE;
 	bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN|SVF_BROADCAST; // broadcast sound. not multiplayer friendly, but for mortars it should be okay
-	//bolt->r.svFlags = SVF_USE_CURRENT_ORIGIN;
 	bolt->s.weapon = WP_MORTAR;
 	bolt->r.ownerNum = self->s.number;
 	bolt->parent = self;
@@ -1739,8 +1707,8 @@ gentity_t *fire_mortar(gentity_t *self, vec3_t start, vec3_t dir) {
 	bolt->clipmask = MASK_MISSILESHOT;
 	bolt->s.pos.trType = TR_GRAVITY;
 	bolt->s.pos.trTime = level.time - MISSILE_PRESTEP_TIME; // move a bit on the very first frame
+
 	VectorCopy(start, bolt->s.pos.trBase);
-//	VectorScale(dir, 900, bolt->s.pos.trDelta);
 	VectorCopy(dir, bolt->s.pos.trDelta);
 	SnapVector(bolt->s.pos.trDelta); // save net bandwidth
 	VectorCopy(start, bolt->r.currentOrigin);

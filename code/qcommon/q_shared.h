@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -90,8 +86,8 @@ If you have questions concerning this license or the applicable additional terms
 #define MAX_MAPS 128
 #define MAX_TEAMNAME 32
 #define NEW_ANIMS
-#define MAX_MASTER_SERVERS 5 // number of supported master servers
-#define DEMOEXT	"dm_" // standard demo extension
+#define MAX_MASTER_SERVERS 5	// number of supported master servers
+#define DEMOEXT "dm_"			// standard demo extension
 #ifdef _MSC_VER
 #pragma warning(disable : 4018) // signed/unsigned mismatch
 #pragma warning(disable : 4032)
@@ -225,7 +221,7 @@ typedef int clipHandle_t;
 #define ID_INLINE inline
 #endif
 #endif
-//#define SND_NORMAL			0x000 //(default) allow sound to be cut off only by the same sound on this channel
+//#define SND_NORMAL		0x000 //(default) allow sound to be cut off only by the same sound on this channel
 #define SND_OKTOCUT         0x001 // allow sound to be cut off by any following sounds on this channel
 #define SND_REQUESTCUT      0x002 // allow sound to be cut off by following sounds on this channel only for sounds who request cutoff
 #define SND_CUTOFF          0x004 // cut off sounds on this channel that are marked 'SND_REQUESTCUT'
@@ -237,6 +233,7 @@ typedef int clipHandle_t;
 #define STRING(s) #s
 // expand constants before stringifying them
 #define XSTRING(s) STRING(s)
+
 #define MAX_QINT 0x7fffffff
 #define MIN_QINT (-MAX_QINT - 1)
 
@@ -302,23 +299,25 @@ typedef enum {
 #define PROP_SMALL_SIZE_SCALE 0.75
 #define BLINK_DIVISOR 200
 #define PULSE_DIVISOR 75
-
-#define UI_LEFT			0x00000000 // default
-#define UI_CENTER		0x00000001
-#define UI_RIGHT		0x00000002
-#define UI_FORMATMASK	0x00000007
-#define UI_SMALLFONT	0x00000010
-#define UI_BIGFONT		0x00000020 // default
-#define UI_GIANTFONT	0x00000040
-#define UI_DROPSHADOW	0x00000800
-#define UI_BLINK		0x00001000
-#define UI_INVERSE		0x00002000
-#define UI_PULSE		0x00004000
-#define UI_MENULEFT		0x00008000
-#define UI_MENURIGHT	0x00010000
-#define UI_EXSMALLFONT	0x00020000
-#define UI_MENUFULL     0x00080000
-#define UI_SMALLFONT75	0x00100000
+// horizontal alignment
+#define UI_LEFT				0x00000000 // default
+#define UI_CENTER			0x00000001
+#define UI_RIGHT			0x00000002
+#define UI_FORMATMASK		0x00000007
+// font selection
+#define UI_SMALLFONT		0x00000010
+#define UI_BIGFONT			0x00000020 // default
+#define UI_GIANTFONT		0x00000040
+// other flags
+#define UI_DROPSHADOW		0x00000800
+#define UI_BLINK			0x00001000
+#define UI_INVERSE			0x00002000
+#define UI_PULSE			0x00004000
+#define UI_MENULEFT			0x00008000
+#define UI_MENURIGHT		0x00010000
+#define UI_EXSMALLFONT		0x00020000
+#define UI_MENUFULL     	0x00080000
+#define UI_SMALLFONT75		0x00100000
 
 #if !defined(NDEBUG) && !defined(BSPC)
 #define HUNK_DEBUG
@@ -339,12 +338,12 @@ void *Hunk_Alloc(int size, ha_pref preference);
 #define Com_Memset memset
 #define Com_Memcpy memcpy
 
-#define CIN_system		0x01
-#define CIN_loop		0x02
-#define CIN_hold		0x04
-#define CIN_silent		0x08
-#define CIN_shader		0x10
-#define CIN_letterBox	0x20
+#define CIN_system		0x00000001
+#define CIN_loop		0x00000002
+#define CIN_hold		0x00000004
+#define CIN_silent		0x00000008
+#define CIN_shader		0x00000010
+#define CIN_letterBox	0x00000020
 
 /*
 =======================================================================================================================================
@@ -365,6 +364,7 @@ typedef vec_t quat_t[4];
 typedef int fixed4_t;
 typedef int fixed8_t;
 typedef int fixed16_t;
+
 #ifndef M_PI
 #define M_PI 3.14159265358979323846f // matches value in gcc v2 math.h
 #endif
@@ -623,7 +623,7 @@ typedef struct {
 #define Vector4MA(v, s, b, o) ((o)[0] = (v)[0] + (b)[0] * (s), (o)[1] = (v)[1] + (b)[1] * (s), (o)[2] = (v)[2] + (b)[2] * (s), (o)[3] = (v)[3] + (b)[3] * (s))
 #define Vector4Average(v, b, s, o) ((o)[0] = ((v)[0] * (1 - (s))) + ((b)[0] * (s)), (o)[1] = ((v)[1] * (1 - (s))) + ((b)[1] * (s)), (o)[2] = ((v)[2] * (1 - (s))) + ((b)[2] * (s)), (o)[3] = ((v)[3] * (1 - (s))) + ((b)[3] * (s)))
 #define SnapVector(v) {v[0] = ((int)(v[0])); v[1] = ((int)(v[1])); v[2] = ((int)(v[2]));}
-// just in case you don't want to use the macro
+// just in case you don't want to use the macros
 vec_t _DotProduct(const vec3_t v1, const vec3_t v2);
 void _VectorSubtract(const vec3_t veca, const vec3_t vecb, vec3_t out);
 void _VectorAdd(const vec3_t veca, const vec3_t vecb, vec3_t out);
@@ -766,6 +766,7 @@ void AxisToAngles(/*const*/ vec3_t axis[3], vec3_t angles);
 float VectorDistance(vec3_t v1, vec3_t v2);
 void AxisClear(vec3_t axis[3]);
 void AxisCopy(vec3_t in[3], vec3_t out[3]);
+void SetMovedir(vec3_t angles, vec3_t movedir);
 void SetPlaneSignbits(struct cplane_s *out);
 int BoxOnPlaneSide(vec3_t emins, vec3_t emaxs, struct cplane_s *plane);
 qboolean BoundsIntersect(const vec3_t mins, const vec3_t maxs, const vec3_t mins2, const vec3_t maxs2);
@@ -773,6 +774,7 @@ qboolean BoundsIntersectSphere(const vec3_t mins, const vec3_t maxs, const vec3_
 qboolean BoundsIntersectPoint(const vec3_t mins, const vec3_t maxs, const vec3_t origin);
 float AngleMod(float a);
 float LerpAngle(float from, float to, float frac);
+float AngleDifference(float ang1, float ang2);
 float AngleSubtract(float a1, float a2);
 void AnglesSubtract(vec3_t v1, vec3_t v2, vec3_t v3);
 float AngleNormalize360(float angle);
@@ -974,20 +976,20 @@ void QDECL Com_Printf(const char *msg, ...) __attribute__((format(printf, 1, 2))
 =======================================================================================================================================
 */
 
-#define CVAR_ARCHIVE		0x0001 // set to cause it to be saved to vars.rc, used for system variables, not for player specific configurations
-#define CVAR_USERINFO		0x0002 // sent to server on connect or change
-#define CVAR_SERVERINFO		0x0004 // sent in response to front end requests
-#define CVAR_SYSTEMINFO		0x0008 // these cvars will be duplicated on all clients
-#define CVAR_INIT			0x0010 // don't allow change from console at all, but can be set from the command line
-#define CVAR_LATCH			0x0020 // will only change when C code next does a Cvar_Get(), so it can't be changed without proper initialization. modified will be set, even though the value hasn't changed yet
-#define CVAR_ROM			0x0040 // display only, cannot be set by user at all
-#define CVAR_USER_CREATED	0x0080 // created by a set command
-#define CVAR_TEMP			0x0100 // can be set even when cheats are disabled, but is not archived
-#define CVAR_CHEAT			0x0200 // can not be changed if cheats are disabled
-#define CVAR_NORESTART		0x0400 // do not clear when a cvar_restart is issued
-#define CVAR_SERVER_CREATED	0x0800 // cvar was created by a server the client connected to.
-#define CVAR_VM_CREATED		0x1000 // cvar was created exclusively in one of the VMs.
-#define CVAR_PROTECTED		0x2000 // prevent modifying this var from VMs or the server
+#define CVAR_ARCHIVE		0x00000001 // set to cause it to be saved to vars.rc, used for system variables, not for player specific configurations
+#define CVAR_USERINFO		0x00000002 // sent to server on connect or change
+#define CVAR_SERVERINFO		0x00000004 // sent in response to front end requests
+#define CVAR_SYSTEMINFO		0x00000008 // these cvars will be duplicated on all clients
+#define CVAR_INIT			0x00000010 // don't allow change from console at all, but can be set from the command line
+#define CVAR_LATCH			0x00000020 // will only change when C code next does a Cvar_Get(), so it can't be changed without proper initialization. modified will be set, even though the value hasn't changed yet
+#define CVAR_ROM			0x00000040 // display only, cannot be set by user at all
+#define CVAR_USER_CREATED	0x00000080 // created by a set command
+#define CVAR_TEMP			0x00000100 // can be set even when cheats are disabled, but is not archived
+#define CVAR_CHEAT			0x00000200 // can not be changed if cheats are disabled
+#define CVAR_NORESTART		0x00000400 // do not clear when a cvar_restart is issued
+#define CVAR_SERVER_CREATED	0x00000800 // cvar was created by a server the client connected to
+#define CVAR_VM_CREATED		0x00001000 // cvar was created exclusively in one of the VMs
+#define CVAR_PROTECTED		0x00002000 // prevent modifying this var from VMs or the server
 // these flags are only returned by the Cvar_Flags() function
 #define CVAR_MODIFIED		0x40000000 // cvar was modified
 #define CVAR_NONEXISTENT	0x80000000 // cvar doesn't exist
@@ -1036,8 +1038,8 @@ typedef struct {
 */
 
 // if you change the count of flags be sure to also change VOIP_FLAGNUM
-#define VOIP_SPATIAL	0x01 // spatialized voip message
-#define VOIP_DIRECT		0x02 // non-spatialized voip message
+#define VOIP_SPATIAL	0x00000001 // spatialized voip message
+#define VOIP_DIRECT		0x00000002 // non-spatialized voip message
 // number of flags voip knows. You will have to bump protocol version number if you change this
 #define VOIP_FLAGCNT 2
 
@@ -1076,7 +1078,7 @@ typedef struct {
 	cplane_t plane;			// surface normal at impact, transformed to world space
 	int surfaceFlags;		// surface hit
 	int contents;			// contents on other side of surface hit
-	int entityNum;			// entity the contacted sirface is a part of
+	int entityNum;			// entity the contacted surface is a part of
 } trace_t;
 // trace->entityNum can also be 0 to (MAX_GENTITIES - 1) or ENTITYNUM_NONE, ENTITYNUM_WORLD
 
@@ -1092,13 +1094,13 @@ typedef struct {
 } orientation_t;
 // in order from highest priority to lowest
 // if none of the catchers are active, bound key strings will be executed
-#define KEYCATCH_CONSOLE	0x0001
-#define KEYCATCH_UI			0x0002
-#define KEYCATCH_MESSAGE	0x0004
-#define KEYCATCH_CGAME		0x0008
+#define KEYCATCH_CONSOLE	0x00000001
+#define KEYCATCH_UI			0x00000002
+#define KEYCATCH_MESSAGE	0x00000004
+#define KEYCATCH_CGAME		0x00000008
 // sound channels
 // channel 0 never willingly overrides
-// other channels will allways override a playing sound on that channel
+// other channels will always override a playing sound on that channel
 typedef enum {
 	CHAN_AUTO,
 	CHAN_LOCAL,			// menu sounds, etc.
@@ -1135,11 +1137,11 @@ typedef enum {
 #define ENTITYNUM_NONE (MAX_GENTITIES - 1)
 #define ENTITYNUM_WORLD (MAX_GENTITIES - 2)
 #define ENTITYNUM_MAX_NORMAL (MAX_GENTITIES - 2)
+
 #define MAX_MODELS 256 // these are sent over the net as 8 bits
 #define MAX_SOUNDS 256 // so they cannot be blindly increased
 #define MAX_PARTICLES_AREAS 128
 #define MAX_MULTI_SPAWNTARGETS 16
-//#define MAX_CONFIGSTRINGS 1024
 #define MAX_CONFIGSTRINGS 2048
 #define MAX_DLIGHT_CONFIGSTRINGS 128
 #define MAX_CLIPBOARD_CONFIGSTRINGS 64
@@ -1200,7 +1202,7 @@ typedef enum {
 
 // playerState_t is a full superset of entityState_t as it is used by players, so if a playerState_t is transmitted, the entityState_t can be fully derived from it.
 
-// NOTE: all fields in here must be 32 bits(or those within sub-structures)
+// NOTE: all fields in here must be 32 bits (or those within sub-structures)
 typedef struct playerState_s {
 	int commandTime;		// cmd->serverTime of last executed command
 	int pm_type;
@@ -1244,7 +1246,7 @@ typedef struct playerState_s {
 	int damagePitch;
 	int damageCount;
 	int stats[MAX_STATS];
-	int persistant[MAX_PERSISTANT]; // stats that aren't cleared on death
+	int persistant[MAX_PERSISTANT];	// stats that aren't cleared on death
 	int powerups[MAX_POWERUPS];		// level.time that the powerup runs out
 	int ammo[MAX_WEAPONS];	// total amount of ammo
 	int ammoclip[MAX_WEAPONS];	// ammo in clip
@@ -1363,9 +1365,9 @@ typedef enum {
 typedef struct {
 	trType_t trType;
 	int trTime;
-	int trDuration;	// if non 0, trTime + trDuration = stop time
+	int trDuration;		// if non 0, trTime + trDuration = stop time
 	vec3_t trBase;
-	vec3_t trDelta;	// velocity, etc.
+	vec3_t trDelta;		// velocity, etc.
 } trajectory_t;
 // put this here so we have a central means of defining a Zombie (kind of a hack, but this is to minimize bandwidth usage)
 #define SET_FLAMING_ZOMBIE(x, y) (x.frame = y)

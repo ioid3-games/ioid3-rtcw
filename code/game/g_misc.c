@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -231,7 +227,7 @@ Direct call to the grabber entity(not a trigger)to call the attack.
 */
 void grabber_attack(gentity_t *ent) {
 
-	ent->s.frame = (rand()% 3) + 2;   // randomly choose an attack sequence
+	ent->s.frame = (rand()% 3) + 2; // randomly choose an attack sequence
 	ent->nextthink = level.time + attackHittimes[(ent->s.frame) - 2];
 	ent->think = grabber_think_hit;
 }
@@ -274,7 +270,6 @@ void grabber_wake(gentity_t *ent) {
 	gentity_t *parent;
 
 	parent = ent->parent;
-
 	// change the 'a' trigger to the 'b' trigger for grabber attacking
 	VectorCopy(parent->s.origin, ent->r.mins);
 	VectorCopy(parent->s.origin, ent->r.maxs);
@@ -486,7 +481,6 @@ void spotlight_finish_spawning(gentity_t *ent) {
 	ent->think = 0;
 	ent->nextthink = 0;
 	ent->s.frame = 0;
-
 	ent->clipmask = CONTENTS_SOLID;
 	ent->r.contents = CONTENTS_SOLID;
 
@@ -625,6 +619,7 @@ This entity itself is never visible or transmitted to clients.
 This entity was created to have multiple speakers targeting it
 */
 void SP_misc_vis_dummy_multiple(gentity_t *ent) {
+
 	if (!ent->targetname) {
 		G_Printf("misc_vis_dummy_multiple needs a targetname at %s\n", vtos(ent->r.currentOrigin));
 		G_FreeEntity(ent);
@@ -647,10 +642,10 @@ void SP_misc_light_surface(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-locateCamera
+LocateCamera
 =======================================================================================================================================
 */
-void locateCamera(gentity_t *ent) {
+void LocateCamera(gentity_t *ent) {
 	vec3_t dir;
 	gentity_t *target;
 	gentity_t *owner;
@@ -703,7 +698,7 @@ void SP_misc_portal_surface(gentity_t *ent) {
 	if (!ent->target) {
 		VectorCopy(ent->s.origin, ent->s.origin2);
 	} else {
-		ent->think = locateCamera;
+		ent->think = LocateCamera;
 		ent->nextthink = level.time + 100;
 	}
 }
@@ -817,7 +812,6 @@ void InitShooter(gentity_t *ent, int weapon) {
 
 	ent->use = Use_Shooter;
 	ent->s.weapon = weapon;
-
 	// sniper
 	if (weapon != WP_SNIPER) {
 		RegisterItem(BG_FindItemForWeapon(weapon));
@@ -848,6 +842,7 @@ if LAUNCH_FX is checked a smoke effect will play at the origin of this entity.
 if FLASH_FX is checked a muzzle flash effect will play at the origin of this entity.
 */
 void SP_shooter_mortar(gentity_t *ent) {
+
 	// TODO: must have a self->target. Do a check/print if this is not the case
 	InitShooter(ent, WP_MORTAR);
 
@@ -899,11 +894,10 @@ shooter_tesla_finish_spawning
 =======================================================================================================================================
 */
 void shooter_tesla_finish_spawning(gentity_t *ent) {
-	gentity_t *tent;  // target ent
+	gentity_t *tent; // target ent
 
 	ent->think = 0;
 	ent->nextthink = 0;
-
 	// locate the target and set the location
 	tent = G_PickTarget(ent->target);
 
@@ -984,7 +978,7 @@ void SP_shooter_tesla(gentity_t *ent) {
 		ent->dl_color[0] = ent->dl_color[0] * 255;
 		ent->dl_color[1] = ent->dl_color[1] * 255;
 		ent->dl_color[2] = ent->dl_color[2] * 255;
-		ent->s.dl_intensity = (int)ent->dl_color[0] |((int)ent->dl_color[1] << 8)|((int)ent->dl_color[2] << 16);
+		ent->s.dl_intensity = (int)ent->dl_color[0]|((int)ent->dl_color[1] << 8)|((int)ent->dl_color[2] << 16);
 	} else {
 		ent->s.dl_intensity = 0;
 	}
@@ -1168,7 +1162,6 @@ void SP_corona(gentity_t *ent) {
 	// if it's black or has no color assigned
 	if (ent->dl_color[0] <= 0 && ent->dl_color[1] <= 0 && ent->dl_color[2] <= 0) {
 		ent->dl_color[0] = ent->dl_color[1] = ent->dl_color[2] = 1; // set white
-
 	}
 
 	ent->dl_color[0] = ent->dl_color[0] * 255;
@@ -1265,6 +1258,7 @@ The dlight knew when it was triggered to unlink after going through it's cycle o
 =======================================================================================================================================
 */
 void shutoff_dlight(gentity_t *ent) {
+
 	if (!(ent->r.linked)) {
 		return;
 	}
@@ -1328,14 +1322,11 @@ void SP_dlight(gentity_t *ent) {
 	}
 
 	ent->count = strlen(ent->dl_stylestring);
-
 	ent->dl_atten = atten;
-
 	// make the initial offset a valid index into the stylestring
 	offset = offset %(ent->count);
 
 	ent->health = offset; // set the offset into the string
-
 	ent->think = dlight_finish_spawning;
 
 	if (!dlightstarttime) { // sync up all the dlights
@@ -1601,7 +1592,6 @@ void mg42_muzzleflash(gentity_t *ent, vec3_t muzzlepos) { // cheezy, but lets me
 
 		trap_LinkEntity(flash);
 	}
-
 }
 
 /*
@@ -1623,7 +1613,7 @@ void Fire_Lead(gentity_t *ent, gentity_t *activator, float spread, int damage, v
 	AngleVectors(angles, forward, right, up);
 	// 'muzzle' is bogus for mg42. adjust for it
 	if (!Q_stricmp(ent->classname, "misc_mg42")) {
-		mg42_muzzleflash(ent, mg42_muzzle);    // get current position for mg42 muzzle flash/bullet origin
+		mg42_muzzleflash(ent, mg42_muzzle); // get current position for mg42 muzzle flash/bullet origin
 		VectorCopy(mg42_muzzle, lead_muzzle);
 	} else {
 		VectorCopy(muzzle, lead_muzzle);
@@ -1631,6 +1621,7 @@ void Fire_Lead(gentity_t *ent, gentity_t *activator, float spread, int damage, v
 
 	r = crandom() * spread;
 	u = crandom() * spread;
+
 	VectorMA(lead_muzzle, 8192, forward, end);
 	VectorMA(end, r, right, end);
 	VectorMA(end, u, up, end);
@@ -1683,8 +1674,8 @@ void Fire_Lead(gentity_t *ent, gentity_t *activator, float spread, int damage, v
 
 		if (!Q_stricmp(ent->classname, "misc_mg42")) {
 			tent = G_TempEntity(tr.endpos, EV_BULLET_HIT_WALL);
-
 			dot = DotProduct(forward, tr.plane.normal);
+
 			VectorMA(forward, -2 * dot, tr.plane.normal, reflect);
 			VectorNormalize(reflect);
 
@@ -1713,11 +1704,14 @@ void Fire_Lead(gentity_t *ent, gentity_t *activator, float spread, int damage, v
 
 		flakPuff(tr.endpos, qfalse, forward);
 	}
-
 }
 
 float AngleDifference(float ang1, float ang2);
-
+/*
+=======================================================================================================================================
+clamp_hweapontofirearc
+=======================================================================================================================================
+*/
 void clamp_hweapontofirearc(gentity_t *self, gentity_t *other, vec3_t dang) {
 // NOTE: use this value, and THEN the cl_input.c scales to tweak the feel
 #define MG42_YAWSPEED 300.0 // degrees per second
@@ -1866,7 +1860,11 @@ void clamp_playerbehindgun(gentity_t *self, gentity_t *other, vec3_t dang) {
 #define FIREARC 120
 #define FLAK_SPREAD 100
 #define FLAK_DAMAGE 36
-
+/*
+=======================================================================================================================================
+mg42_touch
+=======================================================================================================================================
+*/
 void mg42_touch(gentity_t *self, gentity_t *other, trace_t *trace) {
 	vec3_t dang;
 	int i;
@@ -1876,9 +1874,9 @@ void mg42_touch(gentity_t *self, gentity_t *other, trace_t *trace) {
 	}
 
 	if (other->active) {
-		for (i = 0; i < 3; i++)
+		for (i = 0; i < 3; i++) {
 			dang[i] = SHORT2ANGLE(other->client->pers.cmd.angles[i]);
-
+		}
 		// the gun should go to our current angles next time it thinks
 		VectorCopy(dang, self->TargetAngles);
 		//VectorCopy(other->client->ps.viewangles, self->TargetAngles);
@@ -1898,7 +1896,6 @@ void mg42_touch(gentity_t *self, gentity_t *other, trace_t *trace) {
 		VectorCopy(other->client->ps.viewangles, self->TargetAngles);
 
 		clamp_hweapontofirearc(self, other, dang);
-
 		// clamp player behind the gun
 		clamp_playerbehindgun(self, other, dang);
 
@@ -1906,6 +1903,11 @@ void mg42_touch(gentity_t *self, gentity_t *other, trace_t *trace) {
 	}
 }
 
+/*
+=======================================================================================================================================
+mg42_track
+=======================================================================================================================================
+*/
 void mg42_track(gentity_t *self, gentity_t *other) {
 	vec3_t dang;
 	int i;
@@ -1941,7 +1943,6 @@ void mg42_track(gentity_t *self, gentity_t *other) {
 				} else if (!Q_stricmp(self->classname, "misc_flak")) {
 					if (self->delay < level.time) {
 						self->delay = level.time + 250;
-
 						self->count++;
 
 						if (self->count > 4) {
@@ -1986,9 +1987,7 @@ void mg42_track(gentity_t *self, gentity_t *other) {
 						} else {
 							Fire_Lead(self, other, MG42_SPREAD / self->accuracy, MG42_DAMAGE_AI, muzzle, self->s.apos.trBase);
 						}
-
 					}
-
 					// play character anim
 					BG_AnimScriptEvent(&other->client->ps, ANIM_ET_FIREWEAPON, qfalse, qtrue);
 
@@ -2010,16 +2009,21 @@ void mg42_track(gentity_t *self, gentity_t *other) {
 	}
 }
 
-#define GUN1_IDLE   0
-#define GUN2_IDLE   4
-#define GUN3_IDLE   8
-#define GUN4_IDLE   12
+#define GUN1_IDLE 0
+#define GUN2_IDLE 4
+#define GUN3_IDLE 8
+#define GUN4_IDLE 12
 
-#define GUN1_LASTFIRE   3
-#define GUN2_LASTFIRE   7
-#define GUN3_LASTFIRE   11
-#define GUN4_LASTFIRE   15
+#define GUN1_LASTFIRE 3
+#define GUN2_LASTFIRE 7
+#define GUN3_LASTFIRE 11
+#define GUN4_LASTFIRE 15
 
+/*
+=======================================================================================================================================
+Flak_Animate
+=======================================================================================================================================
+*/
 void Flak_Animate(gentity_t *ent) {
 
 	//G_Printf("frame %i\n", ent->s.frame);
@@ -2056,6 +2060,12 @@ void Flak_Animate(gentity_t *ent) {
 }
 
 #define USEMG42_DISTANCE 46
+
+/*
+=======================================================================================================================================
+mg42_think
+=======================================================================================================================================
+*/
 void mg42_think(gentity_t *self) {
 	vec3_t vec;
 	gentity_t *owner;
@@ -2141,10 +2151,13 @@ void mg42_think(gentity_t *self) {
 	}
 
 	self->r.ownerNum = self->s.number;
-
-
 }
 
+/*
+=======================================================================================================================================
+mg42_die
+=======================================================================================================================================
+*/
 void mg42_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod) {
 	gentity_t *gun;
 	gentity_t *owner;
@@ -2182,6 +2195,11 @@ void mg42_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int da
 	trap_LinkEntity(self);
 }
 
+/*
+=======================================================================================================================================
+mg42_use
+=======================================================================================================================================
+*/
 void mg42_use(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 	gentity_t *owner;
 
@@ -2366,6 +2384,11 @@ void SP_mg42(gentity_t *self) {
 // jpw
 }
 
+/*
+=======================================================================================================================================
+flak_spawn
+=======================================================================================================================================
+*/
 void flak_spawn(gentity_t *ent) {
 	gentity_t *gun;
 	vec3_t offset;
@@ -2447,22 +2470,32 @@ void misc_spawner_think(gentity_t *ent) {
 		G_Printf("-----> WARNING <-------\n");
 		G_Printf("misc_spawner used at %s failed to drop!\n", vtos(ent->r.currentOrigin));
 	}
-
 }
 
+/*
+=======================================================================================================================================
+misc_spawner_use
+=======================================================================================================================================
+*/
 void misc_spawner_use(gentity_t *ent, gentity_t *other, gentity_t *activator) {
+
 	ent->think = misc_spawner_think;
 	ent->nextthink = level.time + FRAMETIME;
 
 //	VectorCopy(other->r.currentOrigin, ent->r.currentOrigin);
 //	VectorCopy(ent->r.currentOrigin, ent->s.pos.trBase);
-
 //	VectorCopy(other->r.currentAngles, ent->r.currentAngles);
 
 	trap_LinkEntity(ent);
 }
 
+/*
+=======================================================================================================================================
+SP_misc_spawner
+=======================================================================================================================================
+*/
 void SP_misc_spawner(gentity_t *ent) {
+
 	if (!ent->spawnitem) {
 		G_Printf("-----> WARNING <-------\n");
 		G_Printf("misc_spawner at loc %s has no spawnitem!\n", vtos(ent->s.origin));
@@ -2472,16 +2505,26 @@ void SP_misc_spawner(gentity_t *ent) {
 	ent->use = misc_spawner_use;
 
 	trap_LinkEntity(ent);
-
 }
 
 //(SA)removed dead code 9/7/01
 
+/*
+=======================================================================================================================================
+firetrail_die
+=======================================================================================================================================
+*/
 void firetrail_die(gentity_t *ent) {
 	G_FreeEntity(ent);
 }
 
+/*
+=======================================================================================================================================
+firetrail_use
+=======================================================================================================================================
+*/
 void firetrail_use(gentity_t *ent, gentity_t *other, gentity_t *activator) {
+
 	if (ent->s.eType == ET_RAMJET) {
 		ent->s.eType = ET_GENERAL;
 	} else {
@@ -2497,12 +2540,17 @@ This entity must target the script mover it will attach to
 'use' to turn on/off
 alert entity call to kill it
 */
-
 void tagemitter_die(gentity_t *ent) {
 	G_FreeEntity(ent);
 }
 
+/*
+=======================================================================================================================================
+tagemitter_use
+=======================================================================================================================================
+*/
 void tagemitter_use(gentity_t *ent, gentity_t *other, gentity_t *activator) {
+
 	if (ent->s.eType == ET_EFFECT3) {
 		ent->s.eType = ET_GENERAL;
 	} else {
@@ -2510,9 +2558,13 @@ void tagemitter_use(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 	}
 
 	trap_LinkEntity(ent);
-
 }
 
+/*
+=======================================================================================================================================
+misc_tagemitter_finishspawning
+=======================================================================================================================================
+*/
 void misc_tagemitter_finishspawning(gentity_t *ent) {
 	gentity_t *emitter, *parent;
 
@@ -2523,48 +2575,49 @@ void misc_tagemitter_finishspawning(gentity_t *ent) {
 	}
 
 	emitter = ent->target_ent;
-
 	emitter->classname = "misc_tagemitter";
 	emitter->r.contents = 0;
 	emitter->s.eType = ET_GENERAL;
 	emitter->tagParent = parent;
-
 	emitter->use = tagemitter_use;
 	emitter->AIScript_AlertEntity = tagemitter_die;
 	emitter->targetname = ent->targetname;
+
 	G_ProcessTagConnect(emitter, qtrue);
 //	trap_LinkEntity(emitter);
-
 	ent->target_ent = NULL;
 }
 
+/*
+=======================================================================================================================================
+SP_misc_tagemitter
+=======================================================================================================================================
+*/
 void SP_misc_tagemitter(gentity_t *ent) {
 	char *tagName;
 
-	ent->think = misc_tagemitter_finishspawning;    // so it can find it's target
+	ent->think = misc_tagemitter_finishspawning; // so it can find it's target
 	ent->nextthink = level.time + 100;
 
 	if (!G_SpawnString("tag", NULL, &tagName)) {
 		G_Error("misc_tagemitter: no 'tag' specified\n");
 	}
 
-	ent->target_ent = G_Spawn();    // spawn the emitter
+	ent->target_ent = G_Spawn(); // spawn the emitter
 	ent->target_ent->tagName = G_Alloc(strlen(tagName) + 1);
+
 	Q_strncpyz(ent->target_ent->tagName, tagName, strlen(tagName) + 1);
 
 	ent->tagName = G_Alloc(strlen(tagName) + 1);
+
 	Q_strncpyz(ent->tagName, tagName, strlen(tagName) + 1);
 
 }
 
 /*QUAKED misc_firetrails(.4 .9 .7)(-16 -16 -16)(16 16 16)
-This entity must target the plane its going to be attached to
-
-  its use function will turn the fire stream effect on and off
-
-  an alert entity call will kill it
+This entity must target the plane its going to be attached to its use function will turn the fire stream effect on and off
+an alert entity call will kill it
 */
-
 void misc_firetrails_finishspawning(gentity_t *ent) {
 	gentity_t *left, *right, *airplane;
 
@@ -2580,13 +2633,13 @@ void misc_firetrails_finishspawning(gentity_t *ent) {
 	left->s.eType = ET_RAMJET;
 	left->s.modelindex = G_ModelIndex("models/ammo/rocket/rocket.md3");
 	left->tagParent = airplane;
-	left->tagName = "tag_engine1";   // tag to connect to
+	left->tagName = "tag_engine1"; // tag to connect to
 	left->use = firetrail_use;
 	left->AIScript_AlertEntity = firetrail_die;
 	left->targetname = ent->targetname;
+
 	G_ProcessTagConnect(left, qtrue);
 	trap_LinkEntity(left);
-
 	// right fire trail
 	right = G_Spawn();
 	right->classname = "right_firetrail";
@@ -2598,12 +2651,18 @@ void misc_firetrails_finishspawning(gentity_t *ent) {
 	right->use = firetrail_use;
 	right->AIScript_AlertEntity = firetrail_die;
 	right->targetname = ent->targetname;
+
 	G_ProcessTagConnect(right, qtrue);
 	trap_LinkEntity(right);
-
 }
 
+/*
+=======================================================================================================================================
+SP_misc_firetrails
+=======================================================================================================================================
+*/
 void SP_misc_firetrails(gentity_t *ent) {
+
 	ent->think = misc_firetrails_finishspawning;
 	ent->nextthink = level.time + 100;
 

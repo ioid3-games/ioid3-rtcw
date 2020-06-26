@@ -26,14 +26,6 @@ If you have questions concerning this license or the applicable additional terms
 =======================================================================================================================================
 */
 
-//===========================================================================
-//
-// Name:			ai_cast_global.h
-// Function:		Global AI Cast defines
-// Programmer:		Ridah
-// Tab Size:		4(real tabs)
-//===========================================================================
-
 // TTimo no typedef, "warning: useless keyword or type name in empty declaration"
 struct cast_state_s;
 

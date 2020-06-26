@@ -26,15 +26,12 @@ If you have questions concerning this license or the applicable additional terms
 =======================================================================================================================================
 */
 
-/*
- * name:		bg_public.h
- *
- * desc:		definitions shared by both the server game and client game modules
- *
-*/
+/**************************************************************************************************************************************
+ Definitions shared by both the server game and client game modules.
+**************************************************************************************************************************************/
 
-// because games can change separately from the main system version, we need a
-// second version that must match between game and cgame
+// because games can change separately from the main system version, we need a second version that must match between game and cgame
+
 
 #define GAME_VERSION		BASEGAME "-1"
 

@@ -1,32 +1,29 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
 #include "server.h"
+
 /*
 =======================================================================================================================================
 
@@ -90,7 +87,7 @@ static void SV_EmitPacketEntities(clientSnapshot_t *from, clientSnapshot_t *to, 
 		}
 
 		if (newnum == oldnum) {
-			// delta update from old position because the force parm is qfalse, this will not result in any bytes being emited if the entity has not changed at all
+			// delta update from old position because the force parm is qfalse, this will not result in any bytes being emitted if the entity has not changed at all
 			MSG_WriteDeltaEntity(msg, oldent, newent, qfalse);
 			oldindex++;
 			newindex++;
@@ -469,7 +466,7 @@ static void SV_AddEntitiesVisibleFromPoint(vec3_t origin, clientSnapshot_t *fram
 			}
 
 			goto notVisible;
-			//continue;	// master needs to be added, but not this dummy ent
+			//continue; // master needs to be added, but not this dummy ent
 		} else if (ent->r.svFlags & SVF_VISDUMMY_MULTIPLE) {
 			{
 				int h;
@@ -599,7 +596,7 @@ static void SV_BuildClientSnapshot(client_t *client) {
 	entityNumbers.numSnapshotEntities = 0;
 
 	memset(frame->areabits, 0, sizeof(frame->areabits));
-	// show_bug.cgi?id=62
+	// https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=62
 	frame->num_entities = 0;
 	clent = client->gentity;
 
@@ -633,8 +630,8 @@ static void SV_BuildClientSnapshot(client_t *client) {
 	}
 	// add all the entities directly visible to the eye, which may include portal entities that merge other viewpoints
 	SV_AddEntitiesVisibleFromPoint(org, frame, &entityNumbers, qfalse, client->netchan.remoteAddress.type == NA_LOOPBACK);
-	// if there were portals visible, there may be out of order entities in the list which will need to be resorted for the
-	// delta compression to work correctly. This also catches the error condition of an entity being included twice
+	// if there were portals visible, there may be out of order entities in the list which will need to be resorted for the delta compression
+	// to work correctly. This also catches the error condition of an entity being included twice
 	qsort(entityNumbers.snapshotEntities, entityNumbers.numSnapshotEntities, sizeof(entityNumbers.snapshotEntities[0]), SV_QsortEntityNumbers);
 	// now that all viewpoint's areabits have been OR'd together, invert all of them to make it a mask vector, which is what the renderer wants
 	for (i = 0; i < MAX_MAP_AREA_BYTES / 4; i++) {

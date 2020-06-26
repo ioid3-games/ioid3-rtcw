@@ -325,7 +325,7 @@ int AICast_ScanForEnemies(cast_state_t *cs, int *enemies) {
 		// ignore the friendly, we have our hands full
 		return 0;
 	}
-	// must be hostile enemy(s)found, so return them
+	// must be hostile enemy(s) found, so return them
 	return enemyCount;
 }
 
@@ -375,7 +375,7 @@ qboolean AICast_EntityVisible(cast_state_t *cs, int enemynum, qboolean directvie
 	}
 
 	if (vis->notvisible_timestamp < (level.time - reactionTime)) {
-		// make sure we've seen them since we've last not seen them(since the visibility checking is spread amongst server frames)
+		// make sure we've seen them since we've last not seen them (since the visibility checking is spread amongst server frames)
 		if (vis->notvisible_timestamp < last_visible) {
 			return qtrue;
 		}
@@ -493,50 +493,50 @@ float AICast_WeaponRange(cast_state_t *cs, int weaponnum) {
 		case WP_MONSTER_ATTACK1:
 			switch (cs->aiCharacter) {
 				case AICHAR_HEINRICH:
-				if (cs->weaponFireTimes[weaponnum] < level.time - 8000) {
-					return 500; // lots of room for stomping
-				} else {
-					return 120; // come in real close
-				}
+					if (cs->weaponFireTimes[weaponnum] < level.time - 8000) {
+						return 500; // lots of room for stomping
+					} else {
+						return 120; // come in real close
+					}
 
 				case AICHAR_HELGA: // helga BOSS1 melee
-				return 80;
+					return 80;
 				case AICHAR_WARZOMBIE:
-				return 80; // make it larger so we can start swinging early, and move in while swinging
+					return 80; // make it larger so we can start swinging early, and move in while swinging
 				case AICHAR_LOPER: // close attack, head-butt, fist
-				return 60;
+					return 60;
 				case AICHAR_BLACKGUARD:
-				return BLACKGUARD_MELEE_RANGE;
+					return BLACKGUARD_MELEE_RANGE;
 				case AICHAR_STIMSOLDIER3:
-				return TESLA_RANGE;
+					return TESLA_RANGE;
 				case AICHAR_ZOMBIE: // zombie flaming attack
-				return ZOMBIE_FLAME_RADIUS - 50; // get well within range before starting
+					return ZOMBIE_FLAME_RADIUS - 50; // get well within range before starting
 			}
 
 			break;
 		case WP_MONSTER_ATTACK2:
 			switch (cs->aiCharacter) {
 				case AICHAR_HEINRICH:
-				return 8000;
+					return 8000;
 				case AICHAR_ZOMBIE: // zombie spirit attack
-				return 1000;
+					return 1000;
 				case AICHAR_HELGA: // zombie spirit attack
-				return 1900;
+					return 1900;
 				case AICHAR_LOPER: // loper leap attack
-				return 8000; // use it to gain on them also
+					return 8000; // use it to gain on them also
 			}
 
 			break;
 		case WP_MONSTER_ATTACK3:
 			switch (cs->aiCharacter) {
 				case AICHAR_HEINRICH: // spirits
-				return 50000;
+					return 50000;
 				case AICHAR_LOPER: // loper ground attack
-				return LOPER_GROUND_RANGE;
+					return LOPER_GROUND_RANGE;
 				case AICHAR_WARZOMBIE: // warzombie defense
-				return 2000;
+					return 2000;
 				case AICHAR_ZOMBIE:
-				return 44;
+					return 44;
 			}
 
 			break;
@@ -546,8 +546,6 @@ float AICast_WeaponRange(cast_state_t *cs, int weaponnum) {
 		case WP_SNOOPERSCOPE:
 			return 8000;
 			break;
-
-
 	}
 	// default range
 	return 3000;
@@ -952,7 +950,7 @@ qboolean AICast_WeaponUsable(cast_state_t *cs, int weaponNum) {
 				if (hitclient > -1) {
 					return qtrue;
 				} else {
-					return qfalse;  // it's not safe
+					return qfalse; // it's not safe
 				}
 			}
 
@@ -1895,7 +1893,7 @@ qboolean AICast_StopAndAttack(cast_state_t *cs) {
 	}
 
 	switch (cs->weaponNum) {
-			// if they are using Venom, and are too far away to be effective, then keep chasing
+		// if they are using Venom, and are too far away to be effective, then keep chasing
 		case WP_VENOM:
 			if (dist > 300) {
 				return qfalse;
@@ -1910,7 +1908,7 @@ qboolean AICast_StopAndAttack(cast_state_t *cs) {
 			}
 
 			break;
-			// if they are using tesla (SUPERSOLDIER / BOSS2) try and get close
+		// if they are using tesla (SUPERSOLDIER / BOSS2) try and get close
 		case WP_TESLA:
 			if (dist > 128 /*&& (level.time%10000 < 8000)*/) {
 				return qfalse;

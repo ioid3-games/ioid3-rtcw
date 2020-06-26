@@ -26,14 +26,6 @@ If you have questions concerning this license or the applicable additional terms
 =======================================================================================================================================
 */
 
-//===========================================================================
-//
-// Name:			ai_cast_debug.c
-// Function:		Wolfenstein AI Character Routines
-// Programmer:		Ridah
-// Tab Size:		4(real tabs)
-//===========================================================================
-
 #include "g_local.h"
 #include "../botlib/botlib.h" // bot lib interface
 #include "../botlib/be_aas.h"

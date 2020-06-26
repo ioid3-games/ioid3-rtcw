@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -212,7 +208,13 @@ static void CG_TellAttacker_f(void) {
 	trap_SendClientCommand(command);
 }
 
-/////////// cameras
+/*
+=======================================================================================================================================
+
+	CAMERAS
+
+=======================================================================================================================================
+*/
 
 #define MAX_CAMERAS 64 // matches define in splines.cpp
 qboolean cameraInuse[MAX_CAMERAS];
@@ -506,23 +508,23 @@ static void CG_DumpCastAi_f(void) {
 	trap_Argv(1, aitype, sizeof(aitype));
 
 	if (strcmp("ai_soldier", aitype) &&
-		 strcmp("ai_american", aitype) &&
-		 strcmp("ai_zombie", aitype) &&
-		 strcmp("ai_warzombie", aitype) &&
-		 strcmp("ai_venom", aitype) &&
-		 strcmp("ai_loper", aitype) &&
-		 strcmp("ai_boss_helga", aitype) &&
-		 strcmp("ai_boss_heinrich", aitype) &&
-		 strcmp("ai_eliteguard", aitype) &&
-		 strcmp("ai_stimsoldier_dual", aitype) &&
-		 strcmp("ai_stimsoldier_rocket", aitype) &&
-		 strcmp("ai_stimsoldier_tesla", aitype) &&
-		 strcmp("ai_supersoldier", aitype) &&
-		 strcmp("ai_protosoldier", aitype) &&
-		 strcmp("ai_frogman", aitype) &&
-		 strcmp("ai_blackguard", aitype) &&
-		 strcmp("ai_partisan", aitype) &&
-		 strcmp("ai_civilian", aitype)) {
+		strcmp("ai_american", aitype) &&
+		strcmp("ai_zombie", aitype) &&
+		strcmp("ai_warzombie", aitype) &&
+		strcmp("ai_venom", aitype) &&
+		strcmp("ai_loper", aitype) &&
+		strcmp("ai_boss_helga", aitype) &&
+		strcmp("ai_boss_heinrich", aitype) &&
+		strcmp("ai_eliteguard", aitype) &&
+		strcmp("ai_stimsoldier_dual", aitype) &&
+		strcmp("ai_stimsoldier_rocket", aitype) &&
+		strcmp("ai_stimsoldier_tesla", aitype) &&
+		strcmp("ai_supersoldier", aitype) &&
+		strcmp("ai_protosoldier", aitype) &&
+		strcmp("ai_frogman", aitype) &&
+		strcmp("ai_blackguard", aitype) &&
+		strcmp("ai_partisan", aitype) &&
+		strcmp("ai_civilian", aitype)) {
 		CG_Printf("Wrong type\n");
 		CG_Printf("Usage: dumpcastai <type> [name]\n");
 		return;
@@ -790,7 +792,7 @@ void CG_vstrUp_f(void) {
 
 typedef struct {
 	char *cmd;
-	void(*function)(void);
+	void (*function)(void);
 } consoleCommand_t;
 
 static consoleCommand_t commands[] = {

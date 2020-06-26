@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -236,7 +232,6 @@ void Team_FragBonuses(gentity_t *targ, gentity_t *inflictor, gentity_t *attacker
 
 	if (!flag) {
 		return; // can't find attacker's flag
-
 	}
 	// find attacker's team's flag carrier
 	for (i = 0; i < g_maxclients.integer; i++) {
@@ -449,7 +444,6 @@ int Team_TouchOurFlag(gentity_t *ent, gentity_t *other, int team) {
 	// the flag is at home base. if the player has the enemy flag, he's just won!
 	if (!cl->ps.powerups[enemy_flag]) {
 		return 0; // we don't have the flag
-
 	}
 
 	PrintMsg(NULL, "%s" S_COLOR_WHITE " captured the %s flag!\n", cl->pers.netname, TeamName(OtherTeam(team)));
@@ -496,6 +490,7 @@ int Team_TouchOurFlag(gentity_t *ent, gentity_t *other, int team) {
 
 	Team_ResetFlags();
 	CalculateRanks();
+
 	return 0; // do not respawn this automatically
 }
 
@@ -515,7 +510,6 @@ int Team_TouchEnemyFlag(gentity_t *ent, gentity_t *other, int team) {
 		cl->ps.powerups[PW_REDFLAG] = INT_MAX; // flags never expire
 	} else {
 		cl->ps.powerups[PW_BLUEFLAG] = INT_MAX; // flags never expire
-
 	}
 
 	cl->pers.teamState.flagsince = level.time;
@@ -726,7 +720,9 @@ gentity_t *SelectCTFSpawnPoint(team_t team, int teamstate, vec3_t origin, vec3_t
 	}
 
 	VectorCopy(spot->s.origin, origin);
+
 	origin[2] += 9;
+
 	VectorCopy(spot->s.angles, angles);
 
 	return spot;
@@ -791,12 +787,13 @@ void TeamplayInfoMessage(gentity_t *ent) {
 			}
 
 			strcpy(string + stringlength, entry);
+
 			stringlength += j;
 			cnt++;
 		}
 	}
 
-	trap_SendServerCommand(ent - g_entities, va("tinfo %i%s", cnt, string));
+	trap_SendServerCommand(ent - g_entities, va("tinfo %i %s", cnt, string));
 }
 
 /*
@@ -814,9 +811,7 @@ void CheckTeamStatus(void) {
 		for (i = 0; i < g_maxclients.integer; i++) {
 			ent = g_entities + i;
 			/*
-			if (ent->inuse &&
-				(ent->client->sess.sessionTeam == TEAM_RED ||
-					ent->client->sess.sessionTeam == TEAM_BLUE)) {
+			if (ent->inuse && (ent->client->sess.sessionTeam == TEAM_RED || ent->client->sess.sessionTeam == TEAM_BLUE)) {
 			*/
 			if (ent->inuse && !(ent->r.svFlags & SVF_CASTAI)) {
 				loc = Team_GetLocation(ent);

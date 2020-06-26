@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -174,7 +170,6 @@ void G_TestEntityDropToFloor(gentity_t *ent, float maxdrop) {
 /*
 =======================================================================================================================================
 G_TestEntityMoveTowardsPos
-
 =======================================================================================================================================
 */
 void G_TestEntityMoveTowardsPos(gentity_t *ent, vec3_t pos) {
@@ -238,6 +233,7 @@ void G_RotatePoint(vec3_t point, /*const*/ vec3_t matrix[3]) {
 	vec3_t tvec;
 
 	VectorCopy(point, tvec);
+
 	point[0] = DotProduct(matrix[0], tvec);
 	point[1] = DotProduct(matrix[1], tvec);
 	point[2] = DotProduct(matrix[2], tvec);
@@ -255,7 +251,7 @@ qboolean G_TryPushingEntity(gentity_t *check, gentity_t *pusher, vec3_t move, ve
 	gentity_t *block;
 	vec3_t matrix[3], transpose[3];
 	float x, fx, y, fy, z, fz;
-#define JITTER_INC  4
+#define JITTER_INC 4
 #define JITTER_MAX (check->r.maxs[0] / 2.0)
 	// EF_MOVER_STOP will just stop when contacting another entity instead of pushing it, but entities can still ride on top of it
 	if ((pusher->s.eFlags & EF_MOVER_STOP) && check->s.groundEntityNum != pusher->s.number) {
@@ -268,6 +264,7 @@ qboolean G_TryPushingEntity(gentity_t *check, gentity_t *pusher, vec3_t move, ve
 	}
 
 	pushed_p->ent = check;
+
 	VectorCopy(check->s.pos.trBase, pushed_p->origin);
 	VectorCopy(check->s.apos.trBase, pushed_p->angles);
 
@@ -333,21 +330,22 @@ qboolean G_TryPushingEntity(gentity_t *check, gentity_t *pusher, vec3_t move, ve
 			VectorCopy(check->client->ps.origin, org);
 		}
 
-		for (z = 0; z < JITTER_MAX; z += JITTER_INC)
+		for (z = 0; z < JITTER_MAX; z += JITTER_INC) {
 			for (fz = -z; fz <= z; fz += 2 * z) {
-				for (x = JITTER_INC; x < JITTER_MAX; x += JITTER_INC)
+				for (x = JITTER_INC; x < JITTER_MAX; x += JITTER_INC) {
 					for (fx = -x; fx <= x; fx += 2 * x) {
-						for (y = JITTER_INC; y < JITTER_MAX; y += JITTER_INC)
+						for (y = JITTER_INC; y < JITTER_MAX; y += JITTER_INC) {
 							for (fy = -y; fy <= y; fy += 2 * y) {
 								VectorSet(move2, fx, fy, fz);
 								VectorAdd(org, move2, org2);
 								VectorCopy(org2, check->s.pos.trBase);
+
 								if (check->client) {
 									VectorCopy(org2, check->client->ps.origin);
 								}
-								//
 								// do the test
 								block = G_TestEntityPosition(check);
+
 								if (!block) {
 									// pushed ok
 									if (check->client) {
@@ -355,15 +353,19 @@ qboolean G_TryPushingEntity(gentity_t *check, gentity_t *pusher, vec3_t move, ve
 									} else {
 										VectorCopy(check->s.pos.trBase, check->r.currentOrigin);
 									}
+
 									return qtrue;
 								}
 							}
+						}
 					}
+				}
 
 				if (!fz) {
 					break;
 				}
 			}
+		}
 		// didn't work, so set the position back
 		VectorCopy(org, check->s.pos.trBase);
 
@@ -371,8 +373,7 @@ qboolean G_TryPushingEntity(gentity_t *check, gentity_t *pusher, vec3_t move, ve
 			VectorCopy(org, check->client->ps.origin);
 		}
 	}
-	// if it is ok to leave in the old position, do it
-	// this is only relevant for riding entities, not pushed
+	// if it is ok to leave in the old position, do it this is only relevant for riding entities, not pushed
 	// sliding trapdoors can cause this
 	VectorCopy((pushed_p - 1)->origin, check->s.pos.trBase);
 
@@ -412,8 +413,6 @@ qboolean G_MoverPush(gentity_t *pusher, vec3_t move, vec3_t amove, gentity_t **o
 	vec3_t totalMins, totalMaxs;
 
 	*obstacle = NULL;
-
-
 	// mins/maxs are the bounds at the destination
 	// totalMins/totalMaxs are the bounds for the entire move
 	if (pusher->r.currentAngles[0] || pusher->r.currentAngles[1] || pusher->r.currentAngles[2] || amove[0] || amove[1] || amove[2]) {
@@ -475,7 +474,7 @@ qboolean G_MoverPush(gentity_t *pusher, vec3_t move, vec3_t amove, gentity_t **o
 		}
 
 		//if(check->s.eType == ET_MISSILE && VectorLength(check->s.pos.trDelta)) {
-		//	continue;	// it's moving
+		//	continue; // it's moving
 		//}
 		// if the entity is standing on the pusher, it will definitely be moved
 		if (check->s.groundEntityNum != pusher->s.number) {
@@ -485,7 +484,7 @@ qboolean G_MoverPush(gentity_t *pusher, vec3_t move, vec3_t amove, gentity_t **o
 			}
 			// see if the ent's bbox is inside the pusher's final position
 			// this does allow a fast moving object to pass through a thin entity...
-			if (G_TestEntityPosition(check)!= pusher) {
+			if (G_TestEntityPosition(check) != pusher) {
 				continue;
 			}
 		}
@@ -529,7 +528,6 @@ qboolean G_MoverPush(gentity_t *pusher, vec3_t move, vec3_t amove, gentity_t **o
 		// link all entities at their original position
 		for (e = 0; e < moveEntities; e++) {
 			check = &g_entities[moveList[e]];
-
 			trap_LinkEntity(check);
 		}
 		// movement failed
@@ -538,7 +536,6 @@ qboolean G_MoverPush(gentity_t *pusher, vec3_t move, vec3_t amove, gentity_t **o
 	// link all entities at their final position
 	for (e = 0; e < moveEntities; e++) {
 		check = &g_entities[moveList[e]];
-
 		trap_LinkEntity(check);
 	}
 	// movement was successfull
@@ -573,7 +570,7 @@ void G_MoverTeam(gentity_t *ent) {
 		if (part->s.eType == ET_BAT && part->model && !G_MoverPush(part, move, amove, &obstacle)) {
 			break;
 		} else if (!G_MoverPush(part, move, amove, &obstacle)) {
-			break;  // move was blocked
+			break; // move was blocked
 		}
 	}
 
@@ -607,9 +604,8 @@ void G_MoverTeam(gentity_t *ent) {
 				}
 			}
 		}
-//---- (SA)	removed
 		// opening or closing rotating door
-		else if (part->s.apos.trType == TR_LINEAR_STOP) {
+		} else if (part->s.apos.trType == TR_LINEAR_STOP) {
 			if (level.time >= part->s.apos.trTime + part->s.apos.trDuration) {
 				if (part->reached) {
 					part->reached(part);
@@ -625,6 +621,7 @@ G_RunMover
 =======================================================================================================================================
 */
 void G_RunMover(gentity_t *ent) {
+
 	// if not a team captain, don't do anything, because the captain will handle everything
 	if (ent->flags & FL_TEAMSLAVE) {
 		// FIXME
@@ -678,6 +675,7 @@ void SetMoverState(gentity_t *ent, moverState_t moverState, int time) {
 	ent->moverState = moverState;
 	ent->s.pos.trTime = time;
 	ent->s.apos.trTime = time;
+
 	switch (moverState) {
 		case MOVER_POS1:
 			VectorCopy(ent->pos1, ent->s.pos.trBase);
@@ -774,7 +772,6 @@ void SetMoverState(gentity_t *ent, moverState_t moverState, int time) {
 			ent->s.apos.trType = TR_LINEAR_STOP;
 			ent->active = qfalse;
 			break;
-
 	}
 
 	BG_EvaluateTrajectory(&ent->s.pos, level.time, ent->r.currentOrigin);
@@ -816,9 +813,11 @@ void MatchTeam(gentity_t *teamLeader, int moverState, int time) {
 }
 
 /*
+=======================================================================================================================================
 MatchTeamReverseAngleOnSlaves
 
-the activator was blocking the door so reverse its direction
+The activator was blocking the door so reverse its direction.
+=======================================================================================================================================
 */
 void MatchTeamReverseAngleOnSlaves(gentity_t *teamLeader, int moverState, int time) {
 	gentity_t *slave;
@@ -826,7 +825,6 @@ void MatchTeamReverseAngleOnSlaves(gentity_t *teamLeader, int moverState, int ti
 	for (slave = teamLeader; slave; slave = slave->teamchain) {
 		// reverse open dir for teamLeader and all slaves
 		slave->angle *= -1;
-
 		// pass along flags for how door was activated
 		if (teamLeader->flags & FL_KICKACTIVATE) {
 			slave->flags |= FL_KICKACTIVATE;
@@ -846,6 +844,7 @@ ReturnToPos1
 =======================================================================================================================================
 */
 void ReturnToPos1(gentity_t *ent) {
+
 	MatchTeam(ent, MOVER_2TO1, level.time);
 	// play starting sound
 	G_AddEvent(ent, EV_GENERAL_SOUND, ent->sound2to1);
@@ -878,6 +877,7 @@ GotoPos3
 =======================================================================================================================================
 */
 void GotoPos3(gentity_t *ent) {
+
 	MatchTeam(ent, MOVER_2TO3, level.time);
 
 	ent->s.loopSound = 0;
@@ -907,7 +907,6 @@ void ReturnToPos1Rotate(gentity_t *ent) {
 	}
 	// play starting sound
 	if (inPVS) {
-//		if ((ent->flags & FL_SOFTACTIVATE)&!(ent->flags & FL_DOORNOISE))
 		if ((ent->flags & FL_SOFTACTIVATE) && !(ent->flags & FL_DOORNOISE)) {
 			G_AddEvent(ent, EV_GENERAL_SOUND, ent->soundSoftclose);
 		} else {
@@ -927,7 +926,6 @@ void Reached_BinaryMover(gentity_t *ent) {
 	qboolean kicked = qfalse, soft = qfalse;
 	// stop the looping sound
 	ent->s.loopSound = 0;
-//	ent->s.loopSound = ent->soundLoop;
 
 	if (ent->flags & FL_SOFTACTIVATE) {
 		soft = qtrue;
@@ -1000,7 +998,7 @@ void Reached_BinaryMover(gentity_t *ent) {
 		G_UseTargets(ent, ent->activator);
 
 		if (ent->flags & FL_TOGGLE) {
-			ent->active = qfalse;   // enable door activation again
+			ent->active = qfalse; // enable door activation again
 			ent->think = ReturnToPos1Rotate;
 			ent->nextthink = 0;
 			return;
@@ -1011,7 +1009,6 @@ void Reached_BinaryMover(gentity_t *ent) {
 			ent->think = ReturnToPos1Rotate;
 			ent->nextthink = level.time + ent->wait;
 		}
-
 	} else if (ent->moverState == MOVER_2TO1ROTATE) {
 		// reached pos1
 		SetMoverState(ent, MOVER_POS1ROTATE, level.time);
@@ -1035,8 +1032,7 @@ void Reached_BinaryMover(gentity_t *ent) {
 			}
 		}
 		// clear the 'soft' flag
-		ent->flags &= ~FL_SOFTACTIVATE; //---- (SA)	added
-
+		ent->flags &= ~FL_SOFTACTIVATE;
 		// close areaportals
 		if (ent->teammaster == ent || !ent->teammaster) {
 			trap_AdjustAreaPortalState(ent, qfalse);
@@ -1045,7 +1041,7 @@ void Reached_BinaryMover(gentity_t *ent) {
 		G_Error("Reached_BinaryMover: bad moverState");
 	}
 
-//	ent->flags &= ~(FL_KICKACTIVATE|FL_SOFTACTIVATE);	//(SA)it was not opened normally. Clear this so it thinks it's closed normally
+//	ent->flags &= ~(FL_KICKACTIVATE|FL_SOFTACTIVATE); //(SA)it was not opened normally. Clear this so it thinks it's closed normally
 	ent->flags &= ~FL_KICKACTIVATE; //(SA)it was not opened normally. Clear this so it thinks it's closed normally
 
 }
@@ -1067,8 +1063,7 @@ qboolean IsBinaryMoverBlocked(gentity_t *ent, gentity_t *other, gentity_t *activ
 		if (ent->spawnflags & 32) {
 			return qfalse;
 		}
-
-		//---- (SA)	only check for blockage by players
+		// only check for blockage by players
 		if (!activator) {
 			if (Q_stricmp(other->classname, "target_relay") == 0) {
 				is_relay = qtrue;
@@ -1091,7 +1086,7 @@ qboolean IsBinaryMoverBlocked(gentity_t *ent, gentity_t *other, gentity_t *activ
 		}
 
 		AngleVectors(angles, forward, NULL, NULL);
-		// VectorSubtract(other->r.currentOrigin, pos, vec);
+		//VectorSubtract(other->r.currentOrigin, pos, vec);
 
 		if (is_relay) {
 			VectorSubtract(other->r.currentOrigin, pos, vec);
@@ -1110,7 +1105,6 @@ qboolean IsBinaryMoverBlocked(gentity_t *ent, gentity_t *other, gentity_t *activ
 	}
 
 	return qfalse;
-
 }
 
 /*

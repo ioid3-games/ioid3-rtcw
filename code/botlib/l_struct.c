@@ -1,39 +1,30 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http:// www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
-
-/*****************************************************************************
- * name:		l_struct.c
- *
- * desc:		structure reading / writing
- *
- *
- *****************************************************************************/
+/**************************************************************************************************************************************
+ Structure reading/writing.
+**************************************************************************************************************************************/
 
 #ifdef BOTLIB
 #include "../qcommon/q_shared.h"
@@ -44,7 +35,6 @@ If you have questions concerning this license or the applicable additional terms
 #include "l_utils.h"
 #include "be_interface.h"
 #endif // BOTLIB
-
 #ifdef BSPC
 // include files for usage in the BSP Converter
 #include "../bspc/qbsp.h"
@@ -56,7 +46,6 @@ If you have questions concerning this license or the applicable additional terms
 #define qtrue true
 #define qfalse false
 #endif // BSPC
-
 /*
 =======================================================================================================================================
 FindField
@@ -113,7 +102,7 @@ qboolean ReadNumber(source_t *source, fielddef_t *fd, void *p) {
 	}
 	// check for a float value
 	if (token.subtype & TT_FLOAT) {
-		if ((fd->type & FT_TYPE)!= FT_FLOAT) {
+		if ((fd->type & FT_TYPE) != FT_FLOAT) {
 			SourceError(source, "unexpected float");
 			return 0;
 		}
@@ -143,17 +132,21 @@ qboolean ReadNumber(source_t *source, fielddef_t *fd, void *p) {
 	// check bounds
 	if ((fd->type & FT_TYPE) == FT_CHAR) {
 		if (fd->type & FT_UNSIGNED) {
-			intmin = 0; intmax = 255;
+			intmin = 0;
+			intmax = 255;
 		} else {
-			intmin = -128; intmax = 127;
+			intmin = -128;
+			intmax = 127;
 		}
 	}
 
 	if ((fd->type & FT_TYPE) == FT_INT) {
 		if (fd->type & FT_UNSIGNED) {
-			intmin = 0; intmax = 65535;
+			intmin = 0;
+			intmax = 65535;
 		} else {
-			intmin = -32768; intmax = 32767;
+			intmin = -32768;
+			intmax = 32767;
 		}
 	}
 
@@ -179,11 +172,15 @@ qboolean ReadNumber(source_t *source, fielddef_t *fd, void *p) {
 	if ((fd->type & FT_TYPE) == FT_CHAR) {
 		if (fd->type & FT_UNSIGNED) {
 			*(unsigned char *)p = (unsigned char)intval;
-		} else {*(char *)p = (char)intval;}
+		} else {
+			*(char *)p = (char)intval;
+		}
 	} else if ((fd->type & FT_TYPE) == FT_INT) {
 		if (fd->type & FT_UNSIGNED) {
 			*(unsigned int *)p = (unsigned int)intval;
-		} else {*(int *)p = (int)intval;}
+		} else {
+			*(int *)p = (int)intval;
+		}
 	} else if ((fd->type & FT_TYPE) == FT_FLOAT) {
 		*(float *)p = (float)intval;
 	}
@@ -234,7 +231,6 @@ int ReadString(source_t *source, fielddef_t *fd, void *p) {
 	strncpy((char *)p, token.string, MAX_STRINGFIELD - 1);
 	// make sure the string is closed with a zero
 	((char *)p)[MAX_STRINGFIELD - 1] = '\0';
-
 	return 1;
 }
 
@@ -298,7 +294,6 @@ int ReadStructure(source_t *source, structdef_t *def, char *structure) {
 					p = (char *)p + sizeof(char);
 					break;
 				}
-
 				case FT_INT:
 				{
 					if (!ReadNumber(source, fd, p)) {
@@ -308,7 +303,6 @@ int ReadStructure(source_t *source, structdef_t *def, char *structure) {
 					p = (char *)p + sizeof(int);
 					break;
 				}
-
 				case FT_FLOAT:
 				{
 					if (!ReadNumber(source, fd, p)) {
@@ -318,7 +312,6 @@ int ReadStructure(source_t *source, structdef_t *def, char *structure) {
 					p = (char *)p + sizeof(float);
 					break;
 				}
-
 				case FT_STRING:
 				{
 					if (!ReadString(source, fd, p)) {
@@ -328,7 +321,6 @@ int ReadStructure(source_t *source, structdef_t *def, char *structure) {
 					p = (char *)p + MAX_STRINGFIELD;
 					break;
 				}
-
 				case FT_STRUCT:
 				{
 					if (!fd->substruct) {
@@ -337,6 +329,7 @@ int ReadStructure(source_t *source, structdef_t *def, char *structure) {
 					}
 
 					ReadStructure(source, fd->substruct, (char *)p);
+
 					p = (char *)p + fd->substruct->size;
 					break;
 				}
@@ -368,8 +361,9 @@ WriteIndent
 =======================================================================================================================================
 */
 int WriteIndent(FILE *fp, int indent) {
+
 	while (indent-- > 0) {
-		if (fprintf(fp, "\t")< 0) {
+		if (fprintf(fp, "\t") < 0) {
 			return qfalse;
 		}
 	}
@@ -403,7 +397,7 @@ int WriteFloat(FILE *fp, float value) {
 		buf[l] = 0;
 	}
 	// write the float to file
-	if (fprintf(fp, "%s", buf)< 0) {
+	if (fprintf(fp, "%s", buf) < 0) {
 		return 0;
 	}
 
@@ -424,7 +418,7 @@ int WriteStructWithIndent(FILE *fp, structdef_t *def, char *structure, int inden
 		return qfalse;
 	}
 
-	if (fprintf(fp, "{\r\n")< 0) {
+	if (fprintf(fp, "{\r\n") < 0) {
 		return qfalse;
 	}
 
@@ -437,7 +431,7 @@ int WriteStructWithIndent(FILE *fp, structdef_t *def, char *structure, int inden
 			return qfalse;
 		}
 
-		if (fprintf(fp, "%s\t", fd->name)< 0) {
+		if (fprintf(fp, "%s\t", fd->name) < 0) {
 			return qfalse;
 		}
 
@@ -446,7 +440,7 @@ int WriteStructWithIndent(FILE *fp, structdef_t *def, char *structure, int inden
 		if (fd->type & FT_ARRAY) {
 			num = fd->maxarray;
 
-			if (fprintf(fp, "{")< 0) {
+			if (fprintf(fp, "{") < 0) {
 				return qfalse;
 			}
 		} else {
@@ -457,44 +451,40 @@ int WriteStructWithIndent(FILE *fp, structdef_t *def, char *structure, int inden
 			switch (fd->type & FT_TYPE) {
 				case FT_CHAR:
 				{
-					if (fprintf(fp, "%d", * (char *)p)< 0) {
+					if (fprintf(fp, "%d", *(char *)p) < 0) {
 						return qfalse;
 					}
 
 					p = (char *)p + sizeof(char);
 					break;
 				}
-
 				case FT_INT:
 				{
-					if (fprintf(fp, "%d", * (int *)p)< 0) {
+					if (fprintf(fp, "%d", *(int *)p) < 0) {
 						return qfalse;
 					}
 
 					p = (char *)p + sizeof(int);
 					break;
 				}
-
 				case FT_FLOAT:
 				{
-					if (!WriteFloat(fp, * (float *)p)) {
+					if (!WriteFloat(fp, *(float *)p)) {
 						return qfalse;
 					}
 
 					p = (char *)p + sizeof(float);
 					break;
 				}
-
 				case FT_STRING:
 				{
-					if (fprintf(fp, "\"%s\"", (char *)p)< 0) {
+					if (fprintf(fp, "\"%s\"", (char *)p) < 0) {
 						return qfalse;
 					}
 
 					p = (char *)p + MAX_STRINGFIELD;
 					break;
 				}
-
 				case FT_STRUCT:
 				{
 					if (!WriteStructWithIndent(fp, fd->substruct, structure, indent)) {
@@ -508,18 +498,18 @@ int WriteStructWithIndent(FILE *fp, structdef_t *def, char *structure, int inden
 
 			if (fd->type & FT_ARRAY) {
 				if (num > 0) {
-					if (fprintf(fp, ",")< 0) {
+					if (fprintf(fp, ",") < 0) {
 						return qfalse;
 					}
 				} else {
-					if (fprintf(fp, "}")< 0) {
+					if (fprintf(fp, "}") < 0) {
 						return qfalse;
 					}
 				}
 			}
 		}
 
-		if (fprintf(fp, "\r\n")< 0) {
+		if (fprintf(fp, "\r\n") < 0) {
 			return qfalse;
 		}
 	}
@@ -530,7 +520,7 @@ int WriteStructWithIndent(FILE *fp, structdef_t *def, char *structure, int inden
 		return qfalse;
 	}
 
-	if (fprintf(fp, "}\r\n")< 0) {
+	if (fprintf(fp, "}\r\n") < 0) {
 		return qfalse;
 	}
 

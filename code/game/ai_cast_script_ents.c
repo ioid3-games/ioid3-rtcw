@@ -26,14 +26,6 @@ If you have questions concerning this license or the applicable additional terms
 =======================================================================================================================================
 */
 
-//===========================================================================
-//
-// Name:			ai_cast_script_ents.c
-// Function:		Wolfenstein AI Character Scripting
-// Programmer:		Ridah
-// Tab Size:		4(real tabs)
-//===========================================================================
-
 #include "g_local.h"
 #include "../qcommon/q_shared.h"
 #include "../botlib/botlib.h" // bot lib interface

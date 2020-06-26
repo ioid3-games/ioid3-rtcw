@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -560,8 +556,7 @@ qboolean IsHeadShotWeapon(int mod, gentity_t *targ, gentity_t *attacker) {
 
 	if (attacker->aiCharacter) {
 		// ai's are always allowed headshots from these weapons
-		if (mod == MOD_SNIPERRIFLE ||
-			 mod == MOD_SNOOPERSCOPE) {
+		if (mod == MOD_SNIPERRIFLE || mod == MOD_SNOOPERSCOPE) {
 			return qtrue;
 		}
 
@@ -639,10 +634,9 @@ qboolean IsHeadShot(gentity_t *targ, gentity_t *attacker, vec3_t dir, vec3_t poi
 			VectorMA(head->r.currentOrigin, 6, or.axis[2], head->r.currentOrigin); // tag is at base of neck
 		} else if (targ->client->ps.pm_flags & PMF_DUCKED) { // closer fake offset for 'head' box when crouching
 			head->r.currentOrigin[2] += targ->client->ps.crouchViewHeight + 8; // 16 is kludge to get head height to match up
-		}
 		//else if (targ->client->ps.legsAnim == LEGS_IDLE && targ->aiCharacter == AICHAR_SOLDIER) // standing with legs bent(about a head shorter than other leg poses)
 		//	head->r.currentOrigin[2] += targ->client->ps.viewheight;
-		else {
+		} else {
 			head->r.currentOrigin[2] += targ->client->ps.viewheight; // 6 is fudged "head height" value
 
 		}
@@ -668,6 +662,7 @@ qboolean IsHeadShot(gentity_t *targ, gentity_t *attacker, vec3_t dir, vec3_t poi
 		if (g_debugBullets.integer >= 3) { // show hit player head bb
 			gentity_t *tent;
 			vec3_t b1, b2;
+
 			VectorCopy(head->r.currentOrigin, b1);
 			VectorCopy(head->r.currentOrigin, b2);
 			VectorAdd(b1, head->r.mins, b1);
@@ -1216,7 +1211,7 @@ void G_Damage(gentity_t *targ, gentity_t *inflictor, gentity_t *attacker, vec3_t
 			// from human to bot
 		} else if (!(attacker->r.svFlags & SVF_CASTAI) && (targ->r.svFlags & SVF_CASTAI)) {
 			if (attacker->client && targ->client) {
-				// (from axis team to a nazi or monster (=teamdamage) or from allies team to an allies or a neutral(= teamdamage)) AND friendly fire is on
+				// (from axis team to a nazi or monster (= teamdamage) or from allies team to an allies or a neutral (= teamdamage)) AND friendly fire is on
 				if (((attacker->client->sess.sessionTeam == TEAM_RED && (targ->aiTeam == AITEAM_NAZI || targ->aiTeam == AITEAM_MONSTER || targ->aiTeam == AITEAM_ENDMAPBOSS)) || (attacker->client->sess.sessionTeam == TEAM_BLUE && (targ->aiTeam == AITEAM_ALLIES || targ->aiTeam == AITEAM_NEUTRAL || targ->aiTeam == AITEAM_ENDMAPBOSS))) && g_friendlyFire.integer) {
 						if (g_friendlyFire.integer == 1) {
 							targ->health = targ->health - take;
@@ -1250,7 +1245,7 @@ void G_Damage(gentity_t *targ, gentity_t *inflictor, gentity_t *attacker, vec3_t
 					if (!(attacker->r.svFlags & SVF_CASTAI)) { // human is the attacker
 						if (attacker->client->sess.sessionTeam == targ->client->sess.sessionTeam) {
 							attacker->health = attacker->health - take;
-							// show some pain !
+							// show some pain!
 							if (attacker->pain) {
 								attacker->pain(attacker, targ, take, point);
 							}
@@ -1268,7 +1263,7 @@ void G_Damage(gentity_t *targ, gentity_t *inflictor, gentity_t *attacker, vec3_t
 		// can't gib with bullet weapons(except VENOM)
 		if (targ->client) {
 			if (mod != MOD_VENOM && attacker == inflictor && targ->health <= GIB_HEALTH) {
-				if (targ->aiCharacter != AICHAR_ZOMBIE) { // zombie needs to be able to gib so we can kill him(although he doesn't actually GIB, he just dies)
+				if (targ->aiCharacter != AICHAR_ZOMBIE) { // zombie needs to be able to gib so we can kill him (although he doesn't actually GIB, he just dies)
 					targ->health = GIB_HEALTH + 1;
 				}
 			}

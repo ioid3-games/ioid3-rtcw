@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http:// www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -49,13 +45,13 @@ If you have questions concerning this license or the applicable additional terms
 #define LL(x)x = LittleLong(x)
 #define ROUTING_DEBUG
 // travel time in hundredths of a second = distance * 100 / speed
-#define DISTANCEFACTOR_CROUCH 1.3 // crouch speed = 100
+#define DISTANCEFACTOR_CROUCH 1.3f // crouch speed = 100
 #define DISTANCEFACTOR_SWIM 1 // should be 0.66, swim speed = 150
-#define DISTANCEFACTOR_WALK 0.33 // walk speed = 300
+#define DISTANCEFACTOR_WALK 0.33f // walk speed = 300
 // scale traveltimes with ground steepness of area
 #define GROUNDSTEEPNESS_TIMESCALE 20 // this is the maximum scale, 1 being the usual for a flat ground
 // cache refresh time
-#define CACHE_REFRESHTIME 15.0 // 15 seconds refresh time
+#define CACHE_REFRESHTIME 15.0f // 15 seconds refresh time
 // maximum number of routing updates each frame
 #define MAX_FRAMEROUTINGUPDATES 100
 extern aas_t aasworlds[MAX_AAS_WORLDS];
@@ -65,7 +61,7 @@ extern aas_t aasworlds[MAX_AAS_WORLDS];
   this goal area is in this same cluster and could be a cluster portal
   for every cluster there's a list with routing cache for every area
   in that cluster (including the portals of that cluster)
-  area cache stores(*aasworld).clusters[?].numreachabilityareas travel times
+  area cache stores (*aasworld).clusters[?].numreachabilityareas travel times
 
   portal routing cache:
   stores the distances of all portals to a specific goal area
@@ -124,7 +120,7 @@ static ID_INLINE int AAS_ClusterAreaNum(int cluster, int areanum) {
 	areacluster = (*aasworld).areasettings[areanum].cluster;
 
 	if (areacluster > 0) {
-		return(*aasworld).areasettings[areanum].clusterareanum;
+		return (*aasworld).areasettings[areanum].clusterareanum;
 	} else {
 /*#ifdef ROUTING_DEBUG
 		if ((*aasworld).portals[-areacluster].frontcluster != cluster && (*aasworld).portals[-areacluster].backcluster != cluster) {
@@ -132,7 +128,7 @@ static ID_INLINE int AAS_ClusterAreaNum(int cluster, int areanum) {
 		}
 #endif // ROUTING_DEBUG*/
 		side = (*aasworld).portals[-areacluster].frontcluster != cluster;
-		return(*aasworld).portals[-areacluster].clusterareanum[side];
+		return (*aasworld).portals[-areacluster].clusterareanum[side];
 	}
 }
 
@@ -180,7 +176,7 @@ int AAS_TravelFlagForType(int traveltype) {
 		return TFL_INVALID;
 	}
 
-	return(*aasworld).travelflagfortype[traveltype];
+	return (*aasworld).travelflagfortype[traveltype];
 }
 
 /*
@@ -347,7 +343,7 @@ AAS_AreaGroundSteepnessScale
 =======================================================================================================================================
 */
 float AAS_AreaGroundSteepnessScale(int areanum) {
-	return(1.0 + (*aasworld).areasettings[areanum].groundsteepness * (float)(GROUNDSTEEPNESS_TIMESCALE - 1));
+	return (1.0 + (*aasworld).areasettings[areanum].groundsteepness * (float)(GROUNDSTEEPNESS_TIMESCALE - 1));
 }
 
 /*
@@ -1205,12 +1201,12 @@ int AAS_ReadRouteCache(void) {
 	return qtrue;
 }
 
+void AAS_CreateVisibility(void);
 /*
 =======================================================================================================================================
 AAS_InitRouting
 =======================================================================================================================================
 */
-void AAS_CreateVisibility(void);
 void AAS_InitRouting(void) {
 
 	AAS_InitTravelFlagFromType();
@@ -2137,7 +2133,7 @@ int AAS_AreaVisible(int srcarea, int destarea) {
 		(*aasworld).decompressedvisarea = srcarea;
 	}
 
-	return(*aasworld).decompressedvis[destarea];
+	return (*aasworld).decompressedvis[destarea];
 }
 
 /*
@@ -2337,7 +2333,7 @@ int AAS_NearestHideArea(int srcnum, vec3_t origin, int areanum, int enemynum, ve
 				continue;
 			}
 
-			if (AAS_AreaContentsTravelFlag(reach->areanum)& badtravelflags) {
+			if (AAS_AreaContentsTravelFlag(reach->areanum) & badtravelflags) {
 				continue;
 			}
 			// dont pass through ladder areas

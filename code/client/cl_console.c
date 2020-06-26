@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -30,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 
 int g_console_field_width = 78;
 
-#define COLNSOLE_COLOR COLOR_WHITE // COLOR_BLACK
+#define CONSOLE_COLOR COLOR_WHITE // COLOR_BLACK
 #define NUM_CON_TIMES 4
 #define CON_TEXTSIZE 65536 // want's more console...
 
@@ -223,7 +219,7 @@ void Con_Clear_f(void) {
 	int i;
 
 	for (i = 0; i < CON_TEXTSIZE; i++) {
-		con.text[i] = (ColorIndex(COLNSOLE_COLOR) << 8)|' ';
+		con.text[i] = (ColorIndex(CONSOLE_COLOR) << 8)|' ';
 	}
 
 	Con_Bottom(); // go to end
@@ -350,7 +346,7 @@ void Con_CheckResize(void) {
 		con.totallines = CON_TEXTSIZE / con.linewidth;
 
 		for (i = 0; i < CON_TEXTSIZE; i++) {
-			con.text[i] = (ColorIndex(COLNSOLE_COLOR) << 8)|' ';
+			con.text[i] = (ColorIndex(CONSOLE_COLOR) << 8)|' ';
 		}
 	} else {
 		oldwidth = con.linewidth;
@@ -372,7 +368,7 @@ void Con_CheckResize(void) {
 		memcpy(tbuf, con.text, CON_TEXTSIZE * sizeof(short));
 
 		for (i = 0; i < CON_TEXTSIZE; i++) {
-			con.text[i] = (ColorIndex(COLNSOLE_COLOR) << 8)|' ';
+			con.text[i] = (ColorIndex(CONSOLE_COLOR) << 8)|' ';
 		}
 
 		for (i = 0; i < numlines; i++) {
@@ -493,7 +489,7 @@ void Con_Linefeed(qboolean skipnotify) {
 	con.current++;
 
 	for (i = 0; i < con.linewidth; i++) {
-		con.text[(con.current % con.totallines) * con.linewidth + i] = (ColorIndex(COLNSOLE_COLOR) << 8)|' ';
+		con.text[(con.current % con.totallines) * con.linewidth + i] = (ColorIndex(CONSOLE_COLOR) << 8)|' ';
 	}
 }
 
@@ -531,7 +527,7 @@ void CL_ConsolePrint(char *txt) {
 		con.initialized = qtrue;
 	}
 
-	color = ColorIndex(COLNSOLE_COLOR);
+	color = ColorIndex(CONSOLE_COLOR);
 
 	while ((c = *((unsigned char *)txt)) != 0) {
 		if (Q_IsColorString(txt)) {
@@ -778,7 +774,7 @@ void Con_DrawSolidConsole(float frac) {
 
 	SCR_FillRect(0, y, SCREEN_WIDTH, 2, color);
 	// draw the version number
-	re.SetColor(g_color_table[ColorIndex(COLNSOLE_COLOR)]);
+	re.SetColor(g_color_table[ColorIndex(CONSOLE_COLOR)]);
 
 	i = strlen(Q3_VERSION);
 

@@ -1,22 +1,24 @@
 /*
 =======================================================================================================================================
-Copyright(C)1999-2005 Id Software, Inc.
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-This file is part of Quake III Arena source code.
+This file is part of Spearmint Source Code.
 
-Quake III Arena source code is free software; you can redistribute it
-and/or modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of the License,
-or(at your option)any later version.
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-Quake III Arena source code is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with Quake III Arena source code; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
+
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
+
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -292,7 +294,7 @@ static long S_HashSFXName(const char *name) {
 			letter = '/'; // damn path names
 		}
 
-		hash+= (long)(letter) * (i + 119);
+		hash += (long)(letter) * (i + 119);
 		i++;
 	}
 
@@ -397,9 +399,9 @@ void S_Base_DisableSounds(void) {
 
 /*
 =======================================================================================================================================
-S_RegisterSound
+S_Base_RegisterSound
 
-Creates a default buzz sound if the file can't be loaded
+Creates a default buzz sound if the file can't be loaded.
 =======================================================================================================================================
 */
 sfxHandle_t S_Base_RegisterSound(const char *name, qboolean compressed) {
@@ -519,7 +521,7 @@ void S_SpatializeOrigin(vec3_t origin, int master_vol, int *left_vol, int *right
 	if (dist) {
 		dist = dist / range; // FIXME: lose the divide again
 	}
-	
+
 	VectorRotate(source_vec, listener_axis, vec);
 
 	dot = -vec[1];
@@ -863,7 +865,7 @@ static void S_Base_MainStartSound(vec3_t origin, int entityNum, int entchannel, 
 
 /*
 =======================================================================================================================================
-S_StartSound
+S_Base_StartSound
 
 If origin is NULL, the sound will be dynamically sourced from the entity.
 =======================================================================================================================================
@@ -969,7 +971,7 @@ S_Base_StopLoopingSound
 void S_Base_StopLoopingSound(int entityNum) {
 
 	loopSounds[entityNum].active = qfalse;
-//	loopSounds[entityNum].sfx = 0;
+	//loopSounds[entityNum].sfx = 0;
 	loopSounds[entityNum].kill = qfalse;
 }
 
@@ -1572,20 +1574,7 @@ void S_Update_(void) {
 	if (!s_soundStarted || s_soundMuted) {
 		return;
 	}
-	// this isn't used anymore, since it was causing timing problems with streaming sounds, since the
-	// starting of the sound is delayed, it could cause streaming sounds to be cutoff, when the steaming sound was issued after
-	// this sound
-/*
-	for (i = 0; i < tart; i++) {
-		if (pushPop[i].fixedOrigin) {
-			S_Base_MainStartSound(pushPop[i].origin, pushPop[i].entityNum, pushPop[i].entityChannel, pushPop[i].sfx, qtrue, pushPop[i].flags);
-		} else {
-			S_Base_MainStartSound(NULL, pushPop[i].entityNum, pushPop[i].entityChannel, pushPop[i].sfx, qtrue, pushPop[i].flags);
-		}
-	}
 
-	tart = 0;
-*/
 	thisTime = Com_Milliseconds();
 	// updates s_soundtime
 	S_GetSoundtime();

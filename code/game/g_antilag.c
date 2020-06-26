@@ -1,15 +1,14 @@
 #include "g_local.h"
 
+/*
+=======================================================================================================================================
+G_StoreClientPosition
+=======================================================================================================================================
+*/
 void G_StoreClientPosition(gentity_t *ent) {
 	int top;
 
-	if (!(ent->inuse &&
-			(ent->aiTeam >= 0) &&
-			ent->r.linked &&
-			(ent->health > 0) &&
-			!(ent->client->ps.pm_flags & PMF_LIMBO) &&
-			(ent->client->ps.pm_type == PM_NORMAL)
-			)) {
+	if (!(ent->inuse && (ent->aiTeam >= 0) && ent->r.linked && (ent->health > 0) && !(ent->client->ps.pm_flags & PMF_LIMBO) && (ent->client->ps.pm_type == PM_NORMAL))) {
 		return;
 	}
 
@@ -24,9 +23,15 @@ void G_StoreClientPosition(gentity_t *ent) {
 	VectorCopy(ent->r.mins, ent->client->clientMarkers[top].mins);
 	VectorCopy(ent->r.maxs, ent->client->clientMarkers[top].maxs);
 	VectorCopy(ent->s.pos.trBase, ent->client->clientMarkers[top].origin);
+
 	ent->client->clientMarkers[top].time = level.time;
 }
 
+/*
+=======================================================================================================================================
+G_AdjustSingleClientPosition
+=======================================================================================================================================
+*/
 static void G_AdjustSingleClientPosition(gentity_t *ent, int time) {
 	int i, j;
 
@@ -36,6 +41,7 @@ static void G_AdjustSingleClientPosition(gentity_t *ent, int time) {
 
 	// find a pair of markers which bound the requested time
 	i = j = ent->client->topMarker;
+
 	do {
 		if (ent->client->clientMarkers[i].time <= time) {
 			break;
@@ -75,7 +81,13 @@ static void G_AdjustSingleClientPosition(gentity_t *ent, int time) {
 	trap_LinkEntity(ent);
 }
 
+/*
+=======================================================================================================================================
+G_ReAdjustSingleClientPosition
+=======================================================================================================================================
+*/
 static void G_ReAdjustSingleClientPosition(gentity_t *ent) {
+
 	if (!ent || !ent->client) {
 		return;
 	}
@@ -90,6 +102,11 @@ static void G_ReAdjustSingleClientPosition(gentity_t *ent) {
 	}
 }
 
+/*
+=======================================================================================================================================
+G_AdjustClientPositions
+=======================================================================================================================================
+*/
 void G_AdjustClientPositions(gentity_t *ent, int time, qboolean forward) {
 	int i;
 	gentity_t *list;
@@ -107,6 +124,11 @@ void G_AdjustClientPositions(gentity_t *ent, int time, qboolean forward) {
 	}
 }
 
+/*
+=======================================================================================================================================
+G_ResetMarkers
+=======================================================================================================================================
+*/
 void G_ResetMarkers(gentity_t *ent) {
 	int i, time;
 	char buffer[MAX_CVAR_VALUE_STRING];
@@ -132,6 +154,11 @@ void G_ResetMarkers(gentity_t *ent) {
 	}
 }
 
+/*
+=======================================================================================================================================
+G_AttachBodyParts
+=======================================================================================================================================
+*/
 void G_AttachBodyParts(gentity_t *ent) {
 	int i;
 	gentity_t *list;
@@ -147,6 +174,11 @@ void G_AttachBodyParts(gentity_t *ent) {
 	}
 }
 
+/*
+=======================================================================================================================================
+G_DettachBodyParts
+=======================================================================================================================================
+*/
 void G_DettachBodyParts(void) {
 	int i;
 	gentity_t *list;
@@ -160,7 +192,13 @@ void G_DettachBodyParts(void) {
 	}
 }
 
+/*
+=======================================================================================================================================
+G_SwitchBodyPartEntity
+=======================================================================================================================================
+*/
 int G_SwitchBodyPartEntity(gentity_t *ent) {
+
 	if (ent->s.eType == ET_TEMPHEAD) {
 		return ent->parent - g_entities;
 	}
@@ -177,7 +215,13 @@ int G_SwitchBodyPartEntity(gentity_t *ent) {
 		results->entityNum = res;				\
 	}
 
-// Run a trace with players in historical positions.
+/*
+=======================================================================================================================================
+G_HistoricalTrace
+
+Run a trace with players in historical positions.
+=======================================================================================================================================
+*/
 void G_HistoricalTrace(gentity_t *ent, trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentmask) {
 	int res;
 	vec3_t dir;
@@ -195,7 +239,6 @@ void G_HistoricalTrace(gentity_t *ent, trace_t *results, const vec3_t start, con
 	}
 
 	G_AdjustClientPositions(ent, ent->client->pers.cmd.serverTime, qtrue);
-
 	G_AttachBodyParts(ent);
 
 	trap_Trace(results, start, mins, maxs, end, passEntityNum, contentmask);
@@ -204,19 +247,34 @@ void G_HistoricalTrace(gentity_t *ent, trace_t *results, const vec3_t start, con
 	POSITION_READJUST
 
 	G_DettachBodyParts();
-
 	G_AdjustClientPositions(ent, 0, qfalse);
 }
 
+/*
+=======================================================================================================================================
+G_HistoricalTraceBegin
+=======================================================================================================================================
+*/
 void G_HistoricalTraceBegin(gentity_t *ent) {
 	G_AdjustClientPositions(ent, ent->client->pers.cmd.serverTime, qtrue);
 }
 
+/*
+=======================================================================================================================================
+G_HistoricalTraceEnd
+=======================================================================================================================================
+*/
 void G_HistoricalTraceEnd(gentity_t *ent) {
 	G_AdjustClientPositions(ent, 0, qfalse);
 }
 
-//bani - Run a trace without fixups(historical fixups will be done externally)
+/*
+=======================================================================================================================================
+G_Trace
+
+Run a trace without fixups(historical fixups will be done externally).
+=======================================================================================================================================
+*/
 void G_Trace(gentity_t *ent, trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentmask) {
 	int res;
 	vec3_t dir;

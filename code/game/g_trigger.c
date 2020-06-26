@@ -1,30 +1,26 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
-*/
+*
 
 #include "g_local.h"
 
@@ -64,8 +60,8 @@ void multi_wait(gentity_t *ent) {
 =======================================================================================================================================
 multi_trigger
 
-The trigger was just activated, 'ent->activator' should be set to the activator so it can be held through a delay, so wait for the
-delay time before firing.
+The trigger was just activated, 'ent->activator' should be set to the activator so it can be held through a delay, so wait for the delay
+time before firing.
 =======================================================================================================================================
 */
 void multi_trigger(gentity_t *ent, gentity_t *activator) {
@@ -242,6 +238,7 @@ void trigger_always_think(gentity_t *ent) {
 This trigger will always fire. It is activated by the world.
 */
 void SP_trigger_always(gentity_t *ent) {
+
 	// we must have some delay to make sure our use targets are present
 	ent->nextthink = level.time + 300;
 	ent->think = trigger_always_think;
@@ -319,7 +316,7 @@ void AimAtTarget(gentity_t *self) {
 
 	height = ent->s.origin[2] - origin[2];
 	gravity = g_gravity.value;
-	time = sqrt(fabs(height /(0.5f * gravity)));
+	time = sqrt(fabs(height / (0.5f * gravity)));
 
 	if (!time) {
 		G_FreeEntity(self);
@@ -654,7 +651,6 @@ func_timer_use
 void func_timer_use(gentity_t *self, gentity_t *other, gentity_t *activator) {
 
 	self->activator = activator;
-
 	// if on, turn it off
 	if (self->nextthink) {
 		self->nextthink = 0;

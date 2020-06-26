@@ -271,7 +271,7 @@ qboolean G_ScriptAction_Wait(gentity_t *ent, char *params) {
 
 	duration = atoi(token);
 
-	return(ent->scriptStatus.scriptStackChangeTime + duration < level.time);
+	return (ent->scriptStatus.scriptStackChangeTime + duration < level.time);
 }
 
 /*
@@ -318,7 +318,7 @@ qboolean G_ScriptAction_Trigger(gentity_t *ent, char *params) {
 		oldId = trent->scriptStatus.scriptId;
 		G_Script_ScriptEvent(trent, "trigger", trigger);
 		// if the script changed, return false so we don't muck with it's variables
-		return((trent != ent) || (oldId == trent->scriptStatus.scriptId));
+		return ((trent != ent) || (oldId == trent->scriptStatus.scriptId));
 	}
 
 	G_Printf("G_Scripting: trigger has unknown name: %s\n", name);

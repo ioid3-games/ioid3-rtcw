@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -883,6 +879,7 @@ CG_DrawSelectedPlayerLocation
 */
 static void CG_DrawSelectedPlayerLocation(rectDef_t *rect, int font, float scale, vec4_t color, int textStyle) {
 	clientInfo_t *ci;
+
 	ci = cgs.clientinfo + sortedTeamPlayers[CG_GetSelectedPlayer()];
 
 	if (ci) {
@@ -2013,6 +2010,7 @@ CG_Draw1stPlace
 =======================================================================================================================================
 */
 static void CG_Draw1stPlace(rectDef_t *rect, int font, float scale, vec4_t color, qhandle_t shader, int textStyle) {
+
 	if (cgs.scores1 != SCORE_NOT_PRESENT) {
 		CG_Text_Paint(rect->x, rect->y, font, scale, color, va("%2i", cgs.scores1), 0, 0, textStyle);
 	}
@@ -2024,6 +2022,7 @@ CG_Draw2ndPlace
 =======================================================================================================================================
 */
 static void CG_Draw2ndPlace(rectDef_t *rect, int font, float scale, vec4_t color, qhandle_t shader, int textStyle) {
+
 	if (cgs.scores2 != SCORE_NOT_PRESENT) {
 		CG_Text_Paint(rect->x, rect->y, font, scale, color, va("%2i", cgs.scores2), 0, 0, textStyle);
 	}
@@ -2288,6 +2287,7 @@ void CG_DrawNewTeamInfo(rectDef_t *rect, float text_x, float text_y, int font, f
 			maxx = rect->w - 4;
 
 			CG_Text_Paint_Limit(&maxx, xx, y + text_y, UI_FONT_DEFAULT, scale, color, p, 0, 0);
+
 			y += text_y + 2;
 
 			if (y + text_y + 2 > rect->y + rect->h) {
@@ -2353,6 +2353,7 @@ void CG_DrawTeamSpectators(rectDef_t *rect, int font, float scale, vec4_t color,
 
 		if (cg.spectatorPaintX2 >= 0) {
 			float maxX2 = rect->x + rect->w - 2;
+
 			CG_Text_Paint_Limit(&maxX2, cg.spectatorPaintX2, rect->y + rect->h - 3, UI_FONT_DEFAULT, scale, color, cg.spectatorList, 0, cg.spectatorOffset);
 		}
 
@@ -2433,6 +2434,7 @@ void CG_DrawMedal(int ownerDraw, rectDef_t *rect, int font, float scale, vec4_t 
 	if (text) {
 		color[3] = 1.0;
 		value = CG_Text_Width(text, font, scale, 0);
+
 		CG_Text_Paint(rect->x + (rect->w - value) / 2, rect->y + rect->h + 10, font, scale, color, text, 0, 0, 0);
 	}
 

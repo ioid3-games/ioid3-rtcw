@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -52,7 +48,7 @@ cvar_t *sv_maxclients;
 cvar_t *sv_maxcoopclients;
 cvar_t *sv_privateClients;	// number of clients reserved for password
 cvar_t *sv_hostname;
-cvar_t *sv_master[MAX_MASTER_SERVERS]; // master server ip address
+cvar_t *sv_master[MAX_MASTER_SERVERS];	// master server ip address
 cvar_t *sv_reconnectlimit;	// minimum seconds between connect messages
 cvar_t *sv_showloss;		// report when usercmds are lost
 cvar_t *sv_padPackets;		// add nop bytes to messages
@@ -221,6 +217,7 @@ void QDECL SV_SendServerCommand(client_t *cl, const char *fmt, ...) {
 
 #define HEARTBEAT_MSEC 300 * 1000
 #define MASTERDNS_MSEC 24 * 60 * 60 * 1000
+
 /*
 =======================================================================================================================================
 SV_MasterHeartbeat
@@ -361,6 +358,7 @@ void SV_MasterShutdown(void) {
 static leakyBucket_t buckets[MAX_BUCKETS];
 static leakyBucket_t *bucketHashes[MAX_HASHES];
 leakyBucket_t outboundLeakyBucket;
+
 /*
 =======================================================================================================================================
 SVC_HashForAddress
@@ -680,7 +678,6 @@ void SVC_Info(netadr_t from) {
 	}
 	// if there are 62 bots on a 64 player server and sv_maxcoopclients is set to 4, then the number of available spots is wrong
 	// actually sv_maxcoopclients is an ugly hack :) But AI's are "normal" clients, so we have to work around this
-
 	maxclients = sv_maxclients->integer - countai;
 
 	if (maxclients >= sv_maxcoopclients->integer) {
@@ -1168,7 +1165,7 @@ void SV_Frame(int msec) {
 
 	// the menu kills the server with this cvar
 	if (sv_killserver->integer) {
-		SV_Shutdown("Server was killed");
+		SV_Shutdown("Server was killed.");
 		Cvar_Set("sv_killserver", "0");
 		return;
 	}
@@ -1257,7 +1254,7 @@ void SV_Frame(int msec) {
 	if (com_speeds->integer) {
 		startTime = Sys_Milliseconds();
 	} else {
-		startTime = 0; // quiet a compiler warning
+		startTime = 0; // quite a compiler warning
 	}
 	// update ping based on the all received frames
 	SV_CalcPings();

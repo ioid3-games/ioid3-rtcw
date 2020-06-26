@@ -110,7 +110,7 @@ void AICast_Pain(gentity_t *targ, gentity_t *attacker, int damage, vec3_t point)
 	if (cs->aiFlags & AIFL_NOPAIN) {
 		return;
 	}
-	// process the event(turn to face the attacking direction? go into hide/retreat state?)
+	// process the event (turn to face the attacking direction? go into hide/retreat state?)
 	// need to weigh up the situation, but foremost, an inactive AI cast should always react in some way to being hurt
 	cs->lastPain = level.time;
 	// record the sighting(FIXME: silent weapons shouldn't do this, but the AI should react in some way)
@@ -164,7 +164,7 @@ void AICast_Die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int 
 	if (g_gametype.integer <= GT_COOP && (self->client && !(self->client->ps.eFlags & EF_DEAD))) {
 		Coop_AddStats(self, attacker, damage, meansOfDeath);
 	}
-	// record the sighting(FIXME: silent weapons shouldn't do this, but the AI should react in some way)
+	// record the sighting (FIXME: silent weapons shouldn't do this, but the AI should react in some way)
 	if (attacker && attacker->client) {
 		AICast_UpdateVisibility(self, attacker, qtrue, qtrue);
 	}
@@ -204,7 +204,7 @@ void AICast_Die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int 
 		// already dead
 		if (self->health < GIB_HEALTH) {
 			if (self->aiCharacter == AICHAR_ZOMBIE) {
-				// RF, changed this so Zombies always gib now
+				// changed this so Zombies always gib now
 				GibEntity(self, killer);
 				nogib = qfalse;
 				self->takedamage = qfalse;

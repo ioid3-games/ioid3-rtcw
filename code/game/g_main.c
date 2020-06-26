@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -129,37 +125,37 @@ vmCvar_t g_localTeamPref;
 // et sdk antilag
 vmCvar_t g_antilag;
 #ifdef _ADMINS
-vmCvar_t a1_pass;           // Level 1 admin
-vmCvar_t a2_pass;           // Level 2 admin
-vmCvar_t a3_pass;           // Level 3 admin
-vmCvar_t a1_tag;            // Level 1 admin tag
-vmCvar_t a2_tag;            // Level 2 admin tag
-vmCvar_t a3_tag;            // Level 3 admin tag
-vmCvar_t a1_cmds;           // Level 1 admin commands
-vmCvar_t a2_cmds;           // Level 2 admin commands
-vmCvar_t a3_cmds;           // Level 3 admin commands
-vmCvar_t a3_allowAll;       // Allows level 3 to execute all admin commands + anyother that's set in a3_cmds -> In this case, use a3_cmds for server specific cvars like g_allowVote that would otherwise require rcon etc..
-vmCvar_t adm_help;          // If enabled users can use !list_cmds to get list of commands for their level..
-vmCvar_t g_gamelocked;      // Controls if Admin locked the game so players can't join
-vmCvar_t g_extendedLog;     // Logs various admin actions in a seperate logs
+vmCvar_t a1_pass;			// Level 1 admin
+vmCvar_t a2_pass;			// Level 2 admin
+vmCvar_t a3_pass;			// Level 3 admin
+vmCvar_t a1_tag;			// Level 1 admin tag
+vmCvar_t a2_tag;			// Level 2 admin tag
+vmCvar_t a3_tag;			// Level 3 admin tag
+vmCvar_t a1_cmds;			// Level 1 admin commands
+vmCvar_t a2_cmds;			// Level 2 admin commands
+vmCvar_t a3_cmds;			// Level 3 admin commands
+vmCvar_t a3_allowAll;		// Allows level 3 to execute all admin commands + anyother that's set in a3_cmds -> In this case, use a3_cmds for server specific cvars like g_allowVote that would otherwise require rcon etc..
+vmCvar_t adm_help;			// If enabled users can use !list_cmds to get list of commands for their level..
+vmCvar_t g_gamelocked;		// Controls if Admin locked the game so players can't join
+vmCvar_t g_extendedLog;		// Logs various admin actions in a seperate logs
 #endif
 // General
-vmCvar_t sv_hostname;       // So it's more accesible
-vmCvar_t g_votesPerUser;    // How many votes can user call each game
-vmCvar_t g_bannedMSG;       // Used to point banned users to desired forum..
-vmCvar_t g_shove;           // Enable - Disable shove
-vmCvar_t g_shoveAmount;     // How far one is pushed
-vmCvar_t g_throwKnives;     // 0 = disabled, anything else is the value of knives player gets, alt -1 = unlimited.
+vmCvar_t sv_hostname;		// So it's more accesible
+vmCvar_t g_votesPerUser;	// How many votes can user call each game
+vmCvar_t g_bannedMSG;		// Used to point banned users to desired forum..
+vmCvar_t g_shove;			// Enable - Disable shove
+vmCvar_t g_shoveAmount;		// How far one is pushed
+vmCvar_t g_throwKnives;		// 0 = disabled, anything else is the value of knives player gets, alt -1 = unlimited.
 // Motds
-vmCvar_t g_showMOTD;        // Enable MOTD's (message of the day)
-vmCvar_t motdNum;           // With which motd it starts..
-vmCvar_t g_motdTime;        // Time between each message
-vmCvar_t g_motd1;           // MESSAGE 1
-vmCvar_t g_motd2;           // MESSAGE 2
-vmCvar_t g_motd3;           // MESSAGE 3
-vmCvar_t g_motd4;           // MESSAGE 4
-vmCvar_t g_motd5;           // MESSAGE 5
-vmCvar_t g_motd6;           // MESSAGE 6
+vmCvar_t g_showMOTD;		// Enable MOTD's (message of the day)
+vmCvar_t motdNum;			// With which motd it starts..
+vmCvar_t g_motdTime;		// Time between each message
+vmCvar_t g_motd1;			// MESSAGE 1
+vmCvar_t g_motd2;			// MESSAGE 2
+vmCvar_t g_motd3;			// MESSAGE 3
+vmCvar_t g_motd4;			// MESSAGE 4
+vmCvar_t g_motd5;			// MESSAGE 5
+vmCvar_t g_motd6;			// MESSAGE 6
 
 cvarTable_t gameCvarTable[] = {
 	// don't override the cheat state set by the system
@@ -359,7 +355,6 @@ void QDECL G_Printf(const char *fmt, ...) {
 	va_start(argptr, fmt);
 	Q_vsnprintf(text, sizeof(text), fmt, argptr);
 	va_end(argptr);
-
 	trap_Print(text);
 }
 
@@ -379,7 +374,6 @@ void QDECL G_DPrintf(const char *fmt, ...) {
 	va_start(argptr, fmt);
 	Q_vsnprintf(text, sizeof(text), fmt, argptr);
 	va_end(argptr);
-
 	trap_Print(text);
 }
 
@@ -395,7 +389,6 @@ void QDECL G_Error(const char *fmt, ...) {
 	va_start(argptr, fmt);
 	Q_vsnprintf(text, sizeof(text), fmt, argptr);
 	va_end(argptr);
-
 	trap_Error(text);
 }
 
@@ -555,9 +548,8 @@ void G_CheckForCursorHints(gentity_t *ent) {
 		if (tr->contents & CONTENTS_WATER) {
 			hintDist = CH_WATER_DIST;
 			hintType = HINT_WATER;
-		}
 		// ladder
-		else if ((tr->surfaceFlags & SURF_LADDER) && !(ps->pm_flags & PMF_LADDER)) {
+		} else if ((tr->surfaceFlags & SURF_LADDER) && !(ps->pm_flags & PMF_LADDER)) {
 			hintDist = CH_LADDER_DIST;
 			hintType = HINT_LADDER;
 		}
@@ -1003,9 +995,9 @@ void G_UpdateCvars(void) {
 						// we need to save the game after the "playestart" is called, but before the camera is actually started (since the camera needs to be triggered on loading the game)
 						// so we should call the script, but not let it actually run. Therefore upon loading, the script should run, and the camera start
 						if (g_gametype.integer == GT_SINGLE_PLAYER) {
-							saveGamePending = qtrue;  // set this temporarily so we dont actually run the script just yet
+							saveGamePending = qtrue; // set this temporarily so we dont actually run the script just yet
 							AICast_ScriptEvent(AICast_GetCastState(player->s.number), "playerstart", "");
-							saveGamePending = qfalse;  // set it back
+							saveGamePending = qfalse; // set it back
 							// save the "autosave\\<mapname>" savegame, which is taken before any cameras have been played
 							trap_Cvar_VariableStringBuffer("mapname", mapname, sizeof(mapname));
 							Q_strncpyz(filename, "autosave\\", sizeof(filename));
@@ -1062,7 +1054,6 @@ void G_SpawnScriptCamera(void) {
 		G_Script_ScriptParse(g_camEnt);
 		G_Script_ScriptEvent(g_camEnt, "spawn", "");
 	}
-
 }
 
 /*
@@ -1092,7 +1083,9 @@ int G_SendMissionStats(void) {
 
 		if (player) {
 			attempts = AICast_NumAttempts(player->s.number) + 1; // attempts tracks '0' as attempt 1
+
 			AICast_AgePlayTime(player->s.number);
+
 			playtime = AICast_PlayTime(player->s.number);
 
 			for (i = 0; i < 8; i++) { // max objectives is '8'. FIXME: use#define somewhere
@@ -1284,7 +1277,7 @@ void G_InitGame(int levelTime, int randomSeed, int restart) {
 
 		trap_Cvar_VariableStringBuffer("g_missionStats", s, sizeof(s));
 
-		if (strlen(s)< 1) {
+		if (strlen(s) < 1) {
 			// g_missionStats is used to get the player to press a key to begin
 			trap_Cvar_Set("g_missionStats", "xx");
 		}
@@ -1692,6 +1685,7 @@ void CalculateRanks(void) {
 								if (dr == 0) {
 									dr = 1.0;
 								}
+
 								if (dg == 0) {
 									dg = 1.0;
 								}
@@ -1747,7 +1741,6 @@ void CalculateRanks(void) {
 								COM_BitSet(level.clients[i].ps.weapons, WP_PANZERFAUST);
 								level.clients[i].ps.ammo[BG_FindAmmoForWeapon(WP_PANZERFAUST)] = 4;
 								level.clients[i].ps.weapon = WP_PANZERFAUST;
-
 								level.clients[i].sess.lastBonusLifeScore = rounded;
 								trap_SendServerCommand(level.clients[i].ps.clientNum, "cp \"You've received a free panzerfaust\"");
 							}

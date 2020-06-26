@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http://www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -118,7 +114,7 @@ void Weapon_Knife(gentity_t *ent) {
 //		AngleVectors(traceEnt->client->ps.viewangles, eforward, NULL, NULL);
 
 			//(SA)TODO: neutralize pitch(so only yaw is considered)
-//		if (DotProduct(eforward, pforward)> 0.9f) { // from behind
+//		if (DotProduct(eforward, pforward) > 0.9f) { // from behind
 			// if relaxed, the strike is almost assured a kill
 			// if not relaxed, but still from behind, it does 10x damage(50)
 			// commented out right now as the ai's state always checks here as 'combat'
@@ -527,7 +523,7 @@ trace_t *CheckMeleeAttack(gentity_t *ent, float dist, qboolean isTest) {
 /*
 =======================================================================================================================================
 
-MACHINEGUN
+	MACHINEGUN
 
 =======================================================================================================================================
 */
@@ -567,6 +563,7 @@ KLUDGE/FIXME: also modded #defines below to become macros that call this fn for 
 =======================================================================================================================================
 */
 int G_GetWeaponDamage(int weapon) {
+
 	switch (weapon) {
 		case WP_LUGER:
 		case WP_SILENCER:
@@ -784,7 +781,6 @@ void RubbleFlagCheck(gentity_t *ent, trace_t tr) {
 			sfx->s.frame = 3 + (rand()% 3);
 
 			trap_LinkEntity(sfx);
-
 		}
 	}
 #endif
@@ -1993,7 +1989,7 @@ void FireWeapon(gentity_t *ent) {
 			if (!ent->aiCharacter) {
 				vec3_t forward, vangle;
 				VectorCopy(ent->client->ps.viewangles, vangle);
-				vangle[PITCH] = 0;  // nullify pitch so you can't lightning jump
+				vangle[PITCH] = 0; // nullify pitch so you can't lightning jump
 				AngleVectors(vangle, forward, NULL, NULL);
 				// make it less if in the air
 				if (ent->s.groundEntityNum == ENTITYNUM_NONE) {

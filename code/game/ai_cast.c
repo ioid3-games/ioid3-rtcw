@@ -26,23 +26,15 @@ If you have questions concerning this license or the applicable additional terms
 =======================================================================================================================================
 */
 
-//===========================================================================
-//
-// Name:			ai_cast.c
-// Function:		Wolfenstein AI Character Routines
-// Programmer:		Ridah
-// Tab Size:		4(real tabs)
-//===========================================================================
-
 #include "g_local.h"
 #include "../qcommon/q_shared.h"
-#include "../botlib/botlib.h"      //bot lib interface
+#include "../botlib/botlib.h" //bot lib interface
 #include "../botlib/be_aas.h"
 #include "../botlib/be_ea.h"
 #include "../botlib/be_ai_gen.h"
 #include "../botlib/be_ai_goal.h"
 #include "../botlib/be_ai_move.h"
-#include "../botlib/botai.h"          //bot ai interface
+#include "../botlib/botai.h" //bot ai interface
 
 #include "ai_cast.h"
 
@@ -104,7 +96,6 @@ char *castAttributeStrings[] = {
 	"HEARING_SCALE_NOT_PVS",
 	"INNER_DETECTION_RADIUS",
 	"PAIN_THRESHOLD_SCALE",
-
 	NULL
 };
 
@@ -402,8 +393,9 @@ gentity_t *AICast_CreateCharacter(gentity_t *ent, float *attributes, cast_weapon
 	newent->AIScript_AlertEntity = ent->AIScript_AlertEntity;
 	newent->aiInactive = ent->aiInactive;
 	newent->aiCharacter = cs->aiCharacter;
-	// parse the AI script for this character(if applicable)
+	// parse the AI script for this character (if applicable)
 	cs->aiFlags |= AIFL_CORPSESIGHTING; // this is on by default for all characters, disabled if they have a "friendlysightcorpse" script event
+
 	AICast_ScriptParse(cs);
 	// setup bounding boxes
 	//VectorCopy(mins, client->ps.mins);
@@ -470,7 +462,7 @@ gentity_t *AICast_CreateCharacter(gentity_t *ent, float *attributes, cast_weapon
 	newent->die = AICast_Die;
 	// update the attack inventory values
 	AICast_UpdateBattleInventory(cs, cs->enemyNum);
-	// make sure all clips are loaded so we don't hear everyone loading up(we don't want to do this inside AICast_UpdateBattleInventory(), only on spawn or giveweapon)
+	// make sure all clips are loaded so we don't hear everyone loading up (we don't want to do this inside AICast_UpdateBattleInventory(), only on spawn or giveweapon)
 	for (j = 0; j < WP_NUM_WEAPONS; j++) {
 		Fill_Clip(&client->ps, j);
 	}
@@ -624,7 +616,7 @@ void AIChar_AIScript_AlertEntity(gentity_t *ent) {
 	// check that another client isn't inside us
 	if (numTouch) {
 		for (i = 0; i < numTouch; i++) {
-			// note we should only check against clients since zombies need to spawn inside func_explosive(so they dont clip into view after it explodes)
+			// note we should only check against clients since zombies need to spawn inside func_explosive (so they dont clip into view after it explodes)
 			if (g_entities[touch[i]].client && g_entities[touch[i]].r.contents == CONTENTS_BODY) {
 				break;
 			}
@@ -648,7 +640,9 @@ void AIChar_AIScript_AlertEntity(gentity_t *ent) {
 	AICast_ScriptEvent(AICast_GetCastState(ent->s.number), "spawn", "");
 	// make it think so we update animations/angles
 	AICast_Think(ent->s.number, (float)FRAMETIME / 1000);
+
 	cs->lastThink = level.time;
+
 	AICast_UpdateInput(cs, FRAMETIME);
 	trap_BotUserCommand(cs->bs->client, &(cs->lastucmd));
 }
@@ -757,7 +751,7 @@ void AICast_CheckLoadGame(void) {
 	trap_Cvar_VariableStringBuffer("savegame_loading", loading, sizeof(loading));
 	trap_Cvar_Set("g_reloading", "1");
 
-	if (strlen(loading)> 0 && atoi(loading)!= 0) {
+	if (strlen(loading) > 0 && atoi(loading) != 0) {
 		// screen should be black if we are at this stage
 		trap_SetConfigstring(CS_SCREENFADE, va("1 %i 1", level.time - 10));
 
@@ -912,7 +906,7 @@ qboolean AICast_NoFlameDamage(int entNum) {
 	}
 
 	cs = AICast_GetCastState(entNum);
-	return ((cs->aiFlags & AIFL_NO_FLAME_DAMAGE)!= 0);
+	return ((cs->aiFlags & AIFL_NO_FLAME_DAMAGE) != 0);
 }
 
 /*
@@ -944,7 +938,7 @@ void AICast_SetFlameDamage(int entNum, qboolean status) {
 =======================================================================================================================================
 G_SetAASBlockingEntity
 
-Adjusts routing so AI knows it can't move through this entity
+Adjusts routing so AI knows it can't move through this entity.
 =======================================================================================================================================
 */
 void G_SetAASBlockingEntity(gentity_t *ent, qboolean blocking) {
@@ -978,8 +972,8 @@ void AICast_AgePlayTime(int entnum) {
 		return;
 	}
 
-	if ((level.time - cs->lastLoadTime)> 1000) {
-		if (/*(level.time - cs->lastLoadTime)< 2000 &&*/(level.time - cs->lastLoadTime)> 0) {
+	if ((level.time - cs->lastLoadTime) > 1000) {
+		if (/*(level.time - cs->lastLoadTime)< 2000 &&*/(level.time - cs->lastLoadTime) > 0) {
 			cs->totalPlayTime += level.time - cs->lastLoadTime;
 			trap_Cvar_Set("g_totalPlayTime", va("%i", cs->totalPlayTime));
 		}
@@ -996,7 +990,7 @@ AICast_NoReload
 int AICast_NoReload(int entnum) {
 	cast_state_t *cs = AICast_GetCastState(entnum);
 
-	return ((cs->aiFlags & AIFL_NO_RELOAD)!= 0);
+	return ((cs->aiFlags & AIFL_NO_RELOAD) != 0);
 }
 
 /*

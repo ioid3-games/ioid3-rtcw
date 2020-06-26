@@ -26,14 +26,6 @@ If you have questions concerning this license or the applicable additional terms
 =======================================================================================================================================
 */
 
-//===========================================================================
-//
-// Name:			ai_cast_funcs.c
-// Function:		Wolfenstein AI Character Decision Making
-// Programmer:		Ridah
-// Tab Size:		4(real tabs)
-//===========================================================================
-
 #include "g_local.h"
 #include "../qcommon/q_shared.h"
 #include "../botlib/botlib.h" // bot lib interface
@@ -47,9 +39,9 @@ If you have questions concerning this license or the applicable additional terms
 #include "ai_cast.h"
 
 //=================================================================================
-//
-// ZOMBIE SPECIAL ATTACKS
-//
+
+//	ZOMBIE SPECIAL ATTACKS
+
 //=================================================================================
 
 #define ZOMBIE_FLAME_DURATION 4000
@@ -947,11 +939,11 @@ int warriorHitDamage[5] = {
 #define NUM_WARRIOR_ANIMS 5
 
 int warriorHitTimes[NUM_WARRIOR_ANIMS][3] = { // up to three hits per attack
-	{ANIMLENGTH(10,20),-1},
-	{ANIMLENGTH(15,20),-1},
-	{ANIMLENGTH(18,20),-1},
-	{ANIMLENGTH(15,20),-1},
-	{ANIMLENGTH(14,20),-1},
+	{ANIMLENGTH(10,20), -1},
+	{ANIMLENGTH(15,20), -1},
+	{ANIMLENGTH(18,20), -1},
+	{ANIMLENGTH(15,20), -1},
+	{ANIMLENGTH(14,20), -1},
 };
 
 /*

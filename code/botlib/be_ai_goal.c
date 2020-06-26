@@ -1,28 +1,24 @@
 /*
 =======================================================================================================================================
+Copyright (C) 1999-2010 id Software LLC, a ZeniMax Media company.
 
-Return to Castle Wolfenstein single player GPL Source Code
-Copyright(C)1999-2010 id Software LLC, a ZeniMax Media company. 
+This file is part of Spearmint Source Code.
 
-This file is part of the Return to Castle Wolfenstein single player GPL Source Code(RTCW SP Source Code). 
+Spearmint Source Code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
 
-RTCW SP Source Code is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option)any later version.
+Spearmint Source Code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-RTCW SP Source Code is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with Spearmint Source Code.
+If not, see <http://www.gnu.org/licenses/>.
 
-You should have received a copy of the GNU General Public License
-along with RTCW SP Source Code. If not, see <http:// www.gnu.org/licenses/>.
+In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
+terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
+id Software at the address below.
 
-In addition, the RTCW SP Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the RTCW SP Source Code. If not, please request a copy in writing from id Software at the address below.
-
-If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
-
+If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
+ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
 */
 
@@ -86,10 +82,8 @@ typedef enum {
 	// coop games come before this
 	GT_SINGLE_PLAYER,
 	// -- team games go after this --
-
 	GT_MAX_GAME_TYPE
 } gametype_t;
-
 // gameskill
 typedef enum {
 	GSKILL_EASY,
@@ -559,12 +553,10 @@ void BotInitLevelItems(void) {
 	if (!AAS_Loaded()) {
 		return;
 	}
-	// update the modelindexes of the item info
+	// validate the modelindexes of the item info
 	for (i = 0; i < ic->numiteminfo; i++) {
-		// ic->iteminfo[i].modelindex = AAS_IndexFromModel(ic->iteminfo[i].model);
-
 		if (!ic->iteminfo[i].modelindex) {
-			Log_Write("item %s has modelindex 0", ic->iteminfo[i].classname);
+			Log_Write("item %s has modelindex 0.\n", ic->iteminfo[i].classname);
 		}
 	}
 
@@ -972,7 +964,7 @@ void BotUpdateEntityItems(void) {
 		VectorCopy(entinfo.origin, li->origin);
 		// get the item goal area and goal origin
 		li->goalareanum = AAS_BestReachableArea(li->origin, ic->iteminfo[i].mins, ic->iteminfo[i].maxs, li->goalorigin);
-
+		// never go for items dropped into jumppads
 		if (AAS_AreaJumpPad(li->goalareanum)) {
 			FreeLevelItem(li);
 			continue;
@@ -1260,7 +1252,7 @@ int BotChooseLTGItem(int goalstate, vec3_t origin, int *inventory, int travelfla
 	if (bestitem->timeout) {
 		avoidtime = AVOIDDROPPED_TIME;
 	}
-
+	// add the chosen goal to the goals to avoid for a while
 	BotAddToAvoidGoals(gs, bestitem->number, avoidtime);
 	// push the goal on the stack
 	BotPushGoal(goalstate, &goal);
@@ -1414,7 +1406,7 @@ int BotChooseNBGItem(int goalstate, vec3_t origin, int *inventory, int travelfla
 	if (bestitem->timeout) {
 		avoidtime = AVOIDDROPPED_TIME;
 	}
-
+	// add the chosen goal to the goals to avoid for a while
 	BotAddToAvoidGoals(gs, bestitem->number, avoidtime);
 	// push the goal on the stack
 	BotPushGoal(goalstate, &goal);

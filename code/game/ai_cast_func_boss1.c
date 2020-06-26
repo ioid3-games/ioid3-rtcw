@@ -26,14 +26,6 @@ If you have questions concerning this license or the applicable additional terms
 =======================================================================================================================================
 */
 
-//===========================================================================
-//
-// Name:			ai_cast_funcs.c
-// Function:		Wolfenstein AI Character Decision Making
-// Programmer:		Ridah
-// Tab Size:		4(real tabs)
-//===========================================================================
-
 #include "g_local.h"
 #include "../qcommon/q_shared.h"
 #include "../botlib/botlib.h" // bot lib interface
@@ -46,9 +38,9 @@ If you have questions concerning this license or the applicable additional terms
 #include "ai_cast.h"
 
 //=================================================================================
-//
-// Helga, the first boss
-//
+
+	Helga, the first boss
+
 //=================================================================================
 
 #define HELGA_SPIRIT_BUILDUP_TIME 8000 // last for this long
@@ -133,9 +125,9 @@ char *AIFunc_Helga_SpiritAttack_Start(cast_state_t *cs) {
 }
 
 //=================================================================================
-//
-// Standing melee attacks
-//
+
+	Standing melee attacks
+
 //=================================================================================
 
 #define NUM_HELGA_ANIMS 3
@@ -146,6 +138,7 @@ int helgaHitTimes[NUM_HELGA_ANIMS][MAX_HELGA_IMPACTS] = { // up to three hits pe
 	{ANIMLENGTH(11, 20), ANIMLENGTH(19, 20), -1},
 	{ANIMLENGTH(10, 20), ANIMLENGTH(17, 20), ANIMLENGTH(26, 20)},
 };
+
 int helgaHitDamage[NUM_HELGA_ANIMS] = {
 	20,
 	14,
@@ -176,7 +169,7 @@ char *AIFunc_Helga_Melee(cast_state_t *cs) {
 
 	if (cs->enemyNum < 0) {
 		ent->client->ps.legsTimer = 0; // allow legs us to move
-		ent->client->ps.torsoTimer = 0;  // allow legs us to move
+		ent->client->ps.torsoTimer = 0; // allow legs us to move
 		cs->aiFlags &= ~AIFL_SPECIAL_FUNC;
 		return AIFunc_DefaultStart(cs);
 	}
@@ -234,6 +227,7 @@ char *AIFunc_Helga_Melee(cast_state_t *cs) {
 	VectorSubtract(move.endpos, cs->bs->origin, vec);
 
 	vec[2] = 0;
+
 	enemyDist = VectorLength(vec);
 	enemyDist -= g_entities[cs->enemyNum].r.maxs[0];
 	enemyDist -= ent->r.maxs[0];
@@ -474,6 +468,7 @@ char *AIFunc_Heinrich_SwordLunge(cast_state_t *cs) {
 	VectorSubtract(move.endpos, cs->bs->origin, vec);
 
 	vec[2] = 0;
+
 	enemyDist = VectorLength(vec);
 	enemyDist -= g_entities[cs->enemyNum].r.maxs[0];
 	enemyDist -= ent->r.maxs[0];
@@ -624,7 +619,6 @@ char *AIFunc_Heinrich_SwordKnockbackStart(cast_state_t *cs) {
 #define HEINRICH_SLASH_DELAY ANIMLENGTH (17, 25)
 #define HEINRICH_SLASH_RANGE 140
 #define HEINRICH_SLASH_DAMAGE (30 + rand()% 15)
-
 /*
 =======================================================================================================================================
 AIFunc_Heinrich_SwordSideSlash
@@ -735,7 +729,6 @@ char *AIFunc_Heinrich_SwordSideSlashStart(cast_state_t *cs) {
 #define HEINRICH_STOMP_RANGE 1024.0
 #define HEINRICH_STOMP_VELOCITY_Z 420
 #define HEINRICH_STOMP_DAMAGE 35
-
 /*
 =======================================================================================================================================
 AIFunc_Heinrich_Earthquake

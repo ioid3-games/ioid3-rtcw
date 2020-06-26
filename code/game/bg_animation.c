@@ -616,7 +616,6 @@ qboolean BG_AnimParseAnimConfig(animModelInfo_t *animModelInfo, const char *file
 		}
 
 		if (animModelInfo->version > 1) { // includes animation names at start of each line
-
 			if (!Q_stricmp(token, "ENDANIMS")) { // end of animations
 				break;
 			}
@@ -692,7 +691,6 @@ qboolean BG_AnimParseAnimConfig(animModelInfo_t *animModelInfo, const char *file
 		}
 
 		animations[i].moveSpeed = atoi(token);
-
 		// animation blending
 		oldtext_p = text_p;
 		token = COM_ParseExt(&text_p, qfalse); // must be on same line
@@ -705,6 +703,7 @@ qboolean BG_AnimParseAnimConfig(animModelInfo_t *animModelInfo, const char *file
 		// priority
 		oldtext_p = text_p;
 		token = COM_ParseExt(&text_p, qfalse); // must be on same line
+
 		if (!token[0]) {
 			text_p = oldtext_p;
 			// death anims have highest priority
@@ -792,6 +791,7 @@ qboolean BG_AnimParseAnimConfig(animModelInfo_t *animModelInfo, const char *file
 	return qtrue;
 }
 
+#define RESULT_SIZE 2
 /*
 =======================================================================================================================================
 BG_ParseConditionBits
@@ -799,7 +799,6 @@ BG_ParseConditionBits
 Convert the string into a single int containing bit flags, stopping at a ',' or end of line.
 =======================================================================================================================================
 */
-#define RESULT_SIZE 2
 void BG_ParseConditionBits(char **text_pp, animStringItem_t *stringTable, int condIndex, int result[RESULT_SIZE]) {
 	qboolean endFlag = qfalse;
 	int indexFound;
@@ -819,6 +818,7 @@ void BG_ParseConditionBits(char **text_pp, animStringItem_t *stringTable, int co
 		if (!token[0]) {
 			COM_RestoreParseSession(text_pp); // go back to the previous token
 			endFlag = qtrue; // done parsing indexes
+
 			if (!strlen(currentString)) {
 				break;
 			}
@@ -946,7 +946,7 @@ qboolean BG_ParseConditions(char **text_pp, animScriptItem_t *scriptItem) {
 					token = COM_ParseExt(text_pp, qfalse);
 
 					if (!token[0]) {
-						BG_AnimParseError("BG_AnimParseAnimScript: expected condition value, found end of line");  // RF modification
+						BG_AnimParseError("BG_AnimParseAnimScript: expected condition value, found end of line"); // RF modification
 						break;
 					}
 					// check for a comma(condition divider)
@@ -1119,14 +1119,6 @@ void BG_ParseCommands(char **input, animScriptItem_t *scriptItem, animModelInfo_
 	}
 }
 
-/*
-=======================================================================================================================================
-BG_AnimParseAnimScript
-
-Parse the animation script for this model, converting it into run-time structures.
-=======================================================================================================================================
-*/
-
 typedef enum {
 	PARSEMODE_DEFINES,
 	PARSEMODE_ANIMATION,
@@ -1144,6 +1136,13 @@ static animStringItem_t animParseModesStr[] = {
 	{NULL, -1},
 };
 
+/*
+=======================================================================================================================================
+BG_AnimParseAnimScript
+
+Parse the animation script for this model, converting it into run-time structures.
+=======================================================================================================================================
+*/
 void BG_AnimParseAnimScript(animModelInfo_t *modelInfo, animScriptData_t *scriptData, int client, char *filename, char *input) {
 	#define MAX_INDENT_LEVELS 3
 
@@ -1197,7 +1196,7 @@ void BG_AnimParseAnimScript(animModelInfo_t *modelInfo, animScriptData_t *script
 
 		if (newParseMode >= 0) {
 			if (indentLevel) {
-				BG_AnimParseError("BG_AnimParseAnimScript: unexpected '%s'", token);   // RF mod
+				BG_AnimParseError("BG_AnimParseAnimScript: unexpected '%s'", token); // RF mod
 			}
 
 			parseMode = newParseMode;
@@ -1213,7 +1212,7 @@ void BG_AnimParseAnimScript(animModelInfo_t *modelInfo, animScriptData_t *script
 					token = COM_ParseExt(&text_p, qfalse);
 
 					if (!token[0]) {
-						BG_AnimParseError("BG_AnimParseAnimScript: expected condition type string");   // RF mod
+						BG_AnimParseError("BG_AnimParseAnimScript: expected condition type string"); // RF mod
 					}
 
 					defineType = BG_IndexForString(token, animConditionsStr, qfalse);
@@ -1661,7 +1660,6 @@ int BG_AnimScriptAnimation(playerState_t *ps, aistateEnum_t estate, scriptAnimMo
 	int state = estate; // enum types are not always signed
 	animScriptItem_t *scriptItem = NULL;
 	animScriptCommand_t *scriptCommand = NULL;
-
 
 	if (ps->eFlags & EF_DEAD) {
 		return -1;

@@ -556,7 +556,6 @@ void AICast_ScriptParse(cast_state_t *cs) {
 							gitem_t *weap = BG_FindItem2(token); // FIXME: rats, need to fix this for weapon names with spaces: 'mauser rifle'
 							RegisterItem(weap); // don't be nice, just do it. if it can't find it, you'll bomb out to the error menu
 						}
-
 						// need to get this for callvote nextmap
 						if (!Q_stricmp(action->actionString, "changelevel")) {
 							Q_strncpyz(level.nextMap, token, sizeof(level.nextMap));
@@ -624,7 +623,6 @@ void AICast_ScriptChange(cast_state_t *cs, int newScriptNum) {
 	cast_script_status_t scriptStatusBackup;
 
 	cs->scriptCallIndex++;
-
 	// backup the current scripting
 	scriptStatusBackup = cs->castScriptStatus;
 	// set the new script to this cast, and reset script status
