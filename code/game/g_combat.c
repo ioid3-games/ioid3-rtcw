@@ -1534,7 +1534,7 @@ qboolean G_RadiusDamage(vec3_t origin, gentity_t *attacker, float damage, float 
 		}
 
 		points = damage * (1.0 - dist / radius);
-		// different radiusdmg behavior for MP -- big explosions should do less damage (over less distance) through failed traces
+		// different radius dmg behavior for MP -- big explosions should do less damage (over less distance) through failed traces
 		if (CanDamage(ent, origin)) {
 			if (LogAccuracyHit(ent, attacker)) {
 				hitClient = qtrue;

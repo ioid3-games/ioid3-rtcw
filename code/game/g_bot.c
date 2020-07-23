@@ -677,7 +677,7 @@ static void G_AddBot(const char *name, int skill, const char *team, int delay) {
 	}
 
 	Info_SetValueForKey(userinfo, key, s);
-
+	// ai character
 	s = Info_ValueForKey(botinfo, "aifile");
 
 	if (!*s) {

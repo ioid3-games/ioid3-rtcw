@@ -407,6 +407,7 @@ UI_PlayerAnimation
 */
 /*
 static void UI_PlayerAnimation(playerInfo_t *pi, int *legsOld, int *legs, float *legsBackLerp, int *torsoOld, int *torso, float *torsoBackLerp) {
+
 	// legs animation
 	pi->legsAnimationTimer -= uis.frametime;
 

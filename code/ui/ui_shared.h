@@ -120,7 +120,7 @@ typedef struct {
 	float x; // horiz position
 	float y; // vert position
 	float w; // width
-	float h; // height;
+	float h; // height
 } rectDef_t;
 
 typedef rectDef_t Rectangle;

@@ -30,9 +30,8 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #include "g_coop.h"
 
 void G_LoadAndParseMoveSpeeds(char *modelname);
-// new bounding box
-//static vec3_t playerMins = {-15, -15, -24};
-//static vec3_t playerMaxs = {15, 15, 32};
+#define MAX_SPAWN_POINTS 128
+
 vec3_t playerMins = {-18, -18, -24};
 vec3_t playerMaxs = {18, 18, 48};
 
@@ -42,7 +41,7 @@ The first time a player enters the game, they will be at an 'initial' spot.
 Targets will be fired when someone spawns in on them.
 "nobots" will prevent bots from using this spot.
 "nohumans" will prevent non-bots from using this spot.
-If the start position is targeting an entity, the players camera will start out facing that ent(like an info_notnull)
+If the start position is targeting an entity, the players camera will start out facing that ent (like an info_notnull)
 */
 void SP_info_player_deathmatch(gentity_t *ent) {
 	int i;
@@ -105,7 +104,7 @@ void SP_coop_spawnpoint(gentity_t *ent) {
 	}
 }
 
-/*QUAKED info_player_intermission(1 0 1)(-16 -16 -24)(16 16 32)
+/*QUAKED info_player_intermission (1 0 1) (-16 -16 -24) (16 16 32)
 The intermission will be viewed from this point. Target an info_notnull for the view direction.
 */
 void SP_info_player_intermission(gentity_t *ent) {
@@ -154,7 +153,6 @@ SelectNearestDeathmatchSpawnPoint
 Find the spot that we DON'T want to use.
 =======================================================================================================================================
 */
-#define MAX_SPAWN_POINTS 128
 gentity_t *SelectNearestDeathmatchSpawnPoint(vec3_t from) {
 	gentity_t *spot;
 	vec3_t delta;

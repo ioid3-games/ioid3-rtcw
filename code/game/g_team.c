@@ -851,7 +851,7 @@ void SP_team_CTF_blueplayer(gentity_t *ent) {
 }
 
 // JPW NERVE edited quaked def
-/*QUAKED team_CTF_redspawn(1 0 0)(-16 -16 -24)(16 16 32)invulnerable startactive
+/*QUAKED team_CTF_redspawn (1 0 0) (-16 -16 -24) (16 16 32) invulnerable startactive
 potential spawning position for axis team in wolfdm games.
 
 TODO: SelectRandomTeamSpawnPoint()will choose team_CTF_redspawn point that:

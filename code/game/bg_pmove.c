@@ -916,7 +916,7 @@ static void PM_WalkMove(void) {
 		pm->ps->velocity[2] -= pm->ps->gravity * pml.frametime;
 	} else {
 		// don't reset the z velocity for slopes
-//		pm->ps->velocity[2] = 0;
+		//pm->ps->velocity[2] = 0;
 	}
 	// show breath when standing on 'snow' surfaces
 	if (pml.groundTrace.surfaceFlags & SURF_SNOW) {

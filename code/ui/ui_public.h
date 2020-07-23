@@ -137,7 +137,7 @@ typedef enum {
 #ifdef LOCALISATION
 	UI_CL_TRANSLATE_STRING,
 #endif
-	UI_MEMSET  =  100,
+	UI_MEMSET = 100,
 	UI_MEMCPY,
 	UI_STRNCPY,
 	UI_SIN,
@@ -146,8 +146,8 @@ typedef enum {
 	UI_SQRT,
 	UI_FLOOR,
 	UI_CEIL,
-	// New in IORTCW
-	UI_ALLOC  =  900
+	// new in IORTCW
+	UI_ALLOC = 900
 } uiImport_t;
 
 typedef enum {

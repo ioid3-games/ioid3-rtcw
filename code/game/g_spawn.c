@@ -676,7 +676,7 @@ void G_SpawnGEntityFromSpawnVars(void) {
 	for (i = 0; i < level.numSpawnVars; i++) {
 		G_ParseField(level.spawnVars[i][0], level.spawnVars[i][1], ent);
 	}
-	// check for "notteam" / "notfree" flags
+	// check for "notteam"/"notfree" flags
 	if (g_gametype.integer <= GT_SINGLE_PLAYER) {
 		G_SpawnInt("notsingle", "0", &i);
 
@@ -943,7 +943,7 @@ qboolean G_ParseSpawnVars(void) {
 	return qtrue;
 }
 
-/*QUAKED worldspawn(0 0 0) ? sun_cameraflare
+/*QUAKED worldspawn (0 0 0) ? sun_cameraflare
 
 Every map should have exactly one worldspawn.
 "music"		music wav file

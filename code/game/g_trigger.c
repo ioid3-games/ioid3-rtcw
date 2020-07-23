@@ -20,7 +20,7 @@ id Software at the address below.
 If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
 ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
-*
+*/
 
 #include "g_local.h"
 
@@ -191,7 +191,7 @@ void Enable_Trigger_Touch(gentity_t *ent) {
 	}
 }
 
-/*QUAKED trigger_multiple(.5 .5 .5) ? AI_Touch
+/*QUAKED trigger_multiple (.5 .5 .5) ? AI_Touch
 "wait" : Seconds between triggerings, 0.5 default, -1 = one time only.
 "random" wait variance, default is 0
 Variable sized repeatable trigger. Must be targeted at one or more entities.

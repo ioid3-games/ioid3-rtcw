@@ -26,31 +26,22 @@ If you have questions concerning this license or the applicable additional terms
 =======================================================================================================================================
 */
 
-// g_local.h -- local definitions for game module
+/**************************************************************************************************************************************
+ Local definitions for game module.
+**************************************************************************************************************************************/
 
 #include "../qcommon/q_shared.h"
 #include "bg_public.h"
 #include "g_public.h"
-
-//==================================================================
-
 // the "gameversion" client command will print this plus compile date
-//---- (SA)Wolfenstein
 #define GAMEVERSION COOP_BASEGAME
-// done.
-
-#define BODY_QUEUE_SIZE     8
-
-#define INFINITE            1000000
-
-#define FRAMETIME           100                 // msec
-#define EVENT_VALID_MSEC    1000
+#define BODY_QUEUE_SIZE 8
+#define INFINIT 1000000
+#define FRAMETIME 100 // msec
+#define EVENT_VALID_MSEC 1000
 #define CARNAGE_REWARD_TIME 3000
-#define REWARD_SPRITE_TIME  2000
-
+#define REWARD_SPRITE_TIME 2000
 #define INTERMISSION_DELAY_TIME 1000
-
-
 // gentity->flags
 #define FL_GODMODE              0x00000010
 #define FL_NOTARGET             0x00000020

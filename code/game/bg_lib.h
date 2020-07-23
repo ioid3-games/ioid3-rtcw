@@ -1,22 +1,17 @@
 /*
 =======================================================================================================================================
-Copyright(C)1999-2005 Id Software, Inc.
+Copyright (C) 1999-2005 Id Software, Inc.
 
 This file is part of Quake III Arena source code.
 
-Quake III Arena source code is free software; you can redistribute it
-and/or modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of the License,
-or(at your option)any later version.
+Quake III Arena source code is free software; you can redistribute it and/or modify it under the terms of the GNU General Public
+License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
-Quake III Arena source code is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+Quake III Arena source code is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with Quake III Arena source code; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+You should have received a copy of the GNU General Public License along with Quake III Arena source code; if not, write to the Free
+Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 =======================================================================================================================================
 */
 
@@ -27,57 +22,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // This file is NOT included on native builds
 #if !defined(BG_LIB_H) && defined(Q3_VM)
 #define BG_LIB_H
-
-//Ignore __attribute__ on non-gcc platforms
+// Ignore __attribute__ on non-gcc platforms
 #ifndef __GNUC__
 #ifndef __attribute__
-#define __attribute__ (x)
+#define __attribute__(x)
 #endif
 #endif
-
 #ifndef NULL
-#define NULL((void *)0)
+#define NULL ((void *)0)
 #endif
-
 typedef unsigned int size_t;
-
 typedef char *va_list;
-#define _INTSIZEOF(n)((sizeof(n) + sizeof(int) - 1)& ~(sizeof(int) - 1))
-#define va_start(ap,v)(ap = (va_list)&v + _INTSIZEOF(v))
-#define va_arg(ap,t)(*(t *)((ap += _INTSIZEOF(t)) - _INTSIZEOF(t)))
-#define va_end(ap)(ap = (va_list)0)
+#define _INTSIZEOF(n) ((sizeof(n) + sizeof(int) - 1) & ~(sizeof(int) - 1))
+#define va_start(ap, v) (ap = (va_list)&v + _INTSIZEOF(v))
+#define va_arg(ap, t) (*(t *)((ap += _INTSIZEOF(t)) - _INTSIZEOF(t)))
+#define va_end(ap) (ap = (va_list)0)
 
-#define CHAR_BIT      8             /* number of bits in a char */
-#define SCHAR_MAX     0x7f          /* maximum signed char value */
-#define SCHAR_MIN(-SCHAR_MAX - 1) /* minimum signed char value */
-#define UCHAR_MAX     0xff          /* maximum unsigned char value */
+#define CHAR_BIT 8 // number of bits in a char
+#define SCHAR_MAX 0x7f // maximum signed char value
+#define SCHAR_MIN (-SCHAR_MAX - 1) // minimum signed char value
+#define UCHAR_MAX 0xff // maximum unsigned char value
+#define SHRT_MAX 0x7fff // maximum (signed) short value
+#define SHRT_MIN (-SHRT_MAX - 1) // minimum (signed) short value
+#define USHRT_MAX 0xffff // maximum unsigned short value
+#define INT_MAX 0x7fffffff // maximum (signed) int value
+#define INT_MIN (-INT_MAX - 1) // minimum (signed) int value
+#define UINT_MAX 0xffffffff // maximum unsigned int value
+#define LONG_MAX 0x7fffffffL // maximum (signed) long value
+#define LONG_MIN (-LONG_MAX - 1) // minimum (signed) long value
+#define ULONG_MAX 0xffffffffUL // maximum unsigned long value
 
-#define SHRT_MAX      0x7fff        /* maximum(signed)short value */
-#define SHRT_MIN(-SHRT_MAX - 1) /* minimum(signed)short value */
-#define USHRT_MAX     0xffff        /* maximum unsigned short value */
-#define INT_MAX       0x7fffffff    /* maximum(signed)int value */
-#define INT_MIN(-INT_MAX - 1) /* minimum(signed)int value */
-#define UINT_MAX      0xffffffff    /* maximum unsigned int value */
-#define LONG_MAX      0x7fffffffL   /* maximum(signed)long value */
-#define LONG_MIN(-LONG_MAX - 1) /* minimum(signed)long value */
-#define ULONG_MAX     0xffffffffUL  /* maximum unsigned long value */
-
-#define isalnum(c)(isalpha(c) || isdigit(c))
-#define isalpha(c)(isupper(c) || islower(c))
-#define isascii(c)((c)> 0 && (c)<= 0x7f)
-#define iscntrl(c)(((c)>= 0) && (((c)<= 0x1f) || ((c) == 0x7f)))
-#define isdigit(c)((c)>= '0' && (c)<= '9')
-#define isgraph(c)((c)!= ' ' && isprint(c))
-#define islower(c)((c)>= 'a' && (c)<= 'z')
-#define isprint(c)((c)>= ' ' && (c)<= '~')
-#define ispunct(c)(((c)> ' ' && (c)<= '~') && !isalnum(c))
-#define isspace(c)((c) == ' ' || (c) == '\f' || (c) == '\n' || (c) == '\r' || \
-(c) == '\t' || (c) == '\v')
-#define isupper(c)((c)>= 'A' && (c)<= 'Z')
-#define isxdigit(c)(isxupper(c) || isxlower(c))
-#define isxlower(c)(isdigit(c) || (c >= 'a' && c <= 'f'))
-#define isxupper(c)(isdigit(c) || (c >= 'A' && c <= 'F'))
-
+#define isalnum(c) (isalpha(c) || isdigit(c))
+#define isalpha(c) (isupper(c) || islower(c))
+#define isascii(c) ((c) > 0 && (c) <= 0x7f)
+#define iscntrl(c) (((c) >= 0) && (((c) <= 0x1f) || ((c) == 0x7f)))
+#define isdigit(c) ((c) >= '0' && (c) <= '9')
+#define isgraph(c) ((c) != ' ' && isprint(c))
+#define islower(c) ((c) >= 'a' && (c) <= 'z')
+#define isprint(c) ((c) >= ' ' && (c) <= '~')
+#define ispunct(c) (((c) > ' ' && (c) <= '~') && !isalnum(c))
+#define isspace(c) ((c) == ' ' || (c) == '\f' || (c) == '\n' || (c) == '\r' || (c) == '\t' || (c) == '\v')
+#define isupper(c) ((c) >= 'A' && (c) <= 'Z')
+#define isxdigit(c) (isxupper(c) || isxlower(c))
+#define isxlower(c) (isdigit(c) || (c >= 'a' && c <= 'f'))
+#define isxupper(c) (isdigit(c) || (c >= 'A' && c <= 'F'))
 // Misc functions
 typedef int cmp_t(const void *, const void *);
 void qsort(void *a, size_t n, size_t es, cmp_t *cmp);
@@ -120,5 +108,5 @@ double fabs(double x);
 double acos(double x);
 // pow that only supports integer exponents
 double powN(double base, int exp);
-#define pow(_base, _exp)powN(_base, _exp)
+#define pow(_base, _exp) powN(_base, _exp)
 #endif // BG_LIB_H

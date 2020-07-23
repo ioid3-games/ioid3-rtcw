@@ -32,76 +32,48 @@ If you have questions concerning this license or the applicable additional terms
 
 // because games can change separately from the main system version, we need a second version that must match between game and cgame
 
-
-#define GAME_VERSION		BASEGAME "-1"
-
-#define DEFAULT_GRAVITY     800
-#define GIB_HEALTH         -40
-#define ARMOR_PROTECTION    0.66
-
-#define MAX_ITEMS           256
-
-#define RANK_TIED_FLAG      0x4000
-
-#define DEFAULT_SHOTGUN_SPREAD  700
-#define DEFAULT_SHOTGUN_COUNT   11
-
-//#define ITEM_RADIUS			15		// item sizes are needed for client side pickup detection
-#define ITEM_RADIUS     10 // Rafael changed the radius so that the items would fit in the 3 new containers
-
-// RF, zombie getup
+#define GAME_VERSION BASEGAME "-1"
+#define DEFAULT_GRAVITY 800
+#define GIB_HEALTH -40
+#define ARMOR_PROTECTION 0.66
+#define MAX_ITEMS 256
+#define RANK_TIED_FLAG 0x4000
+#define DEFAULT_SHOTGUN_SPREAD 700
+#define DEFAULT_SHOTGUN_COUNT 11
+#define ITEM_RADIUS 10 // changed the radius so that the items would fit in the 3 new containers
+// zombie getup
 #define TIMER_RESPAWN (38 * (1000 / 15) + 100)
-
-#define LIGHTNING_RANGE     600
-#define TESLA_RANGE         800
-#define TESLA_SUPERSOLDIER_RANGE    2000
-// JPW NERVE -- make flamethrower range variable with single/multiplayer -- actual routine is in bg_pmove.c
+#define LIGHTNING_RANGE 600
+#define TESLA_RANGE 800
+#define TESLA_SUPERSOLDIER_RANGE 2000
+// make flamethrower range variable with single/multiplayer -- actual routine is in bg_pmove.c
 float Com_GetFlamethrowerRange(void);
 #define FLAMETHROWER_RANGE Com_GetFlamethrowerRange()
-//#define FLAMETHROWER_RANGE	850
-// jpw
-#define ZOMBIE_FLAME_SCALE  0.3
+#define ZOMBIE_FLAME_SCALE 0.3
 #define ZOMBIE_FLAME_RADIUS (FLAMETHROWER_RANGE * ZOMBIE_FLAME_SCALE)
+// AI effects
+#define PORTAL_ZOMBIE_SPAWNTIME 3000
+#define PORTAL_FEMZOMBIE_SPAWNTIME 3000
+#define SCORE_NOT_PRESENT -9999 // for the CS_SCORES[12] when only one player is present
+#define VOTE_TIME 30000 // 30 seconds before vote times out
+#define DEAD_SINK_DURATION 12000
+#define DEAD_SINK_DEPTH 64
+#define MINS_Z -24
+#define DEFAULT_VIEWHEIGHT 40
+#define CROUCH_VIEWHEIGHT 16
+#define DEAD_VIEWHEIGHT -16
+// temp only, use infantryss so we can test new anim system
+//#define DEFAULT_MODEL "american"
+#define DEFAULT_MODEL "bj2"
+#define DEFAULT_COOP_MODEL "multi"
+#define DEFAULT_COOP_MODEL_AXIS "multi_axis"
+#define DEFAULT_HEAD "default" // technically the default head skin. This means "head_default.skin" for the head
+// on fire effects
+#define FIRE_FLASH_TIME 2000
+#define FIRE_FLASH_FADEIN_TIME 1000
+#define LIGHTNING_FLASH_TIME 150
 
-// RF, AI effects
-#define PORTAL_ZOMBIE_SPAWNTIME     3000
-#define PORTAL_FEMZOMBIE_SPAWNTIME  3000
-
-#define SCORE_NOT_PRESENT  -9999   // for the CS_SCORES[12] when only one player is present
-
-#define VOTE_TIME           30000   // 30 seconds before vote times out
-
-#define DEAD_SINK_DURATION  12000
-#define DEAD_SINK_DEPTH     64
-
-// Ridah, disabled these
-#define MINS_Z				-24
-//#define DEFAULT_VIEWHEIGHT	26
-//#define CROUCH_VIEWHEIGHT	12
-// done.
-
-// Rafael
-// note to self: Corky test
-//#define DEFAULT_VIEWHEIGHT	26
-//#define CROUCH_VIEWHEIGHT	12
-#define DEFAULT_VIEWHEIGHT  40
-#define CROUCH_VIEWHEIGHT   16
-#define DEAD_VIEWHEIGHT    -16
-
-// RF, temp only, use infantryss so we can test new anim system
-//#define DEFAULT_MODEL		"american"
-#define DEFAULT_MODEL       "bj2"
-#define DEFAULT_COOP_MODEL       "multi"
-#define DEFAULT_COOP_MODEL_AXIS       "multi_axis"
-#define DEFAULT_HEAD        "default"    // technically the default head skin. this means "head_default.skin" for the head
-
-// RF, on fire effects
-#define FIRE_FLASH_TIME         2000
-#define FIRE_FLASH_FADEIN_TIME  1000
-
-#define LIGHTNING_FLASH_TIME    150
-
-// RF, client damage identifiers
+// client damage identifiers
 typedef enum {
 	CLDMG_SPIRIT,
 	CLDMG_FLAMETHROWER,
@@ -111,88 +83,67 @@ typedef enum {
 	CLDMG_MAX
 } clientDamage_t;
 
-// RF
-#define MAX_TAGCONNECTS     32
+#define MAX_TAGCONNECTS 32
+// zoom sway values
+#define ZOOM_PITCH_AMPLITUDE 0.13f
+#define ZOOM_PITCH_FREQUENCY 0.24f
+#define ZOOM_PITCH_MIN_AMPLITUDE 0.1f // minimum amount of sway even if completely settled on target
+#define ZOOM_YAW_AMPLITUDE 0.7f
+#define ZOOM_YAW_FREQUENCY 0.12f
+#define ZOOM_YAW_MIN_AMPLITUDE 0.2f
 
-//(SA)zoom sway values
-#define ZOOM_PITCH_AMPLITUDE        0.13f
-#define ZOOM_PITCH_FREQUENCY        0.24f
-#define ZOOM_PITCH_MIN_AMPLITUDE    0.1f        // minimum amount of sway even if completely settled on target
+#define MAX_OBJECTIVES 6
 
-#define ZOOM_YAW_AMPLITUDE          0.7f
-#define ZOOM_YAW_FREQUENCY          0.12f
-#define ZOOM_YAW_MIN_AMPLITUDE      0.2f
+/**************************************************************************************************************************************
 
-// DHM - Nerve
-#define MAX_OBJECTIVES      6
-// dhm
+	config strings are a general means of communicating variable length strings from the server to all connected clients.
 
-//
-// config strings are a general means of communicating variable length strings
-// from the server to all connected clients.
-//
+**************************************************************************************************************************************/
 
 // CS_SERVERINFO and CS_SYSTEMINFO are defined in q_shared.h
-#define CS_MUSIC            2
-#define CS_MESSAGE          3       // from the map worldspawn's message field
-#define CS_MOTD             4       // g_motd string for server message of the day
-#define CS_WARMUP           5       // server time when the match will be restarted
-#define CS_SCORES1          6
-#define CS_SCORES2          7
-#define CS_VOTE_TIME        8
-#define CS_VOTE_STRING      9
-#define CS_VOTE_YES         10
-#define CS_VOTE_NO          11
-#define CS_GAME_VERSION     12
-#define CS_LEVEL_START_TIME 13      // so the timer only shows the current level
-#define CS_INTERMISSION     14      // when 1, fraglimit/timelimit has been hit and intermission will start in a second or two
-// DHM - Nerve :: Wolf Multiplayer information
-#define CS_MULTI_INFO       15
-#define CS_MULTI_MAPDESC    16
-#define CS_MULTI_OBJECTIVE1 17
-//#define CS_MULTI_OBJECTIVE2 18
-#define CS_BATTLE_INFO 18
-#define CS_MULTI_OBJECTIVE3 19
-#define CS_MULTI_OBJECTIVE4 20
-#define CS_MULTI_OBJECTIVE5 21
-#define CS_MULTI_OBJECTIVE6 22
-// dhm
-
-#define CS_MISSIONSTATS     23      //---- (SA)	added
-
-#define CS_SHADERSTATE      24
-#define CS_MUSIC_QUEUE      25
-#define CS_ITEMS            27      // string of 0's and 1's that tell which items are present
-
-#define CS_SCREENFADE       28      // Ridah, used to tell clients to fade their screen to black/normal
-#define CS_FOGVARS          29      //---- (SA)	(hoping 29-31 are available)used for saving the current state/settings of the fog
-#define CS_SKYBOXORG        30      // this is where we should view the skybox from
-#define CS_TARGETEFFECT     31  //---- (SA)
-#define CS_MISSIONSTATS_FUN 32
-#define CS_MODELS           33
+#define CS_MUSIC			 2
+#define CS_MESSAGE			 3 // from the map worldspawn's message field
+#define CS_MOTD				 4 // g_motd string for server message of the day
+#define CS_WARMUP			 5 // server time when the match will be restarted
+#define CS_SCORES1			 6
+#define CS_SCORES2			 7
+#define CS_VOTE_TIME		 8
+#define CS_VOTE_STRING		 9
+#define CS_VOTE_YES			10
+#define CS_VOTE_NO			11
+#define CS_GAME_VERSION		12
+#define CS_LEVEL_START_TIME	13 // so the timer only shows the current level
+#define CS_INTERMISSION		14 // when 1, fraglimit/timelimit has been hit and intermission will start in a second or two
+// Wolf Multiplayer information
+#define CS_MULTI_INFO		15
+#define CS_MULTI_MAPDESC	16
+#define CS_MULTI_OBJECTIVE1	17
+#define CS_BATTLE_INFO		18
+#define CS_MULTI_OBJECTIVE3	19
+#define CS_MULTI_OBJECTIVE4	20
+#define CS_MULTI_OBJECTIVE5	21
+#define CS_MULTI_OBJECTIVE6	22
+#define CS_MISSIONSTATS		23
+#define CS_SHADERSTATE		24
+#define CS_MUSIC_QUEUE		25
+#define CS_ITEMS			27 // string of 0's and 1's that tell which items are present
+#define CS_SCREENFADE		28 // used to tell clients to fade their screen to black/normal
+#define CS_FOGVARS			29 // (hoping 29-31 are available) sed for saving the current state/settings of the fog
+#define CS_SKYBOXORG		30 // this is where we should view the skybox from
+#define CS_TARGETEFFECT		31
+#define CS_MISSIONSTATS_FUN	32
+#define CS_MODELS			33
 #define CS_SOUNDS (CS_MODELS + MAX_MODELS)
 #define CS_PLAYERS (CS_SOUNDS + MAX_SOUNDS)
 #define CS_LOCATIONS (CS_PLAYERS + MAX_CLIENTS)
 #define CS_PARTICLES (CS_LOCATIONS + MAX_LOCATIONS)
-
-// JPW NERVE -- for spawnpoint selection
+// for spawnpoint selection
 #define CS_MULTI_SPAWNTARGETS (CS_PARTICLES + MAX_PARTICLES_AREAS)
-// jpw
-
-//---- (SA)
 #define CS_DLIGHTS (CS_MULTI_SPAWNTARGETS + MAX_MULTI_SPAWNTARGETS)
 #define CS_CLIPBOARDS (CS_DLIGHTS + MAX_DLIGHT_CONFIGSTRINGS)
 #define CS_SPLINES (CS_CLIPBOARDS + MAX_CLIPBOARD_CONFIGSTRINGS)
-//---- (SA)
-
-// RF
 #define CS_TAGCONNECTS (CS_SPLINES + MAX_SPLINE_CONFIGSTRINGS)
-
-//#define CS_MAX			(CS_LOCATIONS+MAX_LOCATIONS)
-//#define CS_MAX			(CS_PARTICLES+MAX_PARTICLES_AREAS)
-//#define CS_MAX				(CS_DLIGHTS+MAX_DLIGHT_CONFIGSTRINGS)			//---- (SA)
 #define CS_MAX (CS_TAGCONNECTS + MAX_TAGCONNECTS)
-
 #if (CS_MAX) > MAX_CONFIGSTRINGS
 #error overflow: (CS_MAX) > MAX_CONFIGSTRINGS
 #endif
@@ -200,11 +151,8 @@ typedef enum {
 typedef enum {
 	GT_COOP_BATTLE, // 1vs1
 	GT_COOP_SPEEDRUN,
-
-	// other coop variations should come before this one, because we will
-	// use g_gametype.integer <= GT_COOP
+	// other coop variations should come before this one, because we will use g_gametype.integer <= GT_COOP
 	GT_COOP,
-
 	//-- coop games come before this --
 	GT_SINGLE_PLAYER,
 
@@ -220,116 +168,112 @@ typedef enum {
 	GSKILL_MAX      // must always be last
 } gameskill_t;
 
-typedef enum {GENDER_MALE, GENDER_FEMALE, GENDER_NEUTER} gender_t;
+typedef enum {
+	GENDER_MALE,
+	GENDER_FEMALE,
+	GENDER_NEUTER
+} gender_t;
 
-/*
-=======================================================================================================================================
+/**************************************************************************************************************************************
 
-PMOVE MODULE
+	PMOVE MODULE
 
-The pmove code takes a player_state_t and a usercmd_t and generates a new player_state_t
-and some other output data. Used for local prediction on the client game and true
-movement on the server game.
-=======================================================================================================================================
-*/
+	The pmove code takes a player_state_t and a usercmd_t and generates a new player_state_t and some other output data. Used for local
+	prediction on the client game and true movement on the server game.
+
+**************************************************************************************************************************************/
 
 typedef enum {
-	PM_NORMAL, // can accelerate and turn
-	PM_NOCLIP, // noclip movement
-	PM_SPECTATOR, // still run into walls
-	PM_DEAD, // no acceleration or turning, but free falling
-	PM_FREEZE, // stuck in place with no control
-	PM_INTERMISSION // no movement or status bar
+	PM_NORMAL,			// can accelerate and turn
+	PM_NOCLIP,			// noclip movement
+	PM_SPECTATOR,		// still run into walls
+	PM_DEAD,			// no acceleration or turning, but free falling
+	PM_FREEZE,			// stuck in place with no control
+	PM_INTERMISSION		// no movement or status bar
 } pmtype_t;
 
 typedef enum {
 	WEAPON_READY,
 	WEAPON_RAISING,
-	WEAPON_RAISING_TORELOAD, //---- (SA)	added
+	WEAPON_RAISING_TORELOAD,
 	WEAPON_DROPPING,
-	WEAPON_DROPPING_TORELOAD, //---- (SA)	added. will reload upon completion of weapon switch
-	WEAPON_READYING, // getting from 'ready' to 'firing'
-	WEAPON_RELAXING, // weapon is ready, but since not firing, it's on it's way to a "relaxed" stance
+	WEAPON_DROPPING_TORELOAD,	// will reload upon completion of weapon switch
+	WEAPON_READYING,			// getting from 'ready' to 'firing'
+	WEAPON_RELAXING,			// weapon is ready, but since not firing, it's on it's way to a "relaxed" stance
 	WEAPON_VENOM_REST,
 	WEAPON_FIRING,
 	WEAPON_FIRINGALT,
-	WEAPON_WAITING, //---- (SA)	added. player allowed to switch/reload, but not fire
-	WEAPON_RELOADING    //---- (SA)	added
+	WEAPON_WAITING,				// player allowed to switch/reload, but not fire
+	WEAPON_RELOADING
 } weaponstate_t;
-
-// pmove->pm_flags	(sent as max 16 bits in msg.c)
-#define PMF_DUCKED          1
-#define PMF_JUMP_HELD       2
-#define PMF_LADDER          4       // player is on a ladder
-#define PMF_BACKWARDS_JUMP  8       // go into backwards land
-#define PMF_BACKWARDS_RUN   16      // coast down to backwards run
-#define PMF_TIME_LAND       32      // pm_time is time before rejump
-#define PMF_TIME_KNOCKBACK  64      // pm_time is an air-accelerate only time
-#define PMF_TIME_WATERJUMP  256     // pm_time is waterjump
-#define PMF_RESPAWNED       512     // clear after attack and jump buttons come up
-#define PMF_USE_ITEM_HELD   1024
+// pmove->pm_flags (sent as max 16 bits in msg.c)
+#define PMF_DUCKED				1
+#define PMF_JUMP_HELD			2
+#define PMF_LADDER				4 // player is on a ladder
+#define PMF_BACKWARDS_JUMP		8 // go into backwards land
+#define PMF_BACKWARDS_RUN	   16 // coast down to backwards run
+#define PMF_TIME_LAND		   32 // pm_time is time before rejump
+#define PMF_TIME_KNOCKBACK	   64 // pm_time is an air-accelerate only time
+#define PMF_TIME_WATERJUMP	  256 // pm_time is waterjump
+#define PMF_RESPAWNED		  512 // clear after attack and jump buttons come up
+#define PMF_USE_ITEM_HELD	 1024
 // RF, removed since it's not used
-//#define PMF_GRAPPLE_PULL	2048	// pull towards grapple location
-#define PMF_IGNORE_INPUT    2048    // no movement/firing commands allowed
-#define PMF_FOLLOW          4096    // spectate following another player
-#define PMF_SCOREBOARD      8192    // spectate as a scoreboard
-#define PMF_LIMBO           16384   // JPW NERVE limbo state, pm_time is time until reinforce
-#define PMF_TIME_LOAD       32768   // hold for this time after a load game, and prevent large thinks
+//#define PMF_GRAPPLE_PULL	 2048 // pull towards grapple location
+#define PMF_IGNORE_INPUT     2048 // no movement/firing commands allowed
+#define PMF_FOLLOW			 4096 // spectate following another player
+#define PMF_SCOREBOARD		 8192 // spectate as a scoreboard
+#define PMF_LIMBO           16384 // JPW NERVE limbo state, pm_time is time until reinforce
+#define PMF_TIME_LOAD       32768 // hold for this time after a load game, and prevent large thinks
 
 #define PMF_ALL_TIMES (PMF_TIME_WATERJUMP|PMF_TIME_LAND|PMF_TIME_KNOCKBACK|PMF_TIME_LOAD)
 
 #define MAXTOUCH    32
 typedef struct {
-	// state(in / out)
+	// state (in/out)
 	playerState_t *ps;
-
-	// command(in)
+	// command (in)
 	usercmd_t cmd, oldcmd;
-	int tracemask;                  // collide against these types of surfaces
-	int debugLevel;                 // if set, diagnostic output will be printed
-	qboolean noFootsteps;           // if the game is setup for no footsteps by the server
-	qboolean noWeapClips;               // if the game is setup for no weapon clips by the server
-	qboolean gauntletHit;           // true if a gauntlet attack would actually hit something
-
-	// results(out)
+	int tracemask;			// collide against these types of surfaces
+	int debugLevel;			// if set, diagnostic output will be printed
+	qboolean noFootsteps;	// if the game is setup for no footsteps by the server
+	qboolean noWeapClips;	// if the game is setup for no weapon clips by the server
+	qboolean gauntletHit;	// true if a gauntlet attack would actually hit something
+	// results (out)
 	int numtouch;
 	int touchents[MAXTOUCH];
-
-	vec3_t mins, maxs;              // bounding box size
-
+	vec3_t mins, maxs;		// bounding box size
 	int watertype;
 	int waterlevel;
-
 	float xyspeed;
-
 	// for fixed msec Pmove
 	int pmove_fixed;
 	int pmove_msec;
-
 	// callbacks to test the world
 	// these will be different functions during game and cgame
 	void (*trace)(trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentMask);
 	int (*pointcontents)(const vec3_t point, int passEntityNum);
 } pmove_t;
-
 // if a full pmove isn't done on the client, you can just update the angles
 void PM_UpdateViewAngles(playerState_t *ps, usercmd_t *cmd, void(trace)(trace_t *results, const vec3_t start, const vec3_t mins, const vec3_t maxs, const vec3_t end, int passEntityNum, int contentMask));
 int Pmove(pmove_t *pmove);
 
-//===================================================================================
+#define PC_SOLDIER	0 //	shoot stuff
+#define PC_MEDIC	1 //	heal stuff
+#define PC_ENGINEER	2 //	build stuff
+#define PC_LT		3 //	bomb stuff
 
-// JPW NERVE
-#define PC_SOLDIER              0   //	shoot stuff
-#define PC_MEDIC                1   //	heal stuff
-#define PC_ENGINEER             2   //	build stuff
-#define PC_LT                   3   //	bomb stuff
-// jpw
+/**************************************************************************************************************************************
 
-// player_state->stats[] indexes
+	player_state->stats[] indexes
+
+	NOTE: may not have more than MAX_STATS.
+
+**************************************************************************************************************************************/
+
 typedef enum {
 	STAT_HEALTH,
 	STAT_HOLDABLE_ITEM,
-//	STAT_WEAPONS,					// 16 bit fields
+//	STAT_WEAPONS,		// 16 bit fields
 	STAT_ARMOR,
 //---- (SA)Keys for Wolf
 	STAT_KEYS, // 16 bit fields
@@ -340,10 +284,16 @@ typedef enum {
 	STAT_PLAYER_CLASS               // DHM - Nerve :: player class in multiplayer
 } statIndex_t;
 
+/**************************************************************************************************************************************
 
-// player_state->persistant[] indexes
-// these fields are the only part of player_state that isn't
-// cleared on respawn
+	player_state->persistant[] indexes
+
+	These fields are the only part of player_state that isn't cleared on respawn.
+	NOTE: may not have more than MAX_PERSISTANT.
+
+**************************************************************************************************************************************/
+
+
 typedef enum {
 	PERS_SCORE, // !!! MUST NOT CHANGE, SERVER AND GAME BOTH REFERENCE !!!
 	PERS_HITS, // total points damage inflicted so damage beeps can sound on change

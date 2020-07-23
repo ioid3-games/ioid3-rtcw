@@ -302,9 +302,9 @@ void G_UseTargets(gentity_t *ent, gentity_t *activator) {
 
 /*
 =======================================================================================================================================
-TempVector
+tv
 
-This is just a convenience function for making temporary vectors for function calls.
+TempVector: This is just a convenience function for making temporary vectors for function calls.
 =======================================================================================================================================
 */
 /*
@@ -327,9 +327,9 @@ float *tv(float x, float y, float z) {
 
 /*
 =======================================================================================================================================
-VectorToString
+vtos
 
-This is just a convenience function for printing vectors.
+VectorToString: This is just a convenience function for printing vectors.
 =======================================================================================================================================
 */
 char *vtos(const vec3_t v) {

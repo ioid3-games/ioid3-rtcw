@@ -601,7 +601,6 @@ int trap_LAN_GetPingQueueCount(void) {
 	return syscall(UI_LAN_GETPINGQUEUECOUNT);
 }
 
-
 /*
 =======================================================================================================================================
 trap_LAN_ClearPing

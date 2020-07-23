@@ -38,7 +38,7 @@ addip <ip>
 removeip <ip>
 
 The ip address is specified in dot format, and any unspecified digits will match any value, so you can specify an entire class C network with
-"addip 192.246.40".
+"addip 192.246.40.".
 
 Removeip will only remove an address specified exactly the same way. You cannot addip a subnet, then removeip a single host.
 

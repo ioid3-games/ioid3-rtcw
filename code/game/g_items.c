@@ -945,6 +945,7 @@ ClearRegisteredItems
 =======================================================================================================================================
 */
 void ClearRegisteredItems(void) {
+
 	memset(itemRegistered, 0, sizeof(itemRegistered));
 	// players always start with the base weapon
 	// Nope, not any more...

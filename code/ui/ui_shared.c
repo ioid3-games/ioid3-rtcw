@@ -2017,7 +2017,6 @@ commandDef_t commandList[] = {
 };
 
 int scriptCommandCount = ARRAY_LEN(commandList);
-
 /*
 =======================================================================================================================================
 Item_RunScript
@@ -3382,7 +3381,6 @@ void Item_StartCapture(itemDef_t *item, int key) {
 
 			break;
 		}
-
 		case ITEM_TYPE_SLIDER:
 		{
 			flags = Item_Slider_OverSlider(item, DC->cursorx, DC->cursory);
@@ -4563,7 +4561,6 @@ static bind_t g_bindings[] = {
 	{"vote no", -1, -1, -1, -1},
 	{"+vstr", -1, -1, -1, -1}
 };
-
 
 static const int g_bindCount = ARRAY_LEN(g_bindings);
 
