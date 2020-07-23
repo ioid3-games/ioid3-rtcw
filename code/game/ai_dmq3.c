@@ -196,7 +196,7 @@ void BotCTFSeekGoals(bot_state_t *bs) {
 		}
 		// set the ltg type
 		bs->ltgtype = LTG_DEFENDKEYAREA;
-		// set the time the bot stop defending the base
+		// set the time the bot stops defending the base
 		bs->teamgoal_time = trap_AAS_Time() + TEAM_DEFENDKEYAREA_TIME;
 		bs->defendaway_time = 0;
 	} else {
@@ -826,7 +826,7 @@ float BotAggression(bot_state_t *bs) {
 	if (bs->inventory[INVENTORY_FLAMETHROWER] > 0 && bs->inventory[INVENTORY_FUEL] > 50) {
 		return 90;
 	}
-	// if the bot can use the rocketlauncher
+	// if the bot can use the rocket launcher
 	if (bs->inventory[INVENTORY_ROCKETLAUNCHER] > 0 && bs->inventory[INVENTORY_ROCKETS] > 5) {
 		return 90;
 	}
@@ -2587,8 +2587,8 @@ void BotAIBlocked(bot_state_t *bs, bot_moveresult_t *moveresult, int activate) {
 			trap_BotMoveInDirection(bs->ms, sideward, 400, movetype);
 		}
 	}
-	// just reset goals and hope the bot will go into another direction
-	// still needed??
+	// just reset goals and hope the bot will go into another direction?
+	// is this still needed??
 	if (bs->ainode == AINode_Seek_NBG) {
 		bs->nbg_time = 0;
 	} else if (bs->ainode == AINode_Seek_LTG) {
@@ -2696,7 +2696,7 @@ void BotCheckEvents(bot_state_t *bs, entityState_t *state) {
 	int event;
 	char buf[128];
 
-	// this sucks, we're accessing the gentity_t directly but there's no other fast way to do it right now
+	// NOTE: this sucks, we're accessing the gentity_t directly but there's no other fast way to do it right now
 	if (bs->entityeventTime[state->number] == g_entities[state->number].eventTime) {
 		return;
 	}
@@ -2730,7 +2730,7 @@ void BotCheckEvents(bot_state_t *bs, entityState_t *state) {
 				}
 
 				bs->num_deaths++;
-			// else if this client was killed by the bot
+			// if this player was killed by the bot
 			} else if (attacker == bs->client) {
 				bs->enemydeathtype = mod;
 				bs->lastkilledplayer = target;
@@ -2808,7 +2808,7 @@ void BotCheckSnapshot(bot_state_t *bs) {
 
 	ent = 0;
 
-	while ((ent = BotAI_GetSnapshotEntity(bs->client, ent, &state))!= -1) {
+	while ((ent = BotAI_GetSnapshotEntity(bs->client, ent, &state)) != -1) {
 		// check the entity state for events
 		BotCheckEvents(bs, &state);
 	}

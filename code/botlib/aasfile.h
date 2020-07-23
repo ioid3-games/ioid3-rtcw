@@ -58,15 +58,14 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 
 #define TRAVELFLAG_NOTTEAM1 (1 << 24)
 #define TRAVELFLAG_NOTTEAM2 (2 << 24)
-
-//face flags
+// face flags
 #define FACE_SOLID			 1 // just solid at the other side
 #define FACE_LADDER			 2 // ladder
 #define FACE_GROUND			 4 // standing on ground when in this face
 #define FACE_GAP			 8 // gap in the ground
 #define FACE_LIQUID			16
 #define FACE_LIQUIDSURFACE	32
-//area contents
+// area contents
 #define AREACONTENTS_WATER			   1
 #define AREACONTENTS_LAVA			   2
 #define AREACONTENTS_SLIME			   4
@@ -84,7 +83,6 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #define AREACONTENTS_MODELNUMSHIFT	24
 #define AREACONTENTS_MAXMODELNUM	0xFF
 #define AREACONTENTS_MODELNUM		(AREACONTENTS_MAXMODELNUM << AREACONTENTS_MODELNUMSHIFT)
-
 // area flags
 #define AREA_GROUNDED	 1 // bot can stand on the ground
 #define AREA_LADDER		 2 // area contains one or more ladder faces
@@ -199,7 +197,8 @@ typedef struct aas_area_s {
 // nodes of the bsp tree
 typedef struct aas_node_s {
 	int planenum;
-	int children[2];	// child nodes of this node, or convex areas as leaves when negative									// when a child is zero it's a solid leaf
+	int children[2];	// child nodes of this node, or convex areas as leaves when negative
+						// when a child is zero it's a solid leaf
 } aas_node_t;
 
 // =========== aas file ===============

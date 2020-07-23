@@ -1226,6 +1226,7 @@ void BotChatTest(bot_state_t *bs) {
 	}
 
 	ClientName(g_entities[bs->client].client->lasthurt_client, name, sizeof(name));
+
 	weap = BotWeaponNameForMeansOfDeath(g_entities[bs->client].client->lasthurt_client);
 	num = trap_BotNumInitialChats(bs->cs, "hit_talking");
 

@@ -691,7 +691,7 @@ int BotAISetupClient(int client, struct bot_settings_s *settings) {
 	}
 
 	if (bs && bs->inuse) {
-		BotAI_Print(PRT_FATAL, "client %d already setup\n", client);
+		BotAI_Print(PRT_FATAL, "BotAISetupClient: client %d already setup\n", client);
 		return qfalse;
 	}
 

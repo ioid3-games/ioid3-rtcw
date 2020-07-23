@@ -846,7 +846,9 @@ static void G_LoadBots(void) {
 	}
 
 	trap_FS_Read(buf, len, f);
+
 	buf[len] = 0;
+
 	trap_FS_FCloseFile(f);
 
 	g_numBots = COM_ParseInfos(buf, MAX_BOTS, g_botInfos);

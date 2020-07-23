@@ -81,17 +81,17 @@ typedef struct bot_waypoint_s {
 
 // bot state
 typedef struct bot_state_s {
-	int inuse;                                    // true if this state is used by a bot client
-	int botthink_residual;                          // residual for the bot thinks
-	int client;                                   // client number of the bot
-	int entitynum;                                // entity number of the bot
-	playerState_t cur_ps;                           // current player state
+	int inuse;								// true if this state is used by a bot client
+	int botthink_residual;					// residual for the bot thinks
+	int client;								// client number of the bot
+	int entitynum;							// entity number of the bot
+	playerState_t cur_ps;					// current player state
 	int last_eFlags;                              // last ps flags
 	usercmd_t lastucmd;                           // usercmd from last frame
 	int entityeventTime[MAX_GENTITIES];                      // last entity event time
 
 	bot_settings_t settings;                        // several bot settings
-	int(*ainode)(struct bot_state_s *bs);          // current AI node
+	int (*ainode)(struct bot_state_s *bs);          // current AI node
 	float thinktime;                              // time the bot thinks this frame
 	vec3_t origin;                                // origin of the bot
 	vec3_t velocity;                              // velocity of the bot

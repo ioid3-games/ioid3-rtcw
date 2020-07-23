@@ -137,7 +137,7 @@ int AAS_AlternativeRouteGoals(vec3_t start, vec3_t goal, int travelflags, aas_al
 		if (!AAS_AreaReachability(i)) {
 			continue;
 		}
-		// tavel time from the area to the start area
+		// travel time from the area to the start area
 		starttime = AAS_AreaTravelTimeToGoalArea(startareanum, start, i, travelflags);
 
 		if (!starttime) {

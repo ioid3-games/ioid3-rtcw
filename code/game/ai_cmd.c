@@ -750,8 +750,8 @@ void BotMatch_Camp(bot_state_t *bs, bot_match_t *match) {
 			areanum = BotPointAreaNum(entinfo.origin);
 
 			if (areanum && trap_AAS_AreaReachability(areanum)) {
-				// NOTE: just cheat and assume the bot knows where the person is
-				//if(BotEntityVisible(bs->entitynum, bs->eye, bs->viewangles, 360, client)) {
+				// NOTE: just assume the bot knows where the person is
+				//if (BotEntityVisible(bs->entitynum, bs->eye, bs->viewangles, 360, client)) {
 					bs->teamgoal.entitynum = client;
 					bs->teamgoal.areanum = areanum;
 
@@ -1258,7 +1258,7 @@ void BotMatch_WhatAreYouDoing(bot_state_t *bs, bot_match_t *match) {
 			break;
 		}
 	}
-	//chat what the bot is doing
+	// chat what the bot is doing
 	trap_BotEnterChat(bs->cs, bs->client, CHAT_TEAM);
 }
 

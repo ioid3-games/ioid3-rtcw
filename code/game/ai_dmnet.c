@@ -383,7 +383,7 @@ int BotGetLongTermGoal(bot_state_t *bs, int tfl, int retreat, bot_goal_t *goal) 
 			trap_BotEnterChat(bs->cs, bs->client, CHAT_TEAM);
 			bs->ltgtype = 0;
 		}
-		// get entity information of the companion
+		// get the entity information
 		BotEntityInfo(bs->teammate, &entinfo);
 		// if the companion is visible
 		if (BotEntityVisible(bs->entitynum, bs->eye, bs->viewangles, 360, bs->teammate)) {
@@ -455,7 +455,7 @@ int BotGetLongTermGoal(bot_state_t *bs, int tfl, int retreat, bot_goal_t *goal) 
 			areanum = BotPointAreaNum(entinfo.origin);
 
 			if (areanum && trap_AAS_AreaReachability(areanum)) {
-				// update team goal so bot will accompany
+				// update team goal
 				bs->teamgoal.entitynum = bs->teammate;
 				bs->teamgoal.areanum = areanum;
 
@@ -542,7 +542,7 @@ int BotGetLongTermGoal(bot_state_t *bs, int tfl, int retreat, bot_goal_t *goal) 
 			trap_BotEnterChat(bs->cs, bs->client, CHAT_TEAM);
 			bs->teammessage_time = 0;
 		}
-		// set the bot goal
+		// set the bot goal (the goal the bot should go for)
 		memcpy(goal, &bs->teamgoal, sizeof(bot_goal_t));
 		// stop after some time
 		if (bs->teamgoal_time < trap_AAS_Time()) {
@@ -974,9 +974,9 @@ int AINode_Stand(bot_state_t *bs) {
 
 		bs->standfindenemy_time = trap_AAS_Time() + 1;
 	}
-
+	// put up chat icon
 	trap_EA_Talk(bs->client);
-
+	// when done standing
 	if (bs->stand_time < trap_AAS_Time()) {
 		trap_BotEnterChat(bs->cs, bs->client, bs->chatto);
 		AIEnter_Seek_LTG(bs);
@@ -1128,8 +1128,8 @@ int AINode_Seek_ActivateEntity(bot_state_t *bs) {
 	}
 	// check if the bot is blocked
 	BotAIBlocked(bs, &moveresult, qtrue);
-
-	if (moveresult.flags &(MOVERESULT_MOVEMENTVIEWSET|MOVERESULT_MOVEMENTVIEW|MOVERESULT_SWIMVIEW)) {
+	// if the view angles are used for the movement
+	if (moveresult.flags & (MOVERESULT_MOVEMENTVIEWSET|MOVERESULT_MOVEMENTVIEW|MOVERESULT_SWIMVIEW)) {
 		VectorCopy(moveresult.ideal_viewangles, bs->ideal_viewangles);
 	// if waiting for something
 	} else if (moveresult.flags & MOVERESULT_WAITING) {
@@ -1498,6 +1498,7 @@ void AIEnter_Battle_Fight(bot_state_t *bs) {
 
 	BotRecordNodeSwitch(bs, "battle fight", "");
 	trap_BotResetLastAvoidReach(bs->ms);
+
 	bs->ainode = AINode_Battle_Fight;
 }
 
@@ -1530,7 +1531,7 @@ int AINode_Battle_Fight(bot_state_t *bs) {
 		AIEnter_Seek_LTG(bs);
 		return qfalse;
 	}
-
+	// get the entity information
 	BotEntityInfo(bs->enemy, &entinfo);
 	// if the enemy is dead
 	if (bs->enemydeath_time) {

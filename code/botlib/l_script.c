@@ -731,7 +731,7 @@ int PS_ReadNumber(script_t *script, token_t *token) {
 		token->string[len++] = *script->script_p++;
 		token->string[len++] = *script->script_p++;
 		c = *script->script_p;
-		// hexadecimal
+		// binary
 		while (c == '0' || c == '1') {
 			token->string[len++] = *script->script_p++;
 

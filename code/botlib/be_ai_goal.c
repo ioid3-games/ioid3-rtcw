@@ -1270,6 +1270,8 @@ int BotChooseLTGItem(int goalstate, vec3_t origin, int *inventory, int travelfla
 /*
 =======================================================================================================================================
 BotChooseNBGItem
+
+Pops a new nearby goal on the goal stack in the goalstate.
 =======================================================================================================================================
 */
 int BotChooseNBGItem(int goalstate, vec3_t origin, int *inventory, int travelflags, bot_goal_t *ltg, float maxtime) {

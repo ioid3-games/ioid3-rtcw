@@ -98,11 +98,11 @@ void BotCheckAttack(bot_state_t *bs);
 void BotAIBlocked(bot_state_t *bs, bot_moveresult_t *moveresult, int activate);
 // returns the CTF team the bot is in
 int BotCTFTeam(bot_state_t *bs);
-// returns the flag the bot is carrying(CTFFLAG_?)
+// returns the flag the bot is carrying (CTFFLAG_?)
 int BotCTFCarryingFlag(bot_state_t *bs);
-// set ctf goals (defend base, get enemy flag)during seek
+// set ctf goals (defend base, get enemy flag) during seek
 void BotCTFSeekGoals(bot_state_t *bs);
-// set ctf goals (defend base, get enemy flag)during retreat
+// set ctf goals (defend base, get enemy flag) during retreat
 void BotCTFRetreatGoals(bot_state_t *bs);
 // create a new waypoint
 bot_waypoint_t *BotCreateWayPoint(char *name, vec3_t origin, int areanum);
@@ -125,8 +125,8 @@ void BotMapScripts(bot_state_t *bs);
 #define CTF_TEAM_NONE	0
 #define CTF_TEAM_RED	1
 #define CTF_TEAM_BLUE	2
-extern int dmflags; // deathmatch flags
-extern int gametype; // game type
+extern int dmflags;		// deathmatch flags
+extern int gametype;	// game type
 // gameskill
 extern int gameskill;
 

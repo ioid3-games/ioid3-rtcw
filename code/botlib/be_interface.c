@@ -163,19 +163,19 @@ int Export_BotLibSetup(void) {
 	botlibglobals.maxclients = (int)LibVarValue("maxclients", "128");
 	botlibglobals.maxentities = (int)LibVarValue("maxentities", "2048");
 
-	errnum = AAS_Setup(); // be_aas_main.c
+	errnum = AAS_Setup();			// be_aas_main.c
 
 	if (errnum != BLERR_NOERROR) {
 		return errnum;
 	}
 
-	errnum = EA_Setup(); // be_ea.c
+	errnum = EA_Setup();			// be_ea.c
 
 	if (errnum != BLERR_NOERROR) {
 		return errnum;
 	}
 
-	errnum = BotSetupMoveAI(); // be_ai_move.c
+	errnum = BotSetupMoveAI();		// be_ai_move.c
 
 	if (errnum != BLERR_NOERROR) {
 		return errnum;
@@ -377,11 +377,13 @@ int BotExportTest(int parm0, char *parm1, vec3_t parm2, vec3_t parm3) {
 		line[i] = botimport.DebugLineCreate();
 	}
 
-// 	AAS_ClearShownDebugLines();
+	//AAS_ClearShownDebugLines();
+
 	bot_testhidepos = LibVarGetValue("bot_testhidepos");
 
 	if (bot_testhidepos) {
 		VectorCopy(parm2, origin);
+
 		newarea = BotFuzzyPointReachabilityArea(origin);
 
 		if (parm0 & 1) {
@@ -392,6 +394,7 @@ int BotExportTest(int parm0, char *parm1, vec3_t parm2, vec3_t parm3) {
 
 		AAS_ClearShownPolygons();
 		AAS_ClearShownDebugLines();
+
 		hideposarea = AAS_NearestHideArea(-1, origin, AAS_PointAreaNum(origin), 0, botlibglobals.goalorigin, botlibglobals.goalareanum, TFL_DEFAULT);
 
 		if (bot_testhidepos > 1) {
@@ -431,6 +434,7 @@ int BotExportTest(int parm0, char *parm1, vec3_t parm2, vec3_t parm3) {
 		AAS_ShowAreaPolygons(botlibglobals.goalareanum, 2, qtrue);
 		// area that is visible in path from enemy pos
 		hideposarea = BotFuzzyPointReachabilityArea(eye);
+
 		AAS_ShowAreaPolygons(hideposarea, 4, qtrue);
 		return 0;
 	}

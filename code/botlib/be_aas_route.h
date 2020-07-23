@@ -34,6 +34,7 @@ void AAS_RoutingInfo(void);
 #endif // AASINTERN
 // returns the travel flag for the given travel type
 int AAS_TravelFlagForType(int traveltype);
+// return the travel flag(s) for traveling through this area
 int AAS_AreaContentsTravelFlag(int areanum);
 // returns the index of the next reachability for the given area
 int AAS_NextAreaReachability(int areanum, int reachnum);
