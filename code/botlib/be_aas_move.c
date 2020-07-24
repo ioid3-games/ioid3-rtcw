@@ -445,6 +445,7 @@ int AAS_PredictClientMovement(struct aas_clientmove_s *move, int entnum, vec3_t 
 	vec3_t up = {0, 0, 1};
 	aas_plane_t *plane, *plane2;
 	aas_trace_t trace, steptrace;
+	aas_trace_t gaptrace;
 
 	if (frametime <= 0) {
 		frametime = 0.1f;
@@ -785,8 +786,6 @@ int AAS_PredictClientMovement(struct aas_clientmove_s *move, int entnum, vec3_t 
 			move->frames = n;
 			return qtrue;
 		} else if (stopevent & SE_GAP) {
-			aas_trace_t gaptrace;
-
 			VectorCopy(org, start);
 			VectorCopy(start, end);
 

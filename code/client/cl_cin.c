@@ -30,8 +30,6 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 // MISSIONPACK MERGE
 // s_rawend for wolf is [] and for q3 is just a single value
 // I need to ask Ryan if it's as simple as a constant index or if some more coding needs to be done.
-
-
 #include "client.h"
 #include "snd_local.h"
 

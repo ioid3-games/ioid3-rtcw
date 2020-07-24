@@ -58,7 +58,6 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 // restult types
 #define RESULTTYPE_ELEVATORUP			1 // elevator is up
 #define RESULTTYPE_INVISIBLEGRAPPLE		2
-
 // structure used to initialize the movement state
 // the or_moveflags MFL_ONGROUND, MFL_TELEPORTED and MFL_WATERJUMP come from the playerstate
 typedef struct bot_initmove_s {

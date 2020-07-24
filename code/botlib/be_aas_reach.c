@@ -3703,9 +3703,8 @@ void AAS_Reachability_JumpPad(void) {
 						VectorScale(dir, speed, cmdmove);
 						// movement prediction
 						AAS_PredictClientMovement(&move, -1, areastart, PRESENCE_NORMAL, qfalse, velocity, cmdmove, 30, 30, 0.1, SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_TOUCHJUMPPAD|SE_TOUCHTELEPORTER|SE_HITGROUNDAREA, area2num, visualize);
-						// if prediction time wasn't enough to fully predict the movement
-						// don't enter slime or lava and don't fall from too high
-						if (move.frames < 30 && !(move.stopevent & (SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) && (move.stopevent &(SE_HITGROUNDAREA|SE_TOUCHJUMPPAD|SE_TOUCHTELEPORTER))) {
+						// if prediction time wasn't enough to fully predict the movement, don't fall from too high and don't enter slime or lava
+						if (move.frames < 30 && !(move.stopevent & (SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) && (move.stopevent & (SE_HITGROUNDAREA|SE_TOUCHJUMPPAD|SE_TOUCHTELEPORTER))) {
 							// never go back to the same jumppad
 							for (link = areas; link; link = link->next_area) {
 								if (!AAS_AreaJumpPad(link->areanum)) {
@@ -3753,7 +3752,7 @@ void AAS_Reachability_JumpPad(void) {
 =======================================================================================================================================
 AAS_Reachability_Grapple
 
-Never point at ground faces always a higher and pretty far area.
+Never point at ground faces. Always a higher and pretty far area.
 =======================================================================================================================================
 */
 int AAS_Reachability_Grapple(int area1num, int area2num) {
@@ -3819,6 +3818,7 @@ int AAS_Reachability_Grapple(int area1num, int area2num) {
 		}
 		// direction towards the first vertex of the face
 		v = (*aasworld).vertexes[(*aasworld).edges[abs((*aasworld).edgeindex[face2->firstedge])].v[0]];
+
 		VectorSubtract(v, areastart, dir);
 		// if the face plane is facing away
 		if (DotProduct((*aasworld).planes[face2->planenum].normal, dir) > 0) {

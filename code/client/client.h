@@ -150,21 +150,21 @@ extern clientActive_t cl;
 #define MAX_TIMEDEMO_DURATIONS 4096
 
 typedef struct {
-	connstate_t state;						// connection status
+	connstate_t state;				// connection status
 	int clientNum;
-	int lastPacketSentTime;					// for retransmits during connection
-	int lastPacketTime;						// for timeouts
-	char servername[MAX_OSPATH];			// name of server from original connect (used by reconnect)
+	int lastPacketSentTime;			// for retransmits during connection
+	int lastPacketTime;				// for timeouts
+	char servername[MAX_OSPATH];	// name of server from original connect (used by reconnect)
 	netadr_t serverAddress;
-	int connectTime;						// for connection retransmits
-	int connectPacketCount;					// for display on connection dialog
+	int connectTime;				// for connection retransmits
+	int connectPacketCount;			// for display on connection dialog
 	char serverMessage[MAX_STRING_TOKENS];	// for display on connection dialog
-	int challenge;							// from the server to use for connecting
-	int checksumFeed;						// from the server for checksum calculations
+	int challenge;					// from the server to use for connecting
+	int checksumFeed;				// from the server for checksum calculations
 	int onlyVisibleClients;
 	// these are our reliable messages that go to the server
 	int reliableSequence;
-	int reliableAcknowledge;				// the last one the server has executed
+	int reliableAcknowledge;		// the last one the server has executed
 	// NOTE: incidentally, reliableCommands[0] is never used (always start at reliableAcknowledge + 1)
 	char reliableCommands[MAX_RELIABLE_COMMANDS][MAX_TOKEN_CHARS];
 	// server message (unreliable) and command (reliable) sequence numbers are NOT cleared at level changes, but continue to
@@ -173,7 +173,7 @@ typedef struct {
 	int serverMessageSequence;
 	// reliable messages received from server
 	int serverCommandSequence;
-	int lastExecutedServerCommand;			// last server command grabbed or executed with CL_GetServerCommand
+	int lastExecutedServerCommand;	// last server command grabbed or executed with CL_GetServerCommand
 	char serverCommands[MAX_RELIABLE_COMMANDS][MAX_TOKEN_CHARS];
 	// file transfer from server
 	fileHandle_t download;
@@ -190,27 +190,27 @@ typedef struct {
 	int sv_allowDownload;
 	char sv_dlURL[MAX_CVAR_VALUE_STRING];
 	int downloadNumber;
-	int downloadBlock;						// block we are waiting for
-	int downloadCount;						// how many bytes we got
-	int downloadSize;						// how many bytes we got
+	int downloadBlock;			// block we are waiting for
+	int downloadCount;			// how many bytes we got
+	int downloadSize;			// how many bytes we got
 	char downloadList[MAX_INFO_STRING]; // list of paks we need to download
-	qboolean downloadRestart;				// if true, we need to do another FS_Restart because we downloaded a pak
+	qboolean downloadRestart;	// if true, we need to do another FS_Restart because we downloaded a pak
 	// demo information
 	char demoName[MAX_QPATH];
 	qboolean demorecording;
 	qboolean demoplaying;
-	qboolean demowaiting;					// don't record until a non-delta message is received
+	qboolean demowaiting;		// don't record until a non-delta message is received
 	qboolean firstDemoFrameSkipped;
 	fileHandle_t demofile;
 	qboolean waverecording;
 	fileHandle_t wavefile;
 	int wavetime;
-	int timeDemoFrames;						// counter of rendered frames
-	int timeDemoStart;						// cls.realtime before first frame
-	int timeDemoBaseTime;					// each frame will be at this time + frameNum * 50
-	int timeDemoLastFrame;					// time the last frame was rendered
-	int timeDemoMinDuration;				// minimum frame duration
-	int timeDemoMaxDuration;				// maximum frame duration
+	int timeDemoFrames;			// counter of rendered frames
+	int timeDemoStart;			// cls.realtime before first frame
+	int timeDemoBaseTime;		// each frame will be at this time + frameNum * 50
+	int timeDemoLastFrame;		// time the last frame was rendered
+	int timeDemoMinDuration;	// minimum frame duration
+	int timeDemoMaxDuration;	// maximum frame duration
 	unsigned char timeDemoDurations[MAX_TIMEDEMO_DURATIONS]; // log of frame durations
 	float aviVideoFrameRemainder;
 	float aviSoundFrameRemainder;
@@ -290,7 +290,7 @@ typedef struct {
 
 #define MAX_AUTOUPDATE_SERVERS 5
 typedef struct {
-	qboolean cddialog;		// bring up the cd needed dialog next frame
+	qboolean cddialog;	// bring up the cd needed dialog next frame
 	qboolean endgamemenu;	// bring up the end game credits menu next frame
 	// when the server clears the hunk, all of these must be restarted
 	qboolean rendererStarted;
@@ -299,9 +299,9 @@ typedef struct {
 	qboolean uiStarted;
 	qboolean cgameStarted;
 	int framecount;
-	int frametime;			// msec since last frame
-	int realtime;			// ignores pause
-	int realFrametime;		// ignoring pause, so console always works
+	int frametime;		// msec since last frame
+	int realtime;		// ignores pause
+	int realFrametime;	// ignoring pause, so console always works
 	int numlocalservers;
 	serverInfo_t localServers[MAX_OTHER_SERVERS];
 	int numglobalservers;

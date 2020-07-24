@@ -2772,7 +2772,7 @@ void CL_ConnectionlessPacket(netadr_t from, msg_t *msg) {
 
 		return;
 	}
-	// Auto-update server response message
+	// auto-update server response message
 #if 0
 	if (!Q_stricmp(c, "updateResponse")) {
 		CL_UpdateInfoPacket(from);
@@ -3074,7 +3074,6 @@ typedef enum {
 	CACHE_SOUNDS,
 	CACHE_MODELS,
 	CACHE_IMAGES,
-
 	CACHE_NUMGROUPS
 } cacheGroup_t;
 

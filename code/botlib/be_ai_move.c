@@ -1988,6 +1988,7 @@ bot_moveresult_t BotTravel_Ladder(bot_movestate_t *ms, aas_reachability_t *reach
 		}
 
 		viewdir[2] = 0; // straight forward goes up
+
 		VectorNormalize(viewdir);
 		// set the ideal view angles
 		Vector2Angles(viewdir, result.ideal_viewangles);
@@ -2107,7 +2108,7 @@ bot_moveresult_t BotTravel_Teleport(bot_movestate_t *ms, aas_reachability_t *rea
 	if (ms->moveflags & MFL_TELEPORTED) {
 		return result;
 	}
-	// walk straight to center of the teleporter
+	// move straight to center of the teleporter
 	VectorSubtract(reach->start, ms->origin, hordir);
 
 	if (!(ms->moveflags & MFL_SWIMMING)) {
@@ -3021,6 +3022,7 @@ bot_moveresult_t BotFinishTravel_WeaponJump(bot_movestate_t *ms, aas_reachabilit
 	VectorNormalize(hordir);
 	// always use max speed when traveling through the air
 	EA_Move(ms->client, hordir, 800);
+	// save the movement direction
 	VectorCopy(hordir, result.movedir);
 
 	return result;
@@ -3140,7 +3142,7 @@ bot_moveresult_t BotMoveInGoalArea(bot_movestate_t *ms, bot_goal_t *goal) {
 	//AAS_ClearShownDebugLines();
 	//AAS_DebugLine(ms->origin, goal->origin, LINECOLOR_RED);
 #endif // DEBUG
-	// walk straight to the goal origin
+	// move straight to the goal origin
 	dir[0] = goal->origin[0] - ms->origin[0];
 	dir[1] = goal->origin[1] - ms->origin[1];
 
@@ -3590,9 +3592,9 @@ void BotMoveToGoal(bot_moveresult_t *result, int movestate, bot_goal_t *goal, in
 					*result = BotTravel_Grapple(ms, &reach);
 					break;
 				case TRAVEL_ROCKETJUMP:
+				//case TRAVEL_BFGJUMP:
 					*result = BotFinishTravel_WeaponJump(ms, &reach);
 					break;
-				//case TRAVEL_BFGJUMP:
 				case TRAVEL_JUMPPAD:
 					*result = BotFinishTravel_JumpPad(ms, &reach);
 					break;

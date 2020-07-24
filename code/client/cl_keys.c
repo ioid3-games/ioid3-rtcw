@@ -2376,8 +2376,9 @@ Key_SetCatcher
 void Key_SetCatcher(int catcher) {
 
 	// if the catcher state is changing, clear all key states
-	//if (catcher != keyCatchers)
+	//if (catcher != keyCatchers) {
 	//	Key_ClearStates();
+	//}
 
 	keyCatchers = catcher;
 }
