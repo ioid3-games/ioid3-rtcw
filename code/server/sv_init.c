@@ -624,7 +624,7 @@ void SV_SpawnServer(char *server, qboolean killBots) {
 	Cvar_Set("sv_mapChecksum", va("%i", checksum));
 	// serverid should be different each time
 	sv.serverId = com_frameTime;
-	sv.restartedServerId = sv.serverId;
+	sv.restartedServerId = sv.serverId; // I suppose the init here is just to be safe
 	sv.checksumFeedServerId = sv.serverId;
 
 	Cvar_Set("sv_serverid", va("%i", sv.serverId));

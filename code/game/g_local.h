@@ -43,128 +43,105 @@ If you have questions concerning this license or the applicable additional terms
 #define REWARD_SPRITE_TIME 2000
 #define INTERMISSION_DELAY_TIME 1000
 // gentity->flags
-#define FL_GODMODE              0x00000010
-#define FL_NOTARGET             0x00000020
-#define FL_DEFENSE_CROUCH       0x00000100  // warzombie defense pose
-#define FL_TEAMSLAVE            0x00000400  // not the first on the team
-#define FL_NO_KNOCKBACK         0x00000800
-#define FL_DROPPED_ITEM         0x00001000
-#define FL_NO_BOTS              0x00002000  // spawn point not for bot use
-#define FL_NO_HUMANS            0x00004000  // spawn point just for bots
-#define FL_AI_GRENADE_KICK      0x00008000  // an AI has already decided to kick this grenade
-// Rafael
-#define FL_NOFATIGUE            0x00010000  // cheat flag no fatigue
-
-#define FL_TOGGLE               0x00020000  //---- (SA)	ent is toggling(doors use this for ex.)
-#define FL_KICKACTIVATE         0x00040000  //---- (SA)	ent has been activated by a kick(doors use this too for ex.)
-#define FL_SOFTACTIVATE         0x00000040  //---- (SA)	ent has been activated while 'walking'(doors use this too for ex.)
-#define FL_DEFENSE_GUARD        0x00080000  // warzombie defense pose
-
-#define FL_PARACHUTE            0x00100000
-#define FL_WARZOMBIECHARGE      0x00200000
-#define FL_NO_MONSTERSLICK      0x00400000
-#define FL_NO_HEADCHECK         0x00800000
-
-#define FL_NODRAW               0x01000000
-#define FL_DOORNOISE            0x02000000  //---- (SA)	added
-
-// movers are things like doors, plats, buttons, etc
+#define FL_GODMODE			0x00000010
+#define FL_NOTARGET			0x00000020
+#define FL_DEFENSE_CROUCH	0x00000100 // warzombie defense pose
+#define FL_TEAMSLAVE		0x00000400 // not the first on the team
+#define FL_NO_KNOCKBACK		0x00000800
+#define FL_DROPPED_ITEM		0x00001000
+#define FL_NO_BOTS			0x00002000 // spawn point not for bot use
+#define FL_NO_HUMANS		0x00004000 // spawn point just for bots
+#define FL_AI_GRENADE_KICK	0x00008000 // an AI has already decided to kick this grenade
+#define FL_NOFATIGUE		0x00010000 // cheat flag no fatigue
+#define FL_TOGGLE			0x00020000 // ent is toggling (doors use this for ex.)
+#define FL_KICKACTIVATE		0x00040000 // ent has been activated by a kick (doors use this too for ex.)
+#define FL_SOFTACTIVATE		0x00000040 // ent has been activated while 'walking' (doors use this too for ex.)
+#define FL_DEFENSE_GUARD	0x00080000 // warzombie defense pose
+#define FL_PARACHUTE		0x00100000
+#define FL_WARZOMBIECHARGE	0x00200000
+#define FL_NO_MONSTERSLICK	0x00400000
+#define FL_NO_HEADCHECK		0x00800000
+#define FL_NODRAW			0x01000000
+#define FL_DOORNOISE		0x02000000
+// movers are things like doors, plats, buttons, etc.
 typedef enum {
 	MOVER_POS1,
 	MOVER_POS2,
 	MOVER_POS3,
 	MOVER_1TO2,
 	MOVER_2TO1,
-	// JOSEPH 1-26-00
 	MOVER_2TO3,
 	MOVER_3TO2,
-	// END JOSEPH
-
-	// Rafael
 	MOVER_POS1ROTATE,
 	MOVER_POS2ROTATE,
 	MOVER_1TO2ROTATE,
 	MOVER_2TO1ROTATE
 } moverState_t;
-
-
 // door AI sound ranges
-#define HEAR_RANGE_DOOR_LOCKED      128 // really close since this is a cruel check
-#define HEAR_RANGE_DOOR_KICKLOCKED  512
-#define HEAR_RANGE_DOOR_OPEN        256
-#define HEAR_RANGE_DOOR_KICKOPEN    768
+#define HEAR_RANGE_DOOR_LOCKED 128 // really close since this is a cruel check
+#define HEAR_RANGE_DOOR_KICKLOCKED 512
+#define HEAR_RANGE_DOOR_OPEN 256
+#define HEAR_RANGE_DOOR_KICKOPEN 768
 
-
-#define SP_PODIUM_MODEL     "models/mapobjects/podium/podium4.md3"
-
-//============================================================================
+#define SP_PODIUM_MODEL "models/mapobjects/podium/podium4.md3"
 
 typedef struct gentity_s gentity_t;
 typedef struct gclient_s gclient_t;
-
-//====================================================================
-//
 // Scripting, these structure are not saved into savegames(parsed each start)
 typedef struct {
 	char *actionString;
 	qboolean(*actionFunc)(gentity_t *ent, char *params);
 } g_script_stack_action_t;
-//
+
 typedef struct {
 	// set during script parsing
-	g_script_stack_action_t *action;            // points to an action to perform
+	g_script_stack_action_t *action;	// points to an action to perform
 	char *params;
 } g_script_stack_item_t;
-//
-#define G_MAX_SCRIPT_STACK_ITEMS    64
-//
+
+#define G_MAX_SCRIPT_STACK_ITEMS 64
+
 typedef struct {
 	g_script_stack_item_t items[G_MAX_SCRIPT_STACK_ITEMS];
 	int numItems;
 } g_script_stack_t;
-//
+
 typedef struct {
-	int eventNum;                           // index in scriptEvents[]
-	char *params;            // trigger targetname, etc
+	int eventNum;	// index in scriptEvents[]
+	char *params;	// trigger targetname, etc.
 	g_script_stack_t stack;
 } g_script_event_t;
-//
+
 typedef struct {
 	char *eventStr;
-	qboolean(*eventMatch)(g_script_event_t *event, char *eventParm);
+	qboolean (*eventMatch)(g_script_event_t *event, char *eventParm);
 } g_script_event_define_t;
-//
 // Script Flags
-#define SCFL_GOING_TO_MARKER    0x1
-#define SCFL_ANIMATING          0x2
-#define SCFL_WAITING_RESTORE    0x4
-//
+#define SCFL_GOING_TO_MARKER	0x1
+#define SCFL_ANIMATING			0x2
+#define SCFL_WAITING_RESTORE	0x4
 // Scripting Status(NOTE: this MUST NOT contain any pointer vars)
 typedef struct {
 	int scriptStackHead, scriptStackChangeTime;
-	int scriptEventIndex;       // current event containing stack of actions to perform
+	int scriptEventIndex;	// current event containing stack of actions to perform
 	// scripting system variables
-	int scriptId;                   // incremented each time the script changes
+	int scriptId;			// incremented each time the script changes
 	int scriptFlags;
 	char *animatingParams;
 } g_script_status_t;
-//
-#define G_MAX_SCRIPT_ACCUM_BUFFERS  8
-//
+
+#define G_MAX_SCRIPT_ACCUM_BUFFERS 8
+
 void G_Script_ScriptEvent(gentity_t *ent, char *eventStr, char *params);
-//====================================================================
 
-
-#define CFOFS(x)((size_t)&(((gclient_t *)0) ->x))
+#define CFOFS(x) ((size_t)&(((gclient_t *)0) ->x))
 
 struct gentity_s {
 	entityState_t s;                // communicated by server to clients
 	entityShared_t r;               // shared by both the server system and game
-
-	// DO NOT MODIFY ANYTHING ABOVE THIS, THE SERVER
-	// EXPECTS THE FIELDS IN THAT ORDER!
-	//================================
-
+	//=================================================================================================================================
+	// DO NOT MODIFY ANYTHING ABOVE THIS, THE SERVER EXPECTS THE FIELDS IN THAT ORDER!
+	//=================================================================================================================================
 	struct gclient_s *client;            // NULL if not a client
 
 	qboolean inuse;
@@ -199,12 +176,9 @@ struct gentity_s {
 	int sound2to1;
 	int soundPos2;
 	int soundLoop;
-	// JOSEPH 1-26-00
 	int sound2to3;
 	int sound3to2;
 	int soundPos3;
-	// END JOSEPH
-
 	int soundKicked;
 	int soundKickedEnd;
 	int soundSoftopen;
@@ -215,13 +189,9 @@ struct gentity_s {
 	gentity_t *parent;
 	gentity_t *nextTrain;
 	gentity_t *prevTrain;
-	// JOSEPH 1-26-00
 	vec3_t pos1, pos2, pos3;
-	// END JOSEPH
-
 	char *message;
 	int timestamp;              // body queue sinking, etc
-
 	float angle;                // set in editor, -1 = up, -2 = down
 	char *target;
 	char *targetdeath;   // fire this on death exclusively //---- (SA)	added
@@ -239,13 +209,13 @@ struct gentity_s {
 	vec3_t gDelta;
 	vec3_t gDeltaBack;
 	int nextthink;
-	void(*think)(gentity_t *self);
-	void(*reached)(gentity_t *self);       // movers call this when hitting endpoint
-	void(*blocked)(gentity_t *self, gentity_t *other);
-	void(*touch)(gentity_t *self, gentity_t *other, trace_t *trace);
-	void(*use)(gentity_t *self, gentity_t *other, gentity_t *activator);
-	void(*pain)(gentity_t *self, gentity_t *attacker, int damage, vec3_t point);
-	void(*die)(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod);
+	void (*think)(gentity_t *self);
+	void (*reached)(gentity_t *self);       // movers call this when hitting endpoint
+	void (*blocked)(gentity_t *self, gentity_t *other);
+	void (*touch)(gentity_t *self, gentity_t *other, trace_t *trace);
+	void (*use)(gentity_t *self, gentity_t *other, gentity_t *activator);
+	void (*pain)(gentity_t *self, gentity_t *attacker, int damage, vec3_t point);
+	void (*die)(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod);
 	int pain_debounce_time;
 	int fly_sound_debounce_time;            // wind tunnel
 	int last_move_time;
@@ -268,93 +238,59 @@ struct gentity_s {
 	int watertype;
 	int waterlevel;
 	int noise_index;
-
 	// timing variables
 	float wait;
 	float random;
-
-	// Rafael - sniper variable
+	// sniper variable
 	// sniper uses delay, random, radius
 	int radius;
 	float delay;
-
-	// JOSEPH 10-11-99
 	int TargetFlag;
 	float duration;
 	vec3_t rotate;
 	vec3_t TargetAngles;
-	// END JOSEPH
-
 	gitem_t *item;          // for bonus items
-
-	// Ridah, AI fields
+	// AI fields
 	char *aiAttributes;
 	char *aiName;
 	int aiTeam;
-	void(*AIScript_AlertEntity)(gentity_t *ent);
+	void (*AIScript_AlertEntity)(gentity_t *ent);
 	qboolean aiInactive;
 	int aiCharacter;            // the index of the type of character we are(from aicast_soldier.c)
-	// done.
-
 	char *aiSkin;
 	char *aihSkin;
-
 	vec3_t dl_color;
 	char *dl_stylestring;
 	char *dl_shader;
 	int dl_atten;
-
-
 	int key;                    // used by:  target_speaker->nopvs,
-
 	qboolean active;
 	qboolean botDelayBegin;
-
-	// Rafael - mg42
+	// mg42
 	float harc;
 	float varc;
-
-	//---- (SA)	added
 	float activateArc;              // right now just for mg42, but available for setting what angle this ent can be touched/killed from
-
 	int props_frame_state;
-
-	// Ridah
 	int missionLevel;                   // highest mission level completed(for previous level de-briefings)
 	int missionObjectives;              // which objectives for the current level have been met
 										// gets reset each new level
-
 	int numSecretsFound;                //---- (SA)	added to get into savegame
 	int numTreasureFound;               //---- (SA)	added to get into savegame
-
-	// done.
-
-	// Rafael
 	qboolean is_dead;
-	// done
-
 	int start_size;
 	int end_size;
-
-	// Rafael props
-
+	// props
 	qboolean isProp;
 	int mg42BaseEnt;
-
 	gentity_t *melee;
-
 	char *spawnitem;
-
 	qboolean nopickup;
 	int flameQuota, flameQuotaTime, flameBurnEnt;
 	int count2;
 	int grenadeExplodeTime;         // we've caught a grenade, which was due to explode at this time
 	int grenadeFired;               // the grenade entity we last fired
-
 	int mg42ClampTime;              // time to wait before an AI decides to ditch the mg42
-
 	char *track;
-
 	// entity scripting system
 	char *scriptName;
 	int numScriptEvents;
@@ -363,36 +299,26 @@ struct gentity_s {
 	g_script_status_t scriptStatusBackup;
 	// the accumulation buffer
 	int scriptAccumBuffer[G_MAX_SCRIPT_ACCUM_BUFFERS];
-
 	qboolean AASblocking;
 	float accuracy;
-
 	char *tagName;       // name of the tag we are attached to
 	gentity_t *tagParent;
-
 	float headshotDamageScale;
-
 	g_script_status_t scriptStatusCurrent;      // had to go down here to keep savegames compatible
-
-	int emitID;                 //---- (SA)	added
-	int emitNum;                //---- (SA)	added
-	int emitPressure;           //---- (SA)	added
-	int emitTime;               //---- (SA)	added
-
+	int emitID;
+	int emitNum;
+	int emitPressure;
+	int emitTime;
 	// -------------------------------------------------------------------------------------------
 	// if working on a post release patch, new variables should ONLY be inserted after this point
-
-	int voiceChatSquelch;                   // DHM - Nerve
-	int voiceChatPreviousTime;              // DHM - Nerve
-	int lastBurnedFrameNumber;              // JPW - Nerve   : to fix FT instant-kill exploit
-
+	int voiceChatSquelch;
+	int voiceChatPreviousTime;
+	int lastBurnedFrameNumber;              // to fix FT instant-kill exploit
 	int lastPushTime;       // Shove
 	int thrownKnifeTime;    // Throwing Knives
 };
 
-// Ridah
 #include "ai_cast_global.h"
-// done.
 
 typedef enum {
 	CON_DISCONNECTED,
@@ -408,8 +334,8 @@ typedef enum {
 } spectatorState_t;
 
 typedef enum {
-	TEAM_BEGIN, // Beginning a team game, spawn at base
-	TEAM_ACTIVE     // Now actively playing
+	TEAM_BEGIN, // beginning a team game, spawn at base
+	TEAM_ACTIVE // now actively playing
 } playerTeamStateState_t;
 
 typedef struct {
@@ -421,7 +347,6 @@ typedef struct {
 	int flagrecovery;
 	int fragcarrier;
 	int assists;
-
 	float lasthurtcarrier;
 	float lastreturnedflag;
 	float flagsince;
@@ -429,7 +354,6 @@ typedef struct {
 } playerTeamState_t;
 
 // Admins
-//
 // 3 Levels may be an overkill for max 4-8 players game but sometimes
 // it's best to give lower level to new admins so they don't go screwing around with to much power..
 typedef enum {
@@ -440,9 +364,8 @@ typedef enum {
 } admLvls_t;
 
 // client data that stays across multiple levels or tournament restarts
-// this is achieved by writing all the data to cvar strings at game shutdown
-// time and reading them back at connection time. Anything added here
-// MUST be dealt with in G_InitSessionData() / G_ReadSessionData() / G_WriteSessionData()
+// this is achieved by writing all the data to cvar strings at game shutdown time and reading them back at connection time.
+// anything added here MUST be dealt with in G_InitSessionData()/G_ReadSessionData()/G_WriteSessionData()
 typedef struct {
 	team_t sessionTeam;
 	int spectatorNum;		// for determining next-in-line to play
