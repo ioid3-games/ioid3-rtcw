@@ -974,7 +974,7 @@ void S_PaintChannels(int endtime) {
 				}
 
 				if (count > 0) {
-					// Ridah, talking animations
+					// talking animations
 					// TODO: check that this entity has talking animations enabled!
 					if (firstPass && ch->entchannel == CHAN_VOICE && ch->entnum < MAX_CLIENTS) {
 						int talkofs, talkcnt, talktime;

@@ -1513,7 +1513,7 @@ void AAS_UpdatePortalRoutingCache(aas_routingcache_t *portalcache) {
 	numportalcacheupdates++;
 #endif // ROUTING_DEBUG
 	// clear the routing update fields
-// 	memset((*aasworld).portalupdate, 0, ((*aasworld).numportals + 1) * sizeof(aas_routingupdate_t));
+	//memset((*aasworld).portalupdate, 0, ((*aasworld).numportals + 1) * sizeof(aas_routingupdate_t));
 
 	curupdate = &(*aasworld).portalupdate[(*aasworld).numportals];
 	curupdate->cluster = portalcache->cluster;

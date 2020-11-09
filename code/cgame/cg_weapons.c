@@ -428,7 +428,7 @@ void CG_RocketTrail(centity_t *ent, const weaponInfo_t *wi) {
 	lastContents = CG_PointContents(lastPos, -1);
 	ent->trailTime = cg.time;
 
-	if (contents &(CONTENTS_WATER|CONTENTS_SLIME|CONTENTS_LAVA)) {
+	if (contents & (CONTENTS_WATER|CONTENTS_SLIME|CONTENTS_LAVA)) {
 		if (contents & lastContents & CONTENTS_WATER) {
 			CG_BubbleTrail(lastPos, origin, 3, 8);
 		}
@@ -556,6 +556,7 @@ static void CG_GrenadeTrail(centity_t *ent, const weaponInfo_t *wi) {
 	// spawn smoke junctions
 	for (; t <= ent->trailTime; t += step) {
 		BG_EvaluateTrajectory(&es->pos, t, origin);
+
 		ent->headJuncIndex = CG_AddSmokeJunc(ent->headJuncIndex, cgs.media.smokeTrailShader, origin, 1000, 0.3, 2, 20);
 		ent->lastTrailTime = cg.time;
 	}
@@ -1005,6 +1006,7 @@ void CG_RegisterWeapon(int weaponNum) {
 
 	COM_StripExtension(path, path, sizeof(path));
 	Q_strcat(path, sizeof(path), "_stand.md3");
+
 	weaponInfo->standModel = trap_R_RegisterModel(path);
 
 	switch (weaponNum) {
@@ -1181,7 +1183,7 @@ void CG_RegisterWeapon(int weaponNum) {
 			MAKERGB(weaponInfo->flashDlightColor, 0.6, 0.6, 1);
 			weaponInfo->flashSound[0] = trap_S_RegisterSound("sound/weapons/melee/fstatck.wav");
 			break;
-	default:
+		default:
 			MAKERGB(weaponInfo->flashDlightColor, 1, 1, 1);
 			weaponInfo->flashSound[0] = trap_S_RegisterSound("sound/weapons/rocket/rocklf1a.wav");
 			break;
@@ -3992,7 +3994,7 @@ void CG_WeaponFireRecoil(int weapon) {
 			pitchAdd *= 0.5;
 			yawRandom *= 0.5;
 			break;
-	default:
+		default:
 			return;
 	}
 	// calc the recoil
@@ -4055,7 +4057,7 @@ void CG_FireWeapon(centity_t *cent) {
 	if (ent->number == cg.snap->ps.clientNum) {
 		CG_WeaponFireRecoil(ent->weapon);
 	}
-	// lightning gun only does this this on initial press
+	// lightning gun only does this on initial press
 	if (ent->weapon == WP_FLAMETHROWER) {
 		if (cent->pe.lightningFiring) {
 			return;

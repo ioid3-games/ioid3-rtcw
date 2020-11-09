@@ -649,7 +649,6 @@ float trap_AAS_Time(void) {
 
 // multiple AAS files
 
-
 /*
 =======================================================================================================================================
 trap_AAS_SetCurrentWorld
@@ -1098,7 +1097,7 @@ float trap_Characteristic_Float(int character, int index) {
 
 /*
 =======================================================================================================================================
-trap_Characteristic_Float
+trap_Characteristic_BFloat
 =======================================================================================================================================
 */
 float trap_Characteristic_BFloat(int character, int index, float min, float max) {

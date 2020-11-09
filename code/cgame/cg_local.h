@@ -37,7 +37,6 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 
 
 #define POWERUP_BLINKS      5
-
 #define POWERUP_BLINK_TIME  1000
 #define FADE_TIME           200
 #define PULSE_TIME          200
@@ -58,34 +57,24 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #define SINK_TIME           1000        // time for fragments to sink into ground before going away
 #define ATTACKER_HEAD_TIME  10000
 #define REWARD_TIME         3000
-
 #define PULSE_SCALE         1.5         // amount to scale up the icons when activating
-
 #define MAX_STEP_CHANGE     32
-
 #define MAX_VERTS_ON_POLY   10
 #define MAX_MARK_POLYS      1024
-
 #define STAT_MINUS          10  // num frame for '-' stats digit
-
 #define ICON_SIZE           48
 #define CHAR_WIDTH          32
 #define CHAR_HEIGHT         48
 #define TEXT_ICON_SPACE     4
-
 #define TEAMCHAT_WIDTH      80
 #define TEAMCHAT_HEIGHT     16
-
 #define NOTIFY_WIDTH        80
 #define NOTIFY_HEIGHT       5
-
 // very large characters
 #define GIANT_WIDTH         32
 #define GIANT_HEIGHT        48
-
 #define NUM_CROSSHAIRS      10
-
-// Ridah, trails
+// trails
 #define STYPE_STRETCH   0
 #define STYPE_REPEAT    1
 
@@ -95,26 +84,23 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #define TJFL_FIXDISTORT (1 << 3)
 #define TJFL_SPARKHEADFLARE (1 << 4)
 #define TJFL_NOPOLYMERGE (1 << 5)
-// done.
-
-// NERVE - SMF - limbo mode 3d view position
+// limbo mode 3d view position
 #define LIMBO_3D_X  10
 #define LIMBO_3D_Y  120
 #define LIMBO_3D_W  420
 #define LIMBO_3D_H  330
-// -NERVE - SMF
 
-//=================================================
+/**************************************************************************************************************************************
 
-// player entities need to track more information
-// than any other type of entity.
+	Player entities need to track more information than any other type of entity.
 
-// note that not every player entity is a client entity,
-// because corpses after respawn are outside the normal
-// client numbering range
+	Note that not every player entity is a client entity, because corpses after respawn are outside the normal client numbering range.
 
-// when changing animation, set animationTime to frameTime + lerping time
-// The current lerp will finish out, then it will lerp to the new animation
+	When changing animation, set animationTime to frameTime + lerping time.
+	The current lerp will finish out, then it will lerp to the new animation.
+
+**************************************************************************************************************************************/
+
 typedef struct {
 	int oldFrame;
 	int oldFrameTime;		// time when ->oldFrame was exactly on
@@ -249,48 +235,37 @@ typedef struct {
 **************************************************************************************************************************************/
 
 typedef struct centity_s {
-	entityState_t currentState;     // from cg.frame
-	entityState_t nextState;        // from cg.nextFrame, if available
-	qboolean interpolate;           // true if next is valid to interpolate to
-	qboolean currentValid;          // true if cg.frame holds this entity
-
-	int muzzleFlashTime;                // move to playerEntity?
+	entityState_t currentState;	// from cg.frame
+	entityState_t nextState;	// from cg.nextFrame, if available
+	qboolean interpolate;		// true if next is valid to interpolate to
+	qboolean currentValid;		// true if cg.frame holds this entity
+	int muzzleFlashTime;		// move to playerEntity?
 	int overheatTime;
 	int previousEvent;
-	int previousEventSequence;              // Ridah
+	int previousEventSequence;
 	int teleportFlag;
-	int trailTime;                  // so missile trails can handle dropped initial packets
+	int trailTime;				// so missile trails can handle dropped initial packets
 	int miscTime;
-
 	playerEntity_t pe;
-	int errorTime;                  // decay the error from this time
+	int errorTime;				// decay the error from this time
 	vec3_t errorOrigin;
 	vec3_t errorAngles;
-
-	qboolean extrapolated;          // false if origin / angles is an interpolation
+	qboolean extrapolated;		// false if origin/angles is an interpolation
 	vec3_t rawOrigin;
 	vec3_t rawAngles;
-
 	vec3_t beamEnd;
-
 	// exact interpolated position of entity on this frame
 	vec3_t lerpOrigin;
 	vec3_t lerpAngles;
-
-	vec3_t lastLerpAngles;          //(SA)for remembering the last position when a state changes
-
-	// Ridah, trail effects
+	vec3_t lastLerpAngles;		// for remembering the last position when a state changes
+	// trail effects
 	int headJuncIndex, headJuncIndex2;
 	int lastTrailTime;
-	// done.
-
-	// Ridah
 	float loopSoundVolume;
-	vec3_t fireRiseDir;             // if standing still this will be up, otherwise it'll point away from movement dir
+	vec3_t fireRiseDir;			// if standing still this will be up, otherwise it'll point away from movement dir
 	int lastWeaponClientFrame;
 	int lastFuseSparkTime;
 	vec3_t lastFuseSparkOrg;
-
 	// client side dlights
 	int dl_frame;
 	int dl_oldframe;
@@ -299,30 +274,22 @@ typedef struct centity_s {
 	char dl_stylestring[64];
 	int dl_sound;
 	int dl_atten;
-
-	lerpFrame_t lerpFrame;      //---- (SA)	added
-	vec3_t highlightOrigin;             // center of the geometry. for things like corona placement on treasure
+	lerpFrame_t lerpFrame;
+	vec3_t highlightOrigin;		// center of the geometry. for things like corona placement on treasure
 	qboolean usehighlightOrigin;
-
 	refEntity_t refEnt;
-	int processedFrame;                 // frame we were last added to the scene
-
-	int voiceChatSprite;                        // DHM - Nerve
-	int voiceChatSpriteTime;                    // DHM - Nerve
-
+	int processedFrame;			// frame we were last added to the scene
+	int voiceChatSprite;
+	int voiceChatSpriteTime;
 	// client-side lightning
 	int boltTimes[MAX_TESLA_BOLTS];
 	vec3_t boltLocs[MAX_TESLA_BOLTS];
 	vec3_t boltCrawlDirs[MAX_TESLA_BOLTS];
-
 	// item highlighting
-
 	int highlightTime;
 	qboolean highlighted;
-
 	animation_t centAnim[2];
-
-	//(SA)added to help akimbo effects attach to the correct model
+	// added to help akimbo effects attach to the correct model
 	qboolean akimboFire;
 } centity_t;
 
@@ -336,14 +303,14 @@ typedef struct markPoly_s {
 	struct markPoly_s *prevMark, *nextMark;
 	int time;
 	qhandle_t markShader;
-	qboolean alphaFade;         // fade alpha instead of rgb
+	qboolean alphaFade; // fade alpha instead of rgb
 	float color[4];
 	poly_t poly;
 	polyVert_t verts[MAX_VERTS_ON_POLY];
-	int duration;           // Ridah
+	int duration;
 } markPoly_t;
 
-//---- (SA)	moved in from cg_view.c
+// moved in from cg_view.c
 typedef enum {
 	ZOOM_NONE,
 	ZOOM_BINOC,
@@ -360,8 +327,6 @@ typedef enum {
 } EZoomInOut_t;
 
 extern float zoomTable[ZOOM_MAX_ZOOMS][2];
-
-//---- (SA)	end
 
 typedef enum {
 	LE_MARK,
@@ -385,19 +350,19 @@ typedef enum {
 } leType_t;
 
 typedef enum {
-	LEF_PUFF_DONT_SCALE = 0x0001           // do not scale size over time
-	,LEF_TUMBLE = 0x0002           // tumble over time, used for ejecting shells
-	,LEF_NOFADEALPHA = 0x0004           // Ridah, sparks
-	,LEF_SMOKING = 0x0008           //(SA)smoking
-	,LEF_NOTOUCHPARENT = 0x0010           //(SA)when tracing to eval trajectory, ignore parent cent
-	,LEF_PLAYER_DAMAGE = 0x0020           // hurt the player on impact
+	LEF_PUFF_DONT_SCALE = 0x0001, // do not scale size over time
+	LEF_TUMBLE			= 0x0002, // tumble over time, used for ejecting shells
+	LEF_NOFADEALPHA		= 0x0004, // sparks
+	LEF_SMOKING			= 0x0008, // smoking
+	LEF_NOTOUCHPARENT	= 0x0010, // when tracing to eval trajectory, ignore parent cent
+	LEF_PLAYER_DAMAGE	= 0x0020, // hurt the player on impact
 } leFlag_t;
-
+// fragment local entities can leave marks on walls
 typedef enum {
 	LEMT_NONE,
 	LEMT_BLOOD
-} leMarkType_t;         // fragment local entities can leave marks on walls
-
+} leMarkType_t;
+// fragment local entities can make sounds on impacts
 typedef enum {
 	LEBS_NONE,
 	LEBS_BLOOD,
@@ -405,9 +370,9 @@ typedef enum {
 	LEBS_WOOD,
 	LEBS_BRASS,
 	LEBS_BONE
-} leBounceSoundType_t;  // fragment local entities can make sounds on impacts
+} leBounceSoundType_t;
 
-#define MAX_OLD_POS     3
+#define MAX_OLD_POS 3
 
 typedef struct localEntity_s {
 	struct localEntity_s *prev, *next;
@@ -416,18 +381,17 @@ typedef struct localEntity_s {
 	int startTime;
 	int endTime;
 	int fadeInTime;
-	float lifeRate;                     // 1.0 /(endTime - startTime)
+	float lifeRate;				// 1.0 / (endTime - startTime)
 	trajectory_t pos;
 	trajectory_t angles;
-	float bounceFactor;                 // 0.0 = no bounce, 1.0 = perfect
+	float bounceFactor;			// 0.0 = no bounce, 1.0 = perfect
 	float color[4];
 	float radius;
 	float light;
 	vec3_t lightColor;
-	leMarkType_t leMarkType;            // mark to leave on fragment impact
+	leMarkType_t leMarkType;	// mark to leave on fragment impact
 	leBounceSoundType_t leBounceSoundType;
 	refEntity_t refEntity;
-	// Ridah
 	int lightOverdraw;
 	int lastTrailTime;
 	int headJuncIndex, headJuncIndex2;
@@ -443,7 +407,6 @@ typedef struct localEntity_s {
 	char validOldPos[MAX_OLD_POS];
 	vec3_t oldPos[MAX_OLD_POS];
 	int oldPosHead;
-	// done.
 } localEntity_t;
 
 typedef struct {
@@ -503,12 +466,12 @@ typedef struct {
 	int clientNum;
 	char name[MAX_QPATH];
 	team_t team;
-	int botSkill;                   // 0 = not bot, 1-5 = bot
+	int botSkill;			// 0 = not bot, 1-5 = bot
 	vec3_t color;
 	byte c1RGBA[4];
-	int score;                      // updated by score servercmds
-	int location;                   // location index for team mode
-	int health;                     // you only get this info about your teammates
+	int score;				// updated by score servercmds
+	int location;			// location index for team mode
+	int health;				// you only get this info about your teammates
 	int curWeapon;
 	int powerups;
 	int armor;
@@ -528,25 +491,21 @@ typedef struct {
 	qhandle_t torsoModel;
 	qhandle_t torsoSkin;
 	qboolean isSkeletal;
-	//---- (SA)added accessory models/skins for belts/backpacks/etc.
-	qhandle_t accModels[ACC_MAX];       // see def of ACC_MAX for index descriptions
-	qhandle_t accSkins[ACC_MAX];        // FIXME: put the#define for number of accessory models somewhere.(SA)
-	//---- (SA)	additional parts for specialized characters(the loper's spinning trunk for example)
+	// added accessory models/skins for belts/backpacks/etc.
+	qhandle_t accModels[ACC_MAX];   // see def of ACC_MAX for index descriptions
+	qhandle_t accSkins[ACC_MAX];    // FIXME: put the#define for number of accessory models somewhere.(SA)
+	// additional parts for specialized characters(the loper's spinning trunk for example)
 	qhandle_t partModels[9];        // [0-7] are optionally called in scripts, [8] is reserved for internal use
 	qhandle_t partSkins[9];
-	//---- (SA)	end
 	qhandle_t headModel;
 	qhandle_t headSkin;
 	qhandle_t modelIcon;
-	// RF, may be shared by multiple clients/characters
+	// may be shared by multiple clients/characters
 	animModelInfo_t *modelInfo;
 	sfxHandle_t sounds[MAX_CUSTOM_SOUNDS];
-
 	qhandle_t gibModels[MAX_GIB_MODELS];
-
-	vec3_t playermodelScale;            //---- (SA)	set in the skin. client-side only
-
-	int blinkTime;              //---- (SA)
+	vec3_t playermodelScale;            // set in the skin. client-side only
+	int blinkTime;
 	int lastkilltime;
 	int lastteamkilltime;
 } clientInfo_t;
@@ -571,15 +530,17 @@ typedef enum {
 	W_NUM_TYPES
 } modelViewType_t;
 
-// each WP_* weapon enum has an associated weaponInfo_t
-// that contains media references necessary to present the
-// weapon and its effects
+/**************************************************************************************************************************************
+
+	Each WP_* weapon enum has an associated weaponInfo_t that contains media references necessary to present the weapon and its effects.
+
+**************************************************************************************************************************************/
+
 typedef struct weaponInfo_s {
 	qboolean registered;
 	gitem_t *item;
 //---- (SA)	weapon animation sequences loaded from the weapon.cfg
 	animation_t weapAnimations[MAX_WP_ANIMATIONS];
-//---- (SA)	end
 	qhandle_t handsModel;               // the hands don't actually draw, they just position the weapon
 	qhandle_t standModel;               // not drawn. tags used for positioning weapons for pickup
 //---- (SA)mod for 1st/3rd person weap views
@@ -587,7 +548,6 @@ typedef struct weaponInfo_s {
 	qhandle_t wpPartModels[W_NUM_TYPES][W_MAX_PARTS];
 	qhandle_t flashModel[W_NUM_TYPES];
 	qhandle_t modModel[W_NUM_TYPES];        // like the scope for the rifles
-//---- (SA)end
 	pose_t position;                    // wolf locations(high, low, knife, pistol, shoulder, throw)defines are WPOS_HIGH, WPOS_LOW, WPOS_KNIFE, WPOS_PISTOL, WPOS_SHOULDER, WPOS_THROW
 	vec3_t weaponMidpoint;              // so it will rotate centered instead of by tag
 	float flashDlight;
@@ -618,10 +578,13 @@ typedef struct weaponInfo_s {
 	sfxHandle_t spindownSound;      //---- (SA)	added // sound called if the above is running but player doesn't follow through and fire
 } weaponInfo_t;
 
+/**************************************************************************************************************************************
 
-// each IT_* item has an associated itemInfo_t
-// that constains media references necessary to present the
-// item and its effects
+	Each IT_* item has an associated itemInfo_t that constains media references necessary to present the item and its effects.
+
+**************************************************************************************************************************************/
+
+
 typedef struct {
 	qboolean registered;
 	qhandle_t models[MAX_ITEM_MODELS];
@@ -647,10 +610,12 @@ typedef struct {
 	vec3_t src;
 } cameraShake_t;
 
-//======================================================================
+/**************************************************************************************************************************************
 
-// all cg.stepTime, cg.duckTime, cg.landTime, etc are set to cg.time when the action
-// occurs, and they will have visible effects for#define STEP_TIME or whatever msec after
+	All cg.stepTime, cg.duckTime, cg.landTime, etc are set to cg.time when the action occurs, and they will have visible effects for
+	#define STEP_TIME or whatever msec after.
+
+**************************************************************************************************************************************/
 
 #define MAX_PREDICTED_EVENTS    16
 

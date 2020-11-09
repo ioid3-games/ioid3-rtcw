@@ -5184,6 +5184,7 @@ static void UI_RunMenuScript(char **args) {
 			trap_Cmd_ExecuteText(EXEC_APPEND, va("wait; wait; coopmap %s\n", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName));
 			// set max clients based on spots
 			clients = 0;
+
 			for (i = 0; i < PLAYERS_PER_TEAM; i++) {
 				int bot = trap_Cvar_VariableValue(va("ui_blueteam%i", i + 1));
 

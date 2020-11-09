@@ -581,7 +581,6 @@ static void CG_AddToTeamChat(const char *str) {
 			}
 
 			*p = 0;
-
 			cgs.teamChatMsgTimes[cgs.teamChatPos % chatHeight] = cg.time;
 			cgs.teamChatPos++;
 			p = cgs.teamChatMsgs[cgs.teamChatPos % chatHeight];
@@ -1675,7 +1674,7 @@ static void CG_ServerCommand(void) {
 =======================================================================================================================================
 CG_ExecuteNewServerCommands
 
-Execute all of the server commands that were received along with this this snapshot.
+Execute all of the server commands that were received along with this snapshot.
 =======================================================================================================================================
 */
 void CG_ExecuteNewServerCommands(int latestSequence) {

@@ -1247,7 +1247,7 @@ bot_moveresult_t BotTravel_Walk(bot_movestate_t *ms, aas_reachability_t *reach) 
 			EA_Crouch(ms->client);
 		}
 	}
-
+	// check for a gap
 	dist = BotGapDistance(ms->origin, hordir, ms->entitynum);
 
 	if (ms->moveflags & MFL_WALK) {
@@ -1970,12 +1970,12 @@ bot_moveresult_t BotTravel_Ladder(bot_movestate_t *ms, aas_reachability_t *reach
 	bot_moveresult_t_cleared(result);
 	float dist, speed;
 
-	// RF, heavily modified, wolf has different ladder movement
+	// heavily modified, wolf has different ladder movement
 	if ((ms->moveflags & MFL_AGAINSTLADDER)
 		 // NOTE: not a good idea for ladders starting in water
 		 || !(ms->moveflags & MFL_ONGROUND)) {
 		//botimport.Print(PRT_MESSAGE, "against ladder or not on ground\n");
-		// RF, wolf has different ladder movement
+		// wolf has different ladder movement
 		VectorSubtract(reach->end, reach->start, dir);
 		VectorNormalize(dir);
 		// set the ideal view angles, facing the ladder up or down

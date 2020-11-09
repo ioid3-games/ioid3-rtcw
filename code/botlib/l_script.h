@@ -11,7 +11,7 @@ Spearmint Source Code is distributed in the hope that it will be useful, but WIT
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with Spearmint Source Code.
-If not, see <http:// www.gnu.org/licenses/>.
+If not, see <http://www.gnu.org/licenses/>.
 
 In addition, Spearmint Source Code is also subject to certain additional terms. You should have received a copy of these additional
 terms immediately following the terms and conditions of the GNU General Public License. If not, please request a copy in writing from
@@ -26,9 +26,8 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
  Lexicographical parser.
 **************************************************************************************************************************************/
 
-// Ridah, can't get it to compile without this
+// can't get it to compile without this
 #ifndef QDECL
-
 // for windows fastcall option
 #define QDECL
 // ======================= WIN32 DEFINES =================================
@@ -37,8 +36,6 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #define QDECL __cdecl
 #endif
 #endif
-// done.
-
 // undef if binary numbers of the form 0b... or 0B... are not allowed
 #define BINARYNUMBERS
 // undef if not using the token.intvalue and token.floatvalue

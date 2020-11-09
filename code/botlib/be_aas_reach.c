@@ -1061,7 +1061,7 @@ int AAS_Reachability_Step_Barrier_WaterJump_WalkOffLedge(int area1num, int area2
 			VectorCopy((*aasworld).vertexes[edge1->v[!side1]], v1);
 			VectorCopy((*aasworld).vertexes[edge1->v[side1]], v2);
 			// get a vertical plane through the edge
-			// NOTE: normal is pointing into area 2 because the ace edges are stored counter clockwise
+			// NOTE: normal is pointing into area 2 because the face edges are stored counter clockwise
 			VectorSubtract(v2, v1, edgevec);
 			CrossProduct(edgevec, invgravity, normal);
 			VectorNormalize(normal);
@@ -2152,6 +2152,7 @@ int AAS_Reachability_Jump(int area1num, int area2num) {
 			plane = &(*aasworld).planes[trace.planenum];
 			// if the bot can stand on the surface
 			if (DotProduct(plane->normal, up) >= 0.7) {
+				// if no lava or slime below
 				if (!(AAS_PointContents(trace.endpos) & CONTENTS_LAVA)) { // modified since slime is no longer deadly
 					if (teststart[2] - trace.endpos[2] <= aassettings.sv_maxbarrier) {
 						return qfalse;
@@ -3609,7 +3610,7 @@ void AAS_Reachability_JumpPad(void) {
 					if (AAS_ReachabilityExists(link->areanum, area2num)) {
 						continue;
 					}
-					// create a rocket or bfg jump reachability from area1 to area2
+					// create a jumppad reachability from area1 to area2
 					lreach = AAS_AllocReachability();
 
 					if (!lreach) {
@@ -4105,8 +4106,7 @@ int AAS_Reachability_WeaponJump(int area1num, int area2num) {
 					VectorSet(cmdmove, 0, 0, 0);
 					*/
 					AAS_PredictClientMovement(&move, -1, areastart, PRESENCE_NORMAL, qtrue, velocity, cmdmove, 30, 30, 0.1f, SE_ENTERWATER|SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE|SE_TOUCHJUMPPAD|SE_HITGROUNDAREA, area2num, qfalse);
-					// if prediction time wasn't enough to fully predict the movement
-					// don't enter slime or lava and don't fall from too high
+					// if prediction time wasn't enough to fully predict the movement, don't fall from too high and don't enter slime or lava
 					if (move.frames < 30 && !(move.stopevent & (SE_ENTERSLIME|SE_ENTERLAVA|SE_HITGROUNDDAMAGE)) && (move.stopevent & (SE_HITGROUNDAREA|SE_TOUCHJUMPPAD))) {
 						// create a rocket or bfg jump reachability from area1 to area2
 						lreach = AAS_AllocReachability();

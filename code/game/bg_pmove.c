@@ -20,7 +20,8 @@ id Software at the address below.
 If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
 ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
-*
+*/
+
 /**************************************************************************************************************************************
  Both games player movement code. Takes a playerstate and a usercmd as input and returns a modifed playerstate.
 **************************************************************************************************************************************/

@@ -63,8 +63,8 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #define FACE_LADDER			 2 // ladder
 #define FACE_GROUND			 4 // standing on ground when in this face
 #define FACE_GAP			 8 // gap in the ground
-#define FACE_LIQUID			16
-#define FACE_LIQUIDSURFACE	32
+#define FACE_LIQUID			16 // face separating two areas with liquid
+#define FACE_LIQUIDSURFACE	32 // face separating liquid and air
 // area contents
 #define AREACONTENTS_WATER			   1
 #define AREACONTENTS_LAVA			   2
@@ -87,7 +87,7 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #define AREA_GROUNDED	 1 // bot can stand on the ground
 #define AREA_LADDER		 2 // area contains one or more ladder faces
 #define AREA_LIQUID		 4 // area contains a liquid
-#define AREA_DISABLED	 8
+#define AREA_DISABLED	 8 // area is disabled for routing when set
 #define AREA_USEFORROUTING 1024
 // aas file header lumps
 #define AAS_LUMPS 14

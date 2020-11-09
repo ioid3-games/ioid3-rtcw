@@ -1376,6 +1376,7 @@ void G_ShutdownGame(int restart) {
 		G_LogPrintf("ShutdownGame:\n");
 		G_LogPrintf("------------------------------------------------------------\n");
 		trap_FS_FCloseFile(level.logFile);
+
 		level.logFile = 0;
 	}
 	// update the playtime
@@ -1413,7 +1414,6 @@ void QDECL Com_Error(int level, const char *error, ...) {
 	va_start(argptr, error);
 	Q_vsnprintf(text, sizeof(text), error, argptr);
 	va_end(argptr);
-
 	trap_Error(text);
 }
 
@@ -1429,7 +1429,6 @@ void QDECL Com_Printf(const char *msg, ...) {
 	va_start(argptr, msg);
 	Q_vsnprintf(text, sizeof(text), msg, argptr);
 	va_end(argptr);
-
 	trap_Print(text);
 }
 
@@ -2934,7 +2933,7 @@ void G_RunFrame(int levelTime) {
 
 		G_RunThink(ent);
 	}
-	// Ridah, move the AI
+	// move the AI
 	AICast_StartServerFrame(level.time);
 	// perform final fixups on the players
 	ent = &g_entities[0];
@@ -2989,7 +2988,9 @@ void G_RunFrame(int levelTime) {
 
 /*
 =======================================================================================================================================
-Global sound
+APSound
+
+Global sound.
 =======================================================================================================================================
 */
 void APSound(char *sound) {
@@ -3008,7 +3009,9 @@ void APSound(char *sound) {
 
 /*
 =======================================================================================================================================
-Client sound
+CPSound
+
+Client sound.
 =======================================================================================================================================
 */
 void CPSound(gentity_t *ent, char *sound) {

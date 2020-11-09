@@ -29,7 +29,6 @@ ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 #include "cg_local.h"
 
 #define MAX_LOCAL_ENTITIES 768 // renderer can only handle 1024 entities max, so we should avoid overwriting game entities
-
 localEntity_t cg_localEntities[MAX_LOCAL_ENTITIES];
 localEntity_t cg_activeLocalEntities; // double linked list
 localEntity_t *cg_freeLocalEntities; // single linked list

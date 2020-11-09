@@ -1182,7 +1182,6 @@ gentity_t *fire_flamechunk(gentity_t *self, vec3_t start, vec3_t dir) {
 }
 
 int G_GetWeaponDamage(int weapon); // JPW NERVE
-
 /*
 =======================================================================================================================================
 fire_grenade
@@ -1431,11 +1430,9 @@ gentity_t *fire_rocket(gentity_t *self, vec3_t start, vec3_t dir) {
 
 	SnapVector(bolt->s.pos.trDelta); // save net bandwidth
 	VectorCopy(start, bolt->r.currentOrigin);
-
 	return bolt;
 }
 
-// Rafael zombie spit
 /*
 =======================================================================================================================================
 fire_zombiespit
@@ -1542,7 +1539,6 @@ gentity_t *fire_crowbar(gentity_t *self, vec3_t start, vec3_t dir) {
 	return bolt;
 }
 
-// flamebarrel
 /*
 =======================================================================================================================================
 fire_flamebarrel
@@ -1579,7 +1575,6 @@ gentity_t *fire_flamebarrel(gentity_t *self, vec3_t start, vec3_t dir) {
 	return bolt;
 }
 
-// Rafael sniper
 /*
 =======================================================================================================================================
 fire_lead
@@ -1649,8 +1644,7 @@ void fire_lead(gentity_t *self, vec3_t start, vec3_t dir, int damage) {
 		}
 	}
 }
-// Rafael sniper
-// visible
+
 /*
 =======================================================================================================================================
 visible
@@ -1714,4 +1708,3 @@ gentity_t *fire_mortar(gentity_t *self, vec3_t start, vec3_t dir) {
 	VectorCopy(start, bolt->r.currentOrigin);
 	return bolt;
 }
-

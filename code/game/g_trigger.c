@@ -47,24 +47,24 @@ void InitTrigger(gentity_t *self) {
 
 /*
 =======================================================================================================================================
-multi_wait
+Multi_Wait
 
 The wait time has passed, so set back up for another activation.
 =======================================================================================================================================
 */
-void multi_wait(gentity_t *ent) {
+void Multi_Wait(gentity_t *ent) {
 	ent->nextthink = 0;
 }
 
 /*
 =======================================================================================================================================
-multi_trigger
+Use_Trigger_Multiple
 
 The trigger was just activated, 'ent->activator' should be set to the activator so it can be held through a delay, so wait for the delay
 time before firing.
 =======================================================================================================================================
 */
-void multi_trigger(gentity_t *ent, gentity_t *activator) {
+void Use_Trigger_Multiple(gentity_t *ent, gentity_t *activator) {
 
 	ent->activator = activator;
 
@@ -75,7 +75,7 @@ void multi_trigger(gentity_t *ent, gentity_t *activator) {
 	G_UseTargets(ent, ent->activator);
 
 	if (ent->wait > 0) {
-		ent->think = multi_wait;
+		ent->think = Multi_Wait;
 		ent->nextthink = level.time + (ent->wait + ent->random * crandom()) * 1000;
 	} else {
 		// we can't just remove (self) here, because this is a touch function called while looping through area links...
@@ -91,15 +91,15 @@ Use_Multi
 =======================================================================================================================================
 */
 void Use_Multi(gentity_t *ent, gentity_t *other, gentity_t *activator) {
-	multi_trigger(ent, activator);
+	Use_Trigger_Multiple(ent, activator);
 }
 
 /*
 =======================================================================================================================================
-Touch_Multi
+Touch_MultiTrigger
 =======================================================================================================================================
 */
-void Touch_Multi(gentity_t *self, gentity_t *other, trace_t *trace) {
+void Touch_MultiTrigger(gentity_t *self, gentity_t *other, trace_t *trace) {
 
 	if (!other->client) {
 		return;
@@ -111,7 +111,7 @@ void Touch_Multi(gentity_t *self, gentity_t *other, trace_t *trace) {
 		}
 	}
 
-	multi_trigger(self, other);
+	Use_Trigger_Multiple(self, other);
 }
 
 /*
@@ -130,7 +130,7 @@ void Enable_Trigger_Touch(gentity_t *ent) {
 	float angle;
 	qboolean thisone = qfalse;
 
-	// ent->touch = Touch_Multi;
+	// ent->touch = Touch_MultiTrigger;
 	// find the client number that uses this entity
 	targ = AICast_FindEntityForName(ent->aiName);
 
@@ -161,7 +161,7 @@ void Enable_Trigger_Touch(gentity_t *ent) {
 			daent = &g_entities[tr.entityNum];
 
 			if (daent == ent) { // wooo hooo
-				multi_trigger(ent, targ);
+				Use_Trigger_Multiple(ent, targ);
 				thisone = qtrue;
 			}
 		}
@@ -208,7 +208,7 @@ void SP_trigger_multiple(gentity_t *ent) {
 		G_Printf("trigger_multiple has random >= wait\n");
 	}
 
-	ent->touch = Touch_Multi;
+	ent->touch = Touch_MultiTrigger;
 	ent->use = Use_Multi;
 
 	InitTrigger(ent);
@@ -225,10 +225,10 @@ void SP_trigger_multiple(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-trigger_always_think
+Trigger_Always_Think
 =======================================================================================================================================
 */
-void trigger_always_think(gentity_t *ent) {
+void Trigger_Always_Think(gentity_t *ent) {
 
 	G_UseTargets(ent, ent);
 	G_FreeEntity(ent);
@@ -241,7 +241,7 @@ void SP_trigger_always(gentity_t *ent) {
 
 	// we must have some delay to make sure our use targets are present
 	ent->nextthink = level.time + 300;
-	ent->think = trigger_always_think;
+	ent->think = Trigger_Always_Think;
 }
 
 /*
@@ -254,10 +254,10 @@ void SP_trigger_always(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-trigger_push_touch
+Touch_PushTrigger
 =======================================================================================================================================
 */
-void trigger_push_touch(gentity_t *self, gentity_t *other, trace_t *trace) {
+void Touch_PushTrigger(gentity_t *self, gentity_t *other, trace_t *trace) {
 
 	if ((self->spawnflags & 4) && other->r.svFlags & SVF_CASTAI) {
 		return;
@@ -341,7 +341,7 @@ trigger_push_use
 */
 void trigger_push_use(gentity_t *self, gentity_t *other, gentity_t *activator) {
 
-	self->touch = trigger_push_touch;
+	self->touch = Touch_PushTrigger;
 	trap_LinkEntity(self);
 }
 
@@ -370,7 +370,7 @@ void SP_trigger_push(gentity_t *self) {
 		self->s.eType = ET_PUSH_TRIGGER;
 	}
 
-	self->touch = trigger_push_touch;
+	self->touch = Touch_PushTrigger;
 	self->think = AimAtTarget;
 
 	if (self->spawnflags & 1) { // toggle
@@ -387,10 +387,10 @@ void SP_trigger_push(gentity_t *self) {
 
 /*
 =======================================================================================================================================
-Use_target_push
+Use_Target_Push
 =======================================================================================================================================
 */
-void Use_target_push(gentity_t *self, gentity_t *other, gentity_t *activator) {
+void Use_Target_Push(gentity_t *self, gentity_t *other, gentity_t *activator) {
 
 	if (!activator->client) {
 		return;
@@ -439,7 +439,7 @@ void SP_target_push(gentity_t *self) {
 		self->nextthink = level.time + FRAMETIME;
 	}
 
-	self->use = Use_target_push;
+	self->use = Use_Target_Push;
 }
 
 /*
@@ -452,10 +452,10 @@ void SP_target_push(gentity_t *self) {
 
 /*
 =======================================================================================================================================
-trigger_teleporter_touch
+Touch_TeleporterTrigger
 =======================================================================================================================================
 */
-void trigger_teleporter_touch(gentity_t *self, gentity_t *other, trace_t *trace) {
+void Touch_TeleporterTrigger(gentity_t *self, gentity_t *other, trace_t *trace) {
 	gentity_t *dest;
 
 	if (!other->client) {
@@ -488,7 +488,7 @@ void SP_trigger_teleport(gentity_t *self) {
 	// make sure the client precaches this sound
 	//G_SoundIndex("sound/world/jumppad.wav");
 	self->s.eType = ET_TELEPORT_TRIGGER;
-	self->touch = trigger_teleporter_touch;
+	self->touch = Touch_TeleporterTrigger;
 
 	trap_LinkEntity(self);
 }
@@ -503,10 +503,10 @@ void SP_trigger_teleport(gentity_t *self) {
 
 /*
 =======================================================================================================================================
-hurt_touch
+Use_Trigger_Hurt
 =======================================================================================================================================
 */
-void hurt_touch(gentity_t *self, gentity_t *other, trace_t *trace) {
+void Use_Trigger_Hurt(gentity_t *self, gentity_t *other, trace_t *trace) {
 	int dflags;
 
 	if (!other->takedamage) {
@@ -562,15 +562,15 @@ void hurt_think(gentity_t *ent) {
 
 /*
 =======================================================================================================================================
-hurt_use
+Use_Trigger_Hurt
 =======================================================================================================================================
 */
-void hurt_use(gentity_t *self, gentity_t *other, gentity_t *activator) {
+void Use_Trigger_Hurt(gentity_t *self, gentity_t *other, gentity_t *activator) {
 
 	if (self->touch) {
 		self->touch = 0;
 	} else {
-		self->touch = hurt_touch;
+		self->touch = Use_Trigger_Hurt;
 	}
 
 	if (self->delay) {
@@ -608,19 +608,18 @@ void SP_trigger_hurt(gentity_t *self) {
 	}
 
 	self->r.contents = CONTENTS_TRIGGER;
-	self->use = hurt_use;
+	self->use = Use_Trigger_Hurt;
 	// link in to the world if starting active
 	if (!(self->spawnflags & 1)) {
 		// any reason this needs to be linked? (predicted?)
 		//trap_LinkEntity(self);
-		self->touch = hurt_touch;
+		self->touch = Use_Trigger_Hurt;
 	}
 
 	G_SpawnString("life", "0", &life);
 
 	dalife = atof(life);
 	self->delay = dalife;
-
 }
 
 /*
@@ -633,10 +632,10 @@ void SP_trigger_hurt(gentity_t *self) {
 
 /*
 =======================================================================================================================================
-func_timer_think
+Func_Timer_Think
 =======================================================================================================================================
 */
-void func_timer_think(gentity_t *self) {
+void Func_Timer_Think(gentity_t *self) {
 
 	G_UseTargets(self, self->activator);
 	// set time before next firing
@@ -645,10 +644,10 @@ void func_timer_think(gentity_t *self) {
 
 /*
 =======================================================================================================================================
-func_timer_use
+Use_Func_Timer
 =======================================================================================================================================
 */
-void func_timer_use(gentity_t *self, gentity_t *other, gentity_t *activator) {
+void Use_Func_Timer(gentity_t *self, gentity_t *other, gentity_t *activator) {
 
 	self->activator = activator;
 	// if on, turn it off
@@ -657,7 +656,7 @@ void func_timer_use(gentity_t *self, gentity_t *other, gentity_t *activator) {
 		return;
 	}
 	// turn it on
-	func_timer_think(self);
+	Func_Timer_Think(self);
 }
 
 /*QUAKED func_timer (0.3 0.1 0.6) (-8 -8 -8) (8 8 8) START_ON
@@ -676,8 +675,8 @@ void SP_func_timer(gentity_t *self) {
 	G_SpawnFloat("random", "1", &self->random);
 	G_SpawnFloat("wait", "1", &self->wait);
 
-	self->use = func_timer_use;
-	self->think = func_timer_think;
+	self->use = Use_Func_Timer;
+	self->think = Func_Timer_Think;
 
 	if (self->random >= self->wait) {
 		self->random = self->wait - FRAMETIME;
@@ -701,7 +700,7 @@ void SP_trigger_once(gentity_t *ent) {
 	char mapname[1024];
 
 	ent->wait = -1; // this will remove itself after one use
-	ent->touch = Touch_Multi;
+	ent->touch = Touch_MultiTrigger;
 	ent->use = Use_Multi;
 
 	trap_Cvar_VariableStringBuffer("mapname", mapname, sizeof(mapname));

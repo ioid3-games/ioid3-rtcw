@@ -521,7 +521,6 @@ void CG_DrawStringExt2(int x, int y, const char *string, const float *setColor, 
 
 	if (maxChars <= 0) {
 		maxChars = 32767; // do them all!
-
 	}
 	// draw the drop shadow
 	if (shadow) {
@@ -685,6 +684,7 @@ void CG_DrawBigString2(int x, int y, const char *s, float alpha) {
 
 	color[0] = color[1] = color[2] = 1.0;
 	color[3] = alpha;
+
 	CG_DrawStringExt3(x, y, s, color, qfalse, qtrue, BIGCHAR_WIDTH, BIGCHAR_HEIGHT, 0);
 }
 

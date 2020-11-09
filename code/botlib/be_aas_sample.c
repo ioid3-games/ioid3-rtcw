@@ -166,6 +166,7 @@ void AAS_DeAllocAASLink(aas_link_t *link) {
 	link->next_ent = (*aasworld).freelinks;
 	link->prev_area = NULL;
 	link->next_area = NULL;
+
 	(*aasworld).freelinks = link;
 }
 

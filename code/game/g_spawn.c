@@ -545,7 +545,7 @@ qboolean G_CallSpawn(gentity_t *ent) {
 	for (item = bg_itemlist + 1; item->classname; item++) {
 		if (!strcmp(item->classname, ent->classname)) {
 			// found it
-			// DHM - Nerve :: allow flags in GTWOLF
+			// allow flags in GTWOLF
 			if (item->giType == IT_TEAM && (g_gametype.integer <= GT_SINGLE_PLAYER)) {
 				return qfalse;
 			}

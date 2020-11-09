@@ -33,7 +33,7 @@ void DeathmatchScoreboardMessage(gentity_t *ent) {
 	char entry[1024];
 	char string[1000];
 	int stringlength;
-	int i, j;
+	int i, j, ping;
 	gclient_t *cl;
 	int numSorted;
 #ifndef MONEY
@@ -54,8 +54,6 @@ void DeathmatchScoreboardMessage(gentity_t *ent) {
 	}
 
 	for (i = 0; i < numSorted; i++) {
-		int ping;
-
 		cl = &level.clients[level.sortedClients[i]];
 
 		if (cl->pers.connected == CON_CONNECTING) {
@@ -2414,7 +2412,7 @@ qboolean G_ThrowChair(gentity_t *ent, vec3_t dir, qboolean force) {
 		G_Damage(traceEnt, ent, ent, NULL, NULL, 99999, 0, MOD_CRUSH); // Die!
 	}
 
-	return(isthrown || force);
+	return (isthrown || force);
 }
 
 /*
@@ -2616,7 +2614,7 @@ int Cmd_WolfKick_f(gentity_t *ent) {
 	}
 
 	if (oldkicktime > kicktime) {
-		return(0);
+		return (0);
 	} else {
 		oldkicktime = kicktime + 1000;
 	}
@@ -2634,7 +2632,7 @@ int Cmd_WolfKick_f(gentity_t *ent) {
 	if (tr.surfaceFlags & SURF_NOIMPACT || tr.fraction == 1.0) {
 		tent = G_TempEntity(tr.endpos, EV_WOLFKICK_MISS);
 		tent->s.eventParm = ent->s.number;
-		return(1);
+		return (1);
 	}
 
 	traceEnt = &g_entities[tr.entityNum];
@@ -2738,7 +2736,7 @@ int Cmd_WolfKick_f(gentity_t *ent) {
 		G_Damage(traceEnt, ent, ent, forward, tr.endpos, damage, 0, MOD_KICKED);
 	}
 
-	return(1);
+	return (1);
 }
 
 /*

@@ -44,7 +44,7 @@ CG_Text_Width
 =======================================================================================================================================
 */
 int CG_Text_Width(const char *text, int font, float scale, int limit) {
-	int count,len;
+	int count, len;
 	float out;
 	glyphInfo_t *glyph;
 	float useScale;
@@ -641,7 +641,7 @@ static void CG_DrawStatusBar(void) {
 			if (ps->grenadeTimeLeft) {
 				if (ps->weapon == WP_DYNAMITE) {
 				} else {
-					if (((cg.grenLastTime)% 1000)< ((ps->grenadeTimeLeft)% 1000)) {
+					if (((cg.grenLastTime)% 1000) < ((ps->grenadeTimeLeft)% 1000)) {
 						switch (ps->grenadeTimeLeft / 1000) {
 							case 3:
 								trap_S_StartLocalSound(cgs.media.grenadePulseSound4, CHAN_LOCAL_SOUND);
@@ -1375,6 +1375,7 @@ static void CG_DrawNotify(void) {
 	}
 
 	trap_Cvar_VariableStringBuffer("con_notifytime", var, sizeof(var));
+
 	notifytime = atof(var) * 1000;
 
 	if (notifytime <= 100.f) {
@@ -1511,6 +1512,7 @@ static void CG_DrawReward(void) {
 	}
 
 	trap_R_SetColor(color);
+
 	y = 56;
 	x = 320 - cg.rewardCount * ICON_SIZE / 2;
 
@@ -2557,7 +2559,7 @@ static void CG_ScanForCrosshairEntity(void) {
 
 	// we want this in multiplayer
 	if (cgs.gametype == GT_SINGLE_PLAYER) {
-		return; // don't use any scanning at the moment.
+		return; // don't use any scanning at the moment
 
 	}
 
@@ -2869,7 +2871,7 @@ static void CG_DrawSpectator(void) {
 =======================================================================================================================================
 CG_DrawVote
 
-NOTE: Vote sounds are set in game logic(c_cmds.c /callvote)..
+NOTE: Vote sounds are set in game logic(c_cmds.c /callvote).
 =======================================================================================================================================
 */
 static void CG_DrawVote(void) {
@@ -3453,7 +3455,7 @@ static void CG_DrawFlashBlendBehindHUD(void) {
 =======================================================================================================================================
 CG_DrawFlashBlend
 
-Screen flash stuff drawn last(on top of everything).
+Screen flash stuff drawn last (on top of everything).
 =======================================================================================================================================
 */
 static void CG_DrawFlashBlend(void) {
@@ -3637,6 +3639,7 @@ CG_Fade
 =======================================================================================================================================
 */
 void CG_Fade(int r, int g, int b, int a, int time, int duration) {
+
 	// incorporate this into the current fade scheme
 	cgs.scrFadeAlpha = (float)a / 255.0f;
 	cgs.scrFadeStartTime = time;
@@ -3666,6 +3669,7 @@ static void CG_DrawGameScreenFade(void) {
 	}
 
 	VectorClear(col);
+
 	col[3] = cg.viewFade;
 
 	if (cg_fixedAspect.integer) {
@@ -3688,7 +3692,7 @@ static void CG_ScreenFade(void) {
 	float t, invt;
 	vec4_t color;
 
-	// fade the screen´(in-game)
+	// fade the screen (in-game)
 	CG_DrawGameScreenFade();
 
 	if (!cg.fadeRate) {
@@ -3742,6 +3746,7 @@ CG_Draw2D
 =======================================================================================================================================
 */
 static void CG_Draw2D(stereoFrame_t stereoFrame) {
+
 	// if we are taking a levelshot for the menu, don't draw anything
 	if (cg.levelShot) {
 		return;
@@ -3864,7 +3869,6 @@ void CG_StartShakeCamera(float p, int duration, vec3_t src, float radius) {
 
 	if (i == MAX_CAMERA_SHAKE) {
 		return; // no free slots
-
 	}
 
 	cg.cameraShake[i].scale = p;
@@ -3939,6 +3943,7 @@ CG_ApplyShakeCamera
 =======================================================================================================================================
 */
 void CG_ApplyShakeCamera(void) {
+
 	VectorAdd(cg.refdefViewAngles, cg.cameraShakeAngles, cg.refdefViewAngles);
 	AnglesToAxis(cg.refdefViewAngles, cg.refdef.viewaxis);
 }
@@ -3949,6 +3954,7 @@ CG_CoopStartShakeCamera
 =======================================================================================================================================
 */
 void CG_CoopStartShakeCamera(float p) {
+
 	cg.cameraShakeScale = p;
 	cg.cameraShakeLength = 1000 * (p * p);
 	cg.cameraShakeTime = cg.time + cg.cameraShakeLength;
@@ -4140,8 +4146,10 @@ CG_Text_PaintChar_Ext
 =======================================================================================================================================
 */
 void CG_Text_PaintChar_Ext(float x, float y, float w, float h, float scalex, float scaley, float s, float t, float s2, float t2, qhandle_t hShader) {
+
 	w *= scalex;
 	h *= scaley;
+
 	CG_AdjustFrom640(&x, &y, &w, &h);
 	trap_R_DrawStretchPic(x, y, w, h, s, t, s2, t2, hShader);
 }
@@ -4314,7 +4322,9 @@ qboolean CG_AddOnScreenText(const char *text, vec3_t origin, vec4_t color, float
 	activeworldtext = worldtext;
 
 	VectorCopy(origin, worldtext->origin);
+
 	worldtext->endtime = cg.time + (int)((float)duration * 1000.f);
+
 	VectorCopy4(color, worldtext->color);
 	Q_strncpyz(worldtext->text,text,MAX_TEXTLENGTH);
 	return qtrue;
@@ -4385,7 +4395,6 @@ void CG_DrawAnnouncer(void) {
 	float scale, fade;
 	vec4_t color;
 
-
 	if (cg.centerPrintAnnouncerTime <= cg.time) {
 		return;
 	}
@@ -4426,6 +4435,7 @@ CG_AddAnnouncer
 =======================================================================================================================================
 */
 void CG_AddAnnouncer(char *text, sfxHandle_t sound, float scale, int duration, float r, float g, float b, int mode) {
+
 	if (sound) {
 		trap_S_StartLocalSound(sound, CHAN_ANNOUNCER);
 	}

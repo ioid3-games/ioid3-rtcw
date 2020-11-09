@@ -297,7 +297,6 @@ void CG_StopCamera(void) {
 	// fade back into world
 	CG_Fade(0, 0, 0, 255, 0, 0);
 	CG_Fade(0, 0, 0, 0, cg.time + 500, 2000);
-
 }
 
 /*
@@ -540,6 +539,7 @@ static void CG_DumpCastAi_f(void) {
 	trap_Cvar_Set("cg_entityEditCounter", va("%i",autonumber));
 	// open aicast file
 	Q_strncpyz(aicastfilename, cgs.mapname, sizeof(aicastfilename));
+
 	extptr = aicastfilename + strlen(aicastfilename) - 4;
 
 	if (extptr < aicastfilename || Q_stricmp(extptr, ".bsp")) {
@@ -608,6 +608,7 @@ static void CG_DumpLocation_f(void) {
 	trap_Args(locname, sizeof(locname));
 	// open locations file
 	Q_strncpyz(locfilename, cgs.mapname, sizeof(locfilename));
+
 	extptr = locfilename + strlen(locfilename) - 4;
 
 	if (extptr < locfilename || Q_stricmp(extptr, ".bsp")) {
@@ -663,6 +664,7 @@ static void CG_DumpCoopSpawnpoint_f(void) {
 	trap_Cvar_VariableStringBuffer("mapname", buf, sizeof(buf));
 	// open ents file
 	Q_strncpyz(entsfilename, cgs.mapname, sizeof(entsfilename));
+
 	extptr = entsfilename + strlen(entsfilename) - 4;
 
 	if (extptr < entsfilename || Q_stricmp(extptr, ".bsp")) {
@@ -742,7 +744,6 @@ static void CG_DumpFlagPole_f(void) {
 	// draw the new spawnpoint
 	DrawDebugAABB(cg.snap->ps.origin, cg.snap->ps.mins, cg.snap->ps.maxs, 999999, colorGreen, 6);
 	DrawDebugText(cg.snap->ps.origin, va("coop_spawnpoint_trigger: \ntarget: %s%d", buf, flagpolenumber - 1), 999999, colorWhite);
-
 	trap_Cvar_Set("__flagpolenumber", va("%d", flagpolenumber));
 }
 

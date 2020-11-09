@@ -92,6 +92,7 @@ static char *shaderAnimNames[MAX_SHADER_ANIMS] = {
 	"blood",
 	NULL
 };
+
 static qhandle_t shaderAnims[MAX_SHADER_ANIMS][MAX_SHADER_ANIM_FRAMES];
 static int shaderAnimCounts[MAX_SHADER_ANIMS] = {
 	23,
@@ -101,6 +102,7 @@ static int shaderAnimCounts[MAX_SHADER_ANIMS] = {
 	23,
 	5,
 };
+
 static float shaderAnimSTRatio[MAX_SHADER_ANIMS] = {
 	1.405,
 	1,
@@ -109,6 +111,7 @@ static float shaderAnimSTRatio[MAX_SHADER_ANIMS] = {
 	1,
 	1,
 };
+
 static int numShaderAnims;
 
 #define PARTICLE_GRAVITY 40

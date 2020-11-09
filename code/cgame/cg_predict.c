@@ -20,7 +20,7 @@ id Software at the address below.
 If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o
 ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 =======================================================================================================================================
-**/
+*/
 
 /**************************************************************************************************************************************
  This file generates cg.predictedPlayerState by either interpolating between snapshots from the server or locally predicting ahead the

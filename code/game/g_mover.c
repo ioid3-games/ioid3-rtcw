@@ -561,6 +561,7 @@ void G_MoverTeam(gentity_t *ent) {
 		// get current position
 		BG_EvaluateTrajectory(&part->s.pos, level.time, origin);
 		BG_EvaluateTrajectory(&part->s.apos, level.time, angles);
+
 		VectorSubtract(origin, part->r.currentOrigin, move);
 		VectorSubtract(angles, part->r.currentAngles, amove);
 
@@ -725,7 +726,6 @@ void SetMoverState(gentity_t *ent, moverState_t moverState, int time) {
 			}
 
 			VectorScale(delta, f, ent->s.pos.trDelta);
-
 			ent->s.pos.trType = TR_LINEAR_STOP;
 			break;
 		case MOVER_POS1ROTATE: // at close
@@ -752,7 +752,6 @@ void SetMoverState(gentity_t *ent, moverState_t moverState, int time) {
 			}
 
 			VectorScale(ent->rotate, f * ent->angle, ent->s.apos.trDelta);
-
 			ent->s.apos.trType = TR_LINEAR_STOP;
 			break;
 		case MOVER_2TO1ROTATE: // closing
@@ -768,7 +767,6 @@ void SetMoverState(gentity_t *ent, moverState_t moverState, int time) {
 			}
 
 			VectorScale(ent->s.apos.trBase, -f, ent->s.apos.trDelta);
-
 			ent->s.apos.trType = TR_LINEAR_STOP;
 			ent->active = qfalse;
 			break;
@@ -1198,7 +1196,7 @@ void Use_TrinaryMover(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 	ent->activator = activator;
 
 	if (ent->moverState == MOVER_POS1) {
-		// start moving 50 msec later, becase if this was player triggered, level.time hasn't been advanced yet
+		// start moving 50 msec later, because if this was player triggered, level.time hasn't been advanced yet
 		MatchTeam(ent, MOVER_1TO2, level.time + 50);
 		// starting sound
 		G_AddEvent(ent, EV_GENERAL_SOUND, ent->sound1to2);
@@ -1523,7 +1521,7 @@ void InitMover(gentity_t *ent) {
 	qboolean lightSet, colorSet;
 	char *sound;
 
-	// if the "model2" key is set, use a seperate model for drawing, but clip against the brushes
+	// if the "model2" key is set, use a separate model for drawing, but clip against the brushes
 	if (ent->model2) {
 		ent->s.modelindex2 = G_ModelIndex(ent->model2);
 	}
@@ -1618,8 +1616,7 @@ void InitMover(gentity_t *ent) {
 =======================================================================================================================================
 InitMoverRotate
 
-"pos1", "pos2", and "speed" should be set before calling,
-so the movement delta can be calculated
+"pos1", "pos2", and "speed" should be set before calling, so the movement delta can be calculated.
 =======================================================================================================================================
 */
 void InitMoverRotate(gentity_t *ent) {
@@ -1750,7 +1747,7 @@ void Blocked_Door(gentity_t *ent, gentity_t *other) {
 	}
 
 	if (ent->spawnflags & 4) {
-		return;     // crushers don't reverse
+		return; // crushers don't reverse
 	}
 	// reverse direction
 //	Use_BinaryMover(ent, ent, other);
@@ -1767,7 +1764,6 @@ void Blocked_Door(gentity_t *ent, gentity_t *other) {
 
 		trap_LinkEntity(slave);
 	}
-
 }
 
 /*
@@ -1859,6 +1855,7 @@ Touch_DoorTrigger
 =======================================================================================================================================
 */
 void Touch_DoorTrigger(gentity_t *ent, gentity_t *other, trace_t *trace) {
+
 	if (other->client && other->client->sess.sessionTeam == TEAM_SPECTATOR) {
 		// if the door is not open and not opening
 		if (ent->parent->moverState != MOVER_1TO2 && ent->parent->moverState != MOVER_POS2) {
@@ -1964,7 +1961,6 @@ void finishSpawningKeyedMover(gentity_t *ent) {
 
 	// all ents should be spawned, so it's okay to check for special door triggers now
 
-//---- (SA)	modified
 	if (ent->key == KEY_UNLOCKED_ENT) { // the key was not set in the spawn
 		if (ent->targetname && findNonAIBrushTargeter(ent)) {
 			ent->key = KEY_LOCKED_TARGET;   // something is targeting this(other than a trigger_aidoor)so leave locked
@@ -1972,7 +1968,6 @@ void finishSpawningKeyedMover(gentity_t *ent) {
 			ent->key = KEY_NONE;
 		}
 	}
-//---- (SA)	end
 
 	if (ent->key) {
 		G_SetAASBlockingEntity(ent, qtrue);
@@ -2281,7 +2276,6 @@ void SP_func_door(gentity_t *ent) {
 	ent->think = finishSpawningKeyedMover;
 }
 
-// JOSEPH 1-26-00
 /*QUAKED func_secret(0 .5 .8) ? REVERSE x CRUSHER TOUCH
 TOGGLE      wait in both the start and end states for a trigger event.
 START_OPEN  the door to moves to its destination when spawned, and operate in reverse. It is used to temporarily or permanently close off an area when triggered(not useful for touch or takedamage doors).
@@ -2395,7 +2389,6 @@ void SP_func_secret(gentity_t *ent) {
 	ent->nextthink = level.time + FRAMETIME;
 	ent->think = finishSpawningKeyedMover;
 }
-// END JOSEPH
 
 /*
 =======================================================================================================================================
@@ -2413,6 +2406,7 @@ Don't allow decent if a living player is on it.
 =======================================================================================================================================
 */
 void Touch_Plat(gentity_t *ent, gentity_t *other, trace_t *trace) {
+
 	if (!other->client || other->client->ps.stats[STAT_HEALTH] <= 0) {
 		return;
 	}
@@ -2430,6 +2424,7 @@ If the plat is at the bottom position, start it going up.
 =======================================================================================================================================
 */
 void Touch_PlatCenterTrigger(gentity_t *ent, gentity_t *other, trace_t *trace) {
+
 	if (!other->client) {
 		return;
 	}
@@ -2543,6 +2538,7 @@ Touch_Button
 =======================================================================================================================================
 */
 void Touch_Button(gentity_t *ent, gentity_t *other, trace_t *trace) {
+
 	if (!other->client) {
 		return;
 	}
@@ -2630,6 +2626,7 @@ The wait time at a corner has completed, so start moving again.
 =======================================================================================================================================
 */
 void Think_BeginMoving(gentity_t *ent) {
+
 	ent->s.pos.trTime = level.time;
 	ent->s.pos.trType = TR_LINEAR_STOP;
 }
@@ -2829,6 +2826,7 @@ Target: next path corner and other targets to fire
 "count2" used only in conjunction with the truck_cam to control playing of gear changes
 */
 void SP_path_corner(gentity_t *self) {
+
 	if (!self->targetname) {
 		G_Printf("path_corner with no targetname at %s\n", vtos(self->s.origin));
 		G_FreeEntity(self);
@@ -3644,18 +3642,11 @@ void SP_func_static(gentity_t *ent) {
 =======================================================================================================================================
 */
 
-/*QUAKED func_rotating (0 .5 .8) ? START_ON - X_AXIS Y_AXIS
-You need to have an origin brush as part of this entity. The center of that brush will be
-the point around which it is rotated. It will rotate around the Z axis by default. You can
-check either the X_AXIS or Y_AXIS box to change that.
-
-"model2"	.md3 model to also draw
-"speed"		determines how fast it moves; default value is 100.
-"dmg"		damage to inflict when blocked (2 default)
-"color"		constantLight color
-"light"		constantLight radius
+/*
+=======================================================================================================================================
+Use_Func_Rotate
+=======================================================================================================================================
 */
-
 void Use_Func_Rotate(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 	if (ent->spawnflags & 4) {
 		ent->s.apos.trDelta[2] = ent->speed;
@@ -3672,7 +3663,19 @@ void Use_Func_Rotate(gentity_t *ent, gentity_t *other, gentity_t *activator) {
 	trap_LinkEntity(ent);
 }
 
+/*QUAKED func_rotating (0 .5 .8) ? START_ON - X_AXIS Y_AXIS
+You need to have an origin brush as part of this entity. The center of that brush will be
+the point around which it is rotated. It will rotate around the Z axis by default. You can
+check either the X_AXIS or Y_AXIS box to change that.
+
+"model2"	.md3 model to also draw
+"speed"		determines how fast it moves; default value is 100.
+"dmg"		damage to inflict when blocked (2 default)
+"color"		constantLight color
+"light"		constantLight radius
+*/
 void SP_func_rotating(gentity_t *ent) {
+
 	if (!ent->speed) {
 		ent->speed = 100;
 	}
@@ -3714,7 +3717,6 @@ void SP_func_rotating(gentity_t *ent) {
 
 =======================================================================================================================================
 */
-
 
 /*QUAKED func_bobbing (0 .5 .8) ? X_AXIS Y_AXIS
 Normally bobs on the Z axis

@@ -837,6 +837,7 @@ void CG_AddFlameSpriteToScene(flameChunk_t *f, float lifeFrac, float alpha) {
 	ProjectPointOntoVector(f->org, cg.refdef.vieworg, p2, sProj);
 	// make sure its infront of us
 	VectorSubtract(sProj, cg.refdef.vieworg, vec);
+
 	sdist = VectorNormalize(vec);
 
 	if (!sdist || DotProduct(vec, cg.refdef.viewaxis[0]) < 0) {

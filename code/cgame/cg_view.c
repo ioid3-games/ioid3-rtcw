@@ -1052,6 +1052,7 @@ static int CG_CalcViewValues(void) {
 			return 0;
 		} else {
 			cg.cameraMode = qfalse; // camera off in cgame
+
 			trap_Cvar_Set("cg_letterbox", "0");
 			trap_SendClientCommand("stopCamera"); // camera off in game
 			trap_stopCamera(CAM_PRIMARY); // camera off in client
@@ -1486,7 +1487,7 @@ void CG_DrawActiveFrame(int serverTime, stereoFrame_t stereoView, qboolean demoP
 	DEBUGTIME
 	// build the render lists
 	if (!cg.hyperspace) {
-		CG_AddPacketEntities(); // adter calcViewValues, so predicted player state is correct
+		CG_AddPacketEntities(); // alter calcViewValues, so predicted player state is correct
 		CG_AddMarks();
 
 		DEBUGTIME

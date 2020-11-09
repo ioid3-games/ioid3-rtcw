@@ -200,10 +200,10 @@ void GibEntity(gentity_t *self, int killer) {
 
 /*
 =======================================================================================================================================
-body_die
+BodyDie
 =======================================================================================================================================
 */
-void body_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int meansOfDeath) {
+void BodyDie(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int meansOfDeath) {
 
 	if (self->health > GIB_HEALTH) {
 		return;
@@ -489,7 +489,7 @@ void player_die(gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int 
 
 		G_AddEvent(self, EV_DEATH1 + 1, killer);
 		// the body can still be gibbed
-		self->die = body_die;
+		self->die = BodyDie;
 		// globally cycle through the different death animations
 		i = (i + 1) % 3;
 	}

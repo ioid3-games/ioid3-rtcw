@@ -129,7 +129,7 @@ typedef struct aas_entityinfo_s {
 	int weapon;				// determines weapon and flash model, etc.
 	int legsAnim;			// mask off ANIM_TOGGLEBIT
 	int torsoAnim;			// mask off ANIM_TOGGLEBIT
-//	int weapAnim;			// mask off ANIM_TOGGLEBIT
+	//int weapAnim;			// mask off ANIM_TOGGLEBIT
 // didn't want to comment in as I wasn't sure of any implications of changing this structure
 } aas_entityinfo_t;
 

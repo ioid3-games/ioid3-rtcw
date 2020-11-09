@@ -1134,7 +1134,7 @@ void G_RunItem(gentity_t *ent) {
 	int contents;
 	int mask;
 
-	// if its groundentity has been set to none, it may have been pushed off an edge
+	// if its groundentity has been set to ENTITYNUM_NONE, it may have been pushed off an edge
 	if (ent->s.groundEntityNum == ENTITYNUM_NONE) {
 		if (ent->s.pos.trType != TR_GRAVITY) {
 			ent->s.pos.trType = TR_GRAVITY;
